@@ -1,7 +1,5 @@
 package com.mahait.gov.in.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -18,12 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mahait.gov.in.common.CommonConstants;
-import com.mahait.gov.in.common.CommonConstants.STATUS;
-import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.MstRoleModel;
-import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 
 @Controller
@@ -40,24 +35,7 @@ public class MstRoleController {
 		String message = (String)model.asMap().get("message");
 		model.addAttribute("mstRoleModel", mstRoleModel);
 		
-		UserInfo messages  = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
-		
-		List<TopicModel> menuList = new ArrayList<>();
-		List<TopicModel> subMenuList = new ArrayList<>();
-		
-		menuList = commonHomeMethodsService.findMenuNameByRoleID(messages.getRole_id(),locale.getLanguage());
-		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(messages.getRole_id(),locale.getLanguage());
-		
-		model.addAttribute("menuList", menuList);
-		model.addAttribute("subMenuList", subMenuList);
-		
-		if(message != null && message.equals("SUCCESS")) {
-			if(locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
-				model = CommonUtils.initModel(CommonConstants.Message.ADDED_ENGLSH, STATUS.SUCCESS, model);
-			} else {
-				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
-			}
-		}
+	
 		model.addAttribute("lstRoleTable", commonHomeMethodsService.findAllRole());
 		model.addAttribute("language", locale.getLanguage());
 		return "/views/mst-role";
@@ -65,12 +43,13 @@ public class MstRoleController {
 	@PostMapping("/saveMstRole")
 	public String saveMstRole(@ModelAttribute("MstRoleEntity") @Valid MstRoleEntity  mstRoleEntity,
 									BindingResult bindingResult,RedirectAttributes redirectAttributes,Model model,Locale locale,HttpSession session) {
-		UserInfo messages  = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("lstRoleTable", commonHomeMethodsService.findAllRole());
 			return "/views/mst-role"; /*Return to HTML Page*/
 		} 
-		mstRoleEntity.setCreatedUserId(messages.getUser_id());
+		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		mstRoleEntity.setCreatedUserId(messages.getUserId());
 		int afterSaveId = commonHomeMethodsService.saveMstRole(mstRoleEntity);
 		if(afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message","SUCCESS");
@@ -83,16 +62,7 @@ public class MstRoleController {
 		model.addAttribute("mstRoleEntity", commonHomeMethodsService.findRole(roleId));
 		model.addAttribute("language", locale.getLanguage());
 		
-		UserInfo messages  = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
-		
-		List<TopicModel> menuList = new ArrayList<>();
-		List<TopicModel> subMenuList = new ArrayList<>();
-		
-		menuList = commonHomeMethodsService.findMenuNameByRoleID(messages.getRole_id(),locale.getLanguage());
-		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(messages.getRole_id(),locale.getLanguage());
-		
-		model.addAttribute("menuList", menuList);
-		model.addAttribute("subMenuList", subMenuList);
+	
 		
 		return "/views/edit-mst-role";
     }

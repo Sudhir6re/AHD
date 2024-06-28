@@ -130,7 +130,7 @@ public class OrgUserMst implements Serializable {
     
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private MstRoleEntity mstRoleEntity;
 
 	public Long getUserId() {

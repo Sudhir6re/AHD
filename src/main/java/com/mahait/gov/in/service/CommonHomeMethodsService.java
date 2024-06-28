@@ -2,6 +2,8 @@ package com.mahait.gov.in.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
@@ -28,4 +30,8 @@ public interface CommonHomeMethodsService {
 	public MstRoleEntity deleteRoleById(int roleId);
 
 	List<MstRoleEntity> findAllRole();
+
+	public int saveMstRole(@Valid MstRoleEntity mstRoleEntity);
+
+	public String editRoleSave(@Valid MstRoleEntity mstRoleEntity);
 }
