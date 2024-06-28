@@ -60,15 +60,5 @@ public class CmnLookupMst implements Serializable {
     @Column(name = "created_date", nullable = false)
     private Timestamp createdDate;
 
-    @Column(name = "created_by_post", nullable = false)
-    private Long createdByPost;
-
-    @Column(name = "updated_by")
-    private Long updatedBy;
-
-    @Column(name = "updated_date")
-    private Timestamp updatedDate;
-
-    @Column(name = "updated_by_post")
-    private Long updatedByPost;
+ 
 }

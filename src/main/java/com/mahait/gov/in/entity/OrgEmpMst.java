@@ -43,20 +43,9 @@ public class OrgEmpMst implements Serializable {
     private OrgUserMst orgUserMst;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_post")
-    private OrgPostMst orgPostMstByUpdatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_post", nullable = false)
-    private OrgPostMst orgPostMstByCreatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grade_id", nullable = false)
     private OrgGradeMst orgGradeMst;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgUserMst orgUserMstByUpdatedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", nullable = false)
@@ -116,17 +105,6 @@ public class OrgEmpMst implements Serializable {
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForUpdatedBy;
 
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserMst> orgUserMstsForCreatedBy;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgEmpMst> orgEmpMstsForCreatedBy;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgPostMst> orgPostMstsForUpdatedBy;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgDepartmentMst> orgDepartmentMstsForCreatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDesignationMst> orgDesignationMstsForUpdatedBy;
@@ -134,23 +112,6 @@ public class OrgEmpMst implements Serializable {
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForCreatedBy;
 
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgEmpcontactMst> orgEmpcontactMstsForCreatedBy;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgDepartmentMst> orgDepartmentMstsForUpdatedBy;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgEmpaddressMst> orgEmpaddressMstsForUpdateBy;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgEmpaddressMst> orgEmpaddressMstsForEmpId;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserpostRlt> orgUserpostRltsForUpdatedBy;
-
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserpostRlt> orgUserpostRltsForCreatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgUserMst> orgUserMstsForUpdatedBy;
@@ -158,8 +119,6 @@ public class OrgEmpMst implements Serializable {
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgPostMst> orgPostMstsForCreatedBy;
 
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgDesignationMst> orgDesignationMstsForCreatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpMst> orgEmpMstsForUpdatedBy;
@@ -169,4 +128,6 @@ public class OrgEmpMst implements Serializable {
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpDsgnMpg> orgEmpDsgnMpg;
+    
+  
 }

@@ -23,26 +23,6 @@ public class OrgDepartmentMst implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long departmentId;
 
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lang_id", nullable = false)
-    private CmnLanguageMst cmnLanguageMst;*/
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_post")
-    private OrgPostMst orgPostMstByUpdatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_post", nullable = false)
-    private OrgPostMst orgPostMstByCreatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgUserMst orgEmpMstByUpdatedBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
-    private OrgUserMst orgEmpMstByCreatedBy;
-
     @Column(name = "dep_name", length = 30, nullable = false)
     private String depName;
 

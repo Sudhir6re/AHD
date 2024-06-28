@@ -49,7 +49,7 @@ public class MstRoleController {
 		} 
 		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		mstRoleEntity.setCreatedUserId(messages.getUserId());
+	//	mstRoleEntity.setCreatedUserId(messages.getUserId());
 		int afterSaveId = commonHomeMethodsService.saveMstRole(mstRoleEntity);
 		if(afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message","SUCCESS");

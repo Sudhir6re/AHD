@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.customfilter.CustomUserDetailsService;
 import com.mahait.gov.in.entity.MstRoleEntity;
-import com.mahait.gov.in.entity.OrgEmpMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.repository.UserInfoRepo;
 
