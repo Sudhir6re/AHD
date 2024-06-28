@@ -22,7 +22,6 @@ import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.entity.MstRoleEntity;
-import com.mahait.gov.in.entity.UserInfo;
 import com.mahait.gov.in.model.MstRoleModel;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;

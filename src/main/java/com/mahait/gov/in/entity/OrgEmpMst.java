@@ -50,9 +50,9 @@ public class OrgEmpMst implements Serializable {
     @JoinColumn(name = "created_by_post", nullable = false)
     private OrgPostMst orgPostMstByCreatedByPost;
 
-  /*  @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grade_id", nullable = false)
-    private OrgGradeMst orgGradeMst;*/
+    private OrgGradeMst orgGradeMst;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by")
@@ -113,8 +113,8 @@ public class OrgEmpMst implements Serializable {
     @Column(name = "buckle_no")
     private Long buckleNo;
 
-   /* @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgEmpcontactMst> orgEmpcontactMstsForUpdatedBy;*/
+    @OneToMany(mappedBy = "orgEmpMst")
+    private Set<OrgEmpcontactMst> orgEmpcontactMstsForUpdatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgUserMst> orgUserMstsForCreatedBy;
@@ -131,7 +131,7 @@ public class OrgEmpMst implements Serializable {
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDesignationMst> orgDesignationMstsForUpdatedBy;
 
-   /* @OneToMany(mappedBy = "orgEmpMst")
+    @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForCreatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
@@ -150,7 +150,7 @@ public class OrgEmpMst implements Serializable {
     private Set<OrgUserpostRlt> orgUserpostRltsForUpdatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserpostRlt> orgUserpostRltsForCreatedBy;*/
+    private Set<OrgUserpostRlt> orgUserpostRltsForCreatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgUserMst> orgUserMstsForUpdatedBy;
@@ -164,9 +164,9 @@ public class OrgEmpMst implements Serializable {
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpMst> orgEmpMstsForUpdatedBy;
 
-   /* @OneToMany(mappedBy = "orgEmpMst")
+    @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForEmpId;
 
     @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgEmpDsgnMpg> orgEmpDsgnMpg;*/
+    private Set<OrgEmpDsgnMpg> orgEmpDsgnMpg;
 }
