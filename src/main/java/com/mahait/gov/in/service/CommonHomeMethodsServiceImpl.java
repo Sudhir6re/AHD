@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mahait.gov.in.common.StringHelperUtils;
@@ -191,7 +193,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 			}
 			mstRole.setRoleId(role + 1);
 			mstRole.setIsActive('1');
-			mstRole.setCreatedUserId(1);
+			mstRole.setCreatedUserId(1l);
 			mstRole.setCreatedDate(new Date());
 			saveId = commonHomeMethodsRepo.saveMstRole(mstRole);
 		}
@@ -210,6 +212,23 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 			commonHomeMethodsRepo.updateMstRoleStatus(objDeptForReject);
 		}
 		return objDeptForReject;
+	}
+
+	@Override
+	public String editRoleSave(@Valid MstRoleEntity mstRoleEntity) {
+		// TODO Auto-generated method stub
+
+		MstRoleEntity objrole = commonHomeMethodsRepo.findroleById(mstRoleEntity.getRoleId());
+		if (objrole != null) {
+			// objbank.setBankCode(mstBankEntity.getBankCode());
+			objrole.setRoleName(mstRoleEntity.getRoleName());
+			objrole.setRoleDescription(mstRoleEntity.getRoleDescription());
+			objrole.setIsActive(mstRoleEntity.getIsActive());
+
+			objrole.setUpdatedDate(new Date());
+			commonHomeMethodsRepo.updaterole(objrole);
+		}
+		return "UPDATED";
 	}
 
 

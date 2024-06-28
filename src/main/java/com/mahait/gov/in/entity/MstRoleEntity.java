@@ -26,21 +26,19 @@ public class MstRoleEntity {
 	private String roleDescription;
 	
 	@Column(name = "CREATED_USER_ID")
-	private Integer createdUserId;
+	private Long createdUserId;
 	
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 	
 	@Column(name = "UPDATED_USER_ID")
-	private Integer updatedUserId;
+	private Long updatedUserId;
 
 	@Column(name = "UPDATED_DATE")
 	private Date updatedDate;
 	
 	@Column(name = "IS_ACTIVE")
 	private Character isActive;
-
-	
 
 	public Integer getRoleId() {
 		return roleId;
@@ -66,11 +64,11 @@ public class MstRoleEntity {
 		this.roleDescription = roleDescription;
 	}
 
-	public Integer getCreatedUserId() {
+	public Long getCreatedUserId() {
 		return createdUserId;
 	}
 
-	public void setCreatedUserId(Integer createdUserId) {
+	public void setCreatedUserId(Long createdUserId) {
 		this.createdUserId = createdUserId;
 	}
 
@@ -82,11 +80,11 @@ public class MstRoleEntity {
 		this.createdDate = createdDate;
 	}
 
-	public Integer getUpdatedUserId() {
+	public Long getUpdatedUserId() {
 		return updatedUserId;
 	}
 
-	public void setUpdatedUserId(Integer updatedUserId) {
+	public void setUpdatedUserId(Long updatedUserId) {
 		this.updatedUserId = updatedUserId;
 	}
 
@@ -105,7 +103,8 @@ public class MstRoleEntity {
 	public void setIsActive(Character isActive) {
 		this.isActive = isActive;
 	}
-	  
+
+	 
 	
 	
 
