@@ -36,17 +36,17 @@ public class OrgPostDetailsRlt implements Serializable {
     @JoinColumn(name = "post_id", nullable = false)
     private OrgPostMst orgPostMst;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lang_id", nullable = false)
-    private CmnLanguageMst cmnLanguageMst;
+    private CmnLanguageMst cmnLanguageMst;*/
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dsgn_id", nullable = false)
     private OrgDesignationMst orgDesignationMst;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+   /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id")
-    private CmnBranchMst cmnBranchMst;
+    private CmnBranchMst cmnBranchMst;*/
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_category")

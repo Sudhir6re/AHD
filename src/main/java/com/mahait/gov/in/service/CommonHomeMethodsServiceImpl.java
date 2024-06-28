@@ -51,7 +51,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	}
 
 	@Override
-	public List<TopicModel> findSubMenuByRoleID(Integr levelRoleVal, String lang) {
+	public List<TopicModel> findSubMenuByRoleID(int levelRoleVal, String lang) {
 
 		List<Object[]> lstprop = commonHomeMethodsRepo.findSubMenuByRoleID(levelRoleVal);
 		List<TopicModel> lstSubMenuObj = new ArrayList<>();
