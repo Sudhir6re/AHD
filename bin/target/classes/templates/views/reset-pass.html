@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+    
+ 
+   <!--  <label th:text="#{label.user.email}">email</label>
+    <input id="email" name="email" type="email" value="" />
+    <button type="submit" onclick="resetPass()"
+      th:text="#{message.resetPassword}">reset</button>
+  -->
+<!-- <a th:href="@{/registration.html}" th:text="#{label.form.loginSignUp}">
+    registration
+</a>
+<a th:href="@{/login}" th:text="#{label.form.loginLink}">login</a> -->
+ 
+
+
+<center>
+<h1 th:text="#{message.resetPassword}">reset</h1>
+            <form action="#" th:action="@{/forgot-pass/checkpassReset}"  method="post"> <!-- th:object="${user}" --> 	
+                <table>
+                    <tr>
+                        <td><label th:text="#{label.user.email}"> <!-- for="emailId" -->Email</label></td>
+                        <td><input id="email" name="email" type="email" value="" />
+                        <!-- <input th:field="*{emailId}" type="text" name="emailId"></input> --></td>
+                    </tr>
+                    <tr>
+                        <td><input type="reset" value="Clear"/></td>
+                        <td><input type="submit" value="Reset Password"></input></td>
+                    </tr>
+                </table>
+            </form>
+        </center>
+
+</body>
+ 
+</html>

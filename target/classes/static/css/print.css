@@ -1,0 +1,119 @@
+table.dataTable {
+	clear: both;
+	margin-top: 6px !important;
+	margin-bottom: 6px !important;
+	max-width: none !important;
+	border-collapse: separate !important;
+	border-spacing: 0;
+	width: 100%;
+}
+
+.table-bordered {
+	border: 1px solid #ddd;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th,
+	.table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td,
+	.table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+	border: 1px solid #ddd;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.table-responsive {
+	padding-right: 10px;
+}
+
+.left {
+	float: left !important;
+}
+
+.right {
+	float: right !important;
+}
+
+.clear {
+	clear: both !important;
+}
+
+.border-0, .border-0 * {
+	border: none ! IMPORTANT;
+}
+
+.indent-50 {
+	text-indent: 50px;
+}
+
+span.indent-50 {
+	padding-left: 40px;
+}
+
+.tw-80 {
+	width: 80%;
+	margin: auto;
+}
+
+.tw-50 {
+	width: 50%;
+	margin: auto;
+}
+
+.page-break {
+	page-break-after: always;
+}
+
+span.eq {
+	padding-left: 18px;
+}
+
+.justify {
+	text-align: justify;
+}
+.dept-logo {
+    width: 90px;
+}
+.dept-title {
+    font-size: 20px;
+    font-weight: 900;
+    margin: 0 5px 0px 25px ! IMPORTANT;
+}
+.report-header h4 {
+    margin-top: -30px;
+    font-size: 16px;
+}
+@media print {
+	div#print-content * {
+		font-size: 12px;
+	}
+	h3 {
+		font-size: 14px;
+	}
+	button#print {
+		display: none !important;
+	}
+	div#print-content {
+		padding: 50px 20px 40px 35px !important;
+	}
+	.rfppo-table2 tr td:nth-child(2) {
+		width: 28%;
+	}
+}

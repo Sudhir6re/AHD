@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Organization Institute</title>
+</head>
+<body>
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+
+	<div class="container">
+		<!-- <h4><b><center>Organization Institution Information</center></b></h4> -->
+		<form class="form-horizontal" method="POST">
+
+			<!-- <input type="hidden" name="isSaved" id="isSaved" th:value="${isSaved}"></input> -->
+			<fieldset class="container">
+				<legend th:utext="#{menu.master.sub.orginstitutionaldetails}"
+					th:style="${'color: orange;'}"></legend>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.nameoforginstt}"></label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control"></input>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.govtsanorder}"></label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control"></input>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.date}"></label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control"></input>
+					</div>
+					<!-- 				<div class="col-sm-3">
+					<select class="form-control"  th:field="*{districtOffice}">
+						<option selected="selected" th:value="0">Select</option>
+						<option value="1">Private Aided Institution under Social Justice Department 1</option>
+					</select>
+				</div> -->
+				</div>
+			</fieldset>
+			<fieldset class="container">
+				<legend th:style="${'color: orange;'}"
+					th:utext="#{msg.thymeleaf.pagelabel.addressdetails}"></legend>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.state}"></label>
+					<div class="col-sm-3">
+						<select class="form-control">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option value="1">Head Master</option>
+							<option value="2">Teacher</option>
+							<option value="3">Poen</option>
+						</select>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.district}"></label>
+					<div class="col-sm-3">
+						<select class="form-control">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option value="1">Head Master</option>
+							<option value="2">Teacher</option>
+							<option value="3">Poen</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.taluka}"></label>
+					<div class="col-sm-3">
+						<select class="form-control">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option value="1">Head Master</option>
+							<option value="2">Teacher</option>
+							<option value="3">Poen</option>
+						</select>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.townvillage}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.village}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.address}"></label>
+					<div class="col-sm-3">
+						<textarea rows="3" cols="35"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.pinno}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.organization/institutioncityclass}"></label>
+					<div class="col-sm-3">
+						<select class="form-control">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option value="1">X</option>
+							<option value="2">Y</option>
+							<option value="3">Z</option>
+						</select>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.institutionnumber}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="container">
+				<legend th:style="${'color: orange;'}"
+					th:utext="#{msg.thymeleaf.pagelabel.contactdetails}"></legend>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.telno1}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.telno(2)mobile}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.faxno}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+					<label class="control-label col-sm-2" for="title"
+						th:utext="#{msg.thymeleaf.pagelabel.email}"></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"></input>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group">
+				<hr />
+				<div class="col-sm-offset-5 col-sm-1">
+					<input type="submit" id="btnSave" class="btn btn-primary"
+						th:value="#{msg.thymeleaf.pagelabel.btnSave}" />
+				</div>
+				<div class="col-sm-offset-0 col-sm-1">
+					<input type="button" class="btn btn-warning"
+						th:value="#{msg.thymeleaf.pagelabel.btnEdit}" />
+				</div>
+				<div class="col-sm-offset-0 col-sm-1">
+					<input type="button" class="btn btn-info"
+						th:value="#{msg.thymeleaf.pagelabel.btnCancel}" />
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+
+	<!-- 	<script th:src="@{/js/create-admin-office.js}"></script> -->
+
+</body>
+</html>

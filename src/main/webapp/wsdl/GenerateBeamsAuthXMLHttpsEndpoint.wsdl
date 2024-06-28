@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:ns="http://authXml" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://authXml">
+    <wsdl:documentation>
+		Gives Xml of given Authorization Number 
+	</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://authXml">
+            <xs:element name="GetAuthDetails">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="param" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="GetAuthDetailsResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="GetAuthDetailsRequest">
+        <wsdl:part element="ns:GetAuthDetails" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="GetAuthDetailsResponse">
+        <wsdl:part element="ns:GetAuthDetailsResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:portType name="GenerateBeamsAuthXMLPortType">
+        <wsdl:operation name="GetAuthDetails">
+            <wsdl:input message="ns:GetAuthDetailsRequest" wsaw:Action="urn:GetAuthDetails"/>
+            <wsdl:output message="ns:GetAuthDetailsResponse" wsaw:Action="urn:GetAuthDetailsResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="GenerateBeamsAuthXMLSoap11Binding" type="ns:GenerateBeamsAuthXMLPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetAuthDetails">
+            <soap:operation soapAction="urn:GetAuthDetails" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="GenerateBeamsAuthXMLSoap12Binding" type="ns:GenerateBeamsAuthXMLPortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetAuthDetails">
+            <soap12:operation soapAction="urn:GetAuthDetails" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="GenerateBeamsAuthXMLHttpBinding" type="ns:GenerateBeamsAuthXMLPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="GetAuthDetails">
+            <http:operation location="GenerateBeamsAuthXML/GetAuthDetails"/>
+            <wsdl:input>
+                <mime:content part="GetAuthDetails" type="text/xml"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content part="GetAuthDetails" type="text/xml"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="GenerateBeamsAuthXML">
+        <wsdl:port binding="ns:GenerateBeamsAuthXMLSoap11Binding" name="GenerateBeamsAuthXMLHttpSoap11Endpoint">
+            <soap:address location="http://tempuri.org/PayrollMahaIT/services/GenerateBeamsAuthXMLHttpSoap11Endpoint"/>
+        </wsdl:port>
+        <wsdl:port binding="ns:GenerateBeamsAuthXMLSoap11Binding" name="GenerateBeamsAuthXMLHttpsSoap11Endpoint">
+            <soap:address location="http://tempuri.org/PayrollMahaIT/services/GenerateBeamsAuthXMLHttpsSoap11Endpoint"/>
+        </wsdl:port>
+        <wsdl:port binding="ns:GenerateBeamsAuthXMLSoap12Binding" name="GenerateBeamsAuthXMLHttpsSoap12Endpoint">
+            <soap12:address location="http://beams.mahakosh.gov.in:443/BeamsWS1/services/GenerateBeamsAuthXML.GenerateBeamsAuthXMLHttpsSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port binding="ns:GenerateBeamsAuthXMLSoap12Binding" name="GenerateBeamsAuthXMLHttpSoap12Endpoint">
+            <soap12:address location="http://beams.mahakosh.gov.in:80/BeamsWS1/services/GenerateBeamsAuthXML.GenerateBeamsAuthXMLHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port binding="ns:GenerateBeamsAuthXMLHttpBinding" name="GenerateBeamsAuthXMLHttpsEndpoint">
+            <http:address location="http://beams.mahakosh.gov.in:443/BeamsWS1/services/GenerateBeamsAuthXML.GenerateBeamsAuthXMLHttpsEndpoint/"/>
+        </wsdl:port>
+        <wsdl:port binding="ns:GenerateBeamsAuthXMLHttpBinding" name="GenerateBeamsAuthXMLHttpEndpoint">
+            <http:address location="http://beams.mahakosh.gov.in:80/BeamsWS1/services/GenerateBeamsAuthXML.GenerateBeamsAuthXMLHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
