@@ -2,6 +2,7 @@ package com.mahait.gov.in.repository;
 
 import java.util.List;
 
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 
 public interface CommonHomeMethodsRepo {
@@ -34,5 +35,7 @@ public interface CommonHomeMethodsRepo {
 
 	public void updaterole(MstRoleEntity objrole);
 
+	
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus);
 	
 }

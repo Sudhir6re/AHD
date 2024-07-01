@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 
 @SuppressWarnings("unchecked")
@@ -69,7 +70,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<Object[]> findAllRole() {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select a.id, a.role_id,a.role_name, a.role_description,a.is_active from role_mst a order by a.id";
+		String hql = "select a.id, a.role_id,a.role_name, a.role_description,a.is_active from role_mst a order by a.role_id";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 
@@ -136,6 +137,12 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	public int saveMstRole(MstRoleEntity mstRoleEntity) {
 		Session currentSession = manager.unwrap(Session.class);
 		return (int) currentSession.save(mstRoleEntity);
+	}
+
+	@Override
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
+		String HQL = "FROM MstCommonEntity as t  WHERE t.commonCode='" + commoncodeStatus + "' and t.isActive='1' ORDER BY t.commonId ";
+		return (List<MstCommonEntity>) manager.createQuery(HQL).getResultList();
 	}
 
 

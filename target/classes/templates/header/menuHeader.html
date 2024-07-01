@@ -146,12 +146,12 @@
 									class="glyphicon glyphicon-home"></span>
 							</a></li>
 
-							<li class="dropdown Menu-item-li" th:each="varMenu : ${menuList}"><a
+							<li class="dropdown Menu-item-li" th:each="varMenu : ${session.menuList}"><a
 								href="#" class="dropdown-toggle" data-toggle="dropdown"
 								th:utext="${varMenu.menuName}"><b class="caret"></b></a>
 
 								<ul class="dropdown-menu">
-									<li th:each="varSubMenu: ${subMenuList}" class="Menu-item-li"><a
+									<li th:each="varSubMenu: ${session.subMenuList}" class="Menu-item-li"><a
 										href="#" th:if="${varMenu.key == varSubMenu.menuKey}"
 										th:utext="${varSubMenu.subMenuName}"
 										th:href="@{${varSubMenu.linkName}}"></a></li>
