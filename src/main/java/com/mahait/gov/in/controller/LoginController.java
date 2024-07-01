@@ -142,12 +142,12 @@ public class LoginController {
 
 	}
 
-	/* Super Admin Home Page */
+/*	 Super Admin Home Page 
 	@RequestMapping("/user/home")
 	public ModelAndView mdcHomePage(HttpServletRequest request, Model model, HttpServletResponse response,
 			Locale locale, HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
-		/* modelAndView.addObject("usertopics", topicService.getAllTopics()); */
+		 modelAndView.addObject("usertopics", topicService.getAllTopics()); 
 		modelAndView.addObject("language", locale.getLanguage());
 
 		
@@ -161,5 +161,5 @@ public class LoginController {
 		return modelAndView;
 
 	}
-
+*/
 }

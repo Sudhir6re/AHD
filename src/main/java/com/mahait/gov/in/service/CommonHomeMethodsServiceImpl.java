@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstRoleEntity;
@@ -19,6 +21,9 @@ import com.mahait.gov.in.repository.CommonHomeMethodsRepo;
 import com.mahait.gov.in.repository.MstRoleRepo;
 import com.mahait.gov.in.repository.UserInfoRepo;
 
+
+@Transactional
+@Service
 public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	// protected final Log logger = LogFactory.getLog(getClass());
 

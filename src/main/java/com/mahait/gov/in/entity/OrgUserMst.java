@@ -26,7 +26,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "org_user_mst")
@@ -42,16 +41,7 @@ public class OrgUserMst implements Serializable {
     @Fetch(FetchMode.SELECT)
     private CmnLookupMst cmnLookupMst;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_post")
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst orgPostMstByUpdatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_post", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst orgPostMstByCreatedByPost;
-
+    /*/*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by")
     @Fetch(FetchMode.SELECT)
@@ -121,13 +111,20 @@ public class OrgUserMst implements Serializable {
 
     @Column(name = "firstlogin", length = 1)
     private String firstlogin;
+    
+    
+    @Column(name = "app_code")
+    private Integer appCode;
+    
+    
+    
 
-    @OneToMany(mappedBy = "orgUserMst", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  /*  @OneToMany(mappedBy = "orgUserMst", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserpostRlt> orgUserpostRlts;
 
     @OneToMany(mappedBy = "orgUserMst", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpMst> orgEmpMsts;
-    
+    */
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
@@ -141,7 +138,17 @@ public class OrgUserMst implements Serializable {
 		this.userId = userId;
 	}
 
-	public CmnLookupMst getCmnLookupMst() {
+	public Integer getAppCode() {
+		return this.appCode;
+	}
+	
+	public void setAppcode(Integer appCode) {
+		this.appCode = appCode;
+	}
+
+	
+	
+	/*public CmnLookupMst getCmnLookupMst() {
 		return cmnLookupMst;
 	}
 
@@ -163,7 +170,7 @@ public class OrgUserMst implements Serializable {
 
 	public void setOrgPostMstByCreatedByPost(OrgPostMst orgPostMstByCreatedByPost) {
 		this.orgPostMstByCreatedByPost = orgPostMstByCreatedByPost;
-	}
+	}*/
 
 	public OrgUserMst getOrgUserMstByUpdatedBy() {
 		return orgUserMstByUpdatedBy;
@@ -325,7 +332,7 @@ public class OrgUserMst implements Serializable {
 		this.firstlogin = firstlogin;
 	}
 
-	public Set<OrgUserpostRlt> getOrgUserpostRlts() {
+	/*public Set<OrgUserpostRlt> getOrgUserpostRlts() {
 		return orgUserpostRlts;
 	}
 
@@ -339,7 +346,7 @@ public class OrgUserMst implements Serializable {
 
 	public void setOrgEmpMsts(Set<OrgEmpMst> orgEmpMsts) {
 		this.orgEmpMsts = orgEmpMsts;
-	}
+	}*/
 
 	public MstRoleEntity getMstRoleEntity() {
 		return mstRoleEntity;
@@ -348,6 +355,8 @@ public class OrgUserMst implements Serializable {
 	public void setMstRoleEntity(MstRoleEntity mstRoleEntity) {
 		this.mstRoleEntity = mstRoleEntity;
 	}
+	
+	
     
     
     

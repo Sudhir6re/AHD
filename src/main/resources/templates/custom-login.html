@@ -169,9 +169,10 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 																onclick='CreateCaptcha();'>
 														</div>
 													</fieldset>
-													<input type=hidden name="appCode"
+												  	<input type=hidden name="appCode"
 														th:each="lstApplicationAdminTable : ${lstApplicationAdminTable}"
-														th:value="${lstApplicationAdminTable.applicationCode}"></input>
+														th:value="${lstApplicationAdminTable.applicationCode}">
+														</input>
 												</div>
 												<button type="submit"
 													class="btn submit animate__animated animate__backInUp"

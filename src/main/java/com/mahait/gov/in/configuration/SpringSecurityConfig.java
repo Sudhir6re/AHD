@@ -40,9 +40,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
 		.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 		.authorizeRequests()/*.antMatchers("/MahaSevaarth").permitAll()*/
-		.antMatchers("/mdc/**").hasRole("ADMIN")
-		.antMatchers("/ddoast/**").hasRole("OPERATOR")
-		.antMatchers("/ddo/**").hasRole("MODERATOR")
+		.antMatchers("/mdc/**").hasRole("MDC")
+		.antMatchers("/ddoast/**").hasRole("DDO_AST")
+		.antMatchers("/ddo/**").hasRole("DDO")
 		.antMatchers("/super/**").hasRole("SUPER")  //developer
 		.antMatchers("/user/home").authenticated()
 		
@@ -57,8 +57,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		.invalidateHttpSession(true)
 		.deleteCookies("JSESSIONID").and().sessionManagement()
 		.invalidSessionUrl("/user/login?expired");
-		
-	
 	} 
 
 	public CustomAuthenticationFilter authenticationFilter() throws Exception {

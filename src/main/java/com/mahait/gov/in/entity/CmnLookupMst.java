@@ -60,5 +60,73 @@ public class CmnLookupMst implements Serializable {
     @Column(name = "created_date", nullable = false)
     private Timestamp createdDate;
 
+	public Long getLookupId() {
+		return lookupId;
+	}
+
+	public void setLookupId(Long lookupId) {
+		this.lookupId = lookupId;
+	}
+
+	public Long getParentLookupId() {
+		return parentLookupId;
+	}
+
+	public void setParentLookupId(Long parentLookupId) {
+		this.parentLookupId = parentLookupId;
+	}
+
+	public String getLookupName() {
+		return lookupName;
+	}
+
+	public void setLookupName(String lookupName) {
+		this.lookupName = lookupName;
+	}
+
+	public String getLookupShortName() {
+		return lookupShortName;
+	}
+
+	public void setLookupShortName(String lookupShortName) {
+		this.lookupShortName = lookupShortName;
+	}
+
+	public String getLookupDesc() {
+		return lookupDesc;
+	}
+
+	public void setLookupDesc(String lookupDesc) {
+		this.lookupDesc = lookupDesc;
+	}
+
+	public Long getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(Long orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public Long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Long createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Timestamp getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Timestamp createdDate) {
+		this.createdDate = createdDate;
+	}
+    
+    
+    
+    
+
  
 }

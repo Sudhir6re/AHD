@@ -49,11 +49,11 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
     	
         Map<String, String> roleTargetUrlMap = new HashMap<>();
         
-        
         roleTargetUrlMap.put("ROLE_USER", "/user/home");
-        roleTargetUrlMap.put("ROLE_OPERATOR", "/ddoast/home");
-        roleTargetUrlMap.put("ROLE_MODERATOR", "/ddo/home");
+        roleTargetUrlMap.put("ROLE_DDO_AST", "/ddoast/home");
+        roleTargetUrlMap.put("ROLE_DDO", "/ddo/home");
         roleTargetUrlMap.put("ROLE_SBI_CMP", "/cmp/home");
+        roleTargetUrlMap.put("ROLE_MDC", "/mdc/home");
         roleTargetUrlMap.put("ROLE_SUPER", "/super/home"); //developer
         
 

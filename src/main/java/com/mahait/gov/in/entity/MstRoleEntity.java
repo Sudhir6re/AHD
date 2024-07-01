@@ -1,5 +1,6 @@
 package com.mahait.gov.in.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,14 +12,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="role_mst",schema="public")
-public class MstRoleEntity {
+public class MstRoleEntity  implements Serializable {
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ROLE_ID")
 	private Integer roleId;
-	
-	
+
 	@Column(name="ROLE_NAME")
 	private String roleName;
 	
