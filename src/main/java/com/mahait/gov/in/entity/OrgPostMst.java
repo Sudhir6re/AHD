@@ -34,6 +34,10 @@ public class OrgPostMst implements Serializable {
     @Column(name = "post_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
+    
+    
+   
+    
 
    /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_lookup_id", nullable = false)
