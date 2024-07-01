@@ -49,6 +49,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		/*.anyRequest().authenticated()*/
         .and().formLogin()  
         .loginPage("/user/login").permitAll()
+        .loginPage("/master/*").permitAll()
         .successHandler(myAuthenticationSuccessHandler())
         .permitAll()
         .and().logout().and().exceptionHandling().accessDeniedPage("/user/login?unauthorize").and().logout()   
