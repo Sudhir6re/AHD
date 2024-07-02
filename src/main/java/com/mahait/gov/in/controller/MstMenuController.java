@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jcraft.jsch.UserInfo;
 import com.mahait.gov.in.entity.MstMenuEntity;
 import com.mahait.gov.in.entity.MstMenuRoleMappingEntity;
 import com.mahait.gov.in.entity.MstSubMenuEntity;
@@ -87,10 +86,7 @@ public class MstMenuController {
 		model.addAttribute("mstMenuEntity", mstMenuService.findMenuByKeyForEdit(key));
 		model.addAttribute("language", locale.getLanguage());
 		
-		UserInfo messages  = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		List<TopicModel> menuList = new ArrayList<>();
-		List<TopicModel> subMenuList = new ArrayList<>();
 		
 		
 		return "/views/edit-mst-menu";
