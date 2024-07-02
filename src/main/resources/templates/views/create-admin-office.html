@@ -117,15 +117,9 @@
 									<td><select name="cmbAdminType" id="cmbAdminType"
 										style="width: 85%, display: inline;">
 											<option title="Select All" value="-1">Select</option>
-											<option value="06" title="Private Aided Higher Education">
-												Private Aided Higher Education</option>
-											<option value="07" title="Private Aided Technical Education">
-												Private Aided Technical Education</option>
-											<option value="19" title="Private Aided Vocational Education">
-												Private Aided Vocational Education</option>
-											<option value="20" title="Private Aided Arts">
-												Private Aided Arts</option>
-											<option value="31" title="University">University</option>
+											<option th:each="zpAdminNameMst : ${lstZpAdminNameMst}"
+												th:value="${varRole.RoleId}"
+												th:text="${language=='mh' ? varRole.roleName : varRole.roleName}"></option>
 									</select></td>
 									<td>Distrct</td>
 									<td><select name="cmbDistrict" id="cmbDistrict"

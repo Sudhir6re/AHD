@@ -12,6 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="MENU_MST",schema="public")
 public class MstMenuEntity {
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="MENU_ID")
