@@ -14,7 +14,6 @@ import com.mahait.gov.in.entity.MstRoleEntity;
 
 @SuppressWarnings("unchecked")
 @Repository
-
 public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	// protected final Log logger = LogFactory.getLog(getClass());
 	@PersistenceContext
