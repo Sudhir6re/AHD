@@ -9,15 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/mdc")
 @Controller
-public class AdminOfficeMasterController {
-	@GetMapping("/adminOfficeMaster")
-	public String adminOfficeMaster(Model model, Locale locale, HttpSession session) {
-		return "/views/admin-office-master";
+public class GroupMasterController {
+	@GetMapping("groupMaster")
+	public String groupMaster(Model model, Locale locale, HttpSession session) {
+		return "/views/group-master";
 	}
 
-	@GetMapping("/adminOffice")
-	public String adminOffice(Model model, Locale locale, HttpSession session) {
-		return "/views/admin-office";
-	}
 
 }

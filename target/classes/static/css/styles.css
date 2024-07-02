@@ -20,7 +20,7 @@ input[type='text'],input[type='number'],input[type='email'],input[type='password
 	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
 		.15s;
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	width: 95% ! IMPORTANT;
+	width: 90% ! IMPORTANT;
 }
 .buttontag{
 display: inline-block;
@@ -42,11 +42,11 @@ display: inline-block;
     border-radius: 4px;
 }
 .width-70{
-	    width: 70%;
+	    width: 70% !important;
 }
 .width-60{
-	    width: 60%;
+	    width: 60%!important;
 }
 .width-50{
-	    width: 50%;
+	    width: 50% !important;
 }

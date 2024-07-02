@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/mdc")
 @Controller
-public class AdminOfficeMasterController {
-	@GetMapping("/adminOfficeMaster")
-	public String adminOfficeMaster(Model model, Locale locale, HttpSession session) {
-		return "/views/admin-office-master";
+public class DistrictOfficeController {
+	@GetMapping("/districtOffice")
+	public String districtOffice(Model model, Locale locale, HttpSession session) {
+		return "/views/district-office";
 	}
 
-	@GetMapping("/adminOffice")
-	public String adminOffice(Model model, Locale locale, HttpSession session) {
-		return "/views/admin-office";
+	@GetMapping("/districtOfficeMaster")
+	public String districtOfficeMaster(Model model, Locale locale, HttpSession session) {
+		return "/views/district-office-master";
 	}
 
 }

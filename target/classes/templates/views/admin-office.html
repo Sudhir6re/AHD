@@ -27,184 +27,17 @@
 
 		<div class="formMainwithNoborTb container">
 			<div id="content" style="background: :#f0ebe8;">
-				<script type="text/javascript">
-					function preventBack() {
-						window.history.forward();
-					}
-					setTimeout("preventBack()", 0);
-					window.onunload = function() {
-						null
-					};
-				</script>
-				<script type="text/javascript" src="script/common/validation.js"></script>
-				<script type="text/javascript"
-					src="script/common/tagLibValidation.js"></script>
-				<script language="JavaScript" src="script/dcps/dcpsvalidation.js"></script>
-				<script type="text/javascript"
-					src="script/common/commonfunctions.js"></script>
-				<script type="text/javascript" src="script/common/tabcontent.js"></script>
-				<script type="text/javascript"
-					src="script/common/script/calendar.js">
-					
-				</script>
-				<script type="text/javascript" src="/script/common/addRecord.js"></script>
-				<script type="text/javascript"
-					src="/script/exptracking/zp_admin_ofc/admin/zpAdminOffice.js"></script>
-				<style type="text/css">
-#schemeName {
-	visibility: hidden;
-}
-
-#schemeNameLabel {
-	visibility: hidden;
-}
-</style>
-				<script type="text/javascript">
-					function setSchemeCode() {
-						document.getElementById("txtDcpsShemeCode").value = document
-								.getElementById("cmbSchemeName").value;
-					}
-
-					function getGRDate() {
-						//alert("getGRDate Calling");
-						var GRNO = document.getElementById("GrNo").value;
-						document.getElementById("cmbGrNo").value = GRNO;
-						//alert(GRNO);
-						var url = "ifms.htm?actionFlag=retriveDateFromGRNo&cmbGrNo="
-								+ GRNO;
-						//document.ZpAdminOffice.action = url ;
-						//	document.ZpAdminOffice.submit(); 
-
-						//var url = "";
-						var myAjax = new Ajax.Request(url, {
-							method : 'post',
-							asynchronous : true,
-							parameters : url,
-							onSuccess : function(myAjax) {
-
-								dispGrDate(myAjax);
-
-							},
-							onFailure : function() {
-								alert('Something went wrong...');
-							}
-						});
-					}
-
-					function dispGrDate(myAjax) {
-
-						document.getElementById("txtDcpsGRDate").value = "";
-						var XMLDoc = myAjax.responseXML.documentElement;
-						var XmlHiddenValues = XMLDoc
-								.getElementsByTagName('value');
-						var GRDate = XmlHiddenValues[0].firstChild.nodeValue;
-						document.getElementById("txtDcpsGRDate").value = GRDate;
-
-					}
-
-					function popUpSchemeName() {
-						if (document.getElementById) { // DOM3 = IE5, NS6
-							document.getElementById('schemeName').style.visibility = 'visible';
-							document.getElementById('schemeNameLabel').style.visibility = 'visible';
-						} else {
-							if (document.layers) { // Netscape 4
-								document.getElementById('schemeName').style.visibility = 'visible';
-								document.getElementById('schemeNameLabel').style.visibility = 'visible';
-							} else { // IE 4
-								document.getElementById('schemeName').style.visibility = 'visible';
-								document.getElementById('schemeNameLabel').style.visibility = 'visible';
-							}
-						}
-						var txtSchemeCode = document
-								.getElementById("txtDcpsShemeCode").value;
-						if (txtSchemeCode.length >= 4) {
-							var uri = "ifms.htm?actionFlag=displaySchemeNameForCode&txtSchemeCode="
-									+ txtSchemeCode;
-							var url = "txtSchemeCode=" + txtSchemeCode;
-
-							var myAjax = new Ajax.Request(uri, {
-								method : 'post',
-								asynchronous : false,
-								parameters : url,
-								onSuccess : function(myAjax) {
-									getDataStateChangedForPopUpSchemes(myAjax);
-								},
-								onFailure : function() {
-									alert('Something went wrong...')
-								}
-							});
-						} else {
-							var cmbSchemeName = document
-									.getElementById('cmbSchemeName');
-							cmbSchemeName.options.length = 0;
-							var optn = document.createElement("OPTION");
-							optn.text = "-- Select --";
-							optn.value = "-1";
-							cmbSchemeName.options.add(optn);
-						}
-					}
-
-					function getDataStateChangedForPopUpSchemes(myAjax) {
-						XMLDoc = myAjax.responseXML.documentElement;
-						var XmlHiddenValues = XMLDoc
-								.getElementsByTagName('XMLDOC');
-						var cmbSchemeName = document
-								.getElementById('cmbSchemeName');
-						cmbSchemeName.options.length = 0;
-						var optn = document.createElement("OPTION");
-						optn.text = "-- Select --";
-						optn.value = "-1";
-						cmbSchemeName.options.add(optn);
-
-						var totalSchemes = XmlHiddenValues[0].childNodes[0].firstChild.nodeValue;
-						if (totalSchemes <= 0) {
-							alert("Please enter valid Scheme code.There is no scheme starting with "
-									+ document
-											.getElementById("txtDcpsShemeCode").value);
-							document.getElementById("txtDcpsShemeCode").value = "";
-							document.getElementById('schemeName').style.visibility = 'hidden';
-							document.getElementById('schemeNameLabel').style.visibility = 'hidden';
-							return false;
-						}
-						var optnScheme;
-
-						var count = 1;
-						while (count <= (2 * totalSchemes)) {
-							optnScheme = document.createElement("OPTION");
-							optnScheme.text = XmlHiddenValues[0].childNodes[count].firstChild.nodeValue;
-							optnScheme.title = XmlHiddenValues[0].childNodes[count + 1].firstChild.nodeValue;
-							optnScheme.value = XmlHiddenValues[0].childNodes[count + 1].firstChild.nodeValue;
-							document.getElementById("cmbSchemeName").options
-									.add(optnScheme);
-							count = count + 2;
-						}
-
-						alert("Please selcet scheme from scheme Name option");
-					}
-
-					function adminCodecopytoOfficeCode() {
-						document.getElementById('txtCode').value = document
-								.getElementById('cmbAdminOfficeName').value;
-						var cmbObj = document
-								.getElementById('cmbAdminOfficeName');
-						var comVal = cmbObj.options[cmbObj.selectedIndex].text;
-						document.getElementById('txtAdminOfficeName').value = comVal;
-					}
-				</script>
-				<form method="post" action="ifms.htm?actionFlag=save_ZpAdminOffice"
+				
+				
+				<form method="post" 
 					name="ZpAdminOffice" enctype="multipart/form-data">
-					<input type="hidden" name="csrfToken"
-						value="RNW6fFzwIugc3tkHIrb0mg=="> <input type="hidden"
-						name="updateFlag" value="true" id="updateFlag"> <input
-						type="hidden" name="currentDate" value="" id="currentDate">
-
 					<div id="tcontent1">
 						<table class="table bor-0">
 							<tbody>
 								<tr>
-									<td><label class="captionTag"
+									<td width="25%"><label class="captionTag"
 										id="ZPADMINOFFICE_ADMIN_OFFICE_NAME">Admin Office Name</label></td>
-									<td><select name="cmbAdminOfficeName"
+									<td width="25%"><select name="cmbAdminOfficeName"
 										id="cmbAdminOfficeName"
 										onchange="adminCodecopytoOfficeCode(this);">
 											<option value="-1">Select</option>
@@ -251,8 +84,7 @@
 												School</option>
 											<option value="29">Scoutes and Guides Offices</option>
 											<option value="31">University</option>
-									</select> <input type="hidden" value="Private Aided Technical Education"
-										name="txtAdminOfficeName" id="txtAdminOfficeName"></td>
+									</select> </td>
 								</tr>
 								<tr>
 									<td><label class="captionTag"
@@ -268,7 +100,7 @@
 												Name</label>
 										</div>
 									</td>
-									<td colspan="3">
+									<td >
 										<div id="schemeName">
 											<select name="cmbSchemeName" onchange="setSchemeCode();"
 												id="cmbSchemeName" class="selecttag">
@@ -284,20 +116,18 @@
 											<option value="-1">Select</option>
 									</select> <input type="hidden" value="" name="cmbGrNo" id="cmbGrNo">
 									</td>
-									<td colspan="4">&nbsp;</td>
+									
 								</tr>
 								<tr>
 									<td><label class="captionTag"
 										id="ZPADMINOFFICE_DCPS_GR_DATE">Gr Date</label></td>
-									<td><input type="text" name="txtDcpsGRDate"
-										id="txtDcpsGRDate" onblur="validateDate(this);chkDate(this);"
+									<td><input type="text" name="txtDcpsGRDate" id="txtDcpsGRDate"
+										onblur="validateDate(this);chkDate(this);"
 										class="texttag disabledcontrol"
 										onkeypress="digitFormat(this);dateFormat(this);" value=""
-										readonly="" maxlength="10/" placeholder="DD/MM/YYYY">
+										 maxlength="10/" placeholder="DD/MM/YYYY">
 										<label class="mandatoryindicator">*</label></td>
-									<td colspan="4">&nbsp;</td>
-									<td colspan="6">&nbsp;</td>
-								</tr>
+									
 								<tr>
 									<td><label class="captionTag"
 										id="ZPADMINOFFICE_DCPS_OFF_NAME">Deputy SRKA</label></td>
@@ -329,16 +159,14 @@
 												value="Comptroller,Marathwada Agriculture University,Parbhani">Comptroller,
 												Marathwada Agriculture University,Parbhani</option>
 									</select></td>
-									<td colspan="4"></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag" id="ZPADMINOFFICE_CODE">Office
 											Code</label></td>
 									<td><input type="text" name="txtCode" id="txtCode"
 										class="texttag disabledcontrol mandatorycontrol" value="07"
-										readonly="" maxlength="10/">&nbsp;&nbsp;<label
+										 maxlength="10/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
-									<td colspan="4">&nbsp;</td>
 								</tr>
 								<tr>
 
@@ -356,11 +184,9 @@
 								id="btnCancel" value="Cancel" size="3" maxlength="3"
 								class="buttontag">
 						</div>
+						
 					</div>
-					<script language="JavaScript">
-						setForm('ZpAdminOffice');
-						sortSingle(document.getElementById('cmbSchemeName'))
-					</script>
+					
 				</form>
 			</div>
 		</div>
