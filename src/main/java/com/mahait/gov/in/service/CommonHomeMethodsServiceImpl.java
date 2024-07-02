@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
@@ -234,6 +235,11 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 			commonHomeMethodsRepo.updaterole(objrole);
 		}
 		return "UPDATED";
+	}
+
+	@Override
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
+		return (List<MstCommonEntity>) commonHomeMethodsRepo.findCommonMstByCommonCode(commoncodeStatus);
 	}
 
 

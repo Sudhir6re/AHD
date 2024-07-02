@@ -21,6 +21,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -59,6 +80,18 @@ public class CmnLookupMst implements Serializable {
 
     @Column(name = "created_date", nullable = false)
     private Timestamp createdDate;
+
+    @Column(name = "created_by_post", nullable = false)
+    private Long createdByPost;
+
+    @Column(name = "updated_by")
+    private Long updatedBy;
+
+    @Column(name = "updated_date")
+    private Timestamp updatedDate;
+
+    @Column(name = "updated_by_post")
+    private Long updatedByPost;
 
 	public Long getLookupId() {
 		return lookupId;
@@ -123,10 +156,41 @@ public class CmnLookupMst implements Serializable {
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
-    
-    
-    
-    
 
- 
+	public Long getCreatedByPost() {
+		return createdByPost;
+	}
+
+	public void setCreatedByPost(Long createdByPost) {
+		this.createdByPost = createdByPost;
+	}
+
+	public Long getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Long updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Timestamp updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public Long getUpdatedByPost() {
+		return updatedByPost;
+	}
+
+	public void setUpdatedByPost(Long updatedByPost) {
+		this.updatedByPost = updatedByPost;
+	}
+    
+    
+    
+    
 }
+
