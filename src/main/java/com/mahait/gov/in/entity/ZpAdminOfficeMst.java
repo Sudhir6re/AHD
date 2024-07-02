@@ -17,7 +17,8 @@ import java.sql.Timestamp;
 @Table(name = "ZP_ADMIN_OFFICE_MST")
 @EqualsAndHashCode(of = "ofcId")
 public class ZpAdminOfficeMst implements Serializable {
-    @Id
+    
+	@Id
     @Column(name = "OFC_ID", precision = 10, scale = 0)
     private Long ofcId;
 
