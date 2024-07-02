@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 
 @SuppressWarnings("unchecked")
@@ -69,7 +70,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<Object[]> findAllRole() {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select a.id, a.role_id,a.role_name, a.role_description,a.is_active from role_mst a order by a.id";
+		String hql = "select a.role_id as id, a.role_id,a.role_name, a.role_description,a.is_active from role_mst a order by a.role_id";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 
@@ -79,10 +80,10 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	public List<Object[]> findAllSubMenu() {
 		Session currentSession = manager.unwrap(Session.class);
 		String hql = "select a.sub_menu_id, d.role_name, b.menu_name_english, a.sub_menu_name_english,a.sub_menu_name_marathi,a.controller_name,a.link_name,a.is_active, "
-				+ "b.menu_code as menu_code, d.id as role_id " + "FROM sub_menu_mst a, " + "menu_mst b, "
+				+ "b.menu_code as menu_code, d.role_id  " + "FROM sub_menu_mst a, " + "menu_mst b, "
 				+ "menu_role_mapping c, " + "role_mst d " + "WHERE a.menu_code  = b.menu_code AND "
 				+ "a.role_id = c.role_id AND " + "a.role_id = d.role_id AND " + "b.menu_code = c.menu_code AND "
-				+ "c.role_id = d.id AND  a.is_active='1' " + "ORDER BY a.sub_menu_id, d.role_name ";
+				+ "c.role_id = d.role_id AND  a.is_active='1' " + "ORDER BY a.sub_menu_id, d.role_name ";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
@@ -90,9 +91,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<Object[]> findAllMenuRoleMapping() {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select c.menu_map_id,a.menu_name_english,a.menu_name_marathi,b.role_name,c.is_active, a.menu_code as menu_code, b.id as role_id FROM "
+		String hql = "select c.menu_map_id,a.menu_name_english,a.menu_name_marathi,b.role_name,c.is_active, a.menu_code as menu_code, b.role_id FROM "
 				+ "menu_mst a , role_mst b, menu_role_mapping c "
-				+ "WHERE a.menu_code = c.menu_code AND b.id = c.role_id ORDER BY c.menu_map_id";
+				+ "WHERE a.menu_code = c.menu_code AND b.role_id = c.role_id ORDER BY c.menu_map_id";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
@@ -136,6 +137,12 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	public int saveMstRole(MstRoleEntity mstRoleEntity) {
 		Session currentSession = manager.unwrap(Session.class);
 		return (int) currentSession.save(mstRoleEntity);
+	}
+
+	@Override
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
+		String HQL = "FROM MstCommonEntity as t  WHERE t.commonCode='" + commoncodeStatus + "' and t.isActive='1' ORDER BY t.commonId ";
+		return (List<MstCommonEntity>) manager.createQuery(HQL).getResultList();
 	}
 
 

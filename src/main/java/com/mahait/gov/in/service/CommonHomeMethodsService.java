@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
@@ -34,4 +35,9 @@ public interface CommonHomeMethodsService {
 	public int saveMstRole(@Valid MstRoleEntity mstRoleEntity);
 
 	public String editRoleSave(@Valid MstRoleEntity mstRoleEntity);
+
+	public  List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus);
+	
+	
+
 }
