@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+<<<<<<< HEAD
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminOfficeMst;
 import com.mahait.gov.in.model.ZpAdminOfficeMstModel;
 import com.mahait.gov.in.response.MessageResponse;
 import com.mahait.gov.in.service.AdminOfficeMasterService;
 
+=======
+>>>>>>> 104630ec0aa43f436593f2acb319332d369bfe3a
 @RequestMapping("/mdc")
 @Controller
 public class AdminOfficeMasterController {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+<<<<<<< HEAD
 
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminNameMst;
@@ -17,6 +18,9 @@ import com.mahait.gov.in.model.ZpRltDdoMapModel;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
 
 @RequestMapping("/master")
+=======
+@RequestMapping("/mdc")
+>>>>>>> 104630ec0aa43f436593f2acb319332d369bfe3a
 @Controller
 public class CreateAdminOfficeController {
 

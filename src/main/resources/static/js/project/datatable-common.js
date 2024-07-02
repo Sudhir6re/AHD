@@ -11,6 +11,7 @@ $(document).ready(function() {
     $('#tblApprovedDDO').DataTable();
     
     $('#oldData').DataTable();
+    $('#datatable1').DataTable();
     
 });
 
