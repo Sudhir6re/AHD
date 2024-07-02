@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jcraft.jsch.UserInfo;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 
@@ -80,7 +79,7 @@ public class UserInfoRepoImpl implements UserInfoRepo {
 	@Override
 	public OrgUserMst findUser(String userName, String domain) {
 		
-		String sql = "Select e from " + UserInfo.class.getName() + " e " //
+		String sql = "Select e from " + OrgUserMst.class.getName() + " e " //
 				+ " Where e.userName = :userName  ";
 
 			Query query = entityManager.createQuery(sql, OrgUserMst.class);

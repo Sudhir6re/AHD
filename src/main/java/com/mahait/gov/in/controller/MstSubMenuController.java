@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jcraft.jsch.UserInfo;
 import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.entity.MstSubMenuEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
