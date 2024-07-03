@@ -1,0 +1,58 @@
+package com.mahait.gov.in.entity;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name="department_allowdeduc_mst",schema="public")
+public class DeptEligibilityForAllowAndDeductEntity {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="DEPARTMENT_ALLOWDEDUC_ID")
+	private Integer departmentAllowdeducId;
+	
+	@Column(name="DEPARTMENT_ALLOWDEDUC_CODE")
+	private Integer departmentAllowdeducCode;
+	
+	@Column(name="DEPARTMENT_ALLOWDEDUC_NAME")
+	private String departmentAllowdeducName;
+	
+	
+	@Column(name="department_allowdeduc_col_nm")
+	private String departmentAllowdeducColNm;
+
+	@Column(name="head_account_code")
+	private String headAccountCode;
+	
+	@Column(name="IS_TYPE")
+	private Integer isType;
+	
+	@Column(name = "IS_ACTIVE")
+	private Character isActive;
+	
+	@Column(name = "CREATED_USER_ID")
+	private Integer createdUserId;
+	
+	@Column(name = "CREATED_DATE")
+	private Date createdDate;
+	
+	@Column(name = "UPDATED_USER_ID")
+	private Integer updatedUserId;
+
+	@Column(name = "UPDATED_DATE")
+	private Date updatedDate;
+	
+	
+
+	
+}
