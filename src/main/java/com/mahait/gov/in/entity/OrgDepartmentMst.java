@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -22,48 +26,35 @@ public class OrgDepartmentMst implements Serializable {
 	@Column(name = "department_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long departmentId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
 
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "lang_id", nullable = false) private CmnLanguageMst
-	 * cmnLanguageMst;
-	 */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "updated_by_post")
-	private OrgPostMst orgPostMstByUpdatedByPost;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "created_by_post", nullable = false)
-	private OrgPostMst orgPostMstByCreatedByPost;
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "updated_by") private OrgUserMst orgEmpMstByUpdatedBy;
-	 * 
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "created_by", nullable = false) private OrgUserMst
-	 * orgEmpMstByCreatedBy;
-	 */
-
-	/*
-	 * 
-	 * @OneToMany(mappedBy = "orgEmpMst") private Set<OrgDepartmentMst>
-	 * orgDepartmentMstsForCreatedBy;
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name="orgDepartmentMstsForCreatedBy",nullable=false) private
-	 * OrgEmpMst orgEmpMst;
-	 * 
-	 * 
-	 * @OneToMany(mappedBy = "orgEmpMst") private Set<OrgEmpMst> orgEmpMsts;
-	 */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "emp_id", nullable = false)
+    private OrgEmpMst orgEmpMst;
+    
+	
 	@Column(name = "dep_name", length = 30, nullable = false)
 	private String depName;
 
@@ -91,84 +82,5 @@ public class OrgDepartmentMst implements Serializable {
 	@Column(name = "DEPARTMENT_CODE", length = 20, nullable = false)
 	private String depCode;
 
-	public Long getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(Long departmentId) {
-		this.departmentId = departmentId;
-	}
-
-	public String getDepName() {
-		return depName;
-	}
-
-	public void setDepName(String depName) {
-		this.depName = depName;
-	}
-
-	public String getDepShortName() {
-		return depShortName;
-	}
-
-	public void setDepShortName(String depShortName) {
-		this.depShortName = depShortName;
-	}
-
-	public Long getParentDepId() {
-		return parentDepId;
-	}
-
-	public void setParentDepId(Long parentDepId) {
-		this.parentDepId = parentDepId;
-	}
-
-	public Timestamp getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
-	}
-
-	public Timestamp getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
-
-	public Long getActivateFlag() {
-		return activateFlag;
-	}
-
-	public void setActivateFlag(Long activateFlag) {
-		this.activateFlag = activateFlag;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Timestamp getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Timestamp updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
-	public String getDepCode() {
-		return depCode;
-	}
-
-	public void setDepCode(String depCode) {
-		this.depCode = depCode;
-	}
 
 }

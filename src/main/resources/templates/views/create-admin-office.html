@@ -27,13 +27,90 @@
 
 		<div class="formMainwithNoborTb container">
 			<div id="content" style="background: :#f0ebe8;">
+				<script type="text/javascript">
+					function preventBack() {
+						window.history.forward();
+					}
+					setTimeout("preventBack()", 0);
+					window.onunload = function() {
+						null
+					};
+				</script>
+				<script type="text/javascript"
+					src="/script/common/commonfunctions.js"></script>
+				<script type="text/javascript">
+					function popupDtls(field, srno) {
 
-				<form method="POST" name="DDOOfficeView">
+						var uri = "ifms.htm?actionFlag=popUpDtls&ddoCode="
+								+ field;
+						var myAjax = new Ajax.Request(uri, {
+							method : 'post',
+							asynchronous : true,
+
+							onSuccess : function(myAjax) {
+
+								setDDOdtls(myAjax, field, srno);
+							},
+							onFailure : function() {
+								alert('Something went wrong...');
+							}
+						});
+					}
+
+					function setDDOdtls(myAjax, field, srno) {
+
+						var divId = srno.toString() + field.toString();
+						var XMLDoc = myAjax.responseXML.documentElement;
+						var officeNameObj = XMLDoc
+								.getElementsByTagName('officeName');
+						var officeNameval = officeNameObj[0].firstChild.nodeValue;
+						var dsgDtlObj = XMLDoc.getElementsByTagName('dsgDtl');
+						var dsgDtlval = dsgDtlObj[0].firstChild.nodeValue;
+						document.getElementById(divId).innerHTML = '<a href="#" onclick="hideDtls('
+								+ field
+								+ ','
+								+ srno
+								+ ')">'
+								+ field
+								+ '<br>'
+								+ dsgDtlval + ',' + officeNameval + '</a>';
+
+					}
+
+					function hideDtls(field, srno) {
+
+						var divId = srno.toString() + field.toString();
+						//alert(document.getElementById(divId).innerHTML);
+						document.getElementById(divId).innerHTML = '<a href="#" onclick="popupDtls('
+								+ field + ',' + srno + ');">' + field + '</a>';
+						//alert(divId);
+					}
+				</script>
+				<script type="text/javascript">
+					function filterSchool() {
+						var district = document.getElementById("cmbDistrict").value;
+						var taluka = document.getElementById("cmbTaluka").value;
+						var adminType = document.getElementById("cmbAdminType").value;
+						var url;
+
+						url = "ifms.htm?actionFlag=loadDdoOfficeData&taluka="
+								+ taluka + "&district=" + district
+								+ "&adminType=" + adminType;
+						document.DDOOfficeView.action = url;
+						document.DDOOfficeView.submit();
+						showProgressbar("Please wait<br>While Your Request is in Progress ...");
+					}
+				</script>
+				<input type="hidden" id="hdnDDOCode" name="hdnDDOCode" value="">
+				<input type="hidden" id="hdnUniqeInstituteId"
+					name="hdnUniqeInstituteId" value="">
+				<form method="POST" name="DDOOfficeView"
+					action="./hrms.htm?actionFlag=loadDdoOfficeData">
 					<fieldset class="tabstyle">
 						<legend>
 							<b>Filter Institute</b>
 						</legend>
-						<table class="table bor-0">
+						<table align="center" class="table bor-0">
 							<tbody>
 								<tr>
 									<td>Admin Type</td>
@@ -41,102 +118,160 @@
 										style="width: 85%, display: inline;">
 											<option title="Select All" value="-1">Select</option>
 											<option th:each="zpAdminNameMst : ${lstZpAdminNameMst}"
-												th:value="${varRole.RoleId}"
-												th:text="${language=='mh' ? varRole.roleName : varRole.roleName}"></option>
+												th:value="${zpAdminNameMst.adminCode}"
+												th:text="${zpAdminNameMst.adminName}"></option>
 									</select></td>
 									<td>Distrct</td>
 									<td><select name="cmbDistrict" id="cmbDistrict"
 										style="width: 85%, display: inline;">
 											<option title="Select All" value="-1">Select</option>
-											<option value="343" title="Ahmednagar">Ahmednagar</option>
-											<option value="344" title="Akola">Akola</option>
-											<option value="345" title="Amravati">Amravati</option>
-											<option value="346" title="Aurangabad">Aurangabad</option>
-											<option value="347" title="Beed">Beed</option>
-											<option value="348" title="Bhandara">Bhandara</option>
-											<option value="349" title="Buldana">Buldana</option>
-											<option value="350" title="Chandrapur">Chandrapur</option>
-											<option value="351" title="Dhule">Dhule</option>
-											<option value="352" title="Gadchiroli">Gadchiroli</option>
-											<option value="353" title="Gondiya">Gondiya</option>
-											<option value="354" title="Hingoli">Hingoli</option>
-											<option value="355" title="Jalgaon">Jalgaon</option>
-											<option value="356" title="Jalna">Jalna</option>
-											<option value="357" title="Kolhapur">Kolhapur</option>
-											<option value="358" title="Latur">Latur</option>
-											<option value="359" title="Mumbai">Mumbai</option>
-											
+
+											<option th:each="cmnDistrctMst : ${lstCmnDistrctMst}"
+												th:value="${cmnDistrctMst.districtId}"
+												th:text="${cmnDistrctMst.districtName}"></option>
+
 									</select></td>
 									<td>Taluka</td>
 									<td><select name="cmbTaluka" id="cmbTaluka"
 										style="width: 85%, display: inline;">
 											<option title="Select All" value="-1">Select</option>
+											<option th:each="cmnTalukaMst : ${lstCmnTalukaMst}"
+												th:value="${cmnTalukaMst.talukaId}"
+												th:text="${cmnTalukaMst.talukaName}"></option>
+
 									</select></td>
 								</tr>
 								<tr>
 									<td colspan="6" align="center"><input id="btnFilter"
 										class="buttontag" type="button" size="5" maxlength="5"
-										value="Filter" name="btnFilter"
+										value="Filter" onclick="filterSchool();" name="btnFilter"
 										style="width: 120px;"></td>
 								</tr>
 							</tbody>
 						</table>
 					</fieldset>
-
+					<div id="tabmenu">
+						<b>DDO OFFICE</b>
+					</div>
 					<div id="tcontent1">
-						<a th:href="@{/mdc/adminOffice}" class="btn">Add new Entry</a> <br />
-						<br />
-						<table class="datatable" style="width: 100%" id="row">
+						<div align="center">
+							<h1></h1>
+						</div>
+						<br>&nbsp; <a th:href="@{/master/adminOffice}" class="btn">Add
+							new Entry</a> <br>
+						<table class="table" style="width: 100%">
 							<thead>
 								<tr>
-									<th class="datatableheader">DDO Code</th>
-									<th class="datatableheader">Level2 DDO Code</th>
-									<th class="datatableheader">Level3 DDO Code</th>
-									<th class="datatableheader">Level4 DDO Code</th>
-									<th class="datatableheader">Hierarchy Level</th>
-									<th class="datatableheader">Status</th>
+									<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">DDO Code</th>
+									<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">Level2 DDO
+										Code</th>
+									<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">Level3 DDO
+										Code</th>
+									<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">Level4 DDO
+										Code</th>
+									<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">Hierarchy
+										Level</th>
+									<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">Status</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="odd">
-									<td class="tablecelltext" style="text-align: center;">
-										<div id="106340100116">
-											<a href="#">06340100116<br>REGISTRAR,Swami Ramanand
-												Teerth Marathwada University Nanded
+								<!-- Iterate over lstZpRltDdoMapRlt -->
+								<tr th:each="zpRltDdoMapRlt, rowStat : ${lstZpRltDdoMapRlt}">
+									<!-- DDO Code -->
+									<td class="tablecelltext"
+										style="text-align: center; font-size: 12px;">
+										<div th:id="${rowStat.index}${zpRltDdoMapRlt[0]}">
+											<a href="#"
+												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[0]} + '\', \'' + ${rowStat.index} + '\');'">
+												<span th:text="${zpRltDdoMapRlt[0]}"></span>
 											</a>
 										</div>
 									</td>
-									<td class="tablecelltext" style="text-align: center;">
-										<div id="13401002205">
-											<a href="#">3401002205</a>
+									<!-- Level2 DDO Code -->
+									<td class="tablecelltext"
+										style="text-align: center; font-size: 12px;">
+										<div th:id="${rowStat.index}${zpRltDdoMapRlt[1]}">
+											<a href="#"
+												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[1]} + '\', \'' + ${rowStat.index} + '\');'">
+												<span th:text="${zpRltDdoMapRlt[1]}"></span>
+											</a>
 										</div>
 									</td>
-									<td class="tablecelltext" style="text-align: center;">
-										<div id="1">
-											<a href="#"></a>
+									<!-- Level3 DDO Code -->
+									<td class="tablecelltext"
+										style="text-align: center; font-size: 12px;">
+										<div th:if="${zpRltDdoMapRlt[2] != null}"
+											th:id="${rowStat.index}${zpRltDdoMapRlt[2]}">
+											<a href="#"
+												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[2]} + '\', \'' + ${rowStat.index} + '\');'">
+												<span th:text="${zpRltDdoMapRlt[2]}"></span>
+											</a>
+										</div>
+										<div th:unless="${zpRltDdoMapRlt[2] != null}">
+											<span>NA</span>
 										</div>
 									</td>
-									<td class="tablecelltext" style="text-align: center;">
-										<div id="1">
-											<a href="#"></a>
+									<!-- Level4 DDO Code -->
+									<td class="tablecelltext"
+										style="text-align: center; font-size: 12px;">
+										<div th:if="${zpRltDdoMapRlt[3] != null}"
+											th:id="${rowStat.index}${zpRltDdoMapRlt[3]}">
+											<a href="#"
+												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[3]} + '\', \'' + ${rowStat.index} + '\');'">
+												<span th:text="${zpRltDdoMapRlt[3]}"></span>
+											</a>
+										</div>
+										<div th:unless="${zpRltDdoMapRlt[3] != null}">
+											<span>NA</span>
 										</div>
 									</td>
-									<td class="tablecelltext" style="text-align: center;">2</td>
-									<td class="tablecelltext" style="text-align: center;"><label>Approved</label>
-									</td>
+									<!-- Hierarchy Level -->
+									<td class="tablecelltext"
+										style="text-align: center; font-size: 12px;"><span
+										th:text="${zpRltDdoMapRlt[4]}"></span></td>
+									<!-- Status -->
+									<td class="tablecelltext"
+										style="text-align: center; font-size: 12px;"><span
+										th:switch="${zpRltDdoMapRlt[5]}"> <span th:case="0">Pending</span>
+											<span th:case="1">Approved</span> <span th:case="-1">Rejected</span>
+									</span></td>
 								</tr>
 							</tbody>
 						</table>
-
+						<br>&nbsp; <br> <br>
+						<script type="text/javascript">
+							initializetabcontent("maintab")
+						</script>
+						<script type="text/javascript">
+							var DDOCode = document.getElementById("hdnDDOCode").value;
+							var instituteId = document
+									.getElementById("hdnUniqeInstituteId").value;
+							if (DDOCode != '') {
+								alert('For DDO Code: '
+										+ DDOCode
+										+ ', system generated unique institute Id: '
+										+ instituteId
+										+ '. Please note the details for future use.');
+							}
+						</script>
 					</div>
-
+					<script type="text/javascript">
+						new AjaxJspTag.Select(
+								"/ifms.htm?actionFlag=getTalukaFromDistrictId",
+								{
+									source : "cmbDistrict",
+									eventType : "change",
+									parameters : "districtId={cmbDistrict}",
+									target : "cmbTaluka"
+								});
+					</script>
 				</form>
-				<br />
-				<div class="text-center">
-					<input type="button" name="btnCancel" onclick="history.back()"
-						id="btnCancel" value="Cancel" size="3" maxlength="3"
-						class="buttontag">
-				</div>
 			</div>
 		</div>
 	</div>

@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,26 +37,64 @@ public class OrgUserpostRlt implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private OrgUserMst orgUserMst;
-/*
+
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "updated_by_post")
-	private OrgPostMst orgPostMstByUpdatedByPost;
+	@JoinColumn(name = "emp_id", nullable = false)
+	private OrgEmpMst orgEmpMst;
+
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+	@Fetch(FetchMode.SELECT)
+	private OrgPostMst createdByPost;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_id", nullable = false)
-	private OrgPostMst orgPostMstByPostId;
+	@JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+	@Fetch(FetchMode.SELECT)
+	private OrgPostMst updatedByPost;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "created_by_post", nullable = false)
-	private OrgPostMst orgPostMstByCreatedByPost;
+	@JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+	@Fetch(FetchMode.SELECT)
+	private OrgUserMst createdBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "created_by", nullable = false)
-	private OrgUserMst orgUserMstByCreatedBy;
+	@JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+	@Fetch(FetchMode.SELECT)
+	private OrgUserMst updatedBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "updated_by")
-	private OrgUserMst orgUserMstByUpdatedBy;*/
+	@JoinColumn(name = "status_lookup_id", nullable = false)
+	@Fetch(FetchMode.SELECT)
+	private CmnLookupMst cmnLookupMst;
+
+	/*
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "updated_by_post") private OrgPostMst
+	 * orgPostMstByUpdatedByPost;
+	 * 
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "post_id", nullable = false) private OrgPostMst
+	 * orgPostMstByPostId;
+	 * 
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "created_by_post", nullable = false) private OrgPostMst
+	 * orgPostMstByCreatedByPost;
+	 * 
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "created_by", nullable = false) private OrgUserMst
+	 * orgUserMstByCreatedBy;
+	 * 
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "updated_by") private OrgUserMst orgUserMstByUpdatedBy;
+	 */
 
 	@Column(name = "start_date", nullable = false)
 	private Timestamp startDate;
@@ -70,79 +111,21 @@ public class OrgUserpostRlt implements Serializable {
 	@Column(name = "updated_date")
 	private Timestamp updatedDate;
 
-	public Long getEmpPostId() {
-		return empPostId;
-	}
-
-	public void setEmpPostId(Long empPostId) {
-		this.empPostId = empPostId;
-	}
-
-	public OrgUserMst getOrgUserMst() {
-		return orgUserMst;
-	}
-
-	public void setOrgUserMst(OrgUserMst orgUserMst) {
-		this.orgUserMst = orgUserMst;
-	}
-
-	public Timestamp getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
-	}
-
-	public Timestamp getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
-
-	public Long getActivateFlag() {
-		return activateFlag;
-	}
-
-	public void setActivateFlag(Long activateFlag) {
-		this.activateFlag = activateFlag;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Timestamp getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Timestamp updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userpost_type_lookup_id", nullable = false)
-	private CmnLookupMst cmnLookupUserPostType;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "reason_lookup_id")
-	private CmnLookupMst cmnLookupReason;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "emp_id")
-	private OrgEmpMst orgEmpMst;*/
 	
-	
-	
-	
-	
-	
-	
-	
+
+	/*
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "userpost_type_lookup_id", nullable = false) private
+	 * CmnLookupMst cmnLookupUserPostType;
+	 * 
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "reason_lookup_id") private CmnLookupMst cmnLookupReason;
+	 * 
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "emp_id") private OrgEmpMst orgEmpMst;
+	 */
+
 }

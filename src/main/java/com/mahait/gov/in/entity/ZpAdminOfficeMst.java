@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -39,20 +43,40 @@ public class ZpAdminOfficeMst implements Serializable {
     @Column(name = "LANG_ID", precision = 10, scale = 0)
     private Long langId;
 
-    @Column(name = "CREATED_BY", precision = 10, scale = 0)
-    private Long createdBy;
+    /*@Column(name = "CREATED_BY", precision = 10, scale = 0)
+    private Long createdBy;*/
 
     @Column(name = "CREATED_DATE", length = 20)
     private Timestamp createdDate;
 
-    @Column(name = "UPDATED_BY", precision = 10, scale = 0)
-    private Long updatedBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
 
-    @Column(name = "UPDATED_DATE", length = 20)
-    private Timestamp updatedDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
 
-    @Column(name = "CREATED_BY_POST", precision = 10, scale = 0)
-    private Long createdByPost;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_lookup_id", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private CmnLookupMst cmnLookupMst;
+    
 
 
     @Column(name = "scheme_code", length = 20)

@@ -58,7 +58,7 @@ public class AdminOfficeMasterServiceImpl implements AdminOfficeMasterService {
             } else {
                 zpAdminOfficeMst.setIsActive(0);
             }
-            zpAdminOfficeMst.setUpdatedBy(orgUserMst.getUserId());
+       //     zpAdminOfficeMst.setUpdatedBy(orgUserMst.getUserId());
             zpAdminOfficeMstRepository.save(zpAdminOfficeMst);
             return 1;
         }).orElse(0);

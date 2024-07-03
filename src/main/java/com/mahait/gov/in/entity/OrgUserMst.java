@@ -36,31 +36,37 @@ public class OrgUserMst implements Serializable {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
 
-   /* @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
+
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_lookup_id", nullable = false)
     @Fetch(FetchMode.SELECT)
     private CmnLookupMst cmnLookupMst;
+    
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_post")
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst orgPostMstByUpdatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_post", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst orgPostMstByCreatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    @Fetch(FetchMode.SELECT)
-    private OrgUserMst orgUserMstByUpdatedBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private OrgUserMst orgUserMstByCreatedBy;*/
 
     @Column(name = "user_name", length = 20, nullable = false)
     private String userName;
@@ -129,13 +135,19 @@ public class OrgUserMst implements Serializable {
 
     @Column(name = "firstlogin", length = 1)
     private String firstlogin;
+    
+    
+    
+
+    @OneToMany(mappedBy = "orgUserMst",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<OrgUserpostRlt> orgUserpostRlts;
+
+    
 
    /* @OneToMany(mappedBy = "orgUserMst", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserpostRlt> orgUserpostRlts;
     
-    
-    
-  
+   
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private OrgUserMst orgUserMst;
@@ -145,6 +157,9 @@ public class OrgUserMst implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private MstRoleEntity mstRoleEntity;
+    
+    
+    
 
 
     /*@OneToMany(mappedBy = "orgUserMstByCreatedBy")
@@ -155,31 +170,6 @@ public class OrgUserMst implements Serializable {
 */
 	
 
-/*	public Set<OrgEmpMst> getOrgEmpMstsForCreatedBy() {
-		return orgEmpMstsForCreatedBy;
-	}
-
-	public void setOrgEmpMstsForCreatedBy(Set<OrgEmpMst> orgEmpMstsForCreatedBy) {
-		this.orgEmpMstsForCreatedBy = orgEmpMstsForCreatedBy;
-	}
-
-	public Set<OrgEmpMst> getOrgEmpMstsForUpdatedBy() {
-		return orgEmpMstsForUpdatedBy;
-	}
-
-	public void setOrgEmpMstsForUpdatedBy(Set<OrgEmpMst> orgEmpMstsForUpdatedBy) {
-		this.orgEmpMstsForUpdatedBy = orgEmpMstsForUpdatedBy;
-	}*/
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
     
 }
 

@@ -42,4 +42,24 @@ public class ZpRltDdoMapModel implements Serializable {
     private Long createdPostId;
 
     private Long updatedPostId;
+    
+    private Long cmbAdminOffice;
+    
+    
+     private String cmbDistOffice;
+    private String radioFinalLevel;
+    private String txtRepDDOCode;
+    private String txtFinalDDOCode;
+    private String txtSpecialDDOCode;
+    private String radioSalutation;
+    private String txtDDOName;
+    private String radioGender;
+    private String txtTreasuryName;
+    private String txtTreasuryCode;
+    private String cmbSubTreasury;
+    private String txtDDODsgn;
+    private String txtOfficeName;
+    private String txtDDOCode;
+    private String txtMobileNo;
+    private String txtEmailId;
 }
