@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,37 +45,28 @@ public class OrgGradeMst implements Serializable {
 	@Column(name = "Grade_Code", length = 15, nullable = false)
 	private String gradeCode;
 
-	public Long getGradeId() {
-		return gradeId;
-	}
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
 
-	public void setGradeId(Long gradeId) {
-		this.gradeId = gradeId;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
 
-	public String getGradeName() {
-		return gradeName;
-	}
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
 
-	public void setGradeName(String gradeName) {
-		this.gradeName = gradeName;
-	}
-
-	public String getGradeDesc() {
-		return gradeDesc;
-	}
-
-	public void setGradeDesc(String gradeDesc) {
-		this.gradeDesc = gradeDesc;
-	}
-
-	public String getGradeCode() {
-		return gradeCode;
-	}
-
-	public void setGradeCode(String gradeCode) {
-		this.gradeCode = gradeCode;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
 
 	/*
 	 * @ManyToOne(fetch = FetchType.LAZY)
@@ -115,22 +109,6 @@ public class OrgGradeMst implements Serializable {
 
 	@Column(name = "Activate_flag", nullable = false)
 	private Long activateFlag;
-
-	public Timestamp getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Timestamp updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
-	public Long getActivateFlag() {
-		return activateFlag;
-	}
-
-	public void setActivateFlag(Long activateFlag) {
-		this.activateFlag = activateFlag;
-	}
 
 	
 	

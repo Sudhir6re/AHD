@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,34 +36,16 @@ public class OrgEmpMst implements Serializable {
     @Column(name = "emp_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long empId;
-
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lang_id", nullable = false)
-    private CmnLanguageMst cmnLanguageMst;*/
-
-   /* @ManyToOne(fetch = FetchType.LAZY)
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private OrgUserMst orgUserMst;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_post")
-    private OrgPostMst orgPostMstByUpdatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_post", nullable = false)
-    private OrgPostMst orgPostMstByCreatedByPost;
-
+    
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grade_id", nullable = false)
     private OrgGradeMst orgGradeMst;
-*/
- /*   @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgEmpMst orgUserMstByUpdatedBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
-    private OrgEmpMst orgUserMstByCreatedBy;*/
 
     
     @Column(name = "emp_fname", length = 30, nullable = false)
@@ -113,178 +98,52 @@ public class OrgEmpMst implements Serializable {
 
     @Column(name = "buckle_no")
     private Long buckleNo;
-/*
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgEmpcontactMst> orgEmpcontactMstsForUpdatedBy;*/
-/*
-    @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserMst> orgUserMstsForCreatedBy;*/
-
-	public Long getEmpId() {
-		return empId;
-	}
-
-	public void setEmpId(Long empId) {
-		this.empId = empId;
-	}
-
-	public String getEmpFname() {
-		return empFname;
-	}
-
-	public void setEmpFname(String empFname) {
-		this.empFname = empFname;
-	}
-
-	public String getEmpMname() {
-		return empMname;
-	}
-
-	public void setEmpMname(String empMname) {
-		this.empMname = empMname;
-	}
-
-	public String getEmpLname() {
-		return empLname;
-	}
-
-	public void setEmpLname(String empLname) {
-		this.empLname = empLname;
-	}
-
-	public Timestamp getEmpDob() {
-		return empDob;
-	}
-
-	public void setEmpDob(Timestamp empDob) {
-		this.empDob = empDob;
-	}
-
-	public Timestamp getEmpDoj() {
-		return empDoj;
-	}
-
-	public void setEmpDoj(Timestamp empDoj) {
-		this.empDoj = empDoj;
-	}
-
-	public String getEmpGPFnumber() {
-		return empGPFnumber;
-	}
-
-	public void setEmpGPFnumber(String empGPFnumber) {
-		this.empGPFnumber = empGPFnumber;
-	}
-
-	public Timestamp getEmpSrvcExp() {
-		return empSrvcExp;
-	}
-
-	public void setEmpSrvcExp(Timestamp empSrvcExp) {
-		this.empSrvcExp = empSrvcExp;
-	}
-
-	public Long getEmpSrvcFlag() {
-		return empSrvcFlag;
-	}
-
-	public void setEmpSrvcFlag(Long empSrvcFlag) {
-		this.empSrvcFlag = empSrvcFlag;
-	}
-
-	public Timestamp getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
-	}
-
-	public Timestamp getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
-
-	public Long getActivateFlag() {
-		return activateFlag;
-	}
-
-	public void setActivateFlag(Long activateFlag) {
-		this.activateFlag = activateFlag;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Timestamp getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Timestamp updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
-	public String getEmpPrefix() {
-		return empPrefix;
-	}
-
-	public void setEmpPrefix(String empPrefix) {
-		this.empPrefix = empPrefix;
-	}
-
-	public Integer getTrnCounter() {
-		return trnCounter;
-	}
-
-	public void setTrnCounter(Integer trnCounter) {
-		this.trnCounter = trnCounter;
-	}
-
-	public String getCadre() {
-		return cadre;
-	}
-
-	public void setCadre(String cadre) {
-		this.cadre = cadre;
-	}
-
-	public Long getBuckleNo() {
-		return buckleNo;
-	}
-
-	public void setBuckleNo(Long buckleNo) {
-		this.buckleNo = buckleNo;
-	}
-   
-/*    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by")
-    private OrgEmpMst createdBy;
-
-    @OneToMany(mappedBy = "createdBy")
-    private Set<OrgEmpMst> orgEmpMstsForCreatedBy;
-*/
     
-/*
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
+
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
+    
+    @OneToMany(mappedBy = "orgEmpMst")
+    private Set<OrgEmpcontactMst> orgEmpcontactMstsForUpdatedBy;
+    
+    
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDepartmentMst> orgDepartmentMstsForCreatedBy;
+    
+    
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDesignationMst> orgDesignationMstsForUpdatedBy;
-
+    
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForCreatedBy;
+    
+    
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForCreatedBy;
+ 
+    
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDepartmentMst> orgDepartmentMstsForUpdatedBy;
@@ -299,50 +158,25 @@ public class OrgEmpMst implements Serializable {
     private Set<OrgUserpostRlt> orgUserpostRltsForUpdatedBy;
 
     @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserpostRlt> orgUserpostRltsForCreatedBy;*/
+    private Set<OrgUserpostRlt> orgUserpostRltsForCreatedBy;
 
   /*  @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserMst> orgUserMstsForUpdatedBy;*/
+    private Set<OrgUserMst> orgUserMstsForUpdatedBy;
 
-  /*  
+    
     @OneToMany(mappedBy = "createdBy")
-    private Set<OrgPostMst> orgPostMstsForCreatedBy;
+    private Set<OrgPostMst> orgPostMstsForCreatedBy;*/
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDesignationMst> orgDesignationMstsForCreatedBy;
-    
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgEmpMst updatedBy;
-
-    @OneToMany(mappedBy = "updatedBy")
-    private Set<OrgEmpMst> orgEmpMstsForUpdatedBy;
-    
-    
+   
     
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForEmpId;
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpDsgnMpg> orgEmpDsgnMpg;
-    */
-    /*
-    @OneToMany(mappedBy = "updatedBy")
-    private Set<OrgPostMst> orgPostMstsForUpdatedBy;*/
-    
-    /*
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by")
-    private OrgUserMst orgUserMstByCreatedBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgUserMst orgUserMstByUpdatedBy;
-    */
-
-
+   
     
     
     

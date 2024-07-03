@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,29 +38,36 @@ public class OrgPostMst implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
     
-    
-   
-    
 
-   /* @ManyToOne(fetch = FetchType.LAZY)
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
+
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_lookup_id", nullable = false)
     private CmnLookupMst cmnLookupMst;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_post")
-    private OrgPostMst orgPostMstByUpdatedByPost;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_post", nullable = false)
-    private OrgPostMst orgPostMstByCreatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
-    private OrgUserMst orgUserMstByCreatedBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgUserMst orgUserMstByUpdatedBy;*/
 
     @Column(name = "parent_post_id", nullable = false)
     private Long parentPostId;
@@ -89,165 +99,68 @@ public class OrgPostMst implements Serializable {
     @Column(name = "dsgn_code", length = 40, nullable = false)
     private String dsgnCode;
 
-	public Long getPostId() {
-		return postId;
-	}
 
-	public void setPostId(Long postId) {
-		this.postId = postId;
-	}
-
-	public Long getParentPostId() {
-		return parentPostId;
-	}
-
-	public void setParentPostId(Long parentPostId) {
-		this.parentPostId = parentPostId;
-	}
-
-	public Long getPostLevelId() {
-		return postLevelId;
-	}
-
-	public void setPostLevelId(Long postLevelId) {
-		this.postLevelId = postLevelId;
-	}
-
-	public Timestamp getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
-	}
-
-	public Timestamp getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
-
-	public Long getActivateFlag() {
-		return activateFlag;
-	}
-
-	public void setActivateFlag(Long activateFlag) {
-		this.activateFlag = activateFlag;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Timestamp getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Timestamp updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
-	public String getLocationCode() {
-		return locationCode;
-	}
-
-	public void setLocationCode(String locationCode) {
-		this.locationCode = locationCode;
-	}
-
-	public String getBranchCode() {
-		return branchCode;
-	}
-
-	public void setBranchCode(String branchCode) {
-		this.branchCode = branchCode;
-	}
-
-	public String getDsgnCode() {
-		return dsgnCode;
-	}
-
-	public void setDsgnCode(String dsgnCode) {
-		this.dsgnCode = dsgnCode;
-	}
-
- /*   @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgDepartmentMst> orgDepartmentMstsForUpdatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserpostRlt> orgUserpostRltsForCreatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserMst> orgUserMstsForUpdatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgDesignationMst> orgDesignationMstsForUpdatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpMst> orgEmpMstsForUpdatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgPostMst> orgPostMstsForUpdatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForCreatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForCreatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserpostRlt> orgUserpostRltsForUpdatedByPost;
     
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserMst> orgUserMstsForCreatedByPost;
 
     @OneToMany(mappedBy = "orgPostMstByPostId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserpostRlt> orgUserpostRltsForPostId;
 
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgDesignationMst> orgDesignationMstsForCreatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgPostMst> orgPostMstsForCreatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpMst> orgEmpMstsForCreatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByCreatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgDepartmentMst> orgDepartmentMstsForCreatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForUpdatedByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByUpdatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForUpdateByPost;
 
-    @OneToMany(mappedBy = "orgPostMstByPostId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orgPostMst", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgPostDetailsRlt> orgPostDetailsRlt;
 
+    
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_type_lookup_id")
     private CmnLookupMst postTypeLookupId;
     
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgEmpMst orgEmpMstByUpdatedBy;
-    
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by")
-    private OrgEmpMst createdBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by")
-    private OrgEmpMst updatedBy;*/
+    */
     
     
     

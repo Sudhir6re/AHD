@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,6 +38,34 @@ public class OrgPostDetailsRlt implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private OrgPostMst orgPostMst;
+    
+    
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
+
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
+    
+    
+    
 
     /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lang_id", nullable = false)
@@ -58,53 +89,7 @@ public class OrgPostDetailsRlt implements Serializable {
     @Column(name = "post_short_name", length = 60, nullable = false)
     private String postShortName;
 
-	public Long getPostDetailId() {
-		return postDetailId;
-	}
-
-	public void setPostDetailId(Long postDetailId) {
-		this.postDetailId = postDetailId;
-	}
-
-	public OrgPostMst getOrgPostMst() {
-		return orgPostMst;
-	}
-
-	public void setOrgPostMst(OrgPostMst orgPostMst) {
-		this.orgPostMst = orgPostMst;
-	}
-
-	public OrgDesignationMst getOrgDesignationMst() {
-		return orgDesignationMst;
-	}
-
-	public void setOrgDesignationMst(OrgDesignationMst orgDesignationMst) {
-		this.orgDesignationMst = orgDesignationMst;
-	}
-
-	public CmnLookupMst getPostCategory() {
-		return postCategory;
-	}
-
-	public void setPostCategory(CmnLookupMst postCategory) {
-		this.postCategory = postCategory;
-	}
-
-	public String getPostName() {
-		return postName;
-	}
-
-	public void setPostName(String postName) {
-		this.postName = postName;
-	}
-
-	public String getPostShortName() {
-		return postShortName;
-	}
-
-	public void setPostShortName(String postShortName) {
-		this.postShortName = postShortName;
-	}
+	
 
     /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loc_id", nullable = false)
