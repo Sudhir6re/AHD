@@ -15,7 +15,7 @@
 				<ol class="breadcrumb">
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
-							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+							th:utext="#{msg.thymeleaf.pagelabel.dcpsBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
 						th:utext="#{msg.thymeleaf.pageheading.grpMaster}"></span></li>
 				</ol>
@@ -27,32 +27,7 @@
 
 		<div class="formMainwithNoborTb container">
 			<div id="content" style="background: :#f0ebe8;">
-				<script type="text/javascript">
-					function preventBack() {
-						window.history.forward();
-					}
-					setTimeout("preventBack()", 0);
-					window.onunload = function() {
-						null
-					};
-				</script>
-				<script type="text/javascript"
-					src="script/common/tagLibValidation.js"></script>
-				<script type="text/javascript"
-					src="script/common/commonfunctions.js"></script>
-				<script type="text/javascript" src="/script/common/address.js"></script>
-				<script type="text/javascript" src="/script/common/calendar.js"></script>
-				<script type="text/javascript" src="script/common/CalendarPopup.js"></script>
-				<script type="text/javascript" src="script/hod/ps/common.js"></script>
-				<script type="text/javascript" src="script/common/person.js"></script>
-				<script type="text/javascript" src="/script/common/addRecord.js"></script>
-				<script type="text/javascript" src="/script/common/attachment.js"></script>
-				<script>
-					function onclose() {
-						document.GradeMstView.action = "./hrms.htm?actionFlag=getHomePage";
-						document.GradeMstView.submit();
-					}
-				</script>
+				
 				<form method="POST" name="GradeMstView"
 					action="./hrms.htm?viewName=gradeMstAdd">
 					<div id="tcontent1">
@@ -98,9 +73,7 @@
 							</tbody>
 						</table>
 					</div>
-					<script type="text/javascript">
-						initializetabcontent("maintab")
-					</script>
+					
 				</form>
 				<br />
 				<div class="text-center">
