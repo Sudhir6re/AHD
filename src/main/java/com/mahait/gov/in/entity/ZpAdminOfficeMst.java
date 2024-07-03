@@ -71,12 +71,12 @@ public class ZpAdminOfficeMst implements Serializable {
     @Fetch(FetchMode.SELECT)
     private OrgUserMst updatedBy;
     
-    
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_lookup_id", nullable = false)
     @Fetch(FetchMode.SELECT)
     private CmnLookupMst cmnLookupMst;
-    
+    */
 
 
     @Column(name = "scheme_code", length = 20)

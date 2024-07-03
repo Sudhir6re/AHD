@@ -38,13 +38,10 @@ public class OrgUserpostRlt implements Serializable {
 	@JoinColumn(name = "user_id", nullable = false)
 	private OrgUserMst orgUserMst;
 
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "emp_id", nullable = false)
 	private OrgEmpMst orgEmpMst;
 
-	
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
 	@Fetch(FetchMode.SELECT)
@@ -70,32 +67,10 @@ public class OrgUserpostRlt implements Serializable {
 	@Fetch(FetchMode.SELECT)
 	private CmnLookupMst cmnLookupMst;
 
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "updated_by_post") private OrgPostMst
-	 * orgPostMstByUpdatedByPost;
-	 * 
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "post_id", nullable = false) private OrgPostMst
-	 * orgPostMstByPostId;
-	 * 
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "created_by_post", nullable = false) private OrgPostMst
-	 * orgPostMstByCreatedByPost;
-	 * 
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "created_by", nullable = false) private OrgUserMst
-	 * orgUserMstByCreatedBy;
-	 * 
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "updated_by") private OrgUserMst orgUserMstByUpdatedBy;
-	 */
-
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "updated_by", referencedColumnName = "USER_ID", nullable = false )
+	private OrgUserMst orgUserMstByUpdatedBy;
+*/
 	@Column(name = "start_date", nullable = false)
 	private Timestamp startDate;
 
@@ -111,21 +86,8 @@ public class OrgUserpostRlt implements Serializable {
 	@Column(name = "updated_date")
 	private Timestamp updatedDate;
 
-	
-
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "userpost_type_lookup_id", nullable = false) private
-	 * CmnLookupMst cmnLookupUserPostType;
-	 * 
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "reason_lookup_id") private CmnLookupMst cmnLookupReason;
-	 * 
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "emp_id") private OrgEmpMst orgEmpMst;
-	 */
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private OrgPostMst orgPostMstByPostId;
 
 }
