@@ -16,13 +16,25 @@ import com.mahait.gov.in.common.StringHelperUtils;
 @Service
 @Transactional
 public class MstDesignationServiceImpl implements MstDesignationService{/*
+=======
+import com.mahait.gov.in.entity.MstPayCommissionEntity;
+import com.mahait.gov.in.repository.MstDesignationRepo;
+
+@Service
+@Transactional
+public class MstDesignationServiceImpl implements MstDesignationService{
+>>>>>>> d62234043a6ef75399080141dbb407484af22d68
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Autowired
 	private MstDesignationRepo  mstDesignationRepo;
 
+<<<<<<< HEAD
 	@Override
+=======
+	/*@Override
+>>>>>>> d62234043a6ef75399080141dbb407484af22d68
 	public int saveDesignationMst(MstDesignationModel mstDesignationModel,int userId) {
 		MstDesignationEntity mstDesignationEntity = new MstDesignationEntity();
 
@@ -45,7 +57,10 @@ public class MstDesignationServiceImpl implements MstDesignationService{/*
 		return saveId;
 	}
 
-	@Override
+	}*/
+
+/*	@Override
+>>>>>>> d62234043a6ef75399080141dbb407484af22d68
 	public String getCadreDesc(Integer fieldDepartmrntID, String language) {
 		CommonHelper helper = new CommonHelper();
 		List<Object[] > lstprop = mstDesignationRepo.getCadreDesc(fieldDepartmrntID);
@@ -54,12 +69,13 @@ public class MstDesignationServiceImpl implements MstDesignationService{/*
 		return JsonResponseHelper.getJSONResponseString(str);
 	}
 
+*/
 	@Override
 	public List<MstPayCommissionEntity> findAllPayCommission() {
 		return mstDesignationRepo.findAllPayCommission();
 	}
 
-	@Override
+	/*@Override
 	public List<MstDesignationModel> getDesignationMstData(String locale) {
 
 		List<Object[]> lstprop = mstDesignationRepo.getDesignationMstData();
@@ -142,5 +158,9 @@ public class MstDesignationServiceImpl implements MstDesignationService{/*
 	@Override
 	public List<MstCadreEntity> getCadre() {
 		return mstDesignationRepo.getCadre();
+<<<<<<< HEAD
 	}
 */}
+	}*/
+}
+>>>>>>> d62234043a6ef75399080141dbb407484af22d68
