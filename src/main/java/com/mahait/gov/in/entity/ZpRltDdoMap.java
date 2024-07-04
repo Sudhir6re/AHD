@@ -75,6 +75,8 @@ public class ZpRltDdoMap implements Serializable {
     @Column(name = "UPDATED_POST_ID", precision = 10, scale = 0)
     private Long updatedPostId;
     
+    @Column(name = "STATUS", precision = 150)
+    private Long status;
     
     
 }

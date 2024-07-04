@@ -2,8 +2,10 @@ package com.mahait.gov.in.repository;
 
 import java.util.List;
 
+import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.model.MstDesnModel;
 
 public interface CommonHomeMethodsRepo {
 
@@ -37,5 +39,9 @@ public interface CommonHomeMethodsRepo {
 
 	
 	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus);
+
+	public List<MstBankPay> findBankName();
+
+	public List<MstDesnModel> findDesignation(String userName);
 	
 }
