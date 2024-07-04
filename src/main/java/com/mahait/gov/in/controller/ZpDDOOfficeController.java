@@ -91,29 +91,23 @@ public class ZpDDOOfficeController {
 	
 	
 	@GetMapping("/updateApproveStatus/{zpDdoCode}/{flag}")
-	public String approveChangeStatement(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,@PathVariable String zpDdoCode,
+	public String updateApproveStatus(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,@PathVariable String zpDdoCode,
 			@PathVariable int flag,Model model,Locale locale,HttpSession session,HttpServletRequest request, Object paybillHeadMpgRepo) {
 		
+			OrgUserMst orgUserMst  =  zpDDOOfficeService.approveddoDtls(zpDdoCode,flag);
 		
-		OrgUserMst orgUserMst  =  zpDDOOfficeService.approveChangeStatement(zpDdoCode,flag);
-		
-		/*if(paybillGenerationTrnEntity!=null)
-		{
-			model.addAttribute("is_changed","1");
-			return "/views/paybill/paybill-view-approve-delete-bill";
-		}
-		else
-		{*/
+		if(orgUserMst!=null)
+			model.addAttribute("message","Approved Successfully");
 			return "/views/approveDDOOfficeView";
 		///}
 	} 
 	
-	@RequestMapping(value = "/updateRejectStatus", method = { RequestMethod.GET, RequestMethod.POST })
+/*	@RequestMapping(value = "/updateRejectStatus", method = { RequestMethod.GET, RequestMethod.POST })
 	public String updateRejectStatus(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
 			Model model, Locale locale, HttpSession session) {
 		return "/views/approveDDOOfficeView";
 		
-	}
+	}*/
 	
 	/*
 	@PostMapping("/addSchemesAndBillGroupsToDdo")

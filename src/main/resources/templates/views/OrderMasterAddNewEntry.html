@@ -27,12 +27,27 @@
 		<div class="newpagecontent container">
 			<form method="POST" action="javascript:validateForm()" name="frmOrderMaster" enctype="multipart/form-data">
     <fieldset class="tabstyle">
+    <form class="form-horizontal" method="POST" name="updateEmpType"
+				th:action="@{}" th:object="${newRegDDOModel}"
+				enctype="multipart/form-data">
         <legend> <b>Filter Institute</b> </legend>
         <table align="center">
             <tbody>
                 <tr>
                     <td>Taluka</td>
-                    <td><select name="cmbTaluka" id="cmbTaluka" style="width: 85%,display: inline;">
+                    <td>
+                    <select class="form-control" th:field="*{talukaName}"
+							id="talukaName">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option th:each="varTaluka : ${talukaLst}"
+								th:value="${varTaluka.talukaId}"
+								th:data="${varTaluka.talukaId}"
+								th:text="${language=='mh' ? varTaluka.talukaName : varTaluka.talukaName}"></option>
+						</select>
+                    
+                    
+                    <!-- <select name="cmbTaluka" id="cmbTaluka" style="width: 85%,display: inline;">
                             <option title="Select" value="-1">Select</option>
                             <option value="163" title="Mahoor">
                                 Mahoor</option>
@@ -54,10 +69,10 @@
                                 Umri</option>
                             <option value="180" title="Not Applicable">
                                 Not Applicable</option>
-                        </select></td>
+                        </select> --></td>
                     <td> DDO Code/Office Name</td>
                     <td>
-                        <input type="text" id="ddoCode" name="ddoCode" maxlength="200" size="30">
+                        <input type="text" id="ddoCode" name="ddoCode" maxlength="200" size="30" th:field="*{ddoCode}">
                     </td>
                 </tr>
                 <tr>
@@ -65,6 +80,7 @@
                 </tr>
             </tbody>
         </table>
+        </form>
     </fieldset>
     <div id="tabmenu">
         <ul id="maintab" class="shadetabs">
@@ -722,6 +738,7 @@
                                 </table>
                                 <br>
                             </div>
+                            
                         </fieldset>
                         <script type="text/javascript">
                         window.FILL_COMBO_BOX_TAB_WISE = false;

@@ -11,13 +11,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
+import com.mahait.gov.in.entity.CmnTalukaMst;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.MstGrOrderModel;
 import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
@@ -37,77 +43,82 @@ public class OrderMasterController {
 	List<NewRegDDOModel> emplist = new ArrayList<>();
 	
 	@GetMapping("/getOrderData")
-	public String getOrderData(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
+	public String getOrderData(@ModelAttribute("mstGrOrderModel") MstGrOrderModel mstGrOrderModel,
 			 Model model, Locale locale,
 			HttpSession session) {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-	/*	UserInfo messages = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
-		int levelRoleVal = messages.getRole_id();
-		List<TopicModel> menuList = new ArrayList<>();
-		List<TopicModel> subMenuList = new ArrayList<>();
+		/*List<Object[]>grSubTypeList = orderMasterService.getSubGRType(10001198149L);
 		
-		menuList = commonHomeMethodsService.findMenuNameByRoleID(levelRoleVal,locale.getLanguage());
-		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(levelRoleVal,locale.getLanguage());
+		List<Long> countOfDDOCode=orderMasterService.findUsertype(ddoCode);
+		String userType=null;
+   		if(!countOfDDOCode.equals(0))
+   		{
+   			userType="reportingDDO";
+   		}
+   		else 
+   		 {
+   			userType="finalDDO";
+   		}
+		model.addAttribute("lstDeptDataTable", orderMasterService.findAllDepartment());
+		model.addAttribute("lstAllDistrict", orderMasterService.findAllDistrict());
+		model.addAttribute("lstDesignation", orderMasterService.getDesignationMstData(locale.getLanguage()));
+		model.addAttribute("language", locale.getLanguage());
+		model.addAttribute("lstMstGrOrder", orderMasterService.lstMstGrOrder());
+		model.addAttribute("fetchGRDataList", orderMasterService.fetchGRDataList());
+		model.addAttribute("talukaLst", talukaLst);
 		
-		model.addAttribute("menuList", menuList);
-		model.addAttribute("subMenuList", subMenuList);
-		
-		String message=(String) model.asMap().get("message");*/
-		return null;
-		
-		
-		//model.addAttribute("", getDesignation())
-    	/*emplist = empWiseCityClassService.findAllEmployee(messages.getUserName());
-    	newRegDDOModel.setEmplist(emplist);
-	*/
-		
-    	/*model.addAttribute("lstDDO",newRegDDOService.findLvl1DDOCode(messages.getUserName()));	
-    	model.addAttribute("empLst",newRegDDOService.findEmpLst(messages.getUserName()));	*/
-    	/*model.addAttribute("lstDistrictLst",empWiseCityClassService.lstGetAllDistrict());		
-    	model.addAttribute("lstTaluka",empWiseCityClassService.lstGetAllTaluka());		
-    	///model.addAttribute("lstTalukaLst",empWiseCityClassService.findCityClasssLst());		
-				model.addAttribute("newRegDDOModel", newRegDDOModel);
-	///	model.addAttribute("message", message);
-		
-		
+		model.addAttribute("grSubTypeList", grSubTypeList);*/
+		String ddoCode = messages.getUserName();
+		String Type =ddoCode.substring(0,2);
+		Long TypeOfSchool=Long.valueOf(Type);
+		String typeOfOffice=null;
+		if(TypeOfSchool !=2)
+   		{
+   			typeOfOffice="otherThanZp";
+   		}
+   		else 
+   		 {
+   			typeOfOffice="ZP";
+   		}
+		String districtId=orderMasterService.getDistrictId(ddoCode);
+		List<CmnTalukaMst>talukaLst = orderMasterService.gettalukalst(districtId);
+		///model.addAttribute("lstMstGrOrder", mstGrOrderService.lstMstGrOrder());
+		model.addAttribute("talukaLst", talukaLst);
+	///	model.addAttribute("fetchGRDataList", mstGrOrderService.fetchGRDataList());
 		
 		return "/views/OrderMasterView";
 		
 		
 	}
-	
-	@RequestMapping(value = "/addNewEntry", method = { RequestMethod.GET, RequestMethod.POST })
-	public String addNewEntry(/*@ModelAttribute("mstEmployeeEntity") MstEmployeeEntity mstEmployeeEntity,
+	/*@RequestMapping(value = "/addNewEntry", method = { RequestMethod.GET, RequestMethod.POST })
+	public String addNewEntry(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
 			Model model, Locale locale, HttpSession session) {
 
 		String message = (String) model.asMap().get("message");
-
-		UserInfo messages = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		String ddoCode = messages.getUserName();
+		String districtId=orderMasterService.getDistrictId(ddoCode);
+		List<CmnTalukaMst>talukaLst = orderMasterService.gettalukalst(districtId);
+		model.addAttribute("talukaLst", talukaLst);
 		// model.addAttribute("brokenPeriodModel", brokenPeriodModel);
-		List<TopicModel> menuList = new ArrayList<>();
-		List<TopicModel> subMenuList = new ArrayList<>();
-		//List<ChangeBasicDtlsModel> lstChangeBasic = new ArrayList<>();
-
-		menuList = commonHomeMethodsService.findMenuNameByRoleID(messages.getRole_id(), locale.getLanguage());
-		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(messages.getRole_id(), locale.getLanguage());
-		//lstChangeBasic= empchangeBasicDtls.findEmpChangeBasicDtls(messages.getUserName());
-		model.addAttribute("menuList", menuList);
-		model.addAttribute("subMenuList", subMenuList);
-		//model.addAttribute("lstChangeBasic", lstChangeBasic);
-
-
-		if (message != null && message.equals("SUCCESS")) {
-			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
-				model = CommonUtils.initModel(CommonConstants.Message.SAVEDRAFT, STATUS.SUCCESS, model);
-			} else {
-				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
-			}
-		}
 		model.addAttribute("language", locale.getLanguage());
 		return "/views/OrderMasterAddNewEntry";
 			
 		}*/
+	@PostMapping("/AddOrderData")
+	public String AddOrderData(@ModelAttribute("mstGrOrderModel") MstGrOrderModel mstGrOrderModel,
+			RedirectAttributes redirectAttributes, Model model, Locale locale,HttpSession session,@RequestParam("documentPath") MultipartFile[] files) {
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
+		model.addAttribute("mstGrOrderModel", mstGrOrderModel);
+		int afterSaveId = orderMasterService.saveMstGrOrder(mstGrOrderModel,files,messages);
+		if (afterSaveId > 0) {
+			redirectAttributes.addFlashAttribute("message", "SUCCESS");
+		}
+		return "redirect:/master/mstGrOrder";
 	}
+	
 	}
 

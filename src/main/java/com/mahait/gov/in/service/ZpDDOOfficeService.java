@@ -17,7 +17,8 @@ public interface ZpDDOOfficeService {
 
 	String getOfficeName(String zpDdoCode);
 
-	OrgUserMst approveChangeStatement(String zpDdoCode, int flag);
+	OrgUserMst approveddoDtls(String zpDdoCode, int flag);
+
 
 	
 

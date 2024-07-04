@@ -63,7 +63,7 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 	}
 
 	@Override
-	public OrgUserMst approveChangeStatement(String zpDdoCode, int flag) {
+	public OrgUserMst approveddoDtls(String zpDdoCode, int flag) {
 		// TODO Auto-generated method stub
 	
 
@@ -73,12 +73,21 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 		ZpRltDdoMap zpRltDdoMap = zpDDOOfficeRepo
 				.findddoinZPRlt(zpDdoCode);
 		if (objOrgUserMst != null) {
-			objOrgUserMst.setActivateFlag(1L); 
+			
+			if(flag==1) {
+				objOrgUserMst.setActivateFlag(1L); 
+			}else {
+				objOrgUserMst.setActivateFlag(0L); 	
+			}
 
 			zpDDOOfficeRepo.updateApproveStatus(objOrgUserMst);
 			//Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
 		}if(zpRltDdoMap!=null) {
-			zpRltDdoMap.setStatus(1L);
+			if(flag==1) {
+				zpRltDdoMap.setStatus(1L);
+			}else{
+				zpRltDdoMap.setStatus(-1L);
+			}
 			zpDDOOfficeRepo.updateApproveStatusinZpRlt(zpRltDdoMap);
 		}
 		return objOrgUserMst;
@@ -86,6 +95,7 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 		
 	/*	return zpDDOOfficeRepo.approveChangeStatement(zpDdoCode,flag);*/
 	}
+
 
 	
 }
