@@ -80,13 +80,13 @@ public class ZpDDOOfficeController {
 		return "/views/approveRejectDDOOfficeView";
 	}
 	
-	@RequestMapping(value = "/updateApproveStatus", method = { RequestMethod.GET, RequestMethod.POST })
+/*	@RequestMapping(value = "/updateApproveStatus", method = { RequestMethod.GET, RequestMethod.POST })
 	public String updateApproveStatus(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
 			Model model, Locale locale, HttpSession session) {
 		return "/views/approveDDOOfficeView";
 		
 	}
-	
+	*/
 	
 	
 	
@@ -104,8 +104,7 @@ public class ZpDDOOfficeController {
 		}
 		else
 		{*/
-			model.addAttribute("is_changed","0");
-			return "/views/paybill/paybill-view-approve-delete-bill";
+			return "/views/approveDDOOfficeView";
 		///}
 	} 
 	

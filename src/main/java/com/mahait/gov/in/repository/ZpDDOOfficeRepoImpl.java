@@ -63,12 +63,6 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 	public OrgUserMst findddo(String zpDdoCode) {
 		try {
 			String HQL = "FROM OrgUserMst as  t  where t.userName = '0"+zpDdoCode+"_AST'";
-			// String HQL = "FROM MstEmployeeEntity as t where t.ddoCode =
-			// '"+ddoCode.trim()+"' and t.billGroupId = " + billGroupId+" and
-			// to_char(t.doj,'YYYY-MM')<='20"+year+"-"+month+"' and case when t.superAnnDate
-			// is not null then to_char(t.superAnnDate,'YYYY-MM')<='20"+year+"-"+month+"'
-			// else to_char(t.empServiceEndDate,'YYYY-MM')<='20"+year+"-"+month+"' end ORDER
-			// BY t.employeeFullNameEn";
 			return (OrgUserMst) entityManager.createQuery(HQL).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -84,7 +78,25 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 	@Override
 	public void updateApproveStatus(OrgUserMst objOrgUserMst) {
 		// TODO Auto-generated method stub
-		
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.update(objOrgUserMst);
+	}
+
+	@Override
+	public ZpRltDdoMap findddoinZPRlt(String zpDdoCode) {
+		try {
+			String HQL = "FROM ZpRltDdoMap as  t  where t.zpDdoCode = '"+zpDdoCode+"'";
+			return (ZpRltDdoMap) entityManager.createQuery(HQL).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void updateApproveStatusinZpRlt(ZpRltDdoMap zpRltDdoMap) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.update(zpRltDdoMap);
 	}
 
 }

@@ -13,6 +13,7 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpRltDdoMap;
 import com.mahait.gov.in.model.ApproveDDOHstModel;
 import com.mahait.gov.in.model.NewRegDDOModel;
+import com.mahait.gov.in.model.RltDcpsDdoScheme;
 import com.mahait.gov.in.repository.ZpDDOOfficeRepo;
 
 @Service
@@ -69,11 +70,16 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 
 		OrgUserMst objOrgUserMst = zpDDOOfficeRepo
 				.findddo(zpDdoCode);
+		ZpRltDdoMap zpRltDdoMap = zpDDOOfficeRepo
+				.findddoinZPRlt(zpDdoCode);
 		if (objOrgUserMst != null) {
 			objOrgUserMst.setActivateFlag(1L); 
 
 			zpDDOOfficeRepo.updateApproveStatus(objOrgUserMst);
 			//Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
+		}if(zpRltDdoMap!=null) {
+			zpRltDdoMap.setStatus(1L);
+			zpDDOOfficeRepo.updateApproveStatusinZpRlt(zpRltDdoMap);
 		}
 		return objOrgUserMst;
 	

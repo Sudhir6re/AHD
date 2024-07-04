@@ -19,6 +19,10 @@ public interface ZpDDOOfficeRepo {
 	OrgUserMst findddo(String zpDdoCode);
 
 	void updateApproveStatus(OrgUserMst objOrgUserMst);
+
+	ZpRltDdoMap findddoinZPRlt(String zpDdoCode);
+
+	void updateApproveStatusinZpRlt(ZpRltDdoMap zpRltDdoMap);
 	
 	
 	
