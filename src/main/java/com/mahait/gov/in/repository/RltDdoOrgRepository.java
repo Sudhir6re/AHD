@@ -3,12 +3,9 @@ package com.mahait.gov.in.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mahait.gov.in.entity.OrgPostMst;
-
+import com.mahait.gov.in.entity.RltDdoOrg;
 
 @Repository
-public interface OrgPostMstRepository  extends JpaRepository<OrgPostMst, Long>{
-
-	OrgPostMst findByPostId(Long long1);
+public interface RltDdoOrgRepository extends JpaRepository<RltDdoOrg,Long>{
 
 }

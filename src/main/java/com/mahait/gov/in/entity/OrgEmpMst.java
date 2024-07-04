@@ -45,6 +45,10 @@ public class OrgEmpMst implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grade_id", nullable = false)
     private OrgGradeMst orgGradeMst;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LANG_ID", nullable = false)
+    private CmnLanguageMst cmnLanguageMst;
 
 
     

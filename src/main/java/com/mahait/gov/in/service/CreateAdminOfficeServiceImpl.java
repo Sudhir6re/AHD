@@ -168,9 +168,9 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		objZpDDOOfficeMstDAOImpl.insertPostDtlsRlt(lStrLocCode, lLngPostId, lStrDesgnName, lLngDesignID, gLngUserId, gLngPostId, messages);
 
 		//lObjAddNewDdoConfig.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, objectArgs,"DDO");
-		objZpDDOOfficeMstDAOImpl.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, objectArgs,"DDO");
+		objZpDDOOfficeMstDAOImpl.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, messages,"DDO");
 
-		lObjAddNewDdoConfig.insertUserPostRlt(lLngPostId, lLngUserId, gLngUserId, gLngPostId, objectArgs);
+		objZpDDOOfficeMstDAOImpl.insertUserPostRlt(lLngPostId, lLngUserId, gLngUserId, gLngPostId, messages);
 
 		String lstrDdoType="";
 		List ofcCode=objZpDDOOfficeMstDAOImpl.retirveDdoType(strAdminOfc);
@@ -180,8 +180,8 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		
 		
 		String tmp1[] = ParentDtls.get(0).toString().split("##");
-		String lstrDept_Code=tmp[0].toString();
-		String lstrHOD_Code=tmp[1].toString();
+		String lstrDept_Code=tmp1[0].toString();
+		String lstrHOD_Code=tmp1[1].toString();
 		
 		
 		List DeptCode=objZpDDOOfficeMstDAOImpl.RetirveAdminDeptType(strDeptCode);
@@ -190,10 +190,10 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 			lstrDeptType=DeptCode.get(0).toString();
 
 		String lstrAdminDeptType=null;
-		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,objectArgs);
+		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,messages);
 
-		String uniqeInstituteId=generateUniqeInstituteId(lStrDdoCode,lLngDistrictCode.toString(), objectArgs);
-		objZpDDOOfficeMstDAOImpl.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, objectArgs,uniqeInstituteId);
+		String uniqeInstituteId=objZpDDOOfficeMstDAOImpl.generateUniqeInstituteId(lStrDdoCode,lLngDistrictCode.toString(), messages);
+		objZpDDOOfficeMstDAOImpl.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, messages,uniqeInstituteId);
 /*
 		lObjAddNewDdoConfig.insertRltDdoOrg(gLngUserId, gLngPostId, lStrDdoCode, lLngTreasuryCode.toString(), objectArgs);
 		lObjAddNewDdoConfig.insertWfOrgPost(lLngPostId.toString()); 

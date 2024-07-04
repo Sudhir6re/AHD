@@ -10,6 +10,9 @@ public interface CmnLocationMstRepository extends JpaRepository<CmnLocationMst, 
 	
 	 @Query("SELECT MAX(e.locId) FROM CmnLocationMst e")
 	 Long findMaxLocId();
+
+	CmnLocationMst findByLocId(long parseLong);
+
 	 
 	 
 	 

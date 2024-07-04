@@ -24,7 +24,5 @@ public interface CreateAdminOfficeRepo {
 	
 	public List<Object[]> retrieveDistrictOfficeList(OrgUserMst messages, Long ofcId);
 
-	void insertEmpMst(Long lLngUserId, String lStrDdoPersonalName, Long gLngUserId, Long gLngPostId, String lStrGender,
-			OrgUserMst messages);
 
 }

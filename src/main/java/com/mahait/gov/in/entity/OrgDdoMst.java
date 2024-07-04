@@ -1,22 +1,22 @@
 package com.mahait.gov.in.entity;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import lombok.Data;
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "ORG_DDO_MST")
-@Cacheable
 public class OrgDdoMst {
 
     @Id
     @Column(name = "DDO_ID", precision = 20, scale = 0)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ddoId;
 
     @Column(name = "DDO_CODE", length = 15)
@@ -86,6 +86,73 @@ public class OrgDdoMst {
     @Column(name = "TRN_COUNTER", precision = 11, scale = 0)
     private Integer trnCounter;
 
-    @Column(name = "ADMIN_FLAG", precision = 1, scale = 0)
+    @Column(name = "ADMIN_FLAG")
     private Boolean adminFlag;
+
+    @Column(name = "OFFICE_CODE", length = 20)
+    private String officeCode;
+
+    @Column(name = "LOCATION_CODE", length = 20)
+    private String locationCode;
+
+    @Column(name = "DEPT_LOC_CODE", length = 20)
+    private String deptLocCode;
+
+    @Column(name = "HOD_LOC_CODE", length = 20)
+    private String hodLocCode;
+
+    @Column(name = "IS_CO")
+    private Boolean isCo;
+
+    @Column(name = "IS_CS")
+    private Boolean isCs;
+
+    @Column(name = "TYPE", precision = 2, scale = 0)
+    private Short type;
+
+    @Column(name = "ddo_personal_name", length = 20)
+    private String ddoPersonalName;
+
+    @Column(name = "DSGN_CODE", length = 20)
+    private String designCode;
+
+    @Column(name = "DSGN_NAME", length = 20)
+    private String designName;
+
+    @Column(name = "DDO_OFFICE", length = 20)
+    private String ddoOffice;
+
+    @Column(name = "Remarks", length = 20)
+    private String remarks;
+
+    @Column(name = "tan_no", length = 20)
+    private String tanNo;
+
+    @Column(name = "itawardcircle", length = 20)
+    private String itaWardNo;
+
+    @Column(name = "bank_name", length = 20)
+    private String bankName;
+
+    @Column(name = "branch_name", length = 20)
+    private String branchName;
+
+    @Column(name = "account_no", length = 20)
+    private String accountNo;
+
+    @Column(name = "ifs_Code", length = 20)
+    private String ifsCode;
+
+    @Column(name = "DDO_TYPE", precision = 19, scale = 0)
+    private Long ddoType;
+
+    @Column(name = "ADMIN_DEPT_TYPE", precision = 20, scale = 0)
+    private Long adminDeptType;
+
+    @Column(name = "INSTITUTE_TYPE_ID", precision = 19, scale = 0)
+    private Long instituteType;
+
+    @Column(name = "STATUS_FLAG")
+    private Long statusFlag;
+
 }
