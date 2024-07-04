@@ -90,10 +90,6 @@ public class ZpAdminOfficeMst implements Serializable {
     @Column(name = "is_active")
     private Integer isActive;
     
-    
-    
-    
-    
 
 	
     

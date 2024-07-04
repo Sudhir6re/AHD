@@ -1,185 +1,130 @@
 package com.mahait.gov.in.repository;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.springframework.stereotype.Repository;
 
-import com.mahait.gov.in.entity.CmnLanguageMst;
-import com.mahait.gov.in.entity.OrgEmpMst;
-import com.mahait.gov.in.entity.OrgGradeMst;
-import com.mahait.gov.in.entity.OrgPostMst;
-import com.mahait.gov.in.entity.OrgUserMst;
+public class AddNewDDOConfigRepository {
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-@Repository
-public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
-
-	@PersistenceContext
-	EntityManager entityManager;
-	
-	   private static final Logger logger = LoggerFactory.getLogger(CreateAdminOfficeRepoImpl.class);
-
-	@Override
-	public List<Object[]> getAllDDOOfficeDtlsData(String districtName, String talukaNametName, String adminType) {
-		List list = null;
-
-		Session hibSession = entityManager.unwrap(Session.class);
-
-		StringBuffer strQuery = new StringBuffer();
-		strQuery.append(
-				"SELECT zp.ZP_DDO_CODE,zp.REPT_DDO_CODE,zp.FINAL_DDO_CODE,zp.SPECIAL_DDO_CODE,zp.ZPLEVEL,zp.STATUS FROM  RLT_ZP_DDO_MAP zp ");
-		strQuery.append(" inner join mst_dcps_ddo_office office on zp.zp_ddo_code=office.ddo_code ");
-		strQuery.append(" where zp.LANG_ID =1 and zp.status is not null ");
-		if ((districtName != null) && (districtName != "") && (Long.parseLong(districtName) != -1)) {
-			strQuery.append(" and office.district='" + districtName + "'");
-		}
-		if ((talukaNametName != null) && (talukaNametName != "") && (Long.parseLong(talukaNametName) != -1)) {
-			strQuery.append(" and office.taluka='" + talukaNametName + "'");
-		}
-
-		if ((adminType != null) && (adminType != "") && (Long.parseLong(adminType) != -1)) {
-			strQuery.append(" and zp.ZP_DDO_CODE like '" + adminType + "%'");
-		}
-		strQuery.append(" order by ZP_MAP_ID desc");
-
-		// logger.info("Details Query :"+strQuery.toString());
-		Query query = hibSession.createSQLQuery(strQuery.toString());
-		list = query.list();
-		return list;
-	}
-
-	@Override
-	public List<Object[]> findPostLocationByDdoCode(Long ddoCode) {
-		String sql = "WITH ddo_info AS (" + "    SELECT post_id, LOCATION_CODE " + "    FROM org_ddo_mst "
-				+ "    WHERE DDO_CODE = :ddoCode " + ") " + "SELECT opd.POST_SHORT_NAME, clm.loc_name "
-				+ "FROM ORG_POST_DETAILS_RLT opd " + "JOIN ddo_info di ON opd.post_ID = di.post_id "
-				+ "JOIN CMN_LOCATION_MST clm ON clm.LOC_ID = di.LOCATION_CODE";
-
-		Query query = (Query) entityManager.createNativeQuery(sql);
-		query.setParameter("ddoCode", ddoCode);
-
-		return query.getResultList();
-	}
-
-	public List getTreasuryName(Long TOCode) {
-		Session hibSession = entityManager.unwrap(Session.class);
-		List temp = null;
-		try {
-			String branchQuery = "select CM.loc_id,CM.loc_name from rlt_ddo_org RL join cmn_location_mst CM on cast(RL.location_code as bigint) = CM.loc_id  where RL.ddo_code = '"
-					+ String.valueOf(TOCode)+"'";
-			Query sqlQuery = hibSession.createSQLQuery(branchQuery);
-			temp = sqlQuery.list();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return temp;
-	}
-	
-	
-	
-	public List getAdminOfcCode(String AdminOfcID)
+	public String insertLocation(String lStrLocationName, Long lLngUserIdCrtd, Long lLngPostIdCrtd, Long lLngFieldDeptId, String lStrLocPin,  Map inputMap,String strDistCode) throws Exception
 	{
-		Session hibSession = entityManager.unwrap(Session.class);
-		List temp=null;
-		try
-		{		
-			String branchQuery = "select aa.OFFICE_CODE from ZP_ADMIN_OFFICE_MST aa where OFC_ID='"+AdminOfcID+"'";
-			Query sqlQuery= hibSession.createSQLQuery(branchQuery);
-			temp= sqlQuery.list();
-
+		logger.info("insertLocation 1");
+		Long lLngLocId = null;
+		
+		try{
+			CmnLocationMstDaoImpl lObjCmnLocationMstDao = new CmnLocationMstDaoImpl(CmnLocationMst.class,this.getSessionFactory());
+			CmnLocationMst lObjCmnLocationMst = new CmnLocationMst();
+			
+			CmnLanguageMstDao lObjCmnLanguageDao = new CmnLanguageMstDaoImpl(CmnLanguageMst.class,this.getSessionFactory());
+			CmnLanguageMst lObjCmnLanguageMst = lObjCmnLanguageDao.read(1l);
+			
+			CmnLookupMstDAO lObjCmnLookUpMstDao = new CmnLookupMstDAOImpl(CmnLookupMst.class,this.getSessionFactory());
+			CmnLookupMst lObjCmnLookupMst = lObjCmnLookUpMstDao.read(1l);
+			logger.info("insertLocation 2");
+			//commented by vaibhav tyagi
+			//lLngLocId = IFMSCommonServiceImpl.getNextSeqNum("cmn_location_mst", inputMap);
+			
+			//added by vaibhav tyagi: start
+			lLngLocId = getNextSeqNoLoc();
+			
+			
+			logger.info("Long.parseLong(gObjRsrcBndle.getString(LOC.MAHARASHTRA))****"+Long.parseLong(gObjRsrcBndle.getString("LOC.MAHARASHTRA")));
+			lObjCmnLocationMst.setLocId(lLngLocId);
+			logger.info("lLngLocId****"+lLngLocId);
+			
+			lObjCmnLocationMst.setLocName(lStrLocationName);
+			logger.info("lStrLocationName****"+lStrLocationName);
+			
+			if(lStrLocationName.length() >= 15){
+				lObjCmnLocationMst.setLocShortName(lStrLocationName.substring(0,15));
+			}/*else if(lStrLocationName!=null&&lStrLocationName!=""){
+				lObjCmnLocationMst.setLocShortName(lStrLocationName);
+			}*/
+			else{
+				lObjCmnLocationMst.setLocShortName(".");
+			}
+			lObjCmnLocationMst.setCmnLanguageMst(lObjCmnLanguageMst);
+			lObjCmnLocationMst.setDepartmentId(100007l);
+			lObjCmnLocationMst.setParentLocId(lLngFieldDeptId);
+			lObjCmnLocationMst.setLocPin("1");
+			lObjCmnLocationMst.setCmnLookupMst(lObjCmnLookupMst);
+			lObjCmnLocationMst.setStartDate(DBUtility.getCurrentDateFromDB());
+			lObjCmnLocationMst.setActivateFlag(1l);
+			lObjCmnLocationMst.setCreatedBy(lLngUserIdCrtd);
+			lObjCmnLocationMst.setCreatedByPost(lLngPostIdCrtd);
+			lObjCmnLocationMst.setCreatedDate(DBUtility.getCurrentDateFromDB());
+			lObjCmnLocationMst.setLocationCode(lLngLocId.toString());
+			//code added by vivek on 04/03/2013
+			Long distCode=(strDistCode!=null && Long.parseLong(strDistCode)>0)?Long.parseLong(strDistCode):-1;
+			lObjCmnLocationMst.setLocDistrictId(distCode);
+			logger.info("distCode****"+distCode);
+			//lObjCmnLocationMst.setLocStateId(Long.parseLong(gObjRsrcBndle.getString("LOC.MAHARASHTRA")));
+			lObjCmnLocationMst.setLocStateId(15L);
+			//code ends
+			ghibSession.save(lObjCmnLocationMst);
+			ghibSession.flush();
+			
+		}catch(Exception e){
+			  logger.error(" Error is : " + e, e);
+			  throw e;
 		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		return temp;
+		return lLngLocId.toString();
 	}
 	
-	public List getCountofDDOCode(String CountCode)
+	public Long insertUserMst(String lStrDdoCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd, Map inputMap) throws Exception
 	{
-		Session hibSession = entityManager.unwrap(Session.class);
-		List temp=null;
-		try
-		{		
-			String branchQuery = "select count(qq.DDO_CODE) from ORG_DDO_MST qq where DDO_CODE like '"+ CountCode +"%'";
-			Query sqlQuery= hibSession.createSQLQuery(branchQuery);
-			temp= sqlQuery.list();
+		String ddoc= lStrDdoCode;
+		Long lLngUserId = null;
+		try{
+			logger.info("inside isert userr mst is***********"+lStrDdoCode);
+			CmnLookupMstDAO lObjCmnLookUpMstDao = new CmnLookupMstDAOImpl(CmnLookupMst.class,this.getSessionFactory());
+			CmnLookupMst lObjCmnLookupMst = lObjCmnLookUpMstDao.read(1l);
+			
+			OrgUserMstDao lObjOrgUserMstDao = new OrgUserMstDaoImpl(OrgUserMst.class,this.getSessionFactory());
+			OrgUserMst lObjOrgUserMstCrtdUsr = lObjOrgUserMstDao.read(lLngUserIdCrtd);
+			logger.info("inside isert userr mst is*******post is is ****"+lLngPostIdCrtd);
+			logger.info("inside isert userr mst is*******lLngUserIdCrtd is is ****"+lLngUserIdCrtd);
+			OrgPostMstDaoImpl orgPostId = new OrgPostMstDaoImpl(OrgPostMst.class,this.getSessionFactory());
+			OrgPostMst postId = orgPostId.read(lLngPostIdCrtd);
+			
+			OrgUserMst lObjUserMst = new OrgUserMst();
+			lLngUserId = getNextSeqNoLocForUserMst();
+			
+			logger.info("lLngUserId is***********"+lLngUserId);
+			lObjUserMst.setUserId(lLngUserId);
+			
+			lObjUserMst.setUserName(ddoc);
+			logger.info("ddoc is***********"+ddoc);
+			
+			lObjUserMst.setPassword("0b76f0f411f6944f9d192da0fcbfb292");
+			
+			lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
+			logger.info("lObjCmnLookupMst is***********"+lObjCmnLookupMst);
+			
+			lObjUserMst.setStartDate(DBUtility.getCurrentDateFromDB());
+			lObjUserMst.setActivateFlag(0l);
+			lObjUserMst.setCreatedDate(DBUtility.getCurrentDateFromDB());
+			
+			lObjUserMst.setOrgUserMstByCreatedBy(lObjOrgUserMstCrtdUsr);
+			logger.info("lObjOrgUserMstCrtdUsr is***********"+lObjOrgUserMstCrtdUsr);
+			
+			lObjUserMst.setOrgPostMstByCreatedByPost(postId);
+			logger.info("postId is***********"+postId);
+			
+			lObjUserMst.setSecretQueCode("Secret_Other");
+			lObjUserMst.setSecretQueOther("Secret_Other");// TODO -- Needs to Change
+			lObjUserMst.setSecretAnswer("ifms");
+			ghibSession.save(lObjUserMst);
+			ghibSession.flush();
+		}catch(Exception e){
+			  logger.error(" Error is : " + e, e);
+			  throw e;
 		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		return temp;
-	}
-
-	@Override
-	public List getSubTreasury(Long valueOf) {
-		List temp=null;
-		Session hibSession = entityManager.unwrap(Session.class);
-		try
-		{		
-			String branchQuery = "SELECT loc_id,loc_name from CMN_LOCATION_MST where DEPARTMENT_ID= 100006 and PARENT_LOC_ID="+valueOf;
-			Query sqlQuery= hibSession.createSQLQuery(branchQuery);
-			temp= sqlQuery.list();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		return temp;
-	}
-	
-	
-	@Override
-	public int getUniqeInstituteIdCount(String strDdoCode) 
-	{
-		Session hibSession = entityManager.unwrap(Session.class);
-		int uniqeInstituteIdCount=0;
-		StringBuilder sb = new StringBuilder();
-		sb.append(" select count(1) from MST_DCPS_DDO_OFFICE where UNIQUE_INSTITUTE_NO is not null ");
-		Query selectQuery = hibSession.createSQLQuery(sb.toString());
-		uniqeInstituteIdCount = Integer.parseInt(selectQuery.uniqueResult().toString());
-		return uniqeInstituteIdCount;
-	}
-
-
-
-	@Override
-	public List<Object[]> retriveDisctOfcList(OrgUserMst messages, String ofcId) {
-		if(ofcId==null || ofcId.equals("") ) {
-			String nativeQuery = "select DIST_MST_OFC_NAME, DIST_CODE from ZP_ADMIN_OFFICE_DISTRICT_MPG";
-	        Query query = (Query) entityManager.createNativeQuery(nativeQuery);
-	      //  query.setParameter("ofcId",ofcId);
-	        List<Object[]> resultList = query.getResultList();
-	        return resultList;
-		}else {
-			String nativeQuery = "select DIST_MST_OFC_NAME, DIST_CODE from ZP_ADMIN_OFFICE_DISTRICT_MPG where admin_OFFICE_CODE = :ofcId";
-	        Query query = (Query) entityManager.createNativeQuery(nativeQuery);
-	        query.setParameter("ofcId",ofcId);
-	        List<Object[]> resultList = query.getResultList();
-	        return resultList;
-		}
-    }
-
-	@Override
-	public List<Object[]> retrieveDistrictOfficeList(OrgUserMst messages, Long ofcId) {
-		  String nativeQuery = "select DIST_MST_OFC_NAME, DIST_CODE from ZP_ADMIN_OFFICE_DISTRICT_MPG where admin_OFFICE_CODE = :ofcId";
-	        Query query = (Query) entityManager.createNativeQuery(nativeQuery);
-	        query.setParameter("ofcId", ofcId);
-	        List<Object[]> resultList = query.getResultList();
-	        return resultList;
+		
+		return lLngUserId;
 	}
 	
-	public void insertEmpMst(Long lLngUserId, String lStrFname, Long lLngUserIdCrtd, Long lLngPostIdCrtd, String lStrGendr,OrgUserMst OrgUsermst) throws Exception
+	public void insertEmpMst(Long lLngUserId, String lStrFname, Long lLngUserIdCrtd, Long lLngPostIdCrtd, String lStrGendr, Map inputMap) throws Exception
 	{
 		Long lLngEmpId = null;
 		try{
@@ -206,17 +151,22 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 			logger.info("lLngEmpId is***********"+lLngEmpId);
 			
 			lObjEmpMst.setEmpFname(lStrFname);
+			logger.info("lStrFname is***********"+lStrFname);
 			
 			lObjEmpMst.setEmpLname(" ");
 			lObjEmpMst.setEmpMname(" ");
 			
 			lObjEmpMst.setEmpDob(lObjEmpDob);
+			logger.info("lObjEmpDob is***********"+lObjEmpDob);
 			
 			lObjEmpMst.setEmpDoj(lObjEmpDob);
+			logger.info("lObjEmpDob is***********"+lObjEmpDob);
 			lObjEmpMst.setEmpSrvcFlag(1l);
 			lObjEmpMst.setOrgGradeMst(lObjOrgGradeMst);
+			logger.info("lObjOrgGradeMst is***********"+lObjOrgGradeMst);
 			
 			lObjEmpMst.setCmnLanguageMst(lObjCmnLanguageMst);	
+			logger.info("lObjCmnLanguageMst is***********"+lObjCmnLanguageMst);
 			
 			lObjEmpMst.setOrgUserMst(lObjOrgUserMst);
 			logger.info("lObjOrgUserMst is***********"+lObjOrgUserMst);
@@ -226,6 +176,7 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 			lObjEmpMst.setOrgUserMstByCreatedBy(lObjOrgUserMstCrtd);
 			logger.info("lObjOrgUserMstCrtd is***********"+lObjOrgUserMstCrtd);
 			lObjEmpMst.setOrgPostMstByCreatedByPost(postId);
+			lObjEmpMst.setCreatedDate(DBUtility.getCurrentDateFromDB());
 			if(lStrGendr.equals("M")){
 				lObjEmpMst.setEmpPrefix("Mr");
 			}else if(lStrGendr.equals("F")){
@@ -271,7 +222,6 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 			  throw e;
 		}		
 	}
-
 	
 	public void insertPostDtlsRlt(String lstrLocCode, Long lLngPostId, String lStrDesignName, Long lLngDsgnId, Long lLngUserIdCrtd, Long lLngPostIdCrtd, Map inputMap)throws Exception
 	{
@@ -462,7 +412,6 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 		Long lLngDdoOrgId = null;
 		try{
 			RltDdoOrg lObjRltDdoOrg = new RltDdoOrg();
-			//lLngDdoOrgId = IFMSCommonServiceImpl.getNextSeqNum("rlt_ddo_org", inputMap);
 			lLngDdoOrgId = getNextSeqNoLocForRltDdoOrg();
 			lObjRltDdoOrg.setDdoOrgId(lLngDdoOrgId);
 			lObjRltDdoOrg.setActivateFlag(1l);
@@ -479,52 +428,25 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 			  throw e;
 		}
 	}
-	
-	public void insertWfOrgPost(String Pid)
-	{
-		Session hibSession = getSession();
-		Integer lIntProjId = 101;
-		try{
-			CmnProjectMstDao lObjCmnProjectMstDao = new CmnProjectMstDaoImpl(CmnProjectMst.class,this.getSessionFactory());
-			CmnProjectMst lObjCmnProjectMst = lObjCmnProjectMstDao.read(lIntProjId);
-			
-			CmnDatabaseMstDaoImpl dbDAO = new CmnDatabaseMstDaoImpl(CmnDatabaseMst.class,this.getSessionFactory());
-			CmnDatabaseMst  dbId = dbDAO.read(Long.parseLong("99"));
-			
-			WfOrgPostMpgMst lObjWfOrgPostMpgMst = new WfOrgPostMpgMst();
-			
-			lObjWfOrgPostMpgMst.setPostId(Pid);
-			lObjWfOrgPostMpgMst.setCmnProjectMst(lObjCmnProjectMst);
-			lObjWfOrgPostMpgMst.setCmnDatabaseMst(dbId);
-			hibSession.save(lObjWfOrgPostMpgMst);
-			hibSession.flush();
-		}catch(Exception e){
-			logger.error(" Error is : " + e, e);
+
+	public List RetirveParentdtlfrmReptCode(String strRepoDDOCode) {
+		List temp=null;
+		try
+		{		
+			String branchQuery = "SELECT DEPT_LOC_CODE||'##'||HOD_LOC_CODE FROM ORG_DDO_MST where DDO_CODE like '%"+strRepoDDOCode+"%'";
+			Query sqlQuery= hibSession.createSQLQuery(branchQuery);
+			temp= sqlQuery.list();
+
+
+			logger.error("List Size"+temp.size());
+
 		}
-	}
-	
-	public void insertWfOrgLoc(String LocCode)
-	{
-		Session hibSession = getSession();
-		Integer lIntProjId = 101;
-		try{
-			CmnProjectMstDao lObjCmnProjectMstDao = new CmnProjectMstDaoImpl(CmnProjectMst.class,this.getSessionFactory());
-			CmnProjectMst lObjCmnProjectMst = lObjCmnProjectMstDao.read(lIntProjId);
-			
-			CmnDatabaseMstDaoImpl dbDAO = new CmnDatabaseMstDaoImpl(CmnDatabaseMst.class,this.getSessionFactory());
-			CmnDatabaseMst dbId = dbDAO.read(Long.parseLong("99"));
-			
-			WfOrgLocMpgMst lObjWfOrgLocMpgMst = new WfOrgLocMpgMst();
-			
-			lObjWfOrgLocMpgMst.setLocId(LocCode);
-			lObjWfOrgLocMpgMst.setCmnProjectMst(lObjCmnProjectMst);			
-			hibSession.save(lObjWfOrgLocMpgMst);
-			hibSession.flush();
-		}catch(Exception e){
-			logger.error(" Error is : " + e, e);
+		catch(Exception e){
+			logger.error("Error in ZpAdminOfficeMstDAOImpl \n " + e);
+			e.printStackTrace();
 		}
+		return temp;
 	}
-	
 	
 	
 }

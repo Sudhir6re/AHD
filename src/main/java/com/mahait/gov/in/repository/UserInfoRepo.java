@@ -14,6 +14,7 @@ public interface UserInfoRepo {
 	
 	public abstract String getNameAndDesignation(int user_id);
 	public abstract OrgUserMst getUserByUserId(int updatedUserId);
+	public abstract OrgUserMst createDdoAst(OrgUserMst orgUserMst);
 	
 	
 }
