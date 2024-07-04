@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:utext="#{msg.thymeleaf.pagelabel.orderMst}"></title>
+</head>
+<body class="organization-institution-details">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+
+
+	<div class="container min-height-600 ">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pagelabel.orderMst}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pagelabel.orderMst}"></span>
+		</h3>
+		<div class="newpagecontent container">
+			
+<form method="POST" action="./hrms.htm?viewName=orderMaster" name="orderMstView" id="orderMstView">
+    <div id="tabmenu">
+        <ul id="maintab" class="shadetabs">
+            <li class="selected"><a href="#" rel="tcontent1" class="selected"><b>Order</b></a></li>
+        </ul>
+    </div>
+    <div id="tcontent1" style="background-color: rgb(232, 227, 227); border-style: inset; border-color: rgb(178, 71, 0); border-width: thin; display: block;">
+        <div align="center">
+            <table align="center">
+                <tbody>
+                    <tr>
+                        <td>DDO Code</td>
+                        <td><select name="cmbAsstDDO" id="cmbAsstDDO" style="width: 85%,display: inline;">
+                                <option title="Select" value="-1" selected="selected">Select</option>
+                                <option title="Rajarshi Shahu College, Latur(06340100003)" value="06340100003">Rajarshi Shahu College, Latur(06340100003)</option>
+                                <option title="Mahatma Basweshwar College, Latur(06340100004)" value="06340100004">Mahatma Basweshwar College, Latur(06340100004)</option>
+                                
+                            </select> </td>
+                        <td><input id="btnFilter" class="buttontag" type="button" align="center" size="5" maxlength="5" value="Filter" onclick="filterByDDOCode();" name="btnFilter" style="width: 120px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        &nbsp; <a th:href="@{'/ddo/addNewEntry'}">
+            Add new Entry </a><br> <span class="pagebanner">119 Records found, displaying 1 to 20 Records.</span><span class="pagelinks">[First/Prev] <strong>1</strong>, <a href="?elementId=9000189&amp;actionFlag=getOrderData&amp;d-16544-p=2" title="Go to page 2">2</a>, <a href="?elementId=9000189&amp;actionFlag=getOrderData&amp;d-16544-p=3" title="Go to page 3">3</a>, <a href="?elementId=9000189&amp;actionFlag=getOrderData&amp;d-16544-p=4" title="Go to page 4">4</a>, <a href="?elementId=9000189&amp;actionFlag=getOrderData&amp;d-16544-p=5" title="Go to page 5">5</a>, <a href="?elementId=9000189&amp;actionFlag=getOrderData&amp;d-16544-p=6" title="Go to page 6">6</a> [<a href="?elementId=9000189&amp;actionFlag=getOrderData&amp;d-16544-p=2">Next</a>/<a href="?elementId=9000189&amp;actionFlag=getOrderData&amp;d-16544-p=6">Last</a>]</span>
+        <table class="datatable" style="width:100%" id="row">
+            <thead>
+                <tr>
+                    <th class="datatableheader">Sanction Order No </th>
+                    <th class="datatableheader">Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="odd">
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">
+                        NGC/3990/2633/VISHI-2
+                    </td>
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">29/05/1990</td>
+                </tr>
+                <tr class="even">
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">
+                        4065
+                    </td>
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">22/08/2023</td>
+                </tr>
+                <tr class="odd">
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">
+                        ?????????????????? 2022 ????????? ????????? 569 ????????? 5
+                    </td>
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">29/12/2022</td>
+                </tr>
+                <tr class="even">
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">
+                        AFFL-10-1970-71
+                    </td>
+                    <td class="tablecelltext" style="text-align: center;font-size:12px;">12/11/1971</td>
+                </tr>
+               
+            </tbody>
+        </table> <br>
+       <!--  &nbsp; <a href="./hrms.htm?actionFlag=getOrderData&amp;edit=N&amp;elementId=9000189"> -->
+        &nbsp; <a th:href="@{'/ddo/addNewEntry'}">
+            Add new Entry </a> <br>
+        <br>
+        <script type="text/javascript">
+        //Start Tab Content script for UL with id="maintab" Separate multiple ids each with a comma.
+        initializetabcontent("maintab")
+        </script>
+    </div>
+    <script language="JavaScript">
+    setForm('orderMstView');
+    </script>
+</form>
+		</div>
+		
+	</div>
+
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+</body>
+</html>

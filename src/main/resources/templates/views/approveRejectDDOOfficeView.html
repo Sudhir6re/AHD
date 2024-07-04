@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:utext="#{msg.thymeleaf.pagelabel.sysappr}"></title>
+</head>
+
+<body class="organization-institution-details">
+    <div th:replace="header/menuHeader :: var-script-header"></div>
+    <div th:replace="header/menuHeader :: varmenuheader"></div>
+    <div class="container min-height-600 ">
+        <div class="breadcrumbMain">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+                    <li class="breadcrumb-item"><a href="#"><span th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><span th:utext="#{msg.thymeleaf.pagelabel.sysappr}"></span></li>
+                </ol>
+            </nav>
+        </div>
+        <h3 Class="PageHeading">
+            <span th:utext="#{msg.thymeleaf.pagelabel.sysappr}"></span>
+        </h3>
+        <div class="newpagecontent container">
+
+<form name="frmApproveReject" method="post">
+    <input type="hidden" id="selDdocode" value="20340100001">
+    <input type="hidden" id="hierarchy" value="2">
+    <table class="datatable" style="display:none" id="row">
+        <thead>
+            <tr>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="odd">
+                <td>[Ljava.lang.Object;@1b5f03c6</td>
+            </tr>
+        </tbody>
+    </table>
+    <br><br><br>
+    <center>
+        <div align="center" style="float: none; width: 50%">
+            <fieldset class="tabstyle">
+            
+            <input type="hidden" value="text" id="zpDdoCode" th:value="${zpDdoCode}"/>
+            
+            <form class="form-horizontal" method="POST" name="updateEmpType"
+				th:action="@{/level1/saveCRTEmp}" th:object="${newRegDDOModel}"
+				enctype="multipart/form-data">
+                <legend>Configuration Detail</legend>
+                <table width="100%" border="1">
+                    <tbody>
+                        <tr>
+                        <td width="25%" th:text="#{msg.thymeleaf.pagelabel.ddoCode}"></td>
+                        
+                            <td width="25%" th:text="${newRegDDOModel.lvl1ddoCode}">20340100001</td>
+                        </tr>
+                        <tr>
+                        <td width="25%" th:text="#{msg.thymeleaf.pagelabel.officename}"></td>
+                            <td width="25%" th:text="${officeName}">MIT PUNE</td>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr>
+                        <td width="25%" th:text="#{msg.thymeleaf.pagelabel.ddoname}"></td>
+                        
+                            <td width="25%" th:text="${newRegDDOModel.lvl1ddoName}">Shri.Sidharth Chaudhari</td>
+                        </tr>
+                        <tr style="display: none;">
+                            <td width="25%">Head Master Mobile Number</td>
+                            <td width="25%">[null]</td>
+                        </tr>
+                        <tr>
+                        <td width="25%" th:text="#{msg.thymeleaf.pagelabel.level2ddocode}"></td>
+                            <td width="25%" th:text="${newRegDDOModel.lvl2ddoCode}">3401002205</td>
+                        </tr>
+                        <tr>
+                        <td width="25%" th:text="#{msg.thymeleaf.pagelabel.lvl2ddoname}"></td>
+                            <td width="25%" th:text="${newRegDDOModel.lvl2ddoName}">Shri. Mohan N. Khatal</td>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr style="Display:none" id="reasonForRejectionRow">
+                            <td width="25%">Reason for rejection</td>
+                            <td width="75%"><input type="text" id="reasonForRejection" name="reasonForRejection" size="60" value=""> </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </form>
+            </fieldset>
+        </div>
+        <br><br>
+        <div align="center" style="float: none; width: 50%">
+            <table width="50%" class="bor-0 table">
+                <tbody>
+                    <tr>
+                        <td align="right"><input type="button" name="Approve"  id="btnApprove" value="Approve" size="3" maxlength="3" class="buttontag"></td>
+                        <td align="center"><input type="button" name="Reject"  id="btnReject" value="Reject" size="3" maxlength="3" class="buttontag"></td>
+                        <td align="left"><input type="button" name="btnClose" id="btnClose" value="Back" size="3" maxlength="3" class="buttontag"></td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </center>
+</form>
+
+        </div>
+    </div>
+    <div th:replace="header/menuHeader :: varmenufooter"></div>
+    <script th:src="@{/js/project/approveReject.js}"></script>
+</body>
+
+</html>
