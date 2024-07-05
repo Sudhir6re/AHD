@@ -9,8 +9,10 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.model.MstDesnModel;
 
 @SuppressWarnings("unchecked")
 @Repository
@@ -142,6 +144,20 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
 		String HQL = "FROM MstCommonEntity as t  WHERE t.commonCode='" + commoncodeStatus + "' and t.isActive='1' ORDER BY t.commonId ";
 		return (List<MstCommonEntity>) manager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<MstBankPay> findBankName() {
+		String HQL = "FROM MstBankPay as t";
+		return (List<MstBankPay>) manager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<MstDesnModel> findDesignation(String userName) {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "select * from ORG_DESIGNATION_MST";
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<MstDesnModel>) query.list();
 	}
 
 

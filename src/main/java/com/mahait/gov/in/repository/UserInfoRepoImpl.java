@@ -112,11 +112,17 @@ public class UserInfoRepoImpl implements UserInfoRepo {
 	
 
 	@Override
-	public OrgUserMst getUserByUserId(int updatedUserId) {
+	public OrgUserMst getUserByUserId(Long updatedUserId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		return currentSession.find(OrgUserMst.class, updatedUserId);
 	}
- 
+
+	@Override
+	public OrgUserMst createDdoAst(OrgUserMst orgUserMst) {
+		Session currentSession = entityManager.unwrap(Session.class);
+	    return 	(OrgUserMst) currentSession.save(orgUserMst);
+	}
+
 	
 	
 

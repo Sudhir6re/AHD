@@ -46,6 +46,9 @@ public class AdminLoginController {
 				userDetailsServiceImpl.getUserIdbyUserName(request.getRemoteUser()));
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		
+		
 		modelAndView.addObject("sessionMessages", messages.getUserId());
 		modelAndView.addObject("userName", messages.getUserName());
 		Integer levelRoleVal = messages.getMstRoleEntity().getRoleId();

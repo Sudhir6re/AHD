@@ -2,7 +2,7 @@
 	border: none !important;
 }
 
-input[type='text'],input[type='number'],input[type='email'],input[type='password'],
+input[type='text'],input[type='number'],input[type='email'],input[type='password'],input[type='date'],
  select, textarea {
 	margin: 0;
 	font: inherit;
@@ -49,4 +49,16 @@ display: inline-block;
 }
 .width-50{
 	    width: 50% !important;
+}
+.tbBold{
+	font-weight:bold;
+}
+.mandatoryindicator {
+    color: red;
+    font-weight: 900;
+}
+.container-fluid {
+    width: 95%;
+    padding: 10px 10px;
+    background: #fff;
 }

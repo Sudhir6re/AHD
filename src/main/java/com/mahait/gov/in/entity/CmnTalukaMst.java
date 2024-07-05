@@ -1,5 +1,4 @@
 package com.mahait.gov.in.entity;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -14,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,25 +50,28 @@ public class CmnTalukaMst {
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
-
     
+    
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
     @Fetch(FetchMode.SELECT)
     private OrgPostMst createdByPost;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
     @Fetch(FetchMode.SELECT)
     private OrgPostMst updatedByPost;
 
     
-    
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
     @Fetch(FetchMode.SELECT)
     private OrgUserMst createdBy;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
     @Fetch(FetchMode.SELECT)

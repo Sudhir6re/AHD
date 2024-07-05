@@ -48,7 +48,7 @@ public class UserDetailsServiceImpl implements CustomUserDetailsService /* imple
 		return userInfo;
 	}
 
-	public OrgUserMst getUserByUserId(int updatedUserId) {
+	public OrgUserMst getUserByUserId(Long updatedUserId) {
 		OrgUserMst orgEmpMst = userInfoDAO.getUserByUserId(updatedUserId);
 		return orgEmpMst;
 	}

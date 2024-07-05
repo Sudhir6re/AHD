@@ -241,20 +241,20 @@ $(document).ready(function(){
     $("form").attr("autocomplete", "off");	
     
     /* Adding Search in Select Tag*/
-    $('#schemName').select2();
+   /* $('#schemName').select2();
 	$('#departmentId').select2('destroy');
 	$('#bankId').select2();
 	$('#branches').select2();
 	$('#bankCode').select2();
 	$('#department_id').select2('destroy');
 	$('#subdepartment_id').select2();
-	/*$('#departmentCode').select2();*/
-	$('.ipdepartmentCode').select2('destroy'); /*for mst-department*/
+	$('#departmentCode').select2();
+	$('.ipdepartmentCode').select2('destroy'); for mst-department
 	$('#subdepartmentCode').select2();
 	$('#districtId').select2('destroy');
 	$('#talukaId').select2();
 //	$('#designationCode').select2();
-	$('.ipdesignationCode').select2('destroy'); /*for mst-designation*/
+	$('.ipdesignationCode').select2('destroy'); for mst-designation
 	$('#level1').select2();
 	$('#level2').select2();
 	
@@ -274,13 +274,13 @@ $(document).ready(function(){
 	//$('#schemeCode').select2();
 //	$('#designation').select2();
 	$('#ddoBulk').select2();
-	$('.designationnamecl').select2('destroy'); /*for mst-designation*/
+	$('.designationnamecl').select2('destroy'); for mst-designation
 	
 	$('select#sevaarthId').select2();
 	//$('#ddoCode').select2();
 	$('select#sevaarthId').select2();
-	/*$('#ddo_code').select2();*/
-	$('select#billNumber').select2();
+	$('#ddo_code').select2();
+	$('select#billNumber').select2();*/
 	
 	/*var loader = document.getElementById("loaderImg").src ;
 	    alert(loader);

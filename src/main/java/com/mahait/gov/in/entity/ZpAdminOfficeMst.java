@@ -91,10 +91,4 @@ public class ZpAdminOfficeMst implements Serializable {
     private Integer isActive;
     
     
-    
-    
-    
-
-	
-    
 }
