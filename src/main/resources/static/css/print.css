@@ -117,4 +117,7 @@ span.eq {
 .justify {
 	text-align: justify;
 }
+.scrollablediv {
+    height: 100% !important;
+}
 }

@@ -21,7 +21,7 @@ body {
 	.footer-main, .top-content-style, ul.dropdown-menu li.Menu-item-li,
 	.navbar-default, button.tablinks:hover, .activetab, .submit, .btn,
 	.buttontag, loginBtn, li.Menu-item-li.first-li, .dropdown-menu>li>a:hover,
-	li.Menu-item-li:hover {
+	li.Menu-item-li:hover,.bigbutton {
 	background: linear-gradient(0deg, #993b3b, #f5c741) !important
 }
 
