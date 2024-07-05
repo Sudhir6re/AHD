@@ -1,6 +1,9 @@
 package com.mahait.gov.in.repository;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,11 +12,23 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.CmnLanguageMst;
+import com.mahait.gov.in.entity.OrgEmpMst;
+import com.mahait.gov.in.entity.OrgGradeMst;
+import com.mahait.gov.in.entity.OrgPostMst;
+import com.mahait.gov.in.entity.OrgUserMst;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 @Repository
 public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 
 	@PersistenceContext
 	EntityManager entityManager;
+	
+	   private static final Logger logger = LoggerFactory.getLogger(CreateAdminOfficeRepoImpl.class);
 
 	@Override
 	public List<Object[]> getAllDDOOfficeDtlsData(String districtName, String talukaNametName, String adminType) {
@@ -44,4 +59,128 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 		return list;
 	}
 
+	@Override
+	public List<Object[]> findPostLocationByDdoCode(Long ddoCode) {
+		String sql = "WITH ddo_info AS (" + "    SELECT post_id, LOCATION_CODE " + "    FROM org_ddo_mst "
+				+ "    WHERE DDO_CODE = :ddoCode " + ") " + "SELECT opd.POST_SHORT_NAME, clm.loc_name "
+				+ "FROM ORG_POST_DETAILS_RLT opd " + "JOIN ddo_info di ON opd.post_ID = di.post_id "
+				+ "JOIN CMN_LOCATION_MST clm ON clm.LOC_ID = di.LOCATION_CODE";
+
+		Query query = (Query) entityManager.createNativeQuery(sql);
+		query.setParameter("ddoCode", ddoCode);
+
+		return query.getResultList();
+	}
+
+	public List getTreasuryName(Long TOCode) {
+		Session hibSession = entityManager.unwrap(Session.class);
+		List temp = null;
+		try {
+			String branchQuery = "select CM.loc_id,CM.loc_name from rlt_ddo_org RL join cmn_location_mst CM on cast(RL.location_code as bigint) = CM.loc_id  where RL.ddo_code = '"
+					+ String.valueOf(TOCode)+"'";
+			Query sqlQuery = hibSession.createSQLQuery(branchQuery);
+			temp = sqlQuery.list();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return temp;
+	}
+	
+	
+	
+	public List getAdminOfcCode(String AdminOfcID)
+	{
+		Session hibSession = entityManager.unwrap(Session.class);
+		List temp=null;
+		try
+		{		
+			String branchQuery = "select aa.OFFICE_CODE from ZP_ADMIN_OFFICE_MST aa where OFC_ID='"+AdminOfcID+"'";
+			Query sqlQuery= hibSession.createSQLQuery(branchQuery);
+			temp= sqlQuery.list();
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return temp;
+	}
+	
+	public List getCountofDDOCode(String CountCode)
+	{
+		Session hibSession = entityManager.unwrap(Session.class);
+		List temp=null;
+		try
+		{		
+			String branchQuery = "select count(qq.DDO_CODE) from ORG_DDO_MST qq where DDO_CODE like '"+ CountCode +"%'";
+			Query sqlQuery= hibSession.createSQLQuery(branchQuery);
+			temp= sqlQuery.list();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+	@Override
+	public List getSubTreasury(Long valueOf) {
+		List temp=null;
+		Session hibSession = entityManager.unwrap(Session.class);
+		try
+		{		
+			String branchQuery = "SELECT loc_id,loc_name from CMN_LOCATION_MST where DEPARTMENT_ID= 100006 and PARENT_LOC_ID="+valueOf;
+			Query sqlQuery= hibSession.createSQLQuery(branchQuery);
+			temp= sqlQuery.list();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return temp;
+	}
+	
+	
+	@Override
+	public int getUniqeInstituteIdCount(String strDdoCode) 
+	{
+		Session hibSession = entityManager.unwrap(Session.class);
+		int uniqeInstituteIdCount=0;
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select count(1) from MST_DCPS_DDO_OFFICE where UNIQUE_INSTITUTE_NO is not null ");
+		Query selectQuery = hibSession.createSQLQuery(sb.toString());
+		uniqeInstituteIdCount = Integer.parseInt(selectQuery.uniqueResult().toString());
+		return uniqeInstituteIdCount;
+	}
+
+
+
+	@Override
+	public List<Object[]> retriveDisctOfcList(OrgUserMst messages, String ofcId) {
+		if(ofcId==null || ofcId.equals("") ) {
+			String nativeQuery = "select DIST_MST_OFC_NAME, DIST_CODE from ZP_ADMIN_OFFICE_DISTRICT_MPG";
+	        Query query = (Query) entityManager.createNativeQuery(nativeQuery);
+	      //  query.setParameter("ofcId",ofcId);
+	        List<Object[]> resultList = query.getResultList();
+	        return resultList;
+		}else {
+			String nativeQuery = "select DIST_MST_OFC_NAME, DIST_CODE from ZP_ADMIN_OFFICE_DISTRICT_MPG where admin_OFFICE_CODE = :ofcId";
+	        Query query = (Query) entityManager.createNativeQuery(nativeQuery);
+	        query.setParameter("ofcId",ofcId);
+	        List<Object[]> resultList = query.getResultList();
+	        return resultList;
+		}
+    }
+
+	@Override
+	public List<Object[]> retrieveDistrictOfficeList(OrgUserMst messages, Long ofcId) {
+		  String nativeQuery = "select DIST_MST_OFC_NAME, DIST_CODE from ZP_ADMIN_OFFICE_DISTRICT_MPG where admin_OFFICE_CODE = :ofcId";
+	        Query query = (Query) entityManager.createNativeQuery(nativeQuery);
+	        query.setParameter("ofcId", ofcId);
+	        List<Object[]> resultList = query.getResultList();
+	        return resultList;
+	}
+
+
+	
+	
+	
 }

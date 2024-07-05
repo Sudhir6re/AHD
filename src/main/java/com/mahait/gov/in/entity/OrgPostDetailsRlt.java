@@ -39,7 +39,11 @@ public class OrgPostDetailsRlt implements Serializable {
     @JoinColumn(name = "post_id", nullable = false)
     private OrgPostMst orgPostMst;
     
-    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_lookup_id", nullable = false)
+    private CmnLookupMst cmnLookupMst;
+
     
     
     @ManyToOne(fetch = FetchType.LAZY)
@@ -67,9 +71,9 @@ public class OrgPostDetailsRlt implements Serializable {
     
     
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lang_id", nullable = false)
-    private CmnLanguageMst cmnLanguageMst;*/
+    private CmnLanguageMst cmnLanguageMst;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dsgn_id", nullable = false)
@@ -89,18 +93,15 @@ public class OrgPostDetailsRlt implements Serializable {
     @Column(name = "post_short_name", length = 60, nullable = false)
     private String postShortName;
 
-	
+    @Column(name = "CREATED_DATE", length = 19, nullable = false)
+    private Timestamp createdDate;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loc_id", nullable = false)
-    private CmnLocationMst cmnLocationMst;
-*/
+
   /*  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CREATED_BY", nullable = false)
     private OrgUserMst orgUserMstByCreatedBy;
 
-    @Column(name = "CREATED_DATE", length = 19, nullable = false)
-    private Timestamp createdDate;
+   
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UPDATED_BY")
@@ -116,6 +117,11 @@ public class OrgPostDetailsRlt implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UPDATED_BY_POST")
     private OrgPostMst orgPostMstByUpdatedByPost;*/
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loc_id", nullable = false)
+    private CmnLocationMst cmnLocationMst;
+    
     
     
     

@@ -89,5 +89,14 @@ public class OrgUserpostRlt implements Serializable {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private OrgPostMst orgPostMstByPostId;
+    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loc_id")
+    private CmnLookupMst cmnLookupUserPostType;
+    
+    
+    
+    
 
 }

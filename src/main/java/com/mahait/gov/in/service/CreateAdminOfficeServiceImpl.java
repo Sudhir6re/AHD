@@ -5,21 +5,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import org.bouncycastle.asn1.ocsp.ServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.entity.CmnDistrictMst;
+import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
+import com.mahait.gov.in.entity.OrgDdoMst;
+import com.mahait.gov.in.entity.OrgDesignationMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminNameMst;
 import com.mahait.gov.in.entity.ZpAdminOfficeMst;
+import com.mahait.gov.in.entity.ZpRltDdoMap;
 import com.mahait.gov.in.mapper.ZpRltDdoMapMapper;
 import com.mahait.gov.in.model.ZpRltDdoMapModel;
+import com.mahait.gov.in.repository.AddNewDDOConfigRepository;
 import com.mahait.gov.in.repository.CmnDistrictMstRepository;
+import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnTalukaMstRepository;
 import com.mahait.gov.in.repository.CreateAdminOfficeRepo;
+import com.mahait.gov.in.repository.OrgDdoMstRepository;
+import com.mahait.gov.in.repository.OrgDesignationMstRepository;
+import com.mahait.gov.in.repository.UserInfoRepo;
 import com.mahait.gov.in.repository.ZpAdminNameMstRepository;
 import com.mahait.gov.in.repository.ZpRltDdoMapRepository;
 
@@ -45,6 +57,30 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	@Autowired
 	CreateAdminOfficeRepo createAdminOfficeRepo;
 
+	@Autowired
+	OrgDdoMstRepository orgDdoMstRepository;
+
+	@Autowired
+	CmnLocationMstRepository cmnLocationMstRepository;
+
+	@Autowired
+	UserInfoRepo userInfoRepo;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
+	
+
+	@Autowired
+	OrgDesignationMstRepository orgDesignationMstRepository;
+	
+	
+	@Autowired 
+	AddNewDDOConfigRepository objZpDDOOfficeMstDAOImpl;
+	
+	
+	
+	
+
 	@Override
 	public List<ZpRltDdoMapModel> findAllDdoMappedlist(OrgUserMst messages) {
 		// TODO Auto-generated method stub
@@ -66,7 +102,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	@Override
 	public List<CmnDistrictMst> findAllDistrictList(OrgUserMst messages) {
 		// TODO Auto-generated method stub
-		return cmnDistrictMstRepository.findAll();
+		return cmnDistrictMstRepository.findByLangIdAndStateIdOrderByDistrictName(1, 15l);
 	}
 
 	@Override
@@ -76,97 +112,66 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	}
 
 	@Override
-	public void saveCreateAdminOffice(ZpRltDdoMapModel zpRltDdoMapModel, OrgUserMst messages) {/*
-		logger.info("Entering into saveZpDDODtls of ZpDDOOfficeServiceImpl");
-		ResultObject objRes = new ResultObject(ErrorConstants.ERROR);
-		ServiceLocator serviceLocator = (ServiceLocator) objectArgs.get("serviceLocator");
-		HttpServletRequest request = (HttpServletRequest) objectArgs.get("requestObj");
+	public void saveCreateAdminOffice(ZpRltDdoMapModel zpRltDdoMapModel, OrgUserMst messages) {
 
-		//AddNewDDOConfigDAOImpl lObjAddNewDdoConfig = new AddNewDDOConfigDAOImpl(CmnLocationMst.class,serv.getSessionFactory());
-		Long gLngPostId = SessionHelper.getPostId(objectArgs);
-		Long gLngUserId = SessionHelper.getUserId(objectArgs);
-		String strAdminOfc=StringUtility.getParameter("cmbAdminOffice", request).trim();
+		Long gLngPostId = messages.getCreatedByPost().getPostId();
+		Long gLngUserId = messages.getUserId();
+		String strAdminOfc=zpRltDdoMapModel.getCmbAdminOffice();
 
-		String lLngFieldDept=null;//StringUtility.getParameter("cmbAdminOffice", request).trim(); // TODO -- It will Change in future
+		String lLngFieldDept=null;
 
-		String strDistCode=StringUtility.getParameter("cmbDistOffice", request).trim();
-		logger.info("...........cmbDistOffice..............."+strDistCode);
-		String strDeptCode=StringUtility.getParameter("cmbDept", request).trim();
-		String strRepoDDOCode=StringUtility.getParameter("txtRepDDOCode", request).trim();
-		String lStrDdoName=StringUtility.getParameter("txtDDOName", request).trim().trim();
-		String lstrFinalDDOCode=StringUtility.getParameter("txtFinalDDOCode", request).trim();
-		String lstrSpecialDDOCode=StringUtility.getParameter("txtSpecialDDOCode", request).trim();
-		String lstrLevel=StringUtility.getParameter("radioFinalLevel", request).trim();
-		logger.info("...........lLongLevel..............."+lstrLevel);
-		String lStrDdoPersonalName=StringUtility.getParameter("txtDDOName", request).trim();// TODO -- It will Change in future
-		logger.info("...........lStrDdoPersonalName..............."+lStrDdoPersonalName);
+		String strDistCode=zpRltDdoMapModel.getCmbDistOffice();
+		String strDeptCode=zpRltDdoMapModel.getCmbAdminOffice();
+		String strRepoDDOCode=zpRltDdoMapModel.getTxtRepDDOCode();
+		String lStrDdoName=zpRltDdoMapModel.getTxtDDOName();
+		String lstrFinalDDOCode=zpRltDdoMapModel.getTxtFinalDDOCode();
+		String lstrSpecialDDOCode=zpRltDdoMapModel.getTxtSpecialDDOCode();
+		String lstrLevel=zpRltDdoMapModel.getRadioFinalLevel();
+		String lStrDdoPersonalName=zpRltDdoMapModel.getTxtDDOName();
 
 		Long lLngDesignID =1l; //Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- It will Change in future
 		Long lLngAdminDept=0l;
-		if(StringUtility.getParameter("cmbDept", request).trim()!=null){
+	
+		/*if(StringUtility.getParameter("cmbDept", request).trim()!=null){
 		lLngAdminDept = -1l;//Long.parseLong(((StringUtility.getParameter("cmbDept", request).trim()!=null || !StringUtility.getParameter("cmbDept", request).trim().equals(""))?StringUtility.getParameter("cmbDept", request).trim():-1) );// TODO -- It will Change in future
-		}
-		//String lLngDistrictCode=StringUtility.getParameter("cmbDistrict", request).trim();
-		String lLngDistrictCode=StringUtility.getParameter("cmbDistOffice", request).trim();
+		}*/
+		String lLngDistrictCode=zpRltDdoMapModel.getCmbDistOffice();
 
-		String lStrGender=StringUtility.getParameter("radioGender", request).trim().trim();
-		String strTOName=StringUtility.getParameter("txtTreasuryName", request).trim();
-		String lLngTreasuryCode=StringUtility.getParameter("txtTreasuryCode", request).trim();
-		String strSubTOName=StringUtility.getParameter("txtSubTreasuryName", request).trim();
-		String lStrDesgnName=StringUtility.getParameter("txtDDODsgn", request).trim();
-		String lStrDdoOfficeName=StringUtility.getParameter("txtOfficeName", request).trim();
+		String lStrGender=zpRltDdoMapModel.getRadioGender();
+		String strTOName=zpRltDdoMapModel.getTxtTreasuryName();
+		String lLngTreasuryCode=zpRltDdoMapModel.getTxtTreasuryCode();
+		String strSubTOName=zpRltDdoMapModel.getCmbSubTreasury();
+		String lStrDesgnName=zpRltDdoMapModel.getTxtDDODsgn();
+		String lStrDdoOfficeName=zpRltDdoMapModel.getTxtOfficeName();
 		lStrDdoName=lStrDdoOfficeName;
-		String lStrDdoCode=StringUtility.getParameter("txtDDOCode", request).trim();
+		String lStrDdoCode=zpRltDdoMapModel.getTxtDDOCode();
 		
-		logger.info(".............................lStrDdoCode............................."+lStrDdoCode);
 		Long lLngLocPin = 1l;//Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- Need Change Temporary "1" is added.  
 
-		AddNewDDOConfigDAOImpl lObjAddNewDdoConfig = new AddNewDDOConfigDAOImpl(CmnLocationMst.class,serviceLocator.getSessionFactory());
-		ZpDDOOfficeMstDAOImpl objZpDDOOfficeMstDAOImpl=new ZpDDOOfficeMstDAOImpl(ZpRltDdoMap.class,serviceLocator.getSessionFactory());
+		
 
-		logger.info("..............................Entries Start in Below tables............................");
-		logger.info(".........01................Inserting insertLocation............................");
+		List<OrgDdoMst> ParentDtls1=orgDdoMstRepository.findAllByDdoCode(strRepoDDOCode);
 		
-		logger.info("strRepoDDOCode............................"+strRepoDDOCode);
 		
-		List ParentDtls1=objZpDDOOfficeMstDAOImpl.RetirveParentdtlfrmReptCode(strRepoDDOCode);
+		String lstrHOD_Code1=ParentDtls1.get(0).getDeptLocCode();
+		lLngFieldDept=ParentDtls1.get(0).getHodLocCode();
 		
-		logger.info("ParentDtls1............................"+ParentDtls1);
 		
-		String tmp[] = ParentDtls1.get(0).toString().split("##");
-		String lstrHOD_Code1=tmp[1].toString();
-		lLngFieldDept=lstrHOD_Code1;
-//String lStrLocCode = lObjAddNewDdoConfig.insertLocation(lStrDdoOfficeName, gLngUserId, gLngPostId, Long.valueOf(lLngFieldDept), String.valueOf(lLngLocPin), objectArgs);
-		String lStrLocCode = lObjAddNewDdoConfig.insertLocation(lStrDdoOfficeName, gLngUserId, gLngPostId, Long.valueOf(lLngFieldDept), String.valueOf(lLngLocPin), objectArgs,strDistCode);
-		logger.info(".........01................Inserted insertLocation............................");
-		logger.info(".........02................Inserting insertUserMst............................");
-		Long lLngUserId = lObjAddNewDdoConfig.insertUserMst(lStrDdoCode, gLngUserId, gLngPostId, objectArgs);
-		logger.info(".........02................Inserted insertUserMst............................");
+		String lStrLocCode = objZpDDOOfficeMstDAOImpl.insertLocation(lStrDdoOfficeName, gLngUserId, gLngPostId, Long.valueOf(lLngFieldDept), String.valueOf(lLngLocPin), messages,strDistCode);
+		Long lLngUserId = objZpDDOOfficeMstDAOImpl.insertUserMst(lStrDdoCode, gLngUserId, gLngPostId, messages);
 		Long lLngPostId = new Long(lLngUserId);
-		logger.info("lLngPostId "+lLngPostId);
 
-		logger.info(".........03................Inserting insertEmpMst............................");
-		lObjAddNewDdoConfig.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, objectArgs);
-		logger.info(".........03................Inserting insertEmpMst............................");
+		objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages);
 
-		logger.info(".........04................Inserting insertOrgPostMst............................");
-		lObjAddNewDdoConfig.insertOrgPostMst(lLngPostId, lStrLocCode, gLngUserId, gLngPostId, lLngDesignID.toString(), objectArgs);
-		logger.info(".........04................Inserting insertOrgPostMst............................");
+		objZpDDOOfficeMstDAOImpl.insertOrgPostMst(lLngPostId, lStrLocCode, gLngUserId, gLngPostId, lLngDesignID.toString(), messages);
 
-		logger.info(".........05................Inserting insertPostDtlsRlt............................");
-		lObjAddNewDdoConfig.insertPostDtlsRlt(lStrLocCode, lLngPostId, lStrDesgnName, lLngDesignID, gLngUserId, gLngPostId, objectArgs);
-		logger.info(".........05................Inserting insertPostDtlsRlt............................");
+		objZpDDOOfficeMstDAOImpl.insertPostDtlsRlt(lStrLocCode, lLngPostId, lStrDesgnName, lLngDesignID, gLngUserId, gLngPostId, messages);
 
-		logger.info(".........06................Inserting insertPostRoleRlt............................");
 		//lObjAddNewDdoConfig.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, objectArgs,"DDO");
-		objZpDDOOfficeMstDAOImpl.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, objectArgs,"DDO");
-		logger.info(".........06................Inserting insertPostRoleRlt............................");
+		objZpDDOOfficeMstDAOImpl.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, messages,"DDO");
 
-		logger.info(".........07................Inserting insertUserPostRlt............................");
-		lObjAddNewDdoConfig.insertUserPostRlt(lLngPostId, lLngUserId, gLngUserId, gLngPostId, objectArgs);
-		logger.info(".........07................Inserting insertUserPostRlt............................");
+		objZpDDOOfficeMstDAOImpl.insertUserPostRlt(lLngPostId, lLngUserId, gLngUserId, gLngPostId, messages);
 
-		logger.info(".........08................Inserting insertOrgDdoMst............................");
 		String lstrDdoType="";
 		List ofcCode=objZpDDOOfficeMstDAOImpl.retirveDdoType(strAdminOfc);
 		lstrDdoType=ofcCode.get(0).toString();//Note : Column Added in ORG_DDO_MST-DDOType
@@ -174,13 +179,9 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		List ParentDtls=objZpDDOOfficeMstDAOImpl.RetirveParentdtlfrmReptCode(strRepoDDOCode);
 		
 		
-		Object[] p =(Object[])ParentDtls.get(0);
-		String lstrDept_Code=p[0].toString();
-		String lstrHOD_Code=p[1].toString();
-		
 		String tmp1[] = ParentDtls.get(0).toString().split("##");
-		String lstrDept_Code=tmp[0].toString();
-		String lstrHOD_Code=tmp[1].toString();
+		String lstrDept_Code=tmp1[0].toString();
+		String lstrHOD_Code=tmp1[1].toString();
 		
 		
 		List DeptCode=objZpDDOOfficeMstDAOImpl.RetirveAdminDeptType(strDeptCode);
@@ -189,17 +190,11 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 			lstrDeptType=DeptCode.get(0).toString();
 
 		String lstrAdminDeptType=null;
-		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,objectArgs);
-		logger.info(".........08................Inserting insertOrgDdoMst............................");
+		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,messages);
 
-		logger.info(".........09................Inserting insertMstDcpsDdoOffice............................");
-		//Edited by samadhan to save uniqe institute number generated by system
-		String uniqeInstituteId=generateUniqeInstituteId(lStrDdoCode,lLngDistrictCode.toString(), objectArgs);
-		//lObjAddNewDdoConfig.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, objectArgs);
-		lObjAddNewDdoConfig.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, objectArgs,uniqeInstituteId);
-		logger.info(".........09................Inserting insertMstDcpsDdoOffice............................");
-
-		logger.info(".........10................Inserting insertRltDdoOrg............................");
+		String uniqeInstituteId=objZpDDOOfficeMstDAOImpl.generateUniqeInstituteId(lStrDdoCode,lLngDistrictCode.toString(), messages);
+		objZpDDOOfficeMstDAOImpl.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, messages,uniqeInstituteId);
+/*
 		lObjAddNewDdoConfig.insertRltDdoOrg(gLngUserId, gLngPostId, lStrDdoCode, lLngTreasuryCode.toString(), objectArgs);
 		lObjAddNewDdoConfig.insertWfOrgPost(lLngPostId.toString()); 
 		lObjAddNewDdoConfig.insertWfOrgLoc(lStrLocCode);
@@ -207,9 +202,9 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		logger.info(".........10................Inserting insertRltDdoOrg............................");
 		logger.info(".........................Entries Done in above tables............................");
 
+*/
 
-
-
+/*
 
 		// Entries for DDO Assistant as user
 		logger.info(".........................Entries for Asst Start............................");
@@ -247,8 +242,8 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		lObjAddNewDdoConfig.create(lObjRltDdoAsst);
 		logger.info(".........................Entries for Asst End............................");
 		// Entries for DDO Assistant as a user overs
-
-
+*/
+/*
 
 		Long ZP_DDO_POST_ID=lLngPostId;
 		List RepoDDO=objZpDDOOfficeMstDAOImpl.retirveRepoDDOPostId((strRepoDDOCode));
@@ -369,7 +364,95 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		objRes.setResultCode(ErrorConstants.SUCCESS);
 		objRes.setResultValue(objectArgs);
 		objRes.setViewName("zpDDOOfficeView");
-		return objRes;
-	*/}
+		return objRes;*/
+	}
+
+	@Override
+	public List<CmnTalukaMst> getAllTalukaByDistrictId(Long districtId) {
+		return cmnTalukaMstRepository.findByDistrictIdOrderByTalukaName(districtId);
+	}
+
+	@Override
+	public List<Object[]> retriveDisctOfcList(OrgUserMst messages, String ofcId) {
+		// TODO Auto-generated method stub
+		return createAdminOfficeRepo.retriveDisctOfcList(messages, ofcId);
+	}
+
+	@Override
+	public List<Object[]> fetchDdoDetails(OrgUserMst messages, Long ddoCode) {
+		// TODO Auto-generated method stub
+		return createAdminOfficeRepo.findPostLocationByDdoCode(ddoCode);
+	}
+
+	public String generateDDOCode(String AdminOfc, String SubTOCode) {
+
+	//	List getOfcCode = createAdminOfficeRepo.getAdminOfcCode(AdminOfc);
+		//String AOfcCode = getOfcCode.get(0).toString();
+		String CreatedDDOCode = AdminOfc;
+		CreatedDDOCode += SubTOCode;
+		List getCountCode = createAdminOfficeRepo.getCountofDDOCode(CreatedDDOCode);
+		String FinalpreFixed = "";
+		String suffix = "";
+		String midfix = "";
+		if (getCountCode.get(0) != null) {
+			Long temp = Long.parseLong(getCountCode.get(0).toString()) + 1;
+			suffix = temp.toString();
+		}
+		if (suffix.length() == 1)
+			midfix = "0000";
+		else if (suffix.length() == 2)
+			midfix = "000";
+		else if (suffix.length() == 3)
+			midfix = "00";
+		else if (suffix.length() == 4)
+			midfix = "0";
+
+		FinalpreFixed = CreatedDDOCode + midfix + suffix;
+		return FinalpreFixed;
+
+	}
+
+	@Override
+	public Map<String, Object> findTrasuryDetails(String DDOCode) {
+
+		Long TDDOCode = 0l;
+		if (!DDOCode.equalsIgnoreCase("")) {
+			TDDOCode = Long.valueOf(DDOCode);
+		}
+		List RepoDDO = orgDdoMstRepository.findByDdoCodeLike(DDOCode);
+		List TODetail = createAdminOfficeRepo.getTreasuryName(TDDOCode);
+		
+		if(TODetail.size()>0 && TODetail!=null) {
+			Object[] o = (Object[]) TODetail.get(0);
+			String TOName = o[1] != null ? o[1].toString() : "";
+			String TOCode = o[0] != null ? o[0].toString() : "";
+
+			List lstSubTO = createAdminOfficeRepo.getSubTreasury(Long.valueOf(TOCode));
+			
+			Map<String, Object> response = new HashMap<>();
+			
+			response.put("trasuryDetails", TODetail);
+			response.put("subTreasuryList", lstSubTO);
+			return response;
+		}else {
+			Map<String, Object> response = new HashMap<>();
+			return response;
+		}
+
+	}
+	
+	@Override
+	public int getUniqeInstituteIdCount(String DDOCode) {
+		return createAdminOfficeRepo.getUniqeInstituteIdCount(DDOCode);
+	}
+
+	@Override
+	public List<OrgDesignationMst> findDesignation(String desgn) {
+		// TODO Auto-generated method stub
+		return orgDesignationMstRepository.findByDsgnNameIgnoreCaseContaining(desgn);
+	}
+	
+	
+	
 
 }

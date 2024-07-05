@@ -37,7 +37,7 @@ public class OrgUserMst implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     
-    
+  
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
     @Fetch(FetchMode.SELECT)

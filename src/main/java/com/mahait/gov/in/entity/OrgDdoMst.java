@@ -1,97 +1,98 @@
 package com.mahait.gov.in.entity;
-
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import lombok.Data;
+
+@Data
 @Entity
-@Table(name = "ORG_DDO_MST", schema = "IFMS")
+@Table(name = "ORG_DDO_MST")
 public class OrgDdoMst {
 
     @Id
-    @Column(name = "DDO_ID")
+    @Column(name = "DDO_ID", precision = 20, scale = 0)
     private Long ddoId;
 
-    @Column(name = "DDO_CODE", nullable = false, length = 15)
+    @Column(name = "DDO_CODE", length = 15)
     private String ddoCode;
 
-    @Column(name = "DDO_NAME", length = 500)
+    @Column(name = "DDO_NAME")
     private String ddoName;
 
-    @Column(name = "DDO_PERSONAL_NAME", length = 500)
-    private String ddoPersonalName;
+    @Column(name = "POST_ID", precision = 20, scale = 0)
+    private Long postId;
 
-    @ManyToOne
-    @JoinColumn(name = "POST_ID")
-    private OrgPostMst post;
+    @Column(name = "ATTACHMENT_ID", precision = 20, scale = 0)
+    private Long attachmentId;
 
-    /*@ManyToOne
-    @JoinColumn(name = "ATTACHMENT_ID")
-    private CmnAttachmentMst attachment;*/
-
-    @Column(name = "LANG_ID", nullable = false)
-    private Short langId;
+    @Column(name = "LANG_ID", precision = 20, scale = 0)
+    private Long langId;
 
     @Column(name = "START_DATE")
+    @Temporal(TemporalType.DATE)
     private Date startDate;
 
     @Column(name = "END_DATE")
+    @Temporal(TemporalType.DATE)
     private Date endDate;
 
-    @Column(name = "ACTIVATE_FLAG")
-    private Short activateFlag;
+    @Column(name = "ACTIVATE_FLAG", precision = 20, scale = 0)
+    private Long activateFlag;
 
-    @Column(name = "CREATED_BY", nullable = false)
+    @Column(name = "CREATED_BY", precision = 20, scale = 0)
     private Long createdBy;
 
-    @Column(name = "CREATED_BY_POST", nullable = false)
+    @Column(name = "CREATED_BY_POST", precision = 20, scale = 0)
     private Long createdByPost;
 
-    @Column(name = "CREATED_DATE", nullable = false)
+    @Column(name = "CREATED_DATE")
+    @Temporal(TemporalType.DATE)
     private Date createdDate;
 
-    @Column(name = "UPDATED_BY")
+    @Column(name = "UPDATED_BY", precision = 20, scale = 0)
     private Long updatedBy;
 
-    @Column(name = "UPDATED_BY_POST")
+    @Column(name = "UPDATED_BY_POST", precision = 20, scale = 0)
     private Long updatedByPost;
 
     @Column(name = "UPDATED_DATE")
+    @Temporal(TemporalType.DATE)
     private Date updatedDate;
 
-    @Column(name = "DB_ID", nullable = false)
-    private Short dbId;
+    @Column(name = "DB_ID", precision = 20, scale = 0)
+    private Long dbId;
 
-    @Column(name = "SHORT_NAME", length = 150)
+    @Column(name = "SHORT_NAME")
     private String shortName;
 
-    @Column(name = "MAJOR_HEAD", length = 4)
+    @Column(name = "MAJOR_HEAD", length = 10)
     private String majorHead;
 
-    @Column(name = "DEMAND", length = 3)
+    @Column(name = "DEMAND", length = 10)
     private String demand;
 
-    @Column(name = "DDO_NO")
+    @Column(name = "DDO_NO", precision = 5, scale = 0)
     private Integer ddoNo;
 
-    @Column(name = "CARDEX_NO")
-    private Short cardexNo;
+    @Column(name = "CARDEX_NO", precision = 5, scale = 0)
+    private Integer cardexNo;
 
-    @Column(name = "TRN_COUNTER")
-    private Short trnCounter;
+    @Column(name = "TRN_COUNTER", precision = 11, scale = 0)
+    private Integer trnCounter;
 
     @Column(name = "ADMIN_FLAG")
-    private Short adminFlag;
+    private Boolean adminFlag;
 
     @Column(name = "OFFICE_CODE", length = 20)
     private String officeCode;
 
-    @Column(name = "LOCATION_CODE", nullable = false, length = 20)
+    @Column(name = "LOCATION_CODE", length = 20)
     private String locationCode;
 
     @Column(name = "DEPT_LOC_CODE", length = 20)
@@ -101,74 +102,57 @@ public class OrgDdoMst {
     private String hodLocCode;
 
     @Column(name = "IS_CO")
-    private Short isCo;
+    private Boolean isCo;
 
     @Column(name = "IS_CS")
-    private Short isCs;
+    private Boolean isCs;
 
-    @Column(name = "TYPE")
+    @Column(name = "TYPE", precision = 2, scale = 0)
     private Short type;
 
-    @Column(name = "VERIFIED")
-    private Integer verified;
+    @Column(name = "ddo_personal_name", length = 20)
+    private String ddoPersonalName;
 
-    @Column(name = "DSGN_CODE", length = 45)
-    private String dsgnCode;
+    @Column(name = "DSGN_CODE", length = 20)
+    private String designCode;
 
-    @Column(name = "DSGN_NAME", length = 400)
-    private String dsgnName;
+    @Column(name = "DSGN_NAME", length = 20)
+    private String designName;
 
-    @Column(name = "DDO_OFFICE", length = 300)
+    @Column(name = "DDO_OFFICE", length = 20)
     private String ddoOffice;
 
-    @Column(name = "SUB_OFFICE_CODE", length = 20)
-    private String subOfficeCode;
-
-    @Column(name = "ATTACHED_PARENT_LOC_CODE", length = 20)
-    private String attachedParentLocCode;
-
-    @Column(name = "OFFICE_UNIQUE_CODE", length = 50)
-    private String officeUniqueCode;
-
-    @Column(name = "REMARKS", length = 200)
+    @Column(name = "Remarks", length = 20)
     private String remarks;
 
-    @Column(name = "VERIFIED_DATE")
-    private Date verifiedDate;
-
-    @Column(name = "FIXEDID")
-    private Long fixedId;
-
-    @Column(name = "TAN_NO", length = 20)
+    @Column(name = "tan_no", length = 20)
     private String tanNo;
 
-    @Column(name = "ITAWARDCIRCLE", length = 20)
-    private String itawardCircle;
+    @Column(name = "itawardcircle", length = 20)
+    private String itaWardNo;
 
-    @Column(name = "BANK_NAME", length = 20)
+    @Column(name = "bank_name", length = 20)
     private String bankName;
 
-    @Column(name = "BRANCH_NAME", length = 20)
+    @Column(name = "branch_name", length = 20)
     private String branchName;
 
-    @Column(name = "ACCOUNT_NO", length = 20)
+    @Column(name = "account_no", length = 20)
     private String accountNo;
 
-    @Column(name = "IFS_CODE", length = 20)
+    @Column(name = "ifs_Code", length = 20)
     private String ifsCode;
 
-    @Column(name = "DDO_TYPE")
+    @Column(name = "DDO_TYPE", precision = 19, scale = 0)
     private Long ddoType;
 
-    @Column(name = "ADMIN_DEPT_TYPE")
+    @Column(name = "ADMIN_DEPT_TYPE", precision = 20, scale = 0)
     private Long adminDeptType;
 
-    @Column(name = "INSTITUTE_TYPE_ID")
-    private Long instituteTypeId;
+    @Column(name = "INSTITUTE_TYPE_ID", precision = 19, scale = 0)
+    private Long instituteType;
 
-    @Column(name = "STATUS_FLAG", length = 20)
-    private String statusFlag;
+    @Column(name = "STATUS_FLAG")
+    private Long statusFlag;
 
-    // Constructors, Getters, and Setters omitted for brevity
-    // Implement as per your requirements
 }

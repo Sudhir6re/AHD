@@ -28,7 +28,7 @@
 		<div class="formMainwithNoborTb container">
 			<div id="content" style="background: :#f0ebe8;">
 
-				<form method="post" action="" name="ZpDDOOffice"
+				<form method="post" action="" name="ZpDDOOffice"   th:object="${zpRltDdoMapModel}" th:action="@{/mdc/saveCreateAdminOffice}"
 					enctype="multipart/form-data">
 
 					<div id="tcontent1">
@@ -37,33 +37,33 @@
 								<tr>
 									<td width="50%"><label class="captionTag"
 										id="ZPDDOOFFICE_ZPADMINOFFICE">Admin Office</label></td>
-									<td><select name="cmbAdminOffice" id="cmbAdminOffice"
+									<td><select name="cmbAdminOffice" id="cmbAdminOffice"  th:field="*{cmbAdminOffice}" 
 										class="selecttag mandatorycontrol">
 											<option value="-1">---------------------------------
 												Select -----------------------------------</option>
-											<option value="9910000109">Private Aided Arts</option>
-											<option value="991000094">Private Aided Higher
-												Education</option>
-											<option value="991000085">Private Aided Technical
-												Education</option>
-											<option value="991000086">Private Aided Vocational
-												Education</option>
-											<option value="9910000110">University</option>
+											<option th:each="zpAdminNameMst : ${lstZpAdminNameMst}"
+												th:value="${zpAdminNameMst.adminCode}"
+												th:text="${zpAdminNameMst.adminName}"></option>
 									</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOFFICE_ZPDISTRICTOFFICE">District Office</label></td>
-									<td><select name="cmbDistOffice" id="cmbDistOffice"
-										class="selecttag">
-											<option value="-1">---------------------------------
-												Select -----------------------------------</option>
+									<td><select name="cmbDistrict" id="cmbDistrict"  th:field="*{cmbDistOffice}" 
+										style="width: 85%, display: inline;">
+											<option title="Select All" value="-1">Select</option>
+
+											<option th:each="cmnDistrctMst : ${adminOfcLst}"
+												th:value="${cmnDistrctMst[1]}"
+												th:text="${cmnDistrctMst[0]}"></option>
+
 									</select></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_FINAL_LEVEL">Final Level</label></td>
-									<td><input type="radio" name="radioFinalLevel"
+									<td>
+									<input type="radio"   th:field="*{radioFinalLevel}" 
 										value="radioFinalLevel2" onclick="checkforHirechy();"
 										id="radioFinalLevel2" class="radiobuttontag mandatorycontrol"
 										checked="true">&nbsp;Level 2&nbsp;&nbsp;<label
@@ -72,7 +72,7 @@
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_REPDDO_CODE">DDO Code Level 2 </label></td>
-									<td><input type="text" name="txtRepDDOCode"
+									<td><input type="text" name="txtRepDDOCode"   th:field="*{txtRepDDOCode}" 
 										id="txtRepDDOCode" class="numbertag mandatorycontrol" value=""
 										maxlength="10/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
@@ -80,7 +80,7 @@
 								<tr style="display: none;">
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_FINALDDO_CODE">DDO Code Level 3 </label></td>
-									<td><input type="text" name="txtFinalDDOCode"
+									<td><input type="text" name="txtFinalDDOCode"   th:field="*{txtFinalDDOCode}" 
 										id="txtFinalDDOCode" class="numbertag mandatorycontrol"
 										value="" maxlength="10/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
@@ -88,7 +88,7 @@
 								<tr style="display: none;">
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_SPECIALDDO_CODE">DDO Code Level 4</label></td>
-									<td><input type="text" name="txtSpecialDDOCode"
+									<td><input type="text" name="txtSpecialDDOCode"   th:field="*{txtSpecialDDOCode}" 
 										id="txtSpecialDDOCode" class="numbertag mandatorycontrol"
 										value="" maxlength="10/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
@@ -97,29 +97,31 @@
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_EMP_NAME_SALUTATION">DDO Name
 											Salutation</label></td>
-									<td><input type="radio" name="radioSalutation"
+									<td><input type="radio" name="radioSalutation"   th:field="*{radioSalutation}" 
 										value="radioSalutationShri" onclick="addSalutationToName();"
 										id="radioSalutationShri"
 										class="radiobuttontag mandatorycontrol" checked="true">&nbsp;Shri&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label> <input type="radio"
+										class="mandatoryindicator">*</label>
+										
+										 <input type="radio"  th:field="*{radioSalutation}" 
 										name="radioSalutation" value="radioSalutationShri"
 										id="radioSalutationSmt" class="radiobuttontag">&nbsp;Smt</td>
 								</tr>
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_EMP_NAME">DDO
 											Name</label></td>
-									<td><input type="text" name="txtDDOName" id="txtDDOName"
+									<td><input type="text" name="txtDDOName" id="txtDDOName"   th:field="*{txtDDOName}" 
 										class="texttag mandatorycontrol" value="Shri."
 										maxlength="100/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOFFICE_ZPGENDER">Gender</label></td>
-									<td>Male <b>:</b>&nbsp;&nbsp;<input type="radio"
+									<td>Male <b>:</b>&nbsp;&nbsp;<input type="radio"   th:field="*{radioGender}" 
 										id="radioMale" name="radioGender" value="M" checked="checked">
-										&nbsp;&nbsp;Female <b>:</b>&nbsp;&nbsp;<input type="radio"
+										&nbsp;&nbsp;Female <b>:</b>&nbsp;&nbsp;<input type="radio"   th:field="*{radioGender}" 
 										id="radioFemale" name="radioGender" value="F">
-										&nbsp;&nbsp;Trans Gender <b>:</b>&nbsp;&nbsp;<input
+										&nbsp;&nbsp;Trans Gender <b>:</b>&nbsp;&nbsp;<input    th:field="*{radioGender}" 
 										type="radio" id="radioTransGender" name="radioGender"
 										value="T">
 									</td>
@@ -127,21 +129,21 @@
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_TREASURY">Treasury
 											Name</label></td>
-									<td><input type="text" name="txtTreasuryName"
+									<td><input type="text" name="txtTreasuryName"   th:field="*{txtTreasuryName}" 
 										id="txtTreasuryName" class="texttag disabledcontrol" value=""
 										maxlength="50/"></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOFFICE_DDO_TREASURY_CODE">Treasury Code</label></td>
-									<td><input type="text" name="txtTreasuryCode"
+									<td><input type="text" name="txtTreasuryCode"   th:field="*{txtTreasuryCode}" 
 										id="txtTreasuryCode" class="texttag disabledcontrol" value=""
 										maxlength="4/"></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_SUB_TREASURY">Sub Treasury Name</label></td>
-									<td><select name="cmbSubTreasury" id="cmbSubTreasury"
+									<td><select name="cmbSubTreasury" id="cmbSubTreasury"   th:field="*{cmbSubTreasury}" 
 										class="selecttag mandatorycontrol">
 											<option value="-1">---------------------------------
 												Select -----------------------------------</option>
@@ -150,11 +152,17 @@
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_DDO_Dsgn">DDO
 											for Institute</label></td>
-									<td><input type="text" name="txtDDODsgn" id="txtDDODsgn"
+									<td><input type="text" name="txtDDODsgn" id="txtDDODsgn"   th:field="*{txtDDODsgn}" 
 										class="texttag mandatorycontrol" value="" maxlength="50/"
 										autocomplete="off">
+									
+									<div id="searchDiv" style="display:none;"></div>
+									
+									
+									<!-- 
 										<div id="ajaxAuto_txtDDODsgn" class="autocomplete"
-											style="display: none;"></div>&nbsp;&nbsp;<label
+											style="display: none;"></div>&nbsp;&nbsp; -->
+											<label
 										class="mandatoryindicator">*</label>
 										<table>
 											<tbody>
@@ -171,7 +179,7 @@
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_OFFICE_NAME">Institute Name</label></td>
-									<td><input type="text" name="txtOfficeName"
+									<td><input type="text" name="txtOfficeName"   th:field="*{txtOfficeName}" 
 										id="txtOfficeName" class="texttag mandatorycontrol" value=""
 										maxlength="500/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
@@ -179,21 +187,21 @@
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_DDO_CODE">DDO
 											Code</label></td>
-									<td><input type="text" name="txtDDOCode" id="txtDDOCode"
+									<td><input type="text" name="txtDDOCode" id="txtDDOCode"   th:field="*{txtDDOCode}" 
 										class="texttag disabledcontrol" value="" readonly=""
 										maxlength="50/"></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_MOBILE_NO">Mobile
 											No.</label></td>
-									<td><input type="text" name="txtMobileNo" id="txtMobileNo"
+									<td><input type="text" name="txtMobileNo" id="txtMobileNo"   th:field="*{txtMobileNo}" 
 										class="texttag mandatorycontrol" value="" maxlength="10/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_EMAIL_ID">Email
 											Id</label></td>
-									<td><input type="text" name="txtEmailId" id="txtEmailId"
+									<td><input type="text" name="txtEmailId" id="txtEmailId"    th:field="*{txtEmailId}" 
 										class="texttag mandatorycontrol" value="" maxlength="100/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></td>
 								</tr>
@@ -222,6 +230,6 @@
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-	<script th:src="@{/js/project/mst-bank.js}"></script>
+	<script th:src="@{/js/hte/create-admin-office.js}"></script>
 </body>
 </html>

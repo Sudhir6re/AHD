@@ -13,13 +13,13 @@ import com.mahait.gov.in.repository.MstDesignationRepo;
 @Transactional
 public class MstDesignationServiceImpl implements MstDesignationService{
 
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Autowired
 	private MstDesignationRepo  mstDesignationRepo;
 
 	/*@Override
->>>>>>> d62234043a6ef75399080141dbb407484af22d68
 	public int saveDesignationMst(MstDesignationModel mstDesignationModel,int userId) {
 		MstDesignationEntity mstDesignationEntity = new MstDesignationEntity();
 
@@ -147,5 +147,7 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 		return mstDesignationRepo.getCadre();
 <<<<<<< HEAD
 	}
+<<<<<<< HEAD
 	}*/
 }
+
