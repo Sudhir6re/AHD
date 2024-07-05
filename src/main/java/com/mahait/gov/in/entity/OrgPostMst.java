@@ -32,10 +32,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "org_post_mst")
 public class OrgPostMst implements Serializable {
-
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 
