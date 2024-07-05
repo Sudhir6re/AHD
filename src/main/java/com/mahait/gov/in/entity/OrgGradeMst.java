@@ -68,12 +68,14 @@ public class OrgGradeMst implements Serializable {
     @Fetch(FetchMode.SELECT)
     private OrgUserMst updatedBy;
 
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "Lang_Id", nullable = false) private CmnLanguageMst
-	 * cmnLanguageMst;
-	 */
+	  @ManyToOne(fetch = FetchType.LAZY)
+	  @JoinColumn(name = "Lang_Id", nullable = false) private CmnLanguageMst
+	  cmnLanguageMst;
+	  
+	  
+	  
+	  
+	 
 
 	/*
 	 * @ManyToOne(fetch = FetchType.LAZY)

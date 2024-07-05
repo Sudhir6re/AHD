@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +24,7 @@ import com.mahait.gov.in.entity.CmnLanguageMst;
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgDesignationMst;
 import com.mahait.gov.in.entity.OrgEmpMst;
@@ -32,10 +34,10 @@ import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.OrgUserpostRlt;
 import com.mahait.gov.in.entity.RltDdoOrg;
+import com.mahait.gov.in.entity.ZpRltDdoMap;
 
 @Repository
 public class AddNewDDOConfigRepository {
-	Session ghibSession = null;
 	
 	@PersistenceContext
 	EntityManager entityManager;
@@ -78,15 +80,25 @@ public class AddNewDDOConfigRepository {
 	AclRoleMstRepository aclRoleMstRepository;
 	
 	
+	@Autowired
+	ZpRltDdoMapRepository zpRltDdoMapRepository;
+	
 	
 	
 
-	public void AddNewDDOConfigDAOImpl() 
-	{
-		ghibSession = entityManager.unwrap(Session.class);
-	}
+	@Autowired
+	MstRoleRepo mstRoleRepo;
+
+	private Serializable save;
+	
+	
+	
+	
+	
+
 
 	public List getAllAdminDepartment(){
+		Session ghibSession = entityManager.unwrap(Session.class);         
 			StringBuilder lSBQuery = new StringBuilder();
 			lSBQuery.append("SELECT locId, locName FROM CmnLocationMst \n");
 			lSBQuery.append("WHERE departmentId = 100001");
@@ -95,16 +107,17 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public List getAllFieldDepartment() {
-		
+		Session hibSession = entityManager.unwrap(Session.class);      
 			StringBuilder lSBQuery = new StringBuilder();
 			lSBQuery.append("SELECT locId, locName FROM CmnLocationMst \n");
 			lSBQuery.append("WHERE departmentId = 100011");
-			Query lQuery = ghibSession.createQuery(lSBQuery.toString());
+			Query lQuery = hibSession.createQuery(lSBQuery.toString());
 			return lQuery.list();
 		
 	}
 
 	public List getAllTreasury() {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 			StringBuilder lSBQuery = new StringBuilder();
 			lSBQuery.append("SELECT locId, locName FROM CmnLocationMst \n");
 			lSBQuery.append("WHERE departmentId in (100003,100006) ORDER BY locName ");
@@ -114,12 +127,13 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public String chkDdoCode(String lStrDdoCode)  {
+		Session hibSession = entityManager.unwrap(Session.class);      
 		String lStrResData = "";
 		List lLstResData = null;
 
 			StringBuilder lSBQuery = new StringBuilder();
 			lSBQuery.append("FROM OrgDdoMst WHERE ddoCode=:ddoCode \n");
-			Query lQuery = ghibSession.createQuery(lSBQuery.toString());
+			Query lQuery = hibSession.createQuery(lSBQuery.toString());
 			lQuery.setParameter("ddoCode", lStrDdoCode);
 			lLstResData = lQuery.list();
 
@@ -133,11 +147,11 @@ public class AddNewDDOConfigRepository {
 	}
 
 	
-	public String insertLocation(String lStrLocationName, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
+	public CmnLocationMst insertLocation(String lStrLocationName, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
 			Long lLngFieldDeptId, String lStrLocPin, OrgUserMst orgUserMst, String strDistCode)  {
 		Long lLngLocId = null;
 
-		
+		Session ghibSession = entityManager.unwrap(Session.class);     
 			CmnLocationMst lObjCmnLocationMst = new CmnLocationMst();
 
 			CmnLanguageMst lObjCmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
@@ -170,48 +184,73 @@ public class AddNewDDOConfigRepository {
 			Long distCode = (strDistCode != null && Long.parseLong(strDistCode) > 0) ? Long.parseLong(strDistCode) : -1;
 			lObjCmnLocationMst.setLocDistrictId(distCode);
 			lObjCmnLocationMst.setLocStateId(15L);
-			ghibSession.save(lObjCmnLocationMst);
-			ghibSession.flush();
-		return lLngLocId.toString();
+			 Long id =(Long) ghibSession.save(lObjCmnLocationMst);
+			
+			
+			
+			 CmnLocationMst save = ghibSession.get(CmnLocationMst.class, id);
+			
+			return save;
+		//	ghibSession.flush();
+	//	return lLngLocId.toString();
 	}
 
-	public Long insertUserMst(String lStrDdoCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd, OrgUserMst orgUserMst)
+	public OrgUserMst insertUserMst(String lStrDdoCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd, OrgUserMst orgUserMst)
 		{
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		String ddoc = lStrDdoCode;
 		Long lLngUserId = null;
 			CmnLocationMst lObjCmnLocationMst = new CmnLocationMst();
 			CmnLanguageMst lObjCmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
 			CmnLookupMst lObjCmnLookupMst =cmnLookupMstRepository.findByLookupId(1l);
+			
+			
+			
 			OrgUserMst lObjUserMst = new OrgUserMst();
-			lLngUserId = 0l;//getNextSeqNoLocForUserMst();
-			lObjUserMst.setUserId(lLngUserId);
+		//	lLngUserId = 0l;//getNextSeqNoLocForUserMst();
+		//	lObjUserMst.setUserId(lLngUserId);
 
 			lObjUserMst.setUserName(ddoc);
 
 			lObjUserMst.setPassword(passwordEncoder.encode("ifms123"));
 
+			Optional<MstRoleEntity> findById = mstRoleRepo.findById(1);
+			lObjUserMst.setMstRoleEntity(findById.get());
+			
 			lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
 
 			lObjUserMst.setStartDate(new Date());
+			
 			lObjUserMst.setActivateFlag(0l);
 			lObjUserMst.setCreatedDate(new Date());
 
 			lObjUserMst.setCreatedBy(orgUserMst);
 
-			//lObjUserMst.setCreatedbyPost(orgUserMst.getCreatedByPost());
+			lObjUserMst.setCreatedByPost(orgUserMst.getCreatedByPost());
 
 			lObjUserMst.setSecretQueCode("Secret_Other");
 			lObjUserMst.setSecretQueOther("Secret_Other");// TODO -- Needs to Change
 			lObjUserMst.setSecretAnswer("ifms");
-			Serializable save = ghibSession.save(lObjUserMst);
-			ghibSession.flush();
+			//Serializable save = ghibSession.save(lObjUserMst);
+			
+			
+             Long id =(Long) ghibSession.save(lObjUserMst);
+			
+			
+             OrgUserMst save = ghibSession.get(OrgUserMst.class, id);
+			
+			return save; 
+			
+			
+		//	ghibSession.flush();
 		
 
-		return (Long) save;
+		//return (Long) save;
 	}
 
 	public void insertEmpMst(Long lLngUserId, String lStrFname, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
 			String lStrGendr, OrgUserMst orgUserMst) {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLngEmpId = null;
 			SimpleDateFormat lObjDateFormate = new SimpleDateFormat("dd/MM/yyyy");
 			Date lObjEmpDob = new Date("01/01/9999");
@@ -226,8 +265,8 @@ public class AddNewDDOConfigRepository {
 
 			OrgEmpMst lObjEmpMst = new OrgEmpMst();
 			// lLngEmpId = IFMSCommonServiceImpl.getNextSeqNum("org_emp_mst", inputMap);
-			lLngEmpId = getNextSeqNoLocForEmpMst();
-			lObjEmpMst.setEmpId(lLngEmpId);
+			//lLngEmpId = getNextSeqNoLocForEmpMst();
+			//lObjEmpMst.setEmpId(lLngEmpId);
 
 			lObjEmpMst.setEmpFname(lStrFname);
 
@@ -261,8 +300,9 @@ public class AddNewDDOConfigRepository {
 		
 	}
 
-	public void insertOrgPostMst(Long lLngPostId, String lStrLocationCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
+	public OrgPostMst insertOrgPostMst(Long lLngPostId, String lStrLocationCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
 			String lStrDsgnCode, OrgUserMst orgUserMst) {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 			CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(13l);
 
 			OrgUserMst lObjOrgUserMstCrtdUsr =orgUserMst;
@@ -273,25 +313,31 @@ public class AddNewDDOConfigRepository {
 			lObjOrgPostMst.setPostId(lLngPostId);
 			lObjOrgPostMst.setParentPostId(-1l);
 			lObjOrgPostMst.setPostLevelId(1l);
-			lObjOrgPostMst.setCmnLookupMst(lObjCmnLookupMst);
+			//lObjOrgPostMst.setCmnLookupMst(lObjCmnLookupMst);
+			lObjOrgPostMst.setLookupId(lObjCmnLookupMst.getLookupId());
 			lObjOrgPostMst.setActivateFlag(1l);
 			lObjOrgPostMst.setCreatedBy(lObjOrgUserMstCrtdUsr);
 			lObjOrgPostMst.setCreatedByPost(postId);
 			lObjOrgPostMst.setCreatedDate(new Timestamp(new Date().getTime()));
 			lObjOrgPostMst.setLocationCode(lStrLocationCode);
 			lObjOrgPostMst.setDsgnCode(lStrDsgnCode);
-			ghibSession.save(lObjOrgPostMst);
-			ghibSession.flush();
+			Long id =(Long) ghibSession.save(lObjOrgPostMst);
+			
+			
+			OrgPostMst save = ghibSession.get(OrgPostMst.class, id);
+			
+			return save; 
 		
 	}
 
 	public void insertPostDtlsRlt(String lstrLocCode, Long lLngPostId, String lStrDesignName, Long lLngDsgnId,
-			Long lLngUserIdCrtd, Long lLngPostIdCrtd, OrgUserMst orgUserMst) {
+			Long lLngUserIdCrtd, Long lLngPostIdCrtd, OrgUserMst orgUserMst, OrgPostMst newOrgPostMst, CmnLocationMst cmnLocationMst) {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLngPostDtlsId = null;
-			OrgPostMst postId = orgPostMstRepository.findByPostId(lLngPostId);
+			OrgPostMst postId = newOrgPostMst;
 			OrgPostMst postIdCrtd = orgUserMst.getCreatedByPost();
 
-			CmnLocationMst lObjCmnLocationMst = cmnLocationMstRepository.findByLocId(Long.parseLong(lstrLocCode));
+			CmnLocationMst lObjCmnLocationMst =cmnLocationMst;// cmnLocationMstRepository.findByLocId(Long.parseLong(lstrLocCode));
 
 			OrgDesignationMst lObjOrgDesigmMst = orgDesignationMstRepository.findByDsgnId(lLngDsgnId);
 			CmnLanguageMst lObjCmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
@@ -300,13 +346,16 @@ public class AddNewDDOConfigRepository {
 
 			OrgPostDetailsRlt lObjPostDtldRlt = new OrgPostDetailsRlt();
 			
-			lLngPostDtlsId = getNextSeqNoLocForPostDtlsRlt();
-			lObjPostDtldRlt.setPostDetailId(lLngPostDtlsId);
+			//lLngPostDtlsId = getNextSeqNoLocForPostDtlsRlt();
+			//lObjPostDtldRlt.setPostDetailId(lLngPostDtlsId);
 			lObjPostDtldRlt.setOrgPostMst(postId);
 			lObjPostDtldRlt.setPostName(lStrDesignName);
 			lObjPostDtldRlt.setPostShortName(lStrDesignName);
 			lObjPostDtldRlt.setCmnLocationMst(lObjCmnLocationMst);
 			lObjPostDtldRlt.setOrgDesignationMst(lObjOrgDesigmMst);
+			lObjPostDtldRlt.setLookupId(newOrgPostMst.getLookupId());
+			
+			//lObjPostDtldRlt.setCmnLookupMst(postId.getCmnLookupMst());
 			lObjPostDtldRlt.setCmnLanguageMst(lObjCmnLanguageMst);
 			lObjPostDtldRlt.setCreatedBy(lObjOrgUserMstCrtd);
 			lObjPostDtldRlt.setCreatedByPost(postIdCrtd);
@@ -317,10 +366,11 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public void insertPostRoleRlt(Long lLngPostId, Long lLngUserIdCrtd, Long lLngPostIdCrtd, OrgUserMst orgUserMst,
-			String lStrUserType){
+			String lStrUserType, OrgPostMst newOrgPostMst){
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLngPostRoleId = null;
 		AclRoleMst lObjAclRoleMst = null;
-           OrgPostMst postId = orgPostMstRepository.findByPostId(lLngPostId);
+           OrgPostMst postId = newOrgPostMst;//orgPostMstRepository.findByPostId(lLngPostId);
 			OrgPostMst postIdCrtd = orgUserMst.getCreatedByPost();
 
 
@@ -350,25 +400,25 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public void insertUserPostRlt(Long lLngPostId, Long lLngUserId, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
-			OrgUserMst orgUserMst) {
+			OrgUserMst orgUserMst, OrgPostMst newOrgPostMst, OrgUserMst orgUserMst2) {
 		Long lLngEmpPostId = null;
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		try {
 
-			OrgPostMst postId = orgPostMstRepository.findByPostId(lLngPostId);
+			OrgPostMst postId = newOrgPostMst;//orgPostMstRepository.findByPostId(lLngPostId);
 			OrgPostMst postIdCrtd = orgUserMst.getCreatedByPost();	
 			
 			
 			OrgUserMst lObjOrgUserMstCrtd = orgUserMst;
-			OrgUserMst lObjOrgUserMst = userInfoRepoImpl.getUserByUserId(lLngUserId);
+			OrgUserMst lObjOrgUserMst = orgUserMst2;//userInfoRepoImpl.getUserByUserId(lLngUserId);
 
 			CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(13l);
 
 			OrgUserpostRlt lObjOrgUserpostRlt = new OrgUserpostRlt();
 			// lLngEmpPostId = IFMSCommonServiceImpl.getNextSeqNum("ORG_USERPOST_RLT",
 			// inputMap);
-			lLngEmpPostId = getNextSeqNoLocForOrgUserpostRlt();
-			lObjOrgUserpostRlt.setEmpPostId(lLngEmpPostId);
+			//lLngEmpPostId = getNextSeqNoLocForOrgUserpostRlt();
+			//lObjOrgUserpostRlt.setEmpPostId(lLngEmpPostId);
 			lObjOrgUserpostRlt.setOrgUserMst(lObjOrgUserMst);
 			lObjOrgUserpostRlt.setOrgPostMstByPostId(postId);
 			lObjOrgUserpostRlt.setStartDate(new Timestamp(new Date().getTime()));
@@ -377,6 +427,7 @@ public class AddNewDDOConfigRepository {
 			lObjOrgUserpostRlt.setCreatedBy(orgUserMst);
 			lObjOrgUserpostRlt.setCreatedDate(new Timestamp(new Date().getTime()));
 			lObjOrgUserpostRlt.setCmnLookupUserPostType(lObjCmnLookupMst);
+		//	lObjOrgUserpostRlt.setCmnLocationMst(postId.getLookupId());
 			ghibSession.save(lObjOrgUserpostRlt);
 			ghibSession.flush();
 		} catch (Exception e) {
@@ -389,7 +440,8 @@ public class AddNewDDOConfigRepository {
 	
 	public void insertOrgDdoMst(String lStrDdoCode, String lStrDdoName, String lStrDdoPrsnlName, Long lLngPostId,
 			Long lLngUserIdCrtd, String lStrLocationCode, Long lLngPostIdCrtd, String lstrDeptLocCode, OrgUserMst orgUserMst)
-			throws Exception {
+			 {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLndDdoId = null;
 		try {
 			OrgDdoMst lObjOrgDdoMst = new OrgDdoMst();
@@ -415,6 +467,7 @@ public class AddNewDDOConfigRepository {
 
 	public void insertMstDcpsDdoOffice(String lStrDdoCode, String lStrDdoOffice, String lStrDistCode, Long lLngLocId,
 			Long lLngUserIdCrtd, Long lLngPostIdCrtd, OrgUserMst orgUserMst, String uniqeInstituteId)  {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLngMstOfficeDdoId = null;
 			DdoOffice lObjDdoOffice = new DdoOffice();
 			//lLngMstOfficeDdoId = IFMSCommonServiceImpl.getNextSeqNum("MST_DCPS_DDO_OFFICE", inputMap);
@@ -442,6 +495,7 @@ public class AddNewDDOConfigRepository {
 
 	public void insertRltDdoOrg(Long lLngUserIdCrtd, Long lLngPostIdCrtd, String lStrDdoCode, String lStrTrsryCode,
 			OrgUserMst orgUserMst) throws Exception {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLngDdoOrgId = null;
 			RltDdoOrg lObjRltDdoOrg = new RltDdoOrg();
 			// lLngDdoOrgId = IFMSCommonServiceImpl.getNextSeqNum("rlt_ddo_org", inputMap);
@@ -791,7 +845,7 @@ public class AddNewDDOConfigRepository {
 	}
 */
 	public Long getPostIdOfTOAsstForTreasuryCode(String lStrTreasuryCode) {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		StringBuilder lSBQuery = new StringBuilder();
 		List tempList = new ArrayList();
 		Long lLongTOAsstPostId = null;
@@ -816,7 +870,7 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public Long getPostIdOfTOForTreasuryCode(String lStrTreasuryCode) {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		StringBuilder lSBQuery = new StringBuilder();
 		List tempList = new ArrayList();
 		Long lLongTOPostId = null;
@@ -844,7 +898,7 @@ public class AddNewDDOConfigRepository {
 		StringBuilder lSBQueryInner = null;
 		Query lQueryInner = null;
 		Long lLongTableSeqMstId = null;
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		String[] lArrStrTableName = { "wf_job_mst", "wf_job_mvmnt_mst", "wf_audit_trail_mst", "wf_marked_hierachy_mst",
 				"wf_notification", "wf_job_attribute", "wf_job_grp_mst", "wf_table_seq_mst", "wf_doc_mvmnt_mst" };
 		Long[] lArrLongPrivMaxId = { 1l, 1l, 1l, 1l, 54004l, 909l, 927196l, 89l, 1l };
@@ -885,12 +939,15 @@ public class AddNewDDOConfigRepository {
 	public void insertUserMstAsst(Long lLngUserId, String lStrDdoCodeAsst, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
 			OrgUserMst orgUserMst) throws Exception {
 		try {
+			Session ghibSession = entityManager.unwrap(Session.class);     
 			CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(1l);
 
 			OrgUserMst lObjOrgUserMstCrtdUsr = orgUserMst;
 
 			OrgPostMst postId =orgUserMst.getCreatedByPost();
 
+			
+			
 			OrgUserMst lObjUserMst = new OrgUserMst();
 			// lLngUserId = IFMSCommonServiceImpl.getNextSeqNum("org_user_mst", inputMap);
 			//lObjUserMst.setUserId(lLngUserId);
@@ -905,6 +962,10 @@ public class AddNewDDOConfigRepository {
 			lObjUserMst.setSecretQueCode("Secret_Other");
 			lObjUserMst.setSecretQueOther("Secret_Other");
 			lObjUserMst.setSecretAnswer("ifms");
+			lObjUserMst.setCreatedByPost(orgUserMst.getCreatedByPost());
+			Optional<MstRoleEntity> findById = mstRoleRepo.findById(1);
+			lObjUserMst.setMstRoleEntity(findById.get());
+			
 			ghibSession.save(lObjUserMst);
 			ghibSession.flush();
 		} catch (Exception e) {
@@ -939,6 +1000,7 @@ public class AddNewDDOConfigRepository {
 	// added by vaibhav tyagi: end
 
 	public synchronized Long getNextSeqNoLocForUserMst() {
+		Session ghibSession = entityManager.unwrap(Session.class);     
 
 		Long seqId = 0l;
 		Long nextSeqId = 0l;
@@ -958,7 +1020,7 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public synchronized Long getNextSeqNoLocForEmpMst() {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long seqId = 0l;
 		Long nextSeqId = 0l;
 		StringBuilder lSBQuery = new StringBuilder();
@@ -977,7 +1039,7 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public synchronized Long getNextSeqNoLocForPostDtlsRlt() {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long seqId = 0l;
 		Long nextSeqId = 0l;
 		StringBuilder lSBQuery = new StringBuilder();
@@ -996,7 +1058,7 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public synchronized Long getNextSeqNoLocForOrgUserpostRlt() {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long seqId = 0l;
 		Long nextSeqId = 0l;
 		StringBuilder lSBQuery = new StringBuilder();
@@ -1015,7 +1077,7 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public synchronized Long getNextSeqNoLocForDdoOffice() {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long seqId = 0l;
 		Long nextSeqId = 0l;
 		StringBuilder lSBQuery = new StringBuilder();
@@ -1034,7 +1096,7 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public synchronized Long getNextSeqNoLocForRltDdoOrg() {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long seqId = 0l;
 		Long nextSeqId = 0l;
 		StringBuilder lSBQuery = new StringBuilder();
@@ -1053,7 +1115,7 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public synchronized Long getNextSeqNoLocForRltDcpsDdoAsst() {
-
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long seqId = 0l;
 		Long nextSeqId = 0l;
 		StringBuilder lSBQuery = new StringBuilder();
@@ -1073,6 +1135,7 @@ public class AddNewDDOConfigRepository {
 	
 	public List RetirveParentdtlfrmReptCode(String RptDDOCode)
 	{
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		List temp=null;
 		try
 		{		
@@ -1090,6 +1153,7 @@ public class AddNewDDOConfigRepository {
 	}
 	public List RetirveAdminDeptType(String lstrAdminDeptType)
 	{
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		List temp=null;
 		try
 		{		
@@ -1108,6 +1172,7 @@ public class AddNewDDOConfigRepository {
 	
 	public List retirveDdoType(String adminOfcId)
 	{
+		Session ghibSession = entityManager.unwrap(Session.class);     
 		List temp=null;
 		try
 		{		
@@ -1153,6 +1218,7 @@ public class AddNewDDOConfigRepository {
 		
 		//added by samdahan
 		public String getDistName(String districtCode) {
+			Session ghibSession = entityManager.unwrap(Session.class);     
 			String distName="";
 			StringBuilder sb = new StringBuilder();
 
@@ -1170,6 +1236,7 @@ public class AddNewDDOConfigRepository {
 		//added by samdahan
 		public int getUniqeInstituteIdCount(String strDdoCode) 
 		{
+			Session ghibSession = entityManager.unwrap(Session.class);     
 			int uniqeInstituteIdCount=0;
 			StringBuilder sb = new StringBuilder();
 
@@ -1189,6 +1256,7 @@ public class AddNewDDOConfigRepository {
 				String lstrDept_Code, String lstrHOD_Code, String lstrDeptType, OrgUserMst messages) {
 			Long lLndDdoId = null;
 			try {
+				Session ghibSession = entityManager.unwrap(Session.class);     
 				OrgDdoMst lObjOrgDdoMst = new OrgDdoMst();
 				//lLndDdoId = IFMSCommonServiceImpl.getNextSeqNum("org_ddo_mst", inputMap);
 				//lObjOrgDdoMst.setDdoId(lLndDdoId);
@@ -1210,5 +1278,99 @@ public class AddNewDDOConfigRepository {
 			}
 		}
 
+	
+		
+		public void insertRltZpDdoMap(Long ZP_DDO_POST_ID,Long REPT_DDO_POST_ID, Long FINAL_DDO_POST_ID, Long SPECIAL_DDO_POST_ID, String ZP_DDO_CODE,String REPT_DDO_CODE,String FINAL_DDO_CODE,String SPECIAL_DDO_CODE,String lstrLevel,Long CreatedUser,Long CreatedPost,OrgUserMst orgUserMst)
+		{
+			Long ZP_MAP_ID = null;
+			try{
+				CmnLanguageMst lObjCmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
+				Session ghibSession = entityManager.unwrap(Session.class);     
+				ZpRltDdoMap objZpRltDdoMap=new ZpRltDdoMap();
+				//ZP_MAP_ID = IFMSCommonServiceImpl.getNextSeqNum("RLT_ZP_DDO_MAP", inputMap);
+			//	ZP_MAP_ID = getNextSeqNoLocForRltZpDdoMap();
+				objZpRltDdoMap.setZpDdoPostId(ZP_DDO_POST_ID);
+				//objZpRltDdoMap.setZP_MAP_ID(ZP_MAP_ID);
+				objZpRltDdoMap.setReptDdoPostId(REPT_DDO_POST_ID);
+				objZpRltDdoMap.setFinalDdoPostId(FINAL_DDO_POST_ID);
+				objZpRltDdoMap.setSpecialDdoPostId(SPECIAL_DDO_POST_ID);
+				objZpRltDdoMap.setZpDdoCode(ZP_DDO_CODE);
+				objZpRltDdoMap.setReptDdoCode(REPT_DDO_CODE);
+				objZpRltDdoMap.setFinalDdoCode(FINAL_DDO_CODE);
+				objZpRltDdoMap.setSpecialDdoCode(SPECIAL_DDO_CODE);
+				objZpRltDdoMap.setLangId(1l);;
+				objZpRltDdoMap.setCreatedDate(new Timestamp(new Date().getTime()));
+				objZpRltDdoMap.setCreatedUserId(CreatedPost);
+				objZpRltDdoMap.setCreatedPostId(CreatedUser);
+				objZpRltDdoMap.setZplevel(Long.valueOf(lstrLevel));
+				ghibSession.save(objZpRltDdoMap);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		public List retirveRepoDDOPostId(String DDOCode)
+		{
+			List temp=null;
+			try
+			{		
+				Session ghibSession = entityManager.unwrap(Session.class);   
+				String branchQuery = "SELECT POST_ID FROM ORG_DDO_MST where DDO_CODE="+DDOCode;
+				Query sqlQuery= ghibSession.createSQLQuery(branchQuery);
+				temp= sqlQuery.list();
+
+
+
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return temp;
+		}
+		
+		public List retirveFinalDDOPostId(Long DDOCode)
+		{
+			List temp=null;
+			try
+			{		
+				Session ghibSession = entityManager.unwrap(Session.class);   
+				String branchQuery = "SELECT POST_ID FROM ORG_DDO_MST where DDO_CODE="+DDOCode;
+				Query sqlQuery= ghibSession.createSQLQuery(branchQuery);
+				temp= sqlQuery.list();
+
+
+
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return temp;
+		}
+
+		
+		public List checkRepopostrole(Long postID,Long roleID)
+		{
+			Session ghibSession = entityManager.unwrap(Session.class);   
+			List temp=null;
+			try
+			{		
+				String branchQuery = "SELECT POST_ROLE_ID FROM ACL_POSTROLE_RLT where post_id="+postID+" and role_id="+roleID;
+				Query sqlQuery= ghibSession.createSQLQuery(branchQuery);
+				temp= sqlQuery.list();
+
+
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return temp;
+		}
+
+		/*public void insertPostRoleRlt(Long rEPT_DDO_POST_ID, Long gLngUserId, Long gLngPostId, OrgUserMst messages,
+				String string) {
+			// TODO Auto-generated method stub
+			
+		}*/
 	
 }

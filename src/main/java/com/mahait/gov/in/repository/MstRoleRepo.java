@@ -8,5 +8,8 @@ import com.mahait.gov.in.entity.MstRoleEntity;
 @Repository
 public interface MstRoleRepo extends JpaRepository<MstRoleEntity, Integer>  {
 
+	
+	MstRoleEntity findByRoleId(int role);
+	
 }
 

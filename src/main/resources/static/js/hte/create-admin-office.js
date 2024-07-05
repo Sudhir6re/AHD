@@ -3,6 +3,13 @@ $(document).ready(function() {
 	var contextPath = $("#appRootPath").val();
 	
 	// $("#tblShowPayBill").dataTable().fnClearTable();
+	
+	
+	
+	if($("#uniqueId").val()!='' && $("#uniqueId").val()!=null  && $("#uniqueId").val()!=undefined){
+	   alert("Unique Institude id Generated keep it for future Use "+$("#uniqueId").val());
+    }
+	
 
 	var dataTable= $("#ddoMapTable").dataTable();
 $("#cmbDistrict").change(function(){
@@ -204,7 +211,7 @@ $("#txtRepDDOCode").blur(function(){
         	if(response!=''){
         		 var dropdown = $('#cmbSubTreasury');
                  dropdown.empty();
-                 
+                 dropdown.append($('<option  value="-1"></option>').text("Please Select")); // Adjust the value index as needed
                  $.each(response.trasuryDetails, function(index, value) {
                     $("#txtTreasuryName").val(value[1]);
                     $("#txtTreasuryCode").val(value[0]);
@@ -243,8 +250,8 @@ $.ajax({
 	success : function(response) {
 		 console.log(response);
 		 var ddoCode = response.ddoCode;
-		 if(data!=''){
-			 $("#txtDDOCode").val(data);
+		 if(ddoCode!=''){
+			 $("#txtDDOCode").val(ddoCode);
 		 }else{
 			 $("#txtDDOCode").val("");
 		 }
@@ -363,9 +370,135 @@ function hideDtls(field, srno) {
 			+ field + ',' + srno + ');">' + field + '</a>';
 }
 
-
-
-
+    $("form[name='ZpDDOOffice']").validate({
+        // Specify validation rules for each input field
+        rules: {
+            cmbAdminOffice: {
+                required: true,
+              //  min: 1
+            },
+            cmbDistOffice: {
+                required: true,
+              //  min: 1
+            },
+            radioFinalLevel: "required",
+            txtRepDDOCode: {
+                required: true,
+                //maxlength: 10
+            },
+            txtFinalDDOCode: {
+                required: true,
+                //maxlength: 10
+            },
+            txtSpecialDDOCode: {
+                required: false,
+                //maxlength: 10
+            },
+            radioSalutation: "required",
+            txtDDOName: {
+                required: true,
+               // maxlength: 100
+            },
+            radioGender: "required",
+            txtTreasuryName: {
+                maxlength: 50
+            },
+            txtTreasuryCode: {
+                maxlength: 4
+            },
+            cmbSubTreasury: {
+                required: true,
+                min: 1
+            },
+            txtDDODsgn: {
+                required: true,
+                maxlength: 50
+            },
+            txtOfficeName: {
+                required: true,
+                maxlength: 500
+            },
+            txtDDOCode: {
+                required: true,
+                maxlength: 50
+            },
+            txtMobileNo: {
+                required: true,
+                maxlength: 10
+            },
+            txtEmailId: {
+                required: true,
+                maxlength: 100,
+                email: true // Ensure email format validation
+            }
+            // Add more fields here as needed
+        },
+        // Specify validation error messages
+        messages: {
+            cmbAdminOffice: {
+                required: "Please select Admin Office",
+                min: "Please select Admin Office"
+            },
+            cmbDistOffice: {
+                required: "Please select District Office",
+                min: "Please select District Office"
+            },
+            radioFinalLevel: "Please select Final Level",
+            txtRepDDOCode: {
+                required: "Please enter DDO Code Level 2",
+                maxlength: "DDO Code Level 2 should not exceed {0} characters"
+            },
+            txtFinalDDOCode: {
+                required: "Please enter DDO Code Level 3",
+                maxlength: "DDO Code Level 3 should not exceed {0} characters"
+            },
+            txtSpecialDDOCode: {
+                required: "Please enter DDO Code Level 4",
+                maxlength: "DDO Code Level 4 should not exceed {0} characters"
+            },
+            radioSalutation: "Please select DDO Name Salutation",
+            txtDDOName: {
+                required: "Please enter DDO Name",
+                maxlength: "DDO Name should not exceed {0} characters"
+            },
+            radioGender: "Please select Gender",
+            txtTreasuryName: {
+                maxlength: "Treasury Name should not exceed {0} characters"
+            },
+            txtTreasuryCode: {
+                maxlength: "Treasury Code should not exceed {0} characters"
+            },
+            cmbSubTreasury: {
+                required: "Please select Sub Treasury Name",
+                min: "Please select Sub Treasury Name"
+            },
+            txtDDODsgn: {
+                required: "Please enter DDO Designation",
+                maxlength: "DDO Designation should not exceed {0} characters"
+            },
+            txtOfficeName: {
+                required: "Please enter Institute Name",
+                maxlength: "Institute Name should not exceed {0} characters"
+            },
+            txtDDOCode: {
+                required: "Please enter DDO Code",
+                maxlength: "DDO Code should not exceed {0} characters"
+            },
+            txtMobileNo: {
+                required: "Please enter Mobile Number",
+                maxlength: "Mobile Number should not exceed {0} characters"
+            },
+            txtEmailId: {
+                required: "Please enter Email Id",
+                maxlength: "Email Id should not exceed {0} characters",
+                email: "Please enter a valid Email Id"
+            }
+            // Add more messages here as needed
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
 });
-
-

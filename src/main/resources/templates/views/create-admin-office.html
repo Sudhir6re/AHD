@@ -58,13 +58,20 @@
 							<tbody>
 								<tr>
 									<td>Admin Type</td>
-									<td><select id="cmbAdminType"
+									<td>
+									
+									<select id="cmbAdminType"
 										style="width: 85%, display: inline;">
 											<option title="Select All" value="-1">Select</option>
 											<option th:each="zpAdminNameMst : ${lstZpAdminNameMst}"
 												th:value="${zpAdminNameMst.adminCode}"
 												th:text="${zpAdminNameMst.adminName}"></option>
-									</select></td>
+									</select>
+									
+								
+									
+									
+									</td>
 									<td>Distrct</td>
 									<td><select name="cmbDistrict" id="cmbDistrict"
 										style="width: 85%, display: inline;">

@@ -22,7 +22,7 @@ public interface CreateAdminOfficeService {
 
 	List<Object[]> findZpRltDtls(OrgUserMst messages, String districtName, String talukaNametName, String adminType);
 
-	void saveCreateAdminOffice(ZpRltDdoMapModel zpRltDdoMapModel, OrgUserMst messages);
+	String saveCreateAdminOffice(ZpRltDdoMapModel zpRltDdoMapModel, OrgUserMst messages);
 
 	List<CmnTalukaMst> getAllTalukaByDistrictId(Long districtId);
 

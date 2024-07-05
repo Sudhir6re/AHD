@@ -7,10 +7,10 @@ function funDdo1() {
 		}
 	
 
-		if ($('#schemeId').val() != '') {
+		if (schemeId != '') {
 			$.ajax({
 				type : "GET",
-				url : "../level1/getSchemeCodeAgainstName/" + schemeId,
+				url : "../ddoast/getSchemeCodeAgainstName/" + schemeId,
 				async : true,
 				contentType : 'application/json',
 				error : function(data) {
@@ -53,7 +53,7 @@ $(".billGrpId")
 					$
 							.ajax({
 								type : "GET",
-								url : "../level1/getBillDtlsForAlreadySaved/"+ billGrpId,
+								url : "../ddoast/getBillDtlsForAlreadySaved/"+ billGrpId,
 								async : true,
 								contentType : 'application/json',
 								error : function(

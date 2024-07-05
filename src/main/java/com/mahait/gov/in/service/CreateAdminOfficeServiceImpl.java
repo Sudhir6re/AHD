@@ -18,6 +18,7 @@ import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgDesignationMst;
+import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminNameMst;
 import com.mahait.gov.in.entity.ZpAdminOfficeMst;
@@ -112,7 +113,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	}
 
 	@Override
-	public void saveCreateAdminOffice(ZpRltDdoMapModel zpRltDdoMapModel, OrgUserMst messages) {
+	public String saveCreateAdminOffice(ZpRltDdoMapModel zpRltDdoMapModel, OrgUserMst messages) {
 
 		Long gLngPostId = messages.getCreatedByPost().getPostId();
 		Long gLngUserId = messages.getUserId();
@@ -146,6 +147,9 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		lStrDdoName=lStrDdoOfficeName;
 		String lStrDdoCode=zpRltDdoMapModel.getTxtDDOCode();
 		
+		
+		lStrDdoCode=lStrDdoCode+"_AST";
+		
 		Long lLngLocPin = 1l;//Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- Need Change Temporary "1" is added.  
 
 		
@@ -157,20 +161,27 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		lLngFieldDept=ParentDtls1.get(0).getHodLocCode();
 		
 		
-		String lStrLocCode = objZpDDOOfficeMstDAOImpl.insertLocation(lStrDdoOfficeName, gLngUserId, gLngPostId, Long.valueOf(lLngFieldDept), String.valueOf(lLngLocPin), messages,strDistCode);
-		Long lLngUserId = objZpDDOOfficeMstDAOImpl.insertUserMst(lStrDdoCode, gLngUserId, gLngPostId, messages);
+		CmnLocationMst  cmnLocationMst = objZpDDOOfficeMstDAOImpl.insertLocation(lStrDdoOfficeName, gLngUserId, gLngPostId, Long.valueOf(lLngFieldDept), String.valueOf(lLngLocPin), messages,strDistCode);
+	
+		
+		String lStrLocCode = cmnLocationMst.getLocId().toString();
+		
+		OrgUserMst orgUserMst = objZpDDOOfficeMstDAOImpl.insertUserMst(lStrDdoCode, gLngUserId, gLngPostId, messages);
+		
+		
+		Long lLngUserId =orgUserMst.getUserId();
 		Long lLngPostId = new Long(lLngUserId);
 
 		objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages);
 
-		objZpDDOOfficeMstDAOImpl.insertOrgPostMst(lLngPostId, lStrLocCode, gLngUserId, gLngPostId, lLngDesignID.toString(), messages);
+		OrgPostMst newOrgPostMst=objZpDDOOfficeMstDAOImpl.insertOrgPostMst(lLngPostId, lStrLocCode, gLngUserId, gLngPostId, lLngDesignID.toString(), messages);
 
-		objZpDDOOfficeMstDAOImpl.insertPostDtlsRlt(lStrLocCode, lLngPostId, lStrDesgnName, lLngDesignID, gLngUserId, gLngPostId, messages);
+		objZpDDOOfficeMstDAOImpl.insertPostDtlsRlt(lStrLocCode, lLngPostId, lStrDesgnName, lLngDesignID, gLngUserId, gLngPostId, messages,newOrgPostMst,cmnLocationMst);
 
 		//lObjAddNewDdoConfig.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, objectArgs,"DDO");
-		objZpDDOOfficeMstDAOImpl.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, messages,"DDO");
+		//objZpDDOOfficeMstDAOImpl.insertPostRoleRlt(lLngPostId, gLngUserId, gLngPostId, messages,"DDO",newOrgPostMst);
 
-		objZpDDOOfficeMstDAOImpl.insertUserPostRlt(lLngPostId, lLngUserId, gLngUserId, gLngPostId, messages);
+		objZpDDOOfficeMstDAOImpl.insertUserPostRlt(lLngPostId, lLngUserId, gLngUserId, gLngPostId, messages,newOrgPostMst,orgUserMst);
 
 		String lstrDdoType="";
 		List ofcCode=objZpDDOOfficeMstDAOImpl.retirveDdoType(strAdminOfc);
@@ -194,7 +205,34 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 
 		String uniqeInstituteId=objZpDDOOfficeMstDAOImpl.generateUniqeInstituteId(lStrDdoCode,lLngDistrictCode.toString(), messages);
 		objZpDDOOfficeMstDAOImpl.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, messages,uniqeInstituteId);
+
+		
+		objZpDDOOfficeMstDAOImpl.insertRltZpDdoMap(lLngUserId, gLngPostId, 0l, 0l, lStrDdoCode, strRepoDDOCode, lstrFinalDDOCode,lstrSpecialDDOCode, lstrLevel,gLngUserId, gLngPostId, messages);
+		
 /*
+		Long ZP_DDO_POST_ID=lLngPostId;
+		List RepoDDO=objZpDDOOfficeMstDAOImpl.retirveRepoDDOPostId((strRepoDDOCode));
+		List FinalDDO=null;
+		Long FINAL_DDO_POST_ID=null;
+		List SpecDDO=null;
+		Long SPECIAL_DDO_POST_ID=null;
+		Long REPT_DDO_POST_ID=Long.valueOf(RepoDDO.get(0).toString());
+		if(lstrFinalDDOCode!=null && !lstrFinalDDOCode.equals("") )
+		{
+			FinalDDO=objZpDDOOfficeMstDAOImpl.retirveFinalDDOPostId(Long.valueOf(lstrFinalDDOCode));
+			FINAL_DDO_POST_ID=Long.valueOf(FinalDDO.get(0).toString());
+		}
+
+		if(lstrLevel.equalsIgnoreCase("radioFinalLevel2")){
+			lstrLevel="2";
+			Long lstrReporole=700019L; 
+			List checkRole=objZpDDOOfficeMstDAOImpl.checkRepopostrole(REPT_DDO_POST_ID,lstrReporole);
+			if(checkRole.size()==0){
+				objZpDDOOfficeMstDAOImpl.insertPostRoleRlt(REPT_DDO_POST_ID, gLngUserId, gLngPostId, messages,"ReportingDDO",newOrgPostMst);
+			}
+		}
+		*/
+		/*
 		lObjAddNewDdoConfig.insertRltDdoOrg(gLngUserId, gLngPostId, lStrDdoCode, lLngTreasuryCode.toString(), objectArgs);
 		lObjAddNewDdoConfig.insertWfOrgPost(lLngPostId.toString()); 
 		lObjAddNewDdoConfig.insertWfOrgLoc(lStrLocCode);
@@ -365,6 +403,8 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		objRes.setResultValue(objectArgs);
 		objRes.setViewName("zpDDOOfficeView");
 		return objRes;*/
+		
+		return uniqeInstituteId;
 	}
 
 	@Override
