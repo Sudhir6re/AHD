@@ -22,7 +22,7 @@ input[type='text'],input[type='number'],input[type='email'],input[type='password
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	width: 90% ! IMPORTANT;
 }
-.buttontag{
+.buttontag,.bigbutton{
 display: inline-block;
     padding: 6px 12px;
     margin-bottom: 0;
@@ -61,4 +61,8 @@ display: inline-block;
     width: 95%;
     padding: 10px 10px;
     background: #fff;
+}
+.scrollablediv {
+    height: 400px;
+    overflow: auto;
 }
