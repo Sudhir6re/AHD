@@ -5,15 +5,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,12 +93,43 @@ public class CreateAdminOfficeController {
 		return "/views/create-office";
 	}
 
-	@GetMapping("/saveCreateAdminOffice")
+	@PostMapping("/saveCreateAdminOffice")
 	public String saveCreateAdminOffice(Model model, Locale locale, HttpSession session,
-			@ModelAttribute("zpRltDdoMapModel") ZpRltDdoMapModel zpRltDdoMapModel) {
+			 @ModelAttribute ("zpRltDdoMapModel") @Valid ZpRltDdoMapModel zpRltDdoMapModel,BindingResult result) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		createAdminOfficeService.saveCreateAdminOffice(zpRltDdoMapModel, messages);
+		String uniqueId=createAdminOfficeService.saveCreateAdminOffice(zpRltDdoMapModel, messages);
+
+		
+		 if (result.hasErrors()) {
+	            return "/views/create-office";
+	        }
+
+		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
+		// createAdminOfficeService.findAllDdoMappedlist(messages);
+		List<ZpAdminNameMst> lstZpAdminNameMst = createAdminOfficeService.fetchAllOfficeList(messages);
+
+		List<CmnTalukaMst> lstCmnTalukaMst = createAdminOfficeService.findAllTalukaList(messages);
+		List<CmnDistrictMst> lstCmnDistrctMst = createAdminOfficeService.findAllDistrictList(messages);
+
+		List<Object[]> adminOfcLst = createAdminOfficeService.retriveDisctOfcList(messages, "");
+		model.addAttribute("adminOfcLst", adminOfcLst);
+
+		// model.addAttribute("lstZpRltDdoMapModel", lstZpRltDdoMapModel);
+
+		String districtName = null;
+		String talukaNametName = null;
+		String adminType = null;
+
+		List<Object[]> lstZpRltDdoMapRlt = createAdminOfficeService.findZpRltDtls(messages, districtName,
+				talukaNametName, adminType);
+		model.addAttribute("lstZpAdminNameMst", lstZpAdminNameMst);
+		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
+		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
+		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
+		model.addAttribute("uniqueId", uniqueId);
+
 		return "/views/create-office";
+		
 	}
 
 	@RequestMapping(value = "/getAllTalukaByDistrictId/{districtId}", consumes = {

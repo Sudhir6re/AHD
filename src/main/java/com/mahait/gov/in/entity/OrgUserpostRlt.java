@@ -61,11 +61,11 @@ public class OrgUserpostRlt implements Serializable {
 	@JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
 	@Fetch(FetchMode.SELECT)
 	private OrgUserMst updatedBy;
-
+/*
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status_lookup_id", nullable = false)
 	@Fetch(FetchMode.SELECT)
-	private CmnLookupMst cmnLookupMst;
+	private CmnLookupMst cmnLookupMst;*/
 
 	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "updated_by", referencedColumnName = "USER_ID", nullable = false )
@@ -92,10 +92,16 @@ public class OrgUserpostRlt implements Serializable {
     
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loc_id")
+    @JoinColumn(name = "lookup_id")
     private CmnLookupMst cmnLookupUserPostType;
+  /*  
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loc_id")
+    private CmnLocationMst cmnLocationMst;
     
     
+    */
     
     
 

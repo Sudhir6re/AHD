@@ -3,6 +3,8 @@ package com.mahait.gov.in.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.validation.constraints.NotEmpty;
+
 import lombok.Data;
 
 
@@ -43,22 +45,54 @@ public class ZpRltDdoMapModel implements Serializable {
 
     private Long updatedPostId;
  
-    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String cmbAdminOffice;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String cmbDistOffice;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String radioFinalLevel;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtRepDDOCode;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtFinalDDOCode;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtSpecialDDOCode;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String radioSalutation;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtDDOName;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String radioGender;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtTreasuryName;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtTreasuryCode;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String cmbSubTreasury;
+    
+    
     private String txtDDODsgn;
+    @NotEmpty(message = "User's email cannot be empty.")
+    
     private String txtOfficeName;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtDDOCode;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtMobileNo;
+    
+    @NotEmpty(message = "User's email cannot be empty.")
     private String txtEmailId;
 }

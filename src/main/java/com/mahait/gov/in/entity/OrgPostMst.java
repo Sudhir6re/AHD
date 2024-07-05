@@ -33,7 +33,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "org_post_mst")
 public class OrgPostMst implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
+	@Id
     @Column(name = "post_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -62,12 +69,16 @@ public class OrgPostMst implements Serializable {
     @Fetch(FetchMode.SELECT)
     private OrgUserMst updatedBy;
     
-    
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_lookup_id", nullable = false)
+    @JoinColumn(name = "lookup_id", nullable = false)
     private CmnLookupMst cmnLookupMst;
+*/
 
 
+    @Column(name = "lookup_id") // Corrected mapping
+    private Long lookupId;
+    
 
     @Column(name = "parent_post_id", nullable = false)
     private Long parentPostId;
