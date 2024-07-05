@@ -11,7 +11,7 @@ import com.mahait.gov.in.model.OrgDdoMst;
 
 public interface ZpDDOOfficeService {
 
-	List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(Long long1);
+	List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(String string);
 
 	NewRegDDOModel getDDOinfo(String zpDdoCode);
 

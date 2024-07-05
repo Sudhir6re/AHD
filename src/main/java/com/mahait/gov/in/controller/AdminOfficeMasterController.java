@@ -40,6 +40,12 @@ public class AdminOfficeMasterController {
 		if (messageResponse != null) {
 			model.addAttribute("messageResponse", messageResponse);
 		}
+		
+		
+		String uniqueId= (String) model.asMap().get("uniqueId");
+		model.addAttribute("uniqueId", uniqueId);
+		
+		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		List<ZpAdminOfficeMstModel> lstZpAdminOfficeMstModel = adminOfficeMasterService.findAllZpAdminOfficeMstModel();
 

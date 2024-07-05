@@ -164,12 +164,16 @@ public class OrgEmpMst implements Serializable {
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForEmpId;
-
+    
+    
+/*
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgUserpostRlt> orgUserpostRltsForUpdatedBy;
-
+*/
+    
+    /*
     @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgUserpostRlt> orgUserpostRltsForCreatedBy;
+    private Set<OrgUserpostRlt> orgUserpostRltsForCreatedBy;*/
 
   /*  @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgUserMst> orgUserMstsForUpdatedBy;

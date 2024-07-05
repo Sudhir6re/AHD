@@ -25,9 +25,9 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 	ZpDDOOfficeRepo zpDDOOfficeRepo;
 
 	@Override
-	public List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(Long postId) {
+	public List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(String username) {
 		// TODO Auto-generated method stub
-		return zpDDOOfficeRepo.getAllDDOOfficeDtlsDataByPostID(postId);
+		return zpDDOOfficeRepo.getAllDDOOfficeDtlsDataByPostID(username);
 	}
 
 	@Override

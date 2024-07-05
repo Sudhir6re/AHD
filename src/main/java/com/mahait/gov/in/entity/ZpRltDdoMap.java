@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,7 +25,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "zpMapId")
 public class ZpRltDdoMap implements Serializable {
     
-    @Id
+	 @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ZP_MAP_ID", precision = 10, scale = 0)
     private Long zpMapId;
 

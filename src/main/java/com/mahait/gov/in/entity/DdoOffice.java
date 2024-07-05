@@ -3,6 +3,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -15,7 +17,8 @@ import lombok.Data;
 @Table(name = "MST_DCPS_DDO_OFFICE")
 public class DdoOffice {
 
-    @Id
+	 @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DCPS_DDO_OFFICE_MST_ID", precision = 20, scale = 0)
     private Long dcpsDdoOfficeIdPk;
 

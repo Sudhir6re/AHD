@@ -49,15 +49,15 @@ public class ZpDDOOfficeController {
 			HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		/*String message=(String) model.asMap().get("message");
-		*/
-		/*List<ZpRltDdoMap> zpDDOOfficelst = zpDDOOfficeService
-				.getAllDDOOfficeDtlsDataByPostID(messages.getCreatedByPost().getCreatedByPost().getPostId());
+		String message=(String) model.asMap().get("message");
+	
+		List<ZpRltDdoMap> zpDDOOfficelst = zpDDOOfficeService
+				.getAllDDOOfficeDtlsDataByPostID(messages.getUserName());
 		
 		
 	///	model.addAttribute("message", message);
 	///	
-		model.addAttribute("zpDDOOfficelst", zpDDOOfficelst);*/
+		model.addAttribute("zpDDOOfficelst", zpDDOOfficelst);
 		
 		return "/views/approveDDOOfficeView";
 		

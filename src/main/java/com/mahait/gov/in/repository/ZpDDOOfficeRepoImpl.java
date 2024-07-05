@@ -22,8 +22,8 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 	EntityManager entityManager;
 
 	@Override
-	public List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(Long postId) {
-		String HQL = "FROM ZpRltDdoMap as  t  where langId = 1 and reptDdoPostId='"+postId+"' and status=0  ORDER BY t.zpMapId desc";
+	public List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(String username) {
+		String HQL = "FROM ZpRltDdoMap as  t  where langId = 1 and reptDdoCode='"+username+"' and status=0  ORDER BY t.zpMapId desc";
 		return (List<ZpRltDdoMap>) entityManager.createQuery(HQL).getResultList();
 
 	}

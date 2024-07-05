@@ -8,7 +8,7 @@ import com.mahait.gov.in.entity.ZpRltDdoMap;
 
 public interface ZpDDOOfficeRepo {
 
-	List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(Long postId);
+	List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(String username);
 
 	List<Object[]> getDDOinfo(String zpDdoCode);
 

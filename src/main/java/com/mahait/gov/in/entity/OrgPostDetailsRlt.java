@@ -43,63 +43,7 @@ public class OrgPostDetailsRlt implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private OrgPostMst orgPostMst;
-    
-
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lookup_id", nullable = false)
-    private CmnLookupMst cmnLookupMst;*/
-    
-    
-
-    @Column(name = "lookup_id") // Corrected mapping
-    private Long lookupId;
-    
-    
-    
-    
-
-    
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst createdByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst updatedByPost;
-
-    
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private OrgUserMst createdBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
-    @Fetch(FetchMode.SELECT)
-    private OrgUserMst updatedBy;
-    
-    
-    
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lang_id", nullable = false)
-    private CmnLanguageMst cmnLanguageMst;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dsgn_id", nullable = false)
-    private OrgDesignationMst orgDesignationMst;
-
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_id")
-    private CmnBranchMst cmnBranchMst;*/
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_category")
-    private CmnLookupMst postCategory;
+   
 
     @Column(name = "post_name", length = 100, nullable = false)
     private String postName;
@@ -107,34 +51,90 @@ public class OrgPostDetailsRlt implements Serializable {
     @Column(name = "post_short_name", length = 60, nullable = false)
     private String postShortName;
 
-    @Column(name = "CREATED_DATE", length = 19, nullable = false)
-    private Timestamp createdDate;
-
-
-  /*  @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CREATED_BY", nullable = false)
-    private OrgUserMst orgUserMstByCreatedBy;
-
-   
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UPDATED_BY")
-    private OrgUserMst orgUserMstByUpdatedBy;
-
-    @Column(name = "UPDATED_DATE", length = 19)
-    private Timestamp updatedDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CREATED_BY_POST", nullable = false)
-    private OrgPostMst orgPostMstByCreatedByPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UPDATED_BY_POST")
-    private OrgPostMst orgPostMstByUpdatedByPost;*/
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loc_id", nullable = false)
     private CmnLocationMst cmnLocationMst;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dsgn_id", nullable = false)
+    private OrgDesignationMst orgDesignationMst;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id")
+    private CmnBranchMst cmnBranchMst;
+    
+    
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lang_id", nullable = false)
+    private CmnLanguageMst cmnLanguageMst;
+
+    
+    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst createdBy;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst createdByPost;
+
+    
+    
+    @Column(name = "CREATED_DATE", length = 19, nullable = false)
+    private Timestamp createdDate;
+
+    
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgUserMst updatedBy;
+    
+
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
+    @Fetch(FetchMode.SELECT)
+    private OrgPostMst updatedByPost;
+
+    
+
+    @Column(name = "UPDATED_DATE", length = 19)
+    private Timestamp updatedDate;
+    
+    /*
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_category")
+    private CmnLookupMst postCategory;
+    */
+/*
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lookup_id", nullable = false)
+    private CmnLookupMst cmnLookupMst;
+    
+    
+
+    @JoinColumn(name = "userpost_type_lookup_id", referencedColumnName = "lookup_id", nullable = true)
+    private CmnLookupMst cmnLookupMst;
+    
+    
+    @JoinColumn(name = "lookup_id", referencedColumnName = "lookup_id", nullable = true)
+    private CmnLookupMst cmnLookupMst1;
+
+    
+    
+    */
     
     
     

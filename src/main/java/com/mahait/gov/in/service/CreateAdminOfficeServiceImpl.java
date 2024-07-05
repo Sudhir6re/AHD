@@ -148,7 +148,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		String lStrDdoCode=zpRltDdoMapModel.getTxtDDOCode();
 		
 		
-		lStrDdoCode=lStrDdoCode+"_AST";
+		lStrDdoCode=lStrDdoCode;;
 		
 		Long lLngLocPin = 1l;//Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- Need Change Temporary "1" is added.  
 
@@ -184,8 +184,8 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		objZpDDOOfficeMstDAOImpl.insertUserPostRlt(lLngPostId, lLngUserId, gLngUserId, gLngPostId, messages,newOrgPostMst,orgUserMst);
 
 		String lstrDdoType="";
-		List ofcCode=objZpDDOOfficeMstDAOImpl.retirveDdoType(strAdminOfc);
-		lstrDdoType=ofcCode.get(0).toString();//Note : Column Added in ORG_DDO_MST-DDOType
+		//List ofcCode=objZpDDOOfficeMstDAOImpl.retirveDdoType(strAdminOfc);
+		lstrDdoType=strAdminOfc;//ofcCode.get(0).toString();//Note : Column Added in ORG_DDO_MST-DDOType
 
 		List ParentDtls=objZpDDOOfficeMstDAOImpl.RetirveParentdtlfrmReptCode(strRepoDDOCode);
 		
@@ -195,7 +195,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		String lstrHOD_Code=tmp1[1].toString();
 		
 		
-		List DeptCode=objZpDDOOfficeMstDAOImpl.RetirveAdminDeptType(strDeptCode);
+		List DeptCode=objZpDDOOfficeMstDAOImpl.retriveDepts(strAdminOfc);
 		String lstrDeptType=null;
 		if(DeptCode!=null && DeptCode.size()>0)
 			lstrDeptType=DeptCode.get(0).toString();

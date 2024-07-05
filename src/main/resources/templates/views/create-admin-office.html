@@ -50,6 +50,9 @@
 					th:object="${zpRltDdoMapModel}"
 					th:action="@{/mdc/saveCreateAdminOffice}"
 					action="./hrms.htm?actionFlag=loadDdoOfficeData">
+					
+					
+						<input type="hidden" id="uniqueId" name="uniqueId"  th:value="${uniqueId}"/>
 					<fieldset class="tabstyle">
 						<legend>
 							<b>Filter Institute</b>

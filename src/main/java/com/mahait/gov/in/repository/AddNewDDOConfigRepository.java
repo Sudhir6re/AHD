@@ -314,7 +314,7 @@ public class AddNewDDOConfigRepository {
 			lObjOrgPostMst.setParentPostId(-1l);
 			lObjOrgPostMst.setPostLevelId(1l);
 			//lObjOrgPostMst.setCmnLookupMst(lObjCmnLookupMst);
-			lObjOrgPostMst.setLookupId(lObjCmnLookupMst.getLookupId());
+			lObjOrgPostMst.setCmnLookupMst(lObjCmnLookupMst);
 			lObjOrgPostMst.setActivateFlag(1l);
 			lObjOrgPostMst.setCreatedBy(lObjOrgUserMstCrtdUsr);
 			lObjOrgPostMst.setCreatedByPost(postId);
@@ -353,12 +353,13 @@ public class AddNewDDOConfigRepository {
 			lObjPostDtldRlt.setPostShortName(lStrDesignName);
 			lObjPostDtldRlt.setCmnLocationMst(lObjCmnLocationMst);
 			lObjPostDtldRlt.setOrgDesignationMst(lObjOrgDesigmMst);
-			lObjPostDtldRlt.setLookupId(newOrgPostMst.getLookupId());
+		//	lObjPostDtldRlt.setCmnLookupMst(newOrgPostMst.getCmnLookupMst());
 			
 			//lObjPostDtldRlt.setCmnLookupMst(postId.getCmnLookupMst());
 			lObjPostDtldRlt.setCmnLanguageMst(lObjCmnLanguageMst);
 			lObjPostDtldRlt.setCreatedBy(lObjOrgUserMstCrtd);
 			lObjPostDtldRlt.setCreatedByPost(postIdCrtd);
+			//lObjPostDtldRlt.set
 			lObjPostDtldRlt.setCreatedDate(new Timestamp(new Date().getTime()));
 			ghibSession.save(lObjPostDtldRlt);
 			ghibSession.flush();
@@ -420,9 +421,10 @@ public class AddNewDDOConfigRepository {
 			//lLngEmpPostId = getNextSeqNoLocForOrgUserpostRlt();
 			//lObjOrgUserpostRlt.setEmpPostId(lLngEmpPostId);
 			lObjOrgUserpostRlt.setOrgUserMst(lObjOrgUserMst);
-			lObjOrgUserpostRlt.setOrgPostMstByPostId(postId);
+			//lObjOrgUserpostRlt.setOrgPostMst(newOrgPostMst);
 			lObjOrgUserpostRlt.setStartDate(new Timestamp(new Date().getTime()));
 			lObjOrgUserpostRlt.setActivateFlag(1l);
+			lObjOrgUserpostRlt.setOrgPostMstByPostId(newOrgPostMst);
 			lObjOrgUserpostRlt.setCreatedByPost(postIdCrtd);
 			lObjOrgUserpostRlt.setCreatedBy(orgUserMst);
 			lObjOrgUserpostRlt.setCreatedDate(new Timestamp(new Date().getTime()));
@@ -451,12 +453,12 @@ public class AddNewDDOConfigRepository {
 			lObjOrgDdoMst.setDdoName(lStrDdoName);
 			lObjOrgDdoMst.setDdoPersonalName(lStrDdoPrsnlName);
 			lObjOrgDdoMst.setPostId(lLngPostId);
-			lObjOrgDdoMst.setLangId(1l);
+			lObjOrgDdoMst.setLangId((short)1);
 			lObjOrgDdoMst.setDeptLocCode(lstrDeptLocCode);
 			lObjOrgDdoMst.setCreatedBy(lLngUserIdCrtd);
 			lObjOrgDdoMst.setCreatedByPost(lLngPostIdCrtd);
 			lObjOrgDdoMst.setCreatedDate(new Timestamp(new Date().getTime()));
-			lObjOrgDdoMst.setDbId(99l);
+			lObjOrgDdoMst.setDbId((short)99);
 			lObjOrgDdoMst.setLocationCode(lStrLocationCode);
 			ghibSession.save(lObjOrgDdoMst);
 			ghibSession.flush();
@@ -1170,6 +1172,28 @@ public class AddNewDDOConfigRepository {
 		return temp;
 	}
 	
+	
+
+
+public List retriveDepts(String OfcCode) 
+	{
+		List temp=null;
+		//hibSession = getSession();
+		try
+		{		
+			Session ghibSession = entityManager.unwrap(Session.class);   
+			String branchQuery = "select aa.DEPT_ID,aa.DEPT_NAME,aa.DEPT_CODE FROM MST_ZP_DEPT aa where ADMIN_OFF_TYPE_CODE='"+OfcCode+"'";
+			Query sqlQuery= ghibSession.createSQLQuery(branchQuery);
+			temp= sqlQuery.list();
+			
+			
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return temp;
+	}
 	public List retirveDdoType(String adminOfcId)
 	{
 		Session ghibSession = entityManager.unwrap(Session.class);     
@@ -1264,15 +1288,15 @@ public class AddNewDDOConfigRepository {
 				lObjOrgDdoMst.setDdoName(lStrDdoName);
 				lObjOrgDdoMst.setDdoPersonalName(lStrDdoPersonalName);
 				lObjOrgDdoMst.setPostId(lLngPostId);
-				lObjOrgDdoMst.setLangId(1l);
+				lObjOrgDdoMst.setLangId((short)1);
 				lObjOrgDdoMst.setDeptLocCode(lstrDept_Code);
 				lObjOrgDdoMst.setCreatedBy(messages.getUserId());
 				lObjOrgDdoMst.setCreatedByPost(messages.getCreatedByPost().getPostId());
 				lObjOrgDdoMst.setCreatedDate(new Timestamp(new Date().getTime()));
-				lObjOrgDdoMst.setDbId(99l);
+				lObjOrgDdoMst.setDbId((short)99);
 				lObjOrgDdoMst.setLocationCode(lStrLocCode);
 				ghibSession.save(lObjOrgDdoMst);
-				ghibSession.flush();
+				//ghibSession.flush();
 			} catch (Exception e) {
 				throw e;
 			}

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.JsonObject;
 import com.mahait.gov.in.entity.CmnDistrictMst;
@@ -95,7 +96,7 @@ public class CreateAdminOfficeController {
 
 	@PostMapping("/saveCreateAdminOffice")
 	public String saveCreateAdminOffice(Model model, Locale locale, HttpSession session,
-			 @ModelAttribute ("zpRltDdoMapModel") @Valid ZpRltDdoMapModel zpRltDdoMapModel,BindingResult result) {
+			 @ModelAttribute ("zpRltDdoMapModel") @Valid ZpRltDdoMapModel zpRltDdoMapModel,BindingResult result,RedirectAttributes redirectAttribute) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		String uniqueId=createAdminOfficeService.saveCreateAdminOffice(zpRltDdoMapModel, messages);
 
@@ -127,8 +128,9 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
 		model.addAttribute("uniqueId", uniqueId);
+		redirectAttribute.addFlashAttribute("uniqueId", uniqueId);
 
-		return "/views/create-office";
+		return "redirect:/mdc/adminOfficeMaster";
 		
 	}
 

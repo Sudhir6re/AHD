@@ -65,16 +65,16 @@ public class OrgPostMst implements Serializable {
     @Fetch(FetchMode.SELECT)
     private OrgUserMst updatedBy;
     
-    /*
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lookup_id", nullable = false)
     private CmnLookupMst cmnLookupMst;
-*/
 
+/*
 
     @Column(name = "lookup_id") // Corrected mapping
     private Long lookupId;
-    
+    */
 
     @Column(name = "parent_post_id", nullable = false)
     private Long parentPostId;
