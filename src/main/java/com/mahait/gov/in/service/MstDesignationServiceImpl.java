@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.repository.MstDesignationRepo;
-
 @Service
 @Transactional
 public class MstDesignationServiceImpl implements MstDesignationService{
+
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -55,6 +55,8 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 	}
 
 */
+	
+	
 	@Override
 	public List<MstPayCommissionEntity> findAllPayCommission() {
 		return mstDesignationRepo.findAllPayCommission();
@@ -145,5 +147,7 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 		return mstDesignationRepo.getCadre();
 <<<<<<< HEAD
 	}
-*/
+<<<<<<< HEAD
+	}*/
 }
+
