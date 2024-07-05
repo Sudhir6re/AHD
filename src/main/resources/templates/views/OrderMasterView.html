@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:utext="#{msg.thymeleaf.pagelabel.orderMst}"></title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+.multiselect, .multiselect1 {
+	/* width: 200px; */
+	position: absolute;
+	background: #fff;
+	z-index: 9999;
+}
+
+div#checkboxes, #checkboxes1 {
+	padding: 3px 10px;
+}
+
+.selectBox {
+	position: relative;
+}
+
+.selectBox select {
+	width: 100%;
+	font-weight: bold;
+}
+
+.overSelect {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#checkboxes {
+	display: none;
+	border: 1px #dadada solid;
+	overflow-y: scroll !important;
+	max-height: 200px !important;
+}
+
+#checkboxes label {
+	display: block;
+}
+
+#checkboxes label:hover {
+	background-color: #1e90ff;
+}
+
+.selectBox1 {
+	position: relative;
+}
+
+.selectBox1 select {
+	width: 100%;
+	font-weight: bold;
+}
+
+.overSelect1 {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#checkboxes1 {
+	display: none;
+	border: 1px #dadada solid;
+	overflow-y: scroll !important;
+	max-height: 200px !important;
+}
+
+#checkboxes1 label {
+	display: block;
+}
+
+#checkboxes1 label:hover {
+	background-color: #1e90ff;
+}
+
+.error {
+	color: red !important;
+	font-size: 12px !important;
+}
+
+select.error, textarea.error, input.error {
+	border: 1px solid red !important;
+}
+body.mst-grorder table#oldData tr td:nth-child(6) {
+    text-align: center;
+}
+</style>
+<script>
+	var expanded = false;
+	function showCheckboxes() {
+		var checkboxes = document.getElementById("checkboxes");
+		if (!expanded) {
+			checkboxes.style.display = "block";
+			expanded = true;
+		} else {
+			checkboxes.style.display = "none";
+			expanded = false;
+		}
+	}
+</script>
+<script>
+	var expanded = false;
+
+	function showCheckboxes1() {
+		var checkboxes = document.getElementById("checkboxes1");
+		if (!expanded) {
+			checkboxes.style.display = "block";
+			expanded = true;
+		} else {
+			checkboxes.style.display = "none";
+			expanded = false;
+		}
+	}
+</script>
+</head>
+<body class="mst-grOrder">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+
+	<div class="container min-height-600 grOrder">
+
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pagelabel.orderMst}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pagelabel.orderMst}"></span>
+		</h3>
+		<fieldset class="container">
+			<!-- <legend th:utext="#{menu.master.sub.grordermaster}"
+				th:style="${'color: orange;'}"></legend> -->
+
+			<!-- 		<h1 th:utext="#{common.label.title}"></h1> -->
+
+			<form class="form-horizontal" th:action="@{/ddo/AddOrderData}"
+				th:object="${mstGrOrderModel}" name="mstGrOrder" method="POST"
+				enctype="multipart/form-data">
+
+				<input type="hidden" name="language" id="language"
+					th:value="${language}" /> <input type="hidden" name="message"
+					id="message" th:value="${message}" />
+
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span
+						th:utext="#{msg.thymeleaf.pagelabel.departmentname}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<select class="form-control" id="department_id"
+							th:field="*{departmentId}">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<!--<option value="1">Latur</option> -->
+							<option th:each="varDeptDataTable : ${lstDeptDataTable}"
+								th:value="${varDeptDataTable.departmentId}"
+								th:text="${language=='mh' ? varDeptDataTable.departmentNameEn : varDeptDataTable.departmentNameEn}"></option>
+						</select>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span
+						th:utext="#{msg.thymeleaf.pagelabel.subdepartmentname}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<select class="form-control" id="subdepartment_id"
+							th:field="*{subDepartmentId}">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span
+						th:utext="#{msg.thymeleaf.pagelabel.isApplicableLocation}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-2">
+					
+						<!-- <input type="checkbox" id="isApplicablelocation"  th:field="*{isApplicableLocation}"  value="No"></input> -->
+						
+						<input type="radio"
+							 th:field="*{isApplicableLocation}"
+							th:value="Yes" />
+							
+							<label class="form-check-label">Yes</label> 
+							 <input type="radio"
+							name="applicable" class="applicable" 
+							th:value="No" th:field="*{isApplicableLocation}"  value="No"/><label
+							class="form-check-label">No</label>
+							
+							
+					<label id="isApplicableLocation-error" class="error" for="isApplicableLocation"></label>		
+							
+							
+						
+						
+					</div>
+
+
+					<div id="district" style="display: none;">
+						<label class="control-label col-sm-1" for="title"><span
+							th:utext="#{msg.thymeleaf.pagelabel.district}"></span>&nbsp;&nbsp;<b><font
+								color="red" size="4px;">*</font></b></label>
+						<div class="col-sm-2">
+
+<select class="form-control" id="districtConcatCode"  th:field="*{districtConcatCode}">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							  <option th:each="varDistrict : ${lstAllDistrict}"
+								th:value="${varDistrict.districtId}"
+								th:text="${varDistrict.districtNameEn}"></option> 
+						</select>
+				<!-- 			<div class="multiselect">
+								<div class="selectBox" onclick="showCheckboxes()">
+									<select class="form-control">
+										<option>Select an option</option>
+									</select>
+									<div class="overSelect"></div>
+								</div>
+								<div id="checkboxes"></div>
+							</div> -->
+						</div>
+					</div>
+
+
+
+					<div id="taluka" style="display: none;">
+						<label class="control-label col-sm-2" for="title"><span
+							th:utext="#{msg.thymeleaf.pagelabel.taluka}"></span>&nbsp;&nbsp;<b><font
+								color="red" size="4px;">*</font></b></label>
+
+
+
+
+						<div class="col-sm-2">
+
+
+							<!-- <select  class="form-control" id="talukaId" >
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+						</select> -->
+
+
+
+							<div class="multiselect1">
+								<div class="selectBox1" onclick="showCheckboxes1()">
+									<select class="form-control">
+										<option>Select an option</option>
+									</select>
+									<div class="overSelect1"></div>
+								</div>
+
+								<div id="checkboxes1"></div>
+							</div>
+
+
+
+						</div>
+
+					</div>
+
+
+
+				</div>
+
+
+				<!-- <div class="form-group">
+					
+					
+						  <label class="control-label col-sm-2" for="title"><span
+						th:utext="#{msg.thymeleaf.pagelabel.ddoLevel }"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+				
+					  <div class="col-sm-2">
+						<select  class="form-control" id="ddoCode" >
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+						</select>
+						</div>
+					
+					</div> -->
+
+
+				<!-- <div class="form-group">
+					<label class="control-label col-sm-2" for="title"><span
+						th:utext="#{msg.thymeleaf.pagelabel.level1ddocode}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-10">
+						<select  class="form-control" id="ddoCode" >
+							<option selected="selected" th:value="1000"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+						</select>
+							<input type="hidden" id="ddoIdCode" th:field="*{ddoCode}"  ></input>
+					</div>
+				</div> -->
+
+				<div class="row sixFields">
+
+
+					<label class="control-label col-sm-3" for="title" id="mylbl"><span
+						th:utext="#{menu.master.sub.orderType}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-2">
+						<select class="form-control" th:field="*{orderType}"
+							id="orderType">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option value="1">Central</option>
+							<option value="2">State</option>
+							<option value="3">Departmental</option>
+						</select>
+					</div>
+
+
+
+					<label class="control-label col-sm-1" for="title"> <span
+						th:utext="#{menu.master.sub.sancationDate}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-2">
+						<input type="date" class="form-control" th:field="*{orderDate}"
+							name="sanctionDate" id="sanctionDate"   th:attr="max=${maxDate}" ></input>
+					</div>
+					<label class="control-label col-sm-2" for="title"><span
+						th:utext="#{menu.master.sub.sancatioOrderNo}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control alphanumer"
+							th:field="*{sanctionOrderNo}" id="sanctionOrderNo"></input>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span
+						th:utext="#{menu.master.sub.isApplicable}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-2" style="margin-top: 5px;">
+						<input type="radio"
+							name="applicable" class="applicable" th:field="*{isApplicableForEndDt}"
+							th:value="#{msg.thymeleaf.pagelabel.whetherMinisterialYes}" />
+							<label class="form-check-label">Yes</label> 
+							 <input type="radio"
+							name="applicable" class="applicable" 
+							th:value="#{msg.thymeleaf.pagelabel.whetherMinisterialNo}" th:field="*{isApplicableForEndDt}"  value="No"/><label
+							class="form-check-label">No</label>
+							
+							
+							<label id="isApplicableForEndDt-error" class="error" for="isApplicableForEndDt"></label>
+					</div>
+					<!-- 
+					<div class="col-sm-3">
+						<input type="radio" class="form-check-input" name="optradio"
+							value="1" /> <label class="form-check-label">Yes</label> <input
+							type="radio" class="form-check-input" name="optradio" value="2" />
+						<label class="form-check-label">No</label>
+
+					</div>
+ -->
+
+					<div id="isEndDate" style="display: none;">
+						<label class="control-label col-sm-2" for="title"><span
+							th:utext="#{menu.master.sub.validUpto}"></span>&nbsp;&nbsp;<b><font
+								color="red" size="4px;">*</font></b></label>
+						<div class="col-sm-2">
+							<input type="date" class="form-control" th:field="*{endDate}" ></input>
+						</div>
+					</div>
+					
+					
+				</div>
+
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+
+				<div class="panel-group">
+					<div class="panel panel-default">
+
+						<div class="panel-body">
+
+							<table class="table table-striped table-bordered"
+								style="width: 100%">
+								<tr>
+									<td><label><span
+											th:utext="#{menu.master.sub.fileDescription}"></span></label></td>
+									<td><input type="text" class="form-control checkFirstChar" width="100"
+										id="fileDescription"   th:field="*{grDescription}"></input></td>
+
+									<td><label><span
+											th:utext="#{menu.master.sub.attachFile}"></span> 	&nbsp;&nbsp;<b><font
+								color="red" size="4px;">*</font></b></label></td>
+
+									<td><span> <input type="file" id="fileUploads" name="documentPath" th:field="*{documentPath}"
+											    accept="application/pdf" data-rule-required="true" data-msg-accept="Only .pdf files are allowed"></input></span>
+											
+										
+											</td>
+								</tr>
+
+								<tr>
+									<td colspan="4">
+										<div class="text-center">
+											<span> <input type="button"
+												class="btn btn-primary btn-md" value="Add Attachment"
+												id="addAttachment" /></span>
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td colspan="4">
+										<table style="width: 100%;" id="fileData">
+											<tr>
+												<td>
+													<div class="text-center">
+														<label><span
+															th:utext="#{menu.master.sub.fileDescription}"></span></label>
+													</div>
+												</td>
+												<td><div class="text-center">
+														<label><span
+															th:utext="#{menu.master.sub.fileName }"></span></label>
+													</div></td>
+												<td><div class="text-center">
+														<label><span
+															th:utext="#{msg.thymeleaf.datatablelabel.action}"></span></label>
+													</div></td>
+											</tr>
+
+										</table>
+									</td>
+								</tr>
+
+							</table>
+
+							<input type="hidden" th:field="*{ddoId}" id="ddoId"></input>
+
+
+
+
+						</div>
+					</div>
+
+
+
+					<div class="form-group text-center">
+						<hr />
+							<input type="submit" id="btnSave" class="btn btn-primary"
+								th:value="#{msg.thymeleaf.pagelabel.btnSave}" />
+							<!-- <input type="button" class="btn btn-info"
+								th:value="#{msg.thymeleaf.pagelabel.btnCancel}" /> -->
+								<input type="reset" id="btnReset" class="btn btn-primary" th:value="#{msg.thymeleaf.pagelabel.btnReset}"/>
+								<a th:href="@{/user/home}" class="btn"><span th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
+					</div>
+
+				</div>
+
+
+
+				<table id="oldData" class="table table-striped table-bordered"
+					style="width: 100%">
+					<thead>
+						<tr>
+							<th th:utext="#{msg.thymeleaf.pagelabel.departmentname}"></th>
+							<th th:utext="#{msg.thymeleaf.pagelabel.subdepartmentname}"></th>
+							<!-- <th  th:utext="#{msg.thymeleaf.pagelabel.level1ddocode}"></th> -->
+							<th th:utext="#{menu.master.sub.sancatioOrderNo}"></th>
+							<th th:utext="#{menu.master.sub.sancationDate}"></th>
+							<th >Document Name</th>
+						<!-- 	<th th:utext="#{msg.thymeleaf.pagelabel.status}"></th> -->
+							<th th:utext="#{msg.thymeleaf.datatablelabel.action}"></th>
+						</tr>
+					</thead>
+					<!-- 		<tbody>
+						<tr th:each="varDept : ${fetchGRDataList}">
+							<td th:text="${varDept.departmentname}"></td>
+							
+							<td th:text="${varDept.subdepartmentname}"></td>
+							<td th:text="${varDept.sancatioOrderNo}"></td>
+							<td th:text="${varDept.sancationDate}"></td>
+							<td th:text="${varDept.status}"></td>
+							<td><span th:if="${varDept.isActive} == '1'"> <span
+									class="label label-success"
+									th:utext="#{msg.thymeleaf.status.active}"></span>
+							</span> <span th:if="${varDept.isActive} =='0'"> <span
+									class="label label-danger"
+									th:utext="#{msg.thymeleaf.status.inactive}"></span>
+							</span></td>
+							<td>
+								<div class="form-group">
+									<div class="col-sm-offset-1 col-sm-1">
+										<a data-toggle="tooltipEdit" title="Edit"
+											th:href="@{'/master/editMstGrOrder/' + ${varDept.grOrderId}}"><span
+											class="glyphicon glyphicon-edit"></span></a>
+									</div>
+
+									<div class="col-sm-offset-0 col-sm-1">
+										
+										<a data-toggle="tooltipDelete" title="Delete" th:data="${varDept.grOrderId}" th:data-val="${varDept.isActive}" 
+									class="delete"> <span class="glyphicon glyphicon-trash "></span></a> 
+											
+									
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody> -->
+
+				</table>
+			</form>
+		</fieldset>
+	</div>
+
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script th:src="@{/js/project/datatable-common.js}"></script>
+		<script th:src="@{/js/jquery.validate.min.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+	<script th:src="@{/js/project/mst-grorder.js}"></script>
+	<script th:src="@{/js/validated.js}"></script>
+
+
+</body>
+</html>

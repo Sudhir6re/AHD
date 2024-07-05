@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
 import com.mahait.gov.in.model.MstRoleModel;
@@ -241,6 +243,21 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
 		return (List<MstCommonEntity>) commonHomeMethodsRepo.findCommonMstByCommonCode(commoncodeStatus);
 	}
+
+	@Override
+	public List<MstBankPay> findBankName() {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.findBankName();
+	}
+
+	@Override
+	public List<MstDesnModel> findDesignation(String userName) {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.findDesignation(userName);
+	}
+	
+
+	
 
 
 
