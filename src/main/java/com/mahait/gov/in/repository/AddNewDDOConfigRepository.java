@@ -1323,6 +1323,7 @@ public List retriveDepts(String OfcCode)
 				objZpRltDdoMap.setFinalDdoCode(FINAL_DDO_CODE);
 				objZpRltDdoMap.setSpecialDdoCode(SPECIAL_DDO_CODE);
 				objZpRltDdoMap.setLangId(1l);;
+				objZpRltDdoMap.setStatus(0l);
 				objZpRltDdoMap.setCreatedDate(new Timestamp(new Date().getTime()));
 				objZpRltDdoMap.setCreatedUserId(CreatedPost);
 				objZpRltDdoMap.setCreatedPostId(CreatedUser);
