@@ -191,65 +191,7 @@ select.error, textarea.error, input.error {
 
 			</form>
 		</fieldset>
-		<div class="formMainwithNoborTb container">
-			<div id="content" style="background: :#f0ebe8;">
-
-				<form method="post" action="" name="searchZpAdminOffice"
-					enctype="multipart/form-data">
-
-					<legend> Offices</legend>
-					<table class="datatable table table-bordered" id="row">
-						<thead>
-							<tr>
-								<th class="datatableheader">Sr No</th>
-								<th class="datatableheader">Office Code</th>
-								<th class="datatableheader">Admin Office Name</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="odd">
-								<td class="oddcentre" style="text-align: center">1</td>
-								<td class="tablecelltext" style="text-align: center">07</td>
-								<td class="tablecelltext" style="text-align: center"><a
-									th:href="@{/mdc/adminOffice}">Private Aided Technical
-										Education</a></td>
-							</tr>
-							<tr class="even">
-								<td class="oddcentre" style="text-align: center">2</td>
-								<td class="tablecelltext" style="text-align: center">19</td>
-								<td class="tablecelltext" style="text-align: center"><a
-									href="#">Private Aided Vocational Education</a></td>
-							</tr>
-							<tr class="odd">
-								<td class="oddcentre" style="text-align: center">3</td>
-								<td class="tablecelltext" style="text-align: center">06</td>
-								<td class="tablecelltext" style="text-align: center"><a
-									href="#">Private Aided Higher Education</a></td>
-							</tr>
-							<tr class="even">
-								<td class="oddcentre" style="text-align: center">4</td>
-								<td class="tablecelltext" style="text-align: center">20</td>
-								<td class="tablecelltext" style="text-align: center"><a
-									href="#">Private Aided Arts</a></td>
-							</tr>
-							<tr class="odd">
-								<td class="oddcentre" style="text-align: center">5</td>
-								<td class="tablecelltext" style="text-align: center">31</td>
-								<td class="tablecelltext" style="text-align: center"><a
-									href="#">University</a></td>
-							</tr>
-						</tbody>
-					</table>
-					<br />
-
-					<div class="text-center">
-						<input type="button" name="btnCancel" onclick="history.back()"
-							id="btnCancel" value="Cancel" size="3" maxlength="3"
-							class="buttontag">
-					</div>
-				</form>
-			</div>
-		</div>
+	
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>

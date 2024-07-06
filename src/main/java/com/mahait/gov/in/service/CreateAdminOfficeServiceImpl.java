@@ -146,6 +146,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		String lStrDdoOfficeName=zpRltDdoMapModel.getTxtOfficeName();
 		lStrDdoName=lStrDdoOfficeName;
 		String lStrDdoCode=zpRltDdoMapModel.getTxtDDOCode();
+		lStrDdoCode=lStrDdoCode+"_AST";
 		
 		
 		lStrDdoCode=lStrDdoCode;;

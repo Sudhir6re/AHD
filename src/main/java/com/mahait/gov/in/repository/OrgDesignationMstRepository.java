@@ -10,6 +10,8 @@ import com.mahait.gov.in.entity.OrgDesignationMst;
 
 @Repository
 public interface OrgDesignationMstRepository  extends JpaRepository<OrgDesignationMst, Long>{
+	
+	
 	  List<OrgDesignationMst> findByDsgnNameIgnoreCaseContaining(String name);
 
 

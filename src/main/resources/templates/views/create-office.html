@@ -80,6 +80,8 @@
 										checked="true">&nbsp;Level 2&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label>
 										
+										
+										<label id="radioFinalLevel-error" class="error" for="radioFinalLevel"></label>
 										 <p th:if="${#fields.hasErrors('radioFinalLevel')}" th:class="error" th:errors="*{radioFinalLevel}" />
 										
 										
@@ -136,6 +138,8 @@
 										id="radioSalutationSmt" class="radiobuttontag">&nbsp;Smt
 										
 										
+										<label id="radioSalutation-error" class="error" for="radioSalutation"></label>
+										
 										 <p th:if="${#fields.hasErrors('radioSalutation')}" th:class="error" th:errors="*{radioSalutation}" />
 										
 										</td>
@@ -163,6 +167,8 @@
 										type="radio" id="radioTransGender" name="radioGender"
 										value="T">
 										
+										
+										<label id="radioGender-error" class="error" for="radioGender"></label>
 											 <p th:if="${#fields.hasErrors('radioGender')}" th:class="error" th:errors="*{radioGender}" />
 										
 									</td>
@@ -216,7 +222,7 @@
 										
 										<p th:if="${#fields.hasErrors('txtDDODsgn')}" th:class="error" th:errors="*{txtDDODsgn}" />
 									
-									<div id="searchDiv" style="display:none;"></div>
+									<div id="searchDiv" style="display:none;width:293.047px !important;"   ></div>
 									
 									
 									<!-- 

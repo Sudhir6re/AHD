@@ -60,6 +60,18 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
+		
+		if(model.asMap().get("uniqueId")!=null) {
+			String uniqeInstituteId= (String) model.asMap().get("uniqueId");
+			model.addAttribute("uniqeInstituteId", uniqeInstituteId);
+		}
+		
+		
+		if(model.asMap().get("ddoCode")!=null) {
+			String uniqueId= (String) model.asMap().get("ddoCode");
+			model.addAttribute("ddoCode", uniqueId);
+		}
+		
 		return "/views/create-admin-office";
 	}
 
@@ -97,14 +109,15 @@ public class CreateAdminOfficeController {
 	@PostMapping("/saveCreateAdminOffice")
 	public String saveCreateAdminOffice(Model model, Locale locale, HttpSession session,
 			 @ModelAttribute ("zpRltDdoMapModel") @Valid ZpRltDdoMapModel zpRltDdoMapModel,BindingResult result,RedirectAttributes redirectAttribute) {
+		
+		/* if (result.hasErrors()) {
+	            return "/views/create-office";
+	        }*/
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		String uniqueId=createAdminOfficeService.saveCreateAdminOffice(zpRltDdoMapModel, messages);
 
 		
-		 if (result.hasErrors()) {
-	            return "/views/create-office";
-	        }
-
+/*
 		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
 		// createAdminOfficeService.findAllDdoMappedlist(messages);
 		List<ZpAdminNameMst> lstZpAdminNameMst = createAdminOfficeService.fetchAllOfficeList(messages);
@@ -126,11 +139,12 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpAdminNameMst", lstZpAdminNameMst);
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
-		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
+		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);*/
 		model.addAttribute("uniqueId", uniqueId);
 		redirectAttribute.addFlashAttribute("uniqueId", uniqueId);
+		redirectAttribute.addFlashAttribute("ddoCode", zpRltDdoMapModel.getTxtDDOCode());
 
-		return "redirect:/mdc/adminOfficeMaster";
+		return "redirect:/mdc/createAdminOffice";
 		
 	}
 
