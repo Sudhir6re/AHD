@@ -14,7 +14,7 @@ import com.mahait.gov.in.entity.OrgPostDetailsRlt;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.repository.OrgPostDetailsRltRepository;
 
-@RequestMapping("/mdc")
+@RequestMapping("/ddo")
 @Controller
 public class EntryOfPostsController {
 
@@ -31,4 +31,12 @@ public class EntryOfPostsController {
 		return "/views/entry-of-posts";
 	}
 
+	@GetMapping("/addPosts")
+	public String addPosts(Model model, Locale locale, HttpSession session) {
+		return "/views/add-posts";
+	}
+	@GetMapping("/updatePosts")
+	public String updatePosts(Model model, Locale locale, HttpSession session) {
+		return "/views/update-posts";
+	}
 }
