@@ -66,3 +66,6 @@ display: inline-block;
     height: 400px;
     overflow: auto;
 }
+.bor-imp, .bor-imp td, .bor-imp td, .bor-imp tr {
+    border: 1px solid #ccc !important;
+}
