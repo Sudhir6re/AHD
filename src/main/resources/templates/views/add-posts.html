@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:utext="#{msg.thymeleaf.pageheading.addPosts}"></title>
+</head>
+<body class="add-posts">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.addPosts}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pageheading.addPosts}"></span>
+		</h3>
+
+		<div class="formMainwithNoborTb container">
+			<form method="post" action="" name="frmAdminCrtPost"
+				enctype="multipart/form-data">
+				<fieldset class="tabstyle">
+					<legend>
+						<b>Filter Institute</b>
+					</legend>
+					<table class="table bor-0 width-70">
+						<tbody>
+							<tr>
+								<td width="20%"><b>Taluka</b></td>
+								<td width="30%"><select name="cmbTaluka" id="cmbTaluka">
+										<option title="Select" value="-1">Select</option>
+										<option value="163" title="Mahoor">Mahoor</option>
+										<option value="164" title="Kinwat">Kinwat</option>
+										<option value="165" title="Himayatnagar">
+											Himayatnagar</option>
+										<option value="166" title="Hadgaon">Hadgaon</option>
+										<option value="167" title="Ardhapur">Ardhapur</option>
+										<option value="168" title="Nanded">Nanded</option>
+										<option value="169" title="Mudkhed">Mudkhed</option>
+										<option value="170" title="Bhokar">Bhokar</option>
+										<option value="171" title="Umri">Umri</option>
+										<option value="172" title="Dharmabad">Dharmabad</option>
+										<option value="173" title="Biloli">Biloli</option>
+								</select></td>
+								<td width="20%"><b>DDO Code/Office Name</b></td>
+								<td width="30%"><input type="text" id="ddoCodeforFilter"
+									name="ddoCodeforFilter"></td>
+							</tr>
+							<tr>
+								<td colspan="4" align="center"><input id="btnFilter"
+									class="buttontag" type="button" size="5" maxlength="5"
+									value="Filter" name="btnFilter"></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</fieldset>
+				<fieldset>
+					<legend> Post Details </legend>
+				</fieldset>
+				<div id="tcontent1">
+					<table class="table bor-0 width-70">
+						<tbody>
+							<tr>
+								<td><b>Institute Name</b></td>
+								<td><select name="ddoCode" id="ddoCode"
+									class="selecttag mandatorycontrol">
+										<option value="06340100003">06340100003</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td><b>Sub Field Department</b></td>
+								<td width="50%"><select name="cmbSubFieldDept"
+									id="cmbSubFieldDept">
+										<option value="-1">------------------------------
+											Select ------------------------------</option>
+										<option value="12">Other</option>
+										<option value="1">General Higher Education</option>
+										<option value="2">Teachers Training</option>
+										<option value="3">Univertsity</option>
+										<option value="4">Polytechnic</option>
+										<option value="5">Pharmacy</option>
+										<option value="6">Engineering</option>
+										<option value="7">Architecture</option>
+										<option value="8">HSC Vocational</option>
+										<option value="9">Bifocal</option>
+										<option value="10">Technical School</option>
+										<option value="11">Arts Education</option>
+								</select><label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td><label class="captionTag" id="admin.SelectTypePost">Select
+										Type Of Post</label> &nbsp;</td>
+								<td><select name="postTypeCmbBox" id="postTypeCmbBox"
+									class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option value="10001198129">Permanent</option>
+										<option value="10001198155">Statutory</option>
+										<option value="10001198130">Temporary</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+
+							<tr id="selectpurpose">
+								<td><label class="captionTag" id="admin.Selectpurpose">Select(New
+										Entry/Renewal)</label> &nbsp;</td>
+								<td><select name="purposeCmbBox" id="purposeCmbBox"
+									class="selecttag mandatorycontrol">
+										<option value="3">Entry Of Post</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr id="tempCombo">
+								<td><label class="captionTag"
+									id="admin.SelectTypeTempoPost">select Type of Temporary
+										Post</label> &nbsp;</td>
+								<td><select name="tempPostTypeCmbBox"
+									id="tempPostTypeCmbBox" class="selecttag mandatorycontrol">
+										<option value="-1">-- Select Nature Of Temporary Post
+											--</option>
+										<option value="-1">Temporary</option>
+										<option value="-1">Contract</option>
+										<option value="-1">Seasonable</option>
+										<option value="-1">C.R.T.</option>
+										<option value="-1">C.R.P</option>
+										<option value="-1">Honorary</option>
+										<option value="-1">Part Time</option>
+										<option value="-1">Supar Numerarie</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.designation">Designation</label></b></td>
+								<td class="fieldLabel"><select name="designationCmb"
+									id="designationCmb" class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option value="99100001411">A.C.Technician</option>
+										<option value="99100001412">Abhirakshak (Maratha
+											Itihas)</option>
+										<option value="100553">accountant</option>
+										<option value="99100001550">Accounts Assistant</option>
+										<option value="100680">Accounts Clerk</option>
+										<option value="100682">Accounts Officer</option>
+										<option value="99100001390">Animal Care Taker</option>
+										<option value="99100001578">Animal House Attendant</option>
+										<option value="99100001382">Archaelogical Draughtsman</option>
+										<option value="100823">Architect</option>
+										<option value="99100001217">Artist Cum Modeler</option>
+										<option value="100839">Artist Cum Photographer</option>
+										<option value="100555">assistant</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+								<!-- added by vaibhav tyagi: start -->
+							</tr>
+							<tr>
+								<td class="fieldLabel"><label class="captionTag">Subject</label></td>
+								<td class="fieldLabel"><select name="subjectCmb"
+									id="subjectCmb" class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option value="Mathematics(PT)">Mathematics(PT)</option>
+										<option value="Politics(PT)">Politics(PT)</option>
+										<option value="Home Economics">Home Economics</option>
+										<option value="Home Economics">Home Economics</option>
+										<option value="Home Science Extension Education">Home
+											Science Extension Education</option>
+										<option value="Food Nutrition">Food Nutrition</option>
+										<option value="Child Development">Child Development</option>
+										<option value="Home Management">Home Management</option>
+										<option value="Material Science">Material Science</option>
+										<option value="Social Work">Social Work</option>
+										<option value="Dramatics">Dramatics</option>
+										<option value="Public Administration">Public
+											Administration</option>
+										<option value="Environmental Science">Environmental
+											Science</option>
+										<option value="Computer Science &amp; Information Technology">Computer
+											Science &amp; Information Technology</option>
+										<option value="Chemical Technology">Chemical
+											Technology</option>
+										<option value="Tourism Administration">Tourism
+											Administration</option>
+										<option value="Bio Technology">Bio Technology</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr id="order">
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.GrNO">GR No</label></b></td>
+								<td class="fieldLabel"><select name="orderCmb"
+									style="width: 250px" id="orderCmb"
+									class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option value="99100002253">NGC-7270/93789</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.GrDate">GR Date</label></b></td>
+								<td class="fieldLabel"><input type="date" size="10"
+									name="OrderDate" id="OrderDate"> &nbsp;</td>
+							</tr>
+
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.Office">Office</label></b></td>
+								<td class="fieldLabel"><select name="officeCmb"
+									id="officeCmb" class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option value="99100001061">Rajarshi Shahu College,
+											Latur</option>
+								</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.SancFromDt">Sanctioned From Date</label></b></td>
+								<td class="fieldLabel"><input type="date" size="10"
+									name="startDate" id="startDate" maxlength="10">
+									&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel" id="endDate1"><b><label
+										class="captionTag" id="admin.SancToDt">Sanctioned To
+											Date</label></b></td>
+								<td class="fieldLabel"><input type="date" size="10"
+									name="sanDate" id="sanDate"> &nbsp; <label
+									class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.postNumber">Number of Post</label></b></td>
+								<td class="fieldLabel"><input type="text" name="postNumber"
+									id="postNumber" class="numbertag mandatorycontrol" value="1">&nbsp;&nbsp;<label
+									class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="eis.Remarks">Remarks</label></b></td>
+								<td class="fieldLabel"><textarea name="Remarks"
+										id="Remarks" class="textareatag" cols="30" rows="3"></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+					<br>
+					<div class="text-center">
+						<input type="button" name="formSubmitButton" id="formSubmitButton"
+							value="Save" size="3" maxlength="3" class="buttontag"> <input
+							type="button" name="backButton" id="backButton" value="Close"
+							size="3" maxlength="3" class="buttontag" onclick="history.back()">
+						<input type="reset" name="resetButton" id="resetButton"
+							value="Reset" size="3" maxlength="3" class="buttontag">
+
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+</body>
+</html>
