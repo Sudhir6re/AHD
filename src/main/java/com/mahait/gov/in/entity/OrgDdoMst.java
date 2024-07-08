@@ -48,6 +48,8 @@ public class OrgDdoMst {
 	    @Column(name = "end_date")
 	    @Temporal(TemporalType.TIMESTAMP)
 	    private Date endDate;
+	    
+	    
 
 	    @Column(name = "activate_flag")
 	    private Short activateFlag;
@@ -178,5 +180,7 @@ public class OrgDdoMst {
 	    @Column(name = "status_flag", length = 20)
 	    private String statusFlag;
 
+	    
+	    
 	    
 	}
