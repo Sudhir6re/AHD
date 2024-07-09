@@ -477,7 +477,7 @@ public class AddNewDDOConfigRepository {
 			//logger.info("lLngMstOfficeDdoId******************" + lLngMstOfficeDdoId);
 			//logger.info("lStrDdoCode******************" + lStrDdoCode);
 			//lObjDdoOffice.setDcpsDdoOfficeIdPk(lLngMstOfficeDdoId);
-			lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
+			///lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
 			lObjDdoOffice.setDcpsDdoOfficeName(lStrDdoOffice);
 			lObjDdoOffice.setDcpsDdoOfficeDdoFlag("Yes");
 			lObjDdoOffice.setDcpsDdoOfficeState("15");

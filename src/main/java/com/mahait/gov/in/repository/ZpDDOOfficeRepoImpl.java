@@ -11,7 +11,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpRltDdoMap;
 
@@ -22,7 +21,7 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 	EntityManager entityManager;
 
 	@Override
-	public List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(String username) {
+	public List<ZpRltDdoMap> getAllDDOOfficeDtlsDataByPostID(String username) { 
 		String HQL = "FROM ZpRltDdoMap as  t  where langId = 1 and reptDdoCode='"+username+"' and status=0  ORDER BY t.zpMapId desc";
 		return (List<ZpRltDdoMap>) entityManager.createQuery(HQL).getResultList();
 
@@ -31,8 +30,8 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 	@Override
 	public List<Object[]> getDDOinfo(String zpDdoCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "select zp.ZP_DDO_CODE,zp.REPT_DDO_CODE,zp.FINAL_DDO_CODE,zp.SPECIAL_DDO_CODE,org1.DDO_PERSONAL_NAME, \r\n" + 
-				"org2.DDO_PERSONAL_NAME,org3.DDO_PERSONAL_NAME,org4.DDO_PERSONAL_NAME\r\n" + 
+		String hql = "select zp.ZP_DDO_CODE,zp.REPT_DDO_CODE,zp.FINAL_DDO_CODE,zp.SPECIAL_DDO_CODE,org1.DDO_PERSONAL_NAME as ddo1, \r\n" + 
+				"org2.DDO_PERSONAL_NAME as ddo2,org3.DDO_PERSONAL_NAME as ddo3,org4.DDO_PERSONAL_NAME as ddo4\r\n" + 
 				"from RLT_ZP_DDO_MAP zp left OUTER join ORG_DDO_MST org1 on org1.DDO_CODE=zp.ZP_DDO_CODE \r\n" + 
 				" left OUTER join ORG_DDO_MST org2 on org2.DDO_CODE=zp.REPT_DDO_CODE \r\n" + 
 				" left OUTER join ORG_DDO_MST org3 on org3.DDO_CODE=zp.FINAL_DDO_CODE \r\n" + 
@@ -98,5 +97,4 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.update(zpRltDdoMap);
 	}
-
-}
+}	

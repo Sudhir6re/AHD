@@ -22,6 +22,16 @@ public interface OrderMasterRepo {
 
 	Integer saveGrOrder(HrPayOrderMst payOrderMst, MultipartFile[] files);
 
-	Integer saveAdvanceDocuments(GROrderDocumentEntity grOrderDocumentEntity);
+	Long saveAdvanceDocuments(GROrderDocumentEntity grOrderDocumentEntity);
+
+	List<Long> getSubDDOs(Long postId);
+
+	List<Object[]> getsancOrderLst(String ddo);
+
+	List<Object[]> getddoOff(String locationcodeArray);
+
+	List<Object[]> getInstitutionLst(String ddoCode);
+
+	Long saveMstGrOrder(HrPayOrderMst payOrderMst);
 
 }

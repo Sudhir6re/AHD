@@ -81,10 +81,22 @@ public class OrderMasterController {
    		 {
    			typeOfOffice="ZP";
    		}
-		String districtId=orderMasterService.getDistrictId(ddoCode);
-		List<CmnTalukaMst>talukaLst = orderMasterService.gettalukalst(districtId);
+		///String districtId=orderMasterService.getDistrictId(ddoCode);
+		/*List<CmnTalukaMst>talukaLst = orderMasterService.gettalukalst(districtId);
+		List<Long>locationList=orderMasterService.getSubDDOs(messages.getCreatedByPost().getPostId());
+		 String locationcodeArray="";
+		 if(locationList!=null && locationList.size()>0)
+	    		for(int i=0;i< locationList.size();i++){
+	    			if(i==0)
+	    				locationcodeArray+=locationList.get(i).toString();
+	    			else
+	    				locationcodeArray+=","+locationList.get(i).toString();
+	    		}
 		///model.addAttribute("lstMstGrOrder", mstGrOrderService.lstMstGrOrder());
-		model.addAttribute("talukaLst", talukaLst);
+		model.addAttribute("talukaLst", talukaLst);*/
+		model.addAttribute("lstSancOrder", orderMasterService.getsancOrderLst(ddoCode));
+		model.addAttribute("lstInstitute", orderMasterService.getInstitutionLst(ddoCode));
+		///model.addAttribute("lstDDOOff", orderMasterService.getddoOff(locationcodeArray));
 	///	model.addAttribute("fetchGRDataList", mstGrOrderService.fetchGRDataList());
 		
 		return "/views/OrderMasterView";
@@ -113,11 +125,11 @@ public class OrderMasterController {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
 		model.addAttribute("mstGrOrderModel", mstGrOrderModel);
-		int afterSaveId = orderMasterService.saveMstGrOrder(mstGrOrderModel,files,messages);
+		Long afterSaveId = orderMasterService.saveMstGrOrder(mstGrOrderModel,files,messages);
 		if (afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
 		}
-		return "redirect:/master/mstGrOrder";
+		return "redirect:/ddo/getOrderData";
 	}
 	
 	}

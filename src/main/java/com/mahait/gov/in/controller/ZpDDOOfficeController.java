@@ -1,7 +1,6 @@
 package com.mahait.gov.in.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,20 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpRltDdoMap;
-import com.mahait.gov.in.model.MstDcpsBillGroup;
 import com.mahait.gov.in.model.NewRegDDOModel;
-import com.mahait.gov.in.model.OrgDdoMst;
-import com.mahait.gov.in.model.RltDcpsDdoScheme;
-import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
-import com.mahait.gov.in.service.DDOSchemeService;
 import com.mahait.gov.in.service.ZpDDOOfficeService;
 
 @Controller
@@ -58,7 +49,6 @@ public class ZpDDOOfficeController {
 	///	model.addAttribute("message", message);
 	///	
 		model.addAttribute("zpDDOOfficelst", zpDDOOfficelst);
-		
 		return "/views/approveDDOOfficeView";
 		
 	}
