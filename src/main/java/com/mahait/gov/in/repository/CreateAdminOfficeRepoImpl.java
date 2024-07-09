@@ -10,9 +10,11 @@ import javax.persistence.PersistenceContext;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.CmnLanguageMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgEmpMst;
 import com.mahait.gov.in.entity.OrgGradeMst;
 import com.mahait.gov.in.entity.OrgPostMst;
@@ -27,6 +29,10 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 
 	@PersistenceContext
 	EntityManager entityManager;
+	
+	@Autowired
+	MstDesignationRepository mstDesignationRepository;
+	
 	
 	   private static final Logger logger = LoggerFactory.getLogger(CreateAdminOfficeRepoImpl.class);
 
@@ -177,6 +183,11 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 	        query.setParameter("ofcId", ofcId);
 	        List<Object[]> resultList = query.getResultList();
 	        return resultList;
+	}
+
+	@Override
+	public List<MstDesignationEntity> findByDsgnNameIgnoreCaseContaining(String desgn) {
+		return mstDesignationRepository.findByDsgnNameIgnoreCaseContaining(desgn);
 	}
 
 

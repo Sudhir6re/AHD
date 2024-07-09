@@ -36,6 +36,9 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
 
     protected void handle(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
         final String targetUrl = determineTargetUrl(authentication);
+        
+        
+           
 
         if (response.isCommitted()) {
 //            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);

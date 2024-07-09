@@ -44,6 +44,8 @@ public interface CommonHomeMethodsService {
 	public List<MstBankPay> findBankName();
 
 	public List<MstDesnModel> findDesignation(String userName);
+
+	public List<Object[]> retriveUserdetails(Long userId);
 	
 	
 

@@ -2474,3 +2474,6 @@ a.btn, input.btn, button.btn,.buttontag {
 img.newlogo {
     width: 100%;
 }
+.bor-imp, .bor-imp td, .bor-imp td, .bor-imp tr {
+    border: 1px solid #ccc !important;
+}

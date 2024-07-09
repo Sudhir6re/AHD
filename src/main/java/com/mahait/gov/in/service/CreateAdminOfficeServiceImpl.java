@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import org.bouncycastle.asn1.ocsp.ServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,13 +14,11 @@ import org.springframework.stereotype.Service;
 import com.mahait.gov.in.entity.CmnDistrictMst;
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
 import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminNameMst;
-import com.mahait.gov.in.entity.ZpAdminOfficeMst;
-import com.mahait.gov.in.entity.ZpRltDdoMap;
 import com.mahait.gov.in.mapper.ZpRltDdoMapMapper;
 import com.mahait.gov.in.model.ZpRltDdoMapModel;
 import com.mahait.gov.in.repository.AddNewDDOConfigRepository;
@@ -31,7 +27,6 @@ import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnTalukaMstRepository;
 import com.mahait.gov.in.repository.CreateAdminOfficeRepo;
 import com.mahait.gov.in.repository.OrgDdoMstRepository;
-import com.mahait.gov.in.repository.OrgDesignationMstRepository;
 import com.mahait.gov.in.repository.UserInfoRepo;
 import com.mahait.gov.in.repository.ZpAdminNameMstRepository;
 import com.mahait.gov.in.repository.ZpRltDdoMapRepository;
@@ -70,9 +65,6 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	@Autowired
     private PasswordEncoder passwordEncoder;
 	
-
-	@Autowired
-	OrgDesignationMstRepository orgDesignationMstRepository;
 	
 	
 	@Autowired 
@@ -146,6 +138,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		String lStrDdoOfficeName=zpRltDdoMapModel.getTxtOfficeName();
 		lStrDdoName=lStrDdoOfficeName;
 		String lStrDdoCode=zpRltDdoMapModel.getTxtDDOCode();
+		lStrDdoCode=lStrDdoCode+"_AST";
 		
 		
 		lStrDdoCode=lStrDdoCode;;
@@ -487,9 +480,9 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	}
 
 	@Override
-	public List<OrgDesignationMst> findDesignation(String desgn) {
+	public List<MstDesignationEntity> findDesignation(String desgn) {
 		// TODO Auto-generated method stub
-		return orgDesignationMstRepository.findByDsgnNameIgnoreCaseContaining(desgn);
+		return createAdminOfficeRepo.findByDsgnNameIgnoreCaseContaining(desgn);
 	}
 	
 	

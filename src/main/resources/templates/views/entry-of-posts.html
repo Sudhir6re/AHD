@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:utext="#{msg.thymeleaf.pageheading.entryofposts}"></title>
+</head>
+<body class="entry-of-posts">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.dcpsBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.entryofposts}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pageheading.entryofposts}"></span>
+		</h3>
+
+		<div class="formMainwithNoborTb container">
+			<form method="post" action="" name="frmAdminCrtPost"
+				enctype="multipart/form-data">
+				<fieldset>
+					<legend>View Post Details </legend>
+				</fieldset>
+				<div id="tcontent1">
+					<div align="center">
+						<table class="table bor-0 width-70">
+							<tbody>
+								<tr>
+									<td>DDO Code</td>
+									<td><select name="cmbAsstDDO" id="cmbAsstDDO">
+											<option title="Select" value="-1">Select</option>
+											<option th:each="filterDdoCode : ${filterDdoCodes}"
+												th:value="${filterDdoCode.ddoOffice}" 
+												th:text="${filterDdoCode.ddoCode} + ' (' + ${filterDdoCode.ddoOffice} + ')'"
+												th:selected="${filterDdoCode[0] == ddoCode}"
+												>
+													<!-- 	th:selected="${filterDdoCode[0] == ddo}" -->
+											</option>
+									</select></td>
+									<td><input id="btnFilter" class="buttontag" type="button"
+										value="Filter" name="btnFilter"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<br>
+					<table class="table bor-0">
+						<tbody>
+							<tr>
+								<td width="20%" align="right"><b><label
+										class="captionTag" id="admin.designation">Designation</label></b></td>
+								<td width="20%"><select name="designationCmb"
+									id="designationCmb" class="selecttag">
+										<option value="">------------ Select ------------</option>
+										<option th:each="desi : ${designation}"
+											th:value="${desi.dsgnCode}" th:text="${desi.dsgnName}">
+										</option>
+								</select></td>
+								<td width="20%" align="right"><b><label
+										class="captionTag" id="admin.bill">Bill Group</label></b></td>
+								<td width="20%"><select name="billCmb" id="billCmb">
+										<option value="-1">--------------------Select-------------------</option>
+										<option th:each="bill : ${billList}"
+											th:value="${bill.dcpsDdoBillGroupId}"
+											th:title="${bill.dcpsDdoBillDescription}"
+											th:text="${bill.dcpsDdoBillDescription}"></option>
+								</select></td>
+								<td><input name="Search" class="btn" value="Search"
+									type="button" id="Search"></td>
+							</tr>
+							<tr>
+
+								<td colspan="5"><a th:href="@{/ddo/addPosts}" class="btn"> Add New Entry </a>
+									<a th:href="@{/ddo/updatePosts}"  class="btn">Renewal Of Post</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="table table-bordered" id="row">
+						<thead>
+							<tr>
+								<th class="datatableheader sortable">Sr. No.</th>
+								<th class="datatableheader sortable">Employee Name</th>
+								<th class="datatableheader">Post Name</th>
+								<th class="datatableheader sortable">Post Type</th>
+								<th class="datatableheader sortable">Designation</th>
+								<th class="datatableheader sortable">Bill Group Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>GAJANAN KHUSHALRAO BIRADAR</td>
+								<td>Assistant Professor77200097565P</td>
+								<td>Permanent Post</td>
+								<td>Assistant Professor</td>
+								<td>06340100138</td>
+							</tr>
+						
+						</tbody>
+					</table>
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+
+</body>
+</html>

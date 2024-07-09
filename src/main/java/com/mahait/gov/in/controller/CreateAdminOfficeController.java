@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.JsonObject;
 import com.mahait.gov.in.entity.CmnDistrictMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminNameMst;
 import com.mahait.gov.in.model.ZpRltDdoMapModel;
@@ -60,6 +60,18 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
+		
+		if(model.asMap().get("uniqueId")!=null) {
+			String uniqeInstituteId= (String) model.asMap().get("uniqueId");
+			model.addAttribute("uniqeInstituteId", uniqeInstituteId);
+		}
+		
+		
+		if(model.asMap().get("ddoCode")!=null) {
+			String uniqueId= (String) model.asMap().get("ddoCode");
+			model.addAttribute("ddoCode", uniqueId);
+		}
+		
 		return "/views/create-admin-office";
 	}
 
@@ -97,14 +109,15 @@ public class CreateAdminOfficeController {
 	@PostMapping("/saveCreateAdminOffice")
 	public String saveCreateAdminOffice(Model model, Locale locale, HttpSession session,
 			 @ModelAttribute ("zpRltDdoMapModel") @Valid ZpRltDdoMapModel zpRltDdoMapModel,BindingResult result,RedirectAttributes redirectAttribute) {
+		
+		/* if (result.hasErrors()) {
+	            return "/views/create-office";
+	        }*/
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		String uniqueId=createAdminOfficeService.saveCreateAdminOffice(zpRltDdoMapModel, messages);
 
 		
-		 if (result.hasErrors()) {
-	            return "/views/create-office";
-	        }
-
+/*
 		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
 		// createAdminOfficeService.findAllDdoMappedlist(messages);
 		List<ZpAdminNameMst> lstZpAdminNameMst = createAdminOfficeService.fetchAllOfficeList(messages);
@@ -126,11 +139,12 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpAdminNameMst", lstZpAdminNameMst);
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
-		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
+		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);*/
 		model.addAttribute("uniqueId", uniqueId);
 		redirectAttribute.addFlashAttribute("uniqueId", uniqueId);
+		redirectAttribute.addFlashAttribute("ddoCode", zpRltDdoMapModel.getTxtDDOCode());
 
-		return "redirect:/mdc/adminOfficeMaster";
+		return "redirect:/mdc/createAdminOffice";
 		
 	}
 
@@ -218,8 +232,8 @@ public class CreateAdminOfficeController {
 
 	@RequestMapping(value = "/findDesignation", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<OrgDesignationMst>> findDesignation(@RequestParam String txtDDODsgn) {
-		List<OrgDesignationMst> response1 = createAdminOfficeService.findDesignation(txtDDODsgn);
+	public ResponseEntity<List<MstDesignationEntity>> findDesignation(@RequestParam String txtDDODsgn) {
+		List<MstDesignationEntity> response1 = createAdminOfficeService.findDesignation(txtDDODsgn);
 		return ResponseEntity.ok(response1);
 	}
 }

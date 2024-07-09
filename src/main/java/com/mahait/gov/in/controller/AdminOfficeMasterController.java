@@ -41,9 +41,7 @@ public class AdminOfficeMasterController {
 			model.addAttribute("messageResponse", messageResponse);
 		}
 		
-		
-		String uniqueId= (String) model.asMap().get("uniqueId");
-		model.addAttribute("uniqueId", uniqueId);
+	
 		
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");

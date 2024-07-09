@@ -43,16 +43,17 @@
 				<script type="text/javascript">
 				
 				</script>
-				<input type="hidden" id="hdnDDOCode" name="hdnDDOCode" value="">
-				<input type="hidden" id="hdnUniqeInstituteId"
-					name="hdnUniqeInstituteId" value="">
+				<input type="hidden" id="ddoCode" name="ddoCode" th:value="${ddoCode}">
+				
+				<input type="hidden" id="uniqeInstituteId" name="uniqeInstituteId"  th:value="${uniqeInstituteId}"/>
+				
 				<form method="POST" name="DDOOfficeView"
 					th:object="${zpRltDdoMapModel}"
 					th:action="@{/mdc/saveCreateAdminOffice}"
 					action="./hrms.htm?actionFlag=loadDdoOfficeData">
 					
 					
-						<input type="hidden" id="uniqueId" name="uniqueId"  th:value="${uniqueId}"/>
+						
 					<fieldset class="tabstyle">
 						<legend>
 							<b>Filter Institute</b>
@@ -136,7 +137,7 @@
 							<tbody>
 
 								<tr th:each="zpRltDdoMapRlt, rowStat : ${lstZpRltDdoMapRlt}">
-									<td><span th:id="${zpRltDdoMapRlt[0]}"> <a href="#"   class="ddoCode"  th:data-ddocode="${zpRltDdoMapRlt[0]}" th:data-srno="${rowStat.index}"
+									<td><span th:id="|${rowStat.index}${zpRltDdoMapRlt[0]}|" > <a href="#"   class="ddoCode"  th:data-ddocode="${zpRltDdoMapRlt[0]}" th:data-srno="${rowStat.index}"
 											th:attr="data-target='${zpRltDdoMapRlt[0]}', data-index='${rowStat.index}'"
 											th:text="${zpRltDdoMapRlt[0]}"
 											>
@@ -144,10 +145,10 @@
 									</span> <!-- 	   <span  th:id="${zpRltDdoMapRlt[0]}"  >
 							      <a href="#" th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[0]} + '\', \'' + ${rowStat.index} + '\');'" th:text="${zpRltDdoMapRlt[0]}" >3401002205</a>
 							   </span>  --></td>
-									<td><span th:id="${zpRltDdoMapRlt[1]}"> <a href="#"  class="ddoCode"
+									<td><span th:id="|${rowStat.index}${zpRltDdoMapRlt[1]}|"> <a href="#"  class="ddoCode"
 											th:attr="data-target='${zpRltDdoMapRlt[1]}', data-index='${rowStat.index}'"
 											th:text="${zpRltDdoMapRlt[1]}"
-											 th:data-ddocode="${zpRltDdoMapRlt[0]}" th:data-srno="${rowStat.index}">
+											 th:data-ddocode="${zpRltDdoMapRlt[1]}" th:data-srno="${rowStat.index}">
 												3401002205 </a>
 									</span></td>
 									<!-- 	   <td><span th:text="${zpRltDdoMapRlt[2]}"></span> </td>
@@ -229,16 +230,7 @@
 						<br>&nbsp; <br> <br>
 
 						<script type="text/javascript">
-							var DDOCode = document.getElementById("hdnDDOCode").value;
-							var instituteId = document
-									.getElementById("hdnUniqeInstituteId").value;
-							if (DDOCode != '') {
-								alert('For DDO Code: '
-										+ DDOCode
-										+ ', system generated unique institute Id: '
-										+ instituteId
-										+ '. Please note the details for future use.');
-							}
+						
 						</script>
 					</div>
 

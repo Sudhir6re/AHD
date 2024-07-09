@@ -2,13 +2,17 @@
 $(document).ready(function() {
 	var contextPath = $("#appRootPath").val();
 	
-	// $("#tblShowPayBill").dataTable().fnClearTable();
+
 	
-	
-	
-	if($("#uniqueId").val()!='' && $("#uniqueId").val()!=null  && $("#uniqueId").val()!=undefined){
-	   alert("Unique Institude id Generated keep it for future Use "+$("#uniqueId").val());
-    }
+	var DDOCode =$("#ddoCode").val(); 
+	var instituteId = $("#uniqeInstituteId").val();
+	if (DDOCode != ''  && $("#uniqeInstituteId").val()!=null  && $("#uniqeInstituteId").val()!=undefined ) {
+		swal('For DDO Code: '
+				+ DDOCode
+				+ ', system generated unique institute Id: '
+				+ instituteId
+				+ '. Please note the details for future use.');
+	}
 	
 
 	var dataTable= $("#ddoMapTable").dataTable();
@@ -32,6 +36,8 @@ $("#cmbDistrict").change(function(){
 			},	
 	      success: function(data){
 	    		 var len = data.length;
+	    		 $('#cmbTaluka').empty();
+	    		 $('#cmbTaluka').append($('<option  value="-1"></option>').text("Please Select")); 
 					if (len != 0) {
 							   for(var i=0;i<len;i++){
 								   $('#cmbTaluka').append('<option value="' + data[i].talukaId + '">' + data[i].talukaName + '</option>');
@@ -43,7 +49,7 @@ $("#cmbDistrict").change(function(){
 });
 
 
-$("#btnFilter").change(function(){
+$("#btnFilter").click(function(){
 	var context = $("#appRootPath").val();
 	var districtId = $("#cmbDistrict").val();
 	var talukaId = $("#cmbTaluka").val();
@@ -69,6 +75,8 @@ $("#btnFilter").change(function(){
 	    		 var len = data.length;
 					if (len != 0) {
 						populateTable(data);	
+				}else{
+					swal("No data found");
 				}
 					
 	     }
@@ -86,8 +94,8 @@ function populateTable(data) {
     	dataTable.fnClearTable();
 
     	
-    	   var row1 = '<span id="' + row[0] + '"><a href="#" onclick="popupDtls(\'' + row[0] + '\', \'' + index + '\');" >' + row[0] + '</a></span>';
-           var row2 = '<span id="' + row[1] + '"><a href="#" onclick="popupDtls(\'' + row[1] + '\', \'' + index + '\');">' + row[1] + '</a></span>';
+    	   var row1 = '<span id="' + row[0] + '"><a href="#"  data-ddocode="'+ row[0]+'"  class="ddoCode"    data-srno="'+index+'"  >' + row[0] + '</a></span>';
+           var row2 = '<span id="' + row[1] + '"><a href="#"  data-ddocode="'+ row[1]+'" class="ddoCode"    data-srno="'+index+'" >' + row[1] + '</a></span>';
            
     	var row3=null;
     	
@@ -103,8 +111,8 @@ function populateTable(data) {
         dataTable.fnAddData(
 				[
 					row1,
-						change1,
-						row2
+					row2,row[4],
+					row3
 						]);
         
         
@@ -144,11 +152,7 @@ $("#txtDDODsgn").keyup(function(){
 							$("#searchDiv").show();
 							$("#searchDiv")
 									.append(
-											"<p class='empdata' empid='"+data[i].dsgnName+"' empname='"+data[i].dsgnName+"' empsevaathid='"+data[i].dsgnName+"'   empdesgn='"+data[i].dsgnName+"'>"
-													+ data[i].dsgnName
-													+ "-"
-													+ data[i].dsgnName
-													+ "</p>");
+											"<p><a class='empdata'   empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
 							
 						//	$("#sevaarthIdCopy").val(data[i].sevaarthId);
 							
@@ -158,15 +162,11 @@ $("#txtDDODsgn").keyup(function(){
 						}
 						
 						if(data.length==0){
-							swal("Please enter valid sevaarth id");
+							swal("Please enter valid post");
 						}
 					 //end succcess
 				}
 			});
-	}else if(classOfPension=="0"){
-		 swal("Please select Class of pension !!!", {
-   	      icon: "warning",
-   	  });
 	}
  });
 
@@ -174,8 +174,8 @@ $("#txtDDODsgn").keyup(function(){
 
 $('body').on('click', '.empdata', function() {
 	 $("#procceed").attr("disabled", false); 
-	var sevaarthId=$(this).attr("empsevaathid");  
-	$("#txtDDODsgn").val(sevaarthId);
+	var empdesgn=$(this).attr("empdesgn");  
+	$("#txtDDODsgn").val(empdesgn);
 	$("#searchDiv").hide();
 });
 
@@ -185,7 +185,7 @@ $('body').on('click', '.empdata', function() {
 
 
 
-
+/*
 
 var empFound=0;
 
@@ -196,7 +196,7 @@ $("#txtDDODsgn").blur(function(){
 	 
 });
 
-
+*/
 
 $("#txtRepDDOCode").blur(function(){
 	var context = $("#appRootPath").val();
@@ -284,6 +284,7 @@ $("#cmbAdminOffice").change(function(){
 			},	
 	      success: function(data){
 	    	  $('#cmbDistrict').empty();
+	    	  $('#cmbTaluka').append($('<option  value="-1"></option>').text("Please Select")); 
 	    		 var len = data.length;
 					if (len != 0) {
 						 $.each(data, function(index, row) {
@@ -349,25 +350,14 @@ $('body').on('click', '.ddoCode', function() {
 });
 
 function setDDOdtls(myAjax, field, srno) {
-
 	var divId = srno.toString() + field.toString();
-	
-	document.getElementById(divId).innerHTML = '<a href="#"  class="hideDdoCode"  onclick="hideDtls('
-			+ field
-			+ ','
-			+ srno
-			+ ')">'
-			+ field
-			+ '<br>'
-			+ myAjax + '</a>';
-
+	document.getElementById(divId).innerHTML = '<a href="#"    data-ddocode="'+field+'"  data-srno="'+srno+'"   class="hideDdoCode"  >'+ field+ '<br>'+ myAjax + '</a>';
 }
 
 function hideDtls(field, srno) {
 
 	var divId = srno.toString() + field.toString();
-	document.getElementById(divId).innerHTML = '<a href="#"   class="ddoCode"    onclick="popupDtls('
-			+ field + ',' + srno + ');">' + field + '</a>';
+	document.getElementById(divId).innerHTML = '<a href="#"  data-ddocode="'+field+'"  data-srno="'+srno+'"   class="ddoCode"   >' + field + '</a>';
 }
 
     $("form[name='ZpDDOOffice']").validate({
@@ -375,11 +365,11 @@ function hideDtls(field, srno) {
         rules: {
             cmbAdminOffice: {
                 required: true,
-              //  min: 1
+               min: 1
             },
             cmbDistOffice: {
                 required: true,
-              //  min: 1
+               min: 1
             },
             radioFinalLevel: "required",
             txtRepDDOCode: {
@@ -424,7 +414,8 @@ function hideDtls(field, srno) {
             },
             txtMobileNo: {
                 required: true,
-                maxlength: 10
+                maxlength: 10,
+                minlength:10
             },
             txtEmailId: {
                 required: true,
