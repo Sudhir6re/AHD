@@ -3,9 +3,7 @@ package com.mahait.gov.in.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -106,7 +103,7 @@ public class OrgPostMst implements Serializable {
     @Column(name = "dsgn_code", length = 40, nullable = false)
     private String dsgnCode;
 
-
+/*
     @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgDepartmentMst> orgDepartmentMstsForUpdatedByPost;
 
@@ -117,7 +114,7 @@ public class OrgPostMst implements Serializable {
     private Set<OrgUserMst> orgUserMstsForUpdatedByPost;
 
     @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrgDesignationMst> orgDesignationMstsForUpdatedByPost;
+    private Set<MstDesignationEntity> orgDesignationMstsForUpdatedByPost;
 
     @OneToMany(mappedBy = "updatedByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgEmpMst> orgEmpMstsForUpdatedByPost;
@@ -141,7 +138,7 @@ public class OrgPostMst implements Serializable {
     private Set<OrgUserpostRlt> orgUserpostRltsForPostId;
 
     @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrgDesignationMst> orgDesignationMstsForCreatedByPost;
+    private Set<MstDesignationEntity> orgDesignationMstsForCreatedByPost;
 
     @OneToMany(mappedBy = "createdByPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgPostMst> orgPostMstsForCreatedByPost;
@@ -159,7 +156,7 @@ public class OrgPostMst implements Serializable {
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForUpdateByPost;
 
     @OneToMany(mappedBy = "orgPostMst", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrgPostDetailsRlt> orgPostDetailsRlt;
+    private Set<OrgPostDetailsRlt> orgPostDetailsRlt;*/
 
     
     /*

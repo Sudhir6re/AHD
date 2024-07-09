@@ -152,7 +152,7 @@ $("#txtDDODsgn").keyup(function(){
 							$("#searchDiv").show();
 							$("#searchDiv")
 									.append(
-											"<p><a class='empdata'   empdesgn='"+data[i].dsgnName+"'>"+ data[i].dsgnName+ "</a></p>");
+											"<p><a class='empdata'   empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
 							
 						//	$("#sevaarthIdCopy").val(data[i].sevaarthId);
 							

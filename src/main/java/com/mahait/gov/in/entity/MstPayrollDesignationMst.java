@@ -1,40 +1,31 @@
 package com.mahait.gov.in.entity;
-
-
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
 
+
 @Data
 @Entity
-@Table(name = "MST_DCPS_DESIGNATION")
-public class MstDcpsDesignation {
+@Table(name = "MST_PAYROLL_DESIGNATION")
+public class MstPayrollDesignationMst {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DESIG_ID")
     private Long desigId;
 
-  /*  @Column(name = "ORG_DESIGNATION_ID")
-    private Long orgDesignationId;*/
-    
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORG_DESIGNATION_ID", referencedColumnName = "DESIGNATION_ID", insertable = false, updatable = false)
-    private MstDesignationEntity orgDesignation;
-    
-    
-   
+    @Column(name = "ORG_DESIGNATION_ID")
+    private Long orgDesignationId;
+
+    @Column(name = "DB_ID")
+    private Long dbId;
 
     @Column(name = "LOCATION_CODE")
     private Long locationCode;
@@ -47,6 +38,9 @@ public class MstDcpsDesignation {
 
     @Column(name = "DESIG_CODE")
     private Long desigCode;
+
+    @Column(name = "DSGN_CODE")
+    private Long dsgnCode;
 
     @Column(name = "DESIG_DESC")
     private String desigDesc;
@@ -74,9 +68,5 @@ public class MstDcpsDesignation {
 
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
-
-    @Column(name = "QUALIFICATION")
-    private String qualification;
-
 
 }

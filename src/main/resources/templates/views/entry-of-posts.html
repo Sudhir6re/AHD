@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
@@ -13,7 +14,7 @@
 				<ol class="breadcrumb">
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
-							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+							th:utext="#{msg.thymeleaf.pagelabel.dcpsBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
 						th:utext="#{msg.thymeleaf.pageheading.entryofposts}"></span></li>
 				</ol>
@@ -37,28 +38,13 @@
 									<td>DDO Code</td>
 									<td><select name="cmbAsstDDO" id="cmbAsstDDO">
 											<option title="Select" value="-1">Select</option>
-											<option title="Dayanand Science College, Latur(06340100007)"
-												value="06340100007">Dayanand Science College,
-												Latur(06340100007)</option>
-											<option title="Shri Havagi Swami College, Udgir(06340100013)"
-												value="06340100013">Shri Havagi Swami College,
-												Udgir(06340100013)</option>
-											<option
-												title="Pandit Deendayal Upadhyaya College, Deoni(06340100025)"
-												value="06340100025">Pandit Deendayal Upadhyaya
-												College, Deoni(06340100025)</option>
-											<option title="Ujwal Gramin College, Ghonshi(06340100026)"
-												value="06340100026">Ujwal Gramin College,
-												Ghonshi(06340100026)</option>
-											<option title="Shivjagruti College, Nalegaon(06340100028)"
-												value="06340100028">Shivjagruti College,
-												Nalegaon(06340100028)</option>
-											<option title="Mahatma Phule College, Kingaon(06340100030)"
-												value="06340100030">Mahatma Phule College,
-												Kingaon(06340100030)</option>
-											<option title="Adarsha Mahavidyalaya Hingolli(06340100087)"
-												value="06340100087">Adarsha Mahavidyalaya
-												Hingolli(06340100087)</option>
+											<option th:each="filterDdoCode : ${filterDdoCodes}"
+												th:value="${filterDdoCode.ddoOffice}" 
+												th:text="${filterDdoCode.ddoCode} + ' (' + ${filterDdoCode.ddoOffice} + ')'"
+												th:selected="${filterDdoCode[0] == ddoCode}"
+												>
+													<!-- 	th:selected="${filterDdoCode[0] == ddo}" -->
+											</option>
 									</select></td>
 									<td><input id="btnFilter" class="buttontag" type="button"
 										value="Filter" name="btnFilter"></td>
@@ -75,51 +61,26 @@
 								<td width="20%"><select name="designationCmb"
 									id="designationCmb" class="selecttag">
 										<option value="">------------ Select ------------</option>
-										<option value="99100001411">A.C.Technician</option>
-										<option value="99100001412">Abhirakshak (Maratha
-											Itihas)</option>
-										<option value="100668">Account Officer</option>
-										<option value="100553">accountant</option>
-										<option value="99100001550">Accounts Assistant</option>
-										<option value="100682">Accounts Officer</option>
-										<option value="99100001390">Animal Care Taker</option>
-										<option value="99100001578">Animal House Attendant</option>
+										<option th:each="desi : ${designation}"
+											th:value="${desi.dsgnCode}" th:text="${desi.dsgnName}">
+										</option>
 								</select></td>
 								<td width="20%" align="right"><b><label
 										class="captionTag" id="admin.bill">Bill Group</label></b></td>
 								<td width="20%"><select name="billCmb" id="billCmb">
 										<option value="-1">--------------------Select-------------------</option>
-										<option value="882017907001"
-											title="Bill for After 1st April 1936-A,B,B N Gz,C,D-Both Permanent">
-											Bill for After 1st April 1936-A,B,B N Gz,C,D-Both Permanent</option>
-										<option value="882017907002"
-											title="Bill for After 1st April 1936-A,B,B N Gz,C,D-Both Permanent  &amp; Temporary">
-											Bill for After 1st April 1936-A,B,B N Gz,C,D-Both Permanent
-											&amp; Temporary</option>
-										<option value="882017907003"
-											title="Bill for director of higher education-A,B,B N Gz,C,D-Both Permanent">
-											Bill for director of higher education-A,B,B N Gz,C,D-Both
-											Permanent</option>
-										<option value="882017907004"
-											title="Bill for director of higher education-A,B,B N Gz,C,D-Both Permanent  &amp; Temporary">
-											Bill for director of higher education-A,B,B N Gz,C,D-Both
-											Permanent &amp; Temporary</option>
-										<option value="882017907005"
-											title="Bill for AIDED ARTS,SC.,COMM. &amp; EDN. STAFF PROV.FUND-A,B,B N Gz,C,D-Both Permanent  &amp; Temporary">
-											Bill for AIDED ARTS,SC.,COMM. &amp; EDN. STAFF
-											PROV.FUND-A,B,B N Gz,C,D-Both Permanent &amp; Temporary</option>
-										<option value="882017907006"
-											title="Bill for AIDED ARTS,SC.,COMM. &amp; EDN. STAFF PROV.FUND-A,B,B N Gz,C,D-Both Permanent  &amp; Temporary">
-											Bill for AIDED ARTS,SC.,COMM. &amp; EDN. STAFF
-											PROV.FUND-A,B,B N Gz,C,D-Both Permanent &amp; Temporary</option>
+										<option th:each="bill : ${billList}"
+											th:value="${bill.dcpsDdoBillGroupId}"
+											th:title="${bill.dcpsDdoBillDescription}"
+											th:text="${bill.dcpsDdoBillDescription}"></option>
 								</select></td>
 								<td><input name="Search" class="btn" value="Search"
 									type="button" id="Search"></td>
 							</tr>
 							<tr>
 
-								<td colspan="5"><a th:href="@{/ddo/addPosts}" class="btn">
-										Add New Entry </a> <a th:href="@{/ddo/updatePosts}" class="btn">Renewal Of Post</a></td>
+								<td colspan="5"><a th:href="@{/ddo/addPosts}" class="btn"> Add New Entry </a>
+									<a th:href="@{/ddo/updatePosts}"  class="btn">Renewal Of Post</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -143,53 +104,11 @@
 								<td>Assistant Professor</td>
 								<td>06340100138</td>
 							</tr>
-							<tr>
-								<td>2</td>
-								<td>CHETAN ARVINDRAO BAWANE</td>
-								<td>Assistant Professor77200097564P</td>
-								<td>Permanent Post</td>
-								<td>Assistant Professor</td>
-								<td>06340100138</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>YOGYASHREE SHIVAJIRAO BIRADAR</td>
-								<td>Assistant Professor77200097563P</td>
-								<td>Permanent Post</td>
-								<td>Assistant Professor</td>
-								<td>06340100138</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>NILKANTH JANARADHANRAO BHANARKAR</td>
-								<td>Assistant Professor77200097562P</td>
-								<td>Permanent Post</td>
-								<td>Assistant Professor</td>
-								<td>06340100138</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>VACANT</td>
-								<td>Assistant Professor77200097561P</td>
-								<td>Permanent Post</td>
-								<td>Assistant Professor</td>
-								<td>06340100138</td>
-							</tr>
-							<tr>
-								<td>6</td>
-								<td>SHASHANK VINAYAK MALGE</td>
-								<td>Assistant Professor77200097560P</td>
-								<td>Permanent Post</td>
-								<td>Assistant Professor</td>
-								<td>06340100138</td>
-							</tr>
+						
 						</tbody>
 					</table>
 				</div>
-				<div class="text-center">
-					<input type="button" name="btnBackAgain" id="btnBackAgain"
-						onclick="history.back()" value="Back" class="buttontag">
-				</div>
+
 			</form>
 		</div>
 	</div>

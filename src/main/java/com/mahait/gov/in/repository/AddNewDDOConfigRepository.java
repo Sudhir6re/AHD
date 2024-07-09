@@ -24,9 +24,9 @@ import com.mahait.gov.in.entity.CmnLanguageMst;
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
 import com.mahait.gov.in.entity.OrgEmpMst;
 import com.mahait.gov.in.entity.OrgGradeMst;
 import com.mahait.gov.in.entity.OrgPostDetailsRlt;
@@ -66,10 +66,9 @@ public class AddNewDDOConfigRepository {
 	OrgPostMstRepository orgPostMstRepository;
 	
 	
-	
 
 	@Autowired
-	OrgDesignationMstRepository orgDesignationMstRepository;
+	MstDesignationRepository orgDesignationMstRepository;
 	
 	
 	
@@ -90,9 +89,6 @@ public class AddNewDDOConfigRepository {
 	MstRoleRepo mstRoleRepo;
 
 	private Serializable save;
-	
-	
-	
 	
 	
 
@@ -339,7 +335,7 @@ public class AddNewDDOConfigRepository {
 
 			CmnLocationMst lObjCmnLocationMst =cmnLocationMst;// cmnLocationMstRepository.findByLocId(Long.parseLong(lstrLocCode));
 
-			OrgDesignationMst lObjOrgDesigmMst = orgDesignationMstRepository.findByDsgnId(lLngDsgnId);
+			MstDesignationEntity lObjOrgDesigmMst = orgDesignationMstRepository.findByDesginationId(lLngDsgnId);
 			CmnLanguageMst lObjCmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
 
 			OrgUserMst lObjOrgUserMstCrtd = orgUserMst;

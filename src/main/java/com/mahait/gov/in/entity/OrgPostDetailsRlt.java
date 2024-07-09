@@ -30,9 +30,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "org_post_details_rlt")
 public class OrgPostDetailsRlt implements Serializable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -57,9 +54,19 @@ public class OrgPostDetailsRlt implements Serializable {
     private CmnLocationMst cmnLocationMst;
     
     
+  /*  @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dsgn_id", nullable = false)
+    private OrgDesignationMst orgDesignationMst;*/
+    
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dsgn_id", nullable = false)
-    private OrgDesignationMst orgDesignationMst;
+    private MstDesignationEntity orgDesignationMst;
+    
+    
+//    /lObjOrgDesigmMst
+    
+    
     
     
     @ManyToOne(fetch = FetchType.LAZY)

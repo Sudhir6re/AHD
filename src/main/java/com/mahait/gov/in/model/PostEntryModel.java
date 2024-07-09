@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class AdminOrgPostDtlModel {
+public class PostEntryModel {
 	
 	    private String cmbTaluka;
 	    private String ddoCodeforFilter;

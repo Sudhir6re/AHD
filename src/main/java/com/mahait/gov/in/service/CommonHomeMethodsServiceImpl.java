@@ -255,6 +255,11 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.findDesignation(userName);
 	}
+
+	@Override
+	public List<Object[]> retriveUserdetails(Long userId) {
+		return commonHomeMethodsRepo.retriveUserdetails(userId);
+	}
 	
 
 	

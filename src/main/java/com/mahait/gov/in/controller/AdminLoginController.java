@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mahait.gov.in.common.UserSessionObject;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
@@ -36,6 +37,10 @@ public class AdminLoginController {
 
 	@Autowired
 	WelcomeService welcomeService;
+	
+	
+	//@Autowired
+//	UserSessionObject  userSessionObject;
 
 	@RequestMapping("/home")
 	public ModelAndView getAllUserTopics(HttpServletRequest request, Model model, HttpServletResponse response,
@@ -47,7 +52,16 @@ public class AdminLoginController {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
+		List<Object[]> retriveUserdetails = commonHomeMethodsService.retriveUserdetails(messages.getUserId());
+		if (retriveUserdetails.size() > 0) {
+			for (Object[] obj : retriveUserdetails) {
+				session.setAttribute("ddoCode", obj[0]);
+				session.setAttribute("locationId", obj[1]);
+			}
+		}
 		
+		
+	//	userSessionObject.setSession(messages.getUserId(),session);
 		
 		modelAndView.addObject("sessionMessages", messages.getUserId());
 		modelAndView.addObject("userName", messages.getUserName());
