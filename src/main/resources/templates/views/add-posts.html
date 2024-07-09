@@ -34,14 +34,17 @@
 						<tbody>
 							<tr>
 								<td width="20%"><b>Taluka</b></td>
-								<td width="30%">
-								<select name="cmbTaluka" id="cmbTaluka">
+								<td width="30%"><select name="cmbTaluka" id="cmbTaluka">
 										<option title="Select" value="-1">Select</option>
-									
-								</select></td>
+
+										<option th:value="${taluka[0]}" th:title="${taluka[1]}"
+											th:each="taluka : ${talukaList}"
+											th:selected="${talukaId == taluka[0]}" th:text="${taluka[1]}">
+
+										</option>
+								</select> </select></td>
 								<td width="20%"><b>DDO Code/Office Name</b></td>
-								<td width="30%">
-								<input type="text" id="ddoCodeforFilter"
+								<td width="30%"><input type="text" id="ddoCodeforFilter"
 									name="ddoCodeforFilter"></td>
 							</tr>
 							<tr>

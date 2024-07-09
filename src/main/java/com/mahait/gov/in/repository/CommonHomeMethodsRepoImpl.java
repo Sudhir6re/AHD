@@ -160,6 +160,17 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return (List<MstDesnModel>) query.list();
 	}
 
+	@Override
+	public List<Object[]> retriveUserdetails(Long userId) {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "select a.ddo_code,a.location_code,a.post_id,d.post_detail_id \r\n" + 
+				" from org_ddo_mst a inner join org_post_mst b on a.location_code=b.location_code \r\n" + 
+				" inner join org_user_mst c on c.user_name=a.ddo_code left join org_post_details_rlt d \r\n" + 
+				"  on d.post_id=b.post_id where c.user_id="+userId;
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
 
 
 }

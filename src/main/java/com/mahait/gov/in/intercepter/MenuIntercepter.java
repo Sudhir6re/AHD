@@ -40,27 +40,6 @@ public class MenuIntercepter implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		/*
-		 * Authentication authentication =
-		 * SecurityContextHolder.getContext().getAuthentication(); List<String> collect
-		 * =
-		 * authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-		 * .collect(Collectors.toList());
-		 * 
-		 * if (authentication.isAuthenticated() && authentication != null) { OrgUserMst
-		 * messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		 * List<TopicModel> menuList = new ArrayList<>(); List<TopicModel> subMenuList =
-		 * new ArrayList<>();
-		 * 
-		 * Integer levelRoleVal = messages.getMstRoleEntity().getRoleId(); menuList =
-		 * commonHomeMethodsService.findMenuNameByRoleID(messages.getMstRoleEntity().
-		 * getRoleId(), "en"); subMenuList =
-		 * commonHomeMethodsService.findSubMenuByRoleID(levelRoleVal, "en");
-		 * 
-		 * session.setAttribute("menuList", menuList);
-		 * session.setAttribute("subMenuList", subMenuList);
-		 * session.setAttribute("levelRoleVal", levelRoleVal); }
-		 */
 		return true;
 	}
 
@@ -74,6 +53,10 @@ public class MenuIntercepter implements HandlerInterceptor {
 			if (authorities.size() > 0) {
 				User u = (User) authentication.getPrincipal();
 				OrgUserMst messages = userDetailsServiceImpl.getUserIdbyUserName(u.getUsername());
+				
+				
+				
+				
 				Integer levelRoleVal = messages.getMstRoleEntity().getRoleId();
 				if (levelRoleVal != null && levelRoleVal != 0) {
 					List<TopicModel> menuList = commonHomeMethodsService.findMenuNameByRoleID(levelRoleVal, "en");

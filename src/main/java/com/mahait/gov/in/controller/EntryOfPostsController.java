@@ -1,8 +1,10 @@
 package com.mahait.gov.in.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,6 +42,10 @@ public class EntryOfPostsController {
 	public String entryOfPosts(Model model, Locale locale, HttpSession session) {
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		
+		
+		
 
 		List<OrgPostDetailsRlt> lst = orgPostDetailsRltRepository.findByOrgPostMst(messages.getCreatedByPost());
 
@@ -76,10 +82,14 @@ public class EntryOfPostsController {
 		OrgDdoMst ddoMst = null;
 		String ddoCode = null;
 		List<OrgPostDetailsRlt> lst = orgPostDetailsRltRepository.findByOrgPostMst(messages.getCreatedByPost());
-		if (lst.size() > 0) {
-			langId = lst.get(0).getCmnLanguageMst().getLangId();
-			locId = lst.get(0).getCmnLocationMst().getLocId();
-			loggedInPostId = messages.getCreatedByPost().getPostId();
+		
+		Map map=(Map) session.getAttribute("baseLoginMap");
+		
+		
+		if (map!=null) {
+			langId = 1l;
+			locId = (long) session.getAttribute("locationId");
+			loggedInPostId =(long) session.getAttribute("loggedInPost");  
 
 			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 

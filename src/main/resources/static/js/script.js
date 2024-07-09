@@ -452,57 +452,20 @@ $(document).ready(
 			if(contextPath==''){
 			
 			 homeLink = new Map([
-				  [1, "../level1/home"],
-				  [2, "../moderator/home"],
-				  [5, "../admin/home"],
-				  [6, "../super/home"],
-				  [7, "../user/home"],
-				  [8, "../inwordlvl/home"],
-				  [9, "../clerklvl/home"],
-				  [10, "../assacclvl/home"],
-				  [11, "../superint/home"],
-				  
-				  [17, "../auditor/home"],
-				  [18, "../srClerk/home"],
-				  [19, "../fc/home"],
-				
-				  
-				  [12, "../pensionInward/home"],
-				  [15, "../pensionast/home"],
-				  [13, "../pensionClk/home"],
-				  [29, "../pensFrstClerk/home"],
-				  [30, "../pensionAao/home"],
-				  [31, "../pensionAo/home"],
-				  [32, "../pensionSao/home"],
-				  [33, "../pensionDyCao1/home"],
-				  [34, "../pensionCashier/home"]
+				  [1, "../mdc/home"],
+				  [2, "../ddo/home"],
+				  [3, "../ddoast/home"],
+				  [5, "../super/home"],
+				  [4, "../user/home"]
+				 
 				]);
 			}else{
 				 homeLink = new Map([
-				  [1,contextPath+"/level1/home"],
-				  [2,contextPath+"/moderator/home"],
-				  [5,contextPath+"/admin/home"],
-				  [6,contextPath+"/super/home"],
-				  [7,contextPath+"/user/home"],
-				  [8,contextPath+"/inwordlvl/home"],
-				  [9,contextPath+"/clerklvl/home"],
-				  [10,contextPath+"/assacclvl/home"],
-				  [11,contextPath+"/superint/home"],
-				  
-				  [17,contextPath+"/auditor/home"],
-				  [18,contextPath+"/srClerk/home"],
-				  [19,contextPath+"/fc/home"],
-				
-				  
-				  [12,contextPath+"/pensionInward/home"],
-				  [15,contextPath+"/pensionast/home"],
-				  [13,contextPath+"/pensionClk/home"],
-				  [29,contextPath+"/pensFrstClerk/home"],
-				  [30,contextPath+"/pensionAao/home"],
-				  [31,contextPath+"/pensionAo/home"],
-				  [32,contextPath+"/pensionSao/home"],
-				  [33,contextPath+"/pensionDyCao1/home"],
-				  [34,contextPath+"/pensionCashier/home"]
+				  [1,contextPath+"/mdc/home"],
+				  [2,contextPath+"/ddo/home"],
+				  [3,contextPath+"/ddoast/home"],
+				  [4,contextPath+"/user/home"],
+				  [5,contextPath+"/super/home"],
 				]);
 			}
 			
@@ -516,25 +479,7 @@ $(document).ready(
 				  [5, "#payrollBlock"],
 				  [6, "#payrollBlock"],
 				  [7, "#payrollBlock"],
-				  
-				  [8, "#GPFBlock"],
-				  [9, "#GPFBlock"],
-				  [10, "#GPFBlock"],
-				  [11, "#GPFBlock"],
-				  
-				  [12, "#pensionBlock"],
-				  [13, "#pensionBlock"],
-				  [15, "#pensionBlock"],
-				  [17, "#pensionBlock"],
-				  [29, "#pensionBlock"],
-				  [30, "#pensionBlock"],
-				  [31, "#pensionBlock"],
-				  [32, "#pensionBlock"],
-				  [33, "#pensionBlock"],
-				  [34, "#pensionBlock"],
-				  
-				  [18, "#GPFBlock"],
-				  [19, "#GPFBlock"]
+				
 				  
 				]);
 			
