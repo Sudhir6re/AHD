@@ -50,6 +50,10 @@ display: inline-block;
 .width-50{
 	    width: 50% !important;
 }
+.width-50-auto{
+	    width: 50% !important;
+	    margin:0 auto;
+}
 .tbBold{
 	font-weight:bold;
 }
@@ -61,6 +65,7 @@ display: inline-block;
     width: 95%;
     padding: 10px 10px;
     background: #fff;
+    height: 100vh;
 }
 .scrollablediv {
     height: 400px;

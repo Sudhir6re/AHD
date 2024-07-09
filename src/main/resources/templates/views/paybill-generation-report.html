@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:utext="#{msg.thymeleaf.pageheading.paybillGenerationReport}"></title>
+</head>
+<body class="paybill-generation-report">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.dcpsBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.paybillGenerationReport}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pageheading.paybillGenerationReport}"></span>
+		</h3>
+
+		<div class="formMainwithNoborTb container">
+			<form method="post" action="" name=""
+				enctype="multipart/form-data">
+				<table class="table bor-0">
+					<tbody>
+						<tr>
+							<td width="15%">Region :</td>
+							<td width="35%"><select id="cmbRegion" name="cmbRegion"
+								tabindex="10" style="width: 50%">
+									<option value="Region" selected="selected">------Select
+										Region------</option>
+									<option value="1">Konkan</option>
+									<option value="2">Pune</option>
+									<option value="3">Aurangabad</option>
+									<option value="4">Nagpur</option>
+									<option value="5">Nasik</option>
+									<option value="6">Amravati</option>
+									<option value="7">Mumbai</option>
+							</select></td>
+							<td width="15%"></td>
+							<td width="35%"></td>
+						</tr>
+						<tr>
+							<td width="15%">Year :</td>
+							<td width="35%"><select id="cmbYear" name="cmbYear"
+								tabindex="10" style="width: 50%">
+									<option value="Year" selected="selected">------Select
+										Year------</option>
+
+									<option value="2023">2023</option>
+
+									<option value="2024">2024</option>
+
+									<option value="2025">2025</option>
+
+							</select><label class="mandatoryindicator">*</label></td>
+							<td width="15%">Month :</td>
+							<td width="35%"><select id="cmbMonth" name="cmbMonth"
+								tabindex="10" style="width: 50%">
+									<option value="Month" selected="selected">------Select
+										Month------</option>
+
+									<option value="1:January">January</option>
+
+									<option value="2:February">February</option>
+
+									<option value="3:March">March</option>
+
+									<option value="4:April">April</option>
+
+									<option value="5:May">May</option>
+
+									<option value="6:June">June</option>
+
+									<option value="7:July">July</option>
+
+									<option value="8:August">August</option>
+
+									<option value="9:September">September</option>
+
+									<option value="10:October">October</option>
+
+									<option value="11:November">November</option>
+
+									<option value="12:December">December</option>
+
+							</select><label class="mandatoryindicator">*</label></td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<div class="text-center">
+					<a th:href="@{/mdc/treasuryDDOWiseReport}"
+						id="btnGenerateReport" class="btn">Generate Report</a>
+					<input type="button" name="btnReset" id="btnReset" value="Reset"
+						class="btn"> <input type="button" name="backButton"
+						id="backButton" value="Close" size="3" maxlength="3"
+						class="buttontag" onclick="history.back()">
+
+
+				</div>
+			</form>
+		</div>
+	</div>
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+</body>
+</html>
