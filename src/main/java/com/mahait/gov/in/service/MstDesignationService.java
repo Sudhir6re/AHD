@@ -7,7 +7,7 @@ import com.mahait.gov.in.entity.MstPayCommissionEntity;
 
 public interface MstDesignationService {
 
-	List<MstPayCommissionEntity> findAllPayCommission();
+	///List<MstPayCommissionEntity> findAllPayCommission();
 	/*
 	
 	public int saveDesignationMst(MstDesignationModel mstDesignationModel,int userId);

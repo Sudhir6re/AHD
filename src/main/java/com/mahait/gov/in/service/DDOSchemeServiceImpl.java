@@ -1,6 +1,10 @@
 package com.mahait.gov.in.service;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -9,8 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.CmnTalukaMst;
+import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.MstScheme;
 import com.mahait.gov.in.entity.OrgPostMst;
+import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.RltDCPSDdoSchemeEntity;
 import com.mahait.gov.in.model.EmpWiseCityClassModel;
+import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.model.OrgDdoMst;
 import com.mahait.gov.in.repository.DDOSchemeRepo;
 
@@ -81,9 +91,27 @@ public class DDOSchemeServiceImpl implements DDOSchemeService {
 	}
 
 	@Override
-	public List getAllSchemesForDDO(String lStrDDOCode) {
-		// TODO Auto-generated method stub
-		return ddoSchemeRepo.getAllSchemesForDDO(lStrDDOCode);
+	public List<NewRegDDOModel> getAllSchemesForDDO(String lStrDDOCode) {
+		
+
+		 List<Object[]> list = ddoSchemeRepo.getAllSchemesForDDO(lStrDDOCode);
+			
+			List<NewRegDDOModel> listobj = new ArrayList<>();
+			if(!list.isEmpty())
+			{
+				
+				//select rlt.Scheme_Code,mst.scheme_Name,rlt.sub_scheme_code,rlt.Ddo_Code
+				for(Object[] obj:list ) //for (Object[] objLst : lstprop) {
+				{
+					NewRegDDOModel obj1 = new NewRegDDOModel();
+					obj1.setSchemeCode(StringHelperUtils.isNullString(obj[0]));
+					obj1.setSchemeName(StringHelperUtils.isNullString(obj[1]));
+					obj1.setSubSchemeCode(StringHelperUtils.isNullString(obj[2]));
+					obj1.setDdoCode(StringHelperUtils.isNullString(obj[3]));
+					listobj.add(obj1);
+				}
+			}
+			return listobj;
 	}
 
 	@Override
@@ -93,7 +121,7 @@ public class DDOSchemeServiceImpl implements DDOSchemeService {
 	}
 
 	@Override
-	public List allTaluka(String districtID) {
+	public List<CmnTalukaMst> allTaluka(String districtID) {
 		// TODO Auto-generated method stub
 		return ddoSchemeRepo.allTaluka(districtID);
 	}
@@ -108,6 +136,51 @@ public class DDOSchemeServiceImpl implements DDOSchemeService {
 	public List getpostRole(OrgPostMst createdByPost) {
 		// TODO Auto-generated method stub
 		return ddoSchemeRepo.getpostRole(createdByPost);
+	}
+
+	@Override
+	public List<Object[]> CheckSubSchemeExist(String schemeCode, String subschemeCode) {
+		// TODO Auto-generated method stub
+		return ddoSchemeRepo.CheckSubSchemeExist(schemeCode,subschemeCode);
+	}
+
+	@Override
+	public Long addSchemesAndBillGroupsToDdo(NewRegDDOModel newRegDDOModel, OrgUserMst messages) {
+		
+		Long saveEntry = 0L;
+		Long id = 0L;
+			String locId=ddoSchemeRepo.getlocid(messages.getUserName());
+		if(newRegDDOModel!=null) {
+			RltDCPSDdoSchemeEntity rltDCPSDdoSchemeEntity= new RltDCPSDdoSchemeEntity();
+			rltDCPSDdoSchemeEntity.setDdoCode(newRegDDOModel.getInstDdoCode());
+			rltDCPSDdoSchemeEntity.setLocId(Long.valueOf(locId));
+			rltDCPSDdoSchemeEntity.setSchemeCode(newRegDDOModel.getInstSchemeCode());
+			rltDCPSDdoSchemeEntity.setUpdatedUserId(messages.getUserId());
+			rltDCPSDdoSchemeEntity.setUpdatedPostId(messages.getUpdatedByPost().getPostId());
+			rltDCPSDdoSchemeEntity.setCreatedPostId(messages.getUpdatedByPost().getPostId());
+			rltDCPSDdoSchemeEntity.setCreatedUserId(messages.getUserId());
+			rltDCPSDdoSchemeEntity.setUpdatedUserId(messages.getUserId());
+			rltDCPSDdoSchemeEntity.setLangId(1L);
+			rltDCPSDdoSchemeEntity.setDbId(99L);
+			rltDCPSDdoSchemeEntity.setCreatedDate(new Date());
+			rltDCPSDdoSchemeEntity.setUpdatedDate(new Date());
+			
+			saveEntry = ddoSchemeRepo.saveScheme(rltDCPSDdoSchemeEntity);
+		}
+		
+		id = (Long) saveEntry;
+		return id;
+	
+		
+		
+		
+		
+	}
+
+	@Override
+	public List<Object[]> displaySchemeNameForCode(String schemeCode) {
+		// TODO Auto-generated method stub
+		return ddoSchemeRepo.displaySchemeNameForCode(schemeCode);
 	}
 
 }

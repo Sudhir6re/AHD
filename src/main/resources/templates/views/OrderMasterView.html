@@ -157,179 +157,18 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.departmentname}"></span>&nbsp;&nbsp;<b><font
+						th:utext="#{msg.thymeleaf.pagelabel.organizationinstituationname}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label>
 					<div class="col-sm-3">
 						<select class="form-control" id="department_id"
-							th:field="*{departmentId}">
+							th:field="*{ddoCode}">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 							<!--<option value="1">Latur</option> -->
-							<option th:each="varDeptDataTable : ${lstDeptDataTable}"
-								th:value="${varDeptDataTable.departmentId}"
-								th:text="${language=='mh' ? varDeptDataTable.departmentNameEn : varDeptDataTable.departmentNameEn}"></option>
+							<option th:each="varDeptDataTable : ${lstInstitute}"
+								th:value="${varDeptDataTable.ddoCode}"
+								th:text="${varDeptDataTable.officeName + ' ( '+ varDeptDataTable.ddoCode + ' ) '}"></option>
 						</select>
-					</div>
-					<label class="control-label col-sm-3" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.subdepartmentname}"></span>&nbsp;&nbsp;<b><font
-							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-3">
-						<select class="form-control" id="subdepartment_id"
-							th:field="*{subDepartmentId}">
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-3" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.isApplicableLocation}"></span>&nbsp;&nbsp;<b><font
-							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-2">
-					
-						<!-- <input type="checkbox" id="isApplicablelocation"  th:field="*{isApplicableLocation}"  value="No"></input> -->
-						
-						<input type="radio"
-							 th:field="*{isApplicableLocation}"
-							th:value="Yes" />
-							
-							<label class="form-check-label">Yes</label> 
-							 <input type="radio"
-							name="applicable" class="applicable" 
-							th:value="No" th:field="*{isApplicableLocation}"  value="No"/><label
-							class="form-check-label">No</label>
-							
-							
-					<label id="isApplicableLocation-error" class="error" for="isApplicableLocation"></label>		
-							
-							
-						
-						
-					</div>
-
-
-					<div id="district" style="display: none;">
-						<label class="control-label col-sm-1" for="title"><span
-							th:utext="#{msg.thymeleaf.pagelabel.district}"></span>&nbsp;&nbsp;<b><font
-								color="red" size="4px;">*</font></b></label>
-						<div class="col-sm-2">
-
-<select class="form-control" id="districtConcatCode"  th:field="*{districtConcatCode}">
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							  <option th:each="varDistrict : ${lstAllDistrict}"
-								th:value="${varDistrict.districtId}"
-								th:text="${varDistrict.districtNameEn}"></option> 
-						</select>
-				<!-- 			<div class="multiselect">
-								<div class="selectBox" onclick="showCheckboxes()">
-									<select class="form-control">
-										<option>Select an option</option>
-									</select>
-									<div class="overSelect"></div>
-								</div>
-								<div id="checkboxes"></div>
-							</div> -->
-						</div>
-					</div>
-
-
-
-					<div id="taluka" style="display: none;">
-						<label class="control-label col-sm-2" for="title"><span
-							th:utext="#{msg.thymeleaf.pagelabel.taluka}"></span>&nbsp;&nbsp;<b><font
-								color="red" size="4px;">*</font></b></label>
-
-
-
-
-						<div class="col-sm-2">
-
-
-							<!-- <select  class="form-control" id="talukaId" >
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-						</select> -->
-
-
-
-							<div class="multiselect1">
-								<div class="selectBox1" onclick="showCheckboxes1()">
-									<select class="form-control">
-										<option>Select an option</option>
-									</select>
-									<div class="overSelect1"></div>
-								</div>
-
-								<div id="checkboxes1"></div>
-							</div>
-
-
-
-						</div>
-
-					</div>
-
-
-
-				</div>
-
-
-				<!-- <div class="form-group">
-					
-					
-						  <label class="control-label col-sm-2" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.ddoLevel }"></span>&nbsp;&nbsp;<b><font
-							color="red" size="4px;">*</font></b></label>
-				
-					  <div class="col-sm-2">
-						<select  class="form-control" id="ddoCode" >
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-						</select>
-						</div>
-					
-					</div> -->
-
-
-				<!-- <div class="form-group">
-					<label class="control-label col-sm-2" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.level1ddocode}"></span>&nbsp;&nbsp;<b><font
-							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-10">
-						<select  class="form-control" id="ddoCode" >
-							<option selected="selected" th:value="1000"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-						</select>
-							<input type="hidden" id="ddoIdCode" th:field="*{ddoCode}"  ></input>
-					</div>
-				</div> -->
-
-				<div class="row sixFields">
-
-
-					<label class="control-label col-sm-3" for="title" id="mylbl"><span
-						th:utext="#{menu.master.sub.orderType}"></span>&nbsp;&nbsp;<b><font
-							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-2">
-						<select class="form-control" th:field="*{orderType}"
-							id="orderType">
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option value="1">Central</option>
-							<option value="2">State</option>
-							<option value="3">Departmental</option>
-						</select>
-					</div>
-
-
-
-					<label class="control-label col-sm-1" for="title"> <span
-						th:utext="#{menu.master.sub.sancationDate}"></span>&nbsp;&nbsp;<b><font
-							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-2">
-						<input type="date" class="form-control" th:field="*{orderDate}"
-							name="sanctionDate" id="sanctionDate"   th:attr="max=${maxDate}" ></input>
 					</div>
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{menu.master.sub.sancatioOrderNo}"></span>&nbsp;&nbsp;<b><font
@@ -338,43 +177,28 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 						<input type="text" class="form-control alphanumer"
 							th:field="*{sanctionOrderNo}" id="sanctionOrderNo"></input>
 					</div>
+					
 				</div>
-
-				<div class="form-group">
-					<label class="control-label col-sm-3" for="title"><span
-						th:utext="#{menu.master.sub.isApplicable}"></span>&nbsp;&nbsp;<b><font
+				<div class="row sixFields">
+				<label class="control-label col-sm-1" for="title"> <span
+						th:utext="#{menu.master.sub.sancationDate}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-2" style="margin-top: 5px;">
-						<input type="radio"
-							name="applicable" class="applicable" th:field="*{isApplicableForEndDt}"
-							th:value="#{msg.thymeleaf.pagelabel.whetherMinisterialYes}" />
-							<label class="form-check-label">Yes</label> 
-							 <input type="radio"
-							name="applicable" class="applicable" 
-							th:value="#{msg.thymeleaf.pagelabel.whetherMinisterialNo}" th:field="*{isApplicableForEndDt}"  value="No"/><label
-							class="form-check-label">No</label>
-							
-							
-							<label id="isApplicableForEndDt-error" class="error" for="isApplicableForEndDt"></label>
+					<div class="col-sm-2">
+						<input type="date" class="form-control" th:field="*{orderDate}"
+							name="sanctionDate" id="sanctionDate"   th:attr="max=${maxDate}" ></input>
 					</div>
-					<!-- 
-					<div class="col-sm-3">
-						<input type="radio" class="form-check-input" name="optradio"
-							value="1" /> <label class="form-check-label">Yes</label> <input
-							type="radio" class="form-check-input" name="optradio" value="2" />
-						<label class="form-check-label">No</label>
+					<label class="control-label col-sm-3" for="title" id="mylbl"><span
+						th:utext="#{menu.master.sub.orderType}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-2">
+						<select class="form-control" th:field="*{orderType}"
+							id="orderType">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option value="2">State GR</option>
+						</select>
+					</div>
 
-					</div>
- -->
-
-					<div id="isEndDate" style="display: none;">
-						<label class="control-label col-sm-2" for="title"><span
-							th:utext="#{menu.master.sub.validUpto}"></span>&nbsp;&nbsp;<b><font
-								color="red" size="4px;">*</font></b></label>
-						<div class="col-sm-2">
-							<input type="date" class="form-control" th:field="*{endDate}" ></input>
-						</div>
-					</div>
 					
 					
 				</div>
@@ -391,7 +215,7 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 								style="width: 100%">
 								<tr>
 									<td><label><span
-											th:utext="#{menu.master.sub.fileDescription}"></span></label></td>
+											th:utext="#{msg.thymeleaf.pageheading.grDesc}"></span></label></td>
 									<td><input type="text" class="form-control checkFirstChar" width="100"
 										id="fileDescription"   th:field="*{grDescription}"></input></td>
 
@@ -470,50 +294,18 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 					style="width: 100%">
 					<thead>
 						<tr>
-							<th th:utext="#{msg.thymeleaf.pagelabel.departmentname}"></th>
-							<th th:utext="#{msg.thymeleaf.pagelabel.subdepartmentname}"></th>
-							<!-- <th  th:utext="#{msg.thymeleaf.pagelabel.level1ddocode}"></th> -->
 							<th th:utext="#{menu.master.sub.sancatioOrderNo}"></th>
 							<th th:utext="#{menu.master.sub.sancationDate}"></th>
-							<th >Document Name</th>
-						<!-- 	<th th:utext="#{msg.thymeleaf.pagelabel.status}"></th> -->
-							<th th:utext="#{msg.thymeleaf.datatablelabel.action}"></th>
 						</tr>
 					</thead>
-					<!-- 		<tbody>
-						<tr th:each="varDept : ${fetchGRDataList}">
-							<td th:text="${varDept.departmentname}"></td>
+				 		<tbody>
+						<tr th:each="varDept : ${lstSancOrder}">
+							<td th:text="${varDept.sanctionOrderNo}"></td>
 							
-							<td th:text="${varDept.subdepartmentname}"></td>
-							<td th:text="${varDept.sancatioOrderNo}"></td>
-							<td th:text="${varDept.sancationDate}"></td>
-							<td th:text="${varDept.status}"></td>
-							<td><span th:if="${varDept.isActive} == '1'"> <span
-									class="label label-success"
-									th:utext="#{msg.thymeleaf.status.active}"></span>
-							</span> <span th:if="${varDept.isActive} =='0'"> <span
-									class="label label-danger"
-									th:utext="#{msg.thymeleaf.status.inactive}"></span>
-							</span></td>
-							<td>
-								<div class="form-group">
-									<div class="col-sm-offset-1 col-sm-1">
-										<a data-toggle="tooltipEdit" title="Edit"
-											th:href="@{'/master/editMstGrOrder/' + ${varDept.grOrderId}}"><span
-											class="glyphicon glyphicon-edit"></span></a>
-									</div>
-
-									<div class="col-sm-offset-0 col-sm-1">
-										
-										<a data-toggle="tooltipDelete" title="Delete" th:data="${varDept.grOrderId}" th:data-val="${varDept.isActive}" 
-									class="delete"> <span class="glyphicon glyphicon-trash "></span></a> 
-											
-									
-									</div>
-								</div>
-							</td>
+							<td  th:text="${#dates.format(varDept.orderDate, 'dd-MMM-yyyy')}" ></td><!-- th:text="${varDept.orderDate}" -->
+							
 						</tr>
-					</tbody> -->
+					</tbody> 
 
 				</table>
 			</form>

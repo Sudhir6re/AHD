@@ -7,7 +7,7 @@ $('#btnApprove')
 											$
 													.ajax({
 														type : "GET",
-														url : "../ddo/updateApproveStatus/"
+														url : "../updateApproveStatus/"
 																+ zpDdoCode +"/"+flag,
 														async : true,
 														contentType : 'application/json',
@@ -22,11 +22,6 @@ $('#btnApprove')
 																		{
 																			icon : "success",
 																		});
-																setTimeout(
-																		function() {
-																			location
-																					.reload(true);
-																		}, 3000);
 															
 
 														}
@@ -42,7 +37,7 @@ $('#btnReject')
 				$
 				.ajax({
 					type : "GET",
-					url : "../ddo/updateApproveStatus/"
+					url : "../updateApproveStatus/"
 						+ zpDdoCode +"/"+flag,
 						async : true,
 						contentType : 'application/json',
@@ -57,11 +52,6 @@ $('#btnReject')
 									{
 										icon : "success",
 									});
-							setTimeout(
-									function() {
-										location
-										.reload(true);
-									}, 3000);
 							
 							
 						}

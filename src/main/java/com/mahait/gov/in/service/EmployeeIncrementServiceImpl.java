@@ -1,6 +1,9 @@
 package com.mahait.gov.in.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -22,17 +25,46 @@ public class EmployeeIncrementServiceImpl implements EmployeeIncrementService{
 	
 
 	@Override
-	public List<AnnualIncrementModel> getEmpDataForIncrementApproval(String userName) {
-		List<Object[]> lstprop = employeeIncrementRepo.getEmpDataForIncrementApproval(userName);
+	public String officeName(String userName) {
+		return employeeIncrementRepo.officeName(userName);
+	}
+
+	@Override
+	public List<AnnualIncrementModel> lstEmpforMTR21(String orderNo,int roleId,String ddoCode) {///, String locId
+		List<Object[]> lstprop = employeeIncrementRepo.lstEmpforMTR21(orderNo,roleId,ddoCode);//,locId
 		List<AnnualIncrementModel> lstObj = new ArrayList<>();
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				AnnualIncrementModel obj = new AnnualIncrementModel();
+				//o.EMP_FNAME,o.EMP_MNAME,o.EMP_LNAME,d.DSGN_NAME,fix.PAY_FIX_DATE,fix.OLD_BASIC,fix.NEW_BASIC,fix.NXT_INCR_DATE,fix.INCR_ORDER_DATE,fix.PAY_COMMISSION_ID
+				String empName=objLst[0]+" "+objLst[1]+" "+objLst[2]; 
+				obj.setEmpname(empName);
+				obj.setPostName(StringHelperUtils.isNullString(objLst[3]));
+				obj.setPresentIncreDate(StringHelperUtils.isNullDate(objLst[4]));
+				obj.setCurrbasic(StringHelperUtils.isNullInt(objLst[5]));
+				obj.setIncrBasic(StringHelperUtils.isNullInt(objLst[6]));
+				obj.setIncrDate(StringHelperUtils.isNullDate(objLst[8]));
+				obj.setPayCommId(StringHelperUtils.isNullInt(objLst[9]));
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	}
 
-				obj.setIncrementOrderDate(StringHelperUtils.isNullDate(objLst[0]));
-				obj.setOrderNo(StringHelperUtils.isNullString(objLst[1].toString()));
-				obj.setOfficeName(StringHelperUtils.isNullString(objLst[2]));
-				obj.setDdoCode(StringHelperUtils.isNullString(objLst[3]));
+
+
+	@Override
+	public List<AnnualIncrementModel> getIncrementDataForReptDDO(String userName, String currYear) {
+		List<Object[]> lstprop = employeeIncrementRepo.getIncrementDataForReptDDO(userName,currYear);
+		List<AnnualIncrementModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				AnnualIncrementModel obj = new AnnualIncrementModel();
+		        obj.setOrderNo(StringHelperUtils.isNullString(objLst[0]));
+				obj.setIncrementOrderDate(StringHelperUtils.isNullDate(objLst[2]));
+				obj.setStatus(StringHelperUtils.isNullString(objLst[3]));
+				obj.setDdoCode(StringHelperUtils.isNullString(objLst[4]));
+				obj.setOfficeName(StringHelperUtils.isNullString(objLst[5]));
 				// obj.setBasicPayIncrementId(StringHelperUtils.isNullInt(objLst[4]));
 				lstObj.add(obj);
 			}
@@ -40,34 +72,5 @@ public class EmployeeIncrementServiceImpl implements EmployeeIncrementService{
 		return lstObj;
 	}
 
-
-
-	@Override
-	public String officeName(String userName) {
-		return employeeIncrementRepo.officeName(userName);
-	}
-
-	@Override
-	public List<AnnualIncrementModel> lstEmpforMTR21(String orderNo, String orderDate, int levelRoleVal,
-			String ddoCode) {
-		List<Object[]> lstprop = employeeIncrementRepo.lstEmpforMTR21(orderNo,orderDate,levelRoleVal,ddoCode);
-		List<AnnualIncrementModel> lstObj = new ArrayList<>();
-		if (!lstprop.isEmpty()) {
-			for (Object[] objLst : lstprop) {
-				AnnualIncrementModel obj = new AnnualIncrementModel();
-				//b.employee_full_name_en,c.post_short_name,a.current_basic_pay,b.sevaarth_id,a.effective_from_date,\r\n" + 
-				//"a.to_increment_date
-
-				obj.setEmpname(StringHelperUtils.isNullString(objLst[0]));
-				obj.setPostName(StringHelperUtils.isNullString(objLst[1]));
-				obj.setCurrbasic(StringHelperUtils.isNullInt(objLst[2]));
-				obj.setIncrDate(StringHelperUtils.isNullDate(objLst[4]));
-				obj.setIncrToDate(StringHelperUtils.isNullDate(objLst[5]));
-				obj.setIncrBasic(StringHelperUtils.isNullInt(objLst[6]));
-				lstObj.add(obj);
-			}
-		}
-		return lstObj;
-	}
 
 }

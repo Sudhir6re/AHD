@@ -7,6 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+@Service
+@Transactional
+public class MstDesignationServiceImpl implements MstDesignationService{/*
+=======
+>>>>>>> Stashed changes
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.repository.MstDesignationRepo;
 @Service
@@ -55,12 +62,11 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 	}
 
 */
-	
-	
-	@Override
+	/*@Override
+>>>>>>> Stashed changes
 	public List<MstPayCommissionEntity> findAllPayCommission() {
 		return mstDesignationRepo.findAllPayCommission();
-	}
+	}*/
 
 	/*@Override
 	public List<MstDesignationModel> getDesignationMstData(String locale) {
@@ -147,7 +153,7 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 		return mstDesignationRepo.getCadre();
 <<<<<<< HEAD
 	}
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 	}*/
 }
-

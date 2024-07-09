@@ -25,7 +25,8 @@
 			<span th:utext="#{msg.thymeleaf.pagelabel.orgInstScheme}"></span>
 		</h3>
 		<div class="newpagecontent container">
-			<form method="post" action="" name="frmScheme" enctype="multipart/form-data" th:action="${/ddo/addSchemesAndBillGroupsToDdo}">
+			<form method="post" name="frmScheme" enctype="multipart/form-data" th:action="@{/ddo/addSchemesAndBillGroupsToDdo}"
+			th:object="${newRegDDOModel}" >
     <fieldset class="tabstyle">
         <legend> <b>Schemes Operated by DDO</b> </legend>
         <div align="center">
@@ -43,41 +44,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="odd">
-                        <td style="text-align: left;">22020683</td>
-                        <td style="text-align: left;">IA-GRANTS TO UNIVERSITIS FOR GENERAL EDUCATION</td>
-                        <td style="text-align: left;">
-                        </td>
-                        <td style="text-align: left;">06340100116</td>
-                    </tr>
-                    <tr class="even">
-                        <td style="text-align: left;">22020683</td>
-                        <td style="text-align: left;">IA-GRANTS TO UNIVERSITIS FOR GENERAL EDUCATION</td>
-                        <td style="text-align: left;">
-                        </td>
-                        <td style="text-align: left;">31340100001</td>
-                    </tr>
+                    <tr class="odd" th:each="varLst : ${schemelist}">
+                        <td style="text-align: left;" th:text="${varLst.schemeCode}">22020683</td>
+                        <td style="text-align: left;" th:text="${varLst.schemeName}">22020683</td>
+                        <td style="text-align: left;" th:text="${varLst.subSchemeCode}">22020683</td>
+                        <td style="text-align: left;" th:text="${varLst.ddoCode}">22020683</td>
+                        
                    
                 </tbody>
-            </table><span class="pagebanner">104 Records found, displaying 1 to 5 Records.</span><span class="pagelinks">[First/Prev] <strong>1</strong>, <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=2" title="Go to page 2">2</a>, <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=3" title="Go to page 3">3</a>, <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=4" title="Go to page 4">4</a>, <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=5" title="Go to page 5">5</a>, <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=6" title="Go to page 6">6</a>, <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=7" title="Go to page 7">7</a>, <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=8" title="Go to page 8">8</a> [<a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=2">Next</a>/<a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-p=21">Last</a>]</span>
+            </table>
         </div>
     </fieldset>
-    <fieldset class="tabstyle">
+  <!--   <fieldset class="tabstyle">
         <legend> <b>Filter Institute</b> </legend>
         <table align="center">
             <tbody>
                 <tr>
                     <td>Taluka</td>
-                    <td><select name="cmbTaluka" id="cmbTaluka" style="width: 85%,display: inline;">
-                            <option title="Select" value="-1">Select</option>
-                            <option value="163" title="Mahoor">
-                                Mahoor</option>
-                            <option value="164" title="Kinwat">
-                                Kinwat</option>
-                            <option value="165" title="Himayatnagar">
-                                Himayatnagar</option>
-                           
-                        </select></td>
+                    <td>
+                    <select class="form-control" style="width: 85%,display: inline;"
+							id="cmbTaluka" name="cmbTaluka">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option th:each="varLst : ${talukaList}"
+								th:value="${varLst.talukaId}"
+								th:text="${language=='mh' ? varLst.talukaName : varLst.talukaName}"></option>
+						</select>
+                    </td>
                     <td> DDO Code/Office Name</td>
                     <td>
                         <input type="text" id="ddoCode" name="ddoCode" maxlength="200" size="30">
@@ -88,7 +81,7 @@
                 </tr>
             </tbody>
         </table>
-    </fieldset>
+    </fieldset> -->
     <fieldset class="tabstyle">
         <legend> <b>Add Schemes to DDO</b> </legend>
         <table id="tblMaster" width="70%" align="center" border="0">
@@ -97,15 +90,15 @@
                     <td width="10%" align="left">DDO Institution Name
                     </td>
                     <td width="100%" align="left">
-                        <select name="cmbsubDdos" id="cmbsubDdos" style="width:120%">
-                            <option value="-1">-- Select --
-                            </option>
-                            <option value="06340100003">Rajarshi Shahu College, Latur(06340100003)
-                            </option>
-                            <option value="06340100004">Mahatma Basweshwar College, Latur(06340100004)
-                            </option>
-                           
-                        </select>
+						<select class="form-control" id="department_id"
+							th:field="*{instDdoCode}">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<!--<option value="1">Latur</option> -->
+							<option th:each="varDeptDataTable : ${lstInstitute}"
+								th:value="${varDeptDataTable.ddoCode}"
+								th:text="${varDeptDataTable.officeName + ' ( '+ varDeptDataTable.ddoCode + ' ) '}"></option>
+						</select>
                         <label class="mandatoryindicator">*</label>
                     </td>
                 </tr>
@@ -113,15 +106,13 @@
                     <td width="10%" align="left">Scheme Code
                     </td>
                     <td width="100%" align="left">
-                        <input type="text" name="txtSchemeCode" id="txtSchemeCode" maxlength="10" style="text-align: left" onblur="CheckSubSchemeExistForTable();popUpSchemeName();">
-                        <label class="mandatoryindicator">*</label>
+                        <input type="text" name="txtSchemeCode" id="txtSchemeCode" maxlength="10" style="text-align: left" > <label class="mandatoryindicator">*</label>
                     </td>
                 </tr>
                 <tr>
                     <td width="10%" align="left">Scheme Name</td>
                     <td width="100%" align="left">
-                        <select name="cmbSchemeName" id="cmbSchemeName" style="width:100%" onchange="setSchemeCode();">
-                            <option value="-1">-- Select --</option>
+                        <select name="cmbSchemeName" id="cmbSchemeName" style="width:100%" th:field="*{instSchemeCode}">
                         </select>
                         <label class="mandatoryindicator">*</label>
                     </td>
@@ -171,9 +162,6 @@
        
         <div align="center"><input type="submit" name="btnSave" id="btnSave" value="Add Schemes" size="3" maxlength="3" class="buttontag"> <input type="button" name="btnBack" onclick="ReturnLoginPage();" id="btnBack" value="Back" size="3" maxlength="3" class="buttontag"></div>
     </fieldset>
-    <script language="JavaScript">
-    setForm('frmScheme');
-    </script>
 </form>
 			
 		</div>
@@ -181,5 +169,6 @@
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
+	<script th:src="@{/js/project/ddoScheme.js}"></script>
 </body>
 </html>
