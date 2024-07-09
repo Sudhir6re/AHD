@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.mahait.gov.in.entity.CmnDistrictMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminNameMst;
 import com.mahait.gov.in.model.ZpRltDdoMapModel;
@@ -36,6 +36,6 @@ public interface CreateAdminOfficeService {
 
 	int getUniqeInstituteIdCount(String DDOCode);
 
-	List<OrgDesignationMst> findDesignation(String desgn);
+	List<MstDesignationEntity> findDesignation(String desgn);
 
 }

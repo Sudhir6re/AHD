@@ -131,19 +131,19 @@ public class OrgEmpMst implements Serializable {
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForUpdatedBy;
     
     
-    @OneToMany(mappedBy = "orgEmpMst")
+  /*  @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDepartmentMst> orgDepartmentMstsForCreatedBy;
     
     
-/*
+
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgDesignationMst> orgDesignationMstsForUpdatedBy;
     
-    */
+    
 
     @ManyToOne(fetch = FetchType.LAZY) // Many orders can have one customer
     @JoinColumn(name = "dsgn_id") // This is the foreign key column in Order table
-    private OrgDesignationMst orgDesignationMst;
+    private OrgDesignationMst orgDesignationMst;*/
     
     
     @OneToMany(mappedBy = "orgEmpMst")
@@ -154,10 +154,10 @@ public class OrgEmpMst implements Serializable {
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpcontactMst> orgEmpcontactMstsForCreatedBy;
  
-    
+    /*
 
     @OneToMany(mappedBy = "orgEmpMst")
-    private Set<OrgDepartmentMst> orgDepartmentMstsForUpdatedBy;
+    private Set<OrgDepartmentMst> orgDepartmentMstsForUpdatedBy;*/
 
     @OneToMany(mappedBy = "orgEmpMst")
     private Set<OrgEmpaddressMst> orgEmpaddressMstsForUpdateBy;

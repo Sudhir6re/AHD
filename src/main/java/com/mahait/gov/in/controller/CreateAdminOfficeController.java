@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.JsonObject;
 import com.mahait.gov.in.entity.CmnDistrictMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminNameMst;
 import com.mahait.gov.in.model.ZpRltDdoMapModel;
@@ -232,8 +232,8 @@ public class CreateAdminOfficeController {
 
 	@RequestMapping(value = "/findDesignation", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<OrgDesignationMst>> findDesignation(@RequestParam String txtDDODsgn) {
-		List<OrgDesignationMst> response1 = createAdminOfficeService.findDesignation(txtDDODsgn);
+	public ResponseEntity<List<MstDesignationEntity>> findDesignation(@RequestParam String txtDDODsgn) {
+		List<MstDesignationEntity> response1 = createAdminOfficeService.findDesignation(txtDDODsgn);
 		return ResponseEntity.ok(response1);
 	}
 }

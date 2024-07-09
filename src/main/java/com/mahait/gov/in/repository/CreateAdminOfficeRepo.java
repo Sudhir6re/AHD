@@ -2,6 +2,7 @@ package com.mahait.gov.in.repository;
 
 import java.util.List;
 
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 
 public interface CreateAdminOfficeRepo {
@@ -23,6 +24,8 @@ public interface CreateAdminOfficeRepo {
 	List<Object[]> retriveDisctOfcList(OrgUserMst messages, String ofcId);
 	
 	public List<Object[]> retrieveDistrictOfficeList(OrgUserMst messages, Long ofcId);
+
+	List<MstDesignationEntity> findByDsgnNameIgnoreCaseContaining(String desgn);
 
 
 }

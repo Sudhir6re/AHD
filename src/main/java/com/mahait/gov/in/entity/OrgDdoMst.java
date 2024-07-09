@@ -109,7 +109,8 @@ public class OrgDdoMst {
 
 	    @Column(name = "hod_loc_code", length = 20)
 	    private String hodLocCode;
-
+	    
+	    
 	    @Column(name = "is_co")
 	    private Short isCo;
 

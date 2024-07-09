@@ -21,7 +21,7 @@ public class MstDesignationEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="DESIGNATION_ID")
-	private Long desgination_id;
+	private Long desginationId;
 	
 	
 	@Column(name="DESIGNATION_CODE")
@@ -54,4 +54,7 @@ public class MstDesignationEntity {
 	
 	@Column(name = "CADRE_GROUP") 
 	private Integer cadreGroup;
+
+
+	
 }

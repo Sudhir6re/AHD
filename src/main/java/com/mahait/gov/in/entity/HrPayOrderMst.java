@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "HR_PAY_ORDER_MST", schema = "IFMS")
+@Table(name = "HR_PAY_ORDER_MST")
 public class HrPayOrderMst implements Serializable {
 
     @Id

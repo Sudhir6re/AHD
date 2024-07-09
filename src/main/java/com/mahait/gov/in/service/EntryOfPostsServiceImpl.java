@@ -6,9 +6,12 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
+import com.mahait.gov.in.entity.OrgPostDetailsRlt;
+import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.repository.EntryOfPostsRepo;
 
 
@@ -21,7 +24,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService{
 	EntryOfPostsRepo entryOfPostsRepo;
 
 	@Override
-	public List<OrgDesignationMst> getActiveDesig(Long lLngFieldDept) {
+	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		return entryOfPostsRepo.getActiveDesig(lLngFieldDept);
 	}
 
@@ -74,6 +77,23 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService{
 	@Override
 	public List getSubDDOsOffc(long loggedInPostId, String talukaId, String ddoSelected) {
 		return entryOfPostsRepo.getSubDDOsOffc(loggedInPostId,talukaId,ddoSelected) ;
+	}
+
+	@Override
+	public Long savePost(OrgPostMst orgPostMst) {
+		return entryOfPostsRepo.savePost(orgPostMst) ;
+	}
+
+	@Override
+	public Long savePostDetails(OrgPostDetailsRlt orgPostDetailsRlt) {
+		return entryOfPostsRepo.savePostDetails(orgPostDetailsRlt) ;
+	}
+
+
+
+	@Override
+	public Long saveHrPayOfficepostMpg(HrPayOfficepostMpg hrPayOfficepostMpg) {
+		return entryOfPostsRepo.savePostDetails(hrPayOfficepostMpg) ;
 	}
 
 }

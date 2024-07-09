@@ -30,12 +30,11 @@ public class MstDcpsDesignation {
     
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORG_DESIGNATION_ID", referencedColumnName = "dsgn_id", insertable = false, updatable = false)
-    private OrgDesignationMst orgDesignation;
-
-
-    @Column(name = "DB_ID")
-    private Long dbId;
+    @JoinColumn(name = "ORG_DESIGNATION_ID", referencedColumnName = "DESIGNATION_ID", insertable = false, updatable = false)
+    private MstDesignationEntity orgDesignation;
+    
+    
+   
 
     @Column(name = "LOCATION_CODE")
     private Long locationCode;

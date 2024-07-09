@@ -47,15 +47,12 @@ public class MenuIntercepter implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null && !authentication.getPrincipal().equals("anonymousUser")) {
+		if (authentication != null && !authentication.getPrincipal().equals("anonymousUser")  && session.getAttribute("menuList")==null) {
 			List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 					.collect(Collectors.toList());
 			if (authorities.size() > 0) {
 				User u = (User) authentication.getPrincipal();
 				OrgUserMst messages = userDetailsServiceImpl.getUserIdbyUserName(u.getUsername());
-				
-				
-				
 				
 				Integer levelRoleVal = messages.getMstRoleEntity().getRoleId();
 				if (levelRoleVal != null && levelRoleVal != 0) {

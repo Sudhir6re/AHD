@@ -12,9 +12,12 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.CmnBranchMst;
+import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
+import com.mahait.gov.in.entity.OrgPostDetailsRlt;
+import com.mahait.gov.in.entity.OrgPostMst;
 
 @Repository
 public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
@@ -23,9 +26,9 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	EntityManager entityManager;
 
 	@Override
-	public List<OrgDesignationMst> getActiveDesig(Long lLngFieldDept) {
+	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		Session session = getSession();
-		String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, OrgDesignationMst mst  where mst.dsgnId=dcpsDesig.orgDesignationId and mst.activateFlag=1 and  dcpsDesig.fieldDeptId =  "
+		String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  where mst.desginationId=dcpsDesig.orgDesignationId and mst.isActive=1 and  dcpsDesig.fieldDeptId =  "
 				+ lLngFieldDept;
 		Query query = session.createQuery(HQL_QUERY);
 		List resultList = query.list();
@@ -148,5 +151,23 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
     	return ddoDtls;
     	
     }
+
+	@Override
+	public Long savePostDetails(OrgPostDetailsRlt orgPostDetailsRlt) {
+		Session session = getSession();
+		return (Long) session.save(orgPostDetailsRlt);
+	}
+
+	@Override
+	public Long savePost(OrgPostMst orgPostMst) {
+		Session session = getSession();
+		return (Long) session.save(orgPostMst);
+	}
+
+	@Override
+	public Long savePostDetails(HrPayOfficepostMpg hrPayOfficepostMpg) {
+		Session session = getSession();
+		return (Long) session.save(hrPayOfficepostMpg);
+	}
 
 }

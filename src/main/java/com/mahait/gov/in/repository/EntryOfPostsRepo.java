@@ -2,13 +2,16 @@ package com.mahait.gov.in.repository;
 
 import java.util.List;
 
+import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
-import com.mahait.gov.in.entity.OrgDesignationMst;
+import com.mahait.gov.in.entity.OrgPostDetailsRlt;
+import com.mahait.gov.in.entity.OrgPostMst;
 
 public interface EntryOfPostsRepo {
 
-	List<OrgDesignationMst> getActiveDesig(Long lLngFieldDept);
+	List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept);
 
 	List getAllBillsFromLocation(Long locId);
 
@@ -29,5 +32,11 @@ public interface EntryOfPostsRepo {
 	List allTaluka(String districtID);
 
 	List getSubDDOsOffc(long loggedInPostId, String talukaId, String ddoSelected);
+
+	Long savePostDetails(OrgPostDetailsRlt orgPostDetailsRlt);
+
+	Long savePost(OrgPostMst orgPostMst);
+
+	Long savePostDetails(HrPayOfficepostMpg hrPayOfficepostMpg);
 
 }
