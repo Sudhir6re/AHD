@@ -78,4 +78,6 @@ public interface EntryOfPostsRepo {
 
 	DdoOffice findOfficeByfficeId(Long valueOf);
 
+	List<HrPayOrderMst> findGrOrderDetails(Long grOrderId);
+
 }

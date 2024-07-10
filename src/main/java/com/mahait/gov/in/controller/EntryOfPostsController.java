@@ -7,12 +7,16 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
@@ -110,9 +114,6 @@ public class EntryOfPostsController {
 
 			model.addAttribute("ddoCode", ddoCode);
 
-			
-			 
-			
 			String talukaId = "";
 			String ddoSelected = "";
 			List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId, ddoSelected);
@@ -120,13 +121,13 @@ public class EntryOfPostsController {
 
 			if (ddoCodeList.size() > 0)
 				ddoCode = ddoCodeList.get(0).getDdoCode();
-			
+
 			model.addAttribute("DDOlist", DDOdtls);
 
 			List branchList_en = entryOfPostsService.getAllBranchList(1L);
 			model.addAttribute("Branch", branchList_en);
 
-			List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderData(locId,ddoCode);
+			List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderData(locId, ddoCode);
 
 			List billList = entryOfPostsService.getAllBillsFromLocation(locId);
 			List officeList = entryOfPostsService.getAllOfficesFromDDO(ddoCode);
@@ -138,7 +139,8 @@ public class EntryOfPostsController {
 			// code to find the taluka
 			List talukaList = entryOfPostsService.allTaluka(districtID);
 
-	//		List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
+			// List<OrgDdoMst> ddoCodeList =
+			// entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 
 			model.addAttribute("filterDdoCodes", ddoCodeList);
 
@@ -197,10 +199,18 @@ public class EntryOfPostsController {
 			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
 
 			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
-			entryOfPostsService.savePostEntryDtl(postEntryModel,locId,loggedInPostId,messages);
+			entryOfPostsService.savePostEntryDtl(postEntryModel, locId, loggedInPostId, messages);
 		}
-		
 
-		return "/views/update-posts";
+		return "redirect:/ddo/entryOfPosts";
+	}
+
+	// HrPayOrderMst
+
+	@RequestMapping(value = "/findGrOrderByGrOrderId/{grOrderId}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<HrPayOrderMst>> findGrOrderByGrOrderId(@PathVariable Long grOrderId) {
+		List<HrPayOrderMst> response1 = entryOfPostsService.findGrOrderDetails(grOrderId);
+		return ResponseEntity.ok(response1);
 	}
 }

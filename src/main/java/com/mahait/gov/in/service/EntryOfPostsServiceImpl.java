@@ -538,6 +538,12 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 		
 	}
 
+	@Override
+	public List<HrPayOrderMst> findGrOrderDetails(Long grOrderId) {
+		// TODO Auto-generated method stub
+		return entryOfPostsRepo.findGrOrderDetails(grOrderId);
+	}
+
 	}
 
 

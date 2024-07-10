@@ -329,5 +329,16 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		return orderMstList;
 	}
 
+	@Override
+	public List<HrPayOrderMst> findGrOrderDetails(Long orderId) {
+		List<HrPayOrderMst> orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = "from HrPayOrderMst orderMst where orderMst.orderId = :orderId";
+		Query query = hibSession.createQuery(strQuery);
+		query.setParameter("orderId", orderId);
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
 
 }

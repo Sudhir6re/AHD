@@ -52,4 +52,6 @@ public interface EntryOfPostsService {
 
 	void savePostEntryDtl(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
 
+	List<HrPayOrderMst> findGrOrderDetails(Long grOrderId);
+
 }
