@@ -1,177 +1,221 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:utext="#{msg.thymeleaf.pageheading.addPosts}"></title>
+<title th:utext="#{msg.thymeleaf.pageheading.addPosts}"></title>
 </head>
 <body class="add-posts">
-    <div th:replace="header/menuHeader :: var-script-header"></div>
-    <div th:replace="header/menuHeader :: varmenuheader"></div>
-    <div class="container min-height-600">
-        <div class="breadcrumbMain">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#"><span th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><span th:utext="#{msg.thymeleaf.pageheading.addPosts}"></span></li>
-                </ol>
-            </nav>
-        </div>
-        <h3 class="PageHeading">
-            <span th:utext="#{msg.thymeleaf.pageheading.addPosts}"></span>
-        </h3>
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.addPosts}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pageheading.addPosts}"></span>
+		</h3>
 
-        <div class="formMainwithNoborTb container">
-            <form method="post" th:action="@{/ddo/savePostEntry}" th:object="${postEntryModel}" enctype="multipart/form-data">
-                <fieldset class="tabstyle">
-                    <legend><b>Filter Institute</b></legend>
-                    <table class="table bor-0 width-70">
-                        <tbody>
-                            <tr>
-                                <td width="20%"><b>Taluka</b></td>
-                                <td width="30%">
-                                    <select th:field="*{cmbTaluka}" id="cmbTaluka">
-                                        <option value="-1">Select</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                </td>
-                                <td width="20%"><b>DDO Code/Office Name</b></td>
-                                <td width="30%"><input type="text" th:field="*{ddoCodeforFilter}" id="ddoCodeforFilter"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" align="center"><input id="btnFilter" class="buttontag" type="button" size="5" maxlength="5" value="Filter" name="btnFilter"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </fieldset>
+		<div class="formMainwithNoborTb container">
+			<form method="post" th:action="@{/ddo/savePostEntry}"
+				th:object="${postEntryModel}" enctype="multipart/form-data">
+				<fieldset class="tabstyle">
+					<legend>
+						<b>Filter Institute</b>
+					</legend>
+					<table class="table bor-0 width-70">
+						<tbody>
+							<tr>
+								<td width="20%"><b>Taluka</b></td>
+								<td width="30%"><select th:field="*{cmbTaluka}"
+									id="cmbTaluka">
+										<option value="-1">Select</option>
 
-                <fieldset>
-                    <legend>Post Details</legend>
-                </fieldset>
-                <div id="tcontent1">
-                    <table class="table bor-0 width-70">
-                        <tbody>
-                            <tr>
-                                <td><b>Institute Name</b></td>
-                                <td>
-                                    <select th:field="*{ddoCode}" id="ddoCode" class="selecttag mandatorycontrol">
-                                        <option value="06340100003">06340100003</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b>Sub Field Department</b></td>
-                                <td width="50%">
-                                    <select th:field="*{cmbSubFieldDept}" id="cmbSubFieldDept">
-                                        <option value="-1">------------------------------ Select ------------------------------</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label class="captionTag" id="admin.SelectTypePost">Select Type Of Post</label> &nbsp;</td>
-                                <td>
-                                    <select th:field="*{postTypeCmbBox}" id="postTypeCmbBox" class="selecttag mandatorycontrol">
-                                        <option value="-1">------------ Select ------------</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr id="selectpurpose">
-                                <td><label class="captionTag" id="admin.Selectpurpose">Select(New Entry/Renewal)</label> &nbsp;</td>
-                                <td>
-                                    <select th:field="*{purposeCmbBox}" id="purposeCmbBox" class="selecttag mandatorycontrol">
-                                        <option value="3">Entry Of Post</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr id="tempCombo">
-                                <td><label class="captionTag" id="admin.SelectTypeTempoPost">select Type of Temporary Post</label> &nbsp;</td>
-                                <td>
-                                    <select th:field="*{tempPostTypeCmbBox}" id="tempPostTypeCmbBox" class="selecttag mandatorycontrol">
-                                        <option value="-1">-- Select Nature Of Temporary Post --</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel"><b><label class="captionTag" id="admin.designation">Designation</label></b></td>
-                                <td class="fieldLabel">
-                                    <select th:field="*{designationCmb}" id="designationCmb" class="selecttag mandatorycontrol">
-                                        <option value="-1">------------ Select ------------</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel"><label class="captionTag">Subject</label></td>
-                                <td class="fieldLabel">
-                                    <select th:field="*{subjectCmb}" id="subjectCmb" class="selecttag mandatorycontrol">
-                                        <option value="-1">------------ Select ------------</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr id="order">
-                                <td class="fieldLabel"><b><label class="captionTag" id="admin.GrNO">GR No</label></b></td>
-                                <td class="fieldLabel">
-                                    <select th:field="*{orderCmb}" id="orderCmb" style="width: 250px" class="selecttag mandatorycontrol">
-                                        <option value="-1">------------ Select ------------</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel"><b><label class="captionTag" id="admin.GrDate">GR Date</label></b></td>
-                                <td class="fieldLabel"><input type="date" th:field="*{orderDate}" size="10" id="OrderDate"> &nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel"><b><label class="captionTag" id="admin.Office">Office</label></b></td>
-                                <td class="fieldLabel">
-                                    <select th:field="*{officeCmb}" id="officeCmb" class="selecttag mandatorycontrol">
-                                        <option value="-1">------------ Select ------------</option>
-                                        <!-- Populate options if necessary -->
-                                    </select>
-                                    <label class="mandatoryindicator">*</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel"><b><label class="captionTag" id="admin.SancFromDt">Sanctioned From Date</label></b></td>
-                                <td class="fieldLabel"><input type="date" th:field="*{startDate}" size="10" id="startDate"> &nbsp;<label class="mandatoryindicator">*</label></td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel" id="endDate1"><b><label class="captionTag" id="admin.SancToDt">Sanctioned To Date</label></b></td>
-                                <td class="fieldLabel"><input type="date" th:field="*{endDate}" size="10" id="sanDate"> &nbsp; <label class="mandatoryindicator">*</label></td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel"><b><label class="captionTag" id="admin.postNumber">Number of Post</label></b></td>
-                                <td class="fieldLabel"><input type="text" th:field="*{postNumber}" class="numbertag mandatorycontrol" id="postNumber" value="1">&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
-                            </tr>
-                            <tr>
-                                <td class="fieldLabel"><b><label class="captionTag" id="eis.Remarks">Remarks</label></b></td>
-                                <td class="fieldLabel"><textarea th:field="*{remarks}" id="Remarks" class="textareatag" cols="30" rows="3"></textarea></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br>
-                    <div class="text-center">
-                        <input type="submit" id="formSubmitButton" value="Save" size="3" maxlength="3" class="buttontag">
-                        <input type="button" id="backButton" value="Close" size="3" maxlength="3" class="buttontag" onclick="history.back()">
-                        <input type="reset" id="resetButton" value="Reset" size="3" maxlength="3" class="buttontag">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+										<option th:each="taluka : ${talukaList}"
+											th:value="${taluka[0]}" th:text="${taluka[1]}"></option>
 
-    <div th:replace="header/menuHeader :: varmenufooter"></div>
+
+								</select></td>
+								<td width="20%"><b>DDO Code/Office Name</b></td>
+								<td width="30%"><input type="text"
+									th:field="*{ddoCodeforFilter}" id="ddoCodeforFilter"></td>
+							</tr>
+							<tr>
+								<td colspan="4" align="center"><input id="btnFilter"
+									class="buttontag" type="button" size="5" maxlength="5"
+									value="Filter" name="btnFilter"></td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+
+				<fieldset>
+					<legend>Post Details</legend>
+				</fieldset>
+				<div id="tcontent1">
+					<table class="table bor-0 width-70">
+						<tbody>
+							<tr>
+								<td><b>Institute Name</b></td>
+								<td><select th:field="*{ddoCode}" id="ddoCode"
+									class="selecttag mandatorycontrol">
+										<option value="-1">Select</option>
+										<option value=${ddo[0]} th:each="ddo:${DDOlist}"
+											th:text="${ddo[1]} + ' (' + ${ddo[0]} + ')'"></option>
+										<!-- Populate options if necessary -->
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td><b>Sub Field Department</b></td>
+								<td width="50%"><select th:field="*{cmbSubFieldDept}"
+									id="cmbSubFieldDept">
+										<option value="-1">------------------------------
+											Select ------------------------------</option>
+										<option th:each="subOffice : ${subOfficeList}"
+											th:value="${subOffice[0]}" th:text="${subOffice[1]}"></option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td><label class="captionTag" id="admin.SelectTypePost">Select
+										Type Of Post</label> &nbsp;</td>
+								<td><select th:field="*{postTypeCmbBox}"
+									id="postTypeCmbBox" class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option th:value="10001198130" th:text="Temporary"></option>
+										<option th:value="10001198129" th:text="Permanent"></option>
+										<option th:value="10001198155" th:text="Statutory"></option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr id="selectpurpose">
+								<td><label class="captionTag" id="admin.Selectpurpose">Select(New
+										Entry/Renewal)</label> &nbsp;</td>
+								<td><select th:field="*{purposeCmbBox}" id="purposeCmbBox"
+									class="selecttag mandatorycontrol">
+										<option value="3">Entry Of Post</option>
+										<!-- Populate options if necessary -->
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr id="tempCombo">
+								<td><label class="captionTag"
+									id="admin.SelectTypeTempoPost">select Type of Temporary
+										Post</label> &nbsp;</td>
+								<td><select th:field="*{tempPostTypeCmbBox}"
+									id="tempPostTypeCmbBox" class="selecttag mandatorycontrol">
+										<option value="-1">-- Select Nature Of Temporary Post
+											<hdiits:option value="-1"> Temporary </hdiits:option>
+											<hdiits:option value="-1"> Contract </hdiits:option>
+											<hdiits:option value="-1"> Seasonable </hdiits:option>
+											<hdiits:option value="-1"> C.R.T. </hdiits:option>
+											<hdiits:option value="-1"> C.R.P </hdiits:option>
+											<hdiits:option value="-1"> Honorary </hdiits:option>
+											<hdiits:option value="-1"> Part Time </hdiits:option>
+											<hdiits:option value="-1"> Supar Numerarie </hdiits:option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.designation">Designation</label></b></td>
+								<td class="fieldLabel"><select th:field="*{designationCmb}"
+									id="designationCmb" class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option th:each="desi : ${Designation}"
+											th:value="${desi.desginationCode}"
+											th:text="${desi.desgination}">
+											<!-- Populate options if necessary -->
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><label class="captionTag">Subject</label></td>
+								<td class="fieldLabel"><select th:field="*{subjectCmb}"
+									id="subjectCmb" class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+
+										<option th:each="subject : ${SubjectList}"
+											th:value="${subject[1]}" th:text="${subject[1]}"></option>
+
+										<!-- Populate options if necessary -->
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr id="order">
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.GrNO">GR No</label></b></td>
+								<td class="fieldLabel"><select th:field="*{orderCmb}"
+									id="orderCmb" style="width: 250px"
+									class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option th:each="order : ${orderList}"
+											th:value="${order.orderId}" th:text="${order.orderName}"></option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.GrDate">GR Date</label></b></td>
+								<td class="fieldLabel"><input type="date"
+									th:field="*{orderDate}" size="10" id="OrderDate">
+									&nbsp;</td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.Office">Office</label></b></td>
+								<td class="fieldLabel"><select th:field="*{officeCmb}"
+									id="officeCmb" class="selecttag mandatorycontrol">
+										<option value="-1">------------ Select ------------</option>
+										<option th:each="office : ${officeList}"
+											th:value="${office.dcpsDdoOfficeIdPk}"
+											th:text="${office.dcpsDdoOfficeName}"></option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.SancFromDt">Sanctioned From Date</label></b></td>
+								<td class="fieldLabel"><input type="date"
+									th:field="*{startDate}" size="10" id="startDate">
+									&nbsp;<label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel" id="endDate1"><b><label
+										class="captionTag" id="admin.SancToDt">Sanctioned To
+											Date</label></b></td>
+								<td class="fieldLabel"><input type="date"
+									th:field="*{endDate}" size="10" id="sanDate"> &nbsp; <label
+									class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="admin.postNumber">Number of Post</label></b></td>
+								<td class="fieldLabel"><input type="text"
+									th:field="*{postNumber}" class="numbertag mandatorycontrol"
+									id="postNumber" value="1">&nbsp;&nbsp;<label
+									class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel"><b><label class="captionTag"
+										id="eis.Remarks">Remarks</label></b></td>
+								<td class="fieldLabel"><textarea th:field="*{remarks}"
+										id="Remarks" class="textareatag" cols="30" rows="3"></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+					<br>
+					<div class="text-center">
+						<input type="submit" id="formSubmitButton" value="Save" size="3"
+							maxlength="3" class="buttontag"> <input type="button"
+							id="backButton" value="Close" size="3" maxlength="3"
+							class="buttontag" onclick="history.back()"> <input
+							type="reset" id="resetButton" value="Reset" size="3"
+							maxlength="3" class="buttontag">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
 </body>
 </html>

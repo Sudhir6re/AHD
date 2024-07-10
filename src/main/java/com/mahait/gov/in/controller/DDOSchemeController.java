@@ -8,15 +8,22 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mahait.gov.in.entity.CmnTalukaMst;
+import com.mahait.gov.in.entity.MstScheme;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.RltDCPSDdoSchemeEntity;
 import com.mahait.gov.in.model.MstDcpsBillGroup;
 import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.model.OrgDdoMst;
@@ -24,6 +31,7 @@ import com.mahait.gov.in.model.RltDcpsDdoScheme;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DDOSchemeService;
+import com.mahait.gov.in.service.OrderMasterService;
 
 @Controller
 @RequestMapping("/ddo")
@@ -34,6 +42,9 @@ public class DDOSchemeController {
 	
 	@Autowired
 	DDOSchemeService ddoSchemeService;
+	
+	@Autowired
+	OrderMasterService orderMasterService;
 	
 	
 	List<NewRegDDOModel> emplist = new ArrayList<>();
@@ -47,19 +58,6 @@ public class DDOSchemeController {
 		String message=(String) model.asMap().get("message");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		//model.addAttribute("", getDesignation())
-    	/*emplist = empWiseCityClassService.findAllEmployee(messages.getUserName());
-    	newRegDDOModel.setEmplist(emplist);
-	*/
-		
-    	/*model.addAttribute("lstDDO",newRegDDOService.findLvl1DDOCode(messages.getUserName()));	
-    	model.addAttribute("empLst",newRegDDOService.findEmpLst(messages.getUserName()));	*/
-    	/*model.addAttribute("lstDistrictLst",empWiseCityClassService.lstGetAllDistrict());		
-    	model.addAttribute("lstTaluka",empWiseCityClassService.lstGetAllTaluka());		
-    	///model.addAttribute("lstTalukaLst",empWiseCityClassService.findCityClasssLst());		
-*/		
-		String lStrDDOCode = ddoSchemeService.getDdoCodeForDDO(messages.getCreatedByPost());
-		
 		List<OrgDdoMst> ddoListForScheme = ddoSchemeService.getDDOCodeByLoggedInlocId(1L);
 		OrgDdoMst ddoMst  = null;
 	   	
@@ -71,28 +69,31 @@ public class DDOSchemeController {
    		{
    			ddoCode = ddoMst.getDdoCode();
    		}
-   		
-   		String Type =ddoCode.substring(0,2);
-		Long TypeOfSchool=Long.valueOf(Type);
-		String typeOfOffice=null;
-		if(TypeOfSchool !=2)
-   		{
-   			typeOfOffice="otherThanZp";
+   		String type=null;
+   		if(ddoCode!=null) {
+   			type =ddoCode.substring(0,2);
+   			Long TypeOfSchool=Long.valueOf(type);
+   			String typeOfOffice=null;
+   			if(TypeOfSchool !=2)
+   	   		{
+   	   			typeOfOffice="otherThanZp";
+   	   		}
+   	   		else 
+   	   		 {
+   	   			typeOfOffice="ZP";
+   	   		}
    		}
-   		else 
-   		 {
-   			typeOfOffice="ZP";
-   		}
-		List DcpsDdoSchemeList = null;
-		DcpsDdoSchemeList = ddoSchemeService.getAllSchemesForDDO(lStrDDOCode);
-		String districtID=ddoSchemeService.districtName(ddoCode);
-		List talukaList=ddoSchemeService.allTaluka(districtID);
-   		String talukaId=null;
+   			
+		List<NewRegDDOModel> DcpsDdoSchemeList = null;
+		DcpsDdoSchemeList = ddoSchemeService.getAllSchemesForDDO(messages.getUserName());
+		String districtID=ddoSchemeService.districtName(messages.getUserName());
+		List<CmnTalukaMst> talukaList=ddoSchemeService.allTaluka(districtID);
+   		String talukaId=talukaList.get(0).getTalukaId().toString();
     	   String ddoSelected=null;
     	  /// List ddoList=lObjDcpsCommonDAO.getSubDDOs(SessionHelper.getPostId(inputMap),talukaId,ddoSelected);
     	   
     		Integer totalRecords = DcpsDdoSchemeList.size();
-    		List role=ddoSchemeService.getpostRole(messages.getCreatedByPost());
+    		/*List role=ddoSchemeService.getpostRole(messages.getCreatedByPost());
 			Iterator IT = role.iterator();
 			Integer o= null;
 			String isLvl2= "no";
@@ -102,7 +103,7 @@ public class DDOSchemeController {
 					isLvl2="yes";
 				
 			}
-			
+			*/
 			model.addAttribute("talukaList", talukaList);
 	   		model.addAttribute("talukaId", talukaId);
 	   		model.addAttribute("ddoSelected", ddoSelected);
@@ -111,7 +112,8 @@ public class DDOSchemeController {
 		//	model.addAttribute("DDOlist", ddoList);
 			model.addAttribute("schemelist", DcpsDdoSchemeList);
 			model.addAttribute("totalRecords", totalRecords);
-			model.addAttribute("isLvl2", isLvl2);
+			model.addAttribute("lstInstitute", orderMasterService.getInstitutionLst(messages.getUserName()));
+			//model.addAttribute("isLvl2", isLvl2);
 			
 		model.addAttribute("newRegDDOModel", newRegDDOModel);
 		model.addAttribute("message", message);
@@ -120,15 +122,31 @@ public class DDOSchemeController {
 		
 		
 	}
-	
 	@PostMapping("/addSchemesAndBillGroupsToDdo")
-	public String addSchemesAndBillGroupsToDdo(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,HttpSession session,
-	RedirectAttributes redirectAttributes,Model model,Locale locale) {
-		return null;
+	public String addSchemesAndBillGroupsToDdo(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
+									BindingResult bindingResult,RedirectAttributes redirectAttributes,HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		Long saveId=ddoSchemeService.addSchemesAndBillGroupsToDdo(newRegDDOModel,messages);
+		
+		if(saveId != 0) {
+			redirectAttributes.addFlashAttribute("message","Scheme Added successfully!!");
+		}
+		return "redirect:/ddo/loadDdoSchemesAndBillGroups"; /// redirects to controller URL
+	}
 
-	///	DcpsCommonDAO lObjDcpsCommonDAO = new DcpsCommonDAOImpl(null, serv.getSessionFactory());
-		//RltDcpsDdoScheme lObjDcpsDdoSchemeVO = (RltDcpsDdoScheme) inputMap.get("DcpsDdoScheme");
-		///MstDcpsBillGroup lObjMstDcpsBillGroupVO = (MstDcpsBillGroup) inputMap.get("dcpsddobillgroup");
+	@GetMapping(value = "/CheckSubSchemeExist/{schemeCode}/{subschemeCode}")
+	public ResponseEntity<String> PaybillValidation(@PathVariable String schemeCode,@PathVariable String subschemeCode, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		List<Object[]> orderNo = ddoSchemeService.CheckSubSchemeExist(schemeCode,subschemeCode);
+		Integer existingData = orderNo.size();
+		String resJson = existingData.toString();
+		return ResponseEntity.ok(resJson);
+	}
+	@RequestMapping("/displaySchemeNameForCode/{schemeCode}")
+	public @ResponseBody List<Object[]> getBankBranch(@PathVariable String schemeCode, Model model, Locale locale) {
 
-}
+		List<Object[]> mstScheme=ddoSchemeService.displaySchemeNameForCode(schemeCode);
+		return mstScheme;
+	}
+
 }

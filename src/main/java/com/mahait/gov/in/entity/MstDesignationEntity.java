@@ -25,7 +25,7 @@ public class MstDesignationEntity {
 	
 	
 	@Column(name="DESIGNATION_CODE")
-	private Integer desgination_code;
+	private Long desginationCode;
 	
 	@Column(name="DESIGNATION_NAME")
 	private String desgination;
@@ -34,13 +34,13 @@ public class MstDesignationEntity {
 	private String designationShortName;
 	
 	@Column(name = "CREATED_USER_ID")
-	private Integer CreatedUserId;
+	private Long CreatedUserId;
 	
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 	
 	@Column(name = "UPDATED_USER_ID")
-	private Integer updatedUserId;
+	private Long updatedUserId;
 
 	@Column(name = "UPDATED_DATE")
 	private Date updatedDate;

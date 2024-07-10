@@ -7,13 +7,12 @@ import com.mahait.gov.in.model.AnnualIncrementModel;
 public interface EmployeeIncrementService {
 ///	public List<PayCommssionEntity> findAppPayCommssion();
 	
-	public List<AnnualIncrementModel> getEmpDataForIncrementApproval(String userName);
-
-	///public List<MpgSchemeBillGroupEntity> findAllMpgSchemeBillGroupByDDOCode(String DDOCode,int roleid);
 	
 	public String officeName(String userName);
 	
-	public List<AnnualIncrementModel> lstEmpforMTR21(String orderNo, String orderDate, int levelRoleVal,String ddoCode);
+	public List<AnnualIncrementModel> lstEmpforMTR21(String orderNo,int roleId, String ddoCode);//, String locId
+
+	public List<AnnualIncrementModel> getIncrementDataForReptDDO(String userName, String currYear);
 
 
 }

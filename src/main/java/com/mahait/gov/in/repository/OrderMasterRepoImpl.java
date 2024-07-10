@@ -86,16 +86,68 @@ public class OrderMasterRepoImpl implements OrderMasterRepo {
 	public Integer saveGrOrder(HrPayOrderMst payOrderMst, MultipartFile[] files) {
 		// TODO Auto-generated method stub
 		Session session=entityManager.unwrap(Session.class);
-		Integer saveId=(Integer) session.save(payOrderMst);
+		Long saveId=(Long) session.save(payOrderMst);
+		return saveId.intValue();
+	}
+
+
+	@Override
+	public Long saveAdvanceDocuments(GROrderDocumentEntity grOrderDocumentEntity) {
+		// TODO Auto-generated method stub
+		Session session=entityManager.unwrap(Session.class);
+		Long saveId=(Long) session.save(grOrderDocumentEntity);
 		return saveId;
 	}
 
 
 	@Override
-	public Integer saveAdvanceDocuments(GROrderDocumentEntity grOrderDocumentEntity) {
+	public List<Long> getSubDDOs(Long postId) {
+		Session currentSession =  entityManager.unwrap(Session.class);
+
+	String hql = "SELECT ddo.LOCATION_CODE FROM RLT_ZP_DDO_MAP rep, ORG_DDO_MST ddo where ddo.DDO_CODE = rep.ZP_DDO_CODE and ((rep.REPT_DDO_POST_ID='"+postId+"') or (rep.FINAL_DDO_POST_ID='"+postId+"'))";
+	
+	Query query = currentSession.createSQLQuery(hql).addScalar("count", LongType.INSTANCE);
+	
+	List<Long> lstresult = query.list();
+	return lstresult;}
+
+
+	@Override
+	public List<Object[]> getsancOrderLst(String ddo) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = " SELECT hr.ORDER_NAME, hr.ORDER_DATE FROM HR_PAY_ORDER_MST hr where hr.DDO_CODE='"+ddo+"'";//inner join org_ddo_mst ddo on hr.LOCATION_CODE=ddo.LOCATION_CODE
+		System.out.println("HQL:"+hql);
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+	
+
+	@Override
+	public List<Object[]> getddoOff(String locationcodeArray) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = " SELECT DDO_CODE,DDO_OFFICE FROM org_ddo_mst  where LOCATION_CODE in ('"+locationcodeArray+"') order by DDO_CODE asc";
+		System.out.println("HQL:"+hql);
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+
+
+	@Override
+	public List<Object[]> getInstitutionLst(String ddoCode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = " SELECT b.zp_DDO_CODE,a.DDO_OFFICE FROM ORG_DDO_MST a inner join RLT_ZP_DDO_MAP b on a.ddo_code =b.zp_DDO_CODE\r\n" + 
+				"		where b.rept_ddo_code= '"+ddoCode+"' order by b.zp_DDO_CODE ";
+		System.out.println("HQL:"+hql);
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+
+
+	@Override
+	public Long saveMstGrOrder(HrPayOrderMst payOrderMst) {
 		// TODO Auto-generated method stub
 		Session session=entityManager.unwrap(Session.class);
-		Integer saveId=(Integer) session.save(grOrderDocumentEntity);
+		Long saveId=(Long) session.save(payOrderMst);
 		return saveId;
 	}
 

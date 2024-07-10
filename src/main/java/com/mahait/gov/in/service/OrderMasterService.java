@@ -21,7 +21,15 @@ public interface OrderMasterService {
 
 	List<Long> findUsertype(String ddoCode);
 
-	int saveMstGrOrder(MstGrOrderModel mstGrOrderModel, MultipartFile[] files, OrgUserMst messages);
+	Long saveMstGrOrder(MstGrOrderModel mstGrOrderModel, MultipartFile[] files, OrgUserMst messages);
+
+	List<Long> getSubDDOs(Long postId);
+
+	List<MstGrOrderModel> getsancOrderLst(String locationcodeArray);
+
+	Object getddoOff(String locationcodeArray);
+
+	List<MstGrOrderModel> getInstitutionLst(String ddoCode);
 
 	
 }

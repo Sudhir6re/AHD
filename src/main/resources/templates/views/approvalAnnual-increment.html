@@ -66,29 +66,28 @@
 							<tr>
 								<th class="datatableheader">Select</th>
 								<th class="datatableheader">Increment Order No</th>
+								<th class="datatableheader">Increment Order Date</th>
 								<th class="datatableheader">DDO Code</th>
 								<th class="datatableheader">DDO Office</th>
-								<th class="datatableheader">Increment Order Date</th>
 								<th class="datatableheader">Status</th>
 								<th class="datatableheader">Action</th>
 								<th class="datatableheader"></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="odd" th:each="varEmp : ${lstEmp}">
+							<tr class="odd" th:each="varEmp : ${incrementOrderempLst}">
 								<td style="text-align: center;" ><input name="radio"
 									id="radioId1" type="radio"  th:value="${varEmp.orderNo}" 
 									th:field="*{orderNo}">
 									</td>
 									<td class="collapse-item"><span
 									th:text="${varEmp.orderNo}"  ></span></td>
+								<td th:text="${varEmp.incrementOrderDate}"></td>
 								<td th:text="${varEmp.ddoCode}"></td>
 								<td th:text="${varEmp.officeName}"></td>
-								<td th:text="${varEmp.incrementOrderDate}"></td>
-								<td style="text-align: center;" class="tablecelltext">
-									Forwarded</td>
+								<td style="text-align: center;" th:text="${varEmp.status}"></td>
 								<td><a class="collapse-item"
-											th:href="@{'/ddo/MTR21/'+${varEmp.orderNo}+'/'+ ${varEmp.incrementOrderDate}}"><span>Print Report</span></a></td>
+											th:href="@{'/ddo/MTR21/'+${varEmp.orderNo}}"><span>Print Report</span></a></td>
 											
 							</tr>
 						</tbody>

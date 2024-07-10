@@ -93,19 +93,27 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 	}
 
 	@Override
-	public int saveMstGrOrder(MstGrOrderModel mstGrOrderModel, MultipartFile[] files,OrgUserMst messages) {
+	public Long saveMstGrOrder(MstGrOrderModel mstGrOrderModel, MultipartFile[] files,OrgUserMst messages) {
 		
 		
 		HrPayOrderMst payOrderMst = new HrPayOrderMst();
-		int saveId = 0;
+		Long saveId = 0L;
 //		logger.info(">>>><<<<< "+ mstGrOrderModel.getOrderDate());
 		if(mstGrOrderModel!=null) {
-			payOrderMst.setOrderId(mstGrOrderModel.getGrOrderId());//setting order id
+			payOrderMst.setOrderId(messages.getUserId());//setting order id
+			///payOrderMst.setOrderId(mstGrOrderModel.getGrOrderId());//setting order id
+			payOrderMst.setOrderName(mstGrOrderModel.getSanctionOrderNo());
+			payOrderMst.setOrderDate(mstGrOrderModel.getOrderDate());
+			payOrderMst.setGrType(mstGrOrderModel.getOrderType());
+			///payOrderMst.setLocationCode(messages.getUpdatedByPost().getLocationCode());
 			///payOrderMst.setCmnLanguageMst(cmnLanguageMst);
 			payOrderMst.setTrnCounter(new Integer(1));
+			payOrderMst.setDdoCode(messages.getUserName());
 			//payOrderMst.setOrgPostMstByCreatedByPost(messages.getCreatedByPost().getPostId());
 			///payOrderMst.setOrgUserMstByCreatedBy(orgUserMst);
 			payOrderMst.setCreatedDate(new Date());
+			payOrderMst.setCreatedBy(messages.getUserId());
+			payOrderMst.setCreatedByPost(messages.getCreatedByPost().getPostId());
 			
 		if(files.length>0) {
 		//mstEmployeeNPSEntity.setEmployeeSpouseName(mstEmployeeEntity.getEmployeeSpouseName());
@@ -127,9 +135,9 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 	        	grOrderDocumentEntity.setFilePath(filePathnew);
 	        	grOrderDocumentEntity.setCreatedDate(new Date());
 	        	grOrderDocumentEntity.setIsActive('1');
-	        	grOrderDocumentEntity.setCreatedUserId(messages.getCreatedBy().getUserId());
-	        	grOrderDocumentEntity.setGrDocId(saveIdnew);
-	        	Integer saveDocid=orderMasterRepo.saveAdvanceDocuments(grOrderDocumentEntity);
+	        	grOrderDocumentEntity.setCreatedUserId(messages.getUserId());
+	        	grOrderDocumentEntity.setGrDocId(Long.valueOf(saveIdnew));
+	        	Long saveDocid=orderMasterRepo.saveAdvanceDocuments(grOrderDocumentEntity);
 	        }
 		 try {
 				File file = new File(filePath + files[0].getOriginalFilename());
@@ -139,7 +147,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 				e.printStackTrace();
 			}
 		}
-		/// saveId = mstGrOrderRepo.saveMstGrOrder(mstGrOrderEntity);
+		 saveId = orderMasterRepo.saveMstGrOrder(payOrderMst);
 		}
 		return saveId;
 		
@@ -198,5 +206,73 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 			}
 		}
 		return res;
+	}
+
+	@Override
+	public List<Long> getSubDDOs(Long postId) {
+		// TODO Auto-generated method stub
+		return orderMasterRepo.getSubDDOs(postId);
+	}
+
+	@Override
+	public List<MstGrOrderModel> getsancOrderLst(String ddoCode) {
+		 List<Object[]> list = orderMasterRepo.getsancOrderLst(ddoCode);
+			
+			List<MstGrOrderModel> listobj = new ArrayList<>();
+			if(!list.isEmpty())
+			{
+				
+				//employee_id,sevaarth_id,employee_full_name_en,district_code,taluka_code,city_class
+				for(Object[] obj:list ) //for (Object[] objLst : lstprop) {
+				{
+					MstGrOrderModel obj1 = new MstGrOrderModel();
+					obj1.setSanctionOrderNo(StringHelperUtils.isNullString(obj[0]));
+					obj1.setOrderDate(StringHelperUtils.isNullDate(obj[1]));
+					
+					listobj.add(obj1);
+				}
+			}
+			return listobj;
+	}
+	@Override
+	public List<MstGrOrderModel> getddoOff(String locationcodeArray) {
+		 List<Object[]> list = orderMasterRepo.getddoOff(locationcodeArray);
+			
+			List<MstGrOrderModel> listobj = new ArrayList<>();
+			if(!list.isEmpty())
+			{
+				
+				//employee_id,sevaarth_id,employee_full_name_en,district_code,taluka_code,city_class
+				for(Object[] obj:list ) //for (Object[] objLst : lstprop) {
+				{
+					MstGrOrderModel obj1 = new MstGrOrderModel();
+					obj1.setDdoCode(StringHelperUtils.isNullString(obj[0]));
+					obj1.setOfficeName(StringHelperUtils.isNullString(obj[1]));
+					
+					listobj.add(obj1);
+				}
+			}
+			return listobj;
+	}
+
+	@Override
+	public List<MstGrOrderModel> getInstitutionLst(String ddoCode) {
+		 List<Object[]> list = orderMasterRepo.getInstitutionLst(ddoCode);
+			
+			List<MstGrOrderModel> listobj = new ArrayList<>();
+			if(!list.isEmpty())
+			{
+				
+				//employee_id,sevaarth_id,employee_full_name_en,district_code,taluka_code,city_class
+				for(Object[] obj:list ) //for (Object[] objLst : lstprop) {
+				{
+					MstGrOrderModel obj1 = new MstGrOrderModel();
+					obj1.setDdoCode(StringHelperUtils.isNullString(obj[0]));
+					obj1.setOfficeName(StringHelperUtils.isNullString(obj[1]));
+					
+					listobj.add(obj1);
+				}
+			}
+			return listobj;
 	}
 }

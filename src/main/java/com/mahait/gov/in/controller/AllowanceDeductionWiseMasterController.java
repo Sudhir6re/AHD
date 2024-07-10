@@ -94,6 +94,9 @@ public class AllowanceDeductionWiseMasterController {
 	//	List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
 		model.addAttribute("lstAllowanceDeductionMstEntity", allowanceDeductionWiseMstService.getAllallowanceDeductionWiseMst());
 	//	model.addAttribute("lstddcPayCommission", lstddcPayCommission);
+		///List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
+		model.addAttribute("lstAllowanceDeductionMstEntity", allowanceDeductionWiseMstService.getAllallowanceDeductionWiseMst());
+		///model.addAttribute("lstddcPayCommission", lstddcPayCommission);
 		modelAndView.addObject("menuList", menuList);
 		modelAndView.addObject("subMenuList", subMenuList);
 		modelAndView.addObject("message", message);
@@ -221,9 +224,11 @@ public class AllowanceDeductionWiseMasterController {
 		List<TopicModel> subMenuList = new ArrayList<>();
 		menuList = commonHomeMethodsService.findMenuNameByRoleID(levelRoleVal, locale.getLanguage());
 		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(levelRoleVal, locale.getLanguage());
-	//	List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
 		model.addAttribute("lstAllowanceDeductionMstEntity", allowanceDeductionWiseMstService.getAllallowanceDeductionWiseMst());
 	//	model.addAttribute("lstddcPayCommission", lstddcPayCommission);
+		///List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
+		model.addAttribute("lstAllowanceDeductionMstEntity", allowanceDeductionWiseMstService.getAllallowanceDeductionWiseMst());
+	///	model.addAttribute("lstddcPayCommission", lstddcPayCommission);
 		modelAndView.addObject("menuList", menuList);
 		modelAndView.addObject("subMenuList", subMenuList);
 		modelAndView.addObject("message", message);

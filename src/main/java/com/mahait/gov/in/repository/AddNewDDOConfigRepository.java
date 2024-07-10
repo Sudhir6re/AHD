@@ -218,6 +218,7 @@ public class AddNewDDOConfigRepository {
 			lObjUserMst.setStartDate(new Date());
 			
 			lObjUserMst.setActivateFlag(0l);
+			lObjUserMst.setAppCode(1);
 			lObjUserMst.setCreatedDate(new Date());
 
 			lObjUserMst.setCreatedBy(orgUserMst);
@@ -473,7 +474,7 @@ public class AddNewDDOConfigRepository {
 			//logger.info("lLngMstOfficeDdoId******************" + lLngMstOfficeDdoId);
 			//logger.info("lStrDdoCode******************" + lStrDdoCode);
 			//lObjDdoOffice.setDcpsDdoOfficeIdPk(lLngMstOfficeDdoId);
-			lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
+			///lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
 			lObjDdoOffice.setDcpsDdoOfficeName(lStrDdoOffice);
 			lObjDdoOffice.setDcpsDdoOfficeDdoFlag("Yes");
 			lObjDdoOffice.setDcpsDdoOfficeState("15");

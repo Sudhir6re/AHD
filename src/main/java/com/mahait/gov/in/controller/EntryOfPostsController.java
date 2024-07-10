@@ -1,10 +1,8 @@
 package com.mahait.gov.in.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
@@ -39,34 +38,54 @@ public class EntryOfPostsController {
 
 	@Autowired
 	EntryOfPostsService entryOfPostsService;
-	
-	
 
 	@GetMapping("/entryOfPosts")
 	public String entryOfPosts(Model model, Locale locale, HttpSession session) {
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
-		List<OrgPostDetailsRlt> lst = orgPostDetailsRltRepository.findByOrgPostMst(messages.getCreatedByPost());
 
-		List<OrgDdoMst> lstOrgDdoMst = new ArrayList<>();
+		long langId = 0l;
+		long locId = 0l;
+		BigInteger loggedInPostId = null;
+		OrgDdoMst ddoMst = null;
+		String ddoCode = null;
+		List locationList = null;
 
-		if (lst.size() > 0) {
-			lstOrgDdoMst = orgDdoMstRepository.findByLocationCode(lst.get(0).getCmnLocationMst().getLocId().toString());
+		if (session.getAttribute("locationId") != null) {
+			langId = 1l;
+			locId = Long.parseLong((String) session.getAttribute("locationId"));
+			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
 
-			Long lLngFieldDept = Long.parseLong(lstOrgDdoMst.get(0).getHodLocCode());
+			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
+
+			model.addAttribute("filterDdoCodes", ddoCodeList);
+
+			Long lLngFieldDept = Long.parseLong(ddoCodeList.get(0).getHodLocCode());
 			List<MstDesignationEntity> desgList = entryOfPostsService.getActiveDesig(lLngFieldDept);
 
 			model.addAttribute("Designation", desgList);
 
-			List billList = entryOfPostsService.getAllBillsFromLocation(lst.get(0).getCmnLocationMst().getLocId());
+			List billList = entryOfPostsService.getAllBillsFromLocation(locId);
 			model.addAttribute("billList", billList);
 
-			String ddoCode = null;
-			if (lstOrgDdoMst.size() > 0)
-				ddoCode = lstOrgDdoMst.get(0).getDdoCode();
+			if (ddoCodeList.size() > 0)
+				ddoCode = ddoCodeList.get(0).getDdoCode();
 
+			locationList = entryOfPostsService.getSubLocationDDOs(loggedInPostId);
+			String locationcodeArray = "'";
+			if (locationList != null && locationList.size() > 0) {
+				for (int i = 0; i < locationList.size(); i++) {
+					if (i == 0)
+						locationcodeArray += locationList.get(i).toString() + '\'';
+					else {
+						locationcodeArray += ",'" + locationList.get(i).toString() + "'";
+					}
+				}
+			}
+
+			List filterDdoCode = entryOfPostsService.getFilterDdoCode(locationcodeArray);
 			model.addAttribute("ddoCode", ddoCode);
+			model.addAttribute("filterDdoCode", filterDdoCode);
 		}
 		return "/views/entry-of-posts";
 	}
@@ -78,29 +97,25 @@ public class EntryOfPostsController {
 
 		long langId = 0l;
 		long locId = 0l;
-		long loggedInPostId = 0l;
+		BigInteger loggedInPostId = null;
 		OrgDdoMst ddoMst = null;
 		String ddoCode = null;
-		if (session.getAttribute("locationId")!=null) {
+		List locationList = null;
+
+		if (session.getAttribute("locationId") != null) {
+
 			langId = 1l;
-			 locId = Long.parseLong((String) session.getAttribute("locationId"));
-			 loggedInPostId = Long.parseLong((String) session.getAttribute("loggedInPost")); 
+			locId = Long.parseLong((String) session.getAttribute("locationId"));
+			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
 
-			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
+			model.addAttribute("ddoCode", ddoCode);
 
-			if (ddoCodeList != null)
+			String talukaId = "";
+			String ddoSelected = "";
+			List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId, ddoSelected);
 
-				if (ddoCodeList != null && ddoCodeList.size() > 0) {
-					ddoMst = ddoCodeList.get(0);
-				}
+			model.addAttribute("DDOlist", DDOdtls);
 
-			if (ddoMst != null) {
-				ddoCode = ddoMst.getDdoCode();
-			}
-
-			Long lLngFieldDept = Long.parseLong(ddoMst.getHodLocCode());
-
-			List<MstDesignationEntity> desgList = entryOfPostsService.getActiveDesig(lLngFieldDept);
 			List branchList_en = entryOfPostsService.getAllBranchList(1L);
 			model.addAttribute("Branch", branchList_en);
 
@@ -115,16 +130,25 @@ public class EntryOfPostsController {
 			String districtID = entryOfPostsService.districtName(ddoCode);
 			// code to find the taluka
 			List talukaList = entryOfPostsService.allTaluka(districtID);
-			String talukaId = null;
-			String ddoSelected = null;
 
-			List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId, ddoSelected);
+			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 
-			int i = 0;
-			while (i < DDOdtls.size()) {
-				i++;
-			}
-			model.addAttribute("DDOlist", DDOdtls);
+			model.addAttribute("filterDdoCodes", ddoCodeList);
+
+			Long lLngFieldDept = Long.parseLong(ddoCodeList.get(0).getHodLocCode());
+
+			List<MstDesignationEntity> desgList = entryOfPostsService.getActiveDesig(lLngFieldDept);
+
+			model.addAttribute("Designation", desgList);
+
+			// List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId,
+			// ddoSelected);
+
+			// int i = 0;
+			// while (i < DDOdtls.size()) {
+			// i++;
+			// }
+			// model.addAttribute("DDOlist", DDOdtls);
 			List<Object[]> subList = entryOfPostsService.getSubjectList();
 			model.addAttribute("SubjectList", subList);
 			model.addAttribute("subOfficeList", subOfficeList);
@@ -135,7 +159,7 @@ public class EntryOfPostsController {
 			model.addAttribute("flag", "add");
 			model.addAttribute("talukaList", talukaList);
 			model.addAttribute("talukaId", talukaId);
-			model.addAttribute("ddoSelected", ddoSelected);
+			// model.addAttribute("ddoSelected", ddoSelected);
 		}
 
 		model.addAttribute("postEntryModel", postEntryModel);
@@ -147,47 +171,32 @@ public class EntryOfPostsController {
 	public String updatePosts(Model model, Locale locale, HttpSession session) {
 		return "/views/update-posts";
 	}
-	
-	@GetMapping("/savePostEntry")
-	public String savePostEntry(Model model, Locale locale, HttpSession session,@ModelAttribute("postEntryModel") PostEntryModel postEntryModel) {
-		
+
+	@PostMapping("/savePostEntry")
+	public String savePostEntry(Model model, Locale locale, HttpSession session,
+			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+
 		long langId = 0l;
 		long locId = 0l;
-		long loggedInPostId = 0l;
+		BigInteger loggedInPostId = null;
 		OrgDdoMst ddoMst = null;
 		String ddoCode = null;
-		Long lLngFieldDept =0l;
-		if (session.getAttribute("locationId")!=null) {
+		List locationList = null;
+
+		if (session.getAttribute("locationId") != null) {
 			langId = 1l;
-			 locId = Long.parseLong((String) session.getAttribute("locationId"));
-			 loggedInPostId = Long.parseLong((String) session.getAttribute("loggedInPost")); 
+			locId = Long.parseLong((String) session.getAttribute("locationId"));
+			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
 
 			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 
-			if (ddoCodeList != null)
-
-				if (ddoCodeList != null && ddoCodeList.size() > 0) {
-					ddoMst = ddoCodeList.get(0);
-				}
-
-			if (ddoMst != null) {
-				ddoCode = ddoMst.getDdoCode();
-			}
-
-			 lLngFieldDept = Long.parseLong(ddoMst.getHodLocCode());
+			entryOfPostsService.savePostEntryDtl(postEntryModel,locId,loggedInPostId,messages);
+			
+			
 		}
 		
-		
-		OrgPostMst orgPostMst=new OrgPostMst();
-		OrgPostDetailsRlt orgPostDetailsRlt=new OrgPostDetailsRlt();
-		HrPayOfficepostMpg hrPayOfficepostMpg=new HrPayOfficepostMpg();
-		
-		Long postId=entryOfPostsService.savePost(orgPostMst);
-		Long postDetailsId=entryOfPostsService.savePostDetails(orgPostDetailsRlt);
-		
-		Long officePostId=entryOfPostsService.saveHrPayOfficepostMpg(hrPayOfficepostMpg);
-		
-		
+
 		return "/views/update-posts";
 	}
 }

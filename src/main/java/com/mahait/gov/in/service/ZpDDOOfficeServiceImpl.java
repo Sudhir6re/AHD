@@ -1,6 +1,5 @@
 package com.mahait.gov.in.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,9 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpRltDdoMap;
-import com.mahait.gov.in.model.ApproveDDOHstModel;
 import com.mahait.gov.in.model.NewRegDDOModel;
-import com.mahait.gov.in.model.RltDcpsDdoScheme;
 import com.mahait.gov.in.repository.ZpDDOOfficeRepo;
 
 @Service
@@ -95,7 +92,6 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 		
 	/*	return zpDDOOfficeRepo.approveChangeStatement(zpDdoCode,flag);*/
 	}
-
 
 	
 }

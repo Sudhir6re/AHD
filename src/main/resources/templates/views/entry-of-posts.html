@@ -38,10 +38,10 @@
 									<td>DDO Code</td>
 									<td><select name="cmbAsstDDO" id="cmbAsstDDO">
 											<option title="Select" value="-1">Select</option>
-											<option th:each="filterDdoCode : ${filterDdoCodes}"
-												th:value="${filterDdoCode.ddoOffice}" 
-												th:text="${filterDdoCode.ddoCode} + ' (' + ${filterDdoCode.ddoOffice} + ')'"
-												th:selected="${filterDdoCode[0] == ddoCode}"
+											<option th:each="filterDdoCode : ${filterDdoCode}"
+												th:value="${filterDdoCode[0]}" 
+												th:text="${filterDdoCode[1]} + ' (' + ${filterDdoCode[0]} + ')'"
+												
 												>
 													<!-- 	th:selected="${filterDdoCode[0] == ddo}" -->
 											</option>
@@ -61,8 +61,8 @@
 								<td width="20%"><select name="designationCmb"
 									id="designationCmb" class="selecttag">
 										<option value="">------------ Select ------------</option>
-										<option th:each="desi : ${designation}"
-											th:value="${desi.dsgnCode}" th:text="${desi.dsgnName}">
+										<option th:each="desi : ${Designation}"
+											th:value="${desi.desginationCode}" th:text="${desi.desgination}">
 										</option>
 								</select></td>
 								<td width="20%" align="right"><b><label

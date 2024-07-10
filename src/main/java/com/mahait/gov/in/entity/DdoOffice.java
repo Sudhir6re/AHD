@@ -122,4 +122,5 @@ public class DdoOffice {
 
     @Column(name = "UNIQUE_INSTITUTE_NO")
     private String uniqueInstituteNo;
+
 }
