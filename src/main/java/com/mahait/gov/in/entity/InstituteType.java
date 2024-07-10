@@ -4,7 +4,7 @@ package com.mahait.gov.in.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "INSTITUTE_TYPE", schema = "IFMS")
+@Table(name = "INSTITUTE_TYPE")
 public class InstituteType {
 
     @Id
@@ -17,7 +17,6 @@ public class InstituteType {
     @Column(name = "PARENT_INSTITUTE_ID")
     private Long parentInstituteId;
 
-    // Constructors, getters, and setters omitted for brevity
-    // Implement as per your requirements
+    
 }
 

@@ -1,5 +1,6 @@
 package com.mahait.gov.in.repository;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,12 +13,17 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.CmnBranchMst;
+import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
+import com.mahait.gov.in.entity.HrPayOrderHeadMpg;
+import com.mahait.gov.in.entity.HrPayOrderHeadPostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
+import com.mahait.gov.in.entity.HrPayPsrPostMpg;
 import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgPostDetailsRlt;
 import com.mahait.gov.in.entity.OrgPostMst;
+import com.mahait.gov.in.entity.SubjectPostMpg;
 
 @Repository
 public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
@@ -28,7 +34,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		Session session = getSession();
-		String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  where mst.desginationId=dcpsDesig.orgDesignationId and mst.isActive=1 and  dcpsDesig.fieldDeptId =  "
+		String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  where mst.desginationId=dcpsDesig.orgDesignation and mst.isActive='1' and  dcpsDesig.fieldDeptId =  "
 				+ lLngFieldDept;
 		Query query = session.createQuery(HQL_QUERY);
 		List resultList = query.list();
@@ -71,11 +77,13 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 
 	@Override
 	public List<HrPayOrderMst> getAllOrderData(long locId) {
-		List orderMstList = null;
+		List<HrPayOrderMst> orderMstList = null;
 		Session hibSession = getSession();
-		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode in (" + locId
-				+ ") order by orderMst.orderName";
+
+		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode = :locId order by orderMst.orderName";
 		Query query = hibSession.createQuery(strQuery);
+		query.setParameter("locId", Long.toString(locId));
+
 		orderMstList = query.list();
 		return orderMstList;
 	}
@@ -91,31 +99,32 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 
 	@Override
 	public List<Object[]> getSubjectList() {
-    	List subList = null;
-    	Session session = getSession();
-    	StringBuffer sb = new StringBuffer();
-    	sb.append("SELECT * FROM FRM_SUBJECT_MST");
-    	Query query = session.createSQLQuery(sb.toString());
-    	subList = query.list();
-    	return subList;
-    }
+		List subList = null;
+		Session session = getSession();
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT * FROM FRM_SUBJECT_MST");
+		Query query = session.createSQLQuery(sb.toString());
+		subList = query.list();
+		return subList;
+	}
 
 	@Override
 	public List getSubOfficesFromDDONew(Long postId) {
 		List SubOffices = null;
-    	Session session = getSession();
-    	String strQuery = "SELECT FIELD_ID,SUB_FIELD_NAME FROM SUB_FIELD_DEPT";
-    	Query query = session.createSQLQuery(strQuery);
-    	SubOffices = query.list();
-    	return SubOffices;
+		Session session = getSession();
+		String strQuery = "SELECT FIELD_ID,SUB_FIELD_NAME FROM SUB_FIELD_DEPT";
+		Query query = session.createSQLQuery(strQuery);
+		SubOffices = query.list();
+		return SubOffices;
 	}
 
 	@Override
 	public String districtName(String ddoCode) {
-		String districtId="";
+		String districtId = "";
 		Session session = getSession();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT distinct DIstrict FROM MST_DCPS_DDO_OFFICE where ddo_code='"+ddoCode+"' and lower(ddo_office)='yes'");
+		sb.append("SELECT distinct DIstrict FROM MST_DCPS_DDO_OFFICE where ddo_code='" + ddoCode
+				+ "' and lower(ddo_office)='yes'");
 		Query query = session.createSQLQuery(sb.toString());
 		districtId = (String) query.uniqueResult();
 		return districtId;
@@ -123,10 +132,10 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 
 	@Override
 	public List allTaluka(String districtID) {
-		List talukaList=null;
+		List talukaList = null;
 		Session session = getSession();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT TALUKA_ID,TALUKA_NAME FROM CMN_TALUKA_MST where DISTRICT_ID="+districtID);
+		sb.append("SELECT TALUKA_ID,TALUKA_NAME FROM CMN_TALUKA_MST where DISTRICT_ID=" + districtID);
 		Query query = session.createSQLQuery(sb.toString());
 		talukaList = query.list();
 		return talukaList;
@@ -134,23 +143,26 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 
 	@Override
 	public List getSubDDOsOffc(long postId, String talukaId, String ddoSelected) {
-    	List ddoDtls = null;
-    	Session session = getSession();
-    	StringBuffer sb = new StringBuffer();
-    	
-    	//Added by roshan 
-    	sb.append("SELECT ddo.DDO_CODE ,ddo.DDO_office FROM RLT_ZP_DDO_MAP rep, ORG_DDO_MST ddo, mst_dcps_ddo_office office where lower(office.ddo_office)= 'yes' and ddo.DDO_OFFICE !='null' and office.status_flag=1 and ddo.DDO_CODE = rep.ZP_DDO_CODE and office.ddo_code=ddo.ddo_code and rep.status =1 and ((rep.REPT_DDO_POST_ID='" + postId + "') or (rep.FINAL_DDO_POST_ID='" + postId + "'))");
-    	if((talukaId!=null)&&(talukaId!="")&&(Long.parseLong(talukaId)!=-1)){
-    		sb.append(" and office.taluka="+talukaId);
-    	}
-    	if((ddoSelected!=null)&&(ddoSelected!="")){
-    		sb.append(" and (office.ddo_code like '%"+ddoSelected+"%' or ddo.ddo_office like '%"+ddoSelected+"%')");
-    	}
-    	Query query = session.createSQLQuery(sb.toString());
-    	ddoDtls = query.list();
-    	return ddoDtls;
-    	
-    }
+		List ddoDtls = null;
+		Session session = getSession();
+		StringBuffer sb = new StringBuffer();
+
+		// Added by roshan
+		sb.append(
+				"SELECT ddo.DDO_CODE ,ddo.DDO_office FROM RLT_ZP_DDO_MAP rep, ORG_DDO_MST ddo, mst_dcps_ddo_office office where lower(office.ddo_office)= 'yes' and ddo.DDO_OFFICE !='null' and office.status_flag=1 and ddo.DDO_CODE = rep.ZP_DDO_CODE and office.ddo_code=ddo.ddo_code and rep.status =1 and ((rep.REPT_DDO_POST_ID='"
+						+ postId + "') or (rep.FINAL_DDO_POST_ID='" + postId + "'))");
+		if ((talukaId != null) && (talukaId != "") && (Long.parseLong(talukaId) != -1)) {
+			sb.append(" and office.taluka=" + talukaId);
+		}
+		if ((ddoSelected != null) && (ddoSelected != "")) {
+			sb.append(" and (office.ddo_code like '%" + ddoSelected + "%' or ddo.ddo_office like '%" + ddoSelected
+					+ "%')");
+		}
+		Query query = session.createSQLQuery(sb.toString());
+		ddoDtls = query.list();
+		return ddoDtls;
+
+	}
 
 	@Override
 	public Long savePostDetails(OrgPostDetailsRlt orgPostDetailsRlt) {
@@ -169,5 +181,153 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Session session = getSession();
 		return (Long) session.save(hrPayOfficepostMpg);
 	}
+
+	@Override
+	public List getSubLocationDDOs(BigInteger loggedInPostId) {
+		List ddoDtls = null;
+		Session session = getSession();
+		StringBuffer sb = new StringBuffer();
+		sb.append(
+				"SELECT ddo.LOCATION_CODE FROM RLT_ZP_DDO_MAP rep, ORG_DDO_MST ddo where ddo.DDO_CODE = rep.ZP_DDO_CODE and ((rep.REPT_DDO_POST_ID='"
+						+ loggedInPostId + "') or (rep.FINAL_DDO_POST_ID='" + loggedInPostId + "'))");
+		Query query = session.createSQLQuery(sb.toString());
+		ddoDtls = query.list();
+		return ddoDtls;
+	}
+
+	@Override
+	public List getFilterDdoCode(String locationcodeArray) {
+		List orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = " SELECT DDO_CODE,DDO_OFFICE FROM org_ddo_mst where LOCATION_CODE in (" + locationcodeArray
+				+ ") order by DDO_CODE asc";
+		Query query = hibSession.createSQLQuery(strQuery);
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
+	@Override
+	public List getSubDDOsOffc(BigInteger loggedInPostId, String talukaId, String ddoSelected) {
+		List ddoDtls = null;
+		Session session = getSession();
+		StringBuffer sb = new StringBuffer();
+		sb.append(
+				"SELECT ddo.DDO_CODE ,ddo.DDO_office FROM RLT_ZP_DDO_MAP rep, ORG_DDO_MST ddo, mst_dcps_ddo_office office where lower(office.ddo_office)= 'yes' and ddo.DDO_OFFICE !='null' and office.status_flag=1 and ddo.DDO_CODE = rep.ZP_DDO_CODE and office.ddo_code=ddo.ddo_code and rep.status =1 and ((rep.REPT_DDO_POST_ID='"
+						+ loggedInPostId + "') or (rep.FINAL_DDO_POST_ID='" + loggedInPostId + "'))");
+		if ((talukaId != null) && (talukaId != "") && (Long.parseLong(talukaId) != -1)) {
+			sb.append(" and office.taluka=" + talukaId);
+		}
+		if ((ddoSelected != null) && (ddoSelected != "")) {
+			sb.append(" and (office.ddo_code like '%" + ddoSelected + "%' or ddo.ddo_office like '%" + ddoSelected
+					+ "%')");
+		}
+		Query query = session.createSQLQuery(sb.toString());
+		ddoDtls = query.list();
+		return ddoDtls;
+
+	}
+
+	@Override
+	public List getDDODtls(String ddoCode) {
+		List ddoDtls = null;
+		Session session = getSession();
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT LOCATION_CODE,HOD_LOC_CODE,post_ID FROM ORG_DDO_MST where DDO_CODE='" + ddoCode + "'");
+		Query query = session.createSQLQuery(sb.toString());
+		ddoDtls = query.list();
+		return ddoDtls;
+
+	}
+
+	@Override
+	public List findHrPayOrderHeadMpg(long orderId) {
+		Session session = getSession();
+		String HQL_QUERY = " from HrPayOrderHeadMpg where orderId='" + orderId + "'";
+		Query query = session.createQuery(HQL_QUERY);
+		List resultList = query.list();
+		return resultList;
+
+	}
+
+	@Override
+	public void create(HrPayOrderHeadMpg orderHeadMpg) {
+		// TODO Auto-generated method stub
+		Session session = entityManager.unwrap(Session.class);
+		session.save(orderHeadMpg);
+	}
+
+	@Override
+	public OrgPostMst findPost(long longValue) {
+		// TODO Auto-generated method stub
+		Session session = entityManager.unwrap(Session.class);
+		return session.find(OrgPostMst.class, longValue);
+	}
+
+	@Override
+	public Long submitSubject(SubjectPostMpg subjectPostMpg) {
+		// TODO Auto-generated method stub
+		Session session = entityManager.unwrap(Session.class);
+		return (Long) session.save(subjectPostMpg);
+
+	}
+
+	@Override
+	public Long save(HrPayPsrPostMpg postPsrMpg) {
+		Session session = entityManager.unwrap(Session.class);
+		return (Long) session.save(postPsrMpg);
+	}
+
+	@Override
+	public Long savePostDtls(OrgPostDetailsRlt orgPostDtlRlt) {
+		Session session = entityManager.unwrap(Session.class);
+		return (Long) session.save(orgPostDtlRlt);
+		
+	}
+
+	@Override
+	public Long save(HrPayOrderHeadPostMpg orderHeadPostmpg) {
+		Session session = entityManager.unwrap(Session.class);
+		return (Long) session.save(orderHeadPostmpg);
+	}
+
+	@Override
+	public Long save(HrPayOfficepostMpg hrOfficePostMpg) {
+		Session session = entityManager.unwrap(Session.class);
+		return (Long) session.save(hrOfficePostMpg);
+		
+	}
+
+	@Override
+	public MstDesignationEntity finddesignationByCode(Long valueOf) {
+		Session session = entityManager.unwrap(Session.class);
+		return session.find(MstDesignationEntity.class,valueOf);
+	}
+
+	@Override
+	public long getNextPsrNo() {
+			 long nextPsr = 0;
+			 Session hibSession = getSession();
+			 String nextPsrlstr="";
+			 StringBuffer strQuery = new StringBuffer();
+			 strQuery.append("Select max(psrId) from HrPayPsrPostMpg psr ");
+			 
+			 List psrList = hibSession.createQuery(strQuery.toString()).list();
+			  nextPsr = Long.parseLong(psrList.get(0).toString())+1;
+			 
+			 return nextPsr;
+	}
+	
+	@Override
+	public DdoOffice findOfficeByfficeId(Long valueOf) {
+		Session session = entityManager.unwrap(Session.class);
+		return session.find(DdoOffice.class,valueOf);
+	}
+
+	@Override
+	public DdoOffice findOfficeByOfficeId(Long valueOf) {
+		Session session = entityManager.unwrap(Session.class);
+		return session.find(DdoOffice.class,valueOf);
+	}
+
 
 }

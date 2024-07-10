@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
@@ -8,6 +9,8 @@ import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgPostDetailsRlt;
 import com.mahait.gov.in.entity.OrgPostMst;
+import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.PostEntryModel;
 
 public interface EntryOfPostsService {
 
@@ -38,5 +41,15 @@ public interface EntryOfPostsService {
 	Long savePostDetails(OrgPostDetailsRlt orgPostDetailsRlt);
 
 	Long saveHrPayOfficepostMpg(HrPayOfficepostMpg hrPayOfficepostMpg);
+
+	List getSubLocationDDOs(BigInteger loggedInPostId);
+
+	List getFilterDdoCode(String locationcodeArray);
+
+	List getSubDDOsOffc(BigInteger loggedInPostId, String talukaId, String ddoSelected);
+
+	void savePostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
+
+	void savePostEntryDtl(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
 
 }

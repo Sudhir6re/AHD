@@ -12,7 +12,7 @@ public class PostEntryModel {
 	    private String cmbTaluka;
 	    private String ddoCodeforFilter;
 	    private String ddoCode;
-	    private String cmbSubFieldDept;
+	    private Long cmbSubFieldDept;
 	    private String postTypeCmbBox;
 	    private String postSubTypeCmbBoxTemp;
 	    private String postSubTypeCmbBoxPerm;
@@ -20,7 +20,7 @@ public class PostEntryModel {
 	    private String tempPostTypeCmbBox;
 	    private String designationCmb;
 	    private String subjectCmb;
-	    private String orderCmb;
+	    private long orderCmb;
 	    
 	    
 	    @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -35,7 +35,7 @@ public class PostEntryModel {
 	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    private Date renewalOrderDate;
 	    
-	    private String officeCmb;
+	    private Long officeCmb;
 	    
 	    
 	    @DateTimeFormat(pattern = "yyyy-MM-dd")

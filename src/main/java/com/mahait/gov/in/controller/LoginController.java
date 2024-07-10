@@ -70,6 +70,7 @@ public class LoginController {
 			for (Object[] obj : retriveUserdetails) {
 				session.setAttribute("ddoCode", obj[0]);
 				session.setAttribute("locationId", obj[1]);
+				session.setAttribute("loggedInPost", obj[2]);
 			}
 		}
 		
@@ -129,6 +130,7 @@ public class LoginController {
 			for (Object[] obj : retriveUserdetails) {
 				session.setAttribute("ddoCode", obj[0]);
 				session.setAttribute("locationId", obj[1]);
+				session.setAttribute("loggedInPost", obj[2]);
 			}
 		}
 		
@@ -160,6 +162,7 @@ public class LoginController {
 			for (Object[] obj : retriveUserdetails) {
 				session.setAttribute("ddoCode", obj[0]);
 				session.setAttribute("locationId", obj[1]);
+				session.setAttribute("loggedInPost", obj[2]);
 			}
 		}
 		

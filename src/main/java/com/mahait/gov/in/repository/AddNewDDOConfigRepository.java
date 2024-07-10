@@ -218,6 +218,7 @@ public class AddNewDDOConfigRepository {
 			lObjUserMst.setStartDate(new Date());
 			
 			lObjUserMst.setActivateFlag(0l);
+			lObjUserMst.setAppCode(1);
 			lObjUserMst.setCreatedDate(new Date());
 
 			lObjUserMst.setCreatedBy(orgUserMst);
