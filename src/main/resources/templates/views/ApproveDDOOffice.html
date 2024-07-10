@@ -77,6 +77,302 @@
 						</tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
+                <tr>
+                    <td>Taluka</td>
+                    <td><select name="cmbTaluka" id="cmbTaluka" style="width: 85%,display: inline;">
+                            <option title="Select" value="-1">Select</option>
+                            <option value="163" title="Mahoor">
+                                Mahoor</option>
+                            <option value="164" title="Kinwat">
+                                Kinwat</option>
+                            <option value="165" title="Himayatnagar">
+                                Himayatnagar</option>
+                            <option value="166" title="Hadgaon">
+                                Hadgaon</option>
+                            <option value="180" title="Not Applicable">
+                                Not Applicable</option>
+                        </select></td>
+                    <td> DDO Code/Office Name</td>
+                    <td>
+                        <input type="text" id="ddoCode" name="ddoCode" maxlength="200" size="30">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center"><input id="btnFilter" class="buttontag" type="button" size="5" maxlength="5" value="Filter" onclick="filterInstituteForApprove();" name="btnFilter" style="width: 120px;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <input type="hidden" name="txtDdoCode" id="txtDdoCode" style="text-align: left" value="">
+    <fieldset class="tabstyle">
+        <legend>Organization/Institution Added </legend>
+        <table align="center" style="width: 100%" class="bor-0 table">
+            <tbody>
+                <tr>
+                    <td align="center">
+                        No Records found to display
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <br>
+    <table id="tbl1" width="100%" align="center">
+        <tbody>
+            <tr>
+                <td>
+                    <fieldset class="tabstyle">
+                        <legend>Organization/Institution Details</legend>
+                        <table width="100%" align="center" cellpadding="4" cellspacing="4" class="bor-0 table">
+                            <tbody>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        Name of the Organization/Institution
+                                    </td>
+                                    <td width="30%" align="left">
+                                        <input type="text" size="60%" name="txtNameOfOffice" id="txtNameOfOffice" style="text-align: left" value="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <fieldset class="tabstyle">
+                        <legend>
+                            Address Details </legend>
+                        <table width="100%" align="center" cellspacing="4" cellpadding="4" class="bor-0 table">
+                            <tbody>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        State
+                                    </td>
+                                    <td width="30%" align="left">
+                                        <select name="cmbState" id="cmbState" style="width:70%">
+                                            <option value="-1">-- Select --</option>
+                                            <option value="29">Andaman and Nicobar Islands</option>
+                                            <option value="2">Andhra Pradesh</option>
+                                            <option value="3">Arunachal Pradesh</option>
+                                            <option value="4">Assam</option>
+                                            <option value="5">Bihar</option>
+                                            </select>
+                                    </td>
+                                    <td width="10%" align="left">
+                                        District
+                                    </td>
+                                    <td width="30%" align="left">
+                                        <select name="cmbDist" id="cmbDist" style="width:70%">
+                                            <option value="-1">-- Select --</option>
+                                            <option value="100080">Palghar</option>
+                                            <option value="343">Ahmednagar</option>
+                                            <option value="344">Akola</option>
+                                            <option value="345">Amravati</option>
+                                            <option value="346">Aurangabad</option>
+                                            <option value="347">Beed</option>
+                                            <option value="348">Bhandara</option>
+                                            <option value="349">Buldana</option>
+                                            <option value="350">Chandrapur</option>
+                                            
+                                        </select>
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        Taluka
+                                    </td>
+                                    <td width="30%" align="left">
+                                        <select name="cmbTaluka" id="cmbTaluka" style="width:70%" onchange="">
+                                            <option value="-1">-- Select --</option>
+                                        </select>
+                                    </td>
+                                    <td width="10%" align="left">
+                                        Town
+                                    </td>
+                                    <td width="30%" align="left">
+                                        <input type="text" size="40%" r="" name="txtTown" id="txtTown" maxlength="50" style="text-align: left" value="" onblur="isName(txtTown,'This field should not contain any special characters or digits.')">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        Village
+                                    </td>
+                                    <td width="30%">
+                                        <input type="text" size="40%" name="txtVillage" id="txtVillage" maxlength="50" style="text-align: left" value="" onblur="isName(txtVillage,'This field should not contain any special characters or digits.')">
+                                    </td>
+                                    <td width="10%" align="left">
+                                        Address
+                                    </td>
+                                    <td width="30%" rowspan="2">
+                                        <textarea name="txtAddress1" id="txtAddress1" rows="5" cols="30"></textarea>
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        PIN
+                                    </td>
+                                    <td width="30%">
+                                        <input type="text" size="30%" name="txtPin" id="txtPin" maxlength="6" style="text-align: left" onkeypress="digitFormat(this);" onblur="chckPin(this)" value="">
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        Organization/Institution City Class
+                                    </td>
+                                    <td width="30%" align="left">
+                                        <select name="cmbOfficeCityClass" id="cmbOfficeCityClass" style="width:70%">
+                                            <option value="-1">-- Select --</option>
+                                            <option value="Z - Class D">Z - Class D</option>
+                                            <option value="Z - Class C">Z - Class C</option>
+                                            <option value="Y - Class B2">Y - Class B2</option>
+                                            <option value="Y - Class B1">Y - Class B1</option>
+                                            <option value="Y - Class B">Y - Class B</option>
+                                            <option value="X - Class A1">X - Class A1</option>
+                                            <option value="Y - Class A">Y - Class A</option>
+                                        </select>
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        Institution Number
+                                    </td>
+                                    <td width="30%">
+                                        <input type="text" size="30%" readonly="readonly" name="txtdiceCode" id="txtdiceCode" maxlength="11" style="text-align: left" value="" onkeypress="digitFormat(this);">
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                    <td width="10%" align="left">
+                                        Percentage Of Grant Applicable
+                                    </td>
+                                    <td width="30%" align="left">
+                                        <input type="text" size="40%" name="txtGrant" id="txtGrant" maxlength="50" style="text-align: left" value="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%" valign="top">
+                    <fieldset class="tabstyle">
+                        <legend>
+                            Contact Details </legend>
+                        <table width="100%" align="center" cellpadding="4" cellspacing="4" class="bor-0 table">
+                            <tbody>
+                                <tr>
+                                    <td width="10%" align="left">
+                                        Tel No(1)
+                                    </td>
+                                    <td width="30%"> <input type="text" size="30%" name="txtTelNo1" id="txtTelNo1" maxlength="15" style="text-align: left" onkeypress="digitFormat(this);" onblur="" value="">
+                                    </td>
+                                    <td width="10%" align="left">Tel No(2) Mobile
+                                    </td>
+                                    <td width="30%"> <input type="text" size="30%" name="txtTelNo2" id="txtTelNo2" maxlength="15" readonly="readonly" style="text-align: left" onkeypress="digitFormat(this);" onblur="" value="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="font-size : smaller;font-style:italic">
+                                        (Use only numbers. Do not provide space between STD Code and Phone number.eg. 02227485961 and not 022 27485961)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="left">Fax
+                                    </td>
+                                    <td width="30%"> <input type="text" size="30%" name="txtMobileNo" id="txtMobileNo" maxlength="15" style="text-align: left" onkeypress="digitFormat(this);" onblur="" value="">
+                                    </td>
+                                    <td width="10%" align="left">
+                                        Email
+                                    </td>
+                                    <td width="30%"> <input type="text" size="30%" name="txtEmail" id="txtEmail" maxlength="254" style="text-align: left" onblur="validateEmailID(txtEmail,'Please Enter Valid Email');" value="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" align="center">
+                    <fieldset class="tabstyle">
+                        <legend>
+                            Whether organization/Institution in </legend>
+                        <table width="100%" cellpadding="4" cellspacing="4" class="bor-0 table">
+                            <tbody>
+                                <tr>
+                                    <td align="left" width="12%">
+                                        Tribal Area?
+                                    </td>
+                                    <td width="12%" align="left">
+                                        <input type="radio" readonly="readonly" id="RadioButtonTriableArea" name="RadioButtonTriableArea" value="Yes">
+                                        Yes
+                                        <input type="radio" id="RadioButtonTriableArea" name="RadioButtonTriableArea" value="No" checked="">
+                                        No
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                    <td width="6%">
+                                    </td>
+                                    <td width="10%" align="left">
+                                        Hilly Area?
+                                    </td>
+                                    <td width="12%" align="left">
+                                        <input type="radio" readonly="readonly" id="RadioButtonHillyArea" name="RadioButtonHillyArea" value="Yes">
+                                        Yes
+                                        <input type="radio" readonly="readonly" id="RadioButtonHillyArea" name="RadioButtonHillyArea" value="No" checked="">
+                                        No
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                    <td width="6%"></td>
+                                    <td width="10%" align="left">
+                                        Naxalite Area?
+                                    </td>
+                                    <td width="12%" align="left">
+                                        <input type="radio" readonly="readonly" id="RadioButtonNaxaliteArea" name="RadioButtonNaxaliteArea" value="Yes">
+                                        Yes
+                                        <input type="radio" readonly="readonly" id="RadioButtonNaxaliteArea" name="RadioButtonNaxaliteArea" value="No" checked="">
+                                        No
+                                        <label class="mandatoryindicator">*</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                    </fieldset><br>
+                    <table width="20%" align="center" height="10%" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr id="reasonForRejection" style="display: none;">
+                                <td>Reason For Rejection:</td>
+                                <td><input type="text" id="txtReasonForRejection" name="txtReasonForRejection" maxlength="200" value="" size="30"></td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <td width="50%" align="center">
+                                    <input type="hidden" value="" name="officeId" id="officeId">
+                                    <input type="button" name="approve" onclick="ApproveDDOOfficeData();" id="approve" value="Approve" size="3" maxlength="3" class="buttontag">
+                                </td>
+                                <td width="50%" align="center">
+                                    <input type="button" name="btnRjct" onclick="RejectDDOOfficeData();" id="btnRjct" value="Reject" size="3" maxlength="3" class="buttontag">
+                                </td>
+                                <td width="50%" align="center">
+                                    <input type="button" name="btnClose" onclick="history.back()" id="btnClose" value="Back" size="3" maxlength="3" class="buttontag">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script language="JavaScript">
+    setForm('frmDCPSDdoOffice');
+    </script>
+</form>
+=======
 						<tr th:each="VarDDO : ${lstApprDdoOffice}">
 						<!-- <td><a th:href="@{'/moderator/ApproveDDOOficeStatus/'+${VarDDO.ddoregid}}"><span
 												th:text="${VarDDO.orginstname}"></span></a></td> -->
@@ -338,6 +634,7 @@
 					</tbody>
 				</table>
 			</form>
+>>>>>>> 66ea30821cfc95db28b1936022eff46531c8734f
 
 		</div>
 
