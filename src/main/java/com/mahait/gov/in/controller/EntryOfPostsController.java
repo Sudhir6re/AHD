@@ -110,28 +110,35 @@ public class EntryOfPostsController {
 
 			model.addAttribute("ddoCode", ddoCode);
 
+			
+			 
+			
 			String talukaId = "";
 			String ddoSelected = "";
 			List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId, ddoSelected);
+			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 
+			if (ddoCodeList.size() > 0)
+				ddoCode = ddoCodeList.get(0).getDdoCode();
+			
 			model.addAttribute("DDOlist", DDOdtls);
 
 			List branchList_en = entryOfPostsService.getAllBranchList(1L);
 			model.addAttribute("Branch", branchList_en);
 
-			List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderData(locId);
+			List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderData(locId,ddoCode);
 
 			List billList = entryOfPostsService.getAllBillsFromLocation(locId);
 			List officeList = entryOfPostsService.getAllOfficesFromDDO(ddoCode);
 
-			List subOfficeList = entryOfPostsService.getSubOfficesFromDDONew(messages.getCreatedByPost().getPostId());
+			List subOfficeList = entryOfPostsService.getSubOfficesFromDDONew(loggedInPostId.longValue());
 
 			// code to find the district
 			String districtID = entryOfPostsService.districtName(ddoCode);
 			// code to find the taluka
 			List talukaList = entryOfPostsService.allTaluka(districtID);
 
-			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
+	//		List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 
 			model.addAttribute("filterDdoCodes", ddoCodeList);
 
@@ -190,10 +197,7 @@ public class EntryOfPostsController {
 			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
 
 			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
-
 			entryOfPostsService.savePostEntryDtl(postEntryModel,locId,loggedInPostId,messages);
-			
-			
 		}
 		
 

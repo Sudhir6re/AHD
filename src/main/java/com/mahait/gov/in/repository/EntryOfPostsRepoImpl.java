@@ -76,19 +76,6 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	}
 
 	@Override
-	public List<HrPayOrderMst> getAllOrderData(long locId) {
-		List<HrPayOrderMst> orderMstList = null;
-		Session hibSession = getSession();
-
-		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode = :locId order by orderMst.orderName";
-		Query query = hibSession.createQuery(strQuery);
-		query.setParameter("locId", Long.toString(locId));
-
-		orderMstList = query.list();
-		return orderMstList;
-	}
-
-	@Override
 	public List getAllOfficesFromDDO(String ddoCode) {
 		Session session = getSession();
 		String HQL_QUERY = " from DdoOffice where dcpsDdoCode='" + ddoCode + "'";
@@ -310,7 +297,6 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 			 String nextPsrlstr="";
 			 StringBuffer strQuery = new StringBuffer();
 			 strQuery.append("Select max(psrId) from HrPayPsrPostMpg psr ");
-			 
 			 List psrList = hibSession.createQuery(strQuery.toString()).list();
 			  nextPsr = Long.parseLong(psrList.get(0).toString())+1;
 			 
@@ -327,6 +313,20 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public DdoOffice findOfficeByOfficeId(Long valueOf) {
 		Session session = entityManager.unwrap(Session.class);
 		return session.find(DdoOffice.class,valueOf);
+	}
+
+	@Override
+	public List<HrPayOrderMst> getAllOrderData(long locId, String ddoCode) {
+		List<HrPayOrderMst> orderMstList = null;
+		Session hibSession = getSession();
+
+		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode = :locId or ddoCode=:ddoCode order by orderMst.orderName";
+		Query query = hibSession.createQuery(strQuery);
+		query.setParameter("locId", Long.toString(locId));
+		query.setParameter("ddoCode", ddoCode);
+
+		orderMstList = query.list();
+		return orderMstList;
 	}
 
 

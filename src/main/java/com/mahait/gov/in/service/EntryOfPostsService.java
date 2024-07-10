@@ -22,7 +22,7 @@ public interface EntryOfPostsService {
 
 	List getAllBranchList(long l);
 
-	List<HrPayOrderMst> getAllOrderData(long locId);
+	List<HrPayOrderMst> getAllOrderData(long locId, String ddoCode);
 
 	List getAllOfficesFromDDO(String ddoCode);
 

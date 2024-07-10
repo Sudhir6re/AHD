@@ -71,8 +71,8 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	}
 
 	@Override
-	public List<HrPayOrderMst> getAllOrderData(long locId) {
-		return entryOfPostsRepo.getAllOrderData(locId);
+	public List<HrPayOrderMst> getAllOrderData(long locId,String ddoCode) {
+		return entryOfPostsRepo.getAllOrderData(locId,ddoCode);
 	}
 
 	@Override
@@ -534,7 +534,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Override
 	public void savePostEntryDtl(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId,
 			OrgUserMst messages) {
-		// TODO Auto-generated method stub
+	
 		
 	}
 
