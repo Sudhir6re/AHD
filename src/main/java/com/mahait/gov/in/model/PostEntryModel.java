@@ -13,7 +13,7 @@ public class PostEntryModel {
 	    private String ddoCodeforFilter;
 	    private String ddoCode;
 	    private Long cmbSubFieldDept;
-	    private String postTypeCmbBox;
+	    private Long postTypeCmbBox;
 	    private String postSubTypeCmbBoxTemp;
 	    private String postSubTypeCmbBoxPerm;
 	    private String purposeCmbBox;

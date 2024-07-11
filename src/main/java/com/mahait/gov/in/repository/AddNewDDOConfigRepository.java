@@ -210,7 +210,7 @@ public class AddNewDDOConfigRepository {
 
 			lObjUserMst.setPassword(passwordEncoder.encode("ifms123"));
 
-			Optional<MstRoleEntity> findById = mstRoleRepo.findById(1);
+			Optional<MstRoleEntity> findById = mstRoleRepo.findById(3);
 			lObjUserMst.setMstRoleEntity(findById.get());
 			
 			lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);

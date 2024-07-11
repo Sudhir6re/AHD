@@ -524,7 +524,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 		OrgPostMst orgPostMst = entryOfPostsRepo.findPost(loggedInPostId.longValue());
 
 		CmnLanguageMst cmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
-		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(1l);
+		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(Long.valueOf(postEntryModel.getPurposeCmbBox()));
 		CmnLocationMst cmnLocationMst = cmnLocationMstRepository.findByLocId(locId);
 
 		long nextPsr = entryOfPostsRepo.getNextPsrNo();
@@ -554,6 +554,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setLocationCode(String.valueOf(locId));
 			newOrgPostMst.setParentPostId(-1l);
 			newOrgPostMst.setPostLevelId(1l);
+			newOrgPostMst.setPostTypeLookupId(lObjCmnLookupMst);
 
 			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
 
