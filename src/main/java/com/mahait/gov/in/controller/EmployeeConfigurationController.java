@@ -212,7 +212,7 @@ public class EmployeeConfigurationController {
 		
 		
 		List<MstCommonEntity> cityClassList = new ArrayList<>();
-		cityClassList = commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
+		//cityClassList = commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
 		model.addAttribute("cityClassList", cityClassList);
 		
 	

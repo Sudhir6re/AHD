@@ -375,6 +375,9 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		sb.append(" and cmn.lookup_id=org.post_type_lookup_id and org.activate_flag=1 ");
 		sb.append("   order by pd.CREATED_DATE desc  ");
 
+		
+		System.out.println(sb.toString());
+		
 		Query query = hibSession.createSQLQuery(sb.toString());
 		postNameList = query.list();
 		return postNameList;

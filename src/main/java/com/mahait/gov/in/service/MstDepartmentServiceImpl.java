@@ -7,12 +7,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mahait.gov.in.entity.OrgDepartmentMst;
 import com.mahait.gov.in.repository.MstDepartmentRepo;
 
 @Service
 @Transactional
-public class MstDepartmentServiceImpl implements MstDepartmentService {
+public class MstDepartmentServiceImpl implements MstDepartmentService {/*
 	@Autowired
 	private MstDepartmentRepo mstDepartmentRepo;
 	
@@ -25,4 +24,4 @@ public class MstDepartmentServiceImpl implements MstDepartmentService {
 
 	
 	
-}
+*/}
