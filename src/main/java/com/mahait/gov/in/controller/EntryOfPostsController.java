@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
@@ -28,6 +29,7 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.PostEntryModel;
 import com.mahait.gov.in.repository.OrgDdoMstRepository;
 import com.mahait.gov.in.repository.OrgPostDetailsRltRepository;
+import com.mahait.gov.in.response.MessageResponse;
 import com.mahait.gov.in.service.EntryOfPostsService;
 
 @RequestMapping("/ddo")
@@ -54,6 +56,13 @@ public class EntryOfPostsController {
 		OrgDdoMst ddoMst = null;
 		String ddoCode = null;
 		List locationList = null;
+		
+		MessageResponse messageResponse = (MessageResponse) model.asMap().get("messageResponse");
+		if (messageResponse != null) {
+			model.addAttribute("messageResponse", messageResponse);
+		}
+		
+	
 
 		if (session.getAttribute("locationId") != null) {
 			langId = 1l;
@@ -183,27 +192,28 @@ public class EntryOfPostsController {
 
 	@PostMapping("/savePostEntry")
 	public String savePostEntry(Model model, Locale locale, HttpSession session,
-			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel) {
+			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel,RedirectAttributes redirectAttribute) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
-		long langId = 0l;
 		long locId = 0l;
 		BigInteger loggedInPostId = null;
-		OrgDdoMst ddoMst = null;
-		String ddoCode = null;
-		List locationList = null;
-
 		if (session.getAttribute("locationId") != null) {
-			langId = 1l;
 			locId = Long.parseLong((String) session.getAttribute("locationId"));
 			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
-
-			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 			entryOfPostsService.savePostEntryDtl(postEntryModel, locId, loggedInPostId, messages);
+			MessageResponse messageResponse = new MessageResponse();
+				messageResponse.setResponse("Post Created Successfully");
+				messageResponse.setStyle("alert alert-success");
+				messageResponse.setStatusCode(200);
+				redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
+			return "redirect:/ddo/entryOfPosts";
+			
+		}else {
+			return "redirect:/user/login";
 		}
 
-		return "redirect:/ddo/entryOfPosts";
 	}
+
 
 	// HrPayOrderMst
 

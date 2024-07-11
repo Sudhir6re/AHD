@@ -25,6 +25,12 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
+		
+			<div align="center" 
+				th:if="${messageResponse!=null}"  th:class="${messageResponse.style}">
+				<strong><span th:utext="${messageResponse.response}"></span></strong>
+			</div>
+		
 			<form method="post" action="" name="frmAdminCrtPost"
 				enctype="multipart/form-data">
 				<fieldset>

@@ -298,8 +298,11 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 			 StringBuffer strQuery = new StringBuffer();
 			 strQuery.append("Select max(psrId) from HrPayPsrPostMpg psr ");
 			 List psrList = hibSession.createQuery(strQuery.toString()).list();
-			  nextPsr = Long.parseLong(psrList.get(0).toString())+1;
-			 
+			 if(psrList.get(0)==null) {
+				 nextPsr=1l;
+			 }else {
+				  nextPsr = Long.parseLong(psrList.get(0).toString())+1;
+			 }
 			 return nextPsr;
 	}
 	
