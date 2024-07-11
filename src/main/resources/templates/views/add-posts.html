@@ -108,14 +108,15 @@
 								<td><select th:field="*{tempPostTypeCmbBox}"
 									id="tempPostTypeCmbBox" class="selecttag mandatorycontrol">
 										<option value="-1">-- Select Nature Of Temporary Post
-											<hdiits:option value="-1"> Temporary </hdiits:option>
-											<hdiits:option value="-1"> Contract </hdiits:option>
-											<hdiits:option value="-1"> Seasonable </hdiits:option>
-											<hdiits:option value="-1"> C.R.T. </hdiits:option>
-											<hdiits:option value="-1"> C.R.P </hdiits:option>
-											<hdiits:option value="-1"> Honorary </hdiits:option>
-											<hdiits:option value="-1"> Part Time </hdiits:option>
-											<hdiits:option value="-1"> Supar Numerarie </hdiits:option>
+										</option>
+										<option value="-1">Temporary</option>
+										<option value="-1">Contract</option>
+										<option value="-1">Seasonable</option>
+										<option value="-1">C.R.T.</option>
+										<option value="-1">C.R.P</option>
+										<option value="-1">Honorary</option>
+										<option value="-1">Part Time</option>
+										<option value="-1">Supar Numerarie</option>
 								</select> <label class="mandatoryindicator">*</label></td>
 							</tr>
 							<tr>
@@ -217,5 +218,7 @@
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
+	<script th:src="@{/js/hte/entry-post.js}"></script>
+	<script th:src="@{/js/jquery.validate.min.js}"></script>
 </body>
 </html>

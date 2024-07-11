@@ -21,7 +21,6 @@ public class MstEmployeeModel {
 	private String employeeMNameEn;
 	private String employeeLNameEn;
 	private String employeeFullNameMr;
-	
 	private String employeeFNameMr;
 	private String employeeMNameMr;
 	private String employeeLNameMr;
@@ -207,10 +206,7 @@ public class MstEmployeeModel {
 	private String label;
 	
 	
-	/*private List<MstNomineeDetailsModel> lstMstNomineeDetails;
-=======
 	private List<MstNomineeDetailsModel> lstMstNomineeDetails;
->>>>>>> d62234043a6ef75399080141dbb407484af22d68
 	
 	public List<MstEmployeeModel> mstEmployeeModelList=new ArrayList<>();
 	
@@ -222,9 +218,7 @@ public class MstEmployeeModel {
 	}
 	public void setLstMstNomineeDetails(List<MstNomineeDetailsModel> lstMstNomineeDetails) {
 		this.lstMstNomineeDetails = lstMstNomineeDetails;
-<<<<<<< HEAD
-	}*/
-	
+	}
 	public Date getDtJoinCurrentPost() {
 		return dtJoinCurrentPost;
 	}
@@ -1173,14 +1167,12 @@ public class MstEmployeeModel {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	/*public List<MstEmployeeModel> getMstEmployeeModelList() {
 	public List<MstEmployeeModel> getMstEmployeeModelList() {
 		return mstEmployeeModelList;
 	}
 	public void setMstEmployeeModelList(List<MstEmployeeModel> mstEmployeeModelList) {
 		this.mstEmployeeModelList = mstEmployeeModelList;
-	}*/
 	}
 	
 	
-
+}

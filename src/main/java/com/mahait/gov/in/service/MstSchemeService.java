@@ -7,6 +7,6 @@ import com.mahait.gov.in.model.MstSchemeModel;
 
 public interface MstSchemeService {
 
-	public List<MstSchemeModel> findAllScheme();
+	public List<MstSchemeModel> findAllScheme(String string);
 
 }

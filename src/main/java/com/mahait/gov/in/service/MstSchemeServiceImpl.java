@@ -20,11 +20,11 @@ public class MstSchemeServiceImpl implements MstSchemeService{
 	@Autowired
 	private MstSchemeRepo mstSchemeRepo;
 
-	
-	public List<MstSchemeModel> findAllScheme() {
-		
-		
-		return mstSchemeRepo.findAllSchemename();
+
+	@Override
+	public List<MstSchemeModel> findAllScheme(String username) {
+		// TODO Auto-generated method stub
+		return mstSchemeRepo.findAllSchemename(username);
 		//Map<Integer, String> mpFinancialYearList=mstSchemeRepo.getFinYear("");
 //		List<MstSchemeModel> lstSchemeModel=new ArrayList<MstSchemeModel>();
 //		List<MstScheme> lstSchemeEntity=mstSchemeRepo.findAllScheme();

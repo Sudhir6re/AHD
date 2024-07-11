@@ -1,6 +1,7 @@
 package com.mahait.gov.in.repository;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -73,19 +74,6 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Criteria crit = session.createCriteria(CmnBranchMst.class);
 		crit.add(Restrictions.eq("cmnLanguageMst.langId", Long.valueOf(langId)));
 		return crit.list();
-	}
-
-	@Override
-	public List<HrPayOrderMst> getAllOrderData(long locId) {
-		List<HrPayOrderMst> orderMstList = null;
-		Session hibSession = getSession();
-
-		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode = :locId order by orderMst.orderName";
-		Query query = hibSession.createQuery(strQuery);
-		query.setParameter("locId", Long.toString(locId));
-
-		orderMstList = query.list();
-		return orderMstList;
 	}
 
 	@Override
@@ -281,7 +269,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public Long savePostDtls(OrgPostDetailsRlt orgPostDtlRlt) {
 		Session session = entityManager.unwrap(Session.class);
 		return (Long) session.save(orgPostDtlRlt);
-		
+
 	}
 
 	@Override
@@ -294,40 +282,112 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public Long save(HrPayOfficepostMpg hrOfficePostMpg) {
 		Session session = entityManager.unwrap(Session.class);
 		return (Long) session.save(hrOfficePostMpg);
-		
+
 	}
 
 	@Override
 	public MstDesignationEntity finddesignationByCode(Long valueOf) {
 		Session session = entityManager.unwrap(Session.class);
-		return session.find(MstDesignationEntity.class,valueOf);
+		return session.find(MstDesignationEntity.class, valueOf);
 	}
 
 	@Override
 	public long getNextPsrNo() {
-			 long nextPsr = 0;
-			 Session hibSession = getSession();
-			 String nextPsrlstr="";
-			 StringBuffer strQuery = new StringBuffer();
-			 strQuery.append("Select max(psrId) from HrPayPsrPostMpg psr ");
-			 
-			 List psrList = hibSession.createQuery(strQuery.toString()).list();
-			  nextPsr = Long.parseLong(psrList.get(0).toString())+1;
-			 
-			 return nextPsr;
+		long nextPsr = 0;
+		Session hibSession = getSession();
+		String nextPsrlstr = "";
+		StringBuffer strQuery = new StringBuffer();
+		strQuery.append("Select max(psrId) from HrPayPsrPostMpg psr ");
+		List psrList = hibSession.createQuery(strQuery.toString()).list();
+		if (psrList.get(0) == null) {
+			nextPsr = 1l;
+		} else {
+			nextPsr = Long.parseLong(psrList.get(0).toString()) + 1;
+		}
+		return nextPsr;
 	}
-	
+
 	@Override
 	public DdoOffice findOfficeByfficeId(Long valueOf) {
 		Session session = entityManager.unwrap(Session.class);
-		return session.find(DdoOffice.class,valueOf);
+		return session.find(DdoOffice.class, valueOf);
 	}
 
 	@Override
 	public DdoOffice findOfficeByOfficeId(Long valueOf) {
 		Session session = entityManager.unwrap(Session.class);
-		return session.find(DdoOffice.class,valueOf);
+		return session.find(DdoOffice.class, valueOf);
 	}
 
+	@Override
+	public List<HrPayOrderMst> getAllOrderData(long locId, String ddoCode) {
+		List<HrPayOrderMst> orderMstList = null;
+		Session hibSession = getSession();
+
+		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode = :locId or ddoCode=:ddoCode order by orderMst.orderName";
+		Query query = hibSession.createQuery(strQuery);
+		query.setParameter("locId", Long.toString(locId));
+		query.setParameter("ddoCode", ddoCode);
+
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
+	@Override
+	public List<HrPayOrderMst> findGrOrderDetails(Long orderId) {
+		List<HrPayOrderMst> orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = "from HrPayOrderMst orderMst where orderMst.orderId = :orderId";
+		Query query = hibSession.createQuery(strQuery);
+		query.setParameter("orderId", orderId);
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
+	@Override
+	public List getPostNameForDisplay(String locId, String lPostName, String PsrNo, String BillNo, String Dsgn,
+			String ddoSelected) {
+		List postNameList = new ArrayList();
+		Session hibSession = getSession();
+		StringBuffer sb = new StringBuffer();
+		sb.append(
+				"select    pd.post_name,pd.post_id, (select  o.employee_full_name_en from    employee_mst o,org_userpost_rlt up   ");
+		sb.append(
+				"     where     o.user_id = up.user_id     and up.post_id = pd.post_id        and up.end_date is null  and up.activate_flag = 1), ds.designation_name ,P.PSR_NO    ");
+
+		sb.append(
+				"  ,  (select\r\n" + 
+				"            mp.ddo_code  \r\n" + 
+				"        from\r\n" + 
+				"            org_ddo_mst mp \r\n" + 
+				"        where\r\n" + 
+				"            p.loc_id = cast(mp.location_code as bigint)) BillNo,\r\n" + 
+				"        org.post_type_lookup_id,\r\n" + 
+				"        cmn.lookup_name ");
+		sb.append("  , HR_PAY_POST_PSR_MPG p ");
+		sb.append("  where pd.loc_id in (" + locId
+				+ ") and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.dsgn_id and ds.lang_id = 1  ");
+		if (PsrNo != null && !(PsrNo.trim()).equals(""))
+			sb.append("  and p.psr_no = " + PsrNo);
+		else if ((ddoSelected != null) && (ddoSelected != "")) {
+			sb.append(" and pd.loc_id =(select loc.location_code from org_ddo_mst loc where loc.ddo_code='" + ddoSelected
+					+ "')");
+		} else if (BillNo != null && !(BillNo.trim()).equals(""))
+			sb.append("  and mp.bill_no  = " + BillNo);
+		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
+			sb.append("  and  upper(ds.dsgn_name) like  upper('%" + Dsgn + "%')  ");
+		else
+			sb.append("  and  upper(pd.post_name) like  upper('%" + lPostName + "%') ");
+		sb.append(" and pd.post_id=org.post_id ");
+		sb.append(" and cmn.lookup_id=org.post_type_lookup_id and org.activate_flag=1 ");
+		sb.append("   order by pd.CREATED_DATE desc  ");
+
+		
+		System.out.println(sb.toString());
+		
+		Query query = hibSession.createSQLQuery(sb.toString());
+		postNameList = query.list();
+		return postNameList;
+	}
 
 }

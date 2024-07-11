@@ -1,4 +1,4 @@
-
+/*
 $("#departmentCodeAdmin").change(function() 
 		{
 			  var deptCode = $("#departmentCodeAdmin").val();
@@ -19,7 +19,7 @@ $("#departmentCodeAdmin").change(function()
 		    			  	 var temp = data;
 		    			 		  $.each( temp, function( index, value ){
 		    				    		console.log( value[0] ); 
-		    				    		 $('#ddo_code_level2').append("<option value="+value[0]+">" + value[1]+""+"("+ value[0]+")"+ "</option>");
+		    				    		 $('#ddoCode').append("<option value="+value[0]+">" + value[1]+""+"("+ value[0]+")"+ "</option>");
 		    			  		});
 		    			  	}
 		    			});
@@ -28,66 +28,9 @@ $("#departmentCodeAdmin").change(function()
 
 
 
+*/
 
 
-
-$("#departmentCodeAdmin").change(function() 
-	{
-		
-		 //$('input[name="test"][value="' + value[2] + '"]').prop("checked", true);
-		  var input = $("#departmentCodeAdmin").val();
-		  
-		// alert("DDO CODE is"+input);
-	    	 if (input != '') 
-	    	 {
-	    		 $.ajax({
-				      type: "GET",
-				      url: "../moderator/deptEligibilityForAllowAndDeduct1/"+input,
-				      async: true,
-				      contentType:'application/json',
-				      error: function(data){
-				    	  console.log(data);
-				      },
-				      success: function(data){
-				    	  selecteditems=[];
-				    	  serialid=[];
-				      console.log("first controller data");
-				    	  console.log(data);
-				    	  $("#tblDataTable").show();
-				    	  $("#selectAllDiv").show();
-				    	  var len=data.length;
-				    	  if(len==0)
-				    		  {
-				    		  $("#btnSave").show();
-				    		  $("#btnUpdate").hide();
-				    		  }
-				    	  else
-				    		  {
-				    		  $("#btnUpdate").show();
-				    		  $("#btnSave").hide();		    		  
-					    	  var temp = data;
-					    	  var tem=[] ; 
-					    	 
-					   		  $.each( temp, function( index, value ){
-						    		console.log(value[2]); 
-						    		// 15
-			//alert("data exists");
-						    		
-						    		 /*$('input[name="test"][value="' + value[2] + '"]').prop("checked", true);*/
-						    		 selecteditems.push(value[2]); 
-						    		 $("#"+value[2]).attr("data-serialid",value[0]);
-						    		 serialid.push(value[0]);
-					    		});
-				    		  }
-				    }
-				 });	
-	    	 }
-	    	 else
-	    		 {
-	    		 swal("Please Select DDO Code");
-	    		 }
-
-	});
 
 $(document).ready(function(){
 	var selecteditems  = [];
@@ -136,14 +79,14 @@ $(document).ready(function(){
     	 var action= 1;
     	 serialid.push(0);   	 
     	 
-   	 	  var input = $("#departmentCodeAdmin").val();
+   	 	 ///// var input = $("#departmentCodeAdmin").val();
    	 	  
-   	 	  if(input=="undefined" || input==undefined){
+   	 	 /* if(input=="undefined" || input==undefined){
    	 		  input=$("#departmentCodeAdmin").val();
    	 		  
-   	 	  }
+   	 	  }*/
    	 	var effectiveDate = $("#effectiveDate").val();
-	   var ddoCode = $("#ddo_code_level2").val();
+	   var ddoCode = $("#ddoCode").val();
 	 	
    	 	if(effectiveDate=="" || effectiveDate=="undefined"){
    	 		swal("Please select effective date");
@@ -153,7 +96,7 @@ $(document).ready(function(){
 			      type: "GET",
 			     /* url: "../master/saveMpgDdoAllowDeduc/"+selecteditems+"/"+input +"/"+action+"/"+serialid+"/"+effectiveDate,*/
 			      
-			      url: "../admin/saveDeptEligibilityAllowDeducAdmin/"+selecteditems+"/"+input +"/"+action+"/"+serialid+"/"+effectiveDate+"/"+ddoCode,
+			      url: "../ddo/saveDeptEligibilityAllowDeducAdmin/"+selecteditems+"/"+action+"/"+serialid+"/"+effectiveDate+"/"+ddoCode,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -179,7 +122,7 @@ $(document).ready(function(){
      
     
      
-     $("#ddo_code_level2").change(function() 
+     $("#ddoCode").change(function() 
     			{
     				
     				 //$('input[name="test"][value="' + value[2] + '"]').prop("checked", true);
@@ -188,14 +131,14 @@ $(document).ready(function(){
     		        this.checked = false; 
     		}); 
     				 
-    				  var input = $("#ddo_code_level2").val();
+    				  var input = $("#ddoCode").val();
     				  
     				//  alert("DDO CODE is"+input);
     			    	 if (input != '') 
     			    	 {
     			    		 $.ajax({
     						      type: "GET",
-    						      url: "../admin/findallowDeductLevel2/"+input,
+    						      url: "../ddo/findallowDeductLevel1/"+input,
     						      async: true,
     						      contentType:'application/json',
     						      error: function(data){
@@ -226,9 +169,9 @@ $(document).ready(function(){
     								    		// 15
     					//alert("data exists");
     								    		
-    								    		 $('input[name="test"][value="' + value[2] + '"]').prop("checked", true);
-    								    		 selecteditems.push(value[2]); 
-    								    		 $("#"+value[2]).attr("data-serialid",value[0]);
+    								    		 $('input[name="test"][value="' + value[3] + '"]').prop("checked", true);
+    								    		 selecteditems.push(value[3]); 
+    								    		 $("#"+value[3]).attr("data-serialid",value[0]);
     								    		 serialid.push(value[0]);
     							    		});
     						    		  }
@@ -251,7 +194,7 @@ $("form[name='myform']").validate({
     		min:1
     	},
     		
-    	ddo_code_level2:
+    	ddoCode:
     		{
     			required:true,
     			min:1
@@ -260,7 +203,7 @@ $("form[name='myform']").validate({
     // Specify validation error messages
     messages: {
     	departmentCodeAdmin: "Please Select Department Name",
-    	ddo_code_level2: "Please Select DDO Code",
+    	ddoCode: "Please Select DDO Code",
     },
     // Make sure the form is submitted to the destination defined
     // in the "action" attribute of the form when valid

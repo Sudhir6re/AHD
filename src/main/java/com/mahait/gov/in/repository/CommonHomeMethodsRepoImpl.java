@@ -13,6 +13,7 @@ import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 
 @SuppressWarnings("unchecked")
@@ -170,6 +171,13 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 				"  on d.post_id=b.post_id where c.user_id="+userId;
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
+	}
+
+
+	public List<ReligionMstEntity> fetchAllReligions() {
+		// TODO Auto-generated method stub
+		String HQL = "FROM ReligionMstEntity as t ORDER BY t.religionId ";
+		return (List<ReligionMstEntity>) manager.createQuery(HQL).getResultList();
 	}
 
 

@@ -43,11 +43,13 @@
 		</h3>
 		<FORM class="form-horizontal" name="myForm" id="myForm" method="POST"
 			th:object="${mpgSchemeBillGroupModel}"
-			th:action="@{/level1/saveAttachDettachEmployee}"
+			th:action="@{/ddoast/saveAttachDettachEmployee}"
 			enctype="multipart/form-data">
 			<input type="hidden" name="billGroupId" id="billGroupId"
-				th:field="*{billGroupId}" /> <input type="hidden" name="status"
-				id="status" th:field="*{status}" /> <input type="hidden"
+				th:field="*{billGroupId}" /> 
+				<input type="hidden" name="status"
+				id="status" th:field="*{status}" /> 
+				<input type="hidden"
 				name="message" id="message" th:value="${message}" />
 			<FIELDSET class="tabstyle container">
 				<LEGEND> Input Bill Group Details </LEGEND> 
@@ -62,21 +64,23 @@
 								<option selected="selected" th:value="0" id="schemebillGroupId"
 									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 								<option th:each="varAllBillGroup : ${lstAllBillGroup}"
-									th:value="${varAllBillGroup.billGroupId}"
-									th:text="${language=='mh' ? varAllBillGroup.billDescription : varAllBillGroup.billDescription}"></option>
+									th:value="${varAllBillGroup.dcpsDdoBillGroupId}"
+									th:text="${language=='mh' ? varAllBillGroup.description : varAllBillGroup.description}"></option>
 							</select>
 						</div>
 						<label class="control-label col-sm-2" for="title"><span
 							th:utext="#{msg.thymeleaf.pageheading.typeattachDeattach}"></span>&nbsp;&nbsp;<b><font
 								color="red" size="4px;">*</font></b></label>
 						<div class="col-sm-4">
-							<select class="form-control" th:field="*{schemebillGroupId}"
+							<select class="form-control" th:field="*{type}"
 								id="schemebillGroupId" name="schemebillGroupId">
 								<option selected="selected" th:value="0" id="schemebillGroupId"
 									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-								<option th:each="varAllBillGroup : ${lstAllBillGroup}"
-									th:value="${varAllBillGroup.billGroupId}"
-									th:text="${language=='mh' ? varAllBillGroup.billDescription : varAllBillGroup.billDescription}"></option>
+<!-- 								<option th:each="varAllBillGroup : ${lstAllBillGroup}" -->
+<!-- 									th:value="${varAllBillGroup.dcpsDdoBillGroupId}" -->
+<!-- 									th:text="${language=='mh' ? varAllBillGroup.description : varAllBillGroup.description}"></option> -->
+      <option value="1">Attach Detach Employee</option>
+    <option value="2">Attach Detach Vacant Post</option>
 							</select>
 						</div>
 
@@ -84,7 +88,7 @@
 					<BR>
 					<DIV align=center>
 						<INPUT onclick="findAttachDettachEmp();" id=btnGo
-							class="buttontag btn" maxLength=3 size=3 type=button value=SAVE
+							class="buttontag btn" maxLength=3 size=3 type=button value=GO
 							name=btnGo> <INPUT onclick=ReturnLoginPage();
 							id=btnBackWithGo class="buttontag btn" maxLength=3 size=3
 							type=button value=Back name=btnBackWithGo>

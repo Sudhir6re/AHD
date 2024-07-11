@@ -25,7 +25,7 @@
 		</h3>
 		<div class="newpagecontent container">
 
-			<form method="POST" name="DDOOfficeView">
+			<form method="POST" name="DDOOfficeView" th:action="@{/ddo/getReport}">
 				<input type="hidden" value="" name="hierarchy" id="hierarchy">
 				<div id="tabmenu">
 					<ul id="maintab" class="shadetabs">
@@ -56,8 +56,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<br>&nbsp; <input type="button" name="ViewReports"
-						onclick="viewReports()" id="ViewReports" value="View Reports"
+					<br>&nbsp; <input type="submit" name="ViewReports" value="View Reports"
 						size="3" maxlength="3" class="buttontag"> <br>
 					<br>
 					<script type="text/javascript">

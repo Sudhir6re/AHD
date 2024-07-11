@@ -22,7 +22,7 @@ public interface EntryOfPostsService {
 
 	List getAllBranchList(long l);
 
-	List<HrPayOrderMst> getAllOrderData(long locId);
+	List<HrPayOrderMst> getAllOrderData(long locId, String ddoCode);
 
 	List getAllOfficesFromDDO(String ddoCode);
 
@@ -51,5 +51,11 @@ public interface EntryOfPostsService {
 	void savePostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
 
 	void savePostEntryDtl(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
+
+	List<HrPayOrderMst> findGrOrderDetails(Long grOrderId);
+
+	List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
+			String ddoCode1);
+
 
 }

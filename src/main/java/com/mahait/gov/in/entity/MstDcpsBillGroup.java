@@ -1,7 +1,7 @@
 package com.mahait.gov.in.entity;
 
-import java.math.BigInteger;
-import java.sql.Date;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ public class MstDcpsBillGroup  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="bill_group_id")
-	private BigInteger dcpsDdoBillGroupId;
+	private Long dcpsDdoBillGroupId;
 	
 	@Column(name="ddo_code")
 	private String dcpsDdoCode;
@@ -42,35 +42,35 @@ public class MstDcpsBillGroup  {
 	
 	
 	@Column(name="LANG_ID")
-	private BigInteger LangId;
+	private Long langId;
 	
 	@Column(name="LOC_ID")
-	private BigInteger LocId;
+	private Long locId;
 	
 	@Column(name="DB_ID")
-	private BigInteger DbId;
+	private Long dbId;
 	
 	@Column(name = "CREATED_POST_ID")
-	private BigInteger PostId;
+	private Long postId;
 	
 
 	@Column(name = "CREATED_USER_ID")
-	private BigInteger UserId;
+	private Long userId;
 	
 	@Column(name = "CREATED_DATE")
-	private Date CreatedDate;
+	private Date createdDate;
 	
 	@Column(name = "UPDATED_POST_ID")
-	private BigInteger UpdatedPostId;
+	private Long updatedPostId;
 
 	@Column(name = "UPDATED_USER_ID")
-	private BigInteger UpdatedUserId;
+	private Long updatedUserId;
 	
 	@Column(name = "UPDATED_DATE")
 	private Date updatedDate;
 	
 	@Column(name = "bill_no")
-	private BigInteger billNo;
+	private Long billNo;
 	
 
 	@Column(name="BILL_DELETED")

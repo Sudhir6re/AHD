@@ -28,7 +28,7 @@ public class MstSchemeRepoImpl implements MstSchemeRepo {
 	}
 
 	@Override
-	public List<MstSchemeModel> findAllSchemename() {
+	public List<MstSchemeModel> findAllSchemename(String username) {
 		// TODO Auto-generated method stub
 		Session currentSession = manager.unwrap(Session.class);
 		String HQL = "SELECT mst.SCHEME_CODE,mst.SCHEME_NAME FROM MST_SCHEME mst  "
@@ -49,5 +49,12 @@ if (!lstprop.isEmpty()) {
 return lstObj;
 }
 
+	@Override
+	public List<MstSchemeModel> findAllSchemename() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 }

@@ -25,7 +25,7 @@ public interface EntryOfPostsRepo {
 
 	List getAllBranchList(long l);
 
-	List<HrPayOrderMst> getAllOrderData(long locId);
+	List<HrPayOrderMst> getAllOrderData(long locId, String ddoCode);
 
 	List getAllOfficesFromDDO(String ddoCode);
 
@@ -77,5 +77,10 @@ public interface EntryOfPostsRepo {
 
 
 	DdoOffice findOfficeByfficeId(Long valueOf);
+
+	List<HrPayOrderMst> findGrOrderDetails(Long grOrderId);
+
+	List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
+			String ddoCode1);
 
 }

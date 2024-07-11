@@ -7,12 +7,17 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
@@ -24,6 +29,7 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.PostEntryModel;
 import com.mahait.gov.in.repository.OrgDdoMstRepository;
 import com.mahait.gov.in.repository.OrgPostDetailsRltRepository;
+import com.mahait.gov.in.response.MessageResponse;
 import com.mahait.gov.in.service.EntryOfPostsService;
 
 @RequestMapping("/ddo")
@@ -50,6 +56,13 @@ public class EntryOfPostsController {
 		OrgDdoMst ddoMst = null;
 		String ddoCode = null;
 		List locationList = null;
+		
+		MessageResponse messageResponse = (MessageResponse) model.asMap().get("messageResponse");
+		if (messageResponse != null) {
+			model.addAttribute("messageResponse", messageResponse);
+		}
+		
+	
 
 		if (session.getAttribute("locationId") != null) {
 			langId = 1l;
@@ -86,6 +99,16 @@ public class EntryOfPostsController {
 			List filterDdoCode = entryOfPostsService.getFilterDdoCode(locationcodeArray);
 			model.addAttribute("ddoCode", ddoCode);
 			model.addAttribute("filterDdoCode", filterDdoCode);
+			
+		String	lPostName="";
+		String srNo="";
+		String PsrNo="";
+		String BillNo="";
+		String Dsgn="";
+		String ddoCode1="";
+			List getPostNameForDisplay=entryOfPostsService.getPostNameForDisplay(String.valueOf(locId),lPostName,PsrNo,BillNo,Dsgn,ddoCode1);
+			
+			model.addAttribute("getPostNameForDisplay", getPostNameForDisplay);
 		}
 		return "/views/entry-of-posts";
 	}
@@ -113,25 +136,30 @@ public class EntryOfPostsController {
 			String talukaId = "";
 			String ddoSelected = "";
 			List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId, ddoSelected);
+			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
+
+			if (ddoCodeList.size() > 0)
+				ddoCode = ddoCodeList.get(0).getDdoCode();
 
 			model.addAttribute("DDOlist", DDOdtls);
 
 			List branchList_en = entryOfPostsService.getAllBranchList(1L);
 			model.addAttribute("Branch", branchList_en);
 
-			List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderData(locId);
+			List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderData(locId, ddoCode);
 
 			List billList = entryOfPostsService.getAllBillsFromLocation(locId);
 			List officeList = entryOfPostsService.getAllOfficesFromDDO(ddoCode);
 
-			List subOfficeList = entryOfPostsService.getSubOfficesFromDDONew(messages.getCreatedByPost().getPostId());
+			List subOfficeList = entryOfPostsService.getSubOfficesFromDDONew(loggedInPostId.longValue());
 
 			// code to find the district
 			String districtID = entryOfPostsService.districtName(ddoCode);
 			// code to find the taluka
 			List talukaList = entryOfPostsService.allTaluka(districtID);
 
-			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
+			// List<OrgDdoMst> ddoCodeList =
+			// entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
 
 			model.addAttribute("filterDdoCodes", ddoCodeList);
 
@@ -174,29 +202,35 @@ public class EntryOfPostsController {
 
 	@PostMapping("/savePostEntry")
 	public String savePostEntry(Model model, Locale locale, HttpSession session,
-			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel) {
+			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel,RedirectAttributes redirectAttribute) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
-		long langId = 0l;
 		long locId = 0l;
 		BigInteger loggedInPostId = null;
-		OrgDdoMst ddoMst = null;
-		String ddoCode = null;
-		List locationList = null;
-
 		if (session.getAttribute("locationId") != null) {
-			langId = 1l;
 			locId = Long.parseLong((String) session.getAttribute("locationId"));
 			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
-
-			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
-
-			entryOfPostsService.savePostEntryDtl(postEntryModel,locId,loggedInPostId,messages);
+			entryOfPostsService.savePostEntryDtl(postEntryModel, locId, loggedInPostId, messages);
+			MessageResponse messageResponse = new MessageResponse();
+				messageResponse.setResponse("Post Created Successfully");
+				messageResponse.setStyle("alert alert-success");
+				messageResponse.setStatusCode(200);
+				redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
+			return "redirect:/ddo/entryOfPosts";
 			
-			
+		}else {
+			return "redirect:/user/login";
 		}
-		
 
-		return "/views/update-posts";
+	}
+
+
+	// HrPayOrderMst
+
+	@RequestMapping(value = "/findGrOrderByGrOrderId/{grOrderId}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<HrPayOrderMst>> findGrOrderByGrOrderId(@PathVariable Long grOrderId) {
+		List<HrPayOrderMst> response1 = entryOfPostsService.findGrOrderDetails(grOrderId);
+		return ResponseEntity.ok(response1);
 	}
 }

@@ -25,6 +25,12 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
+		
+			<div align="center" 
+				th:if="${messageResponse!=null}"  th:class="${messageResponse.style}">
+				<strong><span th:utext="${messageResponse.response}"></span></strong>
+			</div>
+		
 			<form method="post" action="" name="frmAdminCrtPost"
 				enctype="multipart/form-data">
 				<fieldset>
@@ -71,8 +77,8 @@
 										<option value="-1">--------------------Select-------------------</option>
 										<option th:each="bill : ${billList}"
 											th:value="${bill.dcpsDdoBillGroupId}"
-											th:title="${bill.dcpsDdoBillDescription}"
-											th:text="${bill.dcpsDdoBillDescription}"></option>
+											th:title="${bill.description}"
+											th:text="${bill.description}"></option>
 								</select></td>
 								<td><input name="Search" class="btn" value="Search"
 									type="button" id="Search"></td>
