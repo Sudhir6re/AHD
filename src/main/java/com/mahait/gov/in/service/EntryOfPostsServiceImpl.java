@@ -2,6 +2,7 @@ package com.mahait.gov.in.service;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,7 @@ import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.SubjectPostMpg;
 import com.mahait.gov.in.model.PostEntryModel;
+import com.mahait.gov.in.model.UserPostCustomVO;
 import com.mahait.gov.in.repository.CmnLanguageMstRepository;
 import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnLookupMstRepository;
@@ -529,13 +531,13 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 
 		long setPostId = loggedInPostId.longValue();
 		String ddoCode = messages.getUserName();
-		
+
 		String desgnCode = postEntryModel.getDesignationCmb();
 
 		MstDesignationEntity desgnMst = entryOfPostsRepo.finddesignationByCode(Long.valueOf(desgnCode));
 
 		long desgnId = Long.parseLong(desgnCode);
-		
+
 		for (int postCount = 1; postCount <= postEntryModel.getPostNumber(); postCount++) {
 
 			OrgPostMst newOrgPostMst = new OrgPostMst();
@@ -552,7 +554,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setLocationCode(String.valueOf(locId));
 			newOrgPostMst.setParentPostId(-1l);
 			newOrgPostMst.setPostLevelId(1l);
-	
+
 			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
 
 			SubjectPostMpg subjectPostMpg = new SubjectPostMpg();
@@ -561,7 +563,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			subjectPostMpg.setSubjectName(postEntryModel.getSubjectCmb());
 
 			entryOfPostsRepo.submitSubject(subjectPostMpg);
-			
+
 			HrPayPsrPostMpg postPsrMpg = new HrPayPsrPostMpg();
 			postPsrMpg.setPsrId(nextPsr);
 			postPsrMpg.setPostId(postId);
@@ -584,9 +586,6 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			nextPsr++;
 		}
 
-		
-		
-
 	}
 
 	@Override
@@ -595,4 +594,82 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 		return entryOfPostsRepo.findGrOrderDetails(grOrderId);
 	}
 
+	@Override
+	public List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
+			String ddoCode1) {
+		List postNameList = entryOfPostsRepo.getPostNameForDisplay(valueOf, lPostName, psrNo, billNo, dsgn, ddoCode1);
+
+		List post = new ArrayList();
+		String empFullName = "";
+		String postType = "";
+		String subjectName = "";
+		String postLookupId = "";
+		String permenantlookupId = "10001198129";
+		String temparerylookupId = "10001198130";
+		String statutorylookupId = "10001198155";
+
+		if (postNameList != null) {
+			for (int i = 0; i < postNameList.size(); i++) {
+				UserPostCustomVO customVO = new UserPostCustomVO();
+
+				Object rowList[] = (Object[]) postNameList.get(i);
+
+				String postName = rowList[0].toString();
+				// customVO.setPostname(postName);
+
+				if (rowList[6] != null && !(rowList[6].toString().trim()).equals("")) {
+					postLookupId = rowList[6].toString();
+				}
+				if (postLookupId.equals("10001198129")) {
+					postName = postName.concat("P");
+				} else if (postLookupId.equals("10001198130")) {
+					postName = postName.concat("T");
+				} else if (postLookupId.equals("10001198155")) {
+					postName = postName.concat("S");
+				} else {
+					postName = postName;
+				}
+				customVO.setPostname(postName);
+
+				long postId = Long.parseLong(rowList[1].toString());
+				customVO.setPostId(postId);
+				if (rowList[2] != null && !(rowList[2].toString().trim()).equals("")) {
+					empFullName = rowList[2].toString();
+				} else {
+					empFullName = "VACANT";
+				}
+				customVO.setEmpFullName(empFullName);
+
+				String dsgnName = rowList[3].toString();
+				if (rowList[3] != null && !(rowList[3].toString().trim()).equals("")) {
+					customVO.setDsgnname(dsgnName);
+				}
+				String BillNo = " ";
+				String PsrNo = " ";
+
+				if (rowList[4] != null) {
+					PsrNo = rowList[4].toString();
+				}
+				customVO.setPsrNo(PsrNo);
+
+				if (rowList[5] != null) {
+					BillNo = rowList[5].toString();
+				}
+				customVO.setBillNo(BillNo);
+
+				// logger.info("===> BillNo :: "+BillNo);
+				if (rowList[7] != null && !(rowList[7].toString().trim()).equals("")) {
+					postType = rowList[7].toString();
+				} else {
+					postType = "VACANT";
+				}
+
+				customVO.setPostType(postType);
+
+				post.add(customVO);
+			}
+		}
+
+		return post;
+	}
 }

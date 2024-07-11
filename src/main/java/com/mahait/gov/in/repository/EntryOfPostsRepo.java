@@ -80,4 +80,7 @@ public interface EntryOfPostsRepo {
 
 	List<HrPayOrderMst> findGrOrderDetails(Long grOrderId);
 
+	List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
+			String ddoCode1);
+
 }

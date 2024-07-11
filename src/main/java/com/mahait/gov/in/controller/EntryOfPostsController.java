@@ -99,6 +99,14 @@ public class EntryOfPostsController {
 			List filterDdoCode = entryOfPostsService.getFilterDdoCode(locationcodeArray);
 			model.addAttribute("ddoCode", ddoCode);
 			model.addAttribute("filterDdoCode", filterDdoCode);
+			
+		String	lPostName="";
+		String srNo="";
+		String PsrNo="";
+		String BillNo="";
+		String Dsgn="";
+		String ddoCode1="";
+			List getPostNameForDisplay=entryOfPostsService.getPostNameForDisplay(String.valueOf(locId),lPostName,PsrNo,BillNo,Dsgn,ddoCode1);
 		}
 		return "/views/entry-of-posts";
 	}
