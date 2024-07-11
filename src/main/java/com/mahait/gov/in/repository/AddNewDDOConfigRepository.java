@@ -72,10 +72,6 @@ public class AddNewDDOConfigRepository {
 	
 	
 	
-
-	@Autowired
-	AclRoleMstRepository aclRoleMstRepository;
-	
 	
 	@Autowired
 	ZpRltDdoMapRepository zpRltDdoMapRepository;
