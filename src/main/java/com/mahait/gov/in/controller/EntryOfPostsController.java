@@ -107,6 +107,8 @@ public class EntryOfPostsController {
 		String Dsgn="";
 		String ddoCode1="";
 			List getPostNameForDisplay=entryOfPostsService.getPostNameForDisplay(String.valueOf(locId),lPostName,PsrNo,BillNo,Dsgn,ddoCode1);
+			
+			model.addAttribute("getPostNameForDisplay", getPostNameForDisplay);
 		}
 		return "/views/entry-of-posts";
 	}
