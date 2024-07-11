@@ -9,6 +9,8 @@ public interface MstSchemeRepo {
 
 	List<MstScheme> findAllScheme();
 
+	List<MstSchemeModel> findAllSchemename(String username);
+
 	List<MstSchemeModel> findAllSchemename();
 
 }

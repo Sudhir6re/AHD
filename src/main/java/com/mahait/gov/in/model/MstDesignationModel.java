@@ -1,6 +1,7 @@
 package com.mahait.gov.in.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 public class MstDesignationModel implements Serializable{
 
@@ -10,10 +11,10 @@ public class MstDesignationModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	/*private Integer fieldDepartment;*/
-	private Integer designationCode;
+	private BigInteger designationCode;
 	private String designation;
 	private String designationShortName;
-	private Integer designationId;
+	private BigInteger designationId;
 	private Integer cadreCode;
 	private String cadreName;
 	private int cadreGroup;
@@ -38,11 +39,11 @@ public class MstDesignationModel implements Serializable{
 	public void setIsActive(int isActive) {
 		this.isActive = isActive;
 	}
-	public Integer getDesignationId() {
+	public BigInteger getDesignationId() {
 		return designationId;
 	}
-	public void setDesignationId(Integer designationId) {
-		this.designationId = designationId;
+	public void setDesignationId(BigInteger bigInteger) {
+		this.designationId = bigInteger;
 	}
 	
 	/*public Integer getFieldDepartment() {
@@ -51,11 +52,11 @@ public class MstDesignationModel implements Serializable{
 	public void setFieldDepartment(Integer fieldDepartment) {
 		this.fieldDepartment = fieldDepartment;
 	}*/
-	public Integer getDesignationCode() {
+	public BigInteger getDesignationCode() {
 		return designationCode;
 	}
-	public void setDesignationCode(Integer designationCode) {
-		this.designationCode = designationCode;
+	public void setDesignationCode(BigInteger bigInteger) {
+		this.designationCode = bigInteger;
 	}
 	public String getDesignation() {
 		return designation;

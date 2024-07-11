@@ -8,6 +8,7 @@ import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
@@ -45,7 +46,12 @@ public interface CommonHomeMethodsService {
 
 	public List<MstDesnModel> findDesignation(String userName);
 
+
 	public List<Object[]> retriveUserdetails(Long userId);
+
+	public List<ReligionMstEntity> fetchAllReligions();
+	
+
 	
 	
 

@@ -3,11 +3,17 @@ package com.mahait.gov.in.service;
 import java.util.List;
 
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
+import com.mahait.gov.in.model.MstDesignationModel;
 
 
 public interface MstDesignationService {
 
+<<<<<<< Updated upstream
 	///List<MstPayCommissionEntity> findAllPayCommission();
+=======
+	List<MstPayCommissionEntity> findAllPayCommission();
+	public List<MstDesignationModel> getDesignationMstData(String locale);
+>>>>>>> Stashed changes
 	/*
 	
 	public int saveDesignationMst(MstDesignationModel mstDesignationModel,int userId);

@@ -5,6 +5,7 @@ import java.util.List;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 
 public interface CommonHomeMethodsRepo {
@@ -44,6 +45,10 @@ public interface CommonHomeMethodsRepo {
 
 	public List<MstDesnModel> findDesignation(String userName);
 
+
 	public List<Object[]> retriveUserdetails(Long userId);
+
+	public List<ReligionMstEntity> fetchAllReligions();
+
 	
 }

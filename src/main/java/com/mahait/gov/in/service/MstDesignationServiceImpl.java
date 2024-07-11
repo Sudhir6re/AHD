@@ -1,12 +1,14 @@
 package com.mahait.gov.in.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< Updated upstream
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 @Service
@@ -14,7 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MstDesignationServiceImpl implements MstDesignationService{/*
 =======
 >>>>>>> Stashed changes
+=======
+import com.mahait.gov.in.common.StringHelperUtils;
+>>>>>>> Stashed changes
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
+import com.mahait.gov.in.model.MstDesignationModel;
 import com.mahait.gov.in.repository.MstDesignationRepo;
 @Service
 @Transactional
@@ -68,7 +74,7 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 		return mstDesignationRepo.findAllPayCommission();
 	}*/
 
-	/*@Override
+	@Override
 	public List<MstDesignationModel> getDesignationMstData(String locale) {
 
 		List<Object[]> lstprop = mstDesignationRepo.getDesignationMstData();
@@ -76,21 +82,21 @@ public class MstDesignationServiceImpl implements MstDesignationService{
         if (!lstprop.isEmpty()) {
             for (Object[] objLst : lstprop) {
             	MstDesignationModel obj = new MstDesignationModel();
-                obj.setDesignationId(StringHelperUtils.isNullInt(objLst[0]));
-                if(locale.equals("en")) {
-                	 obj.setDescFldDept(StringHelperUtils.isNullString(objLst[1]));
-                } else {
-                	 obj.setDescFldDept(StringHelperUtils.isNullString(objLst[2]));
-                }
-                obj.setDesignationCode(StringHelperUtils.isNullInt(objLst[1]));
+                obj.setDesignationId(StringHelperUtils.isNullBigInteger(objLst[0]));
+//                if(locale.equals("en")) {
+//                	 obj.setDescFldDept(StringHelperUtils.isNullString(objLst[1]));
+//                } else {
+//                	 obj.setDescFldDept(StringHelperUtils.isNullString(objLst[2]));
+//                }
+                obj.setDesignationCode(StringHelperUtils.isNullBigInteger(objLst[1]));
                 obj.setDesignation(StringHelperUtils.isNullString(objLst[2]));
                 obj.setDesignationShortName(StringHelperUtils.isNullString(objLst[3]));
-                obj.setDescCadre(StringHelperUtils.isNullString(objLst[6]));
-                if(locale.equals("en")) {
-               	 obj.setDescPayCommission(StringHelperUtils.isNullString(objLst[7]));
-               } else {
-               	 obj.setDescPayCommission(StringHelperUtils.isNullString(objLst[8]));
-               }
+//                obj.setDescCadre(StringHelperUtils.isNullString(objLst[6]));
+//                if(locale.equals("en")) {
+//               	 obj.setDescPayCommission(StringHelperUtils.isNullString(objLst[7]));
+//               } else {
+//               	 obj.setDescPayCommission(StringHelperUtils.isNullString(objLst[8]));
+//               }
                 obj.setIsActive(StringHelperUtils.isNullInt(Integer.parseInt(String.valueOf(objLst[4]))));
                 if(objLst[5]!=null)
                 {
@@ -102,7 +108,7 @@ public class MstDesignationServiceImpl implements MstDesignationService{
         }
         return lstObj;
 	}
-
+	/*
 	@Override
 	public MstDesignationEntity findMstDesgByDesgId(int designationId) {
 		return mstDesignationRepo.findMstDesgByDesgId(designationId);

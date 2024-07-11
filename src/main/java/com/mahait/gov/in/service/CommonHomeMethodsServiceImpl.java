@@ -15,6 +15,7 @@ import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
@@ -22,7 +23,7 @@ import com.mahait.gov.in.model.MstRoleModel;
 import com.mahait.gov.in.model.MstSubMenuModel;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.repository.CommonHomeMethodsRepo;
-import com.mahait.gov.in.repository.MstRoleRepo;
+import com.mahait.gov.in.repository.MstEmployeeRepo;
 import com.mahait.gov.in.repository.UserInfoRepo;
 
 
@@ -35,7 +36,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	CommonHomeMethodsRepo commonHomeMethodsRepo;
 
 	@Autowired
-	MstRoleRepo mstRoleRepo;
+	MstEmployeeRepo mstRoleRepo;
 
 	@Autowired
 	private UserInfoRepo userInfoDAO;
@@ -264,7 +265,11 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	
 
 	
-
+	@Override
+	public List<ReligionMstEntity> fetchAllReligions() {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.fetchAllReligions();
+	}
 
 
 }
