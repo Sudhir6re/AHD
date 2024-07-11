@@ -97,4 +97,18 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.update(zpRltDdoMap);
 	}
+
+	@Override
+	public List<ZpRltDdoMap> lstApprovedOffices(String ddoCode) { 
+		String HQL = "FROM ZpRltDdoMap as  t  where langId = 1 and reptDdoCode='"+ddoCode+"' and status=1  ORDER BY t.zpMapId desc";
+		return (List<ZpRltDdoMap>) entityManager.createQuery(HQL).getResultList();
+
+	}
+
+	@Override
+	public List<ZpRltDdoMap> lstRejectedOffices(String userName) { 
+		String HQL = "FROM ZpRltDdoMap as  t  where langId = 1 and reptDdoCode='"+userName+"' and status=-1  ORDER BY t.zpMapId desc";
+		return (List<ZpRltDdoMap>) entityManager.createQuery(HQL).getResultList();
+
+	}
 }	

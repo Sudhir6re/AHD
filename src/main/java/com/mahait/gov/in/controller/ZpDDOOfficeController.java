@@ -1,6 +1,8 @@
 package com.mahait.gov.in.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,10 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpRltDdoMap;
+import com.mahait.gov.in.model.AnnualIncrementModel;
 import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.ZpDDOOfficeService;
@@ -70,16 +74,6 @@ public class ZpDDOOfficeController {
 		return "/views/approveRejectDDOOfficeView";
 	}
 	
-/*	@RequestMapping(value = "/updateApproveStatus", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateApproveStatus(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
-			Model model, Locale locale, HttpSession session) {
-		return "/views/approveDDOOfficeView";
-		
-	}
-	*/
-	
-	
-	
 	@GetMapping("/updateApproveStatus/{zpDdoCode}/{flag}")
 	public String updateApproveStatus(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,@PathVariable String zpDdoCode,
 			@PathVariable int flag,Model model,Locale locale,HttpSession session,HttpServletRequest request, Object paybillHeadMpgRepo) {
@@ -90,24 +84,39 @@ public class ZpDDOOfficeController {
 			model.addAttribute("message","Approved Successfully");
 			return "/views/approveDDOOfficeView";
 		///}
-	} 
+	}
 	
-/*	@RequestMapping(value = "/updateRejectStatus", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateRejectStatus(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
-			Model model, Locale locale, HttpSession session) {
-		return "/views/approveDDOOfficeView";
+	@PostMapping("/getReport")
+	public String getReport(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,
+			 Model model, Locale locale,
+			HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-	}*/
+		String message=(String) model.asMap().get("message");
 	
-	/*
-	@PostMapping("/addSchemesAndBillGroupsToDdo")
-	public String addSchemesAndBillGroupsToDdo(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,HttpSession session,
-	RedirectAttributes redirectAttributes,Model model,Locale locale) {
-		return null;
-
-	///	DcpsCommonDAO lObjDcpsCommonDAO = new DcpsCommonDAOImpl(null, serv.getSessionFactory());
-		//RltDcpsDdoScheme lObjDcpsDdoSchemeVO = (RltDcpsDdoScheme) inputMap.get("DcpsDdoScheme");
-		///MstDcpsBillGroup lObjMstDcpsBillGroupVO = (MstDcpsBillGroup) inputMap.get("dcpsddobillgroup");
-
-}*/
+		
+		return "/views/DDOOfficeStatusView";
+		
+	}
+	
+	@GetMapping("/getApprovedOfficesLst")
+	public String getApprovedOfficesLst(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel, Model model,
+			Locale locale, HttpSession session) {
+		///UserInfo messages = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		model.addAttribute("lstApprovedOffices", zpDDOOfficeService.lstApprovedOffices(messages.getUserName()));//,messages.getUpdatedByPost().getLocationCode()
+		return "/views/approvedDDOOffices";
+	}
+	@GetMapping("/getRejectedOfficesLst")
+	public String getRejectedOfficesLst(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel, Model model,
+			Locale locale, HttpSession session) {
+		///UserInfo messages = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		model.addAttribute("lstRejectedOffices", zpDDOOfficeService.lstRejectedOffices(messages.getUserName()));//,messages.getUpdatedByPost().getLocationCode()
+		return "/views/rejectedDDOOffices";
+	}
 }

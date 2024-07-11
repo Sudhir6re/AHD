@@ -22,5 +22,9 @@ public interface ZpDDOOfficeRepo {
 	ZpRltDdoMap findddoinZPRlt(String zpDdoCode);
 
 	void updateApproveStatusinZpRlt(ZpRltDdoMap zpRltDdoMap);
+
+	List<ZpRltDdoMap> lstApprovedOffices(String ddoCode);
+
+	List<ZpRltDdoMap> lstRejectedOffices(String userName);
 	
 }

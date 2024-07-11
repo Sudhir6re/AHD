@@ -100,7 +100,6 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 		Long saveId = 0L;
 //		logger.info(">>>><<<<< "+ mstGrOrderModel.getOrderDate());
 		if(mstGrOrderModel!=null) {
-			payOrderMst.setOrderId(messages.getUserId());//setting order id
 			///payOrderMst.setOrderId(mstGrOrderModel.getGrOrderId());//setting order id
 			payOrderMst.setOrderName(mstGrOrderModel.getSanctionOrderNo());
 			payOrderMst.setOrderDate(mstGrOrderModel.getOrderDate());

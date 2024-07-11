@@ -74,10 +74,6 @@ public class DeptEligibilityForAllowAndDeductAdminController {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		List<TopicModel> menuList = new ArrayList<>();
-		List<TopicModel> subMenuList = new ArrayList<>();
-		
-		
 		model.addAttribute("lstDeptDataTable1", deptEligibilityForAllowAndDeductService.findDeptEligibilityForAllowAndDeductList());
 		model.addAttribute("lstInstitute", orderMasterService.getInstitutionLst(messages.getUserName()));
 		//model.addAttribute("lstDDOCode", createAdminOfficeService.lstAllDDOLevel2(messages.getUserName()));
@@ -89,16 +85,7 @@ public class DeptEligibilityForAllowAndDeductAdminController {
 		return "/views/mst-dept-eligibility-for-allow-deduct-admin";
     }
 	
-	@GetMapping(value="/findallDDOLevel2Ddo/{deptCode}")
-	public @ResponseBody List<Object[]> findallDDOLevel2AgaintDept(@PathVariable int deptCode,Model model,Locale locale) {
-		
-		List<Object[]> deptEligibilityForAllowAndDeductEntity =  deptEligibilityForAllowAndDeductService.findallDDOLevel2AgaintDept(deptCode);
-		List<Object[]>  mstEmployeeEntity=  deptEligibilityForAllowAndDeductEntity;
-		
-		return mstEmployeeEntity;
-	}
-	
-	@GetMapping(value="/findallowDeductLevel2/{ddoCode2}")
+	@GetMapping(value="/findallowDeductLevel1/{ddoCode2}")
 	public @ResponseBody List<Object[]> findallowDeductLevel2(@PathVariable String ddoCode2,Model model,Locale locale) {
 		
 		List<Object[]> deptEligibilityForAllowAndDeductEntity =  deptEligibilityForAllowAndDeductService.findallowDeductLevel2(ddoCode2);

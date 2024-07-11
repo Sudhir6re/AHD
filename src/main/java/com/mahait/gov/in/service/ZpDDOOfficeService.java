@@ -16,5 +16,9 @@ public interface ZpDDOOfficeService {
 
 	OrgUserMst approveddoDtls(String zpDdoCode, int flag);
 
+	List<ZpRltDdoMap> lstApprovedOffices(String ddoCode);
+
+	List<ZpRltDdoMap>  lstRejectedOffices(String userName);
+
 	
 }

@@ -93,5 +93,17 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 	/*	return zpDDOOfficeRepo.approveChangeStatement(zpDdoCode,flag);*/
 	}
 
+	@Override
+	public List<ZpRltDdoMap> lstApprovedOffices(String ddoCode) {
+		// TODO Auto-generated method stub
+		return zpDDOOfficeRepo.lstApprovedOffices(ddoCode);
+	}
+
+	@Override
+	public List<ZpRltDdoMap> lstRejectedOffices(String userName) {
+		// TODO Auto-generated method stub
+		return zpDDOOfficeRepo.lstRejectedOffices(userName);
+	}
+
 	
 }

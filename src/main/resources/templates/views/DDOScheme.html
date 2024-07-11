@@ -30,25 +30,25 @@
     <fieldset class="tabstyle">
         <legend> <b>Schemes Operated by DDO</b> </legend>
         <div align="center">
-            <table style="width:50%" id="vo" class="datatable" cellpadding="4">
+            <table style="width:50%" id="vo" class="datatable table table-bordered" cellpadding="4">
                 <thead>
                     <tr>
                         <th class="datatableheader sortable">
-                            <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-s=0&amp;d-5487-o=2">Scheme Code</a></th>
+                            <a>Scheme Code</a></th>
                         <th class="datatableheader sortable">
-                            <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-s=1&amp;d-5487-o=2">Scheme Name</a></th>
+                            <a>Scheme Name</a></th>
                         <th class="datatableheader sortable">
-                            <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-s=2&amp;d-5487-o=2">Sub Scheme Code</a></th>
+                            <a>Sub Scheme Code</a></th>
                         <th class="datatableheader sortable">
-                            <a href="?elementId=700015&amp;actionFlag=loadDdoSchemesAndBillGroups&amp;d-5487-s=3&amp;d-5487-o=2">DDO Code</a></th>
+                            <a>DDO Code</a></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="odd" th:each="varLst : ${schemelist}">
-                        <td style="text-align: left;" th:text="${varLst.schemeCode}">22020683</td>
-                        <td style="text-align: left;" th:text="${varLst.schemeName}">22020683</td>
-                        <td style="text-align: left;" th:text="${varLst.subSchemeCode}">22020683</td>
-                        <td style="text-align: left;" th:text="${varLst.ddoCode}">22020683</td>
+                        <td style="text-align: left;" th:text="${varLst.schemeCode}"></td>
+                        <td style="text-align: left;" th:text="${varLst.schemeName}"></td>
+                        <td style="text-align: left;" th:text="${varLst.subSchemeCode}"></td>
+                        <td style="text-align: left;" th:text="${varLst.ddoCode}"></td>
                         
                    
                 </tbody>
