@@ -519,24 +519,24 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Override
 	public void savePostEntryDtl(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId,
 			OrgUserMst messages) {
-		long userID = messages.getUserId();
+	//	long userID = messages.getUserId();
 
 		OrgPostMst orgPostMst = entryOfPostsRepo.findPost(loggedInPostId.longValue());
 
 		CmnLanguageMst cmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
-		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(Long.valueOf(postEntryModel.getPurposeCmbBox()));
+		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(Long.valueOf(postEntryModel.getPostTypeCmbBox()));
 		CmnLocationMst cmnLocationMst = cmnLocationMstRepository.findByLocId(locId);
 
 		long nextPsr = entryOfPostsRepo.getNextPsrNo();
 
-		long setPostId = loggedInPostId.longValue();
-		String ddoCode = messages.getUserName();
+	//	long setPostId = loggedInPostId.longValue();
+		//String ddoCode = messages.getUserName();
 
 		String desgnCode = postEntryModel.getDesignationCmb();
 
 		MstDesignationEntity desgnMst = entryOfPostsRepo.finddesignationByCode(Long.valueOf(desgnCode));
 
-		long desgnId = Long.parseLong(desgnCode);
+		//long desgnId = Long.parseLong(desgnCode);
 
 		for (int postCount = 1; postCount <= postEntryModel.getPostNumber(); postCount++) {
 
@@ -557,6 +557,10 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setPostTypeLookupId(lObjCmnLookupMst);
 
 			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
+			
+			OrgPostMst pg1=entryOfPostsRepo.findPostObj(postId);
+			
+			
 
 			SubjectPostMpg subjectPostMpg = new SubjectPostMpg();
 
@@ -572,7 +576,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			entryOfPostsRepo.save(postPsrMpg);
 
 			OrgPostDetailsRlt orgPostDtlRlt = new OrgPostDetailsRlt();
-			orgPostDtlRlt.setOrgPostMst(newOrgPostMst);
+			orgPostDtlRlt.setOrgPostMst(pg1);
 			orgPostDtlRlt.setCreatedByPost(orgPostMst);
 			orgPostDtlRlt.setCreatedBy(messages);
 			orgPostDtlRlt.setCmnLanguageMst(cmnLanguageMst);
@@ -581,7 +585,6 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			orgPostDtlRlt.setPostName(desgnMst.getDesgination().concat(String.valueOf(nextPsr)));
 			orgPostDtlRlt.setPostShortName(desgnMst.getDesignationShortName().concat(String.valueOf(nextPsr)));
 			orgPostDtlRlt.setCmnLocationMst(cmnLocationMst);
-
 			entryOfPostsRepo.savePostDtls(orgPostDtlRlt);
 
 			nextPsr++;

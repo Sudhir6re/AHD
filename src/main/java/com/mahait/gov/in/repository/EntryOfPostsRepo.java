@@ -83,4 +83,6 @@ public interface EntryOfPostsRepo {
 	List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
 			String ddoCode1);
 
+	OrgPostMst findPostObj(Long postId);
+
 }
