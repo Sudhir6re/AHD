@@ -13,6 +13,7 @@ import java.util.Date;
 public class HrPayOrderMst implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ID")
     private Long orderId;
 
