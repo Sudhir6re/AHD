@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:utext="#{msg.thymeleaf.pageheading.orgdetails}"></title>
+</head>
+<body class="organization-details">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.payrollBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.orgdetails}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pageheading.orgdetails}"></span>
+		</h3>
+
+		<div class="formMainwithNoborTb container">
+			<table class="table bor-0">
+				<tbody>
+					<tr>
+						<td>
+							<fieldset class="tabstyle">
+								<legend>Organization/Institution Details</legend>
+								<table width="100%" align="center" cellpadding="4"
+									cellspacing="4">
+									<tbody>
+										<tr>
+											<td align="left">Name of the Organization/Institution</td>
+											<td align="left"><input type="text" size="100%"
+												name="txtNameOfOffice" id="txtNameOfOffice"
+												value="Swami Ramanand Teerth Marathwada University Nanded">
+												<label class="mandatoryindicator">*</label></td>
+										</tr>
+									</tbody>
+								</table>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<fieldset class="tabstyle">
+								<legend> Address Details </legend>
+								<table class="table bor-0">
+									<tbody>
+										<tr>
+											<td width="15%" align="left">State</td>
+											<td width="35%" align="left"><select name="cmbState"
+												id="cmbState">
+													<option value="-1">-- Select --</option>
+													<option value="29">Andaman and Nicobar Islands</option>
+													<option value="2">Andhra Pradesh</option>
+													<option value="3">Arunachal Pradesh</option>
+													<option value="4">Assam</option>
+													<option value="5">Bihar</option>
+											</select></td>
+											<td width="15%" align="left">District</td>
+											<td width="35%" align="left"><select name="cmbDist"
+												id="cmbDist">
+													<option value="-1">-- Select --</option>
+													<option value="100080">Palghar</option>
+													<option value="343">Ahmednagar</option>
+													<option value="344">Akola</option>
+													<option value="345">Amravati</option>
+													<option value="346">Aurangabad</option>
+													<option value="347">Beed</option>
+													<option value="348">Bhandara</option>
+													<option value="349">Buldana</option>
+													<option value="350">Chandrapur</option></td>
+										</tr>
+										<tr>
+											<td width="15%" align="left">Taluka</td>
+											<td width="35%" align="left"><select name="cmbTaluka"
+												id="cmbTaluka">
+													<option value="-1">-- Select --</option>
+													<option value="-1">-- Select --</option>
+													<option value="163">Mahoor</option>
+													<option value="164">Kinwat</option>
+											</select></td>
+										</tr>
+										<tr>
+											<td align="left" width="15%">City</td>
+											<td align="left" width="35%"><select name="cmbcity"
+												id="cmbcity">
+													<option value="-1">-- Select --</option>
+													<option value="20" selected="selected">NANDED</option>
+													<option value="418">KARMALA</option>
+													<option value="419">KURDUWADI</option>
+													<option value="420">BARSHI</option>
+													<option value="421">PANDHARPUR</option>
+													<option value="422">SANGOLE</option>
+													<option value="423">MANGALVEDHE</option>
+													<option value="426">DUDHANI</option>
+													<option value="427">MADHA</option>
+													<option value="428">MOHOL</option>
+													<option value="429">MALSHIRAS</option>
+													<option value="424">AKKALKOT</option>
+													<option value="425">MAINDARGI</option>
+													<option value="526">NANDED-WAGHALA</option>
+											</select> <label class="mandatoryindicator">*</label></td>
+											<td width="15%" align="left">Village</td>
+											<td width="35%"><input type="text" size="48"
+												name="txtVillage" id="txtVillage" maxlength="50"
+												value="VISHNUPURI"></td>
+										</tr>
+										<tr>
+											<td width="15%" align="left">Address</td>
+											<td width="35%"><textarea name="txtAddress1"
+													id="txtAddress1" rows="5" cols="42">SWAMI RAMANAND TEERTH MARATHWADA UNIVERSITY,"DNYANTEERTH" VISHNUPURI,NANDED 431606</textarea>
+												<label class="mandatoryindicator">*</label></td>
+											<td width="15%" align="left">PIN</td>
+											<td width="35%"><input type="text" size="48"
+												name="txtPin" id="txtPin" maxlength="6" value="431606">
+												<label class="mandatoryindicator">*</label></td>
+										</tr>
+										<tr>
+											<td width="15%" align="left">Organization/Institution
+												City Class</td>
+											<td align="left" width="35%"><input type="text"
+												name="cmbOfficeCityClass" size="50" id="cmbOfficeCityClass"
+												value="Z - Class D" readonly="readonly"> <label
+												class="mandatoryindicator">*</label></td>
+										</tr>
+										<tr>
+											<td width="15%" align="left">Institution Number</td>
+											<td width="35%"><input type="text" size="48"
+												name="txtdiceCode" id="txtdiceCode" maxlength="11"
+												value="06340100116"></td>
+											<td width="15%" align="left">Percentage Of Grant
+												Applicable</td>
+											<td width="35%" align="left"><select name="txtGrant"
+												id="txtGrant">
+													<option value="-1">-- Select --</option>
+													<option value="90">90%</option>
+													<option value="100" selected="selected">100%</option>
+											</select></td>
+										</tr>
+									</tbody>
+								</table>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<td width="100%" valign="top">
+							<fieldset class="tabstyle">
+								<legend> Contact Details </legend>
+								<table class="table bor-0">
+									<tbody>
+										<tr>
+											<td width="15%" align="left">Tel No(1)</td>
+											<td width="35%"><input type="text" size="48"
+												name="txtTelNo1" id="txtTelNo1" maxlength="11"
+												value="2462229246"></td>
+											<td width="15%" align="left">Tel No(2) Mobile</td>
+											<td width="35%"><input type="text" size="48"
+												name="txtTelNo2" id="txtTelNo2" maxlength="10"
+												value="9423136268"><label class="mandatoryindicator">*</label>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="4"
+												style="font-size: smaller; font-style: italic">(Use
+												only numbers. Do not provide space between STD Code and
+												Phone number.eg. 02227485961 and not 022 27485961)</td>
+										</tr>
+										<tr>
+											<td width="15%" align="left">Fax</td>
+											<td width="35%"><input type="text" size="48"
+												name="txtMobileNo" id="txtMobileNo" maxlength="15"
+												value="2462229572"></td>
+											<td width="15%" align="left">Email</td>
+											<td width="35%"><input type="text" size="48"
+												name="txtEmail" id="txtEmail" maxlength="254"
+												value="srtmunregistrar@gmail.com"></td>
+										</tr>
+									</tbody>
+								</table>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="center">
+							<table class="table bor-0">
+								<tbody>
+									<tr style="display: none">
+										<td align="left" width="12%">Tribal Area?</td>
+										<td width="12%" align="left"><input type="radio"
+											id="RadioButtonTriableArea" name="RadioButtonTriableArea"
+											value="Yes"> Yes <input type="radio"
+											id="RadioButtonTriableArea" name="RadioButtonTriableArea"
+											value="No" checked=""> No <label
+											class="mandatoryindicator">*</label></td>
+										<td width="6%"></td>
+										<td width="10%" align="left">Hilly Area?</td>
+										<td width="12%" align="left"><input type="radio"
+											id="RadioButtonHillyArea" name="RadioButtonHillyArea"
+											value="Yes"> Yes <input type="radio"
+											id="RadioButtonHillyArea" name="RadioButtonHillyArea"
+											value="No" checked=""> No <label
+											class="mandatoryindicator">*</label></td>
+										<td width="6%"></td>
+										<td width="10%" align="left">Naxalite Area?</td>
+										<td width="12%" align="left"><input type="radio"
+											id="RadioButtonNaxaliteArea" name="RadioButtonNaxaliteArea"
+											value="Yes"> Yes <input type="radio"
+											id="RadioButtonNaxaliteArea" name="RadioButtonNaxaliteArea"
+											value="No" checked=""> No <label
+											class="mandatoryindicator">*</label></td>
+									</tr>
+								</tbody>
+							</table> <br>
+							<table class="table bor-0">
+								<tbody>
+									<tr>
+										<td align="center"><input type="button" name="save"
+											id="save" value="Save &amp; Forward To Reporting DDO"
+											class="buttontag"> <input type="button"
+											name="btnedit" id="btnedit" value="Edit" class="buttontag">
+											<input type="button" name="btnClose" id="btnClose"
+											value="Back" class="btn" onclick="history.back()">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+
+</body>
+</html>
