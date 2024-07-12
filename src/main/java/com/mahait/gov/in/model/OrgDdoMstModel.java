@@ -108,6 +108,9 @@ public class OrgDdoMstModel {
 	private Long statusFlag;
 
 	
-	private Integer bankId;
+	private String bankId;
+	private String parentAdminDepartmentId;
+	private String ParentFieldDepartmentId;
+	private String ItoWardCircle;
 
 }

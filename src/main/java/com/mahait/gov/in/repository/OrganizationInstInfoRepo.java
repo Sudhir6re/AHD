@@ -13,6 +13,10 @@ public interface OrganizationInstInfoRepo {
 	public List<InstituteType> lstInstType();
 
 	public List<Object[]> getBankBranch(String valueOf);
+
+	public int saveorgInstInfo(OrgDdoMst objForSave);
+
+	public void updateDDOInfo(OrgDdoMst objForSave);
 	
 	
 

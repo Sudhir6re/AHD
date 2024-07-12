@@ -29,7 +29,7 @@
         	<div id="content" style="background: :#f0ebe8;">
    
 
-    <form method="post" action="" th:object="${orgDdoMstModel}" name="DDOInfo" enctype="multipart/form-data" id="DDOInfo">
+    <form method="post" th:action="@{/level1/saveorgInstituteInfo}" th:object="${orgDdoMstModel}" name="DDOInfo" enctype="multipart/form-data" id="DDOInfo">
         <input type="hidden" id="cmbDdoCode" name="cmbDdoCode" >
         <fieldset class="tabstyle">
             <legend>
@@ -182,8 +182,10 @@
                     <td width="50%" align="center">
                         <input type="button" name="btnSave"  id="btnSave" value="Save" size="3" maxlength="3" class="buttontag">
                     </td>
+                    
                     <td width="50%" align="center">
-                        <input type="button" name="btnedit"  id="btnedit" value="Edit" size="3" maxlength="3" class="buttontag">
+                    <a th:href = "@{/level1/editorgInstituteInfo}" >
+                        <input type="button" name="btnedit"  id="btnedit" value="Edit" size="3" maxlength="3" class="buttontag"></a>
                     </td>
                     <td width="50%" align="center">
                         <input type="button" name="btnClose" id="btnClose" value="Back" size="3" maxlength="3" class="buttontag">

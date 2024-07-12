@@ -17,9 +17,11 @@ import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
+import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
 import com.mahait.gov.in.model.MstRoleModel;
+import com.mahait.gov.in.model.MstStateModel;
 import com.mahait.gov.in.model.MstSubMenuModel;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.repository.CommonHomeMethodsRepo;
@@ -259,8 +261,20 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public List<Object[]> retriveUserdetails(Long userId) {
 		return commonHomeMethodsRepo.retriveUserdetails(userId);
+=======
+	public List<MstStateModel> lstGetAllState(String userName) {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.lstGetAllState(userName);
+	}
+
+	@Override
+	public List<MstDistrictModel> lstGetAllDistrict(String userName) {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.lstGetAllDistrict(userName);
+>>>>>>> Stashed changes
 	}
 	
 

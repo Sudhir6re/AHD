@@ -15,6 +15,8 @@ import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
+import com.mahait.gov.in.model.MstDistrictModel;
+import com.mahait.gov.in.model.MstStateModel;
 
 @SuppressWarnings("unchecked")
 @Repository
@@ -178,6 +180,19 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		// TODO Auto-generated method stub
 		String HQL = "FROM ReligionMstEntity as t ORDER BY t.religionId ";
 		return (List<ReligionMstEntity>) manager.createQuery(HQL).getResultList();
+	public List<MstStateModel> lstGetAllState(String userName) {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "select * from CMN_STATE_MST";
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<MstStateModel>) query.list();
+	}
+
+	@Override
+	public List<MstDistrictModel> lstGetAllDistrict(String userName) {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "select * from CMN_DISTRICT_MST";
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<MstDistrictModel>) query.list();
 	}
 
 

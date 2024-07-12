@@ -19,5 +19,7 @@ public interface OrganizationInstInfoService {
 	public List<Object[]> getBankBranch(String valueOf);
 
 	public int SaveorgInstituteInfo(@Valid OrgDdoMstModel orgDdoMstModel);
+
+	public int saveEditOrgInstInfo(OrgDdoMstModel orgDdoMstModel);
 	 
 }

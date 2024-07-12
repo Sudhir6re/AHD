@@ -10,9 +10,11 @@ import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
+import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
 import com.mahait.gov.in.model.MstRoleModel;
+import com.mahait.gov.in.model.MstStateModel;
 import com.mahait.gov.in.model.MstSubMenuModel;
 import com.mahait.gov.in.model.TopicModel;
 
@@ -46,12 +48,18 @@ public interface CommonHomeMethodsService {
 
 	public List<MstDesnModel> findDesignation(String userName);
 
+<<<<<<< Updated upstream
 
 	public List<Object[]> retriveUserdetails(Long userId);
 
 	public List<ReligionMstEntity> fetchAllReligions();
 	
 
+=======
+	public List<MstStateModel> lstGetAllState(String userName);
+
+	public List<MstDistrictModel> lstGetAllDistrict(String userName);
+>>>>>>> Stashed changes
 	
 	
 

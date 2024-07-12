@@ -1,5 +1,6 @@
 package com.mahait.gov.in.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -47,5 +48,19 @@ public class OrganizationInstInfoRepoImpl implements OrganizationInstInfoRepo {
 						+ valueOf);
 		List<Object[]> lstbankbranchdata = query.list();
 		return lstbankbranchdata;
+	}
+
+	@Override
+	public int saveorgInstInfo(OrgDdoMst objForSave) {
+		Session currentSession = manager.unwrap(Session.class);
+		Serializable saveId = currentSession.save(objForSave);
+		return (Integer) saveId;
+	}
+
+	@Override
+	public void updateDDOInfo(OrgDdoMst objForSave) {
+		// TODO Auto-generated method stub
+		Session currentSession = manager.unwrap(Session.class);
+		currentSession.update(objForSave);
 	}
 }
