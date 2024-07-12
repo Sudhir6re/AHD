@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pageheading.empEligibilityforbulk}"></title>
+<title th:utext="#{msg.thymeleaf.pageheading.employeeLoanDetails}"></title>
 </head>
 <body class="emp-loan-details">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
@@ -15,106 +15,80 @@
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.payrollBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pageheading.empEligibilityforbulk}"></span></li>
+						th:utext="#{msg.thymeleaf.pageheading.employeeLoanDetails}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<h3 Class="PageHeading">
-			<span th:utext="#{msg.thymeleaf.pageheading.empEligibilityforbulk}"></span>
+			<span th:utext="#{msg.thymeleaf.pageheading.employeeLoanDetails}"></span>
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-
-
-			<table class="table bor-0">
-				<tbody>
-					<tr>
-						<td colspan="4">
-							<p style="color: red;">Note:Please Select Type Of Component
-								and Pay Item First.</p>
-						</td>
-					</tr>
-					<tr>
-						<td class="Label" width="30%" align="justify"><b><label
-								class="captionTag" id="bulk.componentType">Type Of
-									Component</label></b></td>
-						<td width="20%" align="justify"><select name="cmpType"
-							id="cmpType" class="selecttag mandatorycontrol">
-								<option value="">------Select-------</option>
-								<option value="2500134">Allowances</option>
-								<option value="2500135">Deductions</option>
-						</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
-						<td class="Label" width="30%" align="center"><b><label
-								class="captionTag" id="bulk.payItem">Select Pay-Item</label></b></td>
-						<td class="Label" width="20%" align="justify"><select
-							name="payItemCombo" id="payItemCombo"
-							class="selecttag mandatorycontrol">
-								<option value="">-------Select------</option>
-						</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
-					</tr>
-					<tr>
-						<td class="Label" width="30%" align="justify"><label
-							class="captionTag">Bill Group</label></td>
-						<td class="Label" colspan="" width="20%" align="justify"><select
-							name="billcombo" id="billcombo">
-								<option value="-1">----------------------Select----------------------</option>
-								<option value="99201790770"
-									title="Bill Group For Scheme IA-GRANTS TO UNIVERSITIS FOR GENERAL EDUCATION">Bill
-									Group For Scheme IA-GRANTS TO UNIVERSITIS FOR GENERAL EDUCATION</option>
-								<option value="992017907106"
-									title="Bill Group For Scheme IA.1-GRANT TO NON-GOVT.  ARTS  , SCIENCE, COMMERCE ,LAW AND B.ED COLLEGES">Bill
-									Group For Scheme IA.1-GRANT TO NON-GOVT. ARTS , SCIENCE,
-									COMMERCE ,LAW AND B.ED COLLEGES</option>
-						</select></td>
-					</tr>
-					<tr style="display: none">
-						<td class="Label" width="30%" align="justify"><b><label
-								class="captionTag" id="bulk.empByDesignation">Select
-									Employee By Designation</label></b></td>
-						<td class="Label" width="20%" align="justify"><select
-							name="dsgnCombo" id="dsgnCombo" class="selecttag">
-								<option value="">-----------Select-----------</option>
-								<option value="1">-All Designation</option>
-								<option value="DEFAULT">DEFAULT DESIGNATION</option>
-						</select></td>
-					</tr>
-				</tbody>
-			</table>
-
-
-			<br>
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th><b>Employee Name</b></th>
-						<th><b> <font color="black"> <input
-									type="checkbox" name="selcheckBoxAllowSelectAll" value="1"
-									id="selcheckBoxAllowSelectAll" class="checkboxtag">
-							</font>
-						</b></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-
+			<div id="tcontent1">
+				<br> &nbsp;&nbsp; <a th:href="@{/ddoast/addLoan}" id="inserLink" class="btn">
+					Add new Entry </a> <br> &nbsp;&nbsp; <br>
+				<form method="POST" action="" name="LoanEmp"
+					enctype="text/form-data">
+					<p id="">
+						<legend>Search Employee </legend>
+					</p>
+					<table class="table bor-0">
+						<tbody>
+							<tr>
+								<td><b>Search With Name/HTESevaarthId</b></td>
+								<td><input type="text"
+									name="Employee_srchNameText_EmpLoanSearch" id="txtSearchName"
+									class="texttag" value="" autocomplete="off">
+									<div id="ajaxAuto_txtSearchName" class="autocomplete"></div></td>
+								<td width="50%" align="left" colspan="3"><input
+									type="button" name="search_EmpLoanSearch"
+									id="search_EmpLoanSearch" value="Search" class="btn"></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel" width="25%"><b>Employee Id</b></td>
+								<td><input type="text" name="Employee_Name_EmpLoanSearch"
+									id="Employee_Name_EmpLoanSearch"
+									class="texttag disabledcontrol" value=""></td>
+								<td class="fieldLabel" width="25%"><b>HTESevaarth Id</b></td>
+								<td><input type="text" name="Emp_Sevarth_Id_EmpLoanSearch"
+									id="Emp_Sevarth_Id_EmpLoanSearch"
+									class="texttag disabledcontrol" value=""></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel" width="25%"><b>Office Name</b></td>
+								<td><input type="text" name="Police_ST_NM_EmpLoanSearch"
+									id="Police_ST_NM_EmpLoanSearch" class="texttag disabledcontrol"
+									value=""></td>
+								<td class="fieldLabel" width="25%"><label
+									class="captionTag" id="Dsgn_NM">Designation </label></td>
+								<td><input type="text" name="Dsgn_NM_EmpLoanSearch"
+									id="Dsgn_NM_EmpLoanSearch" class="texttag disabledcontrol"
+									value=""></td>
+							</tr>
+							<tr>
+								<td class="fieldLabel" width="25%"><label
+									class="captionTag" id="DISTRICT_NM">District </label></td>
+								<td><input type="text" name="DISTRICT_NM_EmpLoanSearch"
+									id="DISTRICT_NM_EmpLoanSearch" class="texttag disabledcontrol"
+									value=""></td>
+								<td class="fieldLabel" width="25%"><label
+									class="captionTag" id="GPF_NM">GPF No.</label></td>
+								<td><input type="text" name="GPF_NM_EmpLoanSearch"
+									id="GPF_NM_EmpLoanSearch" class="texttag disabledcontrol"
+									value=""></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
 			<div align="center">
-				<input type="button" name="Save" id="Save" value="Save" class="btn">
-				<input type="button" name="btnBackAgain" id="btnBackAgain"
-					onclick="history.back()" value="Back" class="buttontag">
+				<input type="button" name="viewAll" id="viewAll" value="View All"
+					size="3" maxlength="3" class="btn"> <input type="button"
+					name="btnBackAgain" id="btnBackAgain" onclick="history.back()"
+					value="Back" class="buttontag">
 			</div>
 		</div>
 	</div>
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-	<script>
-		$(".empdetails").hide();
-		function getEmpInfo() {
-			$(".empdetails").fadeIn(100);
-		}
-	</script>
 </body>
 </html>
