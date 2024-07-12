@@ -233,4 +233,15 @@ public class EntryOfPostsController {
 		List<HrPayOrderMst> response1 = entryOfPostsService.findGrOrderDetails(grOrderId);
 		return ResponseEntity.ok(response1);
 	}
+	
+	
+
+	@RequestMapping(value = "/searchPostDetails", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List> searchPostDetails(@RequestParam String lPostName,@RequestParam String BillNo,@RequestParam String ddoCode1,@RequestParam String Dsgn,HttpSession session) {
+		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
+		String PsrNo="";
+		List getPostNameForDisplay=entryOfPostsService.getPostNameForDisplay(String.valueOf(locId),lPostName,PsrNo,BillNo,Dsgn,ddoCode1);
+		return ResponseEntity.ok(getPostNameForDisplay);
+	}
 }

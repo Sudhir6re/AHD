@@ -30,3 +30,35 @@ $("#orderCmb").change(function(){
 	 });
 });
 
+
+
+$("#btnFilter").keyup(function(){
+	 var asstDdo=$("#cmbAsstDDO").val();
+	 var context = $("#appRootPath").val();
+	if(asstDddo!='' && asstDddo!="0"){
+		 // $("#loaderMainNew").show();
+			$.ajax({
+				type : "GET",
+			    url: context+"/mdc/findDesignation",
+				async : true,
+				   data: { asstDdo: asstDdo },
+				contentType : 'application/json',
+				error : function(data) {
+					 console.log(data);
+					 $("#loaderMainNew").hide();
+				},
+				success : function(data) {
+					 console.log(data);
+					 $("#loaderMainNew").hide();
+					var len = data.length;
+						$("#loaderMainNew").hide();
+						for (var i = 0; i < data.length; i++) {
+						
+						}
+						if(data.length==0){
+							swal("Please enter valid post");
+						}
+				}
+			});
+	}
+ });
