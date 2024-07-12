@@ -7,6 +7,7 @@ import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
+import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstStateModel;
 
 public interface CommonHomeMethodsRepo {

@@ -261,10 +261,10 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	}
 
 	@Override
-<<<<<<< Updated upstream
 	public List<Object[]> retriveUserdetails(Long userId) {
 		return commonHomeMethodsRepo.retriveUserdetails(userId);
-=======
+	}
+	
 	public List<MstStateModel> lstGetAllState(String userName) {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.lstGetAllState(userName);
@@ -274,7 +274,6 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	public List<MstDistrictModel> lstGetAllDistrict(String userName) {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.lstGetAllDistrict(userName);
->>>>>>> Stashed changes
 	}
 	
 

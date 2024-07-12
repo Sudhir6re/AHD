@@ -48,18 +48,15 @@ public interface CommonHomeMethodsService {
 
 	public List<MstDesnModel> findDesignation(String userName);
 
-<<<<<<< Updated upstream
 
 	public List<Object[]> retriveUserdetails(Long userId);
 
 	public List<ReligionMstEntity> fetchAllReligions();
 	
 
-=======
 	public List<MstStateModel> lstGetAllState(String userName);
 
 	public List<MstDistrictModel> lstGetAllDistrict(String userName);
->>>>>>> Stashed changes
 	
 	
 

@@ -180,6 +180,8 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		// TODO Auto-generated method stub
 		String HQL = "FROM ReligionMstEntity as t ORDER BY t.religionId ";
 		return (List<ReligionMstEntity>) manager.createQuery(HQL).getResultList();
+	}
+		
 	public List<MstStateModel> lstGetAllState(String userName) {
 		Session currentSession = manager.unwrap(Session.class);
 		String hql = "select * from CMN_STATE_MST";
