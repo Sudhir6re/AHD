@@ -43,7 +43,7 @@ public class ApplicationConfig  extends WebMvcConfigurerAdapter {
 	public CookieSerializer cookieSerializer() {
 		DefaultCookieSerializer serializer = new DefaultCookieSerializer();
 		serializer.setCookieName("JSESSIONID"); 
-	//	serializer.setCookiePath("/"); 
+		serializer.setCookiePath("/"); 
 		serializer.setSameSite("Strict");
 		serializer.setUseHttpOnlyCookie(true);
 	//	serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$"); 

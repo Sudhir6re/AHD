@@ -225,8 +225,6 @@ public class EntryOfPostsController {
 	}
 
 
-	// HrPayOrderMst
-
 	@RequestMapping(value = "/findGrOrderByGrOrderId/{grOrderId}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<HrPayOrderMst>> findGrOrderByGrOrderId(@PathVariable Long grOrderId) {

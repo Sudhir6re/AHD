@@ -120,4 +120,113 @@ $("#Search").click(function(){
 });
 
 
+
+$("form[name='postEntryModel']").validate({
+    rules: {
+       /* cmbTaluka: {
+            required: true
+        },*/
+        ddoCode: {
+            required: true,
+            min:1,
+        },
+        postTypeCmbBox: {
+            required: true,
+            min:1,
+        },
+        cmbSubFieldDept: {
+            required: true,
+            min:1,
+        },
+        purposeCmbBox: {
+            required: true,
+            min:1,
+        },
+       /* tempPostTypeCmbBox: {
+            required: true,
+            min:1,
+        },*/
+        designationCmb: {
+            required: true,
+            min:1,
+        },
+        subjectCmb: {
+            required: true,
+            //minlength:3,
+        },
+        orderCmb: {
+            required: true,
+            min:1,
+        },
+        officeCmb: {
+            required: true,
+            min:1,
+        },
+       startDate: {
+            required: true,
+        },
+        endDate: {
+            required: true,
+        },
+         postNumber: {
+            required: true,
+            digits: true ,
+            min:1,
+        }
+    },
+    messages: {
+        cmbTaluka: {
+            required: "Please select Taluka"
+        },
+        ddoCodeforFilter: {
+            required: "Please enter DDO Code/Office Name"
+        },
+        postTypeCmbBox: {
+            required: "Please select Type Of Post"
+        },
+        cmbSubFieldDept: {
+            required: "Please select Sub Field Department"
+        },
+        purposeCmbBox: {
+            required: "Please select Purpose"
+        },
+        tempPostTypeCmbBox: {
+            required: "Please select Type of Temporary Post"
+        },
+        designationCmb: {
+            required: "Please select Designation"
+        },
+        subjectCmb: {
+            required: "Please select Subject"
+        },
+        orderCmb: {
+            required: "Please select GR No"
+        },
+        officeCmb: {
+            required: "Please select Office"
+        },
+        startDate: {
+            required: "Please enter Sanctioned From Date"
+        },
+        endDate: {
+            required: "Please enter Sanctioned To Date"
+        },
+        postNumber: {
+            required: "Please enter Number of Post",
+            digits: "Please enter only digits"
+        }
+    },
+    submitHandler: function(form) {
+        form.submit(); 
+    }
 });
+
+
+});
+
+
+
+
+
+   
+
