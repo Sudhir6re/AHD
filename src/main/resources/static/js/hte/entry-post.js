@@ -1,3 +1,9 @@
+$(document).ready(function() {
+	var contextPath = $("#appRootPath").val();
+	
+	var dataTable= $("#postDetails").dataTable();
+
+
 $("#orderCmb").change(function(){
 	var context = $("#appRootPath").val();
 	var grOrderId = $("#orderCmb").val();
@@ -32,16 +38,20 @@ $("#orderCmb").change(function(){
 
 
 
-$("#btnFilter").keyup(function(){
-	 var asstDdo=$("#cmbAsstDDO").val();
+$("#btnFilter").click(function(){
+	 var ddoCode1=$("#cmbAsstDDO").val();
+	 var Dsgn=$("#designationCmb").val();
+	 var BillNo=$("#billCmb").val();
 	 var context = $("#appRootPath").val();
-	if(asstDddo!='' && asstDddo!="0"){
+	 
+	 
+	if(ddoCode1!='' && ddoCode1!="0"){
 		 // $("#loaderMainNew").show();
 			$.ajax({
 				type : "GET",
-			    url: context+"/mdc/findDesignation",
+			    url: context+"/ddo/searchPostDetails",
 				async : true,
-				   data: { asstDdo: asstDdo },
+				   data: { ddoCode1: ddoCode1 ,BillNo:BillNo,Dsgn:Dsgn,lPostName:""},
 				contentType : 'application/json',
 				error : function(data) {
 					 console.log(data);
@@ -52,13 +62,62 @@ $("#btnFilter").keyup(function(){
 					 $("#loaderMainNew").hide();
 					var len = data.length;
 						$("#loaderMainNew").hide();
-						for (var i = 0; i < data.length; i++) {
-						
+						j=1;
+						if(len>0){
+							for (var i = 0; i < data.length; i++) {
+								 dataTable.fnClearTable();
+								 dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].billNo]);
+								 j++;
+							}
 						}
 						if(data.length==0){
-							swal("Please enter valid post");
+							swal("No data found");
 						}
 				}
 			});
 	}
  });
+
+
+$("#Search").click(function(){
+	 var ddoCode1=$("#cmbAsstDDO").val();
+	 var Dsgn=$("#designationCmb").val();
+	 var BillNo=$("#billCmb").val();
+	 var context = $("#appRootPath").val();
+	 
+	 
+	if(Dsgn!='-1' && BillNo!="-1"){
+		 // $("#loaderMainNew").show();
+			$.ajax({
+				type : "GET",
+			    url: context+"/ddo/searchPostDetails",
+				async : true,
+				   data: { ddoCode1: ddoCode1 ,BillNo:BillNo,Dsgn:Dsgn,lPostName:""},
+				contentType : 'application/json',
+				error : function(data) {
+					 console.log(data);
+					 $("#loaderMainNew").hide();
+				},
+				success : function(data) {
+					 console.log(data);
+					 $("#loaderMainNew").hide();
+					var len = data.length;
+						$("#loaderMainNew").hide();
+						j=1;
+						if(len>0){
+							for (var i = 0; i < data.length; i++) {
+								 dataTable.fnClearTable();
+								 dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].billNo]);
+								 j++;
+							}
+						}
+						if(data.length==0){
+							swal("No data found");
+						}
+				}
+			});
+	}
+});
+
+
+});
