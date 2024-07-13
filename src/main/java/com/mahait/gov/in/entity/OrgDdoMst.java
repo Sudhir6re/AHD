@@ -169,6 +169,7 @@ public class OrgDdoMst {
 	    @Column(name = "ifs_code", length = 20)
 	    private String ifsCode;
 
+   
 	    @Column(name = "ddo_type")
 	    private Long ddoType;
 

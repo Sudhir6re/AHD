@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:utext="#{msg.thymeleaf.pageheading.addLoan}"></title>
+<style type="text/css">
+</style>
+</head>
+<body class="add-loan">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.payrollBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.addLoan}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pageheading.addLoan}"></span>
+		</h3>
+
+		<div class="formMainwithNoborTb container">
+			<div id="tcontent1">
+
+				<fieldset id="Search Employee" class="fieldGroupTag">
+					<p id="">
+						<legend>Search Employee </legend>
+					</p>
+					<div id="">
+						<table class="table bor-0 tbBold">
+							<tbody>
+								<tr>
+									<td>Search With Name/HTESevaarthId</td>
+									<td><input type="text"
+										name="Employee_srchNameText_EmpSearch" id="txtSearchName"
+										class="texttag" autocomplete="off">
+										<div id="ajaxAuto_txtSearchName" class="autocomplete"></div></td>
+									<td width="50%" align="left" colspan="3"><input
+										type="button" name="search_EmpSearch" id="search_EmpSearch"
+										value="Search" class="btn"></td>
+								</tr>
+								<tr>
+									<td class="fieldLabel" width="25%">Employee Id</td>
+									<td><input type="text" name="Employee_Name_EmpSearch"
+										id="Employee_Name_EmpSearch" class="texttag disabledcontrol"></td>
+									<td class="fieldLabel" width="25%">HTESevaarth Id</td>
+									<td><input type="text" name="Emp_Sevarth_Id_EmpSearch"
+										id="Emp_Sevarth_Id_EmpSearch" class="texttag disabledcontrol"></td>
+								</tr>
+								<tr>
+									<td class="fieldLabel" width="25%">Office Name</td>
+									<td><input type="text" name="Police_ST_NM_EmpSearch"
+										id="Police_ST_NM_EmpSearch" class="texttag disabledcontrol"></td>
+									<td class="fieldLabel" width="25%"><label
+										class="captionTag" id="Dsgn_NM">Designation </label></td>
+									<td><input type="text" name="Dsgn_NM_EmpSearch"
+										id="Dsgn_NM_EmpSearch" class="texttag disabledcontrol"></td>
+								</tr>
+								<tr>
+									<td class="fieldLabel" width="25%"><label
+										class="captionTag" id="DISTRICT_NM">District </label></td>
+									<td><input type="text" name="DISTRICT_NM_EmpSearch"
+										id="DISTRICT_NM_EmpSearch" class="texttag disabledcontrol"></td>
+									<td class="fieldLabel" width="25%"><label
+										class="captionTag" id="GPF_NM">GPF No.</label></td>
+									<td><input type="text" name="GPF_NM_EmpSearch"
+										id="GPF_NM_EmpSearch" class="texttag disabledcontrol"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+				<br> Note: Only those loans and advances which are mapped with
+				Organization/Institution will come in <b>Loan Name</b> combo given
+				below.
+				<table class="table bor-0 tbBold">
+					<tbody>
+						<tr>
+							<td>Loan Name</td>
+							<td><select id="loanName" class="selecttag mandatorycontrol">
+									<option>--Select--</option>
+									<option value="54">GPF_ADV_GRP_ABC</option>
+									<option value="55">GPF_ADV_GRP_D</option>
+							</select>&nbsp;&nbsp; <label class="mandatoryindicator">*</label></td>
+							<td id="principalTD1.1"><b><label class="captionTag"
+									id="EL.lpAmt">Principal Amount</label></b> <font size="3"
+								face="Rupee Foradian"> (<font size="3"
+									face="Rupee Foradian">`</font>)
+							</font></td>
+							<td id="principalTD1"><input type="text" name="principalAmt"
+								id="principalAmt" style="text-align: right"></td>
+						</tr>
+						<tr>
+							<td id="interestTD1.1"><b><label class="captionTag"
+									id="EL.liAmt">Interest Amount</label></b> <font size="3"
+								face="Rupee Foradian"> (<font size="3"
+									face="Rupee Foradian">`</font>)
+							</font></td>
+							<td id="interestTD1"><input type="text" name="interestAmt"
+								id="interestAmt" style="text-align: right" class="numbertag"></td>
+							<td id="loanTypeCaptionTD"><label class="captionTag"
+								id="VN.LoanType">Loan Type</label></td>
+							<td id="loanTypeFieldTD"><input type="text"
+								name="LoanTypeDesc" id="LoanTypeDesc"
+								class="texttag disabledcontrol" value="Select Loan Name"></td>
+						</tr>
+						<tr>
+							<td><label class="captionTag" id="EL.loanStartDate">Loan
+									Start Date</label></td>
+							<td><input type="date" name="loanDate" id="loanDate"
+								maxlength="10">&nbsp;&nbsp;<label
+								class="mandatoryindicator">*</label></td>
+							<td id="principalTD2.2"><b><label class="captionTag"
+									id="EL.lpiNo">Principal Installment No</label></b></td>
+							<td id="principalTD2"><input type="text"
+								name="principalInstNo" id="principalInstNo"
+								style="text-align: right" class="numbertag"
+								onkeypress="return checkforNumbersOnly(false,principalInstNo,event)"
+								maxlength="3"></td>
+						</tr>
+						<tr>
+							<td id="interestTD2.2"><b><label class="captionTag"
+									id="EL.liiNo">Interest Installment No</label></b></td>
+							<td id="interestTD2"><input type="text"
+								name="interestInstNo" id="interestInstNo"
+								style="text-align: right" tabindex="9" class="numbertag"
+								maxlength="3"></td>
+						</tr>
+						<tr>
+							<td><label class="captionTag" id="EL.loanACNo">Account
+									No</label></td>
+							<td><input type="text" name="loanACNo" id="loanACNo"
+								tabindex="3" class="texttag" maxlength="16"></td>
+							<td id="principalTD3.3"><b><label class="captionTag"
+									id="EL.loanPrincipalEmiAmt">Principal EMI Amount</label></b> <font
+								size="3" face="Rupee Foradian"> (<font size="3"
+									face="Rupee Foradian">`</font>)
+							</font></td>
+							<td id="principalTD3"><input type="text"
+								name="loanPrinEmiAmt" id="loanPrinEmiAmt"
+								style="text-align: right" class="numbertag" /></td>
+						</tr>
+						<tr>
+							<td id="interestTD3.3"><b><label class="captionTag"
+									id="EL.loanInterestEmiAmt">Interest EMI Amount</label></b> <font
+								size="3" face="Rupee Foradian"> (<font size="3"
+									face="Rupee Foradian">`</font>)
+							</font></td>
+							<td id="interestTD3"><input type="text" name="loanIntEmiAmt"
+								id="loanIntEmiAmt" style="text-align: right" class="numbertag" /></td>
+						</tr>
+						<tr>
+							<td><label class="captionTag" id="EL.loanSancOrderNo">Sanction
+									Order No</label></td>
+							<td><input type="text" name="loanSancOrderNo"
+								id="loanSancOrderNo" tabindex="4" class="texttag" maxlength="25"></td>
+
+						</tr>
+						<tr>
+							<td id="principalTD4.4"><label class="captionTag"
+								id="EL.loanPrinRecovAmt">Principal Recovered Amount</label> <font
+								size="3" face="Rupee Foradian"> (<font size="3"
+									face="Rupee Foradian">`</font>)
+							</font></td>
+							<td id="principalTD4"><input type="text"
+								name="loanPrinRecovAmt" id="loanPrinRecovAmt"
+								style="text-align: right" class="numbertag" /></td>
+							<td id="interestTD4.4"><label class="captionTag"
+								id="EL.loanIntRecovAmt">Interest Recovered Amount</label> <font
+								size="3" face="Rupee Foradian"> (<font size="3"
+									face="Rupee Foradian">`</font>)
+							</font></td>
+							<td id="interestTD4"><input type="text"
+								name="loanIntRecovAmt" id="loanIntRecovAmt"
+								style="text-align: right"></td>
+						</tr>
+						<tr>
+							<td><label class="captionTag" id="EL.loanSancOrderDate">Sanction
+									Order Date</label></td>
+							<td><input type="text" name="loanSancOrderDate"
+								id="loanSancOrderDate" tabindex="5" class="texttag" />&nbsp;&nbsp;<label
+								class="mandatoryindicator">*</label></td>
+							<td id="principalTD5.5"><label class="captionTag"
+								id="EL.loanPrinRecovInt">Principal Recovered
+									Installments</label></td>
+							<td id="principalTD5"><input type="text"
+								name="loanPrinRecovInt" id="loanPrinRecovInt"
+								style="text-align: right" class="numbertag" maxlength="8"></td>
+						</tr>
+						<tr>
+							<td id="interestTD5.5"><label class="captionTag"
+								id="EL.loanIntRecovInt">Interest Recovered Installments</label></td>
+							<td id="interestTD5"><input type="text"
+								name="loanIntRecovInt" id="loanIntRecovInt"
+								style="text-align: right" class="numbertag" maxlength="8"></td>
+						</tr>
+						<tr>
+							<td><label class="captionTag" id="VN.VoucherNo">Voucher
+									No</label></td>
+							<td><input type="text" name="loanVoucherNo"
+								id="loanVoucherNo" class="texttag mandatorycontrol">&nbsp;&nbsp;<label
+								class="mandatoryindicator">*</label></td>
+							<td><label class="captionTag" id="EL.addintno">Odd
+									Installment No.</label></td>
+							<td><input type="text" name="loanOddinstno"
+								id="loanOddinstno" style="text-align: right" class="numbertag"></td>
+						</tr>
+						<tr>
+							<td><label class="captionTag" id="VN.VoucherDate">Voucher
+									Date</label></td>
+							<td><input type="date" name="loanVoucherDate"
+								id="loanVoucherDate" maxlength="10">&nbsp;&nbsp;<label
+								class="mandatoryindicator">*</label></td>
+							<td><label class="captionTag" id="EL.addintamt">Odd
+									Installment Amount</label> <font size="3" face="Rupee Foradian">
+									(<font size="3" face="Rupee Foradian">`</font>)
+							</font></td>
+							<td><input type="text" name="loanOddinstAmt"
+								id="loanOddinstAmt" style="text-align: right" class="numbertag"
+								maxlength="8"></td>
+						</tr>
+					</tbody>
+				</table>
+				<br> <br>
+				<div align="center">
+					<input type="button" name="add" id="add" value="Add" class="btn">
+					<br> <br>
+				</div>
+				<div class="table-responsive">
+					<table id="tblempLoan" class="table table-bordered table-striped ">
+						<tbody>
+							<tr>
+								<th align="center">Loan Name</th>
+								<th align="center">Loan Amt <font size="3"
+									face="Rupee Foradian"> (<font size="3"
+										face="Rupee Foradian">`</font>)
+								</font>
+								<thd>
+								<th align="center">Loan Inst. No</th>
+								<th align="center">Loan EMI Amt <font size="3"
+									face="Rupee Foradian"> (<font size="3"
+										face="Rupee Foradian">`</font>)
+								</font>
+								</th>
+								<th align="center">Int. Amt <font size="3"
+									face="Rupee Foradian"> (<font size="3"
+										face="Rupee Foradian">`</font>)
+								</font>
+								</th>
+								<th align="center">Int. Inst. No</th>
+								<th align="center">Int. EMI Amt <font size="3"
+									face="Rupee Foradian"> (<font size="3"
+										face="Rupee Foradian">`</font>)
+								</font>
+								</th>
+								<th align="center">Account No</th>
+								<th align="center">Sanction Order No</th>
+								<th align="center">Sanction Order Date</th>
+								<th align="center">Loan Start Date</th>
+								<th align="center">Principal Rcvrd <font size="3"
+									face="Rupee Foradian"> (<font size="3"
+										face="Rupee Foradian">`</font>)
+								</font>
+								</th>
+								<th align="center">Principal Rcvrd Inst.</th>
+								<th align="center">Interest Rcvrd <font size="3"
+									face="Rupee Foradian"> (<font size="3"
+										face="Rupee Foradian">`</font>)
+								</font>
+								</th>
+								<th align="center">Interest Rcvrd Inst.</th>
+								<th align="center">Odd Installment No.</th>
+								<th align="center">Odd Installment Amount <font size="3"
+									face="Rupee Foradian"> (<font size="3"
+										face="Rupee Foradian">`</font>)
+								</font>
+								</th>
+								<th align="center">Loan Voucher No.</th>
+								<th align="center">Loan Voucher Date</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br>
+			</div>
+		</div>
+		<div align="center">
+			<input type="button" name="Save" onclick="submitForm()" id="Save"
+				value="Save" style="text-align: center;" size="3" maxlength="3"
+				class="btn"> <input type="button" name="btnClose1"
+				onclick="history.back()" id="btnClose1" value="Close"
+				style="text-align: center;" size="3" maxlength="3" class="btn">
+		</div>
+		<br />
+	</div>
+	<div th:replace="header/menuHeader :: varmenufooter"></div>
+</body>
+</html>

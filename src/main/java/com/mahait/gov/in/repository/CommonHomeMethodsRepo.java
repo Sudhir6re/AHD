@@ -3,10 +3,17 @@ package com.mahait.gov.in.repository;
 import java.util.List;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
+<<<<<<< HEAD
 import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
+=======
+import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.ReligionMstEntity;
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 import com.mahait.gov.in.model.MstDesnModel;
 
 public interface CommonHomeMethodsRepo {
@@ -42,11 +49,31 @@ public interface CommonHomeMethodsRepo {
 	
 	public List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus);
 
-	public List<MstBankPay> findBankName();
+	public List<MstBankEntity> findBankName();
 
-	public List<MstDesnModel> findDesignation(String userName);
+	public List<Object[]> findDesignation();
+
+
+
+	public List<Object[]> lstGetAllTaluka();
+
+	public List<Object[]> lstGetAllVillage();
+
+	public List<Object[]> lstGetAllCity();
+
+	public List<Object[]> lstGetAllDistrict();
+
+	public List<Object[]> findAllBankBranchList(int bankCode);
+
+	public Object getIfscCodeByBranchId(int branchId);
+
+	public List<Object[]> getBankBranch(String bankId);
 
 	public List<Object[]> retriveUserdetails(Long userId);
+
+	public List<ReligionMstEntity> fetchAllReligions();
+
+	public List<MstDesnModel> findDesignation(String userName);
 	
 	public List<MstMonthEntity> lstGetAllMonths();
 

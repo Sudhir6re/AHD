@@ -136,4 +136,8 @@ public class CmnLocationMst {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "LOC_CATEGORY_ID")
     private CmnLookupMst cmnLookupMstLocCategory;
+    
+//    @OneToMany(mappedBy = "cmnLocationMst",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<CmnLocationMst> cmnLocationMst;
+
 }

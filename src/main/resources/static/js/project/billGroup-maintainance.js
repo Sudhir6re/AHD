@@ -76,6 +76,7 @@ $(".billGrpId")
 												$('#txtSchemeCode').val(value[3]);
 												$('#txtDescription').val(value[0]);
 												 $('#cmbSchemeName').val(value[3]);
+												 $('#txtBillGroupNo').val(value[5]); 
 												 var typePost= value[2];
 												 if(typePost=='P')
 													 $('#RadioPermenantTempBothP').prop("checked",true);

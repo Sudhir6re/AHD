@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
@@ -95,8 +96,20 @@ public interface MstEmployeeService {
 	public List<MstEmployeeEntity> findAllEmployeesNotMap1();
 	public String saveEmployeeddoCode(String sevaarthId,String ddoCode);
 	public MstEmployeeEntity findMstEmpByDDOCodeForReject(int id);
+=======
+import com.mahait.gov.in.model.DDOScreenModel;
+import com.mahait.gov.in.model.MstCadreModel;
+
+
+public interface MstEmployeeService {
+
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 	public List<DDOScreenModel> findDDOScreenDataTable(String locale,String ddoCode);
+
+	public List<Object[]> getInstitueDtls(String userName);
+
 	public List<MstCadreModel> getCadreMstData(String locale);
+<<<<<<< HEAD
 	public List<Object[]> getCadreGroupMstData(String locale,String strCadreId);
 	public List<Object[]> getInstitueDtls(String ddocode);
 	public long getCount(String tempSevarthEmpCode);
@@ -121,25 +134,22 @@ public interface MstEmployeeService {
 	
 	 public LoanEmployeeDtlsEntity findLoanDetails(int empId,int allowDedCode);
 	
+=======
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 
-	public int getSevenPcLevel(String sevaarthId);
+	public Object getDcpsAccnMaintainby();
 
-	public int updateEmpLoanAmt(Integer employeeId, BigInteger gpfabc);
+	public Object getAccountMaintainby();
 
-	public PaybillLoanRecoverDtlsEntity findInstallmentNoForCurrMont(String sevaarthId, int mon, int curryear);
+	public Object getGISGroup();
 
-	public int saveEmpLoanData(String sevaarthId, Double gpfAdvD, int mon, int curryear);
+	public Object getGISApplicable();
 
-	public List<Object[]> findEmployeeConfigurationpayScaleSeven(int payScaleSeven);
+	public Object getRelation();
 
-	public List<Object[]> findEmployeeConfigurationGetSixPayScale(int payCommission);
-
-	public List<MstEmployeeModel> lstAllBankBranchList();
 	
-	public List<MstEmployeeModel> lstCurrentPost();
-
-	public List<MstEmployeeModel> lstCadreMst();
 	
+<<<<<<< HEAD
 	public int saveChangeDetails(@Valid MstEmployeeModel mstEmployeeModel, MultipartFile[] files);
 	
 	public String checkIsSevaarth(int uniqid);
@@ -221,3 +231,6 @@ public interface MstEmployeeService {
 	
 */
 }
+=======
+}
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51

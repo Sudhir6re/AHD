@@ -24,7 +24,7 @@
 			<span th:utext="#{msg.thymeleaf.pageheading.billgroupMaintainance}"></span>
 		</h3>
 		<div class="container">
-			<form method="post" th:action="@{/ddoast/billgroupMaintainance}"
+			<form method="post" th:action="@{/ddoast/saveBillgroupMaintainance}"
 				th:object="${billgroupMaintainanceModel}"  name="frmDdoGroupBill" id="frmDdoGroupBill"
 				enctype="multipart/form-data" class="form-horizontal">
 				<!-- <fieldset>
@@ -70,7 +70,7 @@
 								Name</span> <b> <font color="red" size="4px;">*</font>
 						</b> </label>
 						<div class="col-sm-3">
-							<select name="cmbSchemeName" id="cmbSchemeName" th:onChange="'funDdo1(this)'"
+							<select name="cmbSchemeName" id="cmbSchemeName" th:onChange="funDdo1(this)"
 								class="form-control" th:field="*{dcpsDdoSchemeCode}">
 								<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -91,7 +91,7 @@
 								Name</span> <b> <font color="red" size="4px;">*</font>
 						</b> </label>
 						<div class="col-sm-3">
-							<select name="cmbSubschemeName" id="cmbSubschemeName"
+							<select name="cmbSubschemeName" id="cmbSubschemeName" th:text="${dcpsDdoSchemeCode}"
 								class="form-control" disabled="disabled">
 								<option value="-1">-- Select --</option>
 							</select>
@@ -99,7 +99,7 @@
 						<label class="control-label col-sm-3" for="title"><span>Subscheme
 								Code</span></label>
 						<div class="col-sm-3">
-							<input type="text" name="txtSubSchemeCode" id="txtSubSchemeCode"
+							<input type="text" name="txtSubSchemeCode" id="txtSubSchemeCode" 
 								class="form-control" readonly="readonly" disabled="disabled">
 						</div>
 					</div>
@@ -107,7 +107,7 @@
 						<label class="control-label col-sm-2" for="title"><span>Bill
 								Group Id</span> </label>
 						<div class="col-sm-3">
-							<input type="text" name="txtBillGroupNo" id="txtBillGroupNo"
+							<input type="text" name="txtBillGroupNo" id="txtBillGroupNo" th:field="*{billGroupId}"
 								class="form-control" readonly="readonly">
 						</div>
 						<label class="control-label col-sm-3" for="title"><span>Description</span></label>
@@ -134,15 +134,15 @@
 							<b> <font color="red" size="4px;">*</font>
 						</b></label>
 						<div class="col-sm-3">
-							<input type="checkbox" name="Group" id="GroupNA" th:field="*{dcpsDdoBillTypeOfPost}" value="NA"
+							<input type="checkbox" name="Group" id="GroupNA" th:field="*{billgroupclass[0].billgroupclass}" value="NA"
 								onclick="disable();" readonly="readonly">NA &nbsp;&nbsp;<input
-								type="checkbox" name="Group" id="GroupA" th:field="*{dcpsDdoBillTypeOfPost}" value="A">A
+								type="checkbox" name="Group" id="GroupA" th:field="*{billgroupclass[1].billgroupclass}" value="A">A
 							&nbsp;&nbsp;<input type="checkbox" name="Group" id="GroupB"
-							th:field="*{dcpsDdoBillTypeOfPost}"	value="B">B &nbsp;&nbsp;<input type="checkbox"
-								name="Group" id="GroupBnGz" value="BnGz">BnGz
+							th:field="*{billgroupclass[2].billgroupclass}"	value="B">B &nbsp;&nbsp;<input type="checkbox"
+								name="Group" id="GroupBnGz" th:field="*{billgroupclass[3].billgroupclass}" value="BnGz">BnGz
 							&nbsp;&nbsp;<input type="checkbox" name="Group" id="GroupC"
-								th:field="*{dcpsDdoBillTypeOfPost}" value="C">C &nbsp;&nbsp;<input type="checkbox"
-							th:field="*{dcpsDdoBillTypeOfPost}"	name="Group" id="GroupD" value="D">D
+								th:field="*{billgroupclass[4].billgroupclass}" value="C">C &nbsp;&nbsp;<input type="checkbox"
+							th:field="*{billgroupclass[5].billgroupclass}"	name="Group" id="GroupD" value="D">D
 						</div>
 					</div>
 				</fieldset>

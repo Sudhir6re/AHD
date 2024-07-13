@@ -11,19 +11,32 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.repository.MstEmployeeRepo;
+=======
+import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.MstCadreGroupEntity;
+import com.mahait.gov.in.model.DDOScreenModel;
+import com.mahait.gov.in.model.MstCadreModel;
+import com.mahait.gov.in.repository.MstEmployeeRepo;
+
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 
 @Service
 @Transactional
 @PropertySource(value = { "classpath:application.properties" })
 public class MstEmployeeServiceImpl implements MstEmployeeService {
+<<<<<<< HEAD
 	@PersistenceContext
 	EntityManager entityManager;
 	
+=======
+
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 	@Autowired
 	private MstEmployeeRepo mstEmployeeRepo;
 	
@@ -71,40 +84,67 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 	private Environment environment;
 
 
-	@Autowired
-	private AnnualIncrementService annualIncrementService;
-
-	// protected final Log logger = LogFactory.getLog(getClass());
-
 	@Override
-	public List<MstEmployeeEntity> findAllEmployeeByDDOCode(String ddoCode) {
-		return mstEmployeeRepo.findAllEmployeeByDDOCode(ddoCode);
-	}
+	public List<DDOScreenModel> findDDOScreenDataTable(String locale, String ddoCode) {
+		List<Object[]> lstprop = null;
+		try {
+			lstprop = mstEmployeeRepo.findDDOScreenDataTable(ddoCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	@Override
-	public String saveEmployeeBillGroup(String sevaarthId, int billGroupId) {
-		String saveId = mstEmployeeRepo.saveEmployeeBillGroup(sevaarthId, billGroupId);
-		return saveId;
-	}
-
-	@Override
-	public List<MstEmployeeModel> findAllEmployees() {
-		List<Object[]> lstprop = mstEmployeeRepo.findAllEmployees();
-		List<MstEmployeeModel> lstObj = new ArrayList<>();
+		List<DDOScreenModel> lstObj = new ArrayList<>();
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
-				MstEmployeeModel obj = new MstEmployeeModel();
-				obj.setSevaarthId(StringHelperUtils.isNullString(objLst[0]));
-				obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
-				obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
-				obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
-				obj.setEmployeeId(StringHelperUtils.isNullInt(objLst[4]));
+				DDOScreenModel obj = new DDOScreenModel();
+				obj.setSubDepartmentId(StringHelperUtils.isNullInt(objLst[0]));
+                obj.setSubDeptName(StringHelperUtils.isNullString(objLst[1]));
+				
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	}
+	@Override
+	public List<Object[]> getInstitueDtls(String ddocode) {
+		List<Object[]> lstprop = mstEmployeeRepo.getInstitueDtls(ddocode);
+		return lstprop;
+	}
+
+
+	@Override
+	public List<MstCadreModel> getCadreMstData(String locale) {
+		List<Object[]> lstprop = mstEmployeeRepo.getCadreMstData();
+		List<MstCadreModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				MstCadreModel obj = new MstCadreModel();
+				obj.setCadreId(StringHelperUtils.isNullInt(objLst[0]));
+				if (locale.equals("en")) {
+					/* obj.setFieldDepartmrnt(StringHelperUtils.isNullString(objLst[1])); */
+					/* obj.setCadreGroup(StringHelperUtils.isNullString(objLst[3])); */
+					obj.setCadreGroup(StringHelperUtils.isNullString(objLst[1]));
+				} else {
+					/* obj.setFieldDepartmrnt(StringHelperUtils.isNullString(objLst[2])); */
+					/* obj.setCadreGroup(StringHelperUtils.isNullString(objLst[4])); */
+					obj.setCadreGroup(StringHelperUtils.isNullString(objLst[2]));
+				}
+				obj.setCadreCode(StringHelperUtils.isNullInt(objLst[3]));
+				obj.setCadreDescription(StringHelperUtils.isNullString(objLst[4]));
+				if (objLst[7] != null && objLst[7].equals('2')) {
+					obj.setWhetherMinisterial("Yes");
+				} else if (objLst[7] != null && objLst[7].equals('3')) {
+					obj.setWhetherMinisterial("No");
+				}
+				obj.setSuperAnnuationAge(StringHelperUtils.isNullBigDecimal(objLst[6]));
+				obj.setIsActive(StringHelperUtils.isNullInt(Integer.parseInt(String.valueOf(objLst[7]))));
 
 				lstObj.add(obj);
 			}
 		}
 		return lstObj;
 	}
+<<<<<<< HEAD
 
 	@Override
 	public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
@@ -1087,6 +1127,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return result;
 	}
 
+=======
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 	@Override
 	public List<Object[]> getAccountMaintainby() {
 		List<Object[]> result = new ArrayList<Object[]>();
@@ -1100,10 +1142,10 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		result.add(object1);
 		
 		
-		Object[] object2 = new Object[2];
+		/*Object[] object2 = new Object[2];
 		object2[0] = "3";
 		object2[1] = "Zilla Parishad";
-		result.add(object2);
+		result.add(object2);*/
 		
 		
 		
@@ -1122,56 +1164,34 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		result.add(object5);
 		return result;
 	}
-
+	// protected final Log logger = LogFactory.getLog(getClass());
 	@Override
-	public List<Object[]> getPfSeries(String accmainby) {
+	public List<Object[]> getDcpsAccnMaintainby() {
 		List<Object[]> result = new ArrayList<Object[]>();
-		Object[] temp1 = { "", "AG/MAH", "AG/MH", "AGC/MAH", "AGC/MH", "AGV/MAH", "AJ/HCAS", "AJ/MAH", "AJMH", "ED/MAH",
-				"EDMH", "EXC/MH", "EXE/MAH", "FMAH", "GA/MAH", "GA/MH", "GA/PAO", "GN/BN20114", "IAS/MAH", "IFS/BN",
-				"IFS/MH", "IND/MAH", "IND/MH", "IPS/MAH", "J/MAH", "JMH", "M/MAH", "MIS/MH", "MISC", "MISC/MAH",
-				"MISC/MH", "MMH", "OT/MAH", "OTMH", "PB/MAH", "PB/MH", "PC/MAH", "PC/MH", "PH/MH", "PN/MAH", "PN/MH",
-				"POL", "PS/MAH", "PS/MH", "PW/MAH", "PW/MH", "R/MAH", "S/MH", "SCI/MAH", "SMH", "STY/MAH", "STY/MH", "IAS/MH" };
-		Object[] temp2 = { "ABN", "AJBN", "BRBN", "COBN", "CPBN", "EDBN", "EXBN", "FBN", "FMAH", "GABN", "IASBN",
-				"IFSBN", "IFSMH", "INDBN", "IPSBN", "JBN", "LRBN", "MBN", "MDBN", "MHPW", "MSBN", "MVBN", "OTBN",
-				"PHBN", "POBN", "RBN", "SCBN", "SPBN", "VBN", "MJP"};
-		if (accmainby.equals("1")) {
-			for (int i = 1; i < temp1.length; i++) {
-				Object[] object2 = new Object[2];
-				object2[0] = i;
-				object2[1] = temp1[i];
-				result.add(object2);
-			}
-		} else if (accmainby.equals("2")) {
-			for (int i = 1; i < temp2.length; i++) {
-				Object[] object2 = new Object[2];
-				object2[0] = i;
-				object2[1] = temp2[i];
-				result.add(object2);
-			}
-		} else if (accmainby.equals("3")) {
-			Object[] object2 = new Object[2];
-			object2[0] = "3";
-			object2[1] = "MJP";
-			result.add(object2);
-		} else if (accmainby.equals("4")) {
-			Object[] object2 = new Object[2];
-			object2[0] = "NA";
-			object2[1] = "NA";
-			result.add(object2);
-		} else if (accmainby.equals("5")) {
-			Object[] object2 = new Object[2];
-			object2[0] = "1";
-			object2[1] = "Other";
-			result.add(object2);
-		}
+		
+		
+		/*Object[] object = new Object[2];
+		object[0] = "1";
+		object[1] = "a/C Maintained by Zilla Parishad";
+		result.add(object);
+		*/
+		Object[] object2 = new Object[2];
+		object2[0] = "1";
+		object2[1] = "a/C Maintained by MJP";
+		result.add(object2);
+		
+		Object[] object1 = new Object[2];
+		object1[0] = "2";
+		object1[1] = "a/C Maintained by Others";
+		result.add(object1);
 		return result;
 	}
-
+	
 	@Override
 	public List<MstCadreGroupEntity> getGISGroup() {
 		return mstEmployeeRepo.getGISGroup();
 	}
-
+	
 	@Override
 	public List<Object[]> getGISApplicable() {
 		List<Object[]> result = new ArrayList<Object[]>();
@@ -1186,7 +1206,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public List<Object[]> getRelation() {
 		List<Object[]> result = new ArrayList<Object[]>();
@@ -1200,15 +1220,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return result;
 	}
 
-	@Override
-	public String[] savePhotoSignature(MultipartFile[] files, String DeptNm, Integer empid, String existphotpath,
-			String existsignpath) {
-		// department name/photo/employee_id/photo.jpg
-		String[] res = new String[2];
-		if (files.length != 0) {
-			int width = 963;
-			int height = 640;
 
+<<<<<<< HEAD
 			try {
 				byte[] bytes = files[0].getBytes();
 
@@ -2384,3 +2397,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 
 	}
+=======
+}
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51

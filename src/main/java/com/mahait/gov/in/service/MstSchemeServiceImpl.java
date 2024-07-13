@@ -23,6 +23,7 @@ public class MstSchemeServiceImpl implements MstSchemeService{
 	@Autowired
 	private MstSchemeRepo mstSchemeRepo;
 
+<<<<<<< HEAD
 	
 	public List<MstSchemeModel> findAllScheme() {
 		
@@ -50,6 +51,34 @@ public class MstSchemeServiceImpl implements MstSchemeService{
 	public List<MstScheme> findAllSchemeDetails(String data) {
 		// TODO Auto-generated method stub
 		return null;
+=======
+
+	@Override
+	public List<MstSchemeModel> findAllScheme(String username) {
+		// TODO Auto-generated method stub
+		return mstSchemeRepo.findAllSchemename(username);
+		//Map<Integer, String> mpFinancialYearList=mstSchemeRepo.getFinYear("");
+//		List<MstSchemeModel> lstSchemeModel=new ArrayList<MstSchemeModel>();
+//		List<MstScheme> lstSchemeEntity=mstSchemeRepo.findAllScheme();
+//		for (Iterator iterator = lstSchemeEntity.iterator(); iterator.hasNext();) {
+//			MstScheme mstSchemeEntity = (MstScheme) iterator.next();
+//			String strFinYear="";
+//			MstSchemeModel mstSchemeModel=new MstSchemeModel();
+//			mstSchemeModel.setSchemeId(mstSchemeEntity.getSchemeId());
+//			mstSchemeModel.setDcpsDdoSchemeCode(mstSchemeEntity.getSchemeCode());
+//			mstSchemeModel.setSchemeName(mstSchemeEntity.getSchemeName());
+//			mstSchemeModel.setMajorHead(mstSchemeEntity.getMajorHead());
+//			mstSchemeModel.setSubMajorHead(mstSchemeEntity.getSubMajorHead());
+//			mstSchemeModel.setMinorHead(mstSchemeEntity.getMinorHead());
+//			mstSchemeModel.setSubMinorHead(mstSchemeEntity.getSubMinorHead());
+//			mstSchemeModel.setSubHead(mstSchemeEntity.getSubHead());
+//			mstSchemeModel.setDemandCode(mstSchemeEntity.getDemandCode());
+//			mstSchemeModel.setSchemeType(mstSchemeEntity.getSchemeType());
+//			
+//			lstSchemeModel.add(mstSchemeModel);
+//		}
+//		return lstSchemeModel;
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 	}
 
 

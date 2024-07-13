@@ -1,16 +1,26 @@
 package com.mahait.gov.in.service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.deser.SettableAnyProperty;
+import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstScheme;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.RltBillgroupClassgroup;
 import com.mahait.gov.in.model.BillgroupMaintainanceModel;
+import com.mahait.gov.in.model.MpgSchemeBillGroupModel;
+import com.mahait.gov.in.model.MstEmployeeModel;
+import com.mahait.gov.in.model.Rltdcpsbillgroupclassmodel;
 import com.mahait.gov.in.repository.DdoBillGroupRepo;
 import com.mahait.gov.in.repository.DdoBillGroupRepoImpl;
 
@@ -20,28 +30,88 @@ public class DdoBillGroupServiceImpl implements DdoBillGroupService{
 	@Autowired
 	private DdoBillGroupRepo ddoBillGroupRepo;
 	
- @Override
-
-	public List<MstDcpsBillGroup> lstBillName() {
-		// TODO Auto-generated method stub
-		return ddoBillGroupRepo.lstBillName();
-	}
 
 
 @Override
-public int saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMaintainanceModel, OrgUserMst messages) {
+public List<MstDcpsBillGroup> lstBillName(String username) {
 	// TODO Auto-generated method stub
-	MstDcpsBillGroup mstDcpsBillGroup = new MstDcpsBillGroup();
-	int savedId =0;
-	mstDcpsBillGroup.setDcpsDdoSchemeCode(billgroupMaintainanceModel.getDcpsDdoSchemeCode());
-	mstDcpsBillGroup.setDescription(billgroupMaintainanceModel.getDescription());
-	
-		savedId	= ddoBillGroupRepo.saveBillGroupMaintainance(mstDcpsBillGroup);
-	
-		
-		return  savedId;
+	return ddoBillGroupRepo.lstBillName(username);
 }
 
+@Override
+public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMaintainanceModel, OrgUserMst messages) {
+
+	
+	//Boolean lBlGroupExistOrNotForBG = false;
+	long savedId =0l;
+	
+	MstDcpsBillGroup mstBillGroupEntity = ddoBillGroupRepo.findDcpsBillGroupById(billgroupMaintainanceModel.getBillGroupId()==null?0:billgroupMaintainanceModel.getBillGroupId());
+	
+		if(mstBillGroupEntity==null)
+		{
+			mstBillGroupEntity=new MstDcpsBillGroup();
+		}
+			
+		        mstBillGroupEntity.setDcpsDdoSchemeCode(billgroupMaintainanceModel.getSchemeCode());
+				mstBillGroupEntity.setDescription(billgroupMaintainanceModel.getDescription());
+				mstBillGroupEntity.setDcpsDdoBillTypeOfPost(billgroupMaintainanceModel.getTypeOfPost());
+				mstBillGroupEntity.setDcpsDdoSchemeCode(billgroupMaintainanceModel.getDcpsDdoSchemeCode());
+				mstBillGroupEntity.setDcpsDdoBillSchemeName(billgroupMaintainanceModel.getSchemeName());
+				mstBillGroupEntity.setDcpsDdoSubSchemeCode(billgroupMaintainanceModel.getDcpsDdoSubSchemeCode());
+				mstBillGroupEntity.setDcpsDdoBillTypeOfPost(billgroupMaintainanceModel.getDcpsDdoBillTypeOfPost());
+				mstBillGroupEntity.setDcpsDdoCode(messages.getUserName().substring(0,11));
+				mstBillGroupEntity.setLocId(4000586l);
+				mstBillGroupEntity.setLangId(1l);
+				mstBillGroupEntity.setDbId(99l);
+				mstBillGroupEntity.setCreatedDate(new Date());
+				mstBillGroupEntity.setPostId(messages.getCreatedByPost().getPostId());
+				mstBillGroupEntity.setUserId(messages.getUserId());
+				mstBillGroupEntity.setUpdatedPostId(messages.getCreatedByPost().getPostId());
+				mstBillGroupEntity.setUpdatedUserId(messages.getUserId());
+				mstBillGroupEntity.setUpdatedDate(new Date());
+		
+				
+
+				savedId	= ddoBillGroupRepo.saveBillGroupMaintainance(mstBillGroupEntity);
+	
+				if(billgroupMaintainanceModel.getBillGroupId()!=null)
+				{
+				int billcount = ddoBillGroupRepo.checkGroupExistsOrNotForBG(billgroupMaintainanceModel.getBillGroupId());
+
+				if (billcount > 0) {
+					ddoBillGroupRepo.deleteClassGroupsForGivenBGId(billgroupMaintainanceModel.getBillGroupId());
+				}
+
+				}
+				List<Rltdcpsbillgroupclassmodel> lstBillgroupMaintainanceModel=billgroupMaintainanceModel.getBillgroupclass();
+				
+		
+				for (Rltdcpsbillgroupclassmodel billgroupclass : lstBillgroupMaintainanceModel) {
+					RltBillgroupClassgroup rltBillgroupClassgroup = new RltBillgroupClassgroup();
+					if(billgroupclass.getBillgroupclass() !=null)
+					{
+					rltBillgroupClassgroup.setDcpsClassGroup(billgroupclass.getBillgroupclass()); 
+					rltBillgroupClassgroup.setDcpsBillGroupId(mstBillGroupEntity.getDcpsDdoBillGroupId());
+					rltBillgroupClassgroup.setLangId(1l);
+					rltBillgroupClassgroup.setDbId(99l);
+					rltBillgroupClassgroup.setLocId(4000586l);
+					rltBillgroupClassgroup.setUserId(messages.getUserId());
+					rltBillgroupClassgroup.setCreatedDate(new Date());
+					rltBillgroupClassgroup.setPostId(messages.getCreatedByPost().getPostId());
+					rltBillgroupClassgroup.setUserId(messages.getUserId());
+					rltBillgroupClassgroup.setUpdatedPostId(messages.getCreatedByPost().getPostId());
+					rltBillgroupClassgroup.setUpdatedUserId(messages.getUserId());
+					rltBillgroupClassgroup.setUpdatedDate(new Date());
+					
+					savedId	= ddoBillGroupRepo.saveDcpsBillGroupMpg(rltBillgroupClassgroup);
+					}
+				}
+			
+			
+		
+				return  savedId;
+
+}
 
 @Override
 public List<MstScheme> getSchemeCodeAgainstName(String schemeId) {
@@ -49,4 +119,107 @@ public List<MstScheme> getSchemeCodeAgainstName(String schemeId) {
 	return ddoBillGroupRepo.getSchemeCodeAgainstName(schemeId);
 }
 
+
+@Override
+public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
+	List<Object[]> lstprop = ddoBillGroupRepo.findAllEmployeesByDDOName(ddoCode);
+	List<MstEmployeeModel> lstObj = new ArrayList<>();
+	if (!lstprop.isEmpty()) {
+		for (Object[] objLst : lstprop) {
+			MstEmployeeModel obj = new MstEmployeeModel();
+			obj.setSevaarthId(StringHelperUtils.isNullString(objLst[0]));
+			obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
+			obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
+			obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
+			obj.setEmployeeId(StringHelperUtils.isNullInt(objLst[4]));
+			obj.setPayCommissionCode(StringHelperUtils.isNullInt(objLst[5]));
+			obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
+			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
+			obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
+			if (objLst[7] != null && !objLst[7].equals("")) {
+				if (objLst[7].equals('Y')) {
+					obj.setDcpsgpfflag("DCPS");
+				} else {
+					obj.setDcpsgpfflag("GPF");
+				}
+			}
+			lstObj.add(obj);
+		}
+	}
+	return lstObj;
 }
+
+@Override
+public List<MstEmployeeEntity> firstgetfindAllEmployeeByddoCode(String ddoCode) {
+	return ddoBillGroupRepo.firstgetfindAllEmployeeByddoCode(ddoCode);
+}
+
+@Override
+public List<Object[]> findAttachedEmployee(String ddocode, String scmebillgroupid) {
+	return ddoBillGroupRepo.findAttachedEmployee(ddocode, scmebillgroupid);
+}
+
+
+@Override
+public List<Object[]> findDettachEmployee(String ddocode, String scmebillgroupid) {
+	return ddoBillGroupRepo.findDettachEmployee(ddocode, scmebillgroupid);
+}
+
+@Override
+public List<Object[]> getBillDtlsForAlreadySaved(String billGrpId) {
+	List<Object[]> lst = ddoBillGroupRepo.getBillDtlsForAlreadySaved(billGrpId);
+	return lst;
+}
+@Override
+public String saveAttachDettachEmployee(MpgSchemeBillGroupModel mpgSchemeBillGroupModel) {
+	String result = "N";
+
+	// public String saveAttachDettachEmployeeBillGroup(String sevaarthId,int empid,
+	// int billGroupId,String status)
+	String lStrDcpsEmpIdstoBeDetached = mpgSchemeBillGroupModel.getDcpsEmpIdstoBeDetached();// StringUtility.getParameter("dcpsEmpIdstoBeDetached",
+																							// request);
+	String[] lStrArrDcpsEmpIdstoBeDetached = lStrDcpsEmpIdstoBeDetached.split("~");
+	Long[] lLongArrDcpsEmpIdstoBeDetached = new Long[lStrArrDcpsEmpIdstoBeDetached.length];
+	for (Integer lInt = 0; lInt < lStrArrDcpsEmpIdstoBeDetached.length; lInt++) {
+		if (lStrArrDcpsEmpIdstoBeDetached[lInt] != "" && !lStrArrDcpsEmpIdstoBeDetached[lInt].equals("")) {
+			lLongArrDcpsEmpIdstoBeDetached[lInt] = Long.valueOf(lStrArrDcpsEmpIdstoBeDetached[lInt]);
+			result = ddoBillGroupRepo.saveAttachDettachEmployeeBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
+					lLongArrDcpsEmpIdstoBeDetached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					"Detach");// updateBillNoInPayroll(lLongArrDcpsEmpIdstoBeDetached[lInt], null, "Detach");
+		}
+	}
+
+	String lStrDcpsEmpIdstoBeAttached = mpgSchemeBillGroupModel.getDcpsEmpIdstoBeAttached(); // StringUtility.getParameter("dcpsEmpIdstoBeAttached",
+																								// request);
+	String[] lStrArrDcpsEmpIdstoBeAttached = lStrDcpsEmpIdstoBeAttached.split("~");
+	Long[] lLongArrDcpsEmpIdstoBeAttached = new Long[lStrArrDcpsEmpIdstoBeAttached.length];
+	for (Integer lInt = 0; lInt < lStrArrDcpsEmpIdstoBeAttached.length; lInt++) {
+		if (lStrArrDcpsEmpIdstoBeAttached[lInt] != "" && !lStrArrDcpsEmpIdstoBeAttached[lInt].equals("")) {
+			lLongArrDcpsEmpIdstoBeAttached[lInt] = Long.valueOf(lStrArrDcpsEmpIdstoBeAttached[lInt]);
+			// lObjDdoBillGroupDAO.updateBillNoInPayroll(lLongArrDcpsEmpIdstoBeAttached[lInt],
+			// lLongbillGroupId, "Attach");
+			result = ddoBillGroupRepo.saveAttachDettachEmployeeBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
+					lLongArrDcpsEmpIdstoBeAttached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					"Attach");
+		}
+	}
+
+
+
+	return result;
+}
+
+@Override
+public MstDcpsBillGroup findAllMpgSchemeBillGroupbyParameter(Long valueOf) {
+	// TODO Auto-generated method stub
+	MstDcpsBillGroup mpgSchemeBillGroupEntity = ddoBillGroupRepo.findMpgSchemeBillGroupBySchemeBillGroupId(valueOf);
+	return mpgSchemeBillGroupEntity;
+}
+
+@Override
+public MstDcpsBillGroup findAllMpgSchemeBillGroupbyParameter(int parseInt) {
+	// TODO Auto-generated method stub
+	return null;
+}
+}
+

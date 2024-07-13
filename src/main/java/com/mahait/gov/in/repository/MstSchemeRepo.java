@@ -11,6 +11,8 @@ public interface MstSchemeRepo {
 
 	List<MstScheme> findAllScheme();
 
+	List<MstSchemeModel> findAllSchemename(String username);
+
 	List<MstSchemeModel> findAllSchemename();
 
 	List<MstDcpsBillGroup> findAllMpgSchemeBillGroupByDDOCode(String dDOCode, int roleid);

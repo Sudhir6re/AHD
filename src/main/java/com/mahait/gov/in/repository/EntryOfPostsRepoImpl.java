@@ -50,7 +50,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List getAllBillsFromLocation(Long locId) {
 		Session session = getSession();
-		String HQL_QUERY = " from MstDcpsBillGroup where LocId= " + locId
+		String HQL_QUERY = " from MstDcpsBillGroup where Loc_Id= " + locId
 				+ " and (billDeleted is null or billDeleted <> 'Y') and (billDcps is null or billDcps <> 'Y')";
 		Query query = session.createQuery(HQL_QUERY);
 		List resultList = query.list();
@@ -323,12 +323,10 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public List<HrPayOrderMst> getAllOrderData(long locId, String ddoCode) {
 		List<HrPayOrderMst> orderMstList = null;
 		Session hibSession = getSession();
-
 		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode = :locId or ddoCode=:ddoCode order by orderMst.orderName";
 		Query query = hibSession.createQuery(strQuery);
 		query.setParameter("locId", Long.toString(locId));
 		query.setParameter("ddoCode", ddoCode);
-
 		orderMstList = query.list();
 		return orderMstList;
 	}
@@ -351,15 +349,15 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
 		sb.append(
-				"  select pd.post_name,pd.post_id,(select concat(concat(concat(o.emp_fname, ' '), concat(o.emp_mname, ' ')),concat( o.emp_lname,' ')) from org_emp_mst o, org_userpost_rlt up ");
+				"select pd.post_name, pd.post_id, (select o.employee_full_name_en from employee_mst o, org_userpost_rlt up ");
 		sb.append(
-				"  where  o.lang_id = 1 and o.user_id = up.user_id and up.post_id = pd.post_id and up.end_date is null and up.activate_flag = 1),ds.dsgn_name , P.PSR_NO ");
+				" where o.user_id = up.user_id and up.post_id = pd.post_id and up.end_date is null and up.activate_flag = 1), ds.designation_name , P.PSR_NO    ");
 
 		sb.append(
-				"  , (select mp.ddo_code  from org_ddo_mst mp where  p.loc_id = mp.location_code) BillNo,org.post_type_lookup_id,cmn.lookup_name from org_post_details_rlt pd, org_designation_mst ds,org_post_mst org, cmn_lookup_mst cmn");
+				"  ,(select mp.ddo_code from org_ddo_mst mp where p.loc_id = cast(mp.location_code as bigint)) BillNo, org.post_type_lookup_id, cmn.lookup_name from org_post_details_rlt pd, designation_mst ds, org_post_mst org, cmn_lookup_mst cmn");
 		sb.append("  , HR_PAY_POST_PSR_MPG p ");
 		sb.append("  where pd.loc_id in (" + locId
-				+ ") and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.dsgn_id and ds.lang_id = 1  ");
+				+ ") and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.designation_id  ");
 		if (PsrNo != null && !(PsrNo.trim()).equals(""))
 			sb.append("  and p.psr_no = " + PsrNo);
 		else if ((ddoSelected != null) && (ddoSelected != "")) {
@@ -368,16 +366,26 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		} else if (BillNo != null && !(BillNo.trim()).equals(""))
 			sb.append("  and mp.bill_no  = " + BillNo);
 		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
-			sb.append("  and  upper(ds.dsgn_name) like  upper('%" + Dsgn + "%')  ");
+			sb.append("  and  upper(ds.designation_id) like  upper('%" + Dsgn + "%')  ");
 		else
 			sb.append("  and  upper(pd.post_name) like  upper('%" + lPostName + "%') ");
 		sb.append(" and pd.post_id=org.post_id ");
 		sb.append(" and cmn.lookup_id=org.post_type_lookup_id and org.activate_flag=1 ");
 		sb.append("   order by pd.CREATED_DATE desc  ");
 
+		
+		System.out.println(sb.toString());
+		
 		Query query = hibSession.createSQLQuery(sb.toString());
 		postNameList = query.list();
 		return postNameList;
+	}
+
+	@Override
+	public OrgPostMst findPostObj(Long postId) {
+		Session hibSession = getSession();
+		OrgPostMst save = hibSession.get(OrgPostMst.class, postId);
+		return save;
 	}
 
 }

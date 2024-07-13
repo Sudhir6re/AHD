@@ -55,8 +55,8 @@ public class BillgroupMaintainanceController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");	
 		Long Postid = messages.getCreatedByPost().getPostId();
 		model.addAttribute("language", locale.getLanguage());
-		model.addAttribute("lstAllScheme", mstSchemeService.findAllScheme());
-		model.addAttribute("lstBillName", ddoBillGroupService.lstBillName());
+		model.addAttribute("lstAllScheme", mstSchemeService.findAllScheme(messages.getUserName()));
+		model.addAttribute("lstBillName", ddoBillGroupService.lstBillName(messages.getUserName()));
 
 		return "/views/billgroupMaintainance";
 	}
@@ -67,7 +67,7 @@ public class BillgroupMaintainanceController {
 									BindingResult bindingResult,RedirectAttributes redirectAttributes,Model model,Locale locale,HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		int afterSaveId = ddoBillGroupService.saveBillGroupMaintainance(billgroupMaintainanceModel,messages);
+		long afterSaveId = ddoBillGroupService.saveBillGroupMaintainance(billgroupMaintainanceModel,messages);
 		if(afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message","SUCCESS");
 		}
@@ -75,12 +75,21 @@ public class BillgroupMaintainanceController {
 		return "redirect:/ddoast/billgroupMaintainance"; /*redirects to controller URL*/
 	}
 	
-	@GetMapping(value="/getSchemeCodeAgainstName/{schemeId}")	// , method = RequestMethod.POST
+	@RequestMapping(value="/getSchemeCodeAgainstName/{schemeId}")	// , method = RequestMethod.POST
 	public @ResponseBody List<MstScheme> getSchemeCodeAgainstName (@PathVariable  String schemeId , Model model,Locale locale) {
 		
 		List<MstScheme> mstscheme =  ddoBillGroupService.getSchemeCodeAgainstName(schemeId);
 		return mstscheme;
 	}
 	
+	
+	@GetMapping(value="/getBillDtlsForAlreadySaved/{billGrpId}")
+	public @ResponseBody List<Object[]> getBillDtlsForAlreadySaved(@PathVariable String billGrpId,Model model,Locale locale)
+	{
+		List<Object[]> lst =  ddoBillGroupService.getBillDtlsForAlreadySaved(billGrpId);
+		return lst;
+		
+		
+    }
 	
 }

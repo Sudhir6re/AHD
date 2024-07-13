@@ -57,4 +57,5 @@ public interface EntryOfPostsService {
 	List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
 			String ddoCode1);
 
+
 }

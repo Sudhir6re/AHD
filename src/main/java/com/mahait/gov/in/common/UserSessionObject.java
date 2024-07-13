@@ -22,20 +22,7 @@ public class UserSessionObject {
 		
 		Map<String, Object> objectArgs = new HashMap<>();
 
-		List<Object[]> retriveUserdetails = commonHomeMethodsService.retriveUserdetails(userId);
-		if (retriveUserdetails.size() > 0) {
-			for (Object[] obj : retriveUserdetails) {
-				baseLoginMap.put("ddoCode", obj[0]);
-				baseLoginMap.put("locationId", obj[1]);
-			//	baseLoginMap.put("loggedInPost", obj[2]);
-			//	baseLoginMap.put("primaryPostId", obj[2]);
-				//baseLoginMap.put("postDetailCode", obj[3]);
-			}
-			
-			session.setAttribute("baseLoginMap",baseLoginMap);
-			
-			//objectArgs.put("baseLoginMap", baseLoginMap);
-		}
+		
 	}
 
 }

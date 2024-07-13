@@ -7,10 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mahait.gov.in.entity.MstBankPay;
+import com.mahait.gov.in.repository.MstBankRepo;
+
 
 @Service
 @Transactional
-public class MstBankServiceImpl implements MstBankService{/*
+public class MstBankServiceImpl implements MstBankService{
+	@Autowired
+	MstBankRepo mstBankRepo;
+	
+	@Override
+	public List<MstBankPay> lstAllBank() {
+		// TODO Auto-generated method stub
+		return mstBankRepo.lstAllBank();
+	}
+	
+	/*
 
 	@Autowired
 	MstBankRepo mstBankRepo;

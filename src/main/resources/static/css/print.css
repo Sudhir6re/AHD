@@ -110,4 +110,8 @@ table.table.table-bordered, table.table.table-bordered * {
 	.scrollablediv {
 		height: 100% !important;
 	}
+	.table-bordered-self, .table-bordered-self>th, .table-bordered-self>td,
+		.table-bordered-self>tr {
+		box-shadow: none !important;
+	}
 }

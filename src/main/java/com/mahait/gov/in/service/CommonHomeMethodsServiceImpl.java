@@ -12,12 +12,17 @@ import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.CmnLookupMst;
-import com.mahait.gov.in.entity.MstBankPay;
+import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+<<<<<<< HEAD
 import com.mahait.gov.in.entity.MstYearEntity;
+=======
+import com.mahait.gov.in.entity.ReligionMstEntity;
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 import com.mahait.gov.in.model.MstDesnModel;
+import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
 import com.mahait.gov.in.model.MstRoleModel;
@@ -245,12 +250,141 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	@Override
 	public List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus) {
 		return (List<CmnLookupMst>) commonHomeMethodsRepo.findCommonMstByCommonCode(commoncodeStatus);
+		}
+
+	@Override
+	public List<MstBankEntity> findBankName() {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.findBankName();
+	}
+
+	/*@Override
+	public List<MstDesnModel> findDesignation(String userName) {
+		// TODO Auto-generated method stub
+		//return commonHomeMethodsRepo.findDesignation(userName);
+		
+		List<Object[]> lstprop = commonHomeMethodsRepo.findDesignation();
+		List<MstDesnModel> lstObj = new ArrayList<>();
+        if (!lstprop.isEmpty()) {
+            for (Object[] objLst : lstprop) {
+            	MstDesnModel obj = new MstDesnModel();
+                obj.setDesignationId(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[0]).toString()));
+                obj.setDesignationCode(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[1]).toString()));
+                obj.setDesignation(StringHelperUtils.isNullString(objLst[2]));
+                obj.setDesgShortName(StringHelperUtils.isNullString(objLst[3]));
+                obj.setIsActive(StringHelperUtils.isNullChar(objLst[4]));
+                if(objLst[5]!=null)
+                {
+                	
+                obj.setCadreName(StringHelperUtils.isNullString(objLst[5]));
+                }
+                lstObj.add(obj);
+            }
+        }
+        return lstObj;
+		
 	}
 
 	@Override
-	public List<MstBankPay> findBankName() {
+	public List<MstDistrictModel> lstGetAllDistrict(String userName) {
+		
+		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllDistrict();
+		List<MstDistrictModel> lstObj = new ArrayList<>();
+        if (!lstprop.isEmpty()) {
+            for (Object[] objLst : lstprop) {
+            	MstDistrictModel obj = new MstDistrictModel();
+                obj.setDistrictId(StringHelperUtils.isNullInt(objLst[0]));
+               
+                obj.setDistrictName(StringHelperUtils.isNullString(objLst[1]));
+                obj.setDistrictCode(StringHelperUtils.isNullInt(objLst[2]));
+                
+                lstObj.add(obj);
+            }
+        }
+        return lstObj;
+	}
+
+	@Override
+	public List<MstTalukaModel> lstGetAllTaluka() {
+		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllTaluka();
+		List<MstTalukaModel> lstObj = new ArrayList<>();
+        if (!lstprop.isEmpty()) {
+            for (Object[] objLst : lstprop) {
+            	MstTalukaModel obj = new MstTalukaModel();
+                obj.setTalukaId(StringHelperUtils.isNullInt(objLst[0]));
+               
+                obj.setTalukaName(StringHelperUtils.isNullString(objLst[1]));
+                obj.setTalukaCode(StringHelperUtils.isNullInt(objLst[2]));
+                
+                lstObj.add(obj);
+            }
+        }
+        return lstObj;
+	}
+
+	@Override
+	public List<MstvillageModel> lstGetAllVillage() {
+		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllVillage();
+		List<MstvillageModel> lstObj = new ArrayList<>();
+        if (!lstprop.isEmpty()) {
+            for (Object[] objLst : lstprop) {
+            	MstvillageModel obj = new MstvillageModel();
+                obj.setVillageId(StringHelperUtils.isNullInt(objLst[0]));
+               
+                obj.setVillageName(StringHelperUtils.isNullString(objLst[1]));
+                obj.setVillageCode(StringHelperUtils.isNullInt(objLst[2]));
+                
+                lstObj.add(obj);
+            }
+        }
+        return lstObj;
+	}
+
+	@Override
+	public List<MstcityModel> lstGetAllCity() {
+		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllCity();
+		List<MstcityModel> lstObj = new ArrayList<>();
+        if (!lstprop.isEmpty()) {
+            for (Object[] objLst : lstprop) {
+            	MstcityModel obj = new MstcityModel();
+                obj.setCityId(StringHelperUtils.isNullInt(objLst[0]));
+               
+                obj.setCityName(StringHelperUtils.isNullString(objLst[1]));
+                obj.setCityCode(StringHelperUtils.isNullInt(objLst[2]));
+                obj.setCityClass(StringHelperUtils.isNullString(objLst[3]));
+                
+                lstObj.add(obj);
+            }
+        }
+        return lstObj;
+	}*/
+
+	@Override
+	public List<Object[]> findAllBankBranchList(int bankCode) {
+		List<Object[]> mstBankBranchList = commonHomeMethodsRepo.findAllBankBranchList(bankCode);
+		return mstBankBranchList;
+	}
+
+	@Override
+	public Object getIfscCodeByBranchId(int branchId) {
 		// TODO Auto-generated method stub
-		return commonHomeMethodsRepo.findBankName();
+		return commonHomeMethodsRepo.getIfscCodeByBranchId(branchId);
+	}
+
+	@Override
+	public Object getBankBranch(String bankId) {
+		List<Object[]> mstBankBranchList = commonHomeMethodsRepo.getBankBranch(bankId);
+		return mstBankBranchList;
+	}
+
+	@Override
+	public List<Object[]> retriveUserdetails(Long userId) {
+		return commonHomeMethodsRepo.retriveUserdetails(userId);
+	}
+
+	@Override
+	public List<ReligionMstEntity> fetchAllReligions() {
+		return commonHomeMethodsRepo.fetchAllReligions();
 	}
 
 	@Override
@@ -259,6 +393,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 		return commonHomeMethodsRepo.findDesignation(userName);
 	}
 
+<<<<<<< HEAD
 	@Override
 	public List<Object[]> retriveUserdetails(Long userId) {
 		return commonHomeMethodsRepo.retriveUserdetails(userId);
@@ -274,6 +409,8 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 		return commonHomeMethodsRepo.lstGetAllYears();
 	}
 	
+=======
+>>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 
 
 

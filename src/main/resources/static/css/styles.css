@@ -65,7 +65,7 @@ display: inline-block;
     width: 95%;
     padding: 10px 10px;
     background: #fff;
-    height: 100vh;
+    min-height: 100vh;
 }
 .scrollablediv {
     height: 400px;
@@ -73,4 +73,8 @@ display: inline-block;
 }
 .bor-imp, .bor-imp td, .bor-imp td, .bor-imp tr {
     border: 1px solid #ccc !important;
+}
+.table-bordered-self, .table-bordered-self>th, .table-bordered-self>td,
+	.table-bordered-self>tr {
+	box-shadow: 0 0 1px 1px #000 !important;
 }

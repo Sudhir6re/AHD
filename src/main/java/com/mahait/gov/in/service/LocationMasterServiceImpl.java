@@ -7,10 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mahait.gov.in.repository.LocationMasterRepo;
+
 
 @Service
 @Transactional
-public class LocationMasterServiceImpl implements LocationMasterService{/*
+public class LocationMasterServiceImpl implements LocationMasterService{
+	@Autowired
+	LocationMasterRepo locationMasterRepo;
+	@Override
+	public List<Object[]> findAllStates(int countryId) {
+		// TODO Auto-generated method stub
+		List<Object[]> findAllStatesList = locationMasterRepo.findAllStates(countryId);
+		return findAllStatesList;
+	}/*
 	
 	@Autowired
 	LocationMasterRepo locationMasterRepo;

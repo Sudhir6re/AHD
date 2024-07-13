@@ -5,9 +5,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.type.LongType;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
+
 
 @Repository
 @SuppressWarnings("unchecked")
@@ -37,7 +41,7 @@ public class MstDesignationRepoImpl implements MstDesignationRepo {
 		return (List<MstPayCommissionEntity>) entityManager.createQuery(HQL).getResultList();
 	}
 
-	/*@Override
+	@Override
 	public List<Object[]> getDesignationMstData() {
 
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -53,7 +57,7 @@ public class MstDesignationRepoImpl implements MstDesignationRepo {
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
-
+	/*
 	@Override
 	public MstDesignationEntity findMstDesgByDesgId(int designationId) {
 		MstDesignationEntity objCad = null;

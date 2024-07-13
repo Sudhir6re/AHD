@@ -68,7 +68,6 @@ public class OrgPostMst implements Serializable {
     private CmnLookupMst cmnLookupMst;
 
 /*
-
     @Column(name = "lookup_id") // Corrected mapping
     private Long lookupId;
     */
@@ -159,12 +158,10 @@ public class OrgPostMst implements Serializable {
     private Set<OrgPostDetailsRlt> orgPostDetailsRlt;*/
 
     
-    /*
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_type_lookup_id")
     private CmnLookupMst postTypeLookupId;
-    
-    */
     
     
     
