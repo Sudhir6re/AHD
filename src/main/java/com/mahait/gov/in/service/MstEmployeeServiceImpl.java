@@ -1,55 +1,75 @@
 package com.mahait.gov.in.service;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URLDecoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.Valid;
 
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
+import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
+import com.mahait.gov.in.repository.MstEmployeeRepo;
 
 @Service
 @Transactional
 @PropertySource(value = { "classpath:application.properties" })
-public class MstEmployeeServiceImpl implements MstEmployeeService {/*
-
+public class MstEmployeeServiceImpl implements MstEmployeeService {
+	@PersistenceContext
+	EntityManager entityManager;
+	
 	@Autowired
 	private MstEmployeeRepo mstEmployeeRepo;
+	
+
+	@Override
+	public DdoOffice findAllGroup(String ddoCode) {
+		return mstEmployeeRepo.findAllGroup(ddoCode);
+	}
+
+	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, BigInteger billGroupId,
+			int month, int year) {
+		return mstEmployeeRepo.findAllWorkingEmployeeByDDOCodeAndBillGroup(ddoCode, billGroupId, month, year);
+	}
+
+	@Override
+	public int getpayCommissionAgainstEmployee(String sevaarthId) {
+		return mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthId);
+	}
+
+	@Override
+	public List<Object[]> employeeAllowDeduction(String sevaarthId) {
+		return mstEmployeeRepo.findEmployeeAllowanceDeduction(sevaarthId);
+
+	}
+
+	public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId, int allowDedCode) {
+		return mstEmployeeRepo.findGRPComponentsData(sevaarthId, allowDedCode);
+	}
+	
+	@Override
+	public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode) {
+		return mstEmployeeRepo.findGPFADetails(sevaarthid, commoncodeComponentGpfaCode);
+	}
+
+	@Override
+	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthid, int commoncodeComponentGpfaCode) {
+		return mstEmployeeRepo.findGPFAdvDetails(sevaarthid, commoncodeComponentGpfaCode);
+	}
+	
+	/*
+
+	
 
 	@Autowired
 	private Environment environment;
 
-	@PersistenceContext
-	EntityManager entityManager;
 
 	@Autowired
 	private AnnualIncrementService annualIncrementService;
@@ -909,20 +929,11 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {/*
 	}
 
 	@Override
-	public List<Object[]> employeeAllowDeduction(String sevaarthId) {
-		return mstEmployeeRepo.findEmployeeAllowanceDeduction(sevaarthId);
-
-	}
-
-	@Override
 	public String getCityClassAgainstDDO(String ddoCode) {
 		return mstEmployeeRepo.getCityClassAgainstDDO(ddoCode);
 	}
 
-	@Override
-	public int getpayCommissionAgainstEmployee(String sevaarthId) {
-		return mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthId);
-	}
+
 
 	public List<Object[]> findEmployeeConfigurationGetpayscale(int payCommissionid) {
 		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo.getSvnPayscale();
@@ -1803,14 +1814,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {/*
 		return mstEmployeeRepo.isPaybillIsInProcessForAttach(sevaarthId);
 	}
 
-	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, int billGroupId,
-			int month, int year) {
-		return mstEmployeeRepo.findAllWorkingEmployeeByDDOCodeAndBillGroup(ddoCode, billGroupId, month, year);
-	}
-
-	public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId, int allowDedCode) {
-		return mstEmployeeRepo.findGRPComponentsData(sevaarthId, allowDedCode);
-	}
+	
 
 	@Override
 	public List<Object[]> supEmployeeAllowDeduction(String sevaarthId) {
@@ -2172,11 +2176,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {/*
 		return mstEmployeeRepo.getDdoRegNumber(userName);
 	}
 
-	@Override
-	public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode) {
-		return mstEmployeeRepo.findGPFADetails(sevaarthid, commoncodeComponentGpfaCode);
-	}
-
+	
 	@Override
 	public List<MstSubDepartmentModel> findfycorparationname(Integer corno) {
 		List<Object[]> lstprop = mstEmployeeRepo.findfycorparationname(corno);
@@ -2193,10 +2193,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {/*
 		return lstObj;
 	}
 
-	@Override
-	public DDOScreenEntity findAllGroup(String ddoCode) {
-		return mstEmployeeRepo.findAllGroup(ddoCode);
-	}
+
 
 	@Override
 	public List<Object[]> employeehraandta(String sevaarthId) {
@@ -2346,10 +2343,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {/*
 		// TODO Auto-generated method stub
 		return  mstEmployeeRepo.findExcPayRec(sevaarthId);
 	}
-	@Override
-	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthid, int commoncodeComponentGpfaCode) {
-		return mstEmployeeRepo.findGPFAdvDetails(sevaarthid, commoncodeComponentGpfaCode);
-	}
 
 	@Override
 	public BigInteger findEmpSuspend(String sevaarthId) {
@@ -2386,4 +2379,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {/*
 	public int gettrano(String userName) {
 		return mstEmployeeRepo.gettrano(userName);
 	}	
-*/}
+*/
+
+
+
+	}

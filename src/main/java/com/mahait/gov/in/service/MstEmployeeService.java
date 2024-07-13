@@ -9,7 +9,26 @@ import javax.validation.Valid;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface MstEmployeeService {/*
+import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
+import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
+
+public interface MstEmployeeService {
+
+	DdoOffice findAllGroup(String ddocode);
+	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,BigInteger SchemeBillgroupId,int month,int year);
+	 
+		public int getpayCommissionAgainstEmployee(String sevaarthId);
+		
+		public List<Object[]> employeeAllowDeduction(String sevaarthId);
+		
+		 public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId,int allowDedCode);
+		 
+		 public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode);
+		 
+		 public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthId, int commoncodeComponentGpfaCode);
+	 /*
 	
 	public List<MstEmployeeEntity> findAllEmployeeByDDOCode(String ddoCode);
 	
@@ -47,11 +66,10 @@ public interface MstEmployeeService {/*
 	
 	public List<MstEmployeeEntity> findAllEmployeeByDDOCodeAndBillGroup(String ddoCode,int billGroupId);
 	
-	public List<Object[]> employeeAllowDeduction(String sevaarthId);
 	
 	public String getCityClassAgainstDDO(String ddoCode);
 	
-	public int getpayCommissionAgainstEmployee(String sevaarthId);
+
 	public List<Object[]> findEmployeeConfigurationGetpayscale(int payCommissionid);
 	
 	public List<Object[]> findEmployeeConfigurationGetsvnbasicpay(String payscale);
@@ -99,10 +117,10 @@ public interface MstEmployeeService {/*
 	 public List<Object[]> isPaybillIsInProcessForAttach(String sevaarthId);
 	 
 	 //Added for paybill validation for emp data not null
-	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,int billGroupId,int month,int year);
-	 public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId,int allowDedCode);
+	
+	
 	 public LoanEmployeeDtlsEntity findLoanDetails(int empId,int allowDedCode);
-	 public List<Object[]> supEmployeeAllowDeduction(String sevaarthId);
+	
 
 	public int getSevenPcLevel(String sevaarthId);
 
@@ -153,7 +171,7 @@ public interface MstEmployeeService {/*
 
 	public String getDdoRegNumber(String userName);
 
-	public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode);
+	
 
 	public List<MstSubDepartmentModel> findfycorparationname(Integer corno);
 
@@ -185,7 +203,7 @@ public interface MstEmployeeService {/*
 
 	public ExcessPayRecoveryEntity findExcPayRec(String sevaarthId);
 
-	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthId, int commoncodeComponentGpfaCode);
+	
 
 	public BigInteger findEmpSuspend(String sevaarthId);
 
@@ -201,4 +219,5 @@ public interface MstEmployeeService {/*
 
 	public int gettrano(String userName);
 	
-*/}
+*/
+}

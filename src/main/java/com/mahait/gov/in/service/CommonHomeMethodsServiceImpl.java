@@ -14,7 +14,9 @@ import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
@@ -262,7 +264,15 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 		return commonHomeMethodsRepo.retriveUserdetails(userId);
 	}
 	
+	@Override
+	public List<MstMonthEntity> lstGetAllMonths() {
+		return commonHomeMethodsRepo.lstGetAllMonths();
+	}
 
+	@Override
+	public List<MstYearEntity> lstGetAllYears() {
+		return commonHomeMethodsRepo.lstGetAllYears();
+	}
 	
 
 

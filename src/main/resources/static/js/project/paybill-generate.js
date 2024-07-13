@@ -12,7 +12,7 @@ jQuery(document).ready(function($) {
 			  /*denyButtonText: `Cancel`,*/
 			}).then((result) => {
 			  if (result.isConfirmed) { 
-			   window.location.href="../level1/payBillViewApprDelBill";
+			   window.location.href="../ddoast/payBillViewApprDelBill";
 			  } else if (result.isDenied) {
 			  }
 			});
@@ -30,7 +30,7 @@ function checkIsPaybillInProcess(billNumber,monthName,yearName)
 	flag=0;
 	 $.ajax({
 	      type: "GET",
-	      url: "../level1/PaybillValidation/"+billNumber+"/"+monthName +"/"+yearName,
+	      url: "../ddoast/PaybillValidation/"+billNumber+"/"+monthName +"/"+yearName,
 	      async: false,
 	      dataType : 'json',
 	    // contentType:'application/json',
@@ -61,7 +61,7 @@ function checkIsPaybillInProcess(billNumber,monthName,yearName)
 	 flag=0;
 	 $.ajax({
 	      type: "GET",
-	      url: "../level1/PaybillValidation/"+billNumber+"/"+monthName +"/"+yearName,
+	      url: "../ddoast/PaybillValidation/"+billNumber+"/"+monthName +"/"+yearName,
 	      async: false,
 	      dataType : 'json',
 	    // contentType:'application/json',
@@ -128,7 +128,7 @@ function fetchNoOfEmployeeMappedWithDdo(logUser,schemeBillGroupId,paybillType)
 	//alert("yearName"+yearName);
  	$.ajax({
 		type : "GET",
-		url : "../level1/getNumberOfEmployee/"+logUser+"/"+schemeBillGroupId+"/"+monthName+"/"+yearName+"/"+paybillType,
+		url : "../ddoast/getNumberOfEmployee/"+logUser+"/"+schemeBillGroupId+"/"+monthName+"/"+yearName+"/"+paybillType,
 		async : false,
 		contentType : 'application/json',
 		error : function(data) {
@@ -155,7 +155,7 @@ function isAllowancedeductionMappedWithEmp(schemeBillGroupId)
 	var msg=0;		 
 	$.ajax({
 		type : "GET",
-		url : "../level1/getEmployeeMappedWithAllowanceDeduction/"+schemeBillGroupId,
+		url : "../ddoast/getEmployeeMappedWithAllowanceDeduction/"+schemeBillGroupId,
 		async : false,
 		contentType: "application/json",
         dataType: "json",
@@ -194,7 +194,7 @@ function listData(data)
 	
 	$.ajax({
 				type : "GET",
-				url : "../level1/listSchemeDetails/"
+				url : "../ddoast/listSchemeDetails/"
 						+ data,
 						 async: false,
 				contentType : 'application/json',
@@ -272,7 +272,7 @@ $(document).ready(function(){
 				if(paybillType != '7'){
 					$.ajax({
 						type : "GET",
-						url : "../level1/isEmpRetired/"+monthName+"/"+yearName+"/"+schemeBillGroupId+"/"+paybillType,
+						url : "../ddoast/isEmpRetired/"+monthName+"/"+yearName+"/"+schemeBillGroupId+"/"+paybillType,
 						async : false,
 						contentType: "application/json",
 				      //  dataType: "json",
@@ -299,7 +299,7 @@ $(document).ready(function(){
 				if(paybillType != '7'){
 				$.ajax({
 					type : "GET",
-					url : "../level1/getSevaarthIdMappedWithBill/"+billNumber+"/"+monthName+"/"+yearName,
+					url : "../ddoast/getSevaarthIdMappedWithBill/"+billNumber+"/"+monthName+"/"+yearName,
 					async : false,
 					contentType: "application/json",
 			        dataType: "json",
@@ -357,7 +357,7 @@ $(document).ready(function(){
 					  var len1;
 						$.ajax({
 							type : "GET",
-							url : "../level1/getSevaarthIdMappedWithBrokenPeriod/"+noemp+"/"+billNumber+"/"+monthName+"/"+yearName,
+							url : "../ddoast/getSevaarthIdMappedWithBrokenPeriod/"+noemp+"/"+billNumber+"/"+monthName+"/"+yearName,
 							async : false,
 							contentType: "application/json",
 					        dataType: "json",
@@ -512,7 +512,7 @@ $(document).ready(function(){
 	 	var flag=0;		 
 	 	$.ajax({
 			type : "GET",
-			url : "../level1/getCheckIsBillInProcess/"+monthName+"/"+yearName+"/"+schemeBillGroupId+"/"+paybillType,
+			url : "../ddoast/getCheckIsBillInProcess/"+monthName+"/"+yearName+"/"+schemeBillGroupId+"/"+paybillType,
 			async : false,
 			contentType : 'application/json',
 			error : function(data) {
@@ -538,7 +538,7 @@ $(document).ready(function(){
 	 	var flag=0;		 
 	 	$.ajax({
 			type : "GET",
-			url : "../level1/checkedBgisAndGisCatNull/"+schemeBillGroupId,
+			url : "../ddoast/checkedBgisAndGisCatNull/"+schemeBillGroupId,
 			async : false,
 			contentType : 'application/json',
 			error : function(data) {

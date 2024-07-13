@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 
 @SuppressWarnings("unchecked")
@@ -172,6 +174,17 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return (List<Object[]>) query.list();
 	}
 
+	@Override
+	public List<MstMonthEntity> lstGetAllMonths() {
+		String HQL = "FROM MstMonthEntity as t ORDER BY t.monthId";
+		return (List<MstMonthEntity>) manager.createQuery(HQL).getResultList();
+	}
 
+	@Override
+	public List<MstYearEntity> lstGetAllYears() {
+		String HQL = "FROM MstYearEntity as t ORDER BY t.yearEnglish desc ";
+		return (List<MstYearEntity>) manager.createQuery(HQL).getResultList();
+
+	}
 
 }
