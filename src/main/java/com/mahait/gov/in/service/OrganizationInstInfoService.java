@@ -12,7 +12,7 @@ import com.mahait.gov.in.model.OrgDdoMstModel;
 public interface OrganizationInstInfoService {
 	
 
-	public List<OrgDdoMst> findDDOInfo(String userName);
+	public OrgDdoMstModel findDDOInfo(String userName);
 
 	public List<InstituteType> lstInstType();
 
@@ -20,6 +20,6 @@ public interface OrganizationInstInfoService {
 
 	public int SaveorgInstituteInfo(@Valid OrgDdoMstModel orgDdoMstModel);
 
-	public int saveEditOrgInstInfo(OrgDdoMstModel orgDdoMstModel);
+	public int updateorgInstituteInfo(OrgDdoMstModel orgDdoMstModel);
 	 
 }

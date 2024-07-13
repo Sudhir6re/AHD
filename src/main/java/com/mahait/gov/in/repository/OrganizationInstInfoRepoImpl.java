@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.InstituteType;
 import com.mahait.gov.in.entity.OrgDdoMst;
+import com.mahait.gov.in.model.OrgDdoMstModel;
 
 
 @Repository
@@ -27,17 +28,25 @@ public class OrganizationInstInfoRepoImpl implements OrganizationInstInfoRepo {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<OrgDdoMst> findDDOInfo(String userName) {
-		String HQL = "FROM OrgDdoMst as  t  where ddoCode = '" + userName+ "'"; 
-		return (List<OrgDdoMst>) manager.createQuery(HQL).getResultList();
+	public OrgDdoMst findDDOInfo(String userName) {
+		String HQL = "FROM OrgDdoMst as t where t.ddoCode='" + userName + "'";
+		List<OrgDdoMst> lst = manager.createQuery(HQL).getResultList();
+		if (lst.size() > 0) {
+			return lst.get(0);
+		} else {
+			return null;
+		}
 	}
 
+
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<InstituteType> lstInstType() {
-		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select * from INSTITUTE_TYPE";
-		Query query = currentSession.createSQLQuery(hql);
-		return (List<InstituteType>) query.list();
+		String HQL = "FROM InstituteType as t ";
+		return (List<InstituteType>)manager.createQuery(HQL).getResultList();
+		
+		
 	}
 
 	@Override
@@ -51,15 +60,14 @@ public class OrganizationInstInfoRepoImpl implements OrganizationInstInfoRepo {
 	}
 
 	@Override
-	public int saveorgInstInfo(OrgDdoMst objForSave) {
+	public int saveorgInstituteInfo(OrgDdoMst objForSave) {
 		Session currentSession = manager.unwrap(Session.class);
 		Serializable saveId = currentSession.save(objForSave);
 		return (Integer) saveId;
 	}
 
 	@Override
-	public void updateDDOInfo(OrgDdoMst objForSave) {
-		// TODO Auto-generated method stub
+	public void updateorgInstituteInfo(OrgDdoMst objForSave) {
 		Session currentSession = manager.unwrap(Session.class);
 		currentSession.update(objForSave);
 	}
