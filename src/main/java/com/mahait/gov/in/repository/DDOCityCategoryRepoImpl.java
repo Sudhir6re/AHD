@@ -61,7 +61,7 @@ public class DDOCityCategoryRepoImpl implements DDOCityCategoryRepo {
 	@Override
 	public List<Object[]> getSevaarthIdMappedWithBillUpdate(int monthName, int yearName, BigInteger schemeBillGroupId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "select b.employee_full_name_en,b.sevaarth_id from scheme_billgroup_mpg  a\r\n"
+		String hql = "select b.employee_full_name_en,b.sevaarth_id from mst_dcps_bill_group  a\r\n"
 				+ "inner join employee_mst b on a.bill_group_id =  b.billgroup_id  \r\n"
 				+ "inner join paybill_generation_trn_details c on b.sevaarth_id = c.sevaarth_id "
 				+ "inner join paybill_generation_trn d on c.paybill_generation_trn_id = d.paybill_generation_trn_id where  d.is_active not in(8)"

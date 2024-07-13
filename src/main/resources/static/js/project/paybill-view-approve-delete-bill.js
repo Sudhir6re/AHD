@@ -189,7 +189,7 @@ jQuery(document)
 											$
 													.ajax({
 														type : "GET",
-														url : "../level1/forwardChangeStatement/"
+														url : "../ddoast/forwardChangeStatement/"
 																+ paybillGenerationTrnId +"/"+userId,
 														async : true,
 														contentType : 'application/json',
@@ -391,7 +391,7 @@ jQuery(document)
 											$
 													.ajax({
 														type : "GET",
-														url : "../level1/deleteBill/"
+														url : "../ddoast/deleteBill/"
 																+ paybillGenerationTrnId+"/"+userId,
 														async : true,
 														contentType : 'application/json',
@@ -449,7 +449,7 @@ jQuery(document)
 							    if (willDelete) {   
 									$.ajax({
 									      type: "GET",
-									      url: "../level1/generatePaybill/"+paybillGenerationTrnId+"/"+userId,
+									      url: "../ddoast/generatePaybill/"+paybillGenerationTrnId+"/"+userId,
 									      async: true,
 									      success: function(data){
 									    	  swal("PayBill Generate successfully !", {
@@ -476,7 +476,7 @@ jQuery(document)
 							    if (willDelete) {   
 									$.ajax({
 									      type: "GET",
-									      url: "../level1/forwardPayBillToLevel2/"+paybillGenerationTrnId+"/"+userId,
+									      url: "../ddoast/forwardPayBillToLevel2/"+paybillGenerationTrnId+"/"+userId,
 									      async: true,
 									      success: function(data){
 									    	  swal("PayBill Forwarded successfully !", {
@@ -584,7 +584,7 @@ $('#btnForwardBillToBeams').click(function() {
 		 if (paybillGenerationTrnId != '') {
 			 $.ajax({
 				 type : "GET",
-				 url : "../level1/viewChangeStatementReport/"+paybillGenerationTrnId,
+				 url : "../ddoast/viewChangeStatementReport/"+paybillGenerationTrnId,
 					 async : true,
 					 error : function(data) {
 						 console.log(data);
@@ -634,19 +634,19 @@ $("#btnSearch")
 				
 				if(billNumber == "" || billNumber == "0" || billNumber == undefined){
 					//alert("In findPayBillByMonthYear");
-					 urlCall="../level1/findPayBillByMonthYear/"+yearName+"/"+monthName;
+					 urlCall="../ddoast/findPayBillByMonthYear/"+yearName+"/"+monthName;
 				}
 				else{
-					 urlCall="../level1/findPayBillByBillNumber/"+billNumber+"/"+yearName+"/"+monthName;
+					 urlCall="../ddoast/findPayBillByBillNumber/"+billNumber+"/"+yearName+"/"+monthName;
 				}
 				
-				if(roleId !=1 || roleId !="1"){
+				if(roleId !=3 || roleId !="3"){
 					if(billNumber == "" || billNumber == "0" || billNumber == undefined){
 						//alert("In findPayBillByMonthYear");
-						 urlCall="../moderator/findPayBillByMonthYear/"+yearName+"/"+monthName;
+						 urlCall="../ddo/findPayBillByMonthYear/"+yearName+"/"+monthName;
 					}
 					else{
-						 urlCall="../moderator/findPayBillByBillNumber/"+billNumber+"/"+yearName+"/"+monthName;
+						 urlCall="../ddo/findPayBillByBillNumber/"+billNumber+"/"+yearName+"/"+monthName;
 					}
 				}
 				
@@ -698,7 +698,7 @@ $("#btnSearch")
                                        
                                        if(RTGS!=null){
                                     	   if(status==14){
-                                    		   RTGS="<a  target='_blank' href='../level1/generateRTGSReport/"+paybillGenerationTrnId+"' >"+RTGS+"</a>";
+                                    		   RTGS="<a  target='_blank' href='../ddoast/generateRTGSReport/"+paybillGenerationTrnId+"' >"+RTGS+"</a>";
                                     	   }
                                     	   else{
                                     		   RTGS=paybillGenerationTrnId; 
@@ -948,7 +948,7 @@ $("#btnUpdate")
 				$
 				.ajax({
 					type : "GET",
-					url : "../level1/updateVoucherDtls/"+paybillGenerationTrnId+ "/" + voucherNo + "/" + voucherDate + "/" + chqNo + "/" + chqDate + "/" + accNo + "/" + ifscCode + "/" + userId,
+					url : "../ddoast/updateVoucherDtls/"+paybillGenerationTrnId+ "/" + voucherNo + "/" + voucherDate + "/" + chqNo + "/" + chqDate + "/" + accNo + "/" + ifscCode + "/" + userId,
 					async : false,
 					error : function(data) {
 						console.log(data);

@@ -149,7 +149,7 @@ public class PaybillGenerateController {
 		}else{
 			redirectAttributes.addFlashAttribute("message", "FAILURE");
 		}
-		return "redirect:/level1/paybillGenerate";
+		return "redirect:/ddoast/paybillGenerate";
 	}
 
 	@GetMapping(value = "/listSchemeDetails/{data}", consumes = { "application/json" }, produces = {

@@ -391,7 +391,7 @@ public class MstEmployeeEntity {
 	private Date approvalByDdoDate;
 
 	@Column(name = "BILLGROUP_ID")
-	private Integer billGroupId;
+	private BigInteger billGroupId;
 
 	@Column(name = "BASIC_PAY")
 	private Double basicPay;

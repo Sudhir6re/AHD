@@ -351,7 +351,7 @@ $(document).ready(function(){
 						e.preventDefault();
 						swal.fire(""+retired);
 						$("#btnSave").prop("disabled",true);
-					} else  if(paybillType==2){
+					} else  if(paybillType==3){
 					 
 					var noemp= $("#noOfEmployee").val();
 					  var len1;

@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -70,6 +71,8 @@ public interface CommonHomeMethodsService {
 	public List<MstMonthEntity> lstGetAllMonths();
 
 	public List<MstYearEntity> lstGetAllYears();
+	
+	public Date findbillCreateDate(int billNumber);
 	
 	
 

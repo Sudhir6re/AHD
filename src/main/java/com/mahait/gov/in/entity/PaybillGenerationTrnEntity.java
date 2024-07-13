@@ -71,7 +71,7 @@ public class PaybillGenerationTrnEntity {
 	private Date createdDate;
 	
 	@Column(name = "UPDATED_USER_ID")
-	private Integer updatedUserId;
+	private Long updatedUserId;
 
 	@Column(name = "UPDATED_DATE")
 	private Date updatedDate;

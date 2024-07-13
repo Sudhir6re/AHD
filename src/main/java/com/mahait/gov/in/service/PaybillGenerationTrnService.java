@@ -15,19 +15,19 @@ public interface PaybillGenerationTrnService {
 	
 	public int saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
 	
-	public PaybillGenerationTrnEntity findForwardChangeStatementById(int paybillGenerationTrnId, int userId, String namePIp);
+	public PaybillGenerationTrnEntity findForwardChangeStatementById(int paybillGenerationTrnId, Long userId, String namePIp);
 	
-	public PaybillGenerationTrnEntity findApproveChangeStatementById(int paybillGenerationTrnId, int userId, String namePIp);
+	public PaybillGenerationTrnEntity findApproveChangeStatementById(int paybillGenerationTrnId, Long userId, String namePIp);
 	
-	public PaybillGenerationTrnEntity findRejectChangeStatementById(int paybillGenerationTrnId, int userId, String namePIp);
+	public PaybillGenerationTrnEntity findRejectChangeStatementById(int paybillGenerationTrnId, Long userId, String namePIp);
 	
-	public PaybillGenerationTrnEntity findDeleteBillById(int paybillGenerationTrnId, int userId, String namePIp);	
+	public PaybillGenerationTrnEntity findDeleteBillById(int paybillGenerationTrnId, Long userId, String namePIp);	
 	
-	public PaybillGenerationTrnEntity findForwardBillById(int paybillGenerationTrnId, int userId, String namePIp);
+	public PaybillGenerationTrnEntity findForwardBillById(int paybillGenerationTrnId, Long userId, String namePIp);
 
-	public PaybillGenerationTrnEntity forwardPayBillToLevel2(int paybillGenerationTrnId, int userId, String namePIp);
+	public PaybillGenerationTrnEntity forwardPayBillToLevel2(int paybillGenerationTrnId, Long userId, String namePIp);
 
-	public PaybillGenerationTrnEntity generatePaybill(int paybillGenerationTrnId,int userId, String namePIp);
+	public PaybillGenerationTrnEntity generatePaybill(int paybillGenerationTrnId,Long userId, String namePIp);
 
 	public  int  getpaybilldata(BigInteger billGroup, int paybillMonth, int paybillYear);
 	
@@ -38,7 +38,7 @@ public interface PaybillGenerationTrnService {
 	
 	public List<Object[]> getChangeStatementReportFromPreviousMonth(String paybillGenerationTrnId);
 	
-	public PaybillGenerationTrnEntity consolidatedPaybill(int paybillGenerationTrnId, int userId, String namePIp);
+	public PaybillGenerationTrnEntity consolidatedPaybill(int paybillGenerationTrnId, Long userId, String namePIp);
 
 	public List<Object[]>  findDDOinfo(String userName);
 
@@ -61,7 +61,7 @@ public interface PaybillGenerationTrnService {
 
 	public String isEmpRetired(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType, String userName);
 
-	public PaybillGenerationTrnEntity findPaybillById(int paybillGenerationTrnId, String voucherNo, Date voucherDate,String chqNo,Date chequeDate,String accNo,String ifscCode,int userId);
+	public PaybillGenerationTrnEntity findPaybillById(int paybillGenerationTrnId, String voucherNo, Date voucherDate,String chqNo,Date chequeDate,String accNo,String ifscCode,Long userId);
 
 	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName);
 

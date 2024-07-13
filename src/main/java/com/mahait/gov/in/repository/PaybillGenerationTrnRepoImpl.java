@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionMstEntity;
+import com.mahait.gov.in.entity.EmployeeIncrementEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
@@ -982,6 +983,47 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 				+ schemeBillGroupId + " AND t.isActive='1'   ORDER BY t.employeeFullNameEn";
 	      return (List<MstEmployeeEntity>) entityManager.createQuery(HQL).getResultList();
 	}
+	@Override
+	public Integer getannualincment(String sevaarthId, String startDate) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = "FROM EmployeeIncrementEntity  where sevaarthId='"+sevaarthId+"'   and to_char(effective_from_date,'YY-MM-DD')<='"+startDate+"' "
+				+ " and (to_increment_date is null OR to_char(to_increment_date,'YY-MM-DD')>='"+startDate+"')  ORDER BY basic_pay_increment_id DESC";
+		System.out.println("--------------------------------" + HQL);
+
+		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
+				.createQuery(HQL).getResultList();
+		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getIncrementBasicPaySal()).findFirst().orElse(0);
+		return percentage;
+	}
+
+	@Override
+	public Integer getamtbeforeannualincment(String sevaarthId, String startDate) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = "FROM EmployeeIncrementEntity  where sevaarthId='"+sevaarthId+"'   and to_char(effective_from_date,'YY-MM-DD')<='"+startDate+"' "
+				+ " and (to_increment_date is null OR to_char(to_increment_date,'YY-MM-DD')>='"+startDate+"')  ORDER BY basic_pay_increment_id DESC";
+		System.out.println("--------------------------------" + HQL);
+		
+		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
+				.createQuery(HQL).getResultList();
+		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPreBasicPay()).findFirst().orElse(0);
+		return percentage;
+	}
+
+	@Override
+	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity) {
+
+		// logger.info("inside the saved method- ");
+
+		Session currentSession = entityManager.unwrap(Session.class);
+		Serializable saveId = currentSession.save(paybillStatusEntity);
+		return (Integer) saveId;
+	}
 /*
 	@Override
 	public Integer getannualincment(String sevaarthId, String startDate) {
@@ -1214,32 +1256,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 	}*/
 
-	@Override
-	public Integer getannualincment(String sevaarthId, String startDate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Integer getamtbeforeannualincment(String sevaarthId, String startDate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity) {
-
-		// logger.info("inside the saved method- ");
-
-		Session currentSession = entityManager.unwrap(Session.class);
-		Serializable saveId = currentSession.save(paybillStatusEntity);
-		return (Integer) saveId;
-	}
+	
 
 }

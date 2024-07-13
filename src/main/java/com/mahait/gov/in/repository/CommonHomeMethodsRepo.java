@@ -1,5 +1,6 @@
 package com.mahait.gov.in.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
@@ -72,5 +73,7 @@ public interface CommonHomeMethodsRepo {
 	public List<MstMonthEntity> lstGetAllMonths();
 
 	public List<MstYearEntity> lstGetAllYears();
+
+	public Date findbillCreateDate(int billNumber);
 	
 }
