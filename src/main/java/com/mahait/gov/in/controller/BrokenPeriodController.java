@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/ddoast")
 @Controller
-public class NonComputationalDuesDeductionsController {
-	@GetMapping("nonComputationalDuesDeductions")
-	public String nonComputationalDuesDeductions(Model model, Locale locale, HttpSession session) {
-		return "/views/non-computational-dues-deductions";
+public class BrokenPeriodController {
+	@GetMapping("brokenPeriod")
+	public String brokenPeriod(Model model, Locale locale, HttpSession session) {
+		return "/views/broken-period";
 	}
 }

@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/ddoast")
 @Controller
-public class NonComputationalDuesDeductionsController {
-	@GetMapping("nonComputationalDuesDeductions")
-	public String nonComputationalDuesDeductions(Model model, Locale locale, HttpSession session) {
-		return "/views/non-computational-dues-deductions";
+public class EmployeeLoanDetailsController {
+	@GetMapping("employeeLoanDetails")
+	public String employeeLoanDetails(Model model, Locale locale, HttpSession session) {
+		return "/views/emp-loan-details";
+	}
+	@GetMapping("addLoan")
+	public String addLoan(Model model, Locale locale, HttpSession session) {
+		return "/views/add-loan";
 	}
 }
