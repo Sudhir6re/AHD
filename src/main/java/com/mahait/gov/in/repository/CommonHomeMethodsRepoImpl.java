@@ -12,14 +12,10 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
-import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
-<<<<<<< HEAD
 import com.mahait.gov.in.entity.MstYearEntity;
-=======
 import com.mahait.gov.in.entity.ReligionMstEntity;
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 import com.mahait.gov.in.model.MstDesnModel;
 
 @SuppressWarnings("unchecked")

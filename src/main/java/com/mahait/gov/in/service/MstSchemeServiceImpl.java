@@ -23,7 +23,6 @@ public class MstSchemeServiceImpl implements MstSchemeService{
 	@Autowired
 	private MstSchemeRepo mstSchemeRepo;
 
-<<<<<<< HEAD
 	
 	public List<MstSchemeModel> findAllScheme() {
 		
@@ -51,8 +50,7 @@ public class MstSchemeServiceImpl implements MstSchemeService{
 	public List<MstScheme> findAllSchemeDetails(String data) {
 		// TODO Auto-generated method stub
 		return null;
-=======
-
+	}
 	@Override
 	public List<MstSchemeModel> findAllScheme(String username) {
 		// TODO Auto-generated method stub
@@ -78,7 +76,6 @@ public class MstSchemeServiceImpl implements MstSchemeService{
 //			lstSchemeModel.add(mstSchemeModel);
 //		}
 //		return lstSchemeModel;
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 	}
 
 

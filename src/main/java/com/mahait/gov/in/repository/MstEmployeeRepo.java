@@ -1,13 +1,14 @@
 package com.mahait.gov.in.repository;
 
-<<<<<<< HEAD
 import java.math.BigInteger;
 import java.util.List;
 
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
+import com.mahait.gov.in.entity.MstCadreGroupEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
+import com.mahait.gov.in.entity.MstRoleEntity;
 
 public interface MstEmployeeRepo {
 	
@@ -26,18 +27,7 @@ public interface MstEmployeeRepo {
 
 	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthid, int commoncodeComponentGpfaCode);
 
-=======
-import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.Date;
-import java.util.List;
 
-import com.mahait.gov.in.entity.MstCadreGroupEntity;
-import com.mahait.gov.in.entity.MstRoleEntity;
-
-
-
-public interface MstEmployeeRepo {
 
 	public List<Object[]> findDDOScreenDataTable(String ddoCode);
 
@@ -50,6 +40,5 @@ public interface MstEmployeeRepo {
 	public List<MstRoleEntity> findAll();
 	
 	
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 
 }

@@ -1,20 +1,11 @@
 package com.mahait.gov.in.repository;
 
-<<<<<<< HEAD
 import java.math.BigInteger;
-=======
-import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-<<<<<<< HEAD
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -23,21 +14,9 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
-import com.mahait.gov.in.entity.MstEmployeeEntity;
-=======
-import javax.persistence.TypedQuery;
-
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import org.hibernate.type.LongType;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.stereotype.Repository;
-
-import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstCadreGroupEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
-import com.mahait.gov.in.model.MstEmployeeModel;
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 
 @Repository
 public class MstEmployeeRepoImpl implements MstEmployeeRepo {
@@ -45,7 +24,6 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	EntityManager entityManager;
 
 	
-<<<<<<< HEAD
 	
 	@Override
 	public DdoOffice findAllGroup(String ddocode) {
@@ -134,8 +112,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		}
 	}
 
-}
-=======
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> findDDOScreenDataTable(String ddoCode) {
@@ -203,4 +180,3 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		return null;
 	}
 }
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51

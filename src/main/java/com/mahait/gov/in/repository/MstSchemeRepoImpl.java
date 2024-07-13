@@ -53,7 +53,6 @@ return lstObj;
 }
 
 	@Override
-<<<<<<< HEAD
 	public List<MstDcpsBillGroup> findAllMpgSchemeBillGroupByDDOCode(String dDOCode, int roleid) {
 		String HQL = "FROM MstDcpsBillGroup as t where dcpsDdoCode ='"+dDOCode+"'ORDER BY t.dcpsDdoBillGroupId DESC";
 		return (List<MstDcpsBillGroup>) manager.createQuery(HQL).getResultList();
@@ -80,13 +79,11 @@ return lstObj;
 	}
 
 
-=======
 	public List<MstSchemeModel> findAllSchemename() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 	
 }

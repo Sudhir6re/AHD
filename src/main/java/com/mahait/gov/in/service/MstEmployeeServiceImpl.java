@@ -11,32 +11,20 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.repository.MstEmployeeRepo;
-=======
-import com.mahait.gov.in.common.StringHelperUtils;
-import com.mahait.gov.in.entity.MstCadreGroupEntity;
-import com.mahait.gov.in.model.DDOScreenModel;
-import com.mahait.gov.in.model.MstCadreModel;
-import com.mahait.gov.in.repository.MstEmployeeRepo;
-
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 
 @Service
 @Transactional
 @PropertySource(value = { "classpath:application.properties" })
 public class MstEmployeeServiceImpl implements MstEmployeeService {
-<<<<<<< HEAD
 	@PersistenceContext
 	EntityManager entityManager;
 	
-=======
 
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
 	@Autowired
 	private MstEmployeeRepo mstEmployeeRepo;
 	
@@ -75,6 +63,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthid, int commoncodeComponentGpfaCode) {
 		return mstEmployeeRepo.findGPFAdvDetails(sevaarthid, commoncodeComponentGpfaCode);
 	}
+}
 	
 	/*
 
@@ -123,11 +112,11 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				if (locale.equals("en")) {
 					/* obj.setFieldDepartmrnt(StringHelperUtils.isNullString(objLst[1])); */
 					/* obj.setCadreGroup(StringHelperUtils.isNullString(objLst[3])); */
-					obj.setCadreGroup(StringHelperUtils.isNullString(objLst[1]));
-				} else {
+				//	obj.setCadreGroup(StringHelperUtils.isNullString(objLst[1]));
+			/*	} else {
 					/* obj.setFieldDepartmrnt(StringHelperUtils.isNullString(objLst[2])); */
 					/* obj.setCadreGroup(StringHelperUtils.isNullString(objLst[4])); */
-					obj.setCadreGroup(StringHelperUtils.isNullString(objLst[2]));
+				/*	obj.setCadreGroup(StringHelperUtils.isNullString(objLst[2]));
 				}
 				obj.setCadreCode(StringHelperUtils.isNullInt(objLst[3]));
 				obj.setCadreDescription(StringHelperUtils.isNullString(objLst[4]));
@@ -144,7 +133,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return lstObj;
 	}
-<<<<<<< HEAD
 
 	@Override
 	public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
@@ -1149,7 +1137,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		
 		
 		
-		Object[] object3 = new Object[2];
+		/*Object[] object3 = new Object[2];
 		object3[0] = "3";
 		object3[1] = "MJP";
 		result.add(object3);
@@ -1175,7 +1163,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		object[1] = "a/C Maintained by Zilla Parishad";
 		result.add(object);
 		*/
-		Object[] object2 = new Object[2];
+		/*Object[] object2 = new Object[2];
 		object2[0] = "1";
 		object2[1] = "a/C Maintained by MJP";
 		result.add(object2);
@@ -2395,8 +2383,3 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 */
 
 
-
-	}
-=======
-}
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51

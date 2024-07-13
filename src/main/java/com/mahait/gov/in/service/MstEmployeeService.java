@@ -1,15 +1,8 @@
 package com.mahait.gov.in.service;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import javax.validation.Valid;
-
-import org.springframework.web.multipart.MultipartFile;
-
-<<<<<<< HEAD
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
@@ -231,6 +224,3 @@ public interface MstEmployeeService {
 	
 */
 }
-=======
-}
->>>>>>> 7e87c00bd885fd4af8524f6b096eacd019f3fa51
