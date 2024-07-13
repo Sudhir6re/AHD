@@ -114,10 +114,6 @@ public class DeptEligibilityForAllowAndDeductAdminController {
 				for (Object components : selecteditems) {
 					deptEligibilityForAllowAndDeductService.saveMpgDdoAllowDeduc(components,action,serialid,effectiveDate,selecteditems1);
 				}
-		for (Object object : selecteditems) {
-			deptEligibilityForAllowAndDeductService.saveMpgDdoAllowDeduc(object,action,serialid,effectiveDate,selecteditems1);
-			i++;
-		}
 		return null;
 	}
 	

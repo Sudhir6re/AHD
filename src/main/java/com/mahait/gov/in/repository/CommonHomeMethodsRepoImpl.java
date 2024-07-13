@@ -1,5 +1,7 @@
 package com.mahait.gov.in.repository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,8 +14,9 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
-import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 
@@ -249,6 +252,31 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	}
 
 
+	@Override
+	public List<MstMonthEntity> lstGetAllMonths() {
+		String HQL = "FROM MstMonthEntity as t ORDER BY t.monthId";
+		return (List<MstMonthEntity>) manager.createQuery(HQL).getResultList();
+	}
 
+	@Override
+	public List<MstYearEntity> lstGetAllYears() {
+		String HQL = "FROM MstYearEntity as t ORDER BY t.yearEnglish desc ";
+		return (List<MstYearEntity>) manager.createQuery(HQL).getResultList();
+
+	}
+	@Override
+	public Date findbillCreateDate(int billNumber) {
+		Session currentSession = manager.unwrap(Session.class);
+		List list = new ArrayList();
+		Date rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ="
+				+ billNumber + " limit 1 ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+		if (list != null && list.size() > 0)
+			rtnStr = (Date) list.get(0);
+		return rtnStr;
+	}
 
 }

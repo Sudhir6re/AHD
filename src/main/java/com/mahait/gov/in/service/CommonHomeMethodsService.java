@@ -1,12 +1,15 @@
 package com.mahait.gov.in.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstMenuModel;
@@ -64,6 +67,12 @@ public interface CommonHomeMethodsService {
 	public List<ReligionMstEntity> fetchAllReligions();
 
 	public List<MstDesnModel> findDesignation(String userName);
+	
+	public List<MstMonthEntity> lstGetAllMonths();
+
+	public List<MstYearEntity> lstGetAllYears();
+	
+	public Date findbillCreateDate(int billNumber);
 	
 	
 
