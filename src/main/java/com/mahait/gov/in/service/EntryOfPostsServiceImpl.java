@@ -681,9 +681,61 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	}
 
 	@Override
-	public List searchPostListByGrOrderId(Long locId, Long orderId) {
+	public List<OrgPostDetailsRlt> searchPostListByGrOrderId(Long locId, Long orderId) {
 		// TODO Auto-generated method stub
-		return entryOfPostsRepo.searchPostListByGrOrderId(orderId);
+		// entryOfPostsRepo.searchPostListByGrOrderId(orderId);
+		List customizedPostList = new ArrayList();
+		String regex = "(?<=[\\D])(?=\\d)";
+		List postList =entryOfPostsRepo.searchPostListByGrOrderId(orderId);
+		Integer totalRecords = postList.size();
+		HrPayOrderMst hrPayOrderMst =entryOfPostsRepo.find(orderId);
+		Date currentOrderDate = hrPayOrderMst.getOrderDate();
+	
+		String postStartDate = null;
+
+		for (int i = 0; i < totalRecords; i++) {
+			OrgPostDetailsRlt postDetailsRlt = new OrgPostDetailsRlt();
+			OrgPostDetailsRlt postDetailsRltNonPer = new OrgPostDetailsRlt();
+			postDetailsRlt = (OrgPostDetailsRlt) postList.get(i);
+
+			String postName = postDetailsRlt.getPostName();
+
+			if (postName.indexOf("_") != -1) {
+				String postNameArr[] = postName.split("_");
+				postDetailsRltNonPer.setPostName(postNameArr[0]
+				                                             .toString()
+				                                             + "	(" + postNameArr[1].toString() + ")");
+			} else {
+				String postNameArr[] = postName.split(regex);
+				postDetailsRltNonPer.setPostName(postNameArr[0]
+				                                             .toString()
+				                                             + "	(" + postNameArr[1].toString() + ")");
+			}
+
+			postDetailsRltNonPer.setPostDetailId(postDetailsRlt
+					.getPostDetailId());
+			postDetailsRltNonPer.setPostShortName(postDetailsRlt
+					.getPostShortName());
+			postDetailsRltNonPer
+			.setOrgDesignationMst(postDetailsRlt
+					.getOrgDesignationMst());
+			postDetailsRltNonPer.setOrgPostMst(postDetailsRlt
+					.getOrgPostMst());
+
+			postDetailsRltNonPer.setCmnBranchMst(postDetailsRlt
+					.getCmnBranchMst());
+			postDetailsRltNonPer.setCmnLanguageMst(postDetailsRlt
+					.getCmnLanguageMst());
+			postDetailsRltNonPer.setCmnLocationMst(postDetailsRlt
+					.getCmnLocationMst());
+			postDetailsRltNonPer.setCreatedDate(postDetailsRlt
+					.getCreatedDate());
+			
+
+			customizedPostList.add(postDetailsRltNonPer);
+		}
+		return customizedPostList;
+		
 	}
 /*
 	@Override

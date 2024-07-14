@@ -91,4 +91,6 @@ public interface EntryOfPostsRepo {
 
 	List getExpiryData(long locId, String ddoCode);
 
+	HrPayOrderMst find(Long orderId);
+
 }
