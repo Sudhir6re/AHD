@@ -76,42 +76,17 @@
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.billNumber}"></span></label>
 					<div class="col-sm-2">
-						<select class="form-control" th:field="*{billNumber}"
+					<select class="form-control" th:field="*{billNumber}"
 							id="billNumber">
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option th:each="varddoCode : ${lstBillNumber}"
-								th:value="${varddoCode.billDescription}"
-								th:data="${varddoCode.billGroupId}"
-								th:text="${language=='mh' ? varddoCode.billDescription : varddoCode.billDescription}"></option>
-						</select>
+								<option selected="selected" th:value="0" th:data="0"
+									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+								<option th:each="varSchemeBillGroup : ${lstBillGroupLvl2}"
+									th:value="${varSchemeBillGroup.billGrpId}"
+									th:data="${varSchemeBillGroup.billGrpId}"
+									th:text="${language=='mh' ? varSchemeBillGroup.billDesc : varSchemeBillGroup.billDesc}"></option>
+							</select>
 					</div>
 				</div>
-				<!-- <div class="form-group">
-					<label class="control-label col-sm-2" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.billType}"></span></label>
-					<div class="col-sm-2">
-						<select class="form-control" th:field="*{billType}" id = "billType" >
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option th:each="varddoCode : ${lstBillType}"
-								th:value="${varddoCode.schemeCode}"
-								th:text="${language=='mh' ? varddoCode.schemeName : varddoCode.schemeName}"></option>
-						</select>
-					</div>
-					<label class="control-label col-sm-2" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.billStatus}"></span></label>
-					<div class="col-sm-2">
-						<select class="form-control" th:field="*{billStatus}" id = "billStatus" >
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option th:each="varddoCode : ${lstBillStatus}"
-								th:value="${varddoCode.schemeCode}"
-								th:text="${language=='mh' ? varddoCode.schemeName : varddoCode.schemeName}"></option>
-						</select>
-					</div>
-				</div> -->
-
 				<div class="form-group">
 					<div class="text-center">
 						<input type="submit" id="btnSearch" class="btn btn-primary"

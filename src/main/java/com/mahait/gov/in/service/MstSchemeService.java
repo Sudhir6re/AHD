@@ -18,4 +18,6 @@ public interface MstSchemeService {
 
 	public List<MstScheme> findAllSchemeDetails(String data);
 
+	public List<MstSchemeModel> findAllMpgSchemeBillGroupBylvl2DDOCode(String userName);
+
 }

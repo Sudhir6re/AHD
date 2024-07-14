@@ -75,7 +75,7 @@ import com.mahait.gov.in.service.PayBillViewApprDelBillService;
 import com.mahait.gov.in.service.PaybillGenerationTrnService;
 
 @Controller
-@RequestMapping("/ddoast")
+@RequestMapping(value= {"/ddoast","/ddo"})
 public class PayBillViewApprDelBillController {
 //	protected final Log logger = LogFactory.getLog(getClass());
 	 PdfPTable table = new PdfPTable(7);
@@ -143,6 +143,8 @@ public class PayBillViewApprDelBillController {
 		model.addAttribute("roleId", messages.getMstRoleEntity().getRoleId());
 		model.addAttribute("userId", messages.getUserId());
 		
+		model.addAttribute("lstBillGroupLvl2", mstSchemeService
+				.findAllMpgSchemeBillGroupBylvl2DDOCode(messages.getUserName()));
 	   
 //		model.addAttribute("lstBillType", commonHomeMethodsService.findAllScheme());
 //		model.addAttribute("lstBillStatus", commonHomeMethodsService.findAllScheme());

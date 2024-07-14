@@ -79,4 +79,11 @@ public class MstSchemeServiceImpl implements MstSchemeService{
 	}
 
 
+	@Override
+	public List<MstSchemeModel> findAllMpgSchemeBillGroupBylvl2DDOCode(String userName) {
+		// TODO Auto-generated method stub
+		return mstSchemeRepo.findAllMpgSchemeBillGroupBylvl2DDOCode(userName);
+	}
+
+
 }

@@ -54,6 +54,7 @@ return lstObj;
 
 	@Override
 	public List<MstDcpsBillGroup> findAllMpgSchemeBillGroupByDDOCode(String dDOCode, int roleid) {
+		
 		String HQL = "FROM MstDcpsBillGroup as t where dcpsDdoCode ='"+dDOCode+"'ORDER BY t.dcpsDdoBillGroupId DESC";
 		return (List<MstDcpsBillGroup>) manager.createQuery(HQL).getResultList();
 		
@@ -83,6 +84,27 @@ return lstObj;
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<MstSchemeModel> findAllMpgSchemeBillGroupBylvl2DDOCode(String userName) {
+		// TODO Auto-generated method stub
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select bill_group_id,description from mst_dcps_bill_group a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code where rept_ddo_code = '"+userName+"' ";
+
+Query query = currentSession.createSQLQuery(HQL);
+
+List<Object[]> lstprop = query.list();
+List<MstSchemeModel> lstObj = new ArrayList<>();
+if (!lstprop.isEmpty()) {
+    for (Object[] objLst : lstprop) {
+    	MstSchemeModel obj = new MstSchemeModel();
+    	obj.setBillGrpId(StringHelperUtils.isNullBigInteger(objLst[0]));
+        obj.setBillDesc(StringHelperUtils.isNullString(objLst[1]));
+        lstObj.add(obj);
+    }
+}
+return lstObj;
+}
 
 	
 	

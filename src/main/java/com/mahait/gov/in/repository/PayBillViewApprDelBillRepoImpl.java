@@ -35,6 +35,7 @@ public class PayBillViewApprDelBillRepoImpl implements PayBillViewApprDelBillRep
 		currYear=currYear+1900;
 		currYear=currYear-2000;
 		
+		
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = "select a.paybill_generation_trn_id,b.description,b.scheme_code,b.scheme_name,a.bill_gross_amt,\r\n" + 
 				"a.bill_net_amount,a.is_active,a.no_of_employee,a.auth_no from paybill_generation_trn a inner join\r\n" + 
@@ -58,7 +59,9 @@ public class PayBillViewApprDelBillRepoImpl implements PayBillViewApprDelBillRep
 		String HQL = null;
 				if(roleId == 2) {
 				
-					 HQL = "select a.ddo_code from org_ddo_mst a inner join rlt_zp_ddo_map b on a.ddo_code=b.rept_ddo_code\r\n" + 
+					
+					
+					 HQL = "select CONCAT(b.zp_ddo_code, '_AST') from org_ddo_mst a inner join rlt_zp_ddo_map b on a.ddo_code=b.rept_ddo_code\r\n" + 
 					 		"		where a.ddo_code = '"+ddoCode+"'";
 					
 				}
@@ -88,12 +91,13 @@ public class PayBillViewApprDelBillRepoImpl implements PayBillViewApprDelBillRep
 				int month=d.getMonth()+1;
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select a.paybill_generation_trn_id,ddd.bill_description,dd.scheme_code,dd.scheme_name,a.bill_gross_amt,a.bill_net_amount,a.is_active,a.no_of_employee,a.auth_no from paybill_generation_trn a inner join \r\n" + 
-				"scheme_billgroup_mpg b on a.scheme_billgroup_id = b.bill_group_id \r\n" + 
-				"inner join ddo_map_rlt c on b.ddo_map_id = c.ddo_map_id \r\n" + 
-				"inner join scheme_mst dd on dd.scheme_id = b.scheme_id \r\n" + 
-				"inner join ddo_reg_mst cccc on a.ddo_code = cccc.ddo_code and cccc.ddo_reg_id = c.ddo_code_user_id1 \r\n" + 
-				"inner join bill_group_mst ddd on b.bill_group_id = ddd.bill_group_id where a.ddo_code in  :ddoCode and a.is_active = 2 and a.paybill_month = '"+month+"' and a.paybill_year="+currYear+" order by paybill_generation_trn_id desc";
+		String HQL = "select a.paybill_generation_trn_id,b.description,b.scheme_code,b.scheme_name,a.bill_gross_amt,\r\n" + 
+				"a.bill_net_amount,a.is_active,a.no_of_employee,a.auth_no from paybill_generation_trn a inner join \r\n" + 
+				"mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id \r\n" + 
+				"inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code \r\n" + 
+				"inner join org_ddo_mst cccc on c.zp_ddo_code = cccc.ddo_code where a.ddo_code in :ddoCode and a.is_active = 2 and a.paybill_month = '"+month+"'"
+						+ " and a.paybill_year="+currYear+" order by paybill_generation_trn_id desc ";
+				
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("findAlllstGenerateBillDetailsAgainstDDO2----"+HQL);
 		query.setParameter("ddoCode", ddoCode);
@@ -156,12 +160,12 @@ public class PayBillViewApprDelBillRepoImpl implements PayBillViewApprDelBillRep
 				HQL = "select a.paybill_generation_trn_id,b.description,b.scheme_code,b.scheme_name,a.bill_gross_amt,a.bill_net_amount,a.is_active,\r\n" + 
 						"a.no_of_employee,a.auth_no from paybill_generation_trn a inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id   \r\n" + 
 						"inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code inner join org_ddo_mst cccc on c.zp_ddo_code = cccc.ddo_code \r\n" + 
-						"where a.is_active  in(1) and a.paybill_month = "+paybillMonth+" and a.paybill_year = "+paybillYear+"  and a.ddo_code = '"+ddoCode+"' order by paybill_generation_trn_id desc";
+						"where a.is_active <>8 and a.paybill_month = "+paybillMonth+" and a.paybill_year = "+paybillYear+"  and a.ddo_code = '"+ddoCode+"' order by paybill_generation_trn_id desc";
 			}else {
 				HQL = "select a.paybill_generation_trn_id,b.description,b.scheme_code,b.scheme_name,a.bill_gross_amt,a.bill_net_amount,a.is_active,\r\n" + 
 						"a.no_of_employee,a.auth_no from paybill_generation_trn a inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id   \r\n" + 
 						"inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code inner join org_ddo_mst cccc on c.rept_ddo_code = cccc.ddo_code \r\n" + 
-						"where a.is_active  in(1) and a.paybill_month = "+paybillMonth+" and a.paybill_year = "+paybillYear+"  and a.rept_ddo_code = '"+ddoCode+"' order by paybill_generation_trn_id desc";
+						"where a.is_active  in(1,2) and a.paybill_month = "+paybillMonth+" and a.paybill_year = "+paybillYear+"  and c.rept_ddo_code = '"+ddoCode+"' order by paybill_generation_trn_id desc";
 
 				
 			}

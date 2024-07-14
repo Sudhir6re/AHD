@@ -1,7 +1,9 @@
 package com.mahait.gov.in.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,8 @@ public class PayBillViewApprDelBillServiceImpl implements PayBillViewApprDelBill
 		{
 			List<String> ddoCode1 = payBillViewApprDelBill.findDdoNameAgainstGivenDdo(ddoCode,roleId);
 //			logger.info(">>>> "+ddoCode1);
+			
+			
 			if(ddoCode1.isEmpty() || ddoCode1 == null ) {
 				return null;
 			}else {

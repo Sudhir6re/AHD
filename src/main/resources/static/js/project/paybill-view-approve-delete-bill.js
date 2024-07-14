@@ -252,7 +252,7 @@ jQuery(document)
 											$
 													.ajax({
 														type : "GET",
-														url : "../moderator/approveChangeStatement/"
+														url : "../ddo/approveChangeStatement/"
 																+ paybillGenerationTrnId +"/"+userId,
 														async : true,
 														contentType : 'application/json',
@@ -319,7 +319,7 @@ jQuery(document)
 									$
 											.ajax({
 												type : "GET",
-												url : "../moderator/rejectChangeStatement/"
+												url : "../ddo/rejectChangeStatement/"
 														+ paybillGenerationTrnId+"/"+userId,
 												async : true,
 												contentType : 'application/json',
