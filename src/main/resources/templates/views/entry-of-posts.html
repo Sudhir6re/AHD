@@ -58,6 +58,7 @@
 					</div>
 					<br>
 					<table class="table bor-0">
+
 						<tbody>
 							<tr>
 								<td width="20%" align="right"><b><label
@@ -100,7 +101,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr     th:each="userPostCustomVO,rowStat : ${getPostNameForDisplay}" >
+							<tr   th:each="userPostCustomVO,rowStat : ${getPostNameForDisplay}" >
 								<td th:text="${rowStat.index+1}">1</td>
 								<td th:text="${userPostCustomVO.empFullName}"></td>
 								<td th:text="${userPostCustomVO.postname}"></td>

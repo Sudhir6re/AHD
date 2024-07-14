@@ -348,6 +348,10 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		List postNameList = new ArrayList();
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
+		
+	//	Long locId1=Long.parseLong(locId);
+		//Long ddoSelected1=Long.parseLong(ddoSelected);
+		
 		sb.append(
 				"select pd.post_name, pd.post_id, (select o.employee_full_name_en from employee_mst o, org_userpost_rlt up ");
 		sb.append(
@@ -361,7 +365,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		if (PsrNo != null && !(PsrNo.trim()).equals(""))
 			sb.append("  and p.psr_no = " + PsrNo);
 		else if ((ddoSelected != null) && (ddoSelected != "")) {
-			sb.append(" and pd.loc_id =(select loc.location_code from org_ddo_mst loc where loc.ddo_code='" + ddoSelected
+			sb.append(" and pd.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='" + ddoSelected
 					+ "')");
 		} else if (BillNo != null && !(BillNo.trim()).equals(""))
 			sb.append("  and mp.bill_no  = " + BillNo);
