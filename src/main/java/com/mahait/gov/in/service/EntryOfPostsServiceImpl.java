@@ -555,13 +555,15 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setParentPostId(-1l);
 			newOrgPostMst.setPostLevelId(1l);
 			newOrgPostMst.setPostTypeLookupId(lObjCmnLookupMst);
+			newOrgPostMst.setOrderId(postEntryModel.getOrderCmb());
+			newOrgPostMst.setOrderDate(postEntryModel.getOrderDate());
+			newOrgPostMst.setDdoCode(postEntryModel.getDdoCode());
+			
 
 			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
 			
 			OrgPostMst pg1=entryOfPostsRepo.findPostObj(postId);
 			
-			
-
 			SubjectPostMpg subjectPostMpg = new SubjectPostMpg();
 
 			subjectPostMpg.setPostId(postId);
@@ -585,6 +587,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			orgPostDtlRlt.setPostName(desgnMst.getDesgination().concat(String.valueOf(nextPsr)));
 			orgPostDtlRlt.setPostShortName(desgnMst.getDesignationShortName().concat(String.valueOf(nextPsr)));
 			orgPostDtlRlt.setCmnLocationMst(cmnLocationMst);
+			orgPostDtlRlt.setIsVancant(0);
 			entryOfPostsRepo.savePostDtls(orgPostDtlRlt);
 
 			nextPsr++;
@@ -676,4 +679,27 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 
 		return post;
 	}
+
+	@Override
+	public List searchPostListByGrOrderId(Long locId, Long orderId) {
+		// TODO Auto-generated method stub
+		return entryOfPostsRepo.searchPostListByGrOrderId(orderId);
+	}
+/*
+	@Override
+	public List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate) {
+		return entryOfPostsRepo.getAllOrderDataByDate(locId,todaysDate);
+	}
+*/
+	@Override
+	public List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate, String ddoCode) {
+		return entryOfPostsRepo.getAllOrderDataByDate(locId,todaysDate,ddoCode);
+	}
+
+	@Override
+	public List getExpiryData(long locId, String ddoCode) {
+		return entryOfPostsRepo.getExpiryData(locId,ddoCode);
+	}
+	
+	
 }

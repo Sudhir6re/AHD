@@ -24,8 +24,9 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-			<form method="post" action="" name="frmRenewPost"
-				enctype="multipart/form-data" id="renewPost">
+			<form method="post" th:action="@{/ddo/renewPostEntry}"  id="renewPost" name="renewPost"
+				th:object="${postEntryModel}"
+				enctype="multipart/form-data" >
 				<fieldset>
 					<div>
 						<table class="table bor-0 width-60">
@@ -34,13 +35,16 @@
 									<td align="center" style="width: 30%"><b>Select GR No.
 											to be Renewed :</b></td>
 									<td align="left" style="width: 40%"><select
-										name="cmbOrder" id="cmbOrder"
+										name="oldGrOrderId" id="oldGrOrderId"     th:field="*{oldGrOrderId}"
 										onchange="getSelectedOrderDate()">
 											<option value="-1">-- Select --</option>
-											<option value="">1008</option>
-											<option value="">SCP-2010-(183/10)MA SHI-1</option>
+											<option th:each="order : ${postExpiryList}"
+												th:value="${order.orderId}" th:text="${order.orderName}"></option>
 									</select> <label class="mandatoryindicator">*</label></td>
-									<td width="10%" align="left"></td>
+									
+									<td width="10%" align="left">
+									<input type="text" size="10" name ="oldGrOrderDate" id="oldGrOrderDate"  th:field="*{oldGrOrderDate}"  value="" readonly="readonly">
+				</td>
 								</tr>
 							</tbody>
 						</table>
@@ -76,54 +80,20 @@
 											</thead>
 											<tbody>
 												<tr>
-													<td style="text-align: center"><input type="checkbox"
+													<td style="text-align: center">
+													
+													<input type="checkbox"
 														name="GroupCheck" id="GroupCheck1" value="77201790741">
 													</td>
-													<td style="text-align: left;"><label id="postName1"><b>Senior
-																Clerk (41)</b><b>T</b></label></td>
-												</tr>
-												<tr>
-													<td style="text-align: center"><input type="checkbox"
-														name="GroupCheck" id="GroupCheck2" value="77201790742">
+													
+													<td style="text-align: left;">
+													<label id="postName1"><b>Senior
+																Clerk (41)</b><b>T</b></label>
 													</td>
-													<td style="text-align: left;"><label id="postName2"><b>Senior
-																Clerk (42)</b><b>T</b></label></td>
+																
+																
 												</tr>
-												<tr>
-													<td style="text-align: center"><input type="checkbox"
-														name="GroupCheck" id="GroupCheck3" value="77201790743">
-													</td>
-													<td style="text-align: left;"><label id="postName3"><b>Senior
-																Clerk (43)</b><b>T</b></label></td>
-												</tr>
-												<tr>
-													<td style="text-align: center"><input type="checkbox"
-														name="GroupCheck" id="GroupCheck4" value="77201790744">
-													</td>
-													<td style="text-align: left;"><label id="postName4"><b>Senior
-																Clerk (44)</b><b>T</b></label></td>
-												</tr>
-												<tr>
-													<td style="text-align: center"><input type="checkbox"
-														name="GroupCheck" id="GroupCheck5" value="7720179078">
-													</td>
-													<td style="text-align: left;"><label id="postName5"><b>Senior
-																Clerk (8)</b><b>T</b></label></td>
-												</tr>
-												<tr>
-													<td style="text-align: center"><input type="checkbox"
-														name="GroupCheck" id="GroupCheck6" value="77201790714">
-													</td>
-													<td style="text-align: left;"><label id="postName6"><b>Senior
-																Clerk (14)</b><b>T</b></label></td>
-												</tr>
-												<tr>
-													<td style="text-align: center"><input type="checkbox"
-														name="GroupCheck" id="GroupCheck7" value="77201790718">
-													</td>
-													<td style="text-align: left;"><label id="postName7"><b>Senior
-																Clerk (18)</b><b>T</b></label></td>
-												</tr>
+												
 											</tbody>
 										</table>
 									</div>
@@ -137,33 +107,31 @@
 													<td width="40%" valign="middle" align="left"><b>
 															Old GR :</b></td>
 													<td width="60%" align="left"><input type="text"
-														size="30" name="currentOrder" id="currentOrder" value="">
+														size="30" name="currentOrder" id="currentOrder"  th:field="*{currentOrder}"  value="">
 													</td>
 												</tr>
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															Old GR Date :</b></td>
 													<td width="60%" align="left"><input type="date"
-														size="10" name="currentOrderDate" id="currentOrderDate"
+														size="10" name="currentOrderDate" id="currentOrderDate" th:field="*{currentOrderDate}" 
 														value="28/03/2011"></td>
 												</tr>
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															New GR No:</b></td>
 													<td width="60%" valign="middle" align="left"><select
-														name="cmbNewOrder" id="cmbNewOrder">
+														name="cmbNewOrder" id="cmbNewOrder"  th:field="*{cmbNewOrder}"   >
 															<option value="-1" selected="selected">-- Select
 																--</option>
-															<option value="">1008</option>
-															<option value="">999</option>
-															<option value="">SCP-2010-(183/10)MA SHI-1</option>
-															<option value="">SCP-2010/-(183/1)/MA SHI-1</option>
+															<option th:each="order : ${orderList}"
+																th:value="${order.orderId}" th:text="${order.orderName}"></option>
 													</select> <label class="mandatoryindicator">*</label></td>
 												</tr>
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															New GR Date :</b></td>
-													<td width="60%" align="left"><input type="date"
+													<td width="60%" align="left"><input type="date"   th:field="*{renewalStartDate}"
 														size="10" name="renewalStartDate" id="renewalStartDate"
 														value="" maxlength="10"></td>
 												</tr>
@@ -171,7 +139,7 @@
 													<td width="40%" valign="middle" align="left"><b>
 															Renewal Post Start Date :</b></td>
 													<td width="60%" align="left"><input type="date"
-														size="10" name="renewalPostStartDate"
+														size="10" name="renewalPostStartDate"    th:field="*{renewalPostStartDate}"  
 														id="renewalPostStartDate" maxlength="10"
 														value="01/03/2011"> &nbsp; <label
 														class="mandatoryindicator">*</label></td>
@@ -180,7 +148,7 @@
 													<td width="40%" valign="middle" align="left"><b>
 															Renewal Post End Date :</b></td>
 													<td width="60%" align="left"><input type="date"
-														size="10" name="renewalEndDate" id="renewalEndDate"
+														size="10" name="renewalEndDate" id="renewalEndDate"  th:field="*{renewalEndDate}"    
 														maxlength="10" value=""> &nbsp; <label
 														class="mandatoryindicator">*</label></td>
 												</tr>

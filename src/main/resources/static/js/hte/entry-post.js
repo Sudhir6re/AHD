@@ -29,6 +29,7 @@ $("#orderCmb").change(function(){
 	    			    var formattedDate = orderDate.toISOString().split('T')[0]; // Convert Date to yyyy-MM-dd format
 
 	    			    $("#OrderDate").val(formattedDate);
+	    			   // $("#ddoCode").val(data[0].ddoCode);
 	    			    
 	    			 //$( "#OrderDate").val(new Date(data[0].orderDate));
 	    		 }

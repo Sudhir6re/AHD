@@ -119,6 +119,10 @@ public class OrgPostDetailsRlt implements Serializable {
     @Column(name = "UPDATED_DATE", length = 19)
     private Timestamp updatedDate;
     
+    
+	@Column(name = "IS_VACANT")
+	private Integer  isVancant;
+    
     /*
 
     @ManyToOne(fetch = FetchType.LAZY)
