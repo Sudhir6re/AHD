@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +74,14 @@ public interface CommonHomeMethodsService {
 	public List<MstYearEntity> lstGetAllYears();
 	
 	public Date findbillCreateDate(int billNumber);
+	
+	public List<Object[]> findDetailsBillNumber(int billNumber);
+	
+	public List<Object[]> findyearinfo(BigInteger yearcurr);
+	
+	public List<Object[]> findmonthinfo(BigInteger bigInteger);
+
+	public String getOffice(String ddoCode);
 	
 	
 

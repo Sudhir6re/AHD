@@ -1,5 +1,6 @@
 package com.mahait.gov.in.repository;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -278,5 +279,45 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 			rtnStr = (Date) list.get(0);
 		return rtnStr;
 	}
+	@Override
+	public List<Object[]> findDetailsBillNumber(int billNumber) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from paybill_generation_trn  where paybill_generation_trn_id = " + billNumber;
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
 
+	@Override
+	public List<Object[]> findyearinfo(BigInteger yearcurr) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from year_mst  where year_id  = '" + yearcurr + "' ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
+	
+	@Override
+	public List<Object[]> findmonthinfo(BigInteger month) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from month_mst     where month_id   ='" + month + "' ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
+	
+	@Override
+	public String getOffice(String userName) {
+
+		Session currentSession = manager.unwrap(Session.class);
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select off_name from mst_dcps_ddo_office wnhere ddo_code  ='" + userName + "' ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+
+		if (list != null && list.size() > 0)
+			rtnStr = list.get(0).toString();
+
+		return rtnStr;
+
+	}
 }

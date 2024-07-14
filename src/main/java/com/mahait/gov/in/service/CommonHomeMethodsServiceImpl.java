@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -364,5 +365,25 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	@Override
 	public List<MstYearEntity> lstGetAllYears() {
 		return commonHomeMethodsRepo.lstGetAllYears();
+	}
+	
+	@Override
+	public List<Object[]> findyearinfo(BigInteger yearcurr) {
+		return commonHomeMethodsRepo.findyearinfo(yearcurr);
+	}
+
+	@Override
+	public List<Object[]> findDetailsBillNumber(int billNumber) {
+		return commonHomeMethodsRepo.findDetailsBillNumber(billNumber);
+	}
+	
+	@Override
+	public List<Object[]> findmonthinfo(BigInteger month) {
+		return commonHomeMethodsRepo.findmonthinfo(month);
+	}
+	
+	@Override
+	public String getOffice(String userName) {
+		return commonHomeMethodsRepo.getOffice(userName);
 	}
 }

@@ -297,7 +297,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				paybillHeadMpgModel.getPaybillMonth(), paybillHeadMpgModel.getPaybillYear());
 		/// }
 
-		int val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
+		Long val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
 
 		paybillStatusEntity.setBillNo(val);
 		paybillStatusEntity.setCreatedDate(new Date());
@@ -7747,7 +7747,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findForwardChangeStatementById(int paybillGenerationTrnId, Long userId,
+	public PaybillGenerationTrnEntity findForwardChangeStatementById(Long paybillGenerationTrnId, Long userId,
 			String ip) {
 
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
@@ -7779,7 +7779,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findApproveChangeStatementById(int paybillGenerationTrnId, Long userId,
+	public PaybillGenerationTrnEntity findApproveChangeStatementById(Long paybillGenerationTrnId, Long userId,
 			String ip) {
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
 				.findForwardChangeStatementById(paybillGenerationTrnId);
@@ -7812,7 +7812,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findRejectChangeStatementById(int paybillGenerationTrnId, Long userId, String ip) {
+	public PaybillGenerationTrnEntity findRejectChangeStatementById(Long paybillGenerationTrnId, Long userId, String ip) {
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
 				.findForwardChangeStatementById(paybillGenerationTrnId);
 		PaybillStatusEntity paybillStatusEntity = new PaybillStatusEntity();
@@ -7844,7 +7844,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findDeleteBillById(int paybillGenerationTrnId, Long userId, String ip) {
+	public PaybillGenerationTrnEntity findDeleteBillById(Long paybillGenerationTrnId, Long userId, String ip) {
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
 				.findForwardChangeStatementById(paybillGenerationTrnId);
 
@@ -7877,7 +7877,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findForwardBillById(int paybillGenerationTrnId, Long userId, String ip) {
+	public PaybillGenerationTrnEntity findForwardBillById(Long paybillGenerationTrnId, Long userId, String ip) {
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
 				.findForwardChangeStatementById(paybillGenerationTrnId);
 
@@ -7909,7 +7909,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity forwardPayBillToLevel2(int paybillGenerationTrnId, Long userId, String ip) {
+	public PaybillGenerationTrnEntity forwardPayBillToLevel2(Long paybillGenerationTrnId, Long userId, String ip) {
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
 				.forwardPayBillToLevel2(paybillGenerationTrnId);
 
@@ -7942,7 +7942,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 	/* Added by Brijoy 24-12-2020 by Generate Paybill */
 	@Override
-	public PaybillGenerationTrnEntity generatePaybill(int paybillGenerationTrnId, Long userId, String ip) {
+	public PaybillGenerationTrnEntity generatePaybill(Long paybillGenerationTrnId, Long userId, String ip) {
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
 				.forwardPayBillToLevel2(paybillGenerationTrnId);
 
@@ -8006,7 +8006,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	// return 0;
 	// }
 
-	public PaybillGenerationTrnEntity consolidatedPaybill(int paybillGenerationTrnId, Long userId, String ip) {
+	public PaybillGenerationTrnEntity consolidatedPaybill(Long paybillGenerationTrnId, Long userId, String ip) {
 		PaybillGenerationTrnEntity objPaybillGeberationTrnEntity = paybillHeadMpgRepo
 				.consolidatedPaybill(paybillGenerationTrnId);
 		PaybillStatusEntity paybillStatusEntity = new PaybillStatusEntity();
@@ -8235,7 +8235,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				paybillHeadMpgModel.getDdoCode(), paybillHeadMpgModel.getSchemeBillgroupId(),
 				paybillHeadMpgModel.getPaybillMonth(), paybillHeadMpgModel.getPaybillYear());
 
-		int val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
+		Long val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
 
 		for (MstEmployeeEntity mstEmployeeEntity2 : mstEmployeeEntity) {
 
@@ -9969,7 +9969,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		List<MstEmployeeEntity> mstEmployeeEntity = mstEmployeeService
 				.findAllWorkingEmployeeByDDOCodeAndBillGroup(ddocode, schemeBillGroupId, month, year);
 
-		int val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
+		Long val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
 		StringBuffer sb = new StringBuffer();
 		for (MstEmployeeEntity mstEmployeeEntity2 : mstEmployeeEntity) {
 
@@ -10010,7 +10010,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findPaybillById(int paybillGenerationTrnId, String voucherNo, Date voucherDate,
+	public PaybillGenerationTrnEntity findPaybillById(Long paybillGenerationTrnId, String voucherNo, Date voucherDate,
 			String chqNo, Date chequeDate, String accNo, String ifscCode, Long userId) {
 		// TODO Auto-generated method stub
 

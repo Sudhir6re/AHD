@@ -175,7 +175,7 @@ public class PayBillViewApprDelBillController {
 	
 	
 	@GetMapping("/forwardChangeStatement/{paybillGenerationTrnId}/{userId}")
-	public String forwardChangeStatement(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable int paybillGenerationTrnId,
+	public String forwardChangeStatement(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable Long paybillGenerationTrnId,
 			@PathVariable Long userId,Model model,Locale locale,HttpSession session,HttpServletRequest request) {
 		
 		
@@ -208,7 +208,7 @@ public class PayBillViewApprDelBillController {
 	
 	
 	@GetMapping("/approveChangeStatement/{paybillGenerationTrnId}/{userId}")
-	public String approveChangeStatement(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable int paybillGenerationTrnId,
+	public String approveChangeStatement(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable Long paybillGenerationTrnId,
 			@PathVariable Long userId,Model model,Locale locale,HttpSession session,HttpServletRequest request) {
 		
 		String clientIP = request.getRemoteAddr();
@@ -236,7 +236,7 @@ public class PayBillViewApprDelBillController {
 	
 	//for reject change statement (3-12-2020)
 	@GetMapping("/rejectChangeStatement/{paybillGenerationTrnId}/{userId}")
-	public String rejectChangeStatement(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable int paybillGenerationTrnId,
+	public String rejectChangeStatement(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable Long paybillGenerationTrnId,
 			@PathVariable Long userId,Model model,Locale locale,HttpSession session,HttpServletRequest request) {
 
 		String clientIP = request.getRemoteAddr();
@@ -265,7 +265,7 @@ public class PayBillViewApprDelBillController {
 	
 	
 	@GetMapping("/deleteBill/{paybillGenerationTrnId}/{userId}")
-	public String deleteBill(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable int paybillGenerationTrnId,
+	public String deleteBill(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable Long paybillGenerationTrnId,
 			@PathVariable Long userId,Model model,Locale locale,HttpSession session,HttpServletRequest request) {
 		String clientIP = request.getRemoteAddr();
 		
@@ -295,7 +295,7 @@ public class PayBillViewApprDelBillController {
 	}
 	
 	@GetMapping("/btnForwardBill/{paybillGenerationTrnId}/{userId}")
-	public String btnForwardBill(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable int paybillGenerationTrnId,
+	public String btnForwardBill(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable Long paybillGenerationTrnId,
 			@PathVariable Long userId,Model model,Locale locale,HttpSession session,HttpServletRequest request) {
 		
 		String clientIP = request.getRemoteAddr();
@@ -342,7 +342,7 @@ public class PayBillViewApprDelBillController {
 	}*/ 
 	
 	@RequestMapping(value="/forwardPayBillToLevel2/{paybillGenerationTrnId}/{userId}")	// , method = RequestMethod.POST
-	public String deleteCadre(@PathVariable int paybillGenerationTrnId,@PathVariable Long userId,Model model,Locale locale,HttpServletRequest request) {
+	public String deleteCadre(@PathVariable Long paybillGenerationTrnId,@PathVariable Long userId,Model model,Locale locale,HttpServletRequest request) {
 		
 		String clientIP = request.getRemoteAddr();
 		
@@ -364,7 +364,7 @@ public class PayBillViewApprDelBillController {
 	
 	/* Added by Brijoy 24-12-2020 for Generate Paybill*/
 	@RequestMapping(value="/generatePaybill/{paybillGenerationTrnId}/{userId}")	// , method = RequestMethod.POST
-	public String generatePaybill(@PathVariable int paybillGenerationTrnId,@PathVariable Long userId,Model model,Locale locale,HttpServletRequest request) {
+	public String generatePaybill(@PathVariable Long paybillGenerationTrnId,@PathVariable Long userId,Model model,Locale locale,HttpServletRequest request) {
 		
 		String clientIP = request.getRemoteAddr();
 		
@@ -4455,7 +4455,7 @@ public class PayBillViewApprDelBillController {
 				.contentType(MediaType.APPLICATION_PDF).contentLength(serverFile.length()).body(inputStreamResource);
 	}
 	@GetMapping("/updateVoucherDtls/{paybillGenerationTrnId}/{voucherNo}/{voucherDate}/{chqNo}/{chqDate}/{accNo}/{ifscCode}/{userId}")
-	public String updateVoucherDtls(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable int paybillGenerationTrnId,
+	public String updateVoucherDtls(@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,@PathVariable Long paybillGenerationTrnId,
 			Model model,HttpServletRequest request,Locale locale,HttpSession session,@PathVariable String voucherNo,@PathVariable String voucherDate,@PathVariable String chqNo,@PathVariable String chqDate,@PathVariable String accNo,@PathVariable String ifscCode,@PathVariable Long userId) {
 		Date vdate =null;
 		Date chequeDate =null;

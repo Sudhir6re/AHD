@@ -22,7 +22,7 @@ public class PaybillGenerationTrnEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="PAYBILL_GENERATION_TRN_ID")
-    private int paybillGenerationTrnId;  
+    private Long paybillGenerationTrnId;  
 	
 	@Column(name="BILL_CATEGORY")
     private Integer billCategory;

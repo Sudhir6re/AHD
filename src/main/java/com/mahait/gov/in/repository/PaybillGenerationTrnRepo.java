@@ -16,13 +16,13 @@ public interface PaybillGenerationTrnRepo {
 	public int savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity);
 	public int saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails);
 	
-	public int getPaybillGenerationTrnId();
+	public Long getPaybillGenerationTrnId();
 	
-	public PaybillGenerationTrnEntity findForwardChangeStatementById(int paybillGenerationTrnId);
+	public PaybillGenerationTrnEntity findForwardChangeStatementById(Long paybillGenerationTrnId);
 	
 	public void updateForwardChangeStatementStatus(PaybillGenerationTrnEntity paybillGenerationTrnEntity);
 	
-	public PaybillGenerationTrnEntity forwardPayBillToLevel2(int paybillGenerationTrnId);
+	public PaybillGenerationTrnEntity forwardPayBillToLevel2(Long paybillGenerationTrnId);
     ///public int getpaybilldata(String billGroup, String paybillMonth, String paybillYear);
 	public int isPaybillExists(BigInteger billGroup, int paybillMonth, int paybillYear);
 	public List<Object[]> findpaybill(BigInteger billGroup, int paybillMonth, int paybillYear,String ddo);
@@ -33,7 +33,7 @@ public interface PaybillGenerationTrnRepo {
 	
 	public List<Object[]> getChangeStatementReportFromPreviousMonth(String ddoCode);
 
-	public PaybillGenerationTrnEntity consolidatedPaybill(int paybillGenerationTrnId);
+	public PaybillGenerationTrnEntity consolidatedPaybill(Long paybillGenerationTrnId);
 	public List<Object[]>  findDDOinfo(String userName);
 	public List<Object[]> findregIdinfo(Long regid);
 	public List<Object[]> findmonthinfo(BigInteger currmonth);
@@ -51,7 +51,7 @@ public interface PaybillGenerationTrnRepo {
 	public String isEmpRetired(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType, String userName);
 	
 	public String isEmpRetiredBySevaarthId(String sevaarthId,Date suppAnnDate);
-	public PaybillGenerationTrnEntity findPaybillById(int paybillGenerationTrnId);
+	public PaybillGenerationTrnEntity findPaybillById(Long paybillGenerationTrnId);
 	public void updateVoucherEntry(PaybillGenerationTrnEntity objPaybillGeberationTrnEntity);
 	public Integer getannualincment(String sevaarthId, String startDate);
 	public Integer getamtbeforeannualincment(String sevaarthId, String startDate);

@@ -52,15 +52,15 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public int getPaybillGenerationTrnId() {
+	public Long getPaybillGenerationTrnId() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = " SELECT coalesce(max(ch.paybillGenerationTrnId), 0) FROM PaybillGenerationTrnEntity ch";
 		Query query = currentSession.createQuery(hql);
-		return (int) query.list().get(0);
+		return (Long) query.list().get(0);
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findForwardChangeStatementById(int paybillGenerationTrnId) {
+	public PaybillGenerationTrnEntity findForwardChangeStatementById(Long paybillGenerationTrnId) {
 		PaybillGenerationTrnEntity objCadre = null;
 		Session currentSession = entityManager.unwrap(Session.class);
 		objCadre = currentSession.get(PaybillGenerationTrnEntity.class, paybillGenerationTrnId);
@@ -75,7 +75,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity forwardPayBillToLevel2(int paybillGenerationTrnId) {
+	public PaybillGenerationTrnEntity forwardPayBillToLevel2(Long paybillGenerationTrnId) {
 		PaybillGenerationTrnEntity objCadre = null;
 		Session currentSession = entityManager.unwrap(Session.class);
 		objCadre = currentSession.get(PaybillGenerationTrnEntity.class, paybillGenerationTrnId);
@@ -715,7 +715,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity consolidatedPaybill(int paybillGenerationTrnId) {
+	public PaybillGenerationTrnEntity consolidatedPaybill(Long paybillGenerationTrnId) {
 		PaybillGenerationTrnEntity objCadre = null;
 		Session currentSession = entityManager.unwrap(Session.class);
 		objCadre = currentSession.get(PaybillGenerationTrnEntity.class, paybillGenerationTrnId);
@@ -959,7 +959,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public PaybillGenerationTrnEntity findPaybillById(int paybillGenerationTrnId) {
+	public PaybillGenerationTrnEntity findPaybillById(Long paybillGenerationTrnId) {
 		PaybillGenerationTrnEntity objCadre = null;
 		Session currentSession = entityManager.unwrap(Session.class);
 		objCadre = currentSession.get(PaybillGenerationTrnEntity.class, paybillGenerationTrnId);

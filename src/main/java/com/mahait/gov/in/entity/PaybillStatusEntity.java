@@ -29,7 +29,7 @@ public class PaybillStatusEntity {
 	private String macId;
 	
 	@Column(name = "BILL_NO")
-	private Integer billNo;
+	private Long billNo;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "CREATED_DATE")
