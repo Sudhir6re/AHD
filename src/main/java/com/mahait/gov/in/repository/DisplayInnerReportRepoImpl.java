@@ -28,6 +28,9 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	{
 		Session currentSession = manager.unwrap(Session.class);
 		
+		String split[]=strddo.split("_");
+		strddo=split[0];
+		
 		String HQL = "select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,'0' tempvalue,' ' tempempty,department_allowdeduc_col_nm "
 				+ " from employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id "
 				+ " inner join department_allowdeduc_mst d ON b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+strddo+"' and paybill_generation_trn_id  = "+billNumber+"  " //and  d.department_allowdeduc_col_nm <> 'LIC'

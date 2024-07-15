@@ -147,7 +147,7 @@ public class DisplayInnerReportController {
 		for (Object[] yearLst : yearinfo) {
 			curryear = yearLst[1].toString();
 		}
-		String officeDetails = commonHomeMethodsService.getOffice(messages.getUserName());
+		String officeDetails = commonHomeMethodsService.getOffice(messages.getDdoCode());
 
 		Date createdateded = displayInnerReportService.findbillCreateDate(billNumber);
 		model.addAttribute("createddate", sdf.format(createdateded));
@@ -178,7 +178,7 @@ public class DisplayInnerReportController {
 		int pageSize = 1;
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
 		Page<DisplayInnerReportModel> innerrptPage = displayInnerReportService.findPaginated(
-				PageRequest.of(currentPage - 1, pageSize), billNumber, messages.getUserName().toString());
+				PageRequest.of(currentPage - 1, pageSize), billNumber, messages.getDdoCode().toString());
 
 		model.addAttribute("innerrptPage", innerrptPage);
 
@@ -211,7 +211,7 @@ public class DisplayInnerReportController {
 		for (Object[] yearLst : yearinfo) {
 			curryear = yearLst[1].toString();
 		}
-		String officeDetails = commonHomeMethodsService.getOffice(messages.getUserName());
+		String officeDetails = commonHomeMethodsService.getOffice(messages.getDdoCode());
 
 		Date createdateded = displayInnerReportService.findbillCreateDate(billNumber);
 		String billDetails = displayInnerReportService.getbillDetails(billNumber);

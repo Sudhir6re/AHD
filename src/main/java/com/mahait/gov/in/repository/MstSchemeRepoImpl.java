@@ -66,6 +66,7 @@ return lstObj;
 		yearName = yearName -1;
 		String HQL;
 
+		
 		if(monthName >= 1 && monthName < 10) {
 		HQL = "select count(emst.employee_id) from employee_mst emst where emst.is_active = 1 and  emst.ddo_code = '"+ddoCode.trim()+"' and emst.billgroup_id = '"+billGroupId+"' and to_char(emst.doj,'YYYY-MM')<='20"+yearName+"-0"+monthName+"' "
 				+ " and  (to_char(emst.super_ann_date,'YYYY-MM')>='20"+yearName+"-0"+monthName+"' and   to_char(emst.emp_service_end_date,'YYYY-MM')>='20"+yearName+"-0"+monthName+"') ";
