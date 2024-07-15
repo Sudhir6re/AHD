@@ -2944,15 +2944,15 @@ $("#stateCode")
 															temp,
 															function(index,
 																	value) {
-																console
-																		.log(value[2]);
+//																console
+//																		.log(value[2]);
 																$(
 																		'#districtCode')
 																		.append(
 																				"<option value="
-																						+ value[3]
+																						+ value[0]
 																						+ ">"
-																						+ value[4]
+																						+ value[1]
 																						+ "</option>");
 															});
 										} else {
@@ -3444,7 +3444,7 @@ $("#cadre")
 				function() {
 					var cadreid = $("#cadre").val();
 					// alert("DDO CODE is "+departmentId);
-					//  alert("payScale CODE is "+payScale);
+					  alert("cadreid"+cadreid);
 
 					var dob = $("#dob").val();
 					if (dob == "") {
@@ -3485,7 +3485,7 @@ $("#cadre")
 																$(
 																		"#superannuationage")
 																		.val(
-																				value[6]);
+																				value[1]);
 																var dateString = document
 																		.getElementById("dob").value;
 																var birthDate = new Date(
@@ -3493,7 +3493,7 @@ $("#cadre")
 																var lastDay = new Date(
 																		birthDate
 																				.getFullYear()
-																				+ value[6],
+																				+ value[1],
 																		birthDate
 																				.getMonth() + 1,
 																		0);

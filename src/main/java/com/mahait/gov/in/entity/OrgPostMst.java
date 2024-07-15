@@ -166,8 +166,9 @@ public class OrgPostMst implements Serializable {
     
     */
     
-    
-    
+
+    @Column(name = "OFFICE_ID")
+    private Long officeId;
     
 
 

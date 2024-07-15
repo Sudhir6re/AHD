@@ -50,6 +50,8 @@ public interface CommonHomeMethodsService {
 	public List<Object[]> retriveUserdetails(Long userId);
 
 	public List<ReligionMstEntity> fetchAllReligions();
+
+	public List<CmnLookupMst> findCommonMstByLookupname(String commoncodeSalutations);
 	
 
 	

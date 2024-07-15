@@ -7,6 +7,8 @@ public interface LocationMasterService {
 	
 	
 	public List<Object[]> findAllStates(int countryId);
+
+	public List<Object[]> findAllDistricts(long stateId);
 	
 //	public List<Object[]> findAllDistricts(int stateId);
 //	

@@ -94,10 +94,10 @@ public class DdoBillGroupAttachDetachController {
 		String search = (String) model.asMap().get("SEARCH");
 		
 		List<Object[]> lstAttachedEmployee=null;
-
-
+		
+		String type=(String)model.asMap().get("type");
+ 
 		if (search != null && search.equals("SEARCH")) {
-			
 			String scmebillgroupid=(String)model.asMap().get("schemebillgroup");
 			 mpgSchemeBillGroupModel.setSchemebillGroupId(Long.valueOf(scmebillgroupid.trim()));
 			lstAttachedEmployee=ddoBillGroupService.findAttachedEmployee(messages.getUserName(),mpgSchemeBillGroupModel.getSchemebillGroupId().toString());

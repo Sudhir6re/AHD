@@ -50,5 +50,7 @@ public interface CommonHomeMethodsRepo {
 
 	public List<ReligionMstEntity> fetchAllReligions();
 
+	public List<Object[]> findLookUpNameDesc(String commoncodeSalutations);
+
 	
 }

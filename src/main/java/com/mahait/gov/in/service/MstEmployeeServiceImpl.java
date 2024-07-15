@@ -36,9 +36,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.AppoinmentEntity;
 import com.mahait.gov.in.entity.MstCadreGroupEntity;
+import com.mahait.gov.in.entity.MstDcpsDesignation;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstCadreModel;
+import com.mahait.gov.in.model.MstEmployeeModel;
 import com.mahait.gov.in.repository.MstEmployeeRepo;
 
 
@@ -57,10 +61,10 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 	EntityManager entityManager;
 
 	@Override
-	public List<DDOScreenModel> findDDOScreenDataTable(String locale, String ddoCode) {
+	public List<DDOScreenModel> findDDOScreenDataTable(String locale, long loc_id) {
 		List<Object[]> lstprop = null;
 		try {
-			lstprop = mstEmployeeRepo.findDDOScreenDataTable(ddoCode);
+			lstprop = mstEmployeeRepo.findDDOScreenDataTable(loc_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,32 +89,15 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 
 	@Override
-	public List<MstCadreModel> getCadreMstData(String locale) {
-		List<Object[]> lstprop = mstEmployeeRepo.getCadreMstData();
+	public List<MstCadreModel> getCadreMstData(String locale,long loc_id) {
+		long fielddeptId = mstEmployeeRepo.getFieldDeptId(loc_id);
+		List<Object[]> lstprop = mstEmployeeRepo.getCadreMstData(fielddeptId);
 		List<MstCadreModel> lstObj = new ArrayList<>();
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				MstCadreModel obj = new MstCadreModel();
-				obj.setCadreId(StringHelperUtils.isNullInt(objLst[0]));
-				if (locale.equals("en")) {
-					/* obj.setFieldDepartmrnt(StringHelperUtils.isNullString(objLst[1])); */
-					/* obj.setCadreGroup(StringHelperUtils.isNullString(objLst[3])); */
-					obj.setCadreGroup(StringHelperUtils.isNullString(objLst[1]));
-				} else {
-					/* obj.setFieldDepartmrnt(StringHelperUtils.isNullString(objLst[2])); */
-					/* obj.setCadreGroup(StringHelperUtils.isNullString(objLst[4])); */
-					obj.setCadreGroup(StringHelperUtils.isNullString(objLst[2]));
-				}
-				obj.setCadreCode(StringHelperUtils.isNullInt(objLst[3]));
-				obj.setCadreDescription(StringHelperUtils.isNullString(objLst[4]));
-				if (objLst[7] != null && objLst[7].equals('2')) {
-					obj.setWhetherMinisterial("Yes");
-				} else if (objLst[7] != null && objLst[7].equals('3')) {
-					obj.setWhetherMinisterial("No");
-				}
-				obj.setSuperAnnuationAge(StringHelperUtils.isNullBigDecimal(objLst[6]));
-				obj.setIsActive(StringHelperUtils.isNullInt(Integer.parseInt(String.valueOf(objLst[7]))));
-
+				obj.setCadreId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+				obj.setCadreDescription(StringHelperUtils.isNullString(objLst[1]));
 				lstObj.add(obj);
 			}
 		}
@@ -206,6 +193,140 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return result;
 	}
+	@Override
+	public List<Object[]> findEmployeeConfigurationGetSixPayScale(int payCommission) {
+		// TODO Auto-generated method stub
+		return mstEmployeeRepo.findEmployeeConfigurationGetSixPayScale(payCommission);
+	}
+	@Override
+	public List<Object[]> findEmployeeConfigurationGetpayscale(int payCommission) {
+		// TODO Auto-generated method stub
+		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo.getSvnPayscale();
+		return deptEligibilityForAllowAndDeductEntity;
+	}
+	@Override
+	public List<Object[]> findEmployeeConfigurationGetCurrentPost(int designationId, String userName, Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<Object[]> getCadreGroupMstData(String locale, String strCadreId) {
+		List<Object[]> lstprop = mstEmployeeRepo.getgroupname(strCadreId);
+		return lstprop;
+	}
+	@Override
+	public List<MstEmployeeModel> getCadreGroupMstDataNew(String cadreid, String dob) {
+		List<MstEmployeeModel> lstlstDeptEligibilityForAllowAndDeductEntity = new ArrayList<>();
+		List<Object[]> lstObj = mstEmployeeRepo.getCadreGroupMstDataNew(cadreid);
+		Integer ag = null;
+		int age = 0;
+		for (Object obj[] : lstObj) {
+			MstEmployeeModel mstEmployeeModel = new MstEmployeeModel();
+			ag = (Integer) obj[1];
+
+			age = ag.intValue();
+			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+			Date birthdt = null;
+			try {
+				birthdt = sd.parse(dob);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(birthdt);
+			int yer = cal.getTime().getYear();
+			yer = yer + 1900;
+			Date dobt = cal.getTime();
+			Date enhFamPensDate = null;
+			if (dobt.getDate() == 1 && dobt.getMonth() == 0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(birthdt);
+				calendar.set(Calendar.YEAR, yer + age - 1);
+				calendar.set(Calendar.MONTH, 11);
+				calendar.set(Calendar.DATE, 31);
+				// Calendar calendar1 = Calendar.getInstance();
+				enhFamPensDate = calendar.getTime();
+			} else if (dobt.getDate() == 1 && dobt.getMonth() != 0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(birthdt);
+				int reage = yer + age;
+				calendar.set(Calendar.YEAR, yer + age);
+				if (dobt.getMonth() == 2) {
+					if (reage % 4 == 0) {
+						calendar.set(Calendar.MONTH, 0);
+						calendar.set(Calendar.DATE, 29);
+					} else if (reage % 4 != 0) {
+						calendar.set(Calendar.MONTH, 0);
+						calendar.set(Calendar.DATE, 28);
+					}
+				} else {
+					calendar.set(Calendar.MONTH, dobt.getMonth()-1);
+					int day = calendar.getActualMaximum(Calendar.DATE);
+					calendar.set(Calendar.DATE, day);
+				}
+
+				enhFamPensDate = calendar.getTime();
+			} else {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(birthdt);
+				calendar.set(Calendar.YEAR, yer + age);
+				if (dobt.getMonth() == 1) {
+					int reage = yer + age;
+					calendar.set(Calendar.YEAR, yer + age);
+					if (reage % 4 == 0) {
+						calendar.set(Calendar.MONTH, 1);
+						calendar.set(Calendar.DATE, 29);
+					} else {
+						calendar.set(Calendar.MONTH, 1);
+						calendar.set(Calendar.DATE, 28);
+					}
+				} else {
+					calendar.set(Calendar.MONTH, dobt.getMonth());
+					int day = calendar.getActualMaximum(Calendar.DATE);
+					calendar.set(Calendar.DATE, day);
+				}
+
+				enhFamPensDate = calendar.getTime();
+			}
+
+			mstEmployeeModel.setSuperAnnDate(enhFamPensDate);
+			mstEmployeeModel.setEmpServiceEndDate(enhFamPensDate);
+			lstlstDeptEligibilityForAllowAndDeductEntity.add(mstEmployeeModel);
+		}
+		return lstlstDeptEligibilityForAllowAndDeductEntity;
+	}
+	@Override
+	public List<Object[]> findEmployeeConfigurationpayScaleSeven(int payScaleSeven) {
+		return mstEmployeeRepo.findEmployeeConfigurationpayScaleSeven(payScaleSeven);
+	}
+	@Override
+	public List<AppoinmentEntity> getAppoitnment(String language) {
+		// TODO Auto-generated method stub
+		return mstEmployeeRepo.getAppoitnment(language);
+	}
+	@Override
+	public List<Object[]> findEmployeeConfigurationGetsvnbasicpay(String payscale) {
+		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo.getSvnPcData(payscale);
+		return deptEligibilityForAllowAndDeductEntity;
+	}
+	@Override
+	public List<MstDesignationEntity> getDesignationMstData(String locale, long locId) {
+		// TODO Auto-generated method stub
+		long fielddeptId = mstEmployeeRepo.getFieldDeptId(locId);
+		List<Object[]> lstprop = mstEmployeeRepo.getDesignationMstData(fielddeptId);
+		List<MstDesignationEntity> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				MstDesignationEntity obj = new MstDesignationEntity();
+				obj.setDesginationId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+				obj.setDesgination(StringHelperUtils.isNullString(objLst[1]));
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	}
+	
 
 
 }

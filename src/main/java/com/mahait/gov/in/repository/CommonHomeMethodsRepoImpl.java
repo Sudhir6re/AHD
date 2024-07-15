@@ -180,6 +180,17 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return (List<ReligionMstEntity>) manager.createQuery(HQL).getResultList();
 	}
 
+	@Override
+	public List<Object[]> findLookUpNameDesc(String commoncodeSalutations) {
+		// TODO Auto-generated method stub
+	Session currentSession = manager.unwrap(Session.class);
+		
+		String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
+				+ " AND O2.LOOKUP_NAME = '"+commoncodeSalutations+"' ORDER BY O1.ORDER_NO desc,O1.LOOKUP_ID";
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
 
 
 }

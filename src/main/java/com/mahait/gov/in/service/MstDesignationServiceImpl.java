@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< Updated upstream
+import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.MstPayCommissionEntity;
+import com.mahait.gov.in.model.MstDesignationModel;
+import com.mahait.gov.in.repository.MstDesignationRepo;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 @Service
@@ -73,6 +77,8 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 	public List<MstPayCommissionEntity> findAllPayCommission() {
 		return mstDesignationRepo.findAllPayCommission();
 	}*/
+	@Autowired
+	private MstDesignationRepo  mstDesignationRepo;
 
 	@Override
 	public List<MstDesignationModel> getDesignationMstData(String locale) {
@@ -162,4 +168,10 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 <<<<<<< Updated upstream
 <<<<<<< HEAD
 	}*/
+
+	@Override
+	public List<MstPayCommissionEntity> findAllPayCommission() {
+		// TODO Auto-generated method stub
+		return mstDesignationRepo.findAllPayCommission();
+	}
 }

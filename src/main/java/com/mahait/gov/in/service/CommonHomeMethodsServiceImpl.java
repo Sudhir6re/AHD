@@ -16,6 +16,7 @@ import com.mahait.gov.in.entity.MstBankPay;
 import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
+import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
@@ -269,6 +270,29 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	public List<ReligionMstEntity> fetchAllReligions() {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.fetchAllReligions();
+	}
+
+	@Override
+	public List<CmnLookupMst> findCommonMstByLookupname(String commoncodeSalutations) {
+		// TODO Auto-generated method stub
+		List<Object[]> lstprop = null;
+		try {
+			lstprop = commonHomeMethodsRepo.findLookUpNameDesc(commoncodeSalutations);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<CmnLookupMst> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				CmnLookupMst obj = new CmnLookupMst();
+				obj.setLookupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+                obj.setLookupName(StringHelperUtils.isNullString(objLst[1]));
+				
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
 	}
 
 

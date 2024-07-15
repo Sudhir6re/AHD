@@ -9,7 +9,9 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
 
+@Data
 public class MstEmployeeModel {
 	//Fields
 	private Integer employeeId;
@@ -25,7 +27,7 @@ public class MstEmployeeModel {
 	private String employeeMNameMr;
 	private String employeeLNameMr;
 	private String locality;
-	
+	private Long appointmentId;
 	private String employeeMotherName;
 	private Character maritalStatus;
 	private Double sevenPcBasic;

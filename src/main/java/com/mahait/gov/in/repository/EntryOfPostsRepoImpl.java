@@ -50,7 +50,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List getAllBillsFromLocation(Long locId) {
 		Session session = getSession();
-		String HQL_QUERY = " from MstDcpsBillGroup where LocId= " + locId
+		String HQL_QUERY = " from MstDcpsBillGroup where locId= " + locId
 				+ " and (billDeleted is null or billDeleted <> 'Y') and (billDcps is null or billDcps <> 'Y')";
 		Query query = session.createQuery(HQL_QUERY);
 		List resultList = query.list();
