@@ -11,9 +11,9 @@ import com.mahait.gov.in.model.PaybillHeadMpgModel;
 
 public interface PaybillGenerationTrnService {
 	
-	public int savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
+	public Long savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
 	
-	public int saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
+	public Long saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
 	
 	public PaybillGenerationTrnEntity findForwardChangeStatementById(Long paybillGenerationTrnId, Long userId, String namePIp);
 	

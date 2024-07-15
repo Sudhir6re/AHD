@@ -33,22 +33,22 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	 */
 
 	@Override
-	public int savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity) {
+	public Long savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity) {
 
 		// logger.info("inside the saved method- ");
 
 		Session currentSession = entityManager.unwrap(Session.class);
 		Serializable saveId = currentSession.save(objEntity);
-		return (Integer) saveId;
+		return (Long) saveId;
 	}
 
 	@Override
-	public int saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails) {
+	public Long saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails) {
 
 		// logger.info(" inside the saved saveHrPayPaybill- ");
 		Session currentSession = entityManager.unwrap(Session.class);
 		Serializable saveId = currentSession.save(paybillGenerationTrnDetails);
-		return (Integer) saveId;
+		return (Long) saveId;
 	}
 
 	@Override

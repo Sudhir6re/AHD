@@ -40,7 +40,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 	@SuppressWarnings("unused")
 	@Override
-	public int savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {
+	public Long savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {
 		PaybillGenerationTrnEntity objEntity = new PaybillGenerationTrnEntity();
 		PaybillGenerationTrnDetails hr = new PaybillGenerationTrnDetails();
 		PaybillStatusEntity paybillStatusEntity = new PaybillStatusEntity();
@@ -7738,7 +7738,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
 		Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
 
-		return (int) id;
+		return (Long) id;
 	}
 
 	private double valueOf(Object object) {
@@ -8075,7 +8075,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	// Created by Manikandan:Supplimentaory Paybill Generation Method
 	@SuppressWarnings("unused")
 	@Override
-	public int saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {
+	public Long saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {
 		// List<Object[]> isBrokenPeriodEmpty(String sevaarthid,String monthid,String
 		// yearid )
 		PaybillGenerationTrnEntity objEntity = new PaybillGenerationTrnEntity();
@@ -9934,7 +9934,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			else {
 				// return 1;
 
-				return 2;
+				return 2L;
 			}
 		}
 		objEntity.setBillGrossAmt((double) Math.round(grossAmt));
@@ -9947,7 +9947,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
 
-		return (int) id;
+		return (Long) id;
 
 	}
 

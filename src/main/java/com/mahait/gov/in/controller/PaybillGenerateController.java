@@ -121,7 +121,7 @@ public class PaybillGenerateController {
 		paybillHeadMpgModel.setMacId(namePIp);
 		
 		Integer saveid = (Integer) paybillHeadMpgService.isPaybillExists(paybillHeadMpgModel.getSchemeBillgroupId(), paybillHeadMpgModel.getPaybillMonth(),paybillHeadMpgModel.getPaybillYear());
-		int afterSaveId=0;
+		Long afterSaveId=0L;
 		if(saveid==0){
 		if(paybillHeadMpgModel.getBillTypeId()==3) {  // 1-->Regular,2-->Supplimentory
 			afterSaveId = paybillHeadMpgService.saveSupPaybillHeadMpg(paybillHeadMpgModel);

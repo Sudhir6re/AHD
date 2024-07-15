@@ -13,8 +13,8 @@ import com.mahait.gov.in.entity.PaybillStatusEntity;
 
 public interface PaybillGenerationTrnRepo {
 
-	public int savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity);
-	public int saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails);
+	public Long savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity);
+	public Long saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails);
 	
 	public Long getPaybillGenerationTrnId();
 	
