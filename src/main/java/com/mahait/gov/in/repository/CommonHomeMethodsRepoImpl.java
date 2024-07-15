@@ -169,7 +169,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<Object[]> lstGetAllDistrict() {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "SELECT DISTRICT_ID,DISTRICT_NAME,DISTRICT_CODE FROM CMN_DISTRICT_MST";
+		String hql = "SELECT DISTRICT_ID,DISTRICT_NAME,DISTRICT_CODE FROM CMN_DISTRICT_MST where lang_id = 1";
 
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
@@ -247,7 +247,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<MstDesnModel> findDesignation(String userName) {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select * from ORG_DESIGNATION_MST";
+		String hql = "select * from DESIGNATION_MST";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<MstDesnModel>) query.list();
 	}

@@ -13,6 +13,7 @@ import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
+import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstMenuModel;
 import com.mahait.gov.in.model.MstMenuRoleMappingModel;
 import com.mahait.gov.in.model.MstRoleModel;
@@ -47,9 +48,9 @@ public interface CommonHomeMethodsService {
 
 	public List<MstBankEntity> findBankName();
 
-	/*public List<MstDesnModel> findDesignation(String userName);
+	//public List<MstDesnModel> findDesignation(String userName);
 
-	public List<MstDistrictModel> lstGetAllDistrict(String userName);*/
+	public List<MstDistrictModel> lstGetAllDistrict();
 /*
 	public List<MstTalukaModel> lstGetAllTaluka();
 

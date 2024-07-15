@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -42,10 +44,12 @@ public class OrgDdoMst {
 	    @Column(name = "lang_id", nullable = false)
 	    private Short langId;
 
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    @Column(name = "start_date")
 	    @Temporal(TemporalType.TIMESTAMP)
 	    private Date startDate;
 
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    @Column(name = "end_date")
 	    @Temporal(TemporalType.TIMESTAMP)
 	    private Date endDate;
@@ -61,6 +65,7 @@ public class OrgDdoMst {
 	    @Column(name = "created_by_post", nullable = false)
 	    private Long createdByPost;
 
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    @Column(name = "created_date", nullable = false)
 	    @Temporal(TemporalType.TIMESTAMP)
 	    private Date createdDate;

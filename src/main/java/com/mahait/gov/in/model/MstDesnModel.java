@@ -5,8 +5,11 @@ import lombok.Data;
 @Data
 public class MstDesnModel {
 	
-	private String designationId;
-	private String designationName;
-	private String designationCode;
+	private Long designationId;
+	private String designation;
+	private Long designationCode;
+	private String DesgShortName;
+	private String cadreName;
+	private char isActive;
 
 }
