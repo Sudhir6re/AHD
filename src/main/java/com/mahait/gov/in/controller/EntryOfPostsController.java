@@ -1,6 +1,9 @@
 package com.mahait.gov.in.controller;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,13 +59,11 @@ public class EntryOfPostsController {
 		OrgDdoMst ddoMst = null;
 		String ddoCode = null;
 		List locationList = null;
-		
+
 		MessageResponse messageResponse = (MessageResponse) model.asMap().get("messageResponse");
 		if (messageResponse != null) {
 			model.addAttribute("messageResponse", messageResponse);
 		}
-		
-	
 
 		if (session.getAttribute("locationId") != null) {
 			langId = 1l;
@@ -99,15 +100,16 @@ public class EntryOfPostsController {
 			List filterDdoCode = entryOfPostsService.getFilterDdoCode(locationcodeArray);
 			model.addAttribute("ddoCode", ddoCode);
 			model.addAttribute("filterDdoCode", filterDdoCode);
-			
-		String	lPostName="";
-		String srNo="";
-		String PsrNo="";
-		String BillNo="";
-		String Dsgn="";
-		String ddoCode1="";
-			List getPostNameForDisplay=entryOfPostsService.getPostNameForDisplay(String.valueOf(locId),lPostName,PsrNo,BillNo,Dsgn,ddoCode1);
-			
+
+			String lPostName = "";
+			String srNo = "";
+			String PsrNo = "";
+			String BillNo = "";
+			String Dsgn = "";
+			String ddoCode1 = "";
+			List getPostNameForDisplay = entryOfPostsService.getPostNameForDisplay(String.valueOf(locId), lPostName,
+					PsrNo, BillNo, Dsgn, ddoCode1);
+
 			model.addAttribute("getPostNameForDisplay", getPostNameForDisplay);
 		}
 		return "/views/entry-of-posts";
@@ -197,12 +199,54 @@ public class EntryOfPostsController {
 
 	@GetMapping("/updatePosts")
 	public String updatePosts(Model model, Locale locale, HttpSession session) {
+
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+
+		long langId = 0l;
+		long locId = 0l;
+		BigInteger loggedInPostId = null;
+		OrgDdoMst ddoMst = null;
+		String ddoCode = null;
+		List locationList = null;
+
+		if (session.getAttribute("locationId") != null) {
+			langId = 1l;
+			locId = Long.parseLong((String) session.getAttribute("locationId"));
+			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
+
+			model.addAttribute("ddoCode", ddoCode);
+
+			String talukaId = "";
+			String ddoSelected = "";
+			List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId, ddoSelected);
+			List<OrgDdoMst> ddoCodeList = entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
+
+			if (ddoCodeList.size() > 0)
+				ddoCode = ddoCodeList.get(0).getDdoCode();
+
+			model.addAttribute("DDOlist", DDOdtls);
+		}
+
+		
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		String TodaysDate = fmt.format(today);
+
+
+		List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderDataByDate(locId, TodaysDate,ddoCode);
+		model.addAttribute("orderList", orderList);
+
+		List postExpiryList = entryOfPostsService.getExpiryData(locId,ddoCode);
+		model.addAttribute("postExpiryList", postExpiryList);
+		
+
 		return "/views/update-posts";
 	}
 
 	@PostMapping("/savePostEntry")
 	public String savePostEntry(Model model, Locale locale, HttpSession session,
-			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel,RedirectAttributes redirectAttribute) {
+			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel, RedirectAttributes redirectAttribute) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
 		long locId = 0l;
@@ -212,18 +256,42 @@ public class EntryOfPostsController {
 			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
 			entryOfPostsService.savePostEntryDtl(postEntryModel, locId, loggedInPostId, messages);
 			MessageResponse messageResponse = new MessageResponse();
-				messageResponse.setResponse("Post Created Successfully");
-				messageResponse.setStyle("alert alert-success");
-				messageResponse.setStatusCode(200);
-				redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
+			messageResponse.setResponse("Post Created Successfully");
+			messageResponse.setStyle("alert alert-success");
+			messageResponse.setStatusCode(200);
+			redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
 			return "redirect:/ddo/entryOfPosts";
-			
-		}else {
+
+		} else {
 			return "redirect:/user/login";
 		}
 
 	}
+	
+	@PostMapping("/renewPostEntry")
+	public String renewPostEntry(Model model, Locale locale, HttpSession session,
+			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel, RedirectAttributes redirectAttribute) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		long locId = 0l;
+		BigInteger loggedInPostId = null;
+		if (session.getAttribute("locationId") != null) {
+			locId = Long.parseLong((String) session.getAttribute("locationId"));
+			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
+			entryOfPostsService.renewPostEntry(postEntryModel, locId, loggedInPostId, messages);
+			MessageResponse messageResponse = new MessageResponse();
+			messageResponse.setResponse("Post Created Successfully");
+			messageResponse.setStyle("alert alert-success");
+			messageResponse.setStatusCode(200);
+			redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
+			return "redirect:/ddo/entryOfPosts";
 
+		} else {
+			return "redirect:/user/login";
+		}
+
+	}
+	
+	
 
 	@RequestMapping(value = "/findGrOrderByGrOrderId/{grOrderId}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -231,15 +299,24 @@ public class EntryOfPostsController {
 		List<HrPayOrderMst> response1 = entryOfPostsService.findGrOrderDetails(grOrderId);
 		return ResponseEntity.ok(response1);
 	}
-	
-	
 
 	@RequestMapping(value = "/searchPostDetails", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List> searchPostDetails(@RequestParam String lPostName,@RequestParam String BillNo,@RequestParam String ddoCode1,@RequestParam String Dsgn,HttpSession session) {
+	public ResponseEntity<List> searchPostDetails(@RequestParam String lPostName, @RequestParam String BillNo,
+			@RequestParam String ddoCode1, @RequestParam String Dsgn, HttpSession session) {
 		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
-		String PsrNo="";
-		List getPostNameForDisplay=entryOfPostsService.getPostNameForDisplay(String.valueOf(locId),lPostName,PsrNo,BillNo,Dsgn,ddoCode1);
+		String PsrNo = "";
+		List getPostNameForDisplay = entryOfPostsService.getPostNameForDisplay(String.valueOf(locId), lPostName, PsrNo,
+				BillNo, Dsgn, ddoCode1);
+		return ResponseEntity.ok(getPostNameForDisplay);
+	}
+
+	@RequestMapping(value = "/searchPostDetails/{orderId}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List> searchPostListByGrOrderId(@RequestParam Long orderId, HttpSession session) {
+		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
+		String PsrNo = "";
+		List getPostNameForDisplay = entryOfPostsService.searchPostListByGrOrderId(locId,orderId);
 		return ResponseEntity.ok(getPostNameForDisplay);
 	}
 }

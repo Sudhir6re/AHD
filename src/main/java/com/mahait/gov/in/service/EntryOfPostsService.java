@@ -57,5 +57,13 @@ public interface EntryOfPostsService {
 	List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
 			String ddoCode1);
 
+	List searchPostListByGrOrderId(Long locId, Long orderId);
+
+	List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate, String ddoCode);
+
+	List getExpiryData(long locId, String ddoCode);
+
+	void renewPostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
+
 
 }

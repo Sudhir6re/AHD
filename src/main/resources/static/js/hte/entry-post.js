@@ -2,6 +2,25 @@ $(document).ready(function() {
 	var contextPath = $("#appRootPath").val();
 	
 	var dataTable= $("#postDetails").dataTable();
+	
+	
+	
+	function checkRenewalDataBeforeSubmit()
+	{
+		var counterPost = document.getElementById("counterPost").value ;
+		var renewalStartDate = document.getElementById("renewalStartDate").value;
+		var renewalEndDate = document.getElementById("renewalEndDate").value;
+		var renewalPostStartDate = document.getElementById("renewalPostStartDate").value;
+		
+		
+		for(var i=1;i<=counterPost;i++)
+		{
+			if(document.getElementById("GroupCheck"+i).checked)
+			{
+				document.getElementById("postIdsToBeAttached").value = document.getElementById("postIdsToBeAttached").value +  document.getElementById("GroupCheck"+i).value + "~" ;
+			}
+		}
+	}
 
 
 $("#orderCmb").change(function(){
@@ -29,12 +48,78 @@ $("#orderCmb").change(function(){
 	    			    var formattedDate = orderDate.toISOString().split('T')[0]; // Convert Date to yyyy-MM-dd format
 
 	    			    $("#OrderDate").val(formattedDate);
+	    			   // $("#ddoCode").val(data[0].ddoCode);
 	    			    
 	    			 //$( "#OrderDate").val(new Date(data[0].orderDate));
 	    		 }
 				}
 	 });
 });
+
+
+
+
+$("#cmbNewOrder").change(function(){
+	var context = $("#appRootPath").val();
+	var grOrderId = $("#cmbNewOrder").val();
+	$.ajax({
+	      type: "POST",
+	      url: context+"/ddo/findGrOrderByGrOrderId/"+grOrderId,
+	      async: false,
+	      contentType:'application/json',
+	      error: function(data){
+	    	  console.log(data);
+	      },
+		  	beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
+	      success: function(data){
+	    		 var len = data.length;
+	    		 if(len>0){
+	    			  var orderDate = new Date(data[0].orderDate); // Convert string to Date object
+	    			    var formattedDate = orderDate.toISOString().split('T')[0]; // Convert Date to yyyy-MM-dd format
+	    			    $("#renewalStartDate").val(formattedDate);
+	    			    
+	    		 }
+				}
+	 });
+});
+
+
+
+
+$("#oldGrOrderId").change(function(){
+	var context = $("#appRootPath").val();
+	var grOrderId = $("#oldGrOrderId").val();
+	$.ajax({
+	      type: "POST",
+	      url: context+"/ddo/findGrOrderByGrOrderId/"+grOrderId,
+	      async: false,
+	      contentType:'application/json',
+	      error: function(data){
+	    	  console.log(data);
+	      },
+		  	beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
+	      success: function(data){
+	    		 var len = data.length;
+	    		 if(len>0){
+	    			  var orderDate = new Date(data[0].orderDate); 
+	    			    var formattedDate = orderDate.toISOString().split('T')[0]; 
+	    			    $("#oldGrOrderDate").val(formattedDate);
+	    		 }
+				}
+	 });
+});
+
+
 
 
 
@@ -84,8 +169,6 @@ $("#Search").click(function(){
 	 var Dsgn=$("#designationCmb").val();
 	 var BillNo=$("#billCmb").val();
 	 var context = $("#appRootPath").val();
-	 
-	 
 	if(Dsgn!='-1' && BillNo!="-1"){
 		 // $("#loaderMainNew").show();
 			$.ajax({
@@ -118,6 +201,57 @@ $("#Search").click(function(){
 			});
 	}
 });
+
+
+
+
+$("#searchPostDetails").click(function(){
+	
+	
+	
+	var tablePost= $("#tablePost").dataTable();
+	
+	 var ddoCode1=$("#cmbAsstDDO").val();
+	 var orderId=$("#oldGrOrderId").val();
+	if(orderId!='-1' && orderId!=""){
+		 // $("#loaderMainNew").show();
+			$.ajax({
+				type : "GET",
+			    url: context+"/ddo/searchPostDetails/"+orderId,
+				async : true,
+				//   data: { oldGrOrderId: oldGrOrderId },
+				contentType : 'application/json',
+				error : function(data) {
+					 console.log(data);
+					 $("#loaderMainNew").hide();
+				},
+				success : function(data) {
+					 console.log(data);
+					 $("#loaderMainNew").hide();
+					var len = data.length;
+						$("#loaderMainNew").hide();
+						j=1;
+						if(len>0){
+							for (var i = 0; i < data.length; i++) {
+								var input='<input type="checkbox" name="GroupCheck" id="GroupCheck1" value="'+data[i].orgPostMst.postId+'">';
+								var postname='<label id="postName'+i+'"><b>'+data[i].postName+'</b><b>T</b></label>';
+								tablePost.fnClearTable();
+								tablePost.fnAddData([input,data[i].postname]);
+								 j++;
+								 
+								 
+								 $("#counterPost").val(i);
+							}
+						}
+						if(data.length==0){
+							swal("No data found");
+						}
+				}
+			});
+	}
+});
+
+
 
 
 
