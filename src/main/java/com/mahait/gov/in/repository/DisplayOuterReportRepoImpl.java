@@ -21,12 +21,16 @@ import com.mahait.gov.in.model.DisplayOuterReportModel;
 public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	@PersistenceContext
 	EntityManager manager;
-	public String getOffice(String locId) {
+	public String getOffice(String ddoCode) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select office_name from ddo_reg_mst where   ddo_code  ='"+locId+"' ");
+		
+		String split[]=ddoCode.split("_AST");
+		ddoCode=split[0];
+		
+		query.append("select off_name from mst_dcps_ddo_office where   ddo_code  ='"+ddoCode+"' ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 
@@ -188,7 +192,7 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select bill_description from scheme_billgroup_mpg where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn \r\n" + 
+		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn \r\n" + 
 				" where paybill_generation_trn_id="+billDetails+") ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();

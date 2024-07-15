@@ -70,8 +70,9 @@ public class DisplayInnerReportController {
 		Long yer = 0l;
 		List<Object[]> createdate = commonHomeMethodsService.findDetailsBillNumber(billNumber);
 		for (Object[] objects : createdate) {
-			mon = Long.parseLong(objects[4].toString());
-			yer = Long.parseLong(objects[5].toString());
+			
+			mon = Long.parseLong(objects[22].toString());
+			yer = Long.parseLong(objects[23].toString());
 		}
 
 		BigInteger monthcurr = BigInteger.valueOf(mon);
@@ -84,12 +85,12 @@ public class DisplayInnerReportController {
 		
 		List<Object[]> monthinfo = commonHomeMethodsService.findmonthinfo(monthcurr);
 		for (Object[] monthLst : monthinfo) {
-			monname = monthLst[1].toString();
+			monname = monthLst[4].toString();
 		}
 
 		List<Object[]> yearinfo = commonHomeMethodsService.findyearinfo(yearcurr);
 		for (Object[] yearLst : yearinfo) {
-			curryear = yearLst[1].toString();
+			curryear = yearLst[9].toString();
 		}
 		
 		String officeDetails = commonHomeMethodsService.getOffice(ddoCode);
@@ -103,7 +104,7 @@ public class DisplayInnerReportController {
 		model.addAttribute("ddoname", ddoCode);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
-		return "views/report/innerreportDesign";
+		return "views/reports/innerreportDesign";
 	}
 
 	@GetMapping("/getinnerreportPDF/{billNumber}/{size}/{page}")

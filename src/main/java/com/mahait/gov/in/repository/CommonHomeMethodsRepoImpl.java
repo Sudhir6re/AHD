@@ -310,7 +310,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select off_name from mst_dcps_ddo_office wnhere ddo_code  ='" + userName + "' ");
+		query.append("select off_name from mst_dcps_ddo_office where ddo_code  ='" + userName + "' ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 

@@ -28,10 +28,10 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	{
 		Session currentSession = manager.unwrap(Session.class);
 		
-		String HQL = "select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,'0' tempvalue,' ' tempempty,department_allowdeduc_seqno "
+		String HQL = "select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,'0' tempvalue,' ' tempempty,department_allowdeduc_col_nm "
 				+ " from employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id "
 				+ " inner join department_allowdeduc_mst d ON b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+strddo+"' and paybill_generation_trn_id  = "+billNumber+"  " //and  d.department_allowdeduc_col_nm <> 'LIC'
-						+ "   and d.is_active='1' order by department_allowdeduc_seqno  ";//and  d.department_allowdeduc_col_nm <> 'COP_BANK' and  d.department_allowdeduc_col_nm <> 'COP_Bank' and  d.department_allowdeduc_col_nm <> 'CREDIT_SOC' and  d.department_allowdeduc_col_nm <> 'RECURRING_DEP' and  d.department_allowdeduc_col_nm <> 'RD' and  d.department_allowdeduc_col_nm <> 'MISC'
+						+ "   and d.is_active='1' order by department_allowdeduc_col_nm  ";//and  d.department_allowdeduc_col_nm <> 'COP_BANK' and  d.department_allowdeduc_col_nm <> 'COP_Bank' and  d.department_allowdeduc_col_nm <> 'CREDIT_SOC' and  d.department_allowdeduc_col_nm <> 'RECURRING_DEP' and  d.department_allowdeduc_col_nm <> 'RD' and  d.department_allowdeduc_col_nm <> 'MISC'
 			Query query = currentSession.createSQLQuery(HQL);
 
 		List<Object[]> lstprop = query.list();
@@ -58,7 +58,7 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 		Session currentSession = manager.unwrap(Session.class);
 		
 		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,c.emp_class, "
-				+ " case when c.pay_commission_code=8 then CAST (c.pay_commission_code AS varchar) else e.scale_start_amt ||'-'||e.scale_end_amt end as pay_commission_code, "
+				+ " case when c.pay_commission_code=8 then CAST (c.pay_commission_code AS varchar) else e.scale_start_amt ||'-'||e.scale_end_amt end as payComm, "
 				+ " case when c.seven_pc_level is not null then 'Level'||' '||f.levels else c.basic_pay-c.grade_pay ||'+'|| c.grade_pay end as payband,b.basic_pay as basic,d.designation_code,b.* from paybill_generation_trn a "
 				+ " inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id inner join employee_mst c on b.sevaarth_id = c.sevaarth_id "
 				+ " inner join designation_mst d on d.designation_code = c.designation_code left join  pay_scale_sixpc_mst as e on e.pay_scale_code=c.pay_scale_code "
@@ -240,7 +240,7 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select bill_description from scheme_billgroup_mpg where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn \r\n" + 
+		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn \r\n" + 
 				" where paybill_generation_trn_id="+billNumber+") ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
