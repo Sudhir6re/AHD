@@ -6,11 +6,17 @@ import com.mahait.gov.in.entity.DdoOffice;
 
 public interface OrganisationDtlsRepo {
 	
-	List<Object[]> lstGetOfficeDtls(String userName);
+	DdoOffice lstGetOfficeDtls(String userName);
 
-	int saveorgInstInfo(DdoOffice objForSave);
+	Long saveorgInstInfo(DdoOffice objForSave);
 
 	void updateorgInstituteInfo(DdoOffice objForSave);
+
+	List findtalukalist(String districtId);
+
+	List findcitylist(String districtId);
+
+	void updateddoOfficeDetails(DdoOffice lstprop);
 
 
 }

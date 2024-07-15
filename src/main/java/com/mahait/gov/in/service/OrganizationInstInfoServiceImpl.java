@@ -34,7 +34,7 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
 		OrgDdoMstModel orgDdoMstModel = new OrgDdoMstModel();
        if(lstprop!=null) {
     	   orgDdoMstModel.setDdoOffice(lstprop.getDdoOffice());
-    	   orgDdoMstModel.setDeptLocCode(lstprop.getDsgnCode());
+    	   orgDdoMstModel.setDesignationId(lstprop.getDsgnCode());
     	   orgDdoMstModel.setStartDate(lstprop.getStartDate());
     	   orgDdoMstModel.setTanNo(lstprop.getTanNo());
     	   orgDdoMstModel.setItaWardNo(lstprop.getItawardcircle());
@@ -69,7 +69,7 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
 		
 		
 		objForSave.setDdoOffice(orgDdoMstModel.getDdoOffice());
-		objForSave.setDdoId(orgDdoMstModel.getDdoId());
+		objForSave.setDsgnCode(orgDdoMstModel.getDesignationId());
 		objForSave.setStartDate(orgDdoMstModel.getStartDate());
 		objForSave.setTanNo(orgDdoMstModel.getTanNo());
 		objForSave.setItawardcircle(orgDdoMstModel.getItaWardNo());
@@ -113,7 +113,7 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
 		
 		OrgDdoMst findDDOInfo = organizationInstInfoRepo.findDDOInfo(ddoCode);
 		findDDOInfo.setDdoOffice(orgDdoMstModel.getDdoOffice());
-		//findDDOInfo.setDdoId(orgDdoMstModel.getDdoId());
+		findDDOInfo.setDsgnCode(orgDdoMstModel.getDesignationId());
 		findDDOInfo.setStartDate(orgDdoMstModel.getStartDate());
 		findDDOInfo.setTanNo(orgDdoMstModel.getTanNo());
 		findDDOInfo.setItawardcircle(orgDdoMstModel.getItaWardNo());

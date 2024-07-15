@@ -2,7 +2,9 @@ package com.mahait.gov.in.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.OrgDdoMst;
+import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.OrgDdoMstModel;
 import com.mahait.gov.in.model.OrganisationDtlsModel;
 import com.mahait.gov.in.repository.OrganisationDtlsRepo;
 
@@ -21,39 +26,37 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
 	
 	@Autowired
 	OrganisationDtlsRepo organisationDtlsRepo;
-
+	
+	
 	@Override
-	public List<OrganisationDtlsModel> lstGetOfficeDtls(String userName) {
-		List<Object[]> lstprop = organisationDtlsRepo.lstGetOfficeDtls(userName);
-		List<OrganisationDtlsModel> lstObj = new ArrayList<>();
-        if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	OrganisationDtlsModel obj = new OrganisationDtlsModel();
-                obj.setDdoCode(StringHelperUtils.isNullString(objLst[0]));
-               
-                obj.setOfficeName(StringHelperUtils.isNullString(objLst[1]));
-                obj.setStateId(StringHelperUtils.isNullString(objLst[2]));
-                obj.setDistrictId(StringHelperUtils.isNullString(objLst[3]));
-                obj.setTalukaId(StringHelperUtils.isNullString(objLst[4]));
-                obj.setCity(StringHelperUtils.isNullString(objLst[5]));
-                obj.setVillage(StringHelperUtils.isNullString(objLst[6]));
-                obj.setAddress(StringHelperUtils.isNullString(objLst[7]));
-                obj.setCityClass(StringHelperUtils.isNullString(objLst[8]));
-                obj.setPercGrant(StringHelperUtils.isNullString(objLst[9]));
-                obj.setTel1(StringHelperUtils.isNullLong(objLst[10]));
-                obj.setTel2(StringHelperUtils.isNullLong(objLst[11]));
-                obj.setFax(StringHelperUtils.isNullLong(objLst[13]));
-                obj.setEmail(StringHelperUtils.isNullString(objLst[12]));
+	public @Valid OrganisationDtlsModel lstOfficeDetails(String ddoCode) {
+		DdoOffice lstprop = organisationDtlsRepo.lstGetOfficeDtls(ddoCode);
+		OrganisationDtlsModel obj = new OrganisationDtlsModel();
+        if (lstprop!=null) {
+                obj.setDdoCode(lstprop.getDcpsDdoCode());
+                obj.setOfficeName(lstprop.getDcpsDdoOfficeName());
+                obj.setStateId(lstprop.getDcpsDdoOfficeState());
+                obj.setDistrictId(lstprop.getDcpsDdoOfficeDistrict());
+                obj.setTalukaId(lstprop.getDcpsDdoOfficeTaluka());
+                obj.setCity(lstprop.getDcpsDdoOfficeTown());
+                obj.setVillage(lstprop.getDcpsDdoOfficeVillage());
+                obj.setAddress(lstprop.getDcpsDdoOfficeAddress1());
+                obj.setPin(lstprop.getDcpsDdoOfficePin());
+                obj.setCityClass(lstprop.getDcpsDdoOfficeCityClass());
+                obj.setInstiNo(lstprop.getDiceCode());
+                obj.setPercGrant(lstprop.getDcpsDdoOfficeGrant());
+                obj.setTel1(lstprop.getDcpsDdoOfficeTelNo1());
+                obj.setTel2(lstprop.getDcpsDdoOfficeTelNo2());
+                obj.setFax(lstprop.getDcpsDdoOfficeFax());
+                obj.setEmail(lstprop.getDcpsDdoOfficeEmail());
                 
-                lstObj.add(obj);
-            }
-           
 	}
-        return lstObj;
+        return obj;
+
 	}
 
 	@Override
-	public int SaveorgInstituteInfo(@Valid OrganisationDtlsModel organisationDtlsModel) {
+	public Long SaveorgInstituteInfo(@Valid OrganisationDtlsModel organisationDtlsModel,OrgUserMst messages) {
 		
 
 		DdoOffice objForSave = new DdoOffice();
@@ -65,19 +68,29 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
         objForSave.setDcpsDdoOfficeTown(organisationDtlsModel.getCity());
         objForSave.setDcpsDdoOfficeVillage(organisationDtlsModel.getVillage());
         objForSave.setDcpsDdoOfficeAddress1(organisationDtlsModel.getAddress());
+        objForSave.setDcpsDdoOfficePin(organisationDtlsModel.getPin());
         objForSave.setDcpsDdoOfficeCityClass(organisationDtlsModel.getCityClass());
+        objForSave.setDiceCode(organisationDtlsModel.getInstiNo());
         objForSave.setDcpsDdoOfficeGrant(organisationDtlsModel.getPercGrant());
         objForSave.setDcpsDdoOfficeTelNo1(organisationDtlsModel.getTel1());
         objForSave.setDcpsDdoOfficeTelNo2(organisationDtlsModel.getTel2());
         objForSave.setDcpsDdoOfficeFax(organisationDtlsModel.getFax());
         objForSave.setDcpsDdoOfficeEmail(organisationDtlsModel.getEmail());
+        objForSave.setStatusFlag(0l);
+        objForSave.setDcpsDdoOfficeDdoFlag("YES");
+        objForSave.setLangId(1l);
+        objForSave.setLocId(1l);
         objForSave.setCreatedDate(new Date());
+        objForSave.setPostId(messages.getCreatedByPost().getPostId());
+        objForSave.setUpdatedPostId(messages.getCreatedByPost().getPostId());
+        objForSave.setUserId(messages.getUserId());
+        objForSave.setDbId(99l);
 		
-		int saveId=0;
+		Long saveId=0l;
 		if(organisationDtlsModel.getDdoCode()==null) {
 			 saveId = organisationDtlsRepo.saveorgInstInfo(objForSave);
 		}else {
-			saveId=5;
+			saveId=5l;
 			organisationDtlsRepo.updateorgInstituteInfo(objForSave);
 		}
 		
@@ -85,6 +98,68 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
 		
 		
 	}
+
+	@Override
+	public Map<String, Object> findDataByDistrict(String districtId) {
+		List talukalist = organisationDtlsRepo.findtalukalist(districtId);
+		
+		
+		if(talukalist.size()>0 && talukalist!=null) {
+
+			List citylist = organisationDtlsRepo.findcitylist(districtId);
+			
+			Map<String, Object> response = new HashMap<>();
+			
+			response.put("talukaList", talukalist);
+			response.put("cityList", citylist);
+			return response;
+		}else {
+			Map<String, Object> response = new HashMap<>();
+			return response;
+		}
+
+	}
+
+	@Override
+	public int updateddoOfficeDetails(OrganisationDtlsModel organisationDtlsModel,OrgUserMst messages) {
+	String[] ddo = organisationDtlsModel.getDdoCode().split("_");
+		
+		String ddoCode = ddo[0]; 
+		
+		DdoOffice lstprop = organisationDtlsRepo.lstGetOfficeDtls(ddoCode);
+
+		
+		lstprop.setDcpsDdoOfficeName(organisationDtlsModel.getOfficeName());
+		lstprop.setDcpsDdoOfficeState(organisationDtlsModel.getStateId());
+        lstprop.setDcpsDdoOfficeDistrict(organisationDtlsModel.getDistrictId());
+        lstprop.setDcpsDdoOfficeTaluka(organisationDtlsModel.getTalukaId());
+        lstprop.setDcpsDdoOfficeTown(organisationDtlsModel.getCity());
+        lstprop.setDcpsDdoOfficeVillage(organisationDtlsModel.getVillage());
+        lstprop.setDcpsDdoOfficeAddress1(organisationDtlsModel.getAddress());
+        lstprop.setDcpsDdoOfficeCityClass(organisationDtlsModel.getCityClass());
+        lstprop.setDiceCode(organisationDtlsModel.getInstiNo());
+        lstprop.setDcpsDdoOfficeGrant(organisationDtlsModel.getPercGrant());
+        lstprop.setDcpsDdoOfficeTelNo1(organisationDtlsModel.getTel1());
+        lstprop.setDcpsDdoOfficeTelNo2(organisationDtlsModel.getTel2());
+        lstprop.setDcpsDdoOfficeFax(organisationDtlsModel.getFax());
+        lstprop.setDcpsDdoOfficeEmail(organisationDtlsModel.getEmail());
+        lstprop.setStatusFlag(0l);
+        lstprop.setDcpsDdoOfficeDdoFlag("YES");
+        lstprop.setLangId(1l);
+        lstprop.setLocId(1l);
+        lstprop.setCreatedDate(new Date());
+        lstprop.setPostId(messages.getCreatedByPost().getPostId());
+        lstprop.setUpdatedPostId(messages.getCreatedByPost().getPostId());
+        lstprop.setUserId(messages.getUserId());
+        lstprop.setDbId(99l);
+		
+        organisationDtlsRepo.updateddoOfficeDetails(lstprop);
+	
+		
+		return 10;
+	}
+
+	
 
 
 }
