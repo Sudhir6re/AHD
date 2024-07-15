@@ -1,73 +1,43 @@
 package com.mahait.gov.in.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.entity.MstCommonEntity;
-import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.DDOScreenModel;
-import com.mahait.gov.in.model.MstDesignationModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
-import com.mahait.gov.in.model.MstNomineeDetailsModel;
 import com.mahait.gov.in.model.MstStateModel;
-import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
 import com.mahait.gov.in.service.DDOScreenService;
 import com.mahait.gov.in.service.EmpChangeDetailsService;
 import com.mahait.gov.in.service.LocationMasterService;
 import com.mahait.gov.in.service.MstBankService;
-import com.mahait.gov.in.service.MstCadreService;
 import com.mahait.gov.in.service.MstDepartmentService;
 import com.mahait.gov.in.service.MstDesignationService;
 import com.mahait.gov.in.service.MstEmployeeService;
-import com.mahait.gov.in.service.MstSubDepartmentService;
 
 
 @Controller
@@ -150,15 +120,15 @@ public class EmployeeConfigurationController {
 	//	model.addAttribute("lstSubDepartment", mstSubCorporationService.findAllSubCorporation());
 		
 		
-		List<DDOScreenModel> lstDepartment = mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(),
+		/*List<DDOScreenModel> lstDepartment = mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(),
 				messages.getUserName().toString());
 		for (Iterator iterator = lstDepartment.iterator(); iterator.hasNext();) {
 			DDOScreenModel ddoScreenModel = (DDOScreenModel) iterator.next();
 //			mstEmployeeModel.setParentAdminDepartmentId(BigInteger.valueOf(ddoScreenModel.getDepartmentId()));
 			mstEmployeeModel.setParentFieldDepartmentId(BigInteger.valueOf(ddoScreenModel.getSubDepartmentId()));
 
-		}
-		List<Object[]> lstInstitueDtls = mstEmployeeService.getInstitueDtls(messages.getUserName());
+		}*/
+		/*List<Object[]> lstInstitueDtls = mstEmployeeService.getInstitueDtls(messages.getUserName());
 		if (!lstInstitueDtls.isEmpty()) {
 			for (Object[] objLst : lstInstitueDtls) {
 				mstEmployeeModel.setInstName(objLst[0].toString());
@@ -166,7 +136,7 @@ public class EmployeeConfigurationController {
 				mstEmployeeModel.setInsttelnotwo(objLst[2].toString());
 				mstEmployeeModel.setInstemail(objLst[3].toString());
 			}
-		}
+		}*/
 		
 		
 		
@@ -217,20 +187,20 @@ public class EmployeeConfigurationController {
 		
 	
 
-		model.addAttribute("lstAdminOfficeMst", lstDepartment);
+	///	model.addAttribute("lstAdminOfficeMst", lstDepartment);
 	
 		
 		
 		
 		// findDDOScreenDataTable(locale.getLanguage()),messages.getUserName());
-		model.addAttribute("lstCadreMst", mstEmployeeService.getCadreMstData(locale.getLanguage()));
+		///.addAttribute("lstCadreMst", mstEmployeeService.getCadreMstData(locale.getLanguage()));
 		model.addAttribute("language", locale.getLanguage());
 
 		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
 		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
 		model.addAttribute("lstDesignation", mstDesignationService.getDesignationMstData(locale.getLanguage()));
 		
-		model.addAttribute("lstDcpsAccnMaintainby", mstEmployeeService.getDcpsAccnMaintainby());
+		/*model.addAttribute("lstDcpsAccnMaintainby", mstEmployeeService.getDcpsAccnMaintainby());
 		
 		
 		model.addAttribute("lstAccountMaintainby", mstEmployeeService.getAccountMaintainby());
@@ -239,7 +209,7 @@ public class EmployeeConfigurationController {
 		model.addAttribute("lstCurntDepartment", lstDepartment);
 		model.addAttribute("lstGISGroup", mstEmployeeService.getGISGroup());
 		model.addAttribute("lstGISApplicable", mstEmployeeService.getGISApplicable());
-		model.addAttribute("lstRelation", mstEmployeeService.getRelation());
+		model.addAttribute("lstRelation", mstEmployeeService.getRelation());*/
 		model.addAttribute("lstAllBankList", mstBankService.lstAllBank());
 		model.addAttribute("lstCommonMstSalutation", commonHomeMethodsService
 				.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.COMMONCODE_SALUTATION));

@@ -1,5 +1,8 @@
 package com.mahait.gov.in.repository;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,8 +15,9 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
-import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 
@@ -227,7 +231,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		Session currentSession = manager.unwrap(Session.class);
 		String hql = "select a.ddo_code,a.location_code,a.post_id,d.post_detail_id \r\n"
 				+ " from org_ddo_mst a inner join org_post_mst b on a.location_code=b.location_code \r\n"
-				+ " inner join org_user_mst c on c.user_name=a.ddo_code left join org_post_details_rlt d \r\n"
+				+ " inner join org_user_mst c on c.ddo_code=a.ddo_code left join org_post_details_rlt d \r\n"
 				+ "  on d.post_id=b.post_id where c.user_id=" + userId;
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
@@ -249,6 +253,71 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	}
 
 
+	@Override
+	public List<MstMonthEntity> lstGetAllMonths() {
+		String HQL = "FROM MstMonthEntity as t ORDER BY t.monthId";
+		return (List<MstMonthEntity>) manager.createQuery(HQL).getResultList();
+	}
 
+	@Override
+	public List<MstYearEntity> lstGetAllYears() {
+		String HQL = "FROM MstYearEntity as t ORDER BY t.yearEnglish desc ";
+		return (List<MstYearEntity>) manager.createQuery(HQL).getResultList();
 
+	}
+	@Override
+	public Date findbillCreateDate(int billNumber) {
+		Session currentSession = manager.unwrap(Session.class);
+		List list = new ArrayList();
+		Date rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ="
+				+ billNumber + " limit 1 ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+		if (list != null && list.size() > 0)
+			rtnStr = (Date) list.get(0);
+		return rtnStr;
+	}
+	@Override
+	public List<Object[]> findDetailsBillNumber(int billNumber) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from paybill_generation_trn  where paybill_generation_trn_id = " + billNumber;
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
+
+	@Override
+	public List<Object[]> findyearinfo(BigInteger yearcurr) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from year_mst  where year_id  = '" + yearcurr + "' ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
+	
+	@Override
+	public List<Object[]> findmonthinfo(BigInteger month) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from month_mst     where month_id   ='" + month + "' ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
+	
+	@Override
+	public String getOffice(String userName) {
+
+		Session currentSession = manager.unwrap(Session.class);
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select off_name from mst_dcps_ddo_office where ddo_code  ='" + userName + "' ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+
+		if (list != null && list.size() > 0)
+			rtnStr = list.get(0).toString();
+
+		return rtnStr;
+
+	}
 }

@@ -39,6 +39,7 @@ public class AdminLoginController {
 	WelcomeService welcomeService;
 	
 	
+	
 	//@Autowired
 //	UserSessionObject  userSessionObject;
 
@@ -51,7 +52,6 @@ public class AdminLoginController {
 				userDetailsServiceImpl.getUserIdbyUserName(request.getRemoteUser()));
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
 		List<Object[]> retriveUserdetails = commonHomeMethodsService.retriveUserdetails(messages.getUserId());
 		if (retriveUserdetails.size() > 0) {
 			for (Object[] obj : retriveUserdetails) {

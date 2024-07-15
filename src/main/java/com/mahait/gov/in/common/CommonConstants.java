@@ -94,7 +94,7 @@ public class CommonConstants {
 		String MOTOR_VEHICLE_ADVANCE = "MOTORVEHADV";
 		String HOUSE_ADVANCE = "HBA";
 		String EMPLOYEE_TYPE = "EMPLOYEE_TYPE";
-		String BILL_TYPE = "BILL";
+		String BILL_TYPE = "PAYBILL_TYPE";
 		String CADRE_GROUP = "CADRE_GROUP";
 		String ADVANCE_PURPOSE = "PURPOSE_OF_WITHDRAWL";
 		String DCPS_OFFICE_CLASS = "DCPS_OFFICE_CLASS";
@@ -141,7 +141,7 @@ public class CommonConstants {
 		String COMMONCODE_CITY_CLASS_Z = "Z";
 		
 		// All Component 
-		String COMMONCODE_COMPONENT_DA = "DA";
+		String COMMONCODE_COMPONENT_DA = "Dearness Allowance (D.A)";
 		String COMMONCODE_COMPONENT_SVN_PC_DA = "SVN_PC_DA";
 		String COMMONCODE_COMPONENT_GIS = "GIS";
 		String COMMONCODE_COMPONENT_GIS_ZP = "GIS_ZP";

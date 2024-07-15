@@ -348,6 +348,10 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		List postNameList = new ArrayList();
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
+
+		// Long locId1=Long.parseLong(locId);
+		// Long ddoSelected1=Long.parseLong(ddoSelected);
+
 		sb.append(
 				"select pd.post_name, pd.post_id, (select o.employee_full_name_en from employee_mst o, org_userpost_rlt up ");
 		sb.append(
@@ -361,8 +365,9 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		if (PsrNo != null && !(PsrNo.trim()).equals(""))
 			sb.append("  and p.psr_no = " + PsrNo);
 		else if ((ddoSelected != null) && (ddoSelected != "")) {
-			sb.append(" and pd.loc_id =(select loc.location_code from org_ddo_mst loc where loc.ddo_code='" + ddoSelected
-					+ "')");
+			sb.append(
+					" and pd.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='"
+							+ ddoSelected + "')");
 		} else if (BillNo != null && !(BillNo.trim()).equals(""))
 			sb.append("  and mp.bill_no  = " + BillNo);
 		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
@@ -373,9 +378,8 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		sb.append(" and cmn.lookup_id=org.post_type_lookup_id and org.activate_flag=1 ");
 		sb.append("   order by pd.CREATED_DATE desc  ");
 
-		
 		System.out.println(sb.toString());
-		
+
 		Query query = hibSession.createSQLQuery(sb.toString());
 		postNameList = query.list();
 		return postNameList;
@@ -386,6 +390,49 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Session hibSession = getSession();
 		OrgPostMst save = hibSession.get(OrgPostMst.class, postId);
 		return save;
+	}
+
+	@Override
+	public List searchPostListByGrOrderId(Long orderId) {
+		List postList = null;
+		Session session = getSession();
+		StringBuffer sb = new StringBuffer();
+		sb.append(
+				"select postRlt from OrgPostMst postMst, OrgPostDetailsRlt postRlt where");
+		sb.append("postMst.postTypeLookupId = 10001198130 and postMst.postId = postRlt.orgPostMst.postId and postMst.orderId =");
+		sb.append(orderId);
+		Query query = session.createQuery(sb.toString());
+		postList = query.list();
+		return postList;
+	}
+
+	@Override
+	public List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate, String ddoCode) {
+		List orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode in (" + locId
+				+ ") or or orderMst.ddoCode='" + ddoCode + "') order by orderMst.orderName";
+		Query query = hibSession.createQuery(strQuery);
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
+	@Override
+	public List getExpiryData(long locId, String ddoCode) {
+		List orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode in (" + locId
+				+ ") or orderMst.ddoCode='" + ddoCode + "') and endDate < CURRENT_DATE  order by orderMst.orderName";
+		Query query = hibSession.createQuery(strQuery);
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
+	@Override
+	public HrPayOrderMst find(Long orderId) {
+		Session hibSession = getSession();
+		HrPayOrderMst hrPayOrderMst=hibSession.find(HrPayOrderMst.class,orderId);
+		return hrPayOrderMst;
 	}
 
 }
