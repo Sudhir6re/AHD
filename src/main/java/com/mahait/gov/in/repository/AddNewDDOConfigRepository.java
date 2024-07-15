@@ -200,7 +200,8 @@ public class AddNewDDOConfigRepository {
 		//	lLngUserId = 0l;//getNextSeqNoLocForUserMst();
 		//	lObjUserMst.setUserId(lLngUserId);
 
-			lObjUserMst.setUserName(ddoc);
+			lObjUserMst.setUserName(ddoc+"_AST");
+			lObjUserMst.setDdoCode(ddoc);
 
 			lObjUserMst.setPassword(passwordEncoder.encode("ifms123"));
 

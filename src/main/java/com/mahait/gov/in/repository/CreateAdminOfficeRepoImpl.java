@@ -46,7 +46,7 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 		strQuery.append(
 				"SELECT zp.ZP_DDO_CODE,zp.REPT_DDO_CODE,zp.FINAL_DDO_CODE,zp.SPECIAL_DDO_CODE,zp.ZPLEVEL,zp.STATUS FROM  RLT_ZP_DDO_MAP zp ");
 		strQuery.append(" inner join mst_dcps_ddo_office office on zp.zp_ddo_code=office.ddo_code ");
-		strQuery.append(" where zp.LANG_ID =1 and zp.status is not null ");
+		strQuery.append(" where zp.status is not null "); // zp.LANG_ID =1 and 
 		if ((districtName != null) && (districtName != "") && (Long.parseLong(districtName) != -1)) {
 			strQuery.append(" and office.district='" + districtName + "'");
 		}

@@ -107,7 +107,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	@Override
 	public String saveCreateAdminOffice(ZpRltDdoMapModel zpRltDdoMapModel, OrgUserMst messages) {
 
-		Long gLngPostId = messages.getCreatedByPost().getPostId();
+		Long gLngPostId = messages.getUserId();
 		Long gLngUserId = messages.getUserId();
 		String strAdminOfc=zpRltDdoMapModel.getCmbAdminOffice();
 
@@ -138,7 +138,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		String lStrDdoOfficeName=zpRltDdoMapModel.getTxtOfficeName();
 		lStrDdoName=lStrDdoOfficeName;
 		String lStrDdoCode=zpRltDdoMapModel.getTxtDDOCode();
-		lStrDdoCode=lStrDdoCode+"_AST";
+		lStrDdoCode=lStrDdoCode;
 		
 		
 		lStrDdoCode=lStrDdoCode;;
