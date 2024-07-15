@@ -2,6 +2,8 @@ package com.mahait.gov.in.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -11,6 +13,7 @@ public class OrgDdoMstModel {
 	private String ddoCode;
 	
 	private Long ddoId;
+
 
 
 	private String ddoName;
@@ -23,8 +26,10 @@ public class OrgDdoMstModel {
 
 	private Long langId;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 
 	private Long activateFlag;
@@ -33,12 +38,14 @@ public class OrgDdoMstModel {
 
 	private Long createdByPost;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createdDate;
 
 	private Long updatedBy;
 
 	private Long updatedByPost;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updatedDate;
 
 	private Long dbId;
@@ -112,5 +119,6 @@ public class OrgDdoMstModel {
 	private String parentAdminDepartmentId;
 	private String ParentFieldDepartmentId;
 	private String ItoWardCircle;
+	private String designationId;
 
 }

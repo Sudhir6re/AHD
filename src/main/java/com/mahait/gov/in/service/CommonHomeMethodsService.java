@@ -45,9 +45,9 @@ public interface CommonHomeMethodsService {
 
 	public List<MstBankEntity> findBankName();
 
-	/*public List<MstDesnModel> findDesignation(String userName);
+	//public List<MstDesnModel> findDesignation(String userName);
 
-	public List<MstDistrictModel> lstGetAllDistrict(String userName);*/
+	public List<MstDistrictModel> lstGetAllDistrict();
 /*
 	public List<MstTalukaModel> lstGetAllTaluka();
 

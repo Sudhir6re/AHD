@@ -253,52 +253,27 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 		return commonHomeMethodsRepo.findBankName();
 	}
 
-	/*@Override
-	public List<MstDesnModel> findDesignation(String userName) {
-		// TODO Auto-generated method stub
-		//return commonHomeMethodsRepo.findDesignation(userName);
-		
-		List<Object[]> lstprop = commonHomeMethodsRepo.findDesignation();
-		List<MstDesnModel> lstObj = new ArrayList<>();
-        if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	MstDesnModel obj = new MstDesnModel();
-                obj.setDesignationId(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[0]).toString()));
-                obj.setDesignationCode(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[1]).toString()));
-                obj.setDesignation(StringHelperUtils.isNullString(objLst[2]));
-                obj.setDesgShortName(StringHelperUtils.isNullString(objLst[3]));
-                obj.setIsActive(StringHelperUtils.isNullChar(objLst[4]));
-                if(objLst[5]!=null)
-                {
-                	
-                obj.setCadreName(StringHelperUtils.isNullString(objLst[5]));
-                }
-                lstObj.add(obj);
-            }
-        }
-        return lstObj;
-		
-	}
+
 
 	@Override
-	public List<MstDistrictModel> lstGetAllDistrict(String userName) {
+	public List<MstDistrictModel> lstGetAllDistrict() {
 		
 		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllDistrict();
 		List<MstDistrictModel> lstObj = new ArrayList<>();
         if (!lstprop.isEmpty()) {
             for (Object[] objLst : lstprop) {
             	MstDistrictModel obj = new MstDistrictModel();
-                obj.setDistrictId(StringHelperUtils.isNullInt(objLst[0]));
+                obj.setDistrictId(StringHelperUtils.isNullBigInteger(objLst[0]).toString());
                
                 obj.setDistrictName(StringHelperUtils.isNullString(objLst[1]));
-                obj.setDistrictCode(StringHelperUtils.isNullInt(objLst[2]));
+                obj.setDistrictCode(StringHelperUtils.isNullString(objLst[2]));
                 
                 lstObj.add(obj);
             }
         }
         return lstObj;
 	}
-
+/*
 	@Override
 	public List<MstTalukaModel> lstGetAllTaluka() {
 		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllTaluka();
@@ -385,7 +360,28 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService  {
 	@Override
 	public List<MstDesnModel> findDesignation(String userName) {
 		// TODO Auto-generated method stub
-		return commonHomeMethodsRepo.findDesignation(userName);
+		//return commonHomeMethodsRepo.findDesignation(userName);
+		
+		List<Object[]> lstprop = commonHomeMethodsRepo.findDesignation();
+		List<MstDesnModel> lstObj = new ArrayList<>();
+        if (!lstprop.isEmpty()) {
+            for (Object[] objLst : lstprop) {
+            	MstDesnModel obj = new MstDesnModel();
+                obj.setDesignationId(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[0]).toString()));
+                obj.setDesignationCode(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[1]).toString()));
+                obj.setDesignation(StringHelperUtils.isNullString(objLst[2]));
+                obj.setDesgShortName(StringHelperUtils.isNullString(objLst[3]));
+                obj.setIsActive(StringHelperUtils.isNullChar(objLst[4]));
+                if(objLst[5]!=null)
+                {
+                	
+                obj.setCadreName(StringHelperUtils.isNullString(objLst[5]));
+                }
+                lstObj.add(obj);
+            }
+        }
+        return lstObj;
+		
 	}
 
 

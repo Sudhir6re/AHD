@@ -13,9 +13,9 @@ public class OrganisationDtlsModel {
 	private String city;
 	private String village;
 	private String Address;
-	private String pin;
+	private Long pin;
 	private String cityClass;
-	private String instiNo;
+	private Long instiNo;
 	private String PercGrant;
 	private Long tel1;
 	private Long tel2;
