@@ -16,7 +16,6 @@ import com.mahait.gov.in.entity.CmnLanguageMst;
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DdoOffice;
-import com.mahait.gov.in.entity.HrEisGdMpg;
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderHeadMpg;
 import com.mahait.gov.in.entity.HrPayOrderHeadPostMpg;
@@ -34,6 +33,7 @@ import com.mahait.gov.in.repository.CmnLanguageMstRepository;
 import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnLookupMstRepository;
 import com.mahait.gov.in.repository.EntryOfPostsRepo;
+import com.mahait.gov.in.repository.OrgPostMstRepository;
 
 @Transactional
 @Service
@@ -51,6 +51,9 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Autowired
 	CmnLookupMstRepository cmnLookupMstRepository;
 
+	@Autowired
+	OrgPostMstRepository orgPostMstRepository;
+	
 	@Override
 	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		return entryOfPostsRepo.getActiveDesig(lLngFieldDept);
@@ -751,6 +754,27 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Override
 	public List getExpiryData(long locId, String ddoCode) {
 		return entryOfPostsRepo.getExpiryData(locId,ddoCode);
+	}
+
+	@Override
+	public void renewPostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId,
+			OrgUserMst messages) {
+		if (postEntryModel.getPostIdsToBeAttached() != " ") {
+			String[] lStrArrPostIdsToBeAttached = postEntryModel.getPostIdsToBeAttached()
+			.split("~");
+			Long[] lLongArrPostIdsToBeAttached = new Long[lStrArrPostIdsToBeAttached.length];
+			for (Integer lInt = 0; lInt < lStrArrPostIdsToBeAttached.length; lInt++) {
+				if (lStrArrPostIdsToBeAttached[lInt] != "") {
+					lLongArrPostIdsToBeAttached[lInt] = Long.valueOf(lStrArrPostIdsToBeAttached[lInt]);
+					OrgPostMst orgPostMst=orgPostMstRepository.findByPostId(lLongArrPostIdsToBeAttached[lInt]);
+					orgPostMst.setOrderDate(new Timestamp(postEntryModel.getRenewalStartDate().getTime()));
+					orgPostMst.setStartDate(new Timestamp(postEntryModel.getRenewalPostStartDate().getTime()));
+					orgPostMst.setEndDate(new Timestamp(postEntryModel.getRenewalEndDate().getTime()));
+					orgPostMst.setOrderId(postEntryModel.getCmbNewOrder());
+					orgPostMstRepository.save(orgPostMst);
+				}
+			}
+		}
 	}
 	
 	

@@ -77,5 +77,8 @@ public class PostEntryModel {
 	private String flag;
 	private Long postId;
 	private String givenurl;
+	
+	
+	private String postIdsToBeAttached;
 
 }

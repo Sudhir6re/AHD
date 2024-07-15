@@ -277,7 +277,7 @@ public class EntryOfPostsController {
 		if (session.getAttribute("locationId") != null) {
 			locId = Long.parseLong((String) session.getAttribute("locationId"));
 			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
-			entryOfPostsService.savePostEntryDtl(postEntryModel, locId, loggedInPostId, messages);
+			entryOfPostsService.renewPostEntry(postEntryModel, locId, loggedInPostId, messages);
 			MessageResponse messageResponse = new MessageResponse();
 			messageResponse.setResponse("Post Created Successfully");
 			messageResponse.setStyle("alert alert-success");

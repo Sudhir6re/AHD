@@ -63,5 +63,7 @@ public interface EntryOfPostsService {
 
 	List getExpiryData(long locId, String ddoCode);
 
+	void renewPostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
+
 
 }

@@ -150,7 +150,13 @@
 													<td width="60%" align="left"><input type="date"
 														size="10" name="renewalEndDate" id="renewalEndDate"  th:field="*{renewalEndDate}"    
 														maxlength="10" value=""> &nbsp; <label
-														class="mandatoryindicator">*</label></td>
+														class="mandatoryindicator">*</label>
+														
+															<input type="hidden" id="postIdsToBeAttached"  th:field="*{postIdsToBeAttached}" name="postIdsToBeAttached" value="" size="200" >
+															<input type="hidden" id="counterPost"  name="counterPost" value="" size="200" >
+		
+														
+														</td>
 												</tr>
 												<tr>
 													<td colspan="2"><input type="button" name="btnSave"
