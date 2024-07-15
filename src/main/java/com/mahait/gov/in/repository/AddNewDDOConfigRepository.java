@@ -17,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.mahait.gov.in.entity.AclPostroleRlt;
-import com.mahait.gov.in.entity.AclRoleMst;
 import com.mahait.gov.in.entity.CmnDatabaseMst;
 import com.mahait.gov.in.entity.CmnLanguageMst;
 import com.mahait.gov.in.entity.CmnLocationMst;
@@ -73,10 +71,6 @@ public class AddNewDDOConfigRepository {
 	
 	
 	
-	
-
-	@Autowired
-	AclRoleMstRepository aclRoleMstRepository;
 	
 	
 	@Autowired
@@ -206,11 +200,12 @@ public class AddNewDDOConfigRepository {
 		//	lLngUserId = 0l;//getNextSeqNoLocForUserMst();
 		//	lObjUserMst.setUserId(lLngUserId);
 
-			lObjUserMst.setUserName(ddoc);
+			lObjUserMst.setUserName(ddoc+"_AST");
+			lObjUserMst.setDdoCode(ddoc);
 
 			lObjUserMst.setPassword(passwordEncoder.encode("ifms123"));
 
-			Optional<MstRoleEntity> findById = mstRoleRepo.findById(1);
+			Optional<MstRoleEntity> findById = mstRoleRepo.findById(3);
 			lObjUserMst.setMstRoleEntity(findById.get());
 			
 			lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
@@ -310,8 +305,8 @@ public class AddNewDDOConfigRepository {
 			lObjOrgPostMst.setPostId(lLngPostId);
 			lObjOrgPostMst.setParentPostId(-1l);
 			lObjOrgPostMst.setPostLevelId(1l);
-			//lObjOrgPostMst.setCmnLookupMst(lObjCmnLookupMst);
 			lObjOrgPostMst.setCmnLookupMst(lObjCmnLookupMst);
+			lObjOrgPostMst.setPostTypeLookupId(lObjCmnLookupMst);
 			lObjOrgPostMst.setActivateFlag(1l);
 			lObjOrgPostMst.setCreatedBy(lObjOrgUserMstCrtdUsr);
 			lObjOrgPostMst.setCreatedByPost(postId);
@@ -367,7 +362,7 @@ public class AddNewDDOConfigRepository {
 			String lStrUserType, OrgPostMst newOrgPostMst){
 		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLngPostRoleId = null;
-		AclRoleMst lObjAclRoleMst = null;
+		/*AclRoleMst lObjAclRoleMst = null;
            OrgPostMst postId = newOrgPostMst;//orgPostMstRepository.findByPostId(lLngPostId);
 			OrgPostMst postIdCrtd = orgUserMst.getCreatedByPost();
 
@@ -393,7 +388,7 @@ public class AddNewDDOConfigRepository {
 			lObjAclPostRoleRlt.setOrgUserMstByCreatedBy(lObjOrgUserMstCrtd);
 			lObjAclPostRoleRlt.setCreatedDate(new Timestamp(new Date().getTime()));
 			ghibSession.save(lObjAclPostRoleRlt);
-			ghibSession.flush();
+			ghibSession.flush();*/
 		
 	}
 

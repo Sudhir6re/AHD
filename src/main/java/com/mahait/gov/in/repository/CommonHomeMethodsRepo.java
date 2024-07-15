@@ -1,10 +1,14 @@
 package com.mahait.gov.in.repository;
 
+import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
-import com.mahait.gov.in.entity.MstBankPay;
+import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 
@@ -41,10 +45,25 @@ public interface CommonHomeMethodsRepo {
 	
 	public List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus);
 
-	public List<MstBankPay> findBankName();
+	public List<MstBankEntity> findBankName();
 
-	public List<MstDesnModel> findDesignation(String userName);
+	public List<Object[]> findDesignation();
 
+
+
+	public List<Object[]> lstGetAllTaluka();
+
+	public List<Object[]> lstGetAllVillage();
+
+	public List<Object[]> lstGetAllCity();
+
+	public List<Object[]> lstGetAllDistrict();
+
+	public List<Object[]> findAllBankBranchList(int bankCode);
+
+	public Object getIfscCodeByBranchId(int branchId);
+
+	public List<Object[]> getBankBranch(String bankId);
 
 	public List<Object[]> retriveUserdetails(Long userId);
 
@@ -52,5 +71,20 @@ public interface CommonHomeMethodsRepo {
 
 	public List<Object[]> findLookUpNameDesc(String commoncodeSalutations);
 
+	public List<MstDesnModel> findDesignation(String userName);
+	
+	public List<MstMonthEntity> lstGetAllMonths();
+
+	public List<MstYearEntity> lstGetAllYears();
+
+	public Date findbillCreateDate(int billNumber);
+
+	public List<Object[]> findyearinfo(BigInteger yearcurr);
+
+	public List<Object[]> findDetailsBillNumber(int billNumber);
+
+	public List<Object[]> findmonthinfo(BigInteger month);
+
+	public String getOffice(String userName);
 	
 }

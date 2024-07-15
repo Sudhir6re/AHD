@@ -1,5 +1,8 @@
 package com.mahait.gov.in.repository;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,9 +13,11 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
-import com.mahait.gov.in.entity.MstBankPay;
-import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.MstBankBranchEntity;
+import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.MstDesnModel;
 
@@ -22,8 +27,6 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	// protected final Log logger = LogFactory.getLog(getClass());
 	@PersistenceContext
 	EntityManager manager;
-
-
 
 	@Override
 	public List<Object[]> findRoleLevelMstList() {
@@ -101,7 +104,6 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return (List<Object[]>) query.list();
 	}
 
-
 	@Override
 	public MstRoleEntity findMstRoleId(int roleId) {
 		MstRoleEntity objDept = null;
@@ -149,9 +151,97 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	}
 
 	@Override
-	public List<MstBankPay> findBankName() {
-		String HQL = "FROM MstBankPay as t";
-		return (List<MstBankPay>) manager.createQuery(HQL).getResultList();
+	public List<MstBankEntity> findBankName() {
+		String HQL = "FROM MstBankEntity as t";
+		return (List<MstBankEntity>) manager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<Object[]> findDesignation() {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "SELECT a.designation_id,\r\n" + "a.designation_code,\r\n" + "a.designation_name, \r\n"
+				+ "a.designation_short_name, \r\n" + "a.is_active,b.cadre_name,a.cadre_code  \r\n"
+				+ "FROM   designation_mst a left join cadre_mst b on a.cadre_code = b.cadre_code  ";
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
+	@Override
+	public List<Object[]> lstGetAllDistrict() {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "SELECT DISTRICT_ID,DISTRICT_NAME,DISTRICT_CODE FROM CMN_DISTRICT_MST";
+
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
+	@Override
+	public List<Object[]> lstGetAllTaluka() {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "SELECT TALUKA_ID,TALUKA_NAME,TALUKA_CODE FROM CMN_TALUKA_MST";
+
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
+	@Override
+	public List<Object[]> lstGetAllVillage() {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "SELECT VILLAGE_ID,VILLAGE_NAME,VILLAGE_CODE FROM CMN_VILLAGE_MST";
+
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
+	@Override
+	public List<Object[]> lstGetAllCity() {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "SELECT CITY_ID, CITY_NAME,CITY_CODE,CITY_CLASS FROM CMN_CITY_MST";
+
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
+	@Override
+	public List<Object[]> findAllBankBranchList(int bankCode) {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "select * from bank_branch_mst where bank_code = " + bankCode + " order by bank_branch_name asc";
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+
+	@Override
+	public Object getIfscCodeByBranchId(int branchId) {
+		String HQL = "FROM MstBankBranchEntity as t where t.bankBranchId=" + branchId;
+		return (List<MstBankBranchEntity>) manager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<Object[]> getBankBranch(String bankId) {
+		Session hibSession = manager.unwrap(Session.class);
+		Query query = hibSession.createSQLQuery(
+				"select bank_branch_id,bank_branch_name,bank_branch_code from bank_branch_mst where bank_code="
+						+ bankId);
+		List<Object[]> lstbankbranchdata = query.list();
+		return lstbankbranchdata;
+	}
+
+	@Override
+	public List<Object[]> retriveUserdetails(Long userId) {
+		Session currentSession = manager.unwrap(Session.class);
+		String hql = "select a.ddo_code,a.location_code,a.post_id,d.post_detail_id \r\n"
+				+ " from org_ddo_mst a inner join org_post_mst b on a.location_code=b.location_code \r\n"
+				+ " inner join org_user_mst c on c.ddo_code=a.ddo_code left join org_post_details_rlt d \r\n"
+				+ "  on d.post_id=b.post_id where c.user_id=" + userId;
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
+	@Override
+	public List<ReligionMstEntity> fetchAllReligions() {
+		// TODO Auto-generated method stub
+		String HQL = "FROM ReligionMstEntity as t ORDER BY t.religionId ";
+		return (List<ReligionMstEntity>) manager.createQuery(HQL).getResultList();
 	}
 
 	@Override
@@ -162,24 +252,76 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return (List<MstDesnModel>) query.list();
 	}
 
+
 	@Override
-	public List<Object[]> retriveUserdetails(Long userId) {
+	public List<MstMonthEntity> lstGetAllMonths() {
+		String HQL = "FROM MstMonthEntity as t ORDER BY t.monthId";
+		return (List<MstMonthEntity>) manager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<MstYearEntity> lstGetAllYears() {
+		String HQL = "FROM MstYearEntity as t ORDER BY t.yearEnglish desc ";
+		return (List<MstYearEntity>) manager.createQuery(HQL).getResultList();
+
+	}
+	@Override
+	public Date findbillCreateDate(int billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select a.ddo_code,a.location_code,a.post_id,d.post_detail_id \r\n" + 
-				" from org_ddo_mst a inner join org_post_mst b on a.location_code=b.location_code \r\n" + 
-				" inner join org_user_mst c on c.user_name=a.ddo_code left join org_post_details_rlt d \r\n" + 
-				"  on d.post_id=b.post_id where c.user_id="+userId;
-		Query query = currentSession.createSQLQuery(hql);
-		return (List<Object[]>) query.list();
+		List list = new ArrayList();
+		Date rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ="
+				+ billNumber + " limit 1 ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+		if (list != null && list.size() > 0)
+			rtnStr = (Date) list.get(0);
+		return rtnStr;
+	}
+	@Override
+	public List<Object[]> findDetailsBillNumber(int billNumber) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from paybill_generation_trn  where paybill_generation_trn_id = " + billNumber;
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
 	}
 
-
-	public List<ReligionMstEntity> fetchAllReligions() {
-		// TODO Auto-generated method stub
-		String HQL = "FROM ReligionMstEntity as t ORDER BY t.religionId ";
-		return (List<ReligionMstEntity>) manager.createQuery(HQL).getResultList();
+	@Override
+	public List<Object[]> findyearinfo(BigInteger yearcurr) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from year_mst  where year_id  = '" + yearcurr + "' ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
 	}
+	
+	@Override
+	public List<Object[]> findmonthinfo(BigInteger month) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from month_mst     where month_id   ='" + month + "' ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
+	
+	@Override
+	public String getOffice(String userName) {
 
+
+		Session currentSession = manager.unwrap(Session.class);
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select off_name from mst_dcps_ddo_office where ddo_code  ='" + userName + "' ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+
+		if (list != null && list.size() > 0)
+			rtnStr = list.get(0).toString();
+
+		return rtnStr;
+
+	}
+	
 	@Override
 	public List<Object[]> findLookUpNameDesc(String commoncodeSalutations) {
 		// TODO Auto-generated method stub
@@ -190,7 +332,5 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
-
-
 
 }

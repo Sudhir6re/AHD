@@ -14,6 +14,7 @@ public interface MstDesignationService {
 	List<MstPayCommissionEntity> findAllPayCommission();
 	public List<MstDesignationModel> getDesignationMstData(String locale);
 
+
 	/*
 	
 	public int saveDesignationMst(MstDesignationModel mstDesignationModel,int userId);

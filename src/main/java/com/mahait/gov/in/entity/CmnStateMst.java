@@ -1,5 +1,4 @@
 package com.mahait.gov.in.entity;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface MstDepartmentRepo {
 
+
 //	List<OrgDepartmentMst> findAllDepartment();
 
 }

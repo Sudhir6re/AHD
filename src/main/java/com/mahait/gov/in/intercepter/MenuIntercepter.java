@@ -46,8 +46,14 @@ public class MenuIntercepter implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		
+		  if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+	            return;
+	        }
+		
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null && !authentication.getPrincipal().equals("anonymousUser")  && session.getAttribute("menuList")==null) {
+		if (authentication != null && !authentication.getPrincipal().equals("anonymousUser") ) {
 			List<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 					.collect(Collectors.toList());
 			if (authorities.size() > 0) {

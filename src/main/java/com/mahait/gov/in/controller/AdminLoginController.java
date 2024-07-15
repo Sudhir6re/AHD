@@ -39,6 +39,7 @@ public class AdminLoginController {
 	WelcomeService welcomeService;
 	
 	
+	
 	//@Autowired
 //	UserSessionObject  userSessionObject;
 
@@ -51,7 +52,6 @@ public class AdminLoginController {
 				userDetailsServiceImpl.getUserIdbyUserName(request.getRemoteUser()));
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
 		List<Object[]> retriveUserdetails = commonHomeMethodsService.retriveUserdetails(messages.getUserId());
 		if (retriveUserdetails.size() > 0) {
 			for (Object[] obj : retriveUserdetails) {
@@ -67,7 +67,7 @@ public class AdminLoginController {
 		modelAndView.addObject("sessionMessages", messages.getUserId());
 		modelAndView.addObject("userName", messages.getUserName());
 		Integer levelRoleVal = messages.getMstRoleEntity().getRoleId();
-
+/*
 		List<TopicModel> menuList = new ArrayList<>();
 		List<TopicModel> subMenuList = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class AdminLoginController {
 		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(levelRoleVal, locale.getLanguage());
 
 		model.addAttribute("menuList", menuList);
-		model.addAttribute("subMenuList", subMenuList);
+		model.addAttribute("subMenuList", subMenuList);*/
 
 		model.addAttribute("levelRoleVal", levelRoleVal);
 

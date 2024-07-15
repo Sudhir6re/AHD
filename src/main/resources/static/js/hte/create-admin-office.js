@@ -1,9 +1,6 @@
 
 $(document).ready(function() {
 	var contextPath = $("#appRootPath").val();
-	
-
-	
 	var DDOCode =$("#ddoCode").val(); 
 	var instituteId = $("#uniqeInstituteId").val();
 	if (DDOCode != ''  && $("#uniqeInstituteId").val()!=null  && $("#uniqeInstituteId").val()!=undefined ) {
@@ -87,18 +84,11 @@ $("#btnFilter").click(function(){
 
 
 function populateTable(data) {
-
-    // Iterate over received data and populate table rows
     $.each(data, function(index, row) {
-    
     	dataTable.fnClearTable();
-
-    	
     	   var row1 = '<span id="' + row[0] + '"><a href="#"  data-ddocode="'+ row[0]+'"  class="ddoCode"    data-srno="'+index+'"  >' + row[0] + '</a></span>';
            var row2 = '<span id="' + row[1] + '"><a href="#"  data-ddocode="'+ row[1]+'" class="ddoCode"    data-srno="'+index+'" >' + row[1] + '</a></span>';
-           
     	var row3=null;
-    	
     	   if(row[5]==0){
     		   row3= '<span class="bg bg-warning" >Pending</span>';
     	   }else if(row[5]==1){
@@ -106,22 +96,17 @@ function populateTable(data) {
     	   }else{
     		   row3= '<span  class="bg bg-danger >Pending</span>';
     	   }
-    	
-        
         dataTable.fnAddData(
 				[
 					row1,
 					row2,row[4],
 					row3
 						]);
-        
-        
     });
 }
 
 $("#txtDDODsgn").keyup(function(){
 	 var txtDDODsgn=$("#txtDDODsgn").val();
-	 
 	 var context = $("#appRootPath").val();
 	if(txtDDODsgn!='' && txtDDODsgn!="0"){
 		 // $("#loaderMainNew").show();
@@ -153,9 +138,6 @@ $("#txtDDODsgn").keyup(function(){
 							$("#searchDiv")
 									.append(
 											"<p><a class='empdata'   empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
-							
-						//	$("#sevaarthIdCopy").val(data[i].sevaarthId);
-							
 							$("#searchDiv")
 									.css(
 											"border:1px solid #A5ACB2;");
@@ -164,7 +146,6 @@ $("#txtDDODsgn").keyup(function(){
 						if(data.length==0){
 							swal("Please enter valid post");
 						}
-					 //end succcess
 				}
 			});
 	}
@@ -180,24 +161,6 @@ $('body').on('click', '.empdata', function() {
 });
 
 
-
-
-
-
-
-/*
-
-var empFound=0;
-
-$("#txtDDODsgn").blur(function(){
-	setTimeout(function () {
-	$("#searchDiv").hide();
-}, 200);
-	 
-});
-
-*/
-
 $("#txtRepDDOCode").blur(function(){
 	var context = $("#appRootPath").val();
 	var ddoCode=$("#txtRepDDOCode").val();
@@ -211,17 +174,15 @@ $("#txtRepDDOCode").blur(function(){
         	if(response!=''){
         		 var dropdown = $('#cmbSubTreasury');
                  dropdown.empty();
-                 dropdown.append($('<option  value="-1"></option>').text("Please Select")); // Adjust the value index as needed
+                 dropdown.append($('<option  value="-1"></option>').text("Please Select")); 
                  $.each(response.trasuryDetails, function(index, value) {
                     $("#txtTreasuryName").val(value[1]);
                     $("#txtTreasuryCode").val(value[0]);
-                    dropdown.append($('<option  value="'+value[0]+'"></option>').text(value[1])); // Adjust the value index as needed
-                    
+                    dropdown.append($('<option  value="'+value[0]+'"></option>').text(value[1])); 
                  });
                  
-                 
                  $.each(response.subTreasuryList, function(index, value) {
-                     dropdown.append($('<option value="'+value[0]+'"></option>').text(value[1])); // Adjust the value index as needed
+                     dropdown.append($('<option value="'+value[0]+'"></option>').text(value[1]));
                  });
         	}else{
         		alert("No Data Found");
@@ -288,7 +249,6 @@ $("#cmbAdminOffice").change(function(){
 	    		 var len = data.length;
 					if (len != 0) {
 						 $.each(data, function(index, row) {
-								  // $('#cmbDistrict').append('<option value="' + data[i].talukaId + '">' + data[i].talukaName + '</option>');
 								   $('#cmbDistrict').append('<option value="' + row[1]+ '">' + row[0] + '</option>');
 						 });	
 				}
@@ -361,7 +321,6 @@ function hideDtls(field, srno) {
 }
 
     $("form[name='ZpDDOOffice']").validate({
-        // Specify validation rules for each input field
         rules: {
             cmbAdminOffice: {
                 required: true,
@@ -420,11 +379,9 @@ function hideDtls(field, srno) {
             txtEmailId: {
                 required: true,
                 maxlength: 100,
-                email: true // Ensure email format validation
+                email: true 
             }
-            // Add more fields here as needed
         },
-        // Specify validation error messages
         messages: {
             cmbAdminOffice: {
                 required: "Please select Admin Office",
@@ -484,10 +441,7 @@ function hideDtls(field, srno) {
                 maxlength: "Email Id should not exceed {0} characters",
                 email: "Please enter a valid Email Id"
             }
-            // Add more messages here as needed
         },
-        // Make sure the form is submitted to the destination defined
-        // in the "action" attribute of the form when valid
         submitHandler: function(form) {
             form.submit();
         }

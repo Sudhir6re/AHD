@@ -1,7 +1,10 @@
 package com.mahait.gov.in.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "INSTITUTE_TYPE")

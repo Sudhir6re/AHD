@@ -10,12 +10,11 @@ import javax.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mahait.gov.in.entity.AppoinmentEntity;
-import com.mahait.gov.in.entity.MstDcpsBillGroup;
-import com.mahait.gov.in.entity.MstDcpsDesignation;
 import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstCadreModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
+
 
 
 public interface MstEmployeeService {

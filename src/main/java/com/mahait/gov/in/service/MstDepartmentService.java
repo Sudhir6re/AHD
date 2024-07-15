@@ -4,6 +4,7 @@
 package com.mahait.gov.in.service;
 
 import java.util.List;
+
 //import com.mahait.gov.in.entity.OrgDepartmentMst;
 
 /**
@@ -16,6 +17,7 @@ public interface MstDepartmentService {
 //	public MstDepartmentEntity saveDepartment(MstDepartmentEntity mstDepartmentEntity);
 
 //	public List<OrgDepartmentMst> findAllDepartment();
+/*	public List<MstDepartmentENtity> findAllDepartment();*/
 	
 //	public List<MstDepartmentEntity> findAllActiveDepartment();
 //

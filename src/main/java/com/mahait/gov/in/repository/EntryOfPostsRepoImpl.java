@@ -323,12 +323,10 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public List<HrPayOrderMst> getAllOrderData(long locId, String ddoCode) {
 		List<HrPayOrderMst> orderMstList = null;
 		Session hibSession = getSession();
-
 		String strQuery = "from HrPayOrderMst orderMst where orderMst.locationCode = :locId or ddoCode=:ddoCode order by orderMst.orderName";
 		Query query = hibSession.createQuery(strQuery);
 		query.setParameter("locId", Long.toString(locId));
 		query.setParameter("ddoCode", ddoCode);
-
 		orderMstList = query.list();
 		return orderMstList;
 	}
@@ -350,34 +348,91 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		List postNameList = new ArrayList();
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
-		sb.append(
-				"  select pd.post_name,pd.post_id,(select concat(concat(concat(o.emp_fname, ' '), concat(o.emp_mname, ' ')),concat( o.emp_lname,' ')) from org_emp_mst o, org_userpost_rlt up ");
-		sb.append(
-				"  where  o.lang_id = 1 and o.user_id = up.user_id and up.post_id = pd.post_id and up.end_date is null and up.activate_flag = 1),ds.dsgn_name , P.PSR_NO ");
+
+		// Long locId1=Long.parseLong(locId);
+		// Long ddoSelected1=Long.parseLong(ddoSelected);
 
 		sb.append(
-				"  , (select mp.ddo_code  from org_ddo_mst mp where  p.loc_id = mp.location_code) BillNo,org.post_type_lookup_id,cmn.lookup_name from org_post_details_rlt pd, org_designation_mst ds,org_post_mst org, cmn_lookup_mst cmn");
+				"select pd.post_name, pd.post_id, (select o.employee_full_name_en from employee_mst o, org_userpost_rlt up ");
+		sb.append(
+				" where o.user_id = up.user_id and up.post_id = pd.post_id and up.end_date is null and up.activate_flag = 1), ds.designation_name , P.PSR_NO    ");
+
+		sb.append(
+				"  ,(select mp.ddo_code from org_ddo_mst mp where p.loc_id = cast(mp.location_code as bigint)) BillNo, org.post_type_lookup_id, cmn.lookup_name from org_post_details_rlt pd, designation_mst ds, org_post_mst org, cmn_lookup_mst cmn");
 		sb.append("  , HR_PAY_POST_PSR_MPG p ");
 		sb.append("  where pd.loc_id in (" + locId
-				+ ") and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.dsgn_id and ds.lang_id = 1  ");
+				+ ") and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.designation_id  ");
 		if (PsrNo != null && !(PsrNo.trim()).equals(""))
 			sb.append("  and p.psr_no = " + PsrNo);
 		else if ((ddoSelected != null) && (ddoSelected != "")) {
-			sb.append(" and pd.loc_id =(select loc.location_code from org_ddo_mst loc where loc.ddo_code='" + ddoSelected
-					+ "')");
+			sb.append(
+					" and pd.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='"
+							+ ddoSelected + "')");
 		} else if (BillNo != null && !(BillNo.trim()).equals(""))
 			sb.append("  and mp.bill_no  = " + BillNo);
 		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
-			sb.append("  and  upper(ds.dsgn_name) like  upper('%" + Dsgn + "%')  ");
+			sb.append("  and  upper(ds.designation_id) like  upper('%" + Dsgn + "%')  ");
 		else
 			sb.append("  and  upper(pd.post_name) like  upper('%" + lPostName + "%') ");
 		sb.append(" and pd.post_id=org.post_id ");
 		sb.append(" and cmn.lookup_id=org.post_type_lookup_id and org.activate_flag=1 ");
 		sb.append("   order by pd.CREATED_DATE desc  ");
 
+		System.out.println(sb.toString());
+
 		Query query = hibSession.createSQLQuery(sb.toString());
 		postNameList = query.list();
 		return postNameList;
+	}
+
+	@Override
+	public OrgPostMst findPostObj(Long postId) {
+		Session hibSession = getSession();
+		OrgPostMst save = hibSession.get(OrgPostMst.class, postId);
+		return save;
+	}
+
+	@Override
+	public List searchPostListByGrOrderId(Long orderId) {
+		List postList = null;
+		Session session = getSession();
+		StringBuffer sb = new StringBuffer();
+		sb.append(
+				"select postRlt from OrgPostMst postMst, OrgPostDetailsRlt postRlt where");
+		sb.append("postMst.postTypeLookupId = 10001198130 and postMst.postId = postRlt.orgPostMst.postId and postMst.orderId =");
+		sb.append(orderId);
+		Query query = session.createQuery(sb.toString());
+		postList = query.list();
+		return postList;
+	}
+
+	@Override
+	public List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate, String ddoCode) {
+		List orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode in (" + locId
+				+ ") or or orderMst.ddoCode='" + ddoCode + "') order by orderMst.orderName";
+		Query query = hibSession.createQuery(strQuery);
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
+	@Override
+	public List getExpiryData(long locId, String ddoCode) {
+		List orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode in (" + locId
+				+ ") or orderMst.ddoCode='" + ddoCode + "') and endDate < CURRENT_DATE  order by orderMst.orderName";
+		Query query = hibSession.createQuery(strQuery);
+		orderMstList = query.list();
+		return orderMstList;
+	}
+
+	@Override
+	public HrPayOrderMst find(Long orderId) {
+		Session hibSession = getSession();
+		HrPayOrderMst hrPayOrderMst=hibSession.find(HrPayOrderMst.class,orderId);
+		return hrPayOrderMst;
 	}
 
 }

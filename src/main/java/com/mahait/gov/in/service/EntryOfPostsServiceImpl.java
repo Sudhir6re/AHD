@@ -16,7 +16,6 @@ import com.mahait.gov.in.entity.CmnLanguageMst;
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DdoOffice;
-import com.mahait.gov.in.entity.HrEisGdMpg;
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderHeadMpg;
 import com.mahait.gov.in.entity.HrPayOrderHeadPostMpg;
@@ -34,6 +33,7 @@ import com.mahait.gov.in.repository.CmnLanguageMstRepository;
 import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnLookupMstRepository;
 import com.mahait.gov.in.repository.EntryOfPostsRepo;
+import com.mahait.gov.in.repository.OrgPostMstRepository;
 
 @Transactional
 @Service
@@ -51,6 +51,9 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Autowired
 	CmnLookupMstRepository cmnLookupMstRepository;
 
+	@Autowired
+	OrgPostMstRepository orgPostMstRepository;
+	
 	@Override
 	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		return entryOfPostsRepo.getActiveDesig(lLngFieldDept);
@@ -519,24 +522,24 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Override
 	public void savePostEntryDtl(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId,
 			OrgUserMst messages) {
-		long userID = messages.getUserId();
+	//	long userID = messages.getUserId();
 
 		OrgPostMst orgPostMst = entryOfPostsRepo.findPost(loggedInPostId.longValue());
 
 		CmnLanguageMst cmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
-		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(1l);
+		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(Long.valueOf(postEntryModel.getPostTypeCmbBox()));
 		CmnLocationMst cmnLocationMst = cmnLocationMstRepository.findByLocId(locId);
 
 		long nextPsr = entryOfPostsRepo.getNextPsrNo();
 
-		long setPostId = loggedInPostId.longValue();
-		String ddoCode = messages.getUserName();
+	//	long setPostId = loggedInPostId.longValue();
+		//String ddoCode = messages.getUserName();
 
 		String desgnCode = postEntryModel.getDesignationCmb();
 
 		MstDesignationEntity desgnMst = entryOfPostsRepo.finddesignationByCode(Long.valueOf(desgnCode));
 
-		long desgnId = Long.parseLong(desgnCode);
+		//long desgnId = Long.parseLong(desgnCode);
 
 		for (int postCount = 1; postCount <= postEntryModel.getPostNumber(); postCount++) {
 
@@ -554,10 +557,20 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setLocationCode(String.valueOf(locId));
 			newOrgPostMst.setParentPostId(-1l);
 			newOrgPostMst.setPostLevelId(1l);
+
 			newOrgPostMst.setOfficeId(postEntryModel.getOfficeCmb());
 
-			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
+			newOrgPostMst.setPostTypeLookupId(lObjCmnLookupMst);
+			newOrgPostMst.setOrderId(postEntryModel.getOrderCmb());
+			newOrgPostMst.setOrderDate(postEntryModel.getOrderDate());
+			newOrgPostMst.setDdoCode(postEntryModel.getDdoCode());
+			
 
+
+			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
+			
+			OrgPostMst pg1=entryOfPostsRepo.findPostObj(postId);
+			
 			SubjectPostMpg subjectPostMpg = new SubjectPostMpg();
 
 			subjectPostMpg.setPostId(postId);
@@ -572,7 +585,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			entryOfPostsRepo.save(postPsrMpg);
 
 			OrgPostDetailsRlt orgPostDtlRlt = new OrgPostDetailsRlt();
-			orgPostDtlRlt.setOrgPostMst(newOrgPostMst);
+			orgPostDtlRlt.setOrgPostMst(pg1);
 			orgPostDtlRlt.setCreatedByPost(orgPostMst);
 			orgPostDtlRlt.setCreatedBy(messages);
 			orgPostDtlRlt.setCmnLanguageMst(cmnLanguageMst);
@@ -581,7 +594,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			orgPostDtlRlt.setPostName(desgnMst.getDesgination().concat(String.valueOf(nextPsr)));
 			orgPostDtlRlt.setPostShortName(desgnMst.getDesignationShortName().concat(String.valueOf(nextPsr)));
 			orgPostDtlRlt.setCmnLocationMst(cmnLocationMst);
-
+			orgPostDtlRlt.setIsVancant(0);
 			entryOfPostsRepo.savePostDtls(orgPostDtlRlt);
 
 			nextPsr++;
@@ -673,4 +686,100 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 
 		return post;
 	}
+
+	@Override
+	public List<OrgPostDetailsRlt> searchPostListByGrOrderId(Long locId, Long orderId) {
+		// TODO Auto-generated method stub
+		// entryOfPostsRepo.searchPostListByGrOrderId(orderId);
+		List customizedPostList = new ArrayList();
+		String regex = "(?<=[\\D])(?=\\d)";
+		List postList =entryOfPostsRepo.searchPostListByGrOrderId(orderId);
+		Integer totalRecords = postList.size();
+		HrPayOrderMst hrPayOrderMst =entryOfPostsRepo.find(orderId);
+		Date currentOrderDate = hrPayOrderMst.getOrderDate();
+	
+		String postStartDate = null;
+
+		for (int i = 0; i < totalRecords; i++) {
+			OrgPostDetailsRlt postDetailsRlt = new OrgPostDetailsRlt();
+			OrgPostDetailsRlt postDetailsRltNonPer = new OrgPostDetailsRlt();
+			postDetailsRlt = (OrgPostDetailsRlt) postList.get(i);
+
+			String postName = postDetailsRlt.getPostName();
+
+			if (postName.indexOf("_") != -1) {
+				String postNameArr[] = postName.split("_");
+				postDetailsRltNonPer.setPostName(postNameArr[0]
+				                                             .toString()
+				                                             + "	(" + postNameArr[1].toString() + ")");
+			} else {
+				String postNameArr[] = postName.split(regex);
+				postDetailsRltNonPer.setPostName(postNameArr[0]
+				                                             .toString()
+				                                             + "	(" + postNameArr[1].toString() + ")");
+			}
+
+			postDetailsRltNonPer.setPostDetailId(postDetailsRlt
+					.getPostDetailId());
+			postDetailsRltNonPer.setPostShortName(postDetailsRlt
+					.getPostShortName());
+			postDetailsRltNonPer
+			.setOrgDesignationMst(postDetailsRlt
+					.getOrgDesignationMst());
+			postDetailsRltNonPer.setOrgPostMst(postDetailsRlt
+					.getOrgPostMst());
+
+			postDetailsRltNonPer.setCmnBranchMst(postDetailsRlt
+					.getCmnBranchMst());
+			postDetailsRltNonPer.setCmnLanguageMst(postDetailsRlt
+					.getCmnLanguageMst());
+			postDetailsRltNonPer.setCmnLocationMst(postDetailsRlt
+					.getCmnLocationMst());
+			postDetailsRltNonPer.setCreatedDate(postDetailsRlt
+					.getCreatedDate());
+			
+
+			customizedPostList.add(postDetailsRltNonPer);
+		}
+		return customizedPostList;
+		
+	}
+/*
+	@Override
+	public List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate) {
+		return entryOfPostsRepo.getAllOrderDataByDate(locId,todaysDate);
+	}
+*/
+	@Override
+	public List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate, String ddoCode) {
+		return entryOfPostsRepo.getAllOrderDataByDate(locId,todaysDate,ddoCode);
+	}
+
+	@Override
+	public List getExpiryData(long locId, String ddoCode) {
+		return entryOfPostsRepo.getExpiryData(locId,ddoCode);
+	}
+
+	@Override
+	public void renewPostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId,
+			OrgUserMst messages) {
+		if (postEntryModel.getPostIdsToBeAttached() != " ") {
+			String[] lStrArrPostIdsToBeAttached = postEntryModel.getPostIdsToBeAttached()
+			.split("~");
+			Long[] lLongArrPostIdsToBeAttached = new Long[lStrArrPostIdsToBeAttached.length];
+			for (Integer lInt = 0; lInt < lStrArrPostIdsToBeAttached.length; lInt++) {
+				if (lStrArrPostIdsToBeAttached[lInt] != "") {
+					lLongArrPostIdsToBeAttached[lInt] = Long.valueOf(lStrArrPostIdsToBeAttached[lInt]);
+					OrgPostMst orgPostMst=orgPostMstRepository.findByPostId(lLongArrPostIdsToBeAttached[lInt]);
+					orgPostMst.setOrderDate(new Timestamp(postEntryModel.getRenewalStartDate().getTime()));
+					orgPostMst.setStartDate(new Timestamp(postEntryModel.getRenewalPostStartDate().getTime()));
+					orgPostMst.setEndDate(new Timestamp(postEntryModel.getRenewalEndDate().getTime()));
+					orgPostMst.setOrderId(postEntryModel.getCmbNewOrder());
+					orgPostMstRepository.save(orgPostMst);
+				}
+			}
+		}
+	}
+	
+	
 }

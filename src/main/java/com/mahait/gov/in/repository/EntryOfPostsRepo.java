@@ -83,4 +83,14 @@ public interface EntryOfPostsRepo {
 	List getPostNameForDisplay(String valueOf, String lPostName, String psrNo, String billNo, String dsgn,
 			String ddoCode1);
 
+	OrgPostMst findPostObj(Long postId);
+
+	List searchPostListByGrOrderId(Long orderId);
+
+	List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate, String ddoCode);
+
+	List getExpiryData(long locId, String ddoCode);
+
+	HrPayOrderMst find(Long orderId);
+
 }

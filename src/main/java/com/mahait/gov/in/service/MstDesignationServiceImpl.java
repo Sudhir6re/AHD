@@ -8,16 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.model.MstDesignationModel;
 import com.mahait.gov.in.repository.MstDesignationRepo;
 
+import com.mahait.gov.in.entity.MstPayCommissionEntity;
+import com.mahait.gov.in.model.MstDesignationModel;
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
-public class MstDesignationServiceImpl implements MstDesignationService{/*
+public class MstDesignationServiceImpl implements MstDesignationService{
+	
+	/*
 =======
 >>>>>>> Stashed changes
 =======
@@ -80,7 +87,7 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 	@Autowired
 	private MstDesignationRepo  mstDesignationRepo;
 
-	@Override
+	/*@Override
 	public List<MstDesignationModel> getDesignationMstData(String locale) {
 
 		List<Object[]> lstprop = mstDesignationRepo.getDesignationMstData();
@@ -113,7 +120,7 @@ public class MstDesignationServiceImpl implements MstDesignationService{
             }
         }
         return lstObj;
-	}
+	}*/
 	/*
 	@Override
 	public MstDesignationEntity findMstDesgByDesgId(int designationId) {
@@ -172,6 +179,14 @@ public class MstDesignationServiceImpl implements MstDesignationService{
 	@Override
 	public List<MstPayCommissionEntity> findAllPayCommission() {
 		// TODO Auto-generated method stub
+
 		return mstDesignationRepo.findAllPayCommission();
+
+	}
+
+	@Override
+	public List<MstDesignationModel> getDesignationMstData(String locale) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

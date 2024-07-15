@@ -47,9 +47,7 @@
 											<option th:each="filterDdoCode : ${filterDdoCode}"
 												th:value="${filterDdoCode[0]}" 
 												th:text="${filterDdoCode[1]} + ' (' + ${filterDdoCode[0]} + ')'"
-												
 												>
-													<!-- 	th:selected="${filterDdoCode[0] == ddo}" -->
 											</option>
 									</select></td>
 									<td><input id="btnFilter" class="buttontag" type="button"
@@ -60,6 +58,7 @@
 					</div>
 					<br>
 					<table class="table bor-0">
+
 						<tbody>
 							<tr>
 								<td width="20%" align="right"><b><label
@@ -90,7 +89,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<table class="table table-bordered" id="row">
+					<table class="table table-bordered" id="postDetails">
 						<thead>
 							<tr>
 								<th class="datatableheader sortable">Sr. No.</th>
@@ -102,13 +101,13 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>GAJANAN KHUSHALRAO BIRADAR</td>
-								<td>Assistant Professor77200097565P</td>
-								<td>Permanent Post</td>
-								<td>Assistant Professor</td>
-								<td>06340100138</td>
+							<tr   th:each="userPostCustomVO,rowStat : ${getPostNameForDisplay}" >
+								<td th:text="${rowStat.index+1}">1</td>
+								<td th:text="${userPostCustomVO.empFullName}"></td>
+								<td th:text="${userPostCustomVO.postname}"></td>
+								<td th:text="${userPostCustomVO.postType}"></td>
+								<td th:text="${userPostCustomVO.dsgnname}"></td>
+								<td th:text="${userPostCustomVO.billNo}"></td>
 							</tr>
 						
 						</tbody>
@@ -120,6 +119,9 @@
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
+	
+	<script th:src="@{/js/hte/entry-post.js}"></script>
+	<script th:src="@{/js/jquery.validate.min.js}"></script>
 
 </body>
 </html>

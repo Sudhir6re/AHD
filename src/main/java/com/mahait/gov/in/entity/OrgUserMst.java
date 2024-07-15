@@ -138,6 +138,11 @@ public class OrgUserMst implements Serializable {
     
     
     
+    @Column(name = "ddo_code", length = 1)
+    private String ddoCode;
+    
+    
+    
 
     @OneToMany(mappedBy = "orgUserMst",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserpostRlt> orgUserpostRlts;

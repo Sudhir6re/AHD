@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mahait.gov.in.common.UserSessionObject;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.ChangePasswordModel;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UserDetailsServiceImpl;
@@ -82,7 +83,7 @@ public class LoginController {
 
 		//userSessionObject.setSession(messages.getUserId(),session);
 		session.setAttribute("levelRoleVal", messages.getMstRoleEntity().getRoleId());
-
+/*
 		List<TopicModel> menuList = new ArrayList<>();
 		List<TopicModel> subMenuList = new ArrayList<>();
 
@@ -91,12 +92,12 @@ public class LoginController {
 
 		modelAndView.addObject("menuList", menuList);
 		modelAndView.addObject("subMenuList", subMenuList);
-
+*/
 		modelAndView.addObject("levelRoleVal", levelRoleVal);
 
 		if (messages.getUpdatedDate() == null) {
-
-			modelAndView.setViewName("redirect:/master/changePassword");
+			modelAndView.addObject("changePasswordModel", new ChangePasswordModel());
+			modelAndView.setViewName("redirect:/ddoast/changePassword");
 		} else {
 
 			modelAndView.setViewName("topics");
@@ -137,7 +138,7 @@ public class LoginController {
 		
 		//userSessionObject.setSession(messages.getUserId(),session);
 		if (messages.getUpdatedDate() == null) {
-			modelAndView.setViewName("redirect:/master/changePassword");
+			modelAndView.setViewName("redirect:/ddo/changePassword");
 		} else {
 			modelAndView.setViewName("topics");
 		}
@@ -224,8 +225,5 @@ public class LoginController {
 		loggedInPost: sudhir881309061
 		langId: sudhir1
 		loggedInUserCountryName: sudhirIndia*/
-		
-
-	
 
 }
