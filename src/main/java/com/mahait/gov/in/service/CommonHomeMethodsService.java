@@ -68,6 +68,10 @@ public interface CommonHomeMethodsService {
 
 	public List<ReligionMstEntity> fetchAllReligions();
 
+
+	public List<CmnLookupMst> findCommonMstByLookupname(String commoncodeSalutations);
+
+
 	public List<MstDesnModel> findDesignation(String userName);
 	
 	public List<MstMonthEntity> lstGetAllMonths();

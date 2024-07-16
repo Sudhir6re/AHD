@@ -62,7 +62,11 @@
 			<artifactId>flying-saucer-pdf</artifactId>
 			<version>9.1.4</version>
 		</dependency>
-
+<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.9</version>
+		</dependency>
 
 		<!-- optional, it brings userful tags to display spring security stuff 
 			(Role Wise Menu) -->
@@ -269,7 +273,22 @@
 		</dependency>
 
 
-
+	<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.9</version>
+		</dependency>
+		<!-- flying saucer pdf -->
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf</artifactId>
+			<version>9.1.4</version>
+		</dependency>
 
 
 	</dependencies>

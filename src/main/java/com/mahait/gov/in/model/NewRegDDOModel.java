@@ -1,5 +1,6 @@
 package com.mahait.gov.in.model;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,8 @@ public class NewRegDDOModel {
 	private String instDdoCode;
 	private String instSchemeCode;
 	private String status;
+	private String cityName;
+	private BigInteger cityId;
 	
 	
 	public List<NewRegDDOModel> emplist=new ArrayList<>();

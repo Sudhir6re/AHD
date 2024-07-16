@@ -7,8 +7,14 @@ import com.mahait.gov.in.model.MstDesignationModel;
 
 
 public interface MstDesignationService {
+
+
+	///List<MstPayCommissionEntity> findAllPayCommission();
+
 	List<MstPayCommissionEntity> findAllPayCommission();
 	public List<MstDesignationModel> getDesignationMstData(String locale);
+
+
 	/*
 	
 	public int saveDesignationMst(MstDesignationModel mstDesignationModel,int userId);

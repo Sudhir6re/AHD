@@ -18,6 +18,7 @@ import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
+import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstMenuModel;
@@ -460,6 +461,29 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	}
 
 	@Override
+
+	public List<CmnLookupMst> findCommonMstByLookupname(String commoncodeSalutations) {
+		// TODO Auto-generated method stub
+		List<Object[]> lstprop = null;
+		try {
+			lstprop = commonHomeMethodsRepo.findLookUpNameDesc(commoncodeSalutations);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<CmnLookupMst> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				CmnLookupMst obj = new CmnLookupMst();
+				obj.setLookupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+                obj.setLookupName(StringHelperUtils.isNullString(objLst[1]));
+				
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	}
+
 	public List<MstYearEntity> lstGetAllYears() {
 		return commonHomeMethodsRepo.lstGetAllYears();
 	}

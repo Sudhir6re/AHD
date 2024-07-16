@@ -6,4 +6,6 @@ public interface LocationMasterRepo {
 
 	List<Object[]> findAllStates(int countryId);
 
+	List<Object[]> findAllDistricts(long stateId);
+
 }

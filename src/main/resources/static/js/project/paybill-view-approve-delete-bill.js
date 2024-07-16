@@ -752,7 +752,7 @@ $("#btnSearch")
 															
 															isActive = '<span class="label label-success text-center" data="'
 																	+ paybillGenerationTrnId
-																	+ '">Genearte Paybill</span>';
+																	+ '">Created</span>';
 														}
 														else if (status == 6) {
 															/*change1=paybillGenerationTrnId;*/

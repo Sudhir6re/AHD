@@ -102,6 +102,7 @@ public class CommonConstants {
 		String PENSION_BILL = "PENSION_BILL";
 		String EMPSERVICEENDDTREASONS = "EMP_SERVICE_END_DT_REASONS";
 		String HEADOFOFFICECODE = "10001198220";
+		String COMMONCODE_SALUTATIONS = "Salutation";
 	}
 	
 	public interface PAYBILLDETAILS{

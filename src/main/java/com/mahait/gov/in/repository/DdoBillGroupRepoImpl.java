@@ -2,6 +2,8 @@ package com.mahait.gov.in.repository;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -52,8 +54,8 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		// String hql = "Select a.ddo_code,a.sevaarth_id,a.employee_full_name_en FROM
 		// employee_mst a where a.ddo_code = '"+ ddoCode +"'";
-		String hql = "Select a.sevaarth_id,a.employee_full_name_en,b.designation_name,c.department_name_en,a.employee_id,a.pay_commission_code,d.commission_name_en,a.dcps_gpf_flag,a.emp_service_end_date,e.bill_description  FROM employee_mst a,designation_mst b,department_mst c,\r\n"
-				+ " pay_commission_mst d,bill_group_mst e where a.designation_code = b.designation_code and a.admin_department_code = c.department_code and a.pay_commission_code=d.pay_commission_code and e.bill_group_id = a.billgroup_id and a.billgroup_id is not null  and a.is_active='1' and  a.ddo_code = '"
+		String hql = "Select a.sevaarth_id,a.employee_full_name_en,b.designation_name, c.ddo_name,a.employee_id,a.pay_commission_code,d.commission_name_en,a.dcps_gpf_flag,a.emp_service_end_date,e.description  FROM employee_mst a,designation_mst b,org_ddo_mst c,\r\n"
+				+ " pay_commission_mst d,mst_dcps_bill_group e where a.designation_code = b.designation_code and a.ddo_code = c.ddo_code and a.pay_commission_code=d.pay_commission_code and e.bill_group_id = a.billgroup_id and a.billgroup_id is not null  and a.is_active='1' and  a.ddo_code = '"
 				+ ddoCode + "'  order by a.employee_full_name_en"; // and emp_service_end_date > now()
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
@@ -159,6 +161,71 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		mpgSchemeBillGroupEntity = currentSession.get(MstDcpsBillGroup.class, valueOf);
 		return mpgSchemeBillGroupEntity;
+	}
+	@Override
+	public List<Object[]> isPaybillIsInProcess(String sevaarthId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql1 = " select pd.sevaarth_id, pg.is_active,pd.paybill_month,pd.paybill_year,pg.scheme_billgroup_id  from paybill_generation_trn pg inner join paybill_generation_trn_details pd  on pg.paybill_generation_trn_id =  pd.paybill_generation_trn_id where   pd.sevaarth_id='"+sevaarthId+"' and pg.is_active not in(14,8)";;
+		Query query12 = currentSession.createSQLQuery(hql1);
+		return (List<Object[]>) query12.list();
+	}
+	@Override
+	public int deleteEmpMpgDdoAllowDeduc(String sevaarthId) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql1 = "delete from employee_allowdeduc_mpg where sevaarth_id='"+sevaarthId+"'";
+		Query query1 = currentSession.createSQLQuery(hql1);
+		query1.executeUpdate();
+		return 1;
+	}
+	@Override
+	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+			String effectiveDate) {
+		// TODO Auto-generated method stub
+		try {
+			
+			Session currentSession = entityManager.unwrap(Session.class);
+			 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+			 Date date1 = dt.parse(effectiveDate); // *** same for the format String below 
+			 SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd"); 
+				String hql = "insert into employee_allowdeduc_mpg (sevaarth_id,department_code,department_allowdeduc_code,is_active,created_date,employee_id,with_effective_date) values ('"+sevaarthId+"',"+department_id+","+allow_deduct_id+","+"1"+",current_timestamp,"+empId+",'"+dt1.format(date1)+"')";
+				Query query = currentSession.createSQLQuery(hql);
+				query.executeUpdate();
+				
+				hql = "insert into employee_allowdeduc_mpg_hst (sevaarth_id,department_code,department_allowdeduc_code,is_active,created_date,employee_id,with_effective_date) values ('"+sevaarthId+"',"+department_id+","+allow_deduct_id+","+"1"+",current_timestamp,"+empId+",'"+dt1.format(date1)+"')";
+				query = currentSession.createSQLQuery(hql);
+				query.executeUpdate();
+
+			return  1;
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			return  1;
+	}
+	@Override
+	public List<Object[]> empEligibilityForAllowAndDeductCheckBoxId(String id) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql =  "select e.department_allowdeduc_code,c.department_allowdeduc_name,e.sevaarth_id,e.with_effective_date from employee_mst d inner join employee_allowdeduc_mpg e on d.sevaarth_id = e.sevaarth_id  and e.is_active = '1' inner join department_allowdeduc_mst c on e.department_allowdeduc_code = c.department_allowdeduc_code  where  e.sevaarth_id =  '"+id+"'"; ///changed from c.department_allowdeduc_id to c.department_allowdeduc_code
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+	@Override
+	public List<Object[]> findMpgSchemeBillGroupBySchemeBillGroupId1(int id) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql =  "select b.sevaarth_id,b.employee_full_name_en,c.designation_name, a.sub_department_name_en ,d.department_name_en from sub_department_mst a inner join   employee_mst b on a.sub_department_id = b.field_department_id inner join  department_mst d on d.department_id = b.admin_department_id inner join designation_mst c on c.designation_id = b.designation_id  where b.is_active = '1' and d.is_active = '1' and a.is_active = '1' and d.department_id = "+id+"order by b.employee_full_name_en asc";
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+	@Override
+	public List getBillgroupDtlsForAlreadySaved(String billGrpId) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "SELECT r.DCPS_CLASS_GROUP FROM MST_DCPS_BILL_GROUP gr" + 
+				" inner join RLT_DCPS_BILLGROUP_CLASSGROUP r on r.DCPS_BILLGROUP_ID = gr.BILL_GROUP_ID where gr.BILL_GROUP_ID =  '"+billGrpId+"'";
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
 	}
 
 	}
