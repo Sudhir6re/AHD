@@ -186,6 +186,7 @@ public class OrgDdoMst {
 
 	    @Column(name = "status_flag", length = 20)
 	    private String statusFlag;
+	    
 
 	    
 	    

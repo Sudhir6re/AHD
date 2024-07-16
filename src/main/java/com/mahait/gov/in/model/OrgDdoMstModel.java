@@ -96,7 +96,7 @@ public class OrgDdoMstModel {
 
 	private String accountNo;
 
-	private String ifsCode;
+	private String ifscCode;
 	
 	private Long ddoType;
 
@@ -120,5 +120,6 @@ public class OrgDdoMstModel {
 	private String ParentFieldDepartmentId;
 	private String ItoWardCircle;
 	private String designationId;
+	private String bankCode;
 
 }

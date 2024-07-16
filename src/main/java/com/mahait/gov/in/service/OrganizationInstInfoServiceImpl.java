@@ -40,7 +40,7 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
     	   orgDdoMstModel.setItaWardNo(lstprop.getItawardcircle());
     	   orgDdoMstModel.setBankName(lstprop.getBankName());
     	   orgDdoMstModel.setBranchName(lstprop.getBranchName());
-    	   orgDdoMstModel.setIfsCode(lstprop.getIfsCode());
+    	   orgDdoMstModel.setIfscCode(lstprop.getIfsCode());
     	   orgDdoMstModel.setAccountNo(lstprop.getAccountNo());
     	   orgDdoMstModel.setRemarks(lstprop.getRemarks());
     	   orgDdoMstModel.setInstituteType(lstprop.getInstituteTypeId());
@@ -64,10 +64,9 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
 	}
 
 	@Override
-	public int SaveorgInstituteInfo(@Valid OrgDdoMstModel orgDdoMstModel) {
-		OrgDdoMst objForSave = new OrgDdoMst();
+	public Long SaveorgInstituteInfo(@Valid OrgDdoMstModel orgDdoMstModel) {
 		
-		
+		OrgDdoMst objForSave = organizationInstInfoRepo.findDDOInfo(orgDdoMstModel.getDdoCode());
 		objForSave.setDdoOffice(orgDdoMstModel.getDdoOffice());
 		objForSave.setDsgnCode(orgDdoMstModel.getDesignationId());
 		objForSave.setStartDate(orgDdoMstModel.getStartDate());
@@ -75,30 +74,16 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
 		objForSave.setItawardcircle(orgDdoMstModel.getItaWardNo());
 		objForSave.setBankName(orgDdoMstModel.getBankName());
 		objForSave.setBranchName(orgDdoMstModel.getBranchName());
-		objForSave.setIfsCode(orgDdoMstModel.getIfsCode());
+		objForSave.setIfsCode(orgDdoMstModel.getIfscCode());
 		objForSave.setAccountNo(orgDdoMstModel.getAccountNo());
 		objForSave.setRemarks(orgDdoMstModel.getRemarks());
 		objForSave.setInstituteTypeId(orgDdoMstModel.getInstituteType());
+		objForSave.setDdoCode(orgDdoMstModel.getDdoCode());
 		
-		
-		/*objForSave.setDdoOffice(orgDdoMstModel.getDdoOffice());
-       // objForSave.setState(StringHelperUtils.isNullInt(ďdoOfficeModel.getState()));
-        objForSave.setDistrict(orgDdoMstModel.getDistrict());
-        objForSave.setTaluka(orgDdoMstModel.getTaluka());
-        objForSave.setTown(orgDdoMstModel.getCity());
-        objForSave.setVillage(orgDdoMstModel.getVillage());
-        objForSave.setAddress1(orgDdoMstModel.getAddress());
-        objForSave.setOfficeCityClass(orgDdoMstModel.getCityClass());
-        objForSave.setGrantApplicable(orgDdoMstModel.getPercGrant());
-        objForSave.setTelNo1(orgDdoMstModel.getTel1());
-        objForSave.setTelNo2(orgDdoMstModel.getTel2());
-        objForSave.setFax(orgDdoMstModel.getFax());
-        objForSave.setEmail(orgDdoMstModel.getEmail());
-        objForSave.setCreatedDate(new Date());*/
-		
-		int saveId=0;
+		Long saveId=null;
+		 organizationInstInfoRepo.updateorgInstituteInfo(objForSave);
 		 
-			 saveId = organizationInstInfoRepo.saveorgInstituteInfo(objForSave);
+			 saveId = objForSave.getDdoId();
 		
 		
 		return saveId;
@@ -107,11 +92,8 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
 	@Override
 	public int updateorgInstituteInfo(OrgDdoMstModel orgDdoMstModel) {
 		
-		String[] ddo = orgDdoMstModel.getDdoCode().split("_");
 		
-		String ddoCode = ddo[0]; 
-		
-		OrgDdoMst findDDOInfo = organizationInstInfoRepo.findDDOInfo(ddoCode);
+		OrgDdoMst findDDOInfo = organizationInstInfoRepo.findDDOInfo(orgDdoMstModel.getDdoCode());
 		findDDOInfo.setDdoOffice(orgDdoMstModel.getDdoOffice());
 		findDDOInfo.setDsgnCode(orgDdoMstModel.getDesignationId());
 		findDDOInfo.setStartDate(orgDdoMstModel.getStartDate());
@@ -119,25 +101,10 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
 		findDDOInfo.setItawardcircle(orgDdoMstModel.getItaWardNo());
 		findDDOInfo.setBankName(orgDdoMstModel.getBankName());
 		findDDOInfo.setBranchName(orgDdoMstModel.getBranchName());
-		findDDOInfo.setIfsCode(orgDdoMstModel.getIfsCode());
+		findDDOInfo.setIfsCode(orgDdoMstModel.getIfscCode());
 		findDDOInfo.setAccountNo(orgDdoMstModel.getAccountNo());
 	  	 findDDOInfo.setRemarks(orgDdoMstModel.getRemarks());
 	  	 findDDOInfo.setInstituteTypeId(orgDdoMstModel.getInstituteType());
-		
-		/*objForSave.setDdoOffice(orgDdoMstModel.getOfficeName());
-       // objForSave.setState(StringHelperUtils.isNullInt(ďdoOfficeModel.getState()));
-        objForSave.setDistrict(orgDdoMstModel.getDistrict());
-        objForSave.setTaluka(orgDdoMstModel.getTaluka());
-        objForSave.setTown(orgDdoMstModel.getCity());
-        objForSave.setVillage(orgDdoMstModel.getVillage());
-        objForSave.setAddress1(orgDdoMstModel.getAddress());
-        objForSave.setOfficeCityClass(orgDdoMstModel.getCityClass());
-        objForSave.setGrantApplicable(orgDdoMstModel.getPercGrant());
-        objForSave.setTelNo1(orgDdoMstModel.getTel1());
-        objForSave.setTelNo2(orgDdoMstModel.getTel2());
-        objForSave.setFax(orgDdoMstModel.getFax());
-        objForSave.setEmail(orgDdoMstModel.getEmail());
-        objForSave.setCreatedDate(new Date());*/
 		organizationInstInfoRepo.updateorgInstituteInfo(findDDOInfo);
 	
 		
