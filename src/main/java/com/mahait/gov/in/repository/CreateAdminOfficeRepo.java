@@ -27,5 +27,9 @@ public interface CreateAdminOfficeRepo {
 
 	List<MstDesignationEntity> findByDsgnNameIgnoreCaseContaining(String desgn);
 
+	List<Object[]> lstAllDepartment();
+
+	List<Object[]> employeeMappingList(String logUserId);
+
 
 }

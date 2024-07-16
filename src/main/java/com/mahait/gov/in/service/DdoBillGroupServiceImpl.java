@@ -2,7 +2,9 @@ package com.mahait.gov.in.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -39,7 +41,7 @@ public List<MstDcpsBillGroup> lstBillName(String username) {
 }
 
 @Override
-public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMaintainanceModel, OrgUserMst messages) {
+public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMaintainanceModel, OrgUserMst messages,long locId) {
 
 	
 	//Boolean lBlGroupExistOrNotForBG = false;
@@ -60,7 +62,7 @@ public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMainta
 				mstBillGroupEntity.setDcpsDdoSubSchemeCode(billgroupMaintainanceModel.getDcpsDdoSubSchemeCode());
 				mstBillGroupEntity.setDcpsDdoBillTypeOfPost(billgroupMaintainanceModel.getDcpsDdoBillTypeOfPost());
 				mstBillGroupEntity.setDcpsDdoCode(messages.getUserName().substring(0,11));
-				mstBillGroupEntity.setLocId(4000586l);
+				mstBillGroupEntity.setLocId(locId);
 				mstBillGroupEntity.setLangId(1l);
 				mstBillGroupEntity.setDbId(99l);
 				mstBillGroupEntity.setCreatedDate(new Date());
@@ -94,7 +96,7 @@ public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMainta
 					rltBillgroupClassgroup.setDcpsBillGroupId(mstBillGroupEntity.getDcpsDdoBillGroupId());
 					rltBillgroupClassgroup.setLangId(1l);
 					rltBillgroupClassgroup.setDbId(99l);
-					rltBillgroupClassgroup.setLocId(4000586l);
+					rltBillgroupClassgroup.setLocId(locId);
 					rltBillgroupClassgroup.setUserId(messages.getUserId());
 					rltBillgroupClassgroup.setCreatedDate(new Date());
 					rltBillgroupClassgroup.setPostId(messages.getCreatedByPost().getPostId());
@@ -165,11 +167,30 @@ public List<Object[]> findDettachEmployee(String ddocode, String scmebillgroupid
 	return ddoBillGroupRepo.findDettachEmployee(ddocode, scmebillgroupid);
 }
 
+//@Override
+//public List<Object[]> getBillDtlsForAlreadySaved(String billGrpId) {
+//	List<Object[]> lst = ddoBillGroupRepo.getBillDtlsForAlreadySaved(billGrpId);
+//	return lst;
+//}
+
 @Override
-public List<Object[]> getBillDtlsForAlreadySaved(String billGrpId) {
-	List<Object[]> lst = ddoBillGroupRepo.getBillDtlsForAlreadySaved(billGrpId);
-	return lst;
+public Map<String, Object> getBillDtlsForAlreadySaved(String billGrpId) {
+
+	List lst = ddoBillGroupRepo.getBillDtlsForAlreadySaved(billGrpId);
+	List groupdetils = ddoBillGroupRepo.getBillgroupDtlsForAlreadySaved(billGrpId);
+	if(lst.size()>0 && lst!=null) {
+		Map<String, Object> response = new HashMap<>();
+		
+		response.put("billdetails", lst);
+		response.put("grpdtls", groupdetils);
+		return response;
+	}else {
+		Map<String, Object> response = new HashMap<>();
+		return response;
+	}
+
 }
+
 @Override
 public String saveAttachDettachEmployee(MpgSchemeBillGroupModel mpgSchemeBillGroupModel) {
 	String result = "N";
@@ -221,5 +242,41 @@ public MstDcpsBillGroup findAllMpgSchemeBillGroupbyParameter(int parseInt) {
 	// TODO Auto-generated method stub
 	return null;
 }
+
+@Override
+public List<Object[]> isPaybillIsInProcess(String sevaarthId) {
+	// TODO Auto-generated method stub
+	return ddoBillGroupRepo.isPaybillIsInProcess(sevaarthId);
 }
+
+@Override
+public int deleteEmpMpgDdoAllowDeduc(String sevaarthId) {
+	// TODO Auto-generated method stub
+	ddoBillGroupRepo.deleteEmpMpgDdoAllowDeduc(sevaarthId);
+	return 0;
+}
+
+@Override
+public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+		String effectiveDate) {
+	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id,department_id, empId,sevaarthId,effectiveDate);
+	return 0;
+}
+
+@Override
+public List<Object[]> empEligibilityForAllowAndDeductCheckBoxId(String id)
+{
+	List<Object[]> deptEligibilityForAllowAndDeductEntity = ddoBillGroupRepo.empEligibilityForAllowAndDeductCheckBoxId(id);
+	return deptEligibilityForAllowAndDeductEntity;
+}
+
+@Override
+public List<Object[]> findAllMpgSchemeBillGroupbyParameter1(int id) {
+	// TODO Auto-generated method stub
+	List<Object[]> deptEligibilityForAllowAndDeductEntity = ddoBillGroupRepo.findMpgSchemeBillGroupBySchemeBillGroupId1(id);
+	return deptEligibilityForAllowAndDeductEntity;
+}
+}
+
+
 

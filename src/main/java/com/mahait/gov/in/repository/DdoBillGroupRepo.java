@@ -39,4 +39,17 @@ public interface DdoBillGroupRepo {
 
 	public MstDcpsBillGroup findMpgSchemeBillGroupBySchemeBillGroupId(Long valueOf);
 
+	public List<Object[]> isPaybillIsInProcess(String sevaarthId);
+
+	public int deleteEmpMpgDdoAllowDeduc(String sevaarthId);
+
+	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+			String effectiveDate);
+
+	public List<Object[]> empEligibilityForAllowAndDeductCheckBoxId(String id);
+
+	public List<Object[]> findMpgSchemeBillGroupBySchemeBillGroupId1(int id);
+
+	public List getBillgroupDtlsForAlreadySaved(String billGrpId);
+
 }

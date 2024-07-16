@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.mahait.gov.in.entity.CmnDatabaseMst;
 import com.mahait.gov.in.entity.CmnLanguageMst;
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
@@ -34,6 +34,8 @@ import com.mahait.gov.in.entity.OrgUserpostRlt;
 import com.mahait.gov.in.entity.RltDdoOrg;
 import com.mahait.gov.in.entity.ZpRltDdoMap;
 
+
+@Transactional
 @Repository
 public class AddNewDDOConfigRepository {
 	
@@ -463,12 +465,10 @@ public class AddNewDDOConfigRepository {
 			Long lLngUserIdCrtd, Long lLngPostIdCrtd, OrgUserMst orgUserMst, String uniqeInstituteId)  {
 		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLngMstOfficeDdoId = null;
+		
+		try {
+		
 			DdoOffice lObjDdoOffice = new DdoOffice();
-			//lLngMstOfficeDdoId = IFMSCommonServiceImpl.getNextSeqNum("MST_DCPS_DDO_OFFICE", inputMap);
-			// lLngMstOfficeDdoId = getNextSeqNoLocForDdoOffice();
-			//logger.info("lLngMstOfficeDdoId******************" + lLngMstOfficeDdoId);
-			//logger.info("lStrDdoCode******************" + lStrDdoCode);
-			//lObjDdoOffice.setDcpsDdoOfficeIdPk(lLngMstOfficeDdoId);
 			lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
 			lObjDdoOffice.setDcpsDdoOfficeName(lStrDdoOffice);
 			lObjDdoOffice.setDcpsDdoOfficeDdoFlag("Yes");
@@ -483,7 +483,13 @@ public class AddNewDDOConfigRepository {
 			lObjDdoOffice.setCreatedDate(new Timestamp(new Date().getTime()));
 			lObjDdoOffice.setStatusFlag(0l);
 			lObjDdoOffice.setUniqueInstituteNo(uniqeInstituteId);
+			
+			
+			lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
 			ghibSession.save(lObjDdoOffice);
+		}catch (Exception e) {
+			System.out.println("Error is : " + e);
+		}
 	
 	}
 

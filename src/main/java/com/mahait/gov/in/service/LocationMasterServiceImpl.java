@@ -79,4 +79,11 @@ public class LocationMasterServiceImpl implements LocationMasterService{
 		return findAllSubCorporation;
 	}
 	
-*/}
+*/
+	@Override
+	public List<Object[]> findAllDistricts(long stateId) {
+		// TODO Auto-generated method stub
+		List<Object[]> findAllDistrictList = locationMasterRepo.findAllDistricts(stateId);
+		return findAllDistrictList;
+	}
+	}
