@@ -414,7 +414,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 
 //		Query lQuery = ghibSession.createQuery(lSBQuery.toString());
 		Query lQuery = currentSession.createQuery(lSBQuery.toString());
-		lQuery.setParameter("brokenPeriodId", lLongRltBrokenPeriodId.intValue());
+		lQuery.setParameter("brokenPeriodId", lLongRltBrokenPeriodId);
 		finalList = lQuery.list();
 		for (Iterator iterator = finalList.iterator(); iterator.hasNext();) {
 			Object[] object = (Object[]) iterator.next();
@@ -440,7 +440,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 		System.out.println("sql query>>>>>>>"+lQuery.getQueryString());
 		
-		lQuery.setParameter("brokenPeriodId", lLongRltBrokenPeriodId.intValue());
+		lQuery.setParameter("brokenPeriodId", lLongRltBrokenPeriodId);
 
 		finalList = lQuery.list();
 
@@ -458,19 +458,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded   from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
 				+ sevaarthid + "' and  deptallmt.is_type=1 and deptallmt.department_allowdeduc_code not in (9,32) order by  deptallmt.department_allowdeduc_code";
-
-
-//		lSBQuery.append(" SELECT PAM.allowCode,PAM.allowDesc");
-//		lSBQuery.append(" FROM HrEisEmpCompGrpMst CGM ,HrEisEmpCompMpg CM,HrPayAllowTypeMst PAM");
-//		lSBQuery.append(" WHERE CGM.EmpCompGrpId = CM.hrEisEmpCompGrpMst.EmpCompGrpId ");
-//		lSBQuery.append(" AND CM.compId = PAM.allowCode");
-//		lSBQuery.append(" AND CM.cmnLookupMst.lookupId = 2500134");
-//		lSBQuery.append(" AND CGM.hrEisEmpMst.empId = :empId");
-//		lSBQuery.append(" AND CGM.isactive = 1 ");
-//		lSBQuery.append(" AND CM.isactive = 1 ");
 		Query lQuery = currentSession.createSQLQuery(HQL);
-	//	Query lQuery = ghibSession.createQuery(lSBQuery.toString());
-//		lQuery.setParameter("empId", lLongEmpId);
 		listAllowances = lQuery.list();
        
 		return listAllowances;
@@ -484,19 +472,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
 				+ sevaarthid + "' and   deptallmt.is_type in (2,3,4) and deptallmt.department_allowdeduc_code not in (9,32) order by  deptallmt.department_allowdeduc_code";
-
-//		lSBQuery.append(" SELECT PDM.deducCode,PDM.deducDesc");
-//		lSBQuery.append(" FROM HrEisEmpCompGrpMst CGM ,HrEisEmpCompMpg CM,HrPayDeducTypeMst PDM");
-//		lSBQuery.append(" WHERE CGM.EmpCompGrpId = CM.hrEisEmpCompGrpMst.EmpCompGrpId ");
-//		lSBQuery.append(" AND CM.compId = PDM.deducCode");
-//		lSBQuery.append(" AND CM.cmnLookupMst.lookupId = 2500135");
-//		lSBQuery.append(" AND CGM.hrEisEmpMst.empId = :empId");
-//		lSBQuery.append(" AND CGM.isactive = 1");
-//		lSBQuery.append(" AND CM.isactive = 1");
-//		lSBQuery.append(" AND PDM.deducCode not in (122,120,121)"); // To remove 3 DCPS components
-		//Query lQuery = ghibSession.createQuery(lSBQuery.toString());
 		Query lQuery = currentSession.createSQLQuery(HQL);
-//		lQuery.setParameter("sevaarthid", sevaarthid);
 		listDeductions = lQuery.list();
 
 		return listDeductions;
@@ -508,8 +484,8 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = " select nextval('broken_period_pay_mst_broken_period_id_seq') ";
 		Query query = currentSession.createSQLQuery(hql);
-		Long result=((Long) query.list().get(0)).longValue();
-		return result;
+		BigInteger result=((BigInteger) query.list().get(0));
+		return result.longValue();
 	}
 	
 	
