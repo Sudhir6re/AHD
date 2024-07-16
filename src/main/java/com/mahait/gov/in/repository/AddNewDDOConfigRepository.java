@@ -469,13 +469,14 @@ public class AddNewDDOConfigRepository {
 			//logger.info("lLngMstOfficeDdoId******************" + lLngMstOfficeDdoId);
 			//logger.info("lStrDdoCode******************" + lStrDdoCode);
 			//lObjDdoOffice.setDcpsDdoOfficeIdPk(lLngMstOfficeDdoId);
-			///lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
+			lObjDdoOffice.setDcpsDdoCode(lStrDdoCode);
 			lObjDdoOffice.setDcpsDdoOfficeName(lStrDdoOffice);
 			lObjDdoOffice.setDcpsDdoOfficeDdoFlag("Yes");
 			lObjDdoOffice.setDcpsDdoOfficeState("15");
 			lObjDdoOffice.setDcpsDdoOfficeDistrict(lStrDistCode);
 			lObjDdoOffice.setLangId(1l);
 			lObjDdoOffice.setLocId(lLngLocId);
+			
 			lObjDdoOffice.setDbId(99l);
 			lObjDdoOffice.setPostId(lLngPostIdCrtd);
 			lObjDdoOffice.setUserId(lLngUserIdCrtd);
@@ -483,7 +484,6 @@ public class AddNewDDOConfigRepository {
 			lObjDdoOffice.setStatusFlag(0l);
 			lObjDdoOffice.setUniqueInstituteNo(uniqeInstituteId);
 			ghibSession.save(lObjDdoOffice);
-			ghibSession.flush();
 	
 	}
 
