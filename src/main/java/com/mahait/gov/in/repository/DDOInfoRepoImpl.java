@@ -86,8 +86,9 @@ public class DDOInfoRepoImpl implements DDOInfoRepo {
 	}
 
 	@Override
-	public List<CmnTalukaMst> getTalukalst(String districtID) {	
-		String HQL = "FROM CmnTalukaMst as  t  where t.districtId = '"+districtID+"'";
+	public List<CmnTalukaMst> getTalukalst() {	
+		String HQL = "FROM CmnTalukaMst as  t ";
+		System.out.println("getTalukalst"+HQL);
 	return (List<CmnTalukaMst>) entityManager.createQuery(HQL).getResultList();}
 
 	@Override
@@ -147,6 +148,15 @@ public class DDOInfoRepoImpl implements DDOInfoRepo {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.update(ddoOffice);
+	}
+
+	@Override
+	public List<Object[]> getLstTown() {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "select city_id,city_name from cmn_city_mst";
+		System.out.println("getLstTown------" + hql);
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
 	}
 
 

@@ -28,7 +28,7 @@ public interface DDOInfoService {
 
 		String getDistrictId(String ddoCode);
 
-		List<CmnTalukaMst> getTalukalst(String districtID);
+		List<CmnTalukaMst> getTalukalst();
 
 		DdoOffice getDdoOfficeDtls(Long dcpsDdoOfficeMstId);
 
@@ -41,4 +41,6 @@ public interface DDOInfoService {
 		List<Object[]> getAlreadySavedDataforDDO(String ddoCode);
 
 		DdoOffice updateApproveRejectStatus(String ddoCode, int flag);
+
+		List<NewRegDDOModel> getLstTown();
 }

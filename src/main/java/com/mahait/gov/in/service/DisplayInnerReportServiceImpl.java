@@ -61,7 +61,8 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 		
 		List<DisplayInnerReportModel> deducTyEdpList = new ArrayList<DisplayInnerReportModel>();// edpDao.getTRDeducCompoMpgData(locId);
 		List<DisplayInnerReportModel> deducOthEdpList = new ArrayList<DisplayInnerReportModel>();// changes for other (nps)
-		
+		String split[]=strddo.split("_");
+		strddo=split[0];
 		//Dynamic process start
 		System.out.println("strddo----"+strddo);
 				List<DisplayInnerReportModel> allEdpList = displayInnerReportRepo.getAllDataForinnernew(strddo,billNumber);

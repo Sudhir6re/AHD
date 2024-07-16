@@ -37,8 +37,6 @@ public class BrokenPeriodController {
 		return "/views/broken-period";
 	}*/
 	
-	
-
 
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;

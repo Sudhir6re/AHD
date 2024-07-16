@@ -27,7 +27,7 @@ public interface DDOInfoRepo {
 
 	String getDistrictId(String ddoCode);
 
-	List<CmnTalukaMst> getTalukalst(String districtID);
+	List<CmnTalukaMst> getTalukalst();
 
 	DdoOffice getDdoOfficeDtls(Long dcpsDdoOfficeMstId);
 
@@ -42,5 +42,7 @@ public interface DDOInfoRepo {
 	DdoOffice findDdoData(String ddoCode);
 
 	void updateApproveRejectStatus(DdoOffice ddoOffice);
+
+	List<Object[]> getLstTown();
 
 }
