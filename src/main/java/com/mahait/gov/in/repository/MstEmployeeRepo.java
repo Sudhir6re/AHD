@@ -29,9 +29,7 @@ public interface MstEmployeeRepo {
 	public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode);
 
 	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthid, int commoncodeComponentGpfaCode);
-
-
-
+	
 	public List<Object[]> findDDOScreenDataTable(long loc_id);
 
 	public List<Object[]> getInstitueDtls(String ddocode);

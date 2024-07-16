@@ -10,7 +10,11 @@ import javax.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mahait.gov.in.entity.AppoinmentEntity;
+import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
+import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstCadreModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
@@ -19,6 +23,21 @@ import com.mahait.gov.in.model.MstEmployeeModel;
 
 public interface MstEmployeeService {
 
+	DdoOffice findAllGroup(String ddocode);
+	
+	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,BigInteger SchemeBillgroupId,int month,int year);
+	
+	 public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId,int allowDedCode);
+	 
+	 public int getpayCommissionAgainstEmployee(String sevaarthId);
+		
+		public List<Object[]> employeeAllowDeduction(String sevaarthId);
+
+		 
+		 public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode);
+		 
+		 public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthId, int commoncodeComponentGpfaCode);
+	 
 	public List<DDOScreenModel> findDDOScreenDataTable(String locale,long locId);
 
 	public List<Object[]> getInstitueDtls(String userName);
@@ -54,6 +73,8 @@ public interface MstEmployeeService {
 
 	
 	public List<MstDesignationEntity> getDesignationMstData(String locale, long locId);
+
+
 
 
 
