@@ -65,7 +65,7 @@ public class DDOOfficeController {
 			}
 		}
 		String districtID=ddoInfoService.getDistrictId(ddoCode);
-		List<CmnTalukaMst> lstTaluka=  ddoInfoService.getTalukalst(districtID);
+		List<CmnTalukaMst> lstTaluka=  ddoInfoService.getTalukalst();
 		/*String message=(String) model.asMap().get("message");
 		*/
 		/*List<ZpRltDdoMap> zpDDOOfficelst = zpDDOOfficeService
@@ -80,16 +80,17 @@ public class DDOOfficeController {
 		model.addAttribute("ddoOffClass", ddoOffClass);
 		model.addAttribute("lstDistrict", lstDistrict);
 		model.addAttribute("lstTaluka", lstTaluka);
+		model.addAttribute("lstTown", ddoInfoService.getLstTown());
 		model.addAttribute("lstApprDdoOffice", ddoInfoService.getDDOOffForApproval(messages.getUserName()));
 		
 		return "/views/ApproveDDOOffice";
 	}
-	
+/*	
 	@RequestMapping(value = "/getTalukabyDistrictId/{distId}", consumes = {"application/json" }, headers = "Accept=application/json",
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CmnTalukaMst>> getIfscCodeByBranchId(@PathVariable String distId) {
 			return ResponseEntity.ok(ddoInfoService.getTalukalst(distId));
-}
+}*/
 	@GetMapping(value="/getAlreadySavedDataforDDO/{ddoCode}")
 	public @ResponseBody List<Object[]> getAlreadySavedDataforDDO(@PathVariable String ddoCode,Model model,Locale locale)
 	{
