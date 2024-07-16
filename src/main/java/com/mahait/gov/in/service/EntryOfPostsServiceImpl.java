@@ -568,11 +568,15 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setLocationCode(String.valueOf(locId));
 			newOrgPostMst.setParentPostId(-1l);
 			newOrgPostMst.setPostLevelId(1l);
+
+			newOrgPostMst.setOfficeId(postEntryModel.getOfficeCmb());
+
 			newOrgPostMst.setPostTypeLookupId(lObjCmnLookupMst);
 			newOrgPostMst.setOrderId(postEntryModel.getOrderCmb());
 			newOrgPostMst.setOrderDate(postEntryModel.getOrderDate());
 			newOrgPostMst.setDdoCode(postEntryModel.getDdoCode());
 			
+
 
 			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
 			

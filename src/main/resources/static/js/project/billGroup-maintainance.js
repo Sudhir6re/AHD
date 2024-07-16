@@ -57,22 +57,22 @@ $(".billGrpId")
 								async : true,
 								contentType : 'application/json',
 								error : function(
-										data) {
-									console.log(data);
+										response) {
+									console.log(response);
 									
 									$(".loaderMainNew").hide();
 									// alert(data);
 								},
 								success : function(
-										data) {
+										response) {
+									if(response!=''){
 									
-									
-									var temp=data;
+									var temp=response;
 									$(".loaderMainNew").hide();
 									//$(".txtSchemeCode").val(data[3]);
 									
 									
-									$.each(temp,function(index,value) {
+									$.each(response.billdetails,function(index,value) {
 												$('#txtSchemeCode').val(value[3]);
 												$('#txtDescription').val(value[0]);
 												 $('#cmbSchemeName').val(value[3]);
@@ -85,22 +85,39 @@ $(".billGrpId")
 												 else
 													 $('#RadioPermenantTempBothB').prop("checked",true);
 												 
-												var gropuValues=value[1].split(",");
-												
-												for(var i=0;i<gropuValues.length;i++){
-													$('input[name="group"][value="'+ gropuValues[i]+ '"]').prop("checked",true);
-												}
+//												var gropuValues=value[1].split(",");
+//												
+//												for(var i=0;i<gropuValues.length;i++){
+//													$('input[name="group"][value="'+ gropuValues[i]+ '"]').prop("checked",true);
+//												}
 												
 												
 											});
 									
 									
-									
+									  $.each(response.grpdtls, function(index, value) {
+//						                     dropdown.append($('<option value="'+value[0]+'"></option>').text(value[1])); // Adjust the value index as needed
+										 
+												if(value == 'NA')
+													 $('#GroupNA').prop("checked",true);
+												if(value == 'A')
+													 $('#GroupA').prop("checked",true);
+												if(value == 'B')
+													 $('#GroupB').prop("checked",true);
+												if(value == 'BnGz')
+													 $('#GroupBnGz').prop("checked",true);
+												if(value == 'C')
+													 $('#GroupC').prop("checked",true);
+												if(value == 'D')
+													 $('#GroupD').prop("checked",true);
+										
+											
+						                     
+						                 });
 									
 								}
+								}
 							});
-					}else{
-						swal("Please Select Atleast one Component");
 					}
 
 		});

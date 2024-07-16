@@ -208,7 +208,7 @@ $(document)
 												$
 														.ajax({
 															type : "GET",
-															url : "../level1/saveEmpMpgDdoAllowDeduc/"
+															url : "../ddoast/saveEmpMpgDdoAllowDeduc/"
 																	+ department_allowdeduc_id
 																	+ "/"
 																	+ departmentId
@@ -280,7 +280,7 @@ $(document)
 											$
 													.ajax({
 														type : "GET",
-														url : "../level1/empEligibilityForAllowAndDeduct1/"
+														url : "../ddoast/empEligibilityForAllowAndDeduct1/"
 																+ input,
 														async : true,
 														contentType : 'application/json',
@@ -382,7 +382,7 @@ $(document)
 										$
 												.ajax({
 													type : "GET",
-													url : "../level1/empEligibilityForAllowAndDeductMappingList/"
+													url : "../ddoast/empEligibilityForAllowAndDeductMappingList/"
 															+ department_id,
 													async : true,
 													contentType : 'application/json',
@@ -481,7 +481,7 @@ $(document)
 															$
 																	.ajax({
 																		type : "GET",
-																		url : "../level1/empEligibilityForAllowAndDeductCheckBoxId/"
+																		url : "../ddoast/empEligibilityForAllowAndDeductCheckBoxId/"
 																				+ sevaarth_id,
 																		// url:
 																		// "empEligibilityForAllowAndDeductMappingList/"+department_id,
@@ -697,7 +697,7 @@ $(document)
 											$
 													.ajax({
 														type : "GET",
-														url : "../level1/empEligibilityForAllowAndDeductCheckBoxId/"
+														url : "../ddoast/empEligibilityForAllowAndDeductCheckBoxId/"
 																+ sevarthId,
 														// url:
 														// "empEligibilityForAllowAndDeductMappingList/"+department_id,
@@ -859,7 +859,7 @@ function isPaybillIsInProcess(sevaarthId) {
 	var flag = 0;
 	$.ajax({
 		type : "GET",
-		url : "../level1/isPaybillIsInProcess/" + sevaarthId,
+		url : "../ddoast/isPaybillIsInProcess/" + sevaarthId,
 		async : false,
 		contentType : 'application/json',
 		error : function(data) {

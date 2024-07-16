@@ -1,6 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -16,7 +17,7 @@ public interface DdoBillGroupService {
 
 
 
-	public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMaintainanceModel, OrgUserMst messages);
+	public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMaintainanceModel, OrgUserMst messages, long locId);
 
 
 
@@ -43,8 +44,8 @@ public interface DdoBillGroupService {
 
 
 
-	public List<Object[]> getBillDtlsForAlreadySaved(String billGrpId);
-
+//	public List<Object[]> getBillDtlsForAlreadySaved(String billGrpId);
+	Map<String, Object> getBillDtlsForAlreadySaved(String billGrpId);
 
 
 	public String saveAttachDettachEmployee(MpgSchemeBillGroupModel mpgSchemeBillGroupModel);
@@ -52,4 +53,25 @@ public interface DdoBillGroupService {
 
 
 	public MstDcpsBillGroup findAllMpgSchemeBillGroupbyParameter(Long valueOf);
+
+
+
+	public List<Object[]> isPaybillIsInProcess(String sevaarthId);
+
+
+
+	public int deleteEmpMpgDdoAllowDeduc(String sevaarthId);
+
+
+
+	public int saveEmpMpgDdoAllowDeduc(Object object, int departmentId, int empId, String sevaarthId,
+			String effectiveDate);
+
+
+
+	public List<Object[]> empEligibilityForAllowAndDeductCheckBoxId(String sevaarth_id);
+
+
+
+	public List<Object[]> findAllMpgSchemeBillGroupbyParameter1(int input);
 }

@@ -38,4 +38,8 @@ public interface CreateAdminOfficeService {
 
 	List<MstDesignationEntity> findDesignation(String desgn);
 
+	 public List<Object[]> lstAllDepartment();
+
+	List<Object[]> employeeMappingList(String userName);
+
 }

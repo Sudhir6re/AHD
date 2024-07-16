@@ -1,7 +1,12 @@
 package com.mahait.gov.in.repository;
 
-public interface MstDepartmentRepo {/*
+import java.util.List;
 
-	List<OrgDepartmentMst> findAllDepartment();
+//import com.mahait.gov.in.entity.OrgDepartmentMst;
 
-*/}
+public interface MstDepartmentRepo {
+
+
+//	List<OrgDepartmentMst> findAllDepartment();
+
+}

@@ -484,8 +484,23 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		// TODO Auto-generated method stub
 		return createAdminOfficeRepo.findByDsgnNameIgnoreCaseContaining(desgn);
 	}
-	
-	
-	
 
+	
+	
+	@Override
+	public  List<Object[]> lstAllDepartment(){
+		return createAdminOfficeRepo.lstAllDepartment();
+	}
+
+//	@Override
+//	public List<Object[]> employeeMappingList(String userName) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//	
+	@Override
+	public  List<Object[]> employeeMappingList(String logUserId){
+		return createAdminOfficeRepo.employeeMappingList(logUserId);
+	}
+	
 }

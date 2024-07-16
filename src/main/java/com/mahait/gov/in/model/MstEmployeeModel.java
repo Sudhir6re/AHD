@@ -27,7 +27,7 @@ public class MstEmployeeModel {
 	private String employeeMNameMr;
 	private String employeeLNameMr;
 	private String locality;
-	
+	private Long appointmentId;
 	private String employeeMotherName;
 	private Character maritalStatus;
 	private Double sevenPcBasic;
