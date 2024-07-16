@@ -279,7 +279,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		objEntity.setSchemeBillgroupId(paybillHeadMpgModel.getSchemeBillgroupId());
 		objEntity.setCreatedDate(new Date());
 		objEntity.setBillcreationDate(new Date());
-		objEntity.setIsActive(1);
+		objEntity.setIsActive(5);
 		objEntity.setDdoCode(ddoCode);
 		objEntity.setNoOfEmployee(paybillHeadMpgModel.getNoOfEmployee());
 
