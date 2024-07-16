@@ -32,6 +32,7 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.PostEntryModel;
 import com.mahait.gov.in.repository.OrgDdoMstRepository;
 import com.mahait.gov.in.repository.OrgPostDetailsRltRepository;
+import com.mahait.gov.in.repository.OrganizationInstInfoRepo;
 import com.mahait.gov.in.response.MessageResponse;
 import com.mahait.gov.in.service.EntryOfPostsService;
 
@@ -48,6 +49,10 @@ public class EntryOfPostsController {
 	@Autowired
 	EntryOfPostsService entryOfPostsService;
 
+
+
+	
+	
 	@GetMapping("/entryOfPosts")
 	public String entryOfPosts(Model model, Locale locale, HttpSession session) {
 
