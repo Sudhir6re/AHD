@@ -195,8 +195,8 @@ select.error, textarea.error, input.error {
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varCommon : ${lstCommonMstSalutation}"
-													th:value="${varCommon.commonValue}"
-													th:text="${language=='mh' ? varCommon.commonValMarathi : varCommon.commonValEnglish}"></option>
+													th:value="${varCommon.lookupId}"
+													th:text="${language=='mh' ? varCommon.lookupName : varCommon.lookupName}"></option>
 										</select></td>
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.fName}"></span>&nbsp;&nbsp;<b><font
@@ -255,19 +255,19 @@ select.error, textarea.error, input.error {
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.gender}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
-										<!--  <td width="30%"><input type="radio" size="2" id="gender" name="gender" ng-model="gender" th:field="*{gender}" 
+									 <td width="30%"><input type="radio" size="2" id="gender" name="gender" ng-model="gender" th:field="*{gender}" 
 										 th:value="M"/> <label><span th:utext="#{msg.thymeleaf.pagelabel.male}"></span></label>  
 										  <input type="radio" value="Female"  id="gender" name="gender" ng-model="gender" th:field="*{gender}" th:value="F"/>
 										    <label><span th:utext="#{msg.thymeleaf.pagelabel.female}"></span></label> 
-										    <input type="radio" value="Transgender"  id="gender" name="gender" ng-model="gender" th:field="*{gender}" th:value="T"/> <label><span th:utext="#{msg.thymeleaf.pagelabel.transgender}" ></span></label></td>  -->
-										<td width="30%"><select class="form-control" id="gender"
-											name="gender" th:field="*{gender}">
-												<option th:value="0"
-													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varCommon : ${lstCommonMstGender}"
-													th:value="${varCommon.commonValue}"
-													th:text="${language=='mh' ? varCommon.commonValMarathi : varCommon.commonValEnglish}"></option>
-										</select></td>
+										    <input type="radio" value="Transgender"  id="gender" name="gender" ng-model="gender" th:field="*{gender}" th:value="T"/> <label><span th:utext="#{msg.thymeleaf.pagelabel.transgender}" ></span></label></td>  
+<!-- 										<td width="30%"><select class="form-control" id="gender" -->
+<!-- 											name="gender" th:field="*{gender}"> -->
+<!-- 												<option th:value="0" -->
+<!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
+<!-- 												<option th:each="varCommon : ${lstCommonMstGender}" -->
+<!-- 													th:value="${varCommon.commonValue}" -->
+<!-- 													th:text="${language=='mh' ? varCommon.commonValMarathi : varCommon.commonValEnglish}"></option> -->
+<!-- 										</select></td> -->
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.religion}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
@@ -555,8 +555,8 @@ select.error, textarea.error, input.error {
 												<option selected="selected" th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varCadreGrp : ${lstCadreMst}"
-													th:value="${varCadreGrp.cadreCode}"
-													th:text="${language=='mh' ? varCadreGrp.cadreDescription : varCadreGrp.cadreDescription}"></option>
+													th:value="${varCadreGrp.cadreId}"
+													th:text="${language=='mh' ? varCadreGrp.cadreId : varCadreGrp.cadreDescription}"></option>
 										</select></td>
 										
 										
@@ -611,12 +611,12 @@ select.error, textarea.error, input.error {
 											<td width="15%"><label>Appointment&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="30%"><select class="form-control"
-											id="empAppointment" th:field="*{designationId}">
+											id="appointmentId" th:field="*{appointmentId}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varPay : ${lstDesignation}"
-													th:value="${varPay.designationCode}"
-													th:text="${language=='mh' ? varPay.designation : varPay.designation}"></option>
+												<option th:each="varPay : ${lstAppointment}"
+													th:value="${varPay.appointmentId}"
+													th:text="${language=='mh' ? varPay.appointmentName : varPay.appointmentName}"></option>
 										</select></td>
 										
 										
@@ -632,11 +632,11 @@ select.error, textarea.error, input.error {
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varPay : ${lstDesignation}"
-													th:value="${varPay.designationCode}"
-													th:text="${language=='mh' ? varPay.designation : varPay.designation}"></option>
+													th:value="${varPay.desginationId}"
+													th:text="${language=='mh' ? varPay.desginationId : varPay.desgination}"></option>
 										</select></td>
 									</tr>
-									<tr>
+								<tr>
 										<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.payscalelevel}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b> </label></td>
@@ -648,7 +648,6 @@ select.error, textarea.error, input.error {
 												<option th:each="varPay : ${lstpayscalelevel}"
 													th:value="${varPay[4]}" th:text="${varPay[3]}"></option>
 										</select></td>
-										
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.svnthpaybasic}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
@@ -662,7 +661,7 @@ select.error, textarea.error, input.error {
 											th:field="*{sevenPcBasic}" /></td>
 									</tr>
 									
-									<tr>
+										<tr>
 										<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.payscale}"></span>
 												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>

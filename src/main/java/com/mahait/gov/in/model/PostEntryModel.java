@@ -22,7 +22,7 @@ public class PostEntryModel {
 	private String designationCmb;
 	private String subjectCmb;
 	private long orderCmb;
-
+	 private String purposeCmbBox;
 	private long oldGrOrderId;
 
 	private String currentOrder;

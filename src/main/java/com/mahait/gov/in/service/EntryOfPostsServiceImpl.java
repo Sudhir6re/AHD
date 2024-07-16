@@ -34,6 +34,7 @@ import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnLookupMstRepository;
 import com.mahait.gov.in.repository.EntryOfPostsRepo;
 import com.mahait.gov.in.repository.OrgPostMstRepository;
+import com.mahait.gov.in.repository.OrganizationInstInfoRepo;
 
 @Transactional
 @Service
@@ -53,6 +54,11 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 
 	@Autowired
 	OrgPostMstRepository orgPostMstRepository;
+	
+	
+
+	@Autowired
+	private OrganizationInstInfoRepo organizationInstInfoRepo;
 	
 	@Override
 	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
@@ -528,7 +534,12 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 
 		CmnLanguageMst cmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
 		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(Long.valueOf(postEntryModel.getPostTypeCmbBox()));
-		CmnLocationMst cmnLocationMst = cmnLocationMstRepository.findByLocId(locId);
+		
+		
+		
+		OrgDdoMst orgDdoMst = organizationInstInfoRepo.findDDOInfo(postEntryModel.getDdoCode());
+		
+		CmnLocationMst cmnLocationMst = cmnLocationMstRepository.findByLocId(Long.valueOf(orgDdoMst.getLocationCode()));
 
 		long nextPsr = entryOfPostsRepo.getNextPsrNo();
 
@@ -557,11 +568,15 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setLocationCode(String.valueOf(locId));
 			newOrgPostMst.setParentPostId(-1l);
 			newOrgPostMst.setPostLevelId(1l);
+
+			newOrgPostMst.setOfficeId(postEntryModel.getOfficeCmb());
+
 			newOrgPostMst.setPostTypeLookupId(lObjCmnLookupMst);
 			newOrgPostMst.setOrderId(postEntryModel.getOrderCmb());
 			newOrgPostMst.setOrderDate(postEntryModel.getOrderDate());
 			newOrgPostMst.setDdoCode(postEntryModel.getDdoCode());
 			
+
 
 			Long postId = entryOfPostsRepo.savePost(newOrgPostMst);
 			

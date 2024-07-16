@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
 			{
 		 Swal.fire({
 			  title: 'Are you sure?',
-			 text: "To view paybill generation of change statement!",
+			 text: "To view paybill generation statement!",
 			  showDenyButton: false,
 			  showCancelButton: true,
 			  confirmButtonText: `Ok`,

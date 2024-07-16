@@ -89,9 +89,9 @@ public class DDOInfoServiceImpl implements DDOInfoService{
 	}
 
 	@Override
-	public List<CmnTalukaMst> getTalukalst(String districtID) {
+	public List<CmnTalukaMst> getTalukalst() {
 		// TODO Auto-generated method stub
-		return ddoInfoRepo.getTalukalst(districtID);
+		return ddoInfoRepo.getTalukalst();
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class DDOInfoServiceImpl implements DDOInfoService{
 				
 				obj.setOfficeName(StringHelperUtils.isNullString(objLst[1]));
 				String address=objLst[2] + " " + objLst[3];
-				obj.setAddress(address);
+				obj.setAddress(StringHelperUtils.isNullString(objLst[2]));
 				obj.setDdoCode(StringHelperUtils.isNullString(objLst[5]));
 				if(objLst[4].equals('0')) {
 					obj.setStatus("Pending");
@@ -180,4 +180,26 @@ public class DDOInfoServiceImpl implements DDOInfoService{
 		return ddoOffice;
 
 }
+
+	@Override
+	public List<NewRegDDOModel> getLstTown() {
+		
+
+		List<Object[]> lstprop = ddoInfoRepo.getLstTown();
+		List<NewRegDDOModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				NewRegDDOModel obj = new NewRegDDOModel();
+
+				obj.setCityId(StringHelperUtils.isNullBigInteger(objLst[0]));
+				obj.setCityName(StringHelperUtils.isNullString(objLst[1]));
+
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	
+		// TODO Auto-generated method stub
+		///return ddoInfoRepo.getLevel1DDOList(lStrDdoCode);
+	}
 }

@@ -158,14 +158,14 @@ public class LoginController {
 		request.getSession().setAttribute("MY_SESSION_MESSAGES",
 				userDetailsServiceImpl.getUserIdbyUserName(request.getRemoteUser()));
 		
-		List<Object[]> retriveUserdetails = commonHomeMethodsService.retriveUserdetails(messages.getUserId());
-		if (retriveUserdetails.size() > 0) {
-			for (Object[] obj : retriveUserdetails) {
-				session.setAttribute("ddoCode", obj[0]);
-				session.setAttribute("locationId", obj[1]);
-				session.setAttribute("loggedInPost", obj[2]);
-			}
-		}
+//		List<Object[]> retriveUserdetails = commonHomeMethodsService.retriveUserdetails(messages.getUserId());
+//		if (retriveUserdetails.size() > 0) {
+//			for (Object[] obj : retriveUserdetails) {
+//				session.setAttribute("ddoCode", obj[0]);
+//				session.setAttribute("locationId", obj[1]);
+//				session.setAttribute("loggedInPost", obj[2]);
+//			}
+//		}
 		
 
 	//	userSessionObject.setSession(messages.getUserId(),session);

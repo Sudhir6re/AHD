@@ -187,6 +187,31 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 		return mstDesignationRepository.findByDsgnNameIgnoreCaseContaining(desgn);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public  List<Object[]> lstAllDepartment(){
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = " select  d.department_code,d.department_name_en,d.department_name_mr from department_mst d where d.is_active = '1' order by d.department_name_en";
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
+	@Override
+	public List<Object[]> employeeMappingList(String logUserId) {
+		// TODO Auto-generated method stub
+	Session currentSession = entityManager.unwrap(Session.class);
+		String ddocode =logUserId.substring(0,11);
+//		String hql1 = " select location_code from org_ddo_mst where ddo_code = '"+logUserId+"'";
+//		Query query12 = currentSession.createSQLQuery(hql1);
+//		int department = (int) query12.list().get(0);
+		String hql = "select  d.location_code ,loc.loc_name,b.department_allowdeduc_mpg_id,c.department_allowdeduc_name,c.is_type,"
+				+ "c.department_allowdeduc_code from department_allowdeduc_mpg b "
+				+ " inner join department_allowdeduc_mst c on b.department_allowdeduc_code = c.department_allowdeduc_code inner join org_ddo_mst d on substring(d.ddo_code,0,12) = b.ddo_code "
+				+ " inner join cmn_location_mst loc on loc.loc_id = cast(d.location_code as bigint) where b.is_active = '1'and b.ddo_code ='"+ddocode+"'";//changed from department_allowdeduc_Id to department_allowdeduc_code
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+
 
 	
 	

@@ -69,6 +69,8 @@ public interface CommonHomeMethodsRepo {
 
 	public List<ReligionMstEntity> fetchAllReligions();
 
+	public List<Object[]> findLookUpNameDesc(String commoncodeSalutations);
+
 	public List<MstDesnModel> findDesignation(String userName);
 	
 	public List<MstMonthEntity> lstGetAllMonths();

@@ -146,15 +146,21 @@
 												<td width="10%" align="left">Taluka</td>
 												<td width="30%" align="left"><select name="talukaId"
 													id="talukaId" style="width: 70%">
-														<!--th:field="*{talukaId}" -->
-														<option value="-1">-- Select --</option>
+														<option selected="selected" th:value="0"
+															th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+														<option th:each="vartaluka : ${lstTaluka}"
+															th:value="${vartaluka.talukaId}"
+												th:text="${language=='mh' ? vartaluka.talukaName : vartaluka.talukaName}"></option>
 												</select></td>
 												<td width="10%" align="left">Town</td>
-												<td width="30%" align="left"><input type="text"
-													size="40%" r="" name="txtTown" id="txtTown" maxlength="50"
-													style="text-align: left"
-													onblur="isName(txtTown,'This field should not contain any special characters or digits.')">
-													<!-- th:field="*{town}" --></td>
+												<td width="30%" align="left"><select name="txtTown"
+													id="txtTown" style="width: 70%">
+														<option selected="selected" th:value="0"
+															th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+														<option th:each="varCity : ${lstTown}"
+															th:value="${varCity.cityId}"
+												th:text="${language=='mh' ? varCity.cityName : varCity.cityName}"></option>
+												</select></td>
 											</tr>
 											<tr>
 												<td width="10%" align="left">Village</td>
