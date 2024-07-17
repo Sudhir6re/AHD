@@ -453,7 +453,7 @@ public class MstEmployeeEntity {
 	private String remark;
 
 	@Column(name = "post_detail_id")
-	private Integer postdetailid;
+	private Long postdetailid;
 
 	@Column(name = "dcps_gpf_flag")
 	private String dcpsgpfflag;

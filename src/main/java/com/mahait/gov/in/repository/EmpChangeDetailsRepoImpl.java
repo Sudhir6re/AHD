@@ -109,7 +109,7 @@ Session currentSession = manager.unwrap(Session.class);
             	BigInteger b1 = (BigInteger) (objLst[28]);
             	int intValueOfb1 = b1.intValue();
             	lstObj.setBasicPay(StringHelperUtils.isNullDouble(intValueOfb1));
-            	lstObj.setPostdetailid(StringHelperUtils.isNullInt(objLst[29]));
+            	lstObj.setPostdetailid(StringHelperUtils.isNullLong(objLst[29]));
             	lstObj.setAdminDepartmentId(StringHelperUtils.isNullBigInteger(objLst[30]));
             	lstObj.setAppointmentDate(((Date) objLst[31]));
             	BigDecimal b =  (BigDecimal) (objLst[32]);
@@ -157,9 +157,6 @@ Session currentSession = manager.unwrap(Session.class);
             	lstObj.setGisgroup(StringHelperUtils.isNullString(objLst[56].toString()));
             	lstObj.setLandlineNo(StringHelperUtils.isNullString(objLst[57]));
             	lstObj.setMembership_date(StringHelperUtils.isNullDate(objLst[58]));
-            	
-            	
-            	
             
                 i++;
             }

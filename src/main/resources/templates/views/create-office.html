@@ -31,7 +31,6 @@
 				<form method="post" name="ZpDDOOffice"   th:object="${zpRltDdoMapModel}" th:action="@{/mdc/saveCreateAdminOffice}"
 					enctype="multipart/form-data">
 					
-						<input type="hidden" id="desginationId" name="desginationId"  th:field="*{desginationId}"/>
 					
 					<input type="hidden" id="uniqueId" name="uniqueId"  th:value="${uniqueId}"/>
 					<input type="hidden" id="desginationId" name="desginationId"  th:field="*{desginationId}"/>
@@ -79,7 +78,7 @@
 									<input type="radio"   th:field="*{radioFinalLevel}" 
 										value="2" onclick="checkforHirechy();"
 										id="radioFinalLevel2" class="radiobuttontag mandatorycontrol"
-										checked="true">&nbsp;Level 2&nbsp;&nbsp;<label
+										 th:checked="true">&nbsp;Level 2&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label>
 										
 										
@@ -131,11 +130,11 @@
 											Salutation</label></td>
 									<td><input type="radio" name="radioSalutation"   th:field="*{radioSalutation}" 
 										value="radioSalutationShri" onclick="addSalutationToName();"
-										id="radioSalutationShri"
-										class="radiobuttontag mandatorycontrol" checked="true">&nbsp;Shri&nbsp;&nbsp;<label
+										id="radioSalutationShri"  th:checked="true"
+										class="radiobuttontag mandatorycontrol" >&nbsp;Shri&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label>
 										
-										 <input type="radio"  th:field="*{radioSalutation}" 
+										 <input type="radio"  th:field="*{radioSalutation}"  onclick="addSalutationToName();" 
 										name="radioSalutation" value="radioSalutationShri"
 										id="radioSalutationSmt" class="radiobuttontag">&nbsp;Smt
 										
@@ -150,7 +149,7 @@
 									<td><label class="captionTag" id="ZPDDOOOFFICE_EMP_NAME">DDO
 											Name</label></td>
 									<td><input type="text" name="txtDDOName" id="txtDDOName"   th:field="*{txtDDOName}" 
-										class="texttag mandatorycontrol" value="Shri."
+										class="texttag mandatorycontrol" value="Shri."  onblur="validateDDOName();" 
 										maxlength="100/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label>
 										
@@ -162,7 +161,7 @@
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOFFICE_ZPGENDER">Gender</label></td>
 									<td>Male <b>:</b>&nbsp;&nbsp;<input type="radio"   th:field="*{radioGender}" 
-										id="radioMale" name="radioGender" value="M" checked="checked">
+										id="radioMale" name="radioGender" value="M" th:checked="true">
 										&nbsp;&nbsp;Female <b>:</b>&nbsp;&nbsp;<input type="radio"   th:field="*{radioGender}" 
 										id="radioFemale" name="radioGender" value="F">
 										&nbsp;&nbsp;Trans Gender <b>:</b>&nbsp;&nbsp;<input    th:field="*{radioGender}" 
@@ -272,7 +271,7 @@
 									<td><label class="captionTag" id="ZPDDOOOFFICE_MOBILE_NO">Mobile
 											No.</label></td>
 									<td><input type="text" name="txtMobileNo" id="txtMobileNo"   th:field="*{txtMobileNo}" 
-										class="texttag mandatorycontrol" value="" maxlength="10/">&nbsp;&nbsp;<label
+										class="texttag mandatorycontrol"   onblur="validateMobileNo();" value="" maxlength="10/">&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label>
 										
 										<p th:if="${#fields.hasErrors('txtMobileNo')}" th:class="error" th:errors="*{txtMobileNo}" />

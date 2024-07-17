@@ -139,7 +139,7 @@ public class MstEmployeeModel {
     private String subdeptNm;
 
 	private String remark;
-    private Integer postdetailid;
+    private Long postdetailid;
     private String dcpsgpfflag;
     private String dcpsaccountmaintainby;
     private String pfacno;

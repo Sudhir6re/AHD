@@ -73,7 +73,8 @@ public class CreateAdminOfficeController {
 	@GetMapping("/createAdminOfficeMaster")
 	public String createAdminOfficeMaster(Model model, Locale locale, HttpSession session,
 			@ModelAttribute("zpRltDdoMapModel") ZpRltDdoMapModel zpRltDdoMapModel) {
-
+		zpRltDdoMapModel.setRadioFinalLevel("2");
+		zpRltDdoMapModel.setRadioGender("M");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
 		// createAdminOfficeService.findAllDdoMappedlist(messages);
@@ -97,7 +98,6 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
-
 		return "/views/create-office";
 	}
 
@@ -221,4 +221,11 @@ public class CreateAdminOfficeController {
 		List<MstDesignationEntity> response1 = createAdminOfficeService.findDesignation(txtDDODsgn);
 		return ResponseEntity.ok(response1);
 	}
+	
+	
+	
+	
+	
+	
+	
 }

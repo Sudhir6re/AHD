@@ -143,8 +143,11 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		lStrDdoCode=lStrDdoCode;
 		
 		
-		lStrDdoCode=lStrDdoCode;;
 		
+		
+		lStrDdoCode=lStrDdoCode;;
+		String mobNo=zpRltDdoMapModel.getTxtMobileNo();
+		String email=zpRltDdoMapModel.getTxtEmailId();
 		Long lLngLocPin = 1l;//Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- Need Change Temporary "1" is added.  
 
 		
@@ -167,7 +170,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		Long lLngUserId =orgUserMst.getUserId();
 		Long lLngPostId = new Long(lLngUserId);
 
-		objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages);
+		objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages,mobNo,email);
 
 		OrgPostMst newOrgPostMst=objZpDDOOfficeMstDAOImpl.insertOrgPostMst(lLngPostId, lStrLocCode, gLngUserId, gLngPostId, lLngDesignID.toString(), messages);
 
@@ -416,10 +419,24 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	@Override
 	public List<Object[]> fetchDdoDetails(OrgUserMst messages, String ddoCode) {
 		// TODO Auto-generated method stub
-		return createAdminOfficeRepo.findPostLocationByDdoCode(ddoCode);
+		List<Object[]> lst=createAdminOfficeRepo.findPostLocationByDdoCode(ddoCode);
+		for(Object[] obj:lst) {
+			if (obj[0] instanceof String) {
+	        String firstElement = (String) obj[0];
+	        if (firstElement.equals("1;") || firstElement.equals("1")) {
+	            String dsgDtl = "1";
+	            Long dsg = Long.valueOf(dsgDtl);
+	            dsgDtl = (dsg <= 2) ? "BEO" : "Superintendent"; 
+	            obj[0] = dsgDtl;
+	        }
+	    }
+		}
+		return lst;
 	}
 
 	public String generateDDOCode(String AdminOfc, String SubTOCode) {
+		 boolean foundUniqueCode = false;
+		    int attempt = 1;
 		String FinalpreFixed="";
 		do {
 			String CreatedDDOCode = AdminOfc;
@@ -429,7 +446,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 			String suffix = "";
 			String midfix = "";
 			if (getCountCode.get(0) != null) {
-				Long temp = Long.parseLong(getCountCode.get(0).toString()) + 1;
+				Long temp = Long.parseLong(getCountCode.get(0).toString()) + attempt;
 				suffix = temp.toString();
 			}
 			if (suffix.length() == 1)
@@ -442,9 +459,12 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 				midfix = "0";
 
 			FinalpreFixed = CreatedDDOCode + midfix + suffix;
-			
-			//return FinalpreFixed;
-		} while (ddoCodeAlreadyExists(FinalpreFixed) > 0);
+	        if (ddoCodeAlreadyExists(FinalpreFixed) == 0) {
+	            foundUniqueCode = true;
+	        } else {
+	            attempt++;
+	        }
+		} while (!foundUniqueCode);
 		return FinalpreFixed;
 	}
 

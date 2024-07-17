@@ -1,6 +1,7 @@
 package com.mahait.gov.in.repository;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgEmpMst;
@@ -152,7 +154,7 @@ public class AddNewDDOConfigRepository {
 		
 			lLngLocId = getNextSeqNoLoc();
 		
-			lObjCmnLocationMst.setLocId(lLngLocId);
+		//	lObjCmnLocationMst.setLocId(lLngLocId);
 
 			lObjCmnLocationMst.setLocName(lStrLocationName);
 
@@ -177,8 +179,6 @@ public class AddNewDDOConfigRepository {
 			lObjCmnLocationMst.setLocDistrictId(distCode);
 			lObjCmnLocationMst.setLocStateId(15L);
 			 Long id =(Long) ghibSession.save(lObjCmnLocationMst);
-			
-			
 			
 			 CmnLocationMst save = ghibSession.get(CmnLocationMst.class, id);
 			
@@ -243,21 +243,40 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public void insertEmpMst(Long lLngUserId, String lStrFname, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
-			String lStrGendr, OrgUserMst orgUserMst) {
+			String lStrGendr, OrgUserMst orgUserMst, String mobNo, String email) {
 		Session ghibSession = entityManager.unwrap(Session.class);     
-		Long lLngEmpId = null;
 			SimpleDateFormat lObjDateFormate = new SimpleDateFormat("dd/MM/yyyy");
 			Date lObjEmpDob = new Date("01/01/9999");
-
 			OrgGradeMst lObjOrgGradeMst =orgGradeMstRepository.findByGradeId(100064l); 
 			CmnLanguageMst lObjCmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
 
 			OrgUserMst lObjOrgUserMst = orgUserMst;
 			OrgUserMst lObjOrgUserMstCrtd =userInfoRepoImpl.getUserByUserId(lLngUserId);
-
+		
 			OrgPostMst postId =orgUserMst.getCreatedByPost();
-
-			OrgEmpMst lObjEmpMst = new OrgEmpMst();
+			MstEmployeeEntity mstEmployeeEntity=new MstEmployeeEntity();
+			mstEmployeeEntity.setEmployeeFullNameEn(lStrFname);
+			mstEmployeeEntity.setEmployeeFNameEn(lStrFname);
+			mstEmployeeEntity.setGender(lStrGendr.charAt(0));
+			mstEmployeeEntity.setDob(lObjEmpDob);
+			mstEmployeeEntity.setDtJoinCurrentPost(new Date());
+			mstEmployeeEntity.setMobileNo1(Long.valueOf(mobNo));
+			mstEmployeeEntity.setEmailId(email);
+			mstEmployeeEntity.setUserId(new BigInteger(lLngUserId.toString()));
+			mstEmployeeEntity.setPostdetailid(lLngUserId);
+			mstEmployeeEntity.setCreatedDate(new Date());
+			//mstEmployeeEntity.setGradePay(100064l);
+			if (lStrGendr.equals("M")) {
+				mstEmployeeEntity.setSalutation(1);
+			} else if (lStrGendr.equals("F")) {
+				mstEmployeeEntity.setSalutation(1);
+			}
+			
+			mstEmployeeEntity.setIsActive(1);
+			
+			ghibSession.save(mstEmployeeEntity);
+			
+			/*OrgEmpMst lObjEmpMst = new OrgEmpMst();
 
 			lObjEmpMst.setEmpFname(lStrFname);
 
@@ -285,9 +304,10 @@ public class AddNewDDOConfigRepository {
 			} else if (lStrGendr.equals("F")) {
 				lObjEmpMst.setEmpPrefix("Ms");
 			}
+			
 
 			ghibSession.save(lObjEmpMst);
-	}
+*/	}
 
 	public OrgPostMst insertOrgPostMst(Long lLngPostId, String lStrLocationCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
 			String lStrDsgnCode, OrgUserMst orgUserMst) {
@@ -313,7 +333,7 @@ public class AddNewDDOConfigRepository {
 			Long id =(Long) ghibSession.save(lObjOrgPostMst);
 			
 			
-			OrgPostMst save = ghibSession.get(OrgPostMst.class, id);
+			OrgPostMst save = ghibSession.get(OrgPostMst.class, lLngPostId);
 			
 			return save; 
 		
@@ -972,8 +992,6 @@ public class AddNewDDOConfigRepository {
 
 	// added by vaibhav tyagi: start
 	public synchronized Long getNextSeqNoLoc() {
-		
-		
 	return 	cmnLocationMstRepository.findMaxLocId()+1;
 		/*
 	}
