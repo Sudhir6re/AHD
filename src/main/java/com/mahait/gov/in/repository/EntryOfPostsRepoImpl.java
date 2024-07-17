@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -134,8 +135,6 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		List ddoDtls = null;
 		Session session = getSession();
 		StringBuffer sb = new StringBuffer();
-
-		// Added by roshan
 		sb.append(
 				"SELECT ddo.DDO_CODE ,ddo.DDO_office FROM RLT_ZP_DDO_MAP rep, ORG_DDO_MST ddo, mst_dcps_ddo_office office where lower(office.ddo_office)= 'yes' and ddo.DDO_OFFICE !='null' and office.status_flag=1 and ddo.DDO_CODE = rep.ZP_DDO_CODE and office.ddo_code=ddo.ddo_code and rep.status =1 and ((rep.REPT_DDO_POST_ID='"
 						+ postId + "') or (rep.FINAL_DDO_POST_ID='" + postId + "'))");
@@ -342,15 +341,15 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		return orderMstList;
 	}
 
+	
+	
+		
 	@Override
-	public List getPostNameForDisplay(String locId, String lPostName, String PsrNo, String BillNo, String Dsgn,
+	public List getPostNameForDisplay(String loginDddo, String lPostName, String PsrNo, String BillNo, String Dsgn,
 			String ddoSelected) {
 		List postNameList = new ArrayList();
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
-
-		// Long locId1=Long.parseLong(locId);
-		// Long ddoSelected1=Long.parseLong(ddoSelected);
 
 		sb.append(
 				"select pd.post_name, pd.post_id, (select o.employee_full_name_en from employee_mst o, org_userpost_rlt up ");
@@ -360,8 +359,10 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		sb.append(
 				"  ,(select mp.ddo_code from org_ddo_mst mp where p.loc_id = cast(mp.location_code as bigint)) BillNo, org.post_type_lookup_id, cmn.lookup_name from org_post_details_rlt pd, designation_mst ds, org_post_mst org, cmn_lookup_mst cmn");
 		sb.append("  , HR_PAY_POST_PSR_MPG p ");
-		sb.append("  where pd.loc_id in (" + locId
-				+ ") and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.designation_id  ");
+		sb.append("  where pd.loc_id in ("
+				+ " SELECT cast(location_code as bigint) FROM org_ddo_mst  a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code" + 
+				"  where rept_ddo_code='"+loginDddo+"')"
+				+ "and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.designation_id");
 		if (PsrNo != null && !(PsrNo.trim()).equals(""))
 			sb.append("  and p.psr_no = " + PsrNo);
 		else if ((ddoSelected != null) && (ddoSelected != "")) {
@@ -433,6 +434,17 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Session hibSession = getSession();
 		HrPayOrderMst hrPayOrderMst=hibSession.find(HrPayOrderMst.class,orderId);
 		return hrPayOrderMst;
+	}
+
+	@Override
+	public List findLevel1DddoByDdoCode(String ddoCode) {
+		List orderMstList = null;
+		Session hibSession = getSession();
+		String strQuery = " SELECT DDO_CODE,DDO_OFFICE FROM org_ddo_mst  a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code" + 
+				" where rept_ddo_code='"+ddoCode+"' order by a.DDO_CODE asc";
+		Query query = hibSession.createSQLQuery(strQuery);
+		orderMstList = query.list();
+		return orderMstList;
 	}
 
 }

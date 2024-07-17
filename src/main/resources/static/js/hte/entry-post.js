@@ -3,7 +3,25 @@ $(document).ready(function() {
 	
 	var dataTable= $("#postDetails").dataTable();
 	
-	
+	 if ($('#cmbAsstDDO').length) {
+	        $('#cmbAsstDDO').select2();
+	    }
+	    if ($('#ddoCode').length) {
+	        $('#ddoCode').select2();
+	    }
+	    
+	    
+	    if ($('#designationCmb').length) {
+	        $('#designationCmb').select2();
+	    }
+	    
+	    if ($('#billCmb').length) {
+	    	$('#billCmb').select2();
+	    }
+	    
+	    
+	    
+	    
 	
 	function checkRenewalDataBeforeSubmit()
 	{

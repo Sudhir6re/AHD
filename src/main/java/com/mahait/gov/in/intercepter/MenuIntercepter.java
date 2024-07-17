@@ -51,6 +51,12 @@ public class MenuIntercepter implements HandlerInterceptor {
 	            return;
 	        }
 		
+		  
+		  // Retrieve the attribute and handle null case
+		    Boolean alreadyProcessed = (Boolean) request.getAttribute("menuIntercepterProcessed");
+		    if (alreadyProcessed != null && alreadyProcessed) {
+		        return;  // Skip processing if already processed
+		    }
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && !authentication.getPrincipal().equals("anonymousUser") ) {
@@ -73,6 +79,8 @@ public class MenuIntercepter implements HandlerInterceptor {
 						modelAndView.addObject("subMenuList", subMenuList);
 						modelAndView.addObject("levelRoleVal", levelRoleVal);
 					}
+					
+					request.setAttribute("menuIntercepterProcessed", true);
 				}
 			}
 		}
