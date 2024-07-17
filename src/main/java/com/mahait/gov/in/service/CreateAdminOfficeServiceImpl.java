@@ -421,8 +421,6 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 
 	public String generateDDOCode(String AdminOfc, String SubTOCode) {
 
-	//	List getOfcCode = createAdminOfficeRepo.getAdminOfcCode(AdminOfc);
-		//String AOfcCode = getOfcCode.get(0).toString();
 		String CreatedDDOCode = AdminOfc;
 		CreatedDDOCode += SubTOCode;
 		List getCountCode = createAdminOfficeRepo.getCountofDDOCode(CreatedDDOCode);
@@ -443,6 +441,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 			midfix = "0";
 
 		FinalpreFixed = CreatedDDOCode + midfix + suffix;
+		
 		return FinalpreFixed;
 
 	}

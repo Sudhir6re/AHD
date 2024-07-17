@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
@@ -86,5 +87,10 @@ public interface CommonHomeMethodsRepo {
 	public List<Object[]> findmonthinfo(BigInteger month);
 
 	public String getOffice(String userName);
+
+	public List<BillStatusMstEntity> lstGetAllBillStatusForConsolidatePaybill();
+
+	public List<Object[]> getBillsForConsolidation(String billStatus, Integer roleId, String userName, int parseInt,
+			int parseInt2);
 	
 }

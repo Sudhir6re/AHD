@@ -145,12 +145,12 @@ public class PayBillViewApprDelBillController {
 		model.addAttribute("language", locale.getLanguage());
 
 		if(messages.getMstRoleEntity().getRoleId() == 3) {
-			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getUserName(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
+			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getDdoCode(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
 			return "/views/paybill/paybill-view-approve-delete-bill";
 				}
 		
 		else if(messages.getMstRoleEntity().getRoleId() != 3) {
-			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getUserName(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
+			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getDdoCode(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
 			return "/views/paybill/paybill-forward-change-statement-bill";
 		}
 		

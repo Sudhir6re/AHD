@@ -78,3 +78,13 @@ display: inline-block;
 	.table-bordered-self>tr {
 	box-shadow: 0 0 1px 1px #000 !important;
 }
+.stripedBG{
+	background-color: #f9f9f9;
+}
+.datatableheader>th {
+    background-color: #fbf4eb;
+    font-weight: bold;
+    color: #cc7a06;
+    text-align: center;
+    vertical-align: middle ! IMPORTANT;
+}
