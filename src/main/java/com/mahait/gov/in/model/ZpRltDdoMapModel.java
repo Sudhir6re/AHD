@@ -97,4 +97,5 @@ public class ZpRltDdoMapModel implements Serializable {
     
     @NotEmpty(message = "User's email cannot be empty.")
     private String txtEmailId;
+    
 }

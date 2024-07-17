@@ -31,5 +31,7 @@ public interface CreateAdminOfficeRepo {
 
 	List<Object[]> employeeMappingList(String logUserId);
 
+	int ddoCodeAlreadyExists(String level1DdoCode);
+
 
 }

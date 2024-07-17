@@ -31,6 +31,7 @@
 				<form method="post" name="ZpDDOOffice"   th:object="${zpRltDdoMapModel}" th:action="@{/mdc/saveCreateAdminOffice}"
 					enctype="multipart/form-data">
 					
+						<input type="hidden" id="desginationId" name="desginationId"  th:field="*{desginationId}"/>
 					
 					<input type="hidden" id="uniqueId" name="uniqueId"  th:value="${uniqueId}"/>
 					<input type="hidden" id="desginationId" name="desginationId"  th:field="*{desginationId}"/>

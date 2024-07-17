@@ -129,8 +129,20 @@
 									<th class="datatableheader"
 										style="text-align: center; font-size: 12px;">Hierarchy
 										Level</th>
-									<th class="datatableheader"
+										
+										
+										<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">Created Date</th>
+										
+											
+											<th class="datatableheader hide"
+										style="text-align: center; font-size: 12px;">Zp Map Id</th>
+										
+										
+										<th class="datatableheader"
 										style="text-align: center; font-size: 12px;">Status</th>
+										
+										
 								</tr>
 							</thead>
 							<tbody>
@@ -155,11 +167,20 @@
 									<td><span th:text="${zpRltDdoMapRlt[4]}"></span></td>
 									<!--    <td><span th:text="${zpRltDdoMapRlt[5]}"></span> -->
 
+
+ 								<td th:text="${#dates.format(zpRltDdoMapRlt[7], 'dd-MM-yyyy')}?:'------'"></td>
+									
+									
+									<td  th:text="${zpRltDdoMapRlt[6]}" class="hide">
+									</td>
+									
 									<td><span th:switch="${zpRltDdoMapRlt[5]}"> <span
-											th:case="0" class="bg bg-warning">Pending</span> <span
-											th:case="1" class="bg bg-success">Approved</span> <span
-											th:case="*" class="bg bg-danger">Rejected</span>
+											th:case="0" class="btn btn-warning">Pending</span> <span
+											th:case="1" class="btn btn-success">Approved</span> <span
+											th:case="*" class="btn btn-danger">Rejected</span>
 									</span></td>
+								
+					
 
 								</tr>
 							</tbody>

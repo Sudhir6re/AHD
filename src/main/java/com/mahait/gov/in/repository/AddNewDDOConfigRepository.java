@@ -258,9 +258,6 @@ public class AddNewDDOConfigRepository {
 			OrgPostMst postId =orgUserMst.getCreatedByPost();
 
 			OrgEmpMst lObjEmpMst = new OrgEmpMst();
-			// lLngEmpId = IFMSCommonServiceImpl.getNextSeqNum("org_emp_mst", inputMap);
-			//lLngEmpId = getNextSeqNoLocForEmpMst();
-			//lObjEmpMst.setEmpId(lLngEmpId);
 
 			lObjEmpMst.setEmpFname(lStrFname);
 
@@ -290,8 +287,6 @@ public class AddNewDDOConfigRepository {
 			}
 
 			ghibSession.save(lObjEmpMst);
-			ghibSession.flush();
-		
 	}
 
 	public OrgPostMst insertOrgPostMst(Long lLngPostId, String lStrLocationCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd,

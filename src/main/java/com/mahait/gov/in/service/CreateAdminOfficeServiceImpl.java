@@ -420,31 +420,34 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	}
 
 	public String generateDDOCode(String AdminOfc, String SubTOCode) {
+		String FinalpreFixed="";
+		do {
+			String CreatedDDOCode = AdminOfc;
+			CreatedDDOCode += SubTOCode;
+			List getCountCode = createAdminOfficeRepo.getCountofDDOCode(CreatedDDOCode);
+			//String FinalpreFixed = "";
+			String suffix = "";
+			String midfix = "";
+			if (getCountCode.get(0) != null) {
+				Long temp = Long.parseLong(getCountCode.get(0).toString()) + 1;
+				suffix = temp.toString();
+			}
+			if (suffix.length() == 1)
+				midfix = "0000";
+			else if (suffix.length() == 2)
+				midfix = "000";
+			else if (suffix.length() == 3)
+				midfix = "00";
+			else if (suffix.length() == 4)
+				midfix = "0";
 
-		String CreatedDDOCode = AdminOfc;
-		CreatedDDOCode += SubTOCode;
-		List getCountCode = createAdminOfficeRepo.getCountofDDOCode(CreatedDDOCode);
-		String FinalpreFixed = "";
-		String suffix = "";
-		String midfix = "";
-		if (getCountCode.get(0) != null) {
-			Long temp = Long.parseLong(getCountCode.get(0).toString()) + 1;
-			suffix = temp.toString();
-		}
-		if (suffix.length() == 1)
-			midfix = "0000";
-		else if (suffix.length() == 2)
-			midfix = "000";
-		else if (suffix.length() == 3)
-			midfix = "00";
-		else if (suffix.length() == 4)
-			midfix = "0";
-
-		FinalpreFixed = CreatedDDOCode + midfix + suffix;
-		
+			FinalpreFixed = CreatedDDOCode + midfix + suffix;
+			
+			//return FinalpreFixed;
+		} while (ddoCodeAlreadyExists(FinalpreFixed) > 0);
 		return FinalpreFixed;
-
 	}
+
 
 	@Override
 	public Map<String, Object> findTrasuryDetails(String DDOCode) {
@@ -486,22 +489,17 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		return createAdminOfficeRepo.findByDsgnNameIgnoreCaseContaining(desgn);
 	}
 
-	
-	
 	@Override
 	public  List<Object[]> lstAllDepartment(){
 		return createAdminOfficeRepo.lstAllDepartment();
 	}
 
-//	@Override
-//	public List<Object[]> employeeMappingList(String userName) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//	
 	@Override
 	public  List<Object[]> employeeMappingList(String logUserId){
 		return createAdminOfficeRepo.employeeMappingList(logUserId);
 	}
 
+	private int ddoCodeAlreadyExists(String level1DdoCode) {
+		return createAdminOfficeRepo.ddoCodeAlreadyExists(level1DdoCode);
+	}
 }

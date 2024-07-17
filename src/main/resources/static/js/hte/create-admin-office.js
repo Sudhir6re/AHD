@@ -12,7 +12,16 @@ $(document).ready(function() {
 	}
 	
 
-	var dataTable= $("#ddoMapTable").dataTable();
+	//var dataTable= $("#ddoMapTable").dataTable();
+	
+	var dataTable= $('#ddoMapTable').dataTable({
+	    "columnDefs": [
+	        { "targets": [4], "visible": false } 
+	    ],
+	    "order": [[4, 'desc']] 
+	});
+	
+	
 $("#cmbDistrict").change(function(){
 	var context = $("#appRootPath").val();
 	var districtId = $("#cmbDistrict").val();
@@ -81,8 +90,6 @@ $("#btnFilter").click(function(){
 });
 
 
-
-
 function populateTable(data) {
     $.each(data, function(index, row) {
     	dataTable.fnClearTable();
@@ -90,17 +97,20 @@ function populateTable(data) {
            var row2 = '<span id="' + row[1] + '"><a href="#"  data-ddocode="'+ row[1]+'" class="ddoCode"    data-srno="'+index+'" >' + row[1] + '</a></span>';
     	var row3=null;
     	   if(row[5]==0){
-    		   row3= '<span class="bg bg-warning" >Pending</span>';
+    		   row3= '<span class="btn btn-warning" >Pending</span>';
     	   }else if(row[5]==1){
-    		   row3= '<span  class="bg bg-succes" >Pending</span>';
+    		   row3= '<span  class="btn btn-succes" >Approved</span>';
     	   }else{
-    		   row3= '<span  class="bg bg-danger >Pending</span>';
+    		   row3= '<span  class="btn btn-danger >Rejected</span>';
     	   }
+    	   
+    	   var createdDate = new Date(row[7]); 
+		    var formattedDate = dateToDMY(createdDate);
         dataTable.fnAddData(
 				[
 					row1,
 					row2,row[4],
-					row3
+					createdDate,row[6],row3
 						]);
     });
 }
@@ -137,7 +147,7 @@ $("#txtDDODsgn").keyup(function(){
 							$("#searchDiv").show();
 							$("#searchDiv")
 									.append(
-											"<p><a class='empdata'     desginationId='"+data[i].desginationId+"'  empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
+											"<p><a class='empdata'    desginationId='"+data[i].desginationId+"'    empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
 							$("#searchDiv")
 									.css(
 											"border:1px solid #A5ACB2;");
@@ -308,13 +318,13 @@ $('body').on('click', '.ddoCode', function() {
 
 function setDDOdtls(myAjax, field, srno) {
 	var divId = srno.toString() + field.toString();
-	document.getElementById(divId).innerHTML = '<a href="#"    data-ddocode="'+field+'"  data-srno="'+srno+'"   class="hideDdoCode"  >'+ field+ '<br>'+ myAjax + '</a>';
+	document.getElementById(divId).innerHTML = '<a   data-ddocode="'+field+'"  data-srno="'+srno+'"   class="hideDdoCode"  >'+ field+ '<br>'+ myAjax + '</a>';
 }
 
 function hideDtls(field, srno) {
 
 	var divId = srno.toString() + field.toString();
-	document.getElementById(divId).innerHTML = '<a href="#"  data-ddocode="'+field+'"  data-srno="'+srno+'"   class="ddoCode"   >' + field + '</a>';
+	document.getElementById(divId).innerHTML = '<a   data-ddocode="'+field+'"  data-srno="'+srno+'"   class="ddoCode"   >' + field + '</a>';
 }
 
     $("form[name='ZpDDOOffice']").validate({
