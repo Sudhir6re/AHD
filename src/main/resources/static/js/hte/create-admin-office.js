@@ -137,7 +137,7 @@ $("#txtDDODsgn").keyup(function(){
 							$("#searchDiv").show();
 							$("#searchDiv")
 									.append(
-											"<p><a class='empdata'   empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
+											"<p><a class='empdata'     desginationId='"+data[i].desginationId+"'  empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
 							$("#searchDiv")
 									.css(
 											"border:1px solid #A5ACB2;");
@@ -156,7 +156,9 @@ $("#txtDDODsgn").keyup(function(){
 $('body').on('click', '.empdata', function() {
 	 $("#procceed").attr("disabled", false); 
 	var empdesgn=$(this).attr("empdesgn");  
+	var desginationId=$(this).attr("desginationId");  
 	$("#txtDDODsgn").val(empdesgn);
+	$("#desginationId").val(desginationId);
 	$("#searchDiv").hide();
 });
 
@@ -287,7 +289,6 @@ $('body').on('click', '.ddoCode', function() {
 			// console.log(data);
 			// alert(data);
 			var len = data.length;
-			if (len != 0) {
 
 				var temp = data;
 				$
@@ -301,10 +302,6 @@ $('body').on('click', '.ddoCode', function() {
 									setDDOdtls(value[0]+","+value[1], field, srno);
 								
 																							});
-			} else {
-			
-				swal("Record not found !!!");
-			}
 		}
 	});
 });

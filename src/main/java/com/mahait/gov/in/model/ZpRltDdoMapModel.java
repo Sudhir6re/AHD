@@ -44,6 +44,8 @@ public class ZpRltDdoMapModel implements Serializable {
     private Long createdPostId;
 
     private Long updatedPostId;
+    
+    private Long desginationId;
  
     @NotEmpty(message = "User's email cannot be empty.")
     private String cmbAdminOffice;

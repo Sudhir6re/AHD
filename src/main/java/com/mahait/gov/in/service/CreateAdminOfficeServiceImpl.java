@@ -121,8 +121,10 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		String lstrSpecialDDOCode=zpRltDdoMapModel.getTxtSpecialDDOCode();
 		String lstrLevel=zpRltDdoMapModel.getRadioFinalLevel();
 		String lStrDdoPersonalName=zpRltDdoMapModel.getTxtDDOName();
-
-		Long lLngDesignID =1l; //Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- It will Change in future
+		
+		
+		Long desginationId=zpRltDdoMapModel.getDesginationId();
+		Long lLngDesignID =desginationId; //Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- It will Change in future
 		Long lLngAdminDept=0l;
 	
 		/*if(StringUtility.getParameter("cmbDept", request).trim()!=null){
@@ -194,7 +196,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 			lstrDeptType=DeptCode.get(0).toString();
 
 		String lstrAdminDeptType=null;
-		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,messages);
+		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,messages,desginationId,lStrDesgnName,lStrDdoOfficeName);
 
 		String uniqeInstituteId=objZpDDOOfficeMstDAOImpl.generateUniqeInstituteId(lStrDdoCode,lLngDistrictCode.toString(), messages);
 		objZpDDOOfficeMstDAOImpl.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, messages,uniqeInstituteId);

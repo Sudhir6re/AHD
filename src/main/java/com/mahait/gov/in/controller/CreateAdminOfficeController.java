@@ -39,7 +39,7 @@ public class CreateAdminOfficeController {
 	CreateAdminOfficeService createAdminOfficeService;
 
 	@GetMapping("/createAdminOffice")
-	public String CreateAdminOffice(Model model, Locale locale, HttpSession session) {
+	public String CreateAdminOffice(Model model, Locale locale, HttpSession session,@ModelAttribute("zpRltDdoMapModel") ZpRltDdoMapModel zpRltDdoMapModel) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
 		// createAdminOfficeService.findAllDdoMappedlist(messages);
