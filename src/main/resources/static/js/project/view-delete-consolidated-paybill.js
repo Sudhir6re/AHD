@@ -35,7 +35,7 @@ $("#btnSearch")
 					var urlCall;
 					
 					
-					urlCall="../moderator/findAllConsolidatedPaybillListWithoutFilter/"+yearName+"/"+monthName;
+					urlCall="../ddo/findAllConsolidatedPaybillListWithoutFilter/"+yearName+"/"+monthName;
 					
 				/*	if(schemeCode == "" || schemeCode == "0" || schemeCode == undefined){
 						alert("In findPayBillByMonthYear");
@@ -228,7 +228,7 @@ $('#ApproveBill').click(function() {
 				      type: "POST",
 				    //  contentType : 'application/json',
 				      dataType : 'json',
-				      url: "../moderator/approveBill/"+consolidatedId+"/"+userId,
+				      url: "../ddo/approveBill/"+consolidatedId+"/"+userId,
 				      async: true,
 				      error : function(data) {
 							console.log(data);
@@ -280,7 +280,7 @@ $('#btnForwardToBeams').click(function() {
 				      type: "POST",
 				      contentType : 'application/json',
 				      dataType : 'json',
-				      url: "../moderator/beams/frwdbilldatabeams/"+consolidatedId,
+				      url: "../ddo/beams/frwdbilldatabeams/"+consolidatedId,
 				      async: true,
 				      error : function(data) {
 							console.log(data);
@@ -356,7 +356,7 @@ $('body').on('click','.consolidatePayBillTrnId',function(){
 		 if (consolidatePayBillTrnId != '') {
 			 $.ajax({
 				 type : "GET",
-				 url : "../moderator/consolidatePayBillTrnReport/"+consolidatePayBillTrnId,
+				 url : "../ddo/consolidatePayBillTrnReport/"+consolidatePayBillTrnId,
 					 async : true,
 					 error : function(data) {
 						 console.log(data);
@@ -386,7 +386,7 @@ $('#btnDeleteBill')
 				$
 						.ajax({
 							type : "GET",
-							url : "../moderator/deleteConsolidateBill/"
+							url : "../ddo/deleteConsolidateBill/"
 									+ consPaybillGenerationTrnId, 
 							async : true,
 							contentType : 'application/json',

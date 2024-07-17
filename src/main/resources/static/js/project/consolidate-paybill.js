@@ -113,7 +113,7 @@ $("#btnSearch")
 						$
 								.ajax({
 									type : "GET",
-									url : "../moderator/getBillsForConsolidation/"
+									url : "../ddo/getBillsForConsolidation/"
 //											+ schemeCode
 //											+ "/"
 											+ billStatus
@@ -254,7 +254,7 @@ $("#btnConsolidatePaybill").click(
 			    if(paybillGenerationTransactionIdArr.length>0){
 			    	$.ajax({
 						type : "GET",
-						url : "../moderator/saveConsolidated/"  + statusArr + "/" + monthName
+						url : "../ddo/saveConsolidated/"  + statusArr + "/" + monthName
 								+ "/" + yearName + "/"
 								+ paybillGenerationTransactionIdArr+"/" + ddoCodeArr + "/" + grossAmtAr +"/" + netAmtAr +"/"+userId,
 						async : false,

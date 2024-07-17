@@ -11,7 +11,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.mahait.gov.in.common.CommonHelper;
+import com.mahait.gov.in.common.JsonResponseHelper;
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
@@ -251,81 +255,60 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 		return commonHomeMethodsRepo.findBankName();
 	}
 
-
-
 	@Override
 	public List<MstDistrictModel> lstGetAllDistrict() {
-		
+
 		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllDistrict();
 		List<MstDistrictModel> lstObj = new ArrayList<>();
-        if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	MstDistrictModel obj = new MstDistrictModel();
-                obj.setDistrictId(StringHelperUtils.isNullBigInteger(objLst[0]).toString());
-               
-                obj.setDistrictName(StringHelperUtils.isNullString(objLst[1]));
-                obj.setDistrictCode(StringHelperUtils.isNullString(objLst[2]));
-                
-                lstObj.add(obj);
-            }
-        }
-        return lstObj;
-	}
-/*
-	@Override
-	public List<MstTalukaModel> lstGetAllTaluka() {
-		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllTaluka();
-		List<MstTalukaModel> lstObj = new ArrayList<>();
-        if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	MstTalukaModel obj = new MstTalukaModel();
-                obj.setTalukaId(StringHelperUtils.isNullInt(objLst[0]));
-               
-                obj.setTalukaName(StringHelperUtils.isNullString(objLst[1]));
-                obj.setTalukaCode(StringHelperUtils.isNullInt(objLst[2]));
-                
-                lstObj.add(obj);
-            }
-        }
-        return lstObj;
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				MstDistrictModel obj = new MstDistrictModel();
+				obj.setDistrictId(StringHelperUtils.isNullBigInteger(objLst[0]).toString());
+
+				obj.setDistrictName(StringHelperUtils.isNullString(objLst[1]));
+				obj.setDistrictCode(StringHelperUtils.isNullString(objLst[2]));
+
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
 	}
 
-	@Override
-	public List<MstvillageModel> lstGetAllVillage() {
-		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllVillage();
-		List<MstvillageModel> lstObj = new ArrayList<>();
-        if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	MstvillageModel obj = new MstvillageModel();
-                obj.setVillageId(StringHelperUtils.isNullInt(objLst[0]));
-               
-                obj.setVillageName(StringHelperUtils.isNullString(objLst[1]));
-                obj.setVillageCode(StringHelperUtils.isNullInt(objLst[2]));
-                
-                lstObj.add(obj);
-            }
-        }
-        return lstObj;
-	}
-
-	@Override
-	public List<MstcityModel> lstGetAllCity() {
-		List<Object[]> lstprop = commonHomeMethodsRepo.lstGetAllCity();
-		List<MstcityModel> lstObj = new ArrayList<>();
-        if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	MstcityModel obj = new MstcityModel();
-                obj.setCityId(StringHelperUtils.isNullInt(objLst[0]));
-               
-                obj.setCityName(StringHelperUtils.isNullString(objLst[1]));
-                obj.setCityCode(StringHelperUtils.isNullInt(objLst[2]));
-                obj.setCityClass(StringHelperUtils.isNullString(objLst[3]));
-                
-                lstObj.add(obj);
-            }
-        }
-        return lstObj;
-	}*/
+	/*
+	 * @Override public List<MstTalukaModel> lstGetAllTaluka() { List<Object[]>
+	 * lstprop = commonHomeMethodsRepo.lstGetAllTaluka(); List<MstTalukaModel>
+	 * lstObj = new ArrayList<>(); if (!lstprop.isEmpty()) { for (Object[] objLst :
+	 * lstprop) { MstTalukaModel obj = new MstTalukaModel();
+	 * obj.setTalukaId(StringHelperUtils.isNullInt(objLst[0]));
+	 * 
+	 * obj.setTalukaName(StringHelperUtils.isNullString(objLst[1]));
+	 * obj.setTalukaCode(StringHelperUtils.isNullInt(objLst[2]));
+	 * 
+	 * lstObj.add(obj); } } return lstObj; }
+	 * 
+	 * @Override public List<MstvillageModel> lstGetAllVillage() { List<Object[]>
+	 * lstprop = commonHomeMethodsRepo.lstGetAllVillage(); List<MstvillageModel>
+	 * lstObj = new ArrayList<>(); if (!lstprop.isEmpty()) { for (Object[] objLst :
+	 * lstprop) { MstvillageModel obj = new MstvillageModel();
+	 * obj.setVillageId(StringHelperUtils.isNullInt(objLst[0]));
+	 * 
+	 * obj.setVillageName(StringHelperUtils.isNullString(objLst[1]));
+	 * obj.setVillageCode(StringHelperUtils.isNullInt(objLst[2]));
+	 * 
+	 * lstObj.add(obj); } } return lstObj; }
+	 * 
+	 * @Override public List<MstcityModel> lstGetAllCity() { List<Object[]> lstprop
+	 * = commonHomeMethodsRepo.lstGetAllCity(); List<MstcityModel> lstObj = new
+	 * ArrayList<>(); if (!lstprop.isEmpty()) { for (Object[] objLst : lstprop) {
+	 * MstcityModel obj = new MstcityModel();
+	 * obj.setCityId(StringHelperUtils.isNullInt(objLst[0]));
+	 * 
+	 * obj.setCityName(StringHelperUtils.isNullString(objLst[1]));
+	 * obj.setCityCode(StringHelperUtils.isNullInt(objLst[2]));
+	 * obj.setCityClass(StringHelperUtils.isNullString(objLst[3]));
+	 * 
+	 * lstObj.add(obj); } } return lstObj; }
+	 */
 	@Override
 	public Date findbillCreateDate(int billNumber) {
 		return commonHomeMethodsRepo.findbillCreateDate(billNumber);
@@ -426,28 +409,27 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	@Override
 	public List<MstDesnModel> findDesignation(String userName) {
 		// TODO Auto-generated method stub
-		//return commonHomeMethodsRepo.findDesignation(userName);
-		
+		// return commonHomeMethodsRepo.findDesignation(userName);
+
 		List<Object[]> lstprop = commonHomeMethodsRepo.findDesignation();
 		List<MstDesnModel> lstObj = new ArrayList<>();
-        if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	MstDesnModel obj = new MstDesnModel();
-                obj.setDesignationId(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[0]).toString()));
-                obj.setDesignationCode(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[1]).toString()));
-                obj.setDesignation(StringHelperUtils.isNullString(objLst[2]));
-                obj.setDesgShortName(StringHelperUtils.isNullString(objLst[3]));
-                obj.setIsActive(StringHelperUtils.isNullChar(objLst[4]));
-                if(objLst[5]!=null)
-                {
-                	
-                obj.setCadreName(StringHelperUtils.isNullString(objLst[5]));
-                }
-                lstObj.add(obj);
-            }
-        }
-        return lstObj;
-		
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				MstDesnModel obj = new MstDesnModel();
+				obj.setDesignationId(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[0]).toString()));
+				obj.setDesignationCode(Long.valueOf(StringHelperUtils.isNullBigInteger(objLst[1]).toString()));
+				obj.setDesignation(StringHelperUtils.isNullString(objLst[2]));
+				obj.setDesgShortName(StringHelperUtils.isNullString(objLst[3]));
+				obj.setIsActive(StringHelperUtils.isNullChar(objLst[4]));
+				if (objLst[5] != null) {
+
+					obj.setCadreName(StringHelperUtils.isNullString(objLst[5]));
+				}
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+
 	}
 
 	@Override
@@ -476,8 +458,8 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 			for (Object[] objLst : lstprop) {
 				CmnLookupMst obj = new CmnLookupMst();
 				obj.setLookupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
-                obj.setLookupName(StringHelperUtils.isNullString(objLst[1]));
-				
+				obj.setLookupName(StringHelperUtils.isNullString(objLst[1]));
+
 				lstObj.add(obj);
 			}
 		}
@@ -487,7 +469,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	public List<MstYearEntity> lstGetAllYears() {
 		return commonHomeMethodsRepo.lstGetAllYears();
 	}
-	
+
 	@Override
 	public List<Object[]> findyearinfo(BigInteger yearcurr) {
 		return commonHomeMethodsRepo.findyearinfo(yearcurr);
@@ -497,14 +479,31 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	public List<Object[]> findDetailsBillNumber(int billNumber) {
 		return commonHomeMethodsRepo.findDetailsBillNumber(billNumber);
 	}
-	
+
 	@Override
 	public List<Object[]> findmonthinfo(BigInteger month) {
 		return commonHomeMethodsRepo.findmonthinfo(month);
 	}
-	
+
 	@Override
 	public String getOffice(String userName) {
 		return commonHomeMethodsRepo.getOffice(userName);
+	}
+
+	@Override
+	public List<BillStatusMstEntity> lstGetAllBillStatusForConsolidatePaybill() {
+		return commonHomeMethodsRepo.lstGetAllBillStatusForConsolidatePaybill();
+	}
+
+	@Override
+	public String getBillsForConsolidation(String billStatus, Integer roleId, String userName, int parseInt,
+			int parseInt2) {
+		CommonHelper helper = new CommonHelper();
+		List<Object[]> lstprop = commonHomeMethodsRepo.getBillsForConsolidation(billStatus, roleId, userName, parseInt,
+				parseInt2);
+		Gson gson = new Gson();
+		String str = gson.toJson(helper.getBillsForConsolidationDataHelper(lstprop));
+		return JsonResponseHelper.getJSONResponseString(str);
+
 	}
 }
