@@ -66,13 +66,13 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 	}
 	
 	@Override
-	public List<Object[]> findPostLocationByDdoCode(Long ddoCode) {
+	public List<Object[]> findPostLocationByDdoCode(String ddoCode) {
 		String sql = "WITH ddo_info AS (" + "    SELECT post_id, LOCATION_CODE " + "    FROM org_ddo_mst "
 				+ "    WHERE DDO_CODE = :ddoCode " + ") " + "SELECT opd.POST_SHORT_NAME, clm.loc_name "
 				+ "FROM ORG_POST_DETAILS_RLT opd " + "JOIN ddo_info di ON opd.post_ID = di.post_id "
 				+ "JOIN CMN_LOCATION_MST clm ON clm.LOC_ID = cast(di.LOCATION_CODE as bigint)";
 		Query query = (Query) entityManager.createNativeQuery(sql);
-		query.setParameter("ddoCode", String.valueOf(ddoCode));
+		query.setParameter("ddoCode", ddoCode);
 		return query.getResultList();
 	}
 

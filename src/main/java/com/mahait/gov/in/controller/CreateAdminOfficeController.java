@@ -192,7 +192,7 @@ public class CreateAdminOfficeController {
 
 	@RequestMapping(value = "/fetchDdoDetails/{ddoCode}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Object[]>> fetchDdoDetails(@PathVariable Long ddoCode, HttpSession session) {
+	public ResponseEntity<List<Object[]>> fetchDdoDetails(@PathVariable String ddoCode, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
 		List<Object[]> lstZpRltDdoMapRlt = createAdminOfficeService.fetchDdoDetails(messages, ddoCode);

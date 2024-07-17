@@ -414,7 +414,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	}
 
 	@Override
-	public List<Object[]> fetchDdoDetails(OrgUserMst messages, Long ddoCode) {
+	public List<Object[]> fetchDdoDetails(OrgUserMst messages, String ddoCode) {
 		// TODO Auto-generated method stub
 		return createAdminOfficeRepo.findPostLocationByDdoCode(ddoCode);
 	}
@@ -503,5 +503,5 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	public  List<Object[]> employeeMappingList(String logUserId){
 		return createAdminOfficeRepo.employeeMappingList(logUserId);
 	}
-	
+
 }
