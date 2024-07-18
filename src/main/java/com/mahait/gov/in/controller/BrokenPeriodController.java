@@ -58,7 +58,7 @@ public class BrokenPeriodController {
 		// brokenPeriodModel.setDdoCode(BigInteger.valueOf(Long.valueOf(messages.getUserName())));
 		if (brokenPeriodModel.getAction() != null) {
 			if (brokenPeriodModel.getAction().equals("SEARCH_EMP")) {
-				brokenPeriodModel.setDdocode(messages.getUserName());
+				brokenPeriodModel.setDdocode(messages.getDdoCode());
 				List<BrokenPeriodResponseModel> brokenPeriodResponseModel = new ArrayList<BrokenPeriodResponseModel>();
 
 				brokenPeriodResponseModel = brokenPeriodService.brokenPeriod(brokenPeriodModel,
@@ -101,7 +101,7 @@ public class BrokenPeriodController {
 		
 		
 
-		model.addAttribute("ddoCode", messages.getUserName());
+		model.addAttribute("ddoCode", messages.getDdoCode());
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 
@@ -140,7 +140,7 @@ public class BrokenPeriodController {
 		hmInputParam.put("noOfDays", noOfDays);
 		hmInputParam.put("fromDate", fromDate);
 		hmInputParam.put("toDate", toDate);
-		hmInputParam.put("ddocode", messages.getUserName());
+		hmInputParam.put("ddocode", messages.getDdoCode());
 
 		List<BrokenPeriodResponseModel> brokenPeriodResponseModel = new ArrayList<BrokenPeriodResponseModel>();
 
@@ -238,7 +238,7 @@ public class BrokenPeriodController {
 		hmInputParam.put("fromDate", fromDate);
 		hmInputParam.put("toDate", toDate);
 		hmInputParam.put("basicForCalculation", basicForCalculation);
-		hmInputParam.put("ddocode",messages.getUserName().trim());
+		hmInputParam.put("ddocode",messages.getDdoCode().trim());
 
 		List<BrokenPeriodResponseModel> brokenPeriodResponseModel = new ArrayList<BrokenPeriodResponseModel>();
 

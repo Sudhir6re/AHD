@@ -760,7 +760,7 @@ $("#btnSearch")
 															
 															isActive = '<span class="label label-success text-center" data="'
 																	+ paybillGenerationTrnId
-																	+ '">Genearte Paybill Forwarded</span>';
+																	+ '">Forwarded</span>';
 														}
 														else if (status == 7) {
 															/*change1=paybillGenerationTrnId;

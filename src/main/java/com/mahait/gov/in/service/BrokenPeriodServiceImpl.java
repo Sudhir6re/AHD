@@ -143,24 +143,9 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				else
 					dedRuleList.add(allEdpList.get(i));
 
-				/*
-				 * if(allEdpList.get(i).getDeptallowdeducid()==36||allEdpList.get(i).
-				 * getDeptallowdeducid()==37||allEdpList.get(i).getDeptallowdeducid()==38||
-				 * allEdpList.get(i).getDeptallowdeducid()==39)
-				 * if(allEdpList.get(i).getDeptallowdeducid()!=82)
-				 * dedRuleList.add(allEdpList.get(i)); //deducAgEdpList.add(allEdpList.get(i));
-				 * //Deductions Adj. By CAFO/Supri./Admin. else
-				 * dedRuleList.add(allEdpList.get(i)) ;
-				 */ // deducTyEdpList.add(allEdpList.get(i)); //Adjust by Treasury
 			} else {
-				// if (allEdpList.get(i).getLOOKUP_ID().equals("2500383")) { //Deduction like
-				// fax
 				dedRuleList.add(allEdpList.get(i));// deducOthEdpList.add(allEdpList.get(i));
 			}
-			// if (allEdpList.get(i).getLOOKUP_ID().equals("2500381")) {
-			// deducTyEdpList.add(allEdpList.get(i));
-			// }
-			// }
 		}
 		// Dynamic Process end
 		// BrokenPeriodResponseModel bpResponseMode2 =new BrokenPeriodResponseModel();

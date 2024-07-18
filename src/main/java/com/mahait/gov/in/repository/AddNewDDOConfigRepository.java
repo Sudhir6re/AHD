@@ -1,6 +1,7 @@
 package com.mahait.gov.in.repository;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgEmpMst;
@@ -152,7 +154,7 @@ public class AddNewDDOConfigRepository {
 		
 			lLngLocId = getNextSeqNoLoc();
 		
-			lObjCmnLocationMst.setLocId(lLngLocId);
+		//	lObjCmnLocationMst.setLocId(lLngLocId);
 
 			lObjCmnLocationMst.setLocName(lStrLocationName);
 
@@ -177,8 +179,6 @@ public class AddNewDDOConfigRepository {
 			lObjCmnLocationMst.setLocDistrictId(distCode);
 			lObjCmnLocationMst.setLocStateId(15L);
 			 Long id =(Long) ghibSession.save(lObjCmnLocationMst);
-			
-			
 			
 			 CmnLocationMst save = ghibSession.get(CmnLocationMst.class, id);
 			
@@ -243,24 +243,40 @@ public class AddNewDDOConfigRepository {
 	}
 
 	public void insertEmpMst(Long lLngUserId, String lStrFname, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
-			String lStrGendr, OrgUserMst orgUserMst) {
+			String lStrGendr, OrgUserMst orgUserMst, String mobNo, String email) {
 		Session ghibSession = entityManager.unwrap(Session.class);     
-		Long lLngEmpId = null;
 			SimpleDateFormat lObjDateFormate = new SimpleDateFormat("dd/MM/yyyy");
 			Date lObjEmpDob = new Date("01/01/9999");
-
 			OrgGradeMst lObjOrgGradeMst =orgGradeMstRepository.findByGradeId(100064l); 
 			CmnLanguageMst lObjCmnLanguageMst = cmnLanguageMstRepository.findByLangId(1l);
 
 			OrgUserMst lObjOrgUserMst = orgUserMst;
 			OrgUserMst lObjOrgUserMstCrtd =userInfoRepoImpl.getUserByUserId(lLngUserId);
-
+		
 			OrgPostMst postId =orgUserMst.getCreatedByPost();
-
-			OrgEmpMst lObjEmpMst = new OrgEmpMst();
-			// lLngEmpId = IFMSCommonServiceImpl.getNextSeqNum("org_emp_mst", inputMap);
-			//lLngEmpId = getNextSeqNoLocForEmpMst();
-			//lObjEmpMst.setEmpId(lLngEmpId);
+			MstEmployeeEntity mstEmployeeEntity=new MstEmployeeEntity();
+			mstEmployeeEntity.setEmployeeFullNameEn(lStrFname);
+			mstEmployeeEntity.setEmployeeFNameEn(lStrFname);
+			mstEmployeeEntity.setGender(lStrGendr.charAt(0));
+			mstEmployeeEntity.setDob(lObjEmpDob);
+			mstEmployeeEntity.setDtJoinCurrentPost(new Date());
+			mstEmployeeEntity.setMobileNo1(Long.valueOf(mobNo));
+			mstEmployeeEntity.setEmailId(email);
+			mstEmployeeEntity.setUserId(new BigInteger(lLngUserId.toString()));
+			mstEmployeeEntity.setPostdetailid(lLngUserId);
+			mstEmployeeEntity.setCreatedDate(new Date());
+			//mstEmployeeEntity.setGradePay(100064l);
+			if (lStrGendr.equals("M")) {
+				mstEmployeeEntity.setSalutation(1);
+			} else if (lStrGendr.equals("F")) {
+				mstEmployeeEntity.setSalutation(1);
+			}
+			
+			mstEmployeeEntity.setIsActive(1);
+			
+			ghibSession.save(mstEmployeeEntity);
+			
+			/*OrgEmpMst lObjEmpMst = new OrgEmpMst();
 
 			lObjEmpMst.setEmpFname(lStrFname);
 
@@ -288,11 +304,10 @@ public class AddNewDDOConfigRepository {
 			} else if (lStrGendr.equals("F")) {
 				lObjEmpMst.setEmpPrefix("Ms");
 			}
+			
 
 			ghibSession.save(lObjEmpMst);
-			ghibSession.flush();
-		
-	}
+*/	}
 
 	public OrgPostMst insertOrgPostMst(Long lLngPostId, String lStrLocationCode, Long lLngUserIdCrtd, Long lLngPostIdCrtd,
 			String lStrDsgnCode, OrgUserMst orgUserMst) {
@@ -318,7 +333,7 @@ public class AddNewDDOConfigRepository {
 			Long id =(Long) ghibSession.save(lObjOrgPostMst);
 			
 			
-			OrgPostMst save = ghibSession.get(OrgPostMst.class, id);
+			OrgPostMst save = ghibSession.get(OrgPostMst.class, lLngPostId);
 			
 			return save; 
 		
@@ -435,14 +450,12 @@ public class AddNewDDOConfigRepository {
 	
 	
 	public void insertOrgDdoMst(String lStrDdoCode, String lStrDdoName, String lStrDdoPrsnlName, Long lLngPostId,
-			Long lLngUserIdCrtd, String lStrLocationCode, Long lLngPostIdCrtd, String lstrDeptLocCode, OrgUserMst orgUserMst)
+			Long lLngUserIdCrtd, String lStrLocationCode, Long lLngPostIdCrtd, String lstrDeptLocCode, String lstrDdoType, String lstrDept_Code, String lstrHOD_Code, String lstrDeptType, OrgUserMst orgUserMst, Long desginationId, String lStrDesgnName, String lStrDdoOfficeName)
 			 {
 		Session ghibSession = entityManager.unwrap(Session.class);     
 		Long lLndDdoId = null;
 		try {
 			OrgDdoMst lObjOrgDdoMst = new OrgDdoMst();
-			//lLndDdoId = IFMSCommonServiceImpl.getNextSeqNum("org_ddo_mst", inputMap);
-			//lObjOrgDdoMst.setDdoId(lLndDdoId);
 			lObjOrgDdoMst.setDdoCode(lStrDdoCode);
 			lObjOrgDdoMst.setDdoName(lStrDdoName);
 			lObjOrgDdoMst.setDdoPersonalName(lStrDdoPrsnlName);
@@ -454,6 +467,10 @@ public class AddNewDDOConfigRepository {
 			lObjOrgDdoMst.setCreatedDate(new Timestamp(new Date().getTime()));
 			lObjOrgDdoMst.setDbId((short)99);
 			lObjOrgDdoMst.setLocationCode(lStrLocationCode);
+			lObjOrgDdoMst.setDdoOffice(lStrDdoOfficeName);
+			lObjOrgDdoMst.setHodLocCode(lstrHOD_Code);
+			lObjOrgDdoMst.setDsgnCode(desginationId.toString());
+			lObjOrgDdoMst.setDsgnName(lStrDesgnName);
 			ghibSession.save(lObjOrgDdoMst);
 			ghibSession.flush();
 		} catch (Exception e) {
@@ -975,8 +992,6 @@ public class AddNewDDOConfigRepository {
 
 	// added by vaibhav tyagi: start
 	public synchronized Long getNextSeqNoLoc() {
-		
-		
 	return 	cmnLocationMstRepository.findMaxLocId()+1;
 		/*
 	}
@@ -1275,13 +1290,11 @@ public List retriveDepts(String OfcCode)
 
 		public void insertOrgDdoMst(String lStrDdoCode, String lStrDdoName, String lStrDdoPersonalName, Long lLngPostId,
 				Long gLngUserId, String lStrLocCode, Long gLngPostId, String string, String lstrDdoType,
-				String lstrDept_Code, String lstrHOD_Code, String lstrDeptType, OrgUserMst messages) {
+				String lstrDept_Code, String lstrHOD_Code, String lstrDeptType, OrgUserMst messages, Long desginationId, String lStrDesgnName) {
 			Long lLndDdoId = null;
 			try {
 				Session ghibSession = entityManager.unwrap(Session.class);     
 				OrgDdoMst lObjOrgDdoMst = new OrgDdoMst();
-				//lLndDdoId = IFMSCommonServiceImpl.getNextSeqNum("org_ddo_mst", inputMap);
-				//lObjOrgDdoMst.setDdoId(lLndDdoId);
 				lObjOrgDdoMst.setDdoCode(lStrDdoCode);
 				lObjOrgDdoMst.setDdoName(lStrDdoName);
 				lObjOrgDdoMst.setDdoPersonalName(lStrDdoPersonalName);
@@ -1289,10 +1302,13 @@ public List retriveDepts(String OfcCode)
 				lObjOrgDdoMst.setLangId((short)1);
 				lObjOrgDdoMst.setDeptLocCode(lstrDept_Code);
 				lObjOrgDdoMst.setCreatedBy(messages.getUserId());
-				lObjOrgDdoMst.setCreatedByPost(messages.getCreatedByPost().getPostId());
+				lObjOrgDdoMst.setCreatedByPost(messages.getUserId());
 				lObjOrgDdoMst.setCreatedDate(new Timestamp(new Date().getTime()));
 				lObjOrgDdoMst.setDbId((short)99);
 				lObjOrgDdoMst.setLocationCode(lStrLocCode);
+				lObjOrgDdoMst.setDsgnCode(desginationId.toString());
+				lObjOrgDdoMst.setDsgnName(lStrDesgnName);
+				lObjOrgDdoMst.setHodLocCode(lstrHOD_Code);
 				ghibSession.save(lObjOrgDdoMst);
 				//ghibSession.flush();
 			} catch (Exception e) {
@@ -1342,9 +1358,6 @@ public List retriveDepts(String OfcCode)
 				String branchQuery = "SELECT POST_ID FROM ORG_DDO_MST where DDO_CODE="+DDOCode;
 				Query sqlQuery= ghibSession.createSQLQuery(branchQuery);
 				temp= sqlQuery.list();
-
-
-
 			}
 			catch(Exception e){
 				e.printStackTrace();

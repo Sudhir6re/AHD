@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
@@ -87,6 +88,13 @@ public interface CommonHomeMethodsService {
 	public List<Object[]> findmonthinfo(BigInteger bigInteger);
 
 	public String getOffice(String ddoCode);
+
+	public  List<BillStatusMstEntity>  lstGetAllBillStatusForConsolidatePaybill();
+
+	public String getBillsForConsolidation(String billStatus, Integer roleId, String userName, int parseInt,
+			int parseInt2);
+	
+	
 	
 	
 

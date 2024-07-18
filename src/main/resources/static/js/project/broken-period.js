@@ -558,8 +558,8 @@ function saveBrokenPrdData()
 			}
 			else
 			{
-				deductionCodes = deductionCodes + document.getElementById("dedectionscode"+lInt+counter).value + ":";
-				deductionValues = deductionValues + document.getElementById("dedections"+lInt+counter).value + ":";
+				deductionCodes = deductionCodes + document.getElementById("dedectionscode"+lInt+counter).value + "0";
+				deductionValues = deductionValues + document.getElementById("dedections"+lInt+counter).value + "0";
 			}
 		}
 	}
@@ -583,7 +583,7 @@ function saveBrokenPrdData()
 //				},
 //		        onFailure: function(){ alert('Something went wrong...');} 
 //		          } );
-	
+	//saveBrokenPeriodPay/MJPRDMM6601/2/2024-01-01~/2024-01-31~/31~/1/25/156600~/7:14:17:207:~/0:0:42282:72036:~/270918~/Others~/testing~/newBasic~/06130900012
 	$
 	.ajax({
 		type : "GET",

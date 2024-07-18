@@ -90,19 +90,10 @@ public class EntryOfPostsController {
 			if (ddoCodeList.size() > 0)
 				ddoCode = ddoCodeList.get(0).getDdoCode();
 
-			locationList = entryOfPostsService.getSubLocationDDOs(loggedInPostId);
-			String locationcodeArray = "'";
-			if (locationList != null && locationList.size() > 0) {
-				for (int i = 0; i < locationList.size(); i++) {
-					if (i == 0)
-						locationcodeArray += locationList.get(i).toString() + '\'';
-					else {
-						locationcodeArray += ",'" + locationList.get(i).toString() + "'";
-					}
-				}
-			}
-
-			List filterDdoCode = entryOfPostsService.getFilterDdoCode(locationcodeArray);
+			List filterDdoCode = entryOfPostsService.findLevel1DddoByDdoCode(ddoCode);
+			
+			
+			
 			model.addAttribute("ddoCode", ddoCode);
 			model.addAttribute("filterDdoCode", filterDdoCode);
 
@@ -112,7 +103,7 @@ public class EntryOfPostsController {
 			String BillNo = "";
 			String Dsgn = "";
 			String ddoCode1 = "";
-			List getPostNameForDisplay = entryOfPostsService.getPostNameForDisplay(String.valueOf(locId), lPostName,
+			List getPostNameForDisplay = entryOfPostsService.getPostNameForDisplay(messages.getDdoCode(), lPostName,
 					PsrNo, BillNo, Dsgn, ddoCode1);
 
 			model.addAttribute("getPostNameForDisplay", getPostNameForDisplay);
@@ -148,7 +139,12 @@ public class EntryOfPostsController {
 			if (ddoCodeList.size() > 0)
 				ddoCode = ddoCodeList.get(0).getDdoCode();
 
-			model.addAttribute("DDOlist", DDOdtls);
+			//model.addAttribute("DDOlist", DDOdtls);
+			
+			
+			List filterDdoCode = entryOfPostsService.findLevel1DddoByDdoCode(ddoCode);
+			model.addAttribute("DDOlist", filterDdoCode);
+			
 
 			List branchList_en = entryOfPostsService.getAllBranchList(1L);
 			model.addAttribute("Branch", branchList_en);
@@ -167,8 +163,8 @@ public class EntryOfPostsController {
 
 			// List<OrgDdoMst> ddoCodeList =
 			// entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
-
-			model.addAttribute("filterDdoCodes", ddoCodeList);
+			
+		
 
 			Long lLngFieldDept = Long.parseLong(ddoCodeList.get(0).getHodLocCode());
 
@@ -176,14 +172,7 @@ public class EntryOfPostsController {
 
 			model.addAttribute("Designation", desgList);
 
-			// List DDOdtls = entryOfPostsService.getSubDDOsOffc(loggedInPostId, talukaId,
-			// ddoSelected);
-
-			// int i = 0;
-			// while (i < DDOdtls.size()) {
-			// i++;
-			// }
-			// model.addAttribute("DDOlist", DDOdtls);
+		
 			List<Object[]> subList = entryOfPostsService.getSubjectList();
 			model.addAttribute("SubjectList", subList);
 			model.addAttribute("subOfficeList", subOfficeList);
@@ -309,9 +298,11 @@ public class EntryOfPostsController {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List> searchPostDetails(@RequestParam String lPostName, @RequestParam String BillNo,
 			@RequestParam String ddoCode1, @RequestParam String Dsgn, HttpSession session) {
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
 		String PsrNo = "";
-		List getPostNameForDisplay = entryOfPostsService.getPostNameForDisplay(String.valueOf(locId), lPostName, PsrNo,
+		List getPostNameForDisplay = entryOfPostsService.getPostNameForDisplay(messages.getDdoCode(), lPostName, PsrNo,
 				BillNo, Dsgn, ddoCode1);
 		return ResponseEntity.ok(getPostNameForDisplay);
 	}

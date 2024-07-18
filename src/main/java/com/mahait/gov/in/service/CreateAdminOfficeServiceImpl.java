@@ -121,8 +121,10 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		String lstrSpecialDDOCode=zpRltDdoMapModel.getTxtSpecialDDOCode();
 		String lstrLevel=zpRltDdoMapModel.getRadioFinalLevel();
 		String lStrDdoPersonalName=zpRltDdoMapModel.getTxtDDOName();
-
-		Long lLngDesignID =1l; //Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- It will Change in future
+		
+		
+		Long desginationId=zpRltDdoMapModel.getDesginationId();
+		Long lLngDesignID =desginationId; //Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- It will Change in future
 		Long lLngAdminDept=0l;
 	
 		/*if(StringUtility.getParameter("cmbDept", request).trim()!=null){
@@ -141,8 +143,11 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		lStrDdoCode=lStrDdoCode;
 		
 		
-		lStrDdoCode=lStrDdoCode;;
 		
+		
+		lStrDdoCode=lStrDdoCode;;
+		String mobNo=zpRltDdoMapModel.getTxtMobileNo();
+		String email=zpRltDdoMapModel.getTxtEmailId();
 		Long lLngLocPin = 1l;//Long.parseLong(StringUtility.getParameter("1", request).trim());// TODO -- Need Change Temporary "1" is added.  
 
 		
@@ -165,7 +170,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		Long lLngUserId =orgUserMst.getUserId();
 		Long lLngPostId = new Long(lLngUserId);
 
-		objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages);
+		objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages,mobNo,email);
 
 		OrgPostMst newOrgPostMst=objZpDDOOfficeMstDAOImpl.insertOrgPostMst(lLngPostId, lStrLocCode, gLngUserId, gLngPostId, lLngDesignID.toString(), messages);
 
@@ -194,7 +199,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 			lstrDeptType=DeptCode.get(0).toString();
 
 		String lstrAdminDeptType=null;
-		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,messages);
+		objZpDDOOfficeMstDAOImpl.insertOrgDdoMst(lStrDdoCode, lStrDdoName, lStrDdoPersonalName, lLngPostId, gLngUserId, lStrLocCode, gLngPostId, lLngAdminDept.toString(),lstrDdoType,lstrDept_Code,lstrHOD_Code,lstrDeptType,messages,desginationId,lStrDesgnName,lStrDdoOfficeName);
 
 		String uniqeInstituteId=objZpDDOOfficeMstDAOImpl.generateUniqeInstituteId(lStrDdoCode,lLngDistrictCode.toString(), messages);
 		objZpDDOOfficeMstDAOImpl.insertMstDcpsDdoOffice(lStrDdoCode, lStrDdoOfficeName, lLngDistrictCode.toString(), Long.parseLong(lStrLocCode), gLngUserId, gLngPostId, messages,uniqeInstituteId);
@@ -412,38 +417,57 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	}
 
 	@Override
-	public List<Object[]> fetchDdoDetails(OrgUserMst messages, Long ddoCode) {
+	public List<Object[]> fetchDdoDetails(OrgUserMst messages, String ddoCode) {
 		// TODO Auto-generated method stub
-		return createAdminOfficeRepo.findPostLocationByDdoCode(ddoCode);
+		List<Object[]> lst=createAdminOfficeRepo.findPostLocationByDdoCode(ddoCode);
+		for(Object[] obj:lst) {
+			if (obj[0] instanceof String) {
+	        String firstElement = (String) obj[0];
+	        if (firstElement.equals("1;") || firstElement.equals("1")) {
+	            String dsgDtl = "1";
+	            Long dsg = Long.valueOf(dsgDtl);
+	            dsgDtl = (dsg <= 2) ? "BEO" : "Superintendent"; 
+	            obj[0] = dsgDtl;
+	        }
+	    }
+		}
+		return lst;
 	}
 
 	public String generateDDOCode(String AdminOfc, String SubTOCode) {
+		 boolean foundUniqueCode = false;
+		    int attempt = 1;
+		String FinalpreFixed="";
+		do {
+			String CreatedDDOCode = AdminOfc;
+			CreatedDDOCode += SubTOCode;
+			List getCountCode = createAdminOfficeRepo.getCountofDDOCode(CreatedDDOCode);
+			//String FinalpreFixed = "";
+			String suffix = "";
+			String midfix = "";
+			if (getCountCode.get(0) != null) {
+				Long temp = Long.parseLong(getCountCode.get(0).toString()) + attempt;
+				suffix = temp.toString();
+			}
+			if (suffix.length() == 1)
+				midfix = "0000";
+			else if (suffix.length() == 2)
+				midfix = "000";
+			else if (suffix.length() == 3)
+				midfix = "00";
+			else if (suffix.length() == 4)
+				midfix = "0";
 
-	//	List getOfcCode = createAdminOfficeRepo.getAdminOfcCode(AdminOfc);
-		//String AOfcCode = getOfcCode.get(0).toString();
-		String CreatedDDOCode = AdminOfc;
-		CreatedDDOCode += SubTOCode;
-		List getCountCode = createAdminOfficeRepo.getCountofDDOCode(CreatedDDOCode);
-		String FinalpreFixed = "";
-		String suffix = "";
-		String midfix = "";
-		if (getCountCode.get(0) != null) {
-			Long temp = Long.parseLong(getCountCode.get(0).toString()) + 1;
-			suffix = temp.toString();
-		}
-		if (suffix.length() == 1)
-			midfix = "0000";
-		else if (suffix.length() == 2)
-			midfix = "000";
-		else if (suffix.length() == 3)
-			midfix = "00";
-		else if (suffix.length() == 4)
-			midfix = "0";
-
-		FinalpreFixed = CreatedDDOCode + midfix + suffix;
+			FinalpreFixed = CreatedDDOCode + midfix + suffix;
+	        if (ddoCodeAlreadyExists(FinalpreFixed) == 0) {
+	            foundUniqueCode = true;
+	        } else {
+	            attempt++;
+	        }
+		} while (!foundUniqueCode);
 		return FinalpreFixed;
-
 	}
+
 
 	@Override
 	public Map<String, Object> findTrasuryDetails(String DDOCode) {
@@ -485,22 +509,17 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		return createAdminOfficeRepo.findByDsgnNameIgnoreCaseContaining(desgn);
 	}
 
-	
-	
 	@Override
 	public  List<Object[]> lstAllDepartment(){
 		return createAdminOfficeRepo.lstAllDepartment();
 	}
 
-//	@Override
-//	public List<Object[]> employeeMappingList(String userName) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//	
 	@Override
 	public  List<Object[]> employeeMappingList(String logUserId){
 		return createAdminOfficeRepo.employeeMappingList(logUserId);
 	}
-	
+
+	private int ddoCodeAlreadyExists(String level1DdoCode) {
+		return createAdminOfficeRepo.ddoCodeAlreadyExists(level1DdoCode);
+	}
 }
