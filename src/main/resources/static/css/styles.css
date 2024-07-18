@@ -88,3 +88,10 @@ display: inline-block;
     text-align: center;
     vertical-align: middle ! IMPORTANT;
 }
+a {
+    color: #cc6306 ! IMPORTANT;
+}
+.bor-col, .bor-col>tbody, .bor-col>tbody>tr, .bor-col>tbody>tr>td {
+    border-left: none !important;
+    border-right: none !important;
+}
