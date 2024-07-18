@@ -1,6 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -299,7 +300,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 		for (MstEmployeeEntity mstEmployeeEntity2 : mstEmployeeEntity) {
 
-			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId(),
+			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId().trim(),
 					String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
 					String.valueOf(paybillHeadMpgModel.getPaybillYear()));
 
@@ -350,7 +351,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					int netpay = 0;
 					int allowdedcode = 0;
 					List<Object[]> lstBrokenPeriodData = paybillHeadMpgRepo.getBrokenPeriodData(
-							mstEmployeeEntity2.getSevaarthId().toString(),
+							mstEmployeeEntity2.getSevaarthId().toString().trim(),
 							String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
 							String.valueOf(paybillHeadMpgModel.getPaybillYear()),
 							paybillHeadMpgModel.getDdoCode().trim());
@@ -374,7 +375,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_PT_CODE) != null) {
-						paybillGenerationTrnDetails.setPt((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setPt((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_PT_CODE)).intValue());
 						// grossAmount+=paybillGenerationTrnDetails.getSvnDA();
 						pt = paybillGenerationTrnDetails.getPt();
@@ -386,7 +387,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 						if (hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_HRA_CODE) != null) {
-							paybillGenerationTrnDetails.setHra((double) ((BigInteger) hmAllowDeducCodeAndValues
+							paybillGenerationTrnDetails.setHra((double) ((BigDecimal) hmAllowDeducCodeAndValues
 									.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_HRA_CODE)).intValue());
 							// grossAmount+=paybillGenerationTrnDetails.getSvnDA();
 							hra = paybillGenerationTrnDetails.getHra();
@@ -398,7 +399,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					else if (payCommission == 2) {
 						if (hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_HRA_CODE) != null) {
-							paybillGenerationTrnDetails.setHra((double) ((BigInteger) hmAllowDeducCodeAndValues
+							paybillGenerationTrnDetails.setHra((double) ((BigDecimal) hmAllowDeducCodeAndValues
 									.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_HRA_CODE)).intValue());
 							// grossAmount+=paybillGenerationTrnDetails.getSvnDA();
 							hra = paybillGenerationTrnDetails.getHra();
@@ -423,20 +424,20 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// 7PC DA
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_DA_CODE) != null) {
-						paybillGenerationTrnDetails.setSvnDA((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setSvnDA((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_DA_CODE)).intValue());
 						svnDA = paybillGenerationTrnDetails.getSvnDA();
 					}
 					// Additional Pay
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_ADD_PAY_CODE) != null) {
-						paybillGenerationTrnDetails.setAddPay((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setAddPay((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_ADD_PAY_CODE)).intValue());
 					}
 					// Basic Arrear
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BASIC_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setBasicArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setBasicArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BASIC_ARR_CODE)).intValue());
 						basicArr = paybillGenerationTrnDetails.getBasicArr();
 					}
@@ -444,14 +445,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// CLA-5thPay
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE) != null) {
-						paybillGenerationTrnDetails.setCla((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setCla((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE)).intValue());
 						cla = paybillGenerationTrnDetails.getCla();
 					}
 					// Conveyance Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CONVEY_ALLOW_CODE) != null) {
-						paybillGenerationTrnDetails.setConveyAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setConveyAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CONVEY_ALLOW_CODE))
 										.intValue());
 						conveyAllow = paybillGenerationTrnDetails.getConveyAllow();
@@ -459,14 +460,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// DA Arrears
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setDaArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setDaArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE)).intValue());
 						DaArr = paybillGenerationTrnDetails.getDaArr();
 					}
 					// DA On TA
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_DA_on_TA_CODE) != null) {
-						paybillGenerationTrnDetails.setDaOnTA((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setDaOnTA((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_DA_on_TA_CODE)).intValue());
 						DaOnTA = paybillGenerationTrnDetails.getDaOnTA();
 					}
@@ -481,23 +482,24 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAY_AND_ALLOWANCES_ARREARS_CODE) != null) {
 						paybillGenerationTrnDetails
-								.setPayAndAllowancesArrears((double) ((BigInteger) hmAllowDeducCodeAndValues
+								.setPayAndAllowancesArrears((double) ((BigDecimal) hmAllowDeducCodeAndValues
 										.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAY_AND_ALLOWANCES_ARREARS_CODE))
 												.intValue());
 						payandallarr = paybillGenerationTrnDetails.getPayAndAllowancesArrears();
 					}
 
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_CODE) != null) {
-						paybillGenerationTrnDetails.setDa((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_CODE)).intValue());
+					/*if (hmAllowDeducCodeAndValues
+							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE) != null) {
+						paybillGenerationTrnDetails.setFamilyPlanAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE))
+								.intValue());;
 						da = paybillGenerationTrnDetails.getDa();
-					}
+					}*/
 
 					// DCPS Employer Contribution
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMPONENT_DCPS_EMPLOYER_CODE) != null) {
-						paybillGenerationTrnDetails.setDcpsEmployer((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setDcpsEmployer((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMPONENT_DCPS_EMPLOYER_CODE)).intValue());
 					} else {
 						if (paybillHeadMpgModel.getPaybillYear() >= 20 && paybillHeadMpgModel.getPaybillMonth() >= 8) {
@@ -506,11 +508,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							paybillGenerationTrnDetails.setDcpsEmployer((double) (basicpay + da + svnDA * 10 / 100));
 						}
 					}
-
 					// Dearness Pay
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DP_CODE) != null) {
-						paybillGenerationTrnDetails.setDearnessPay((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setDearnessPay((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DP_CODE)).intValue());
 						dearnessPay = paybillGenerationTrnDetails.getDearnessPay();
 					}
@@ -518,27 +519,27 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Family Planning Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE) != null) {
-						paybillGenerationTrnDetails.setFamilyPlanAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setFamilyPlanAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE)).intValue());
 					}
 					// Hilly Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HA_CODE) != null) {
-						paybillGenerationTrnDetails.setHillStatAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setHillStatAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HA_CODE)).intValue());
 						grossAmount += paybillGenerationTrnDetails.getHillStatAllow();
 					}
 					// House Rent Allowance (H.R.A)
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_HRA_CODE) != null) {
-						paybillGenerationTrnDetails.setHra((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setHra((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_HRA_CODE)).intValue());
 						hra = paybillGenerationTrnDetails.getHra();
 					}
 					// Non-Computational HRA
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NCA_CODE) != null) {
-						paybillGenerationTrnDetails.setNonCompHRA((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNonCompHRA((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NCA_CODE)).intValue());
 						grossAmount += paybillGenerationTrnDetails.getNonCompHRA();
 
@@ -546,20 +547,20 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Overtime Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTA_CODE) != null) {
-						paybillGenerationTrnDetails.setOTA((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setOTA((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTA_CODE)).intValue());
 					}
 					// Non-Practising Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPA_CODE) != null) {
-						paybillGenerationTrnDetails.setNonPractAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNonPractAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPA_CODE)).intValue());
 						grossAmount += paybillGenerationTrnDetails.getNonPractAllow();
 					}
 					// Transport Allowance (T.A)
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE_CODE) != null) {
-						paybillGenerationTrnDetails.setTa((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setTa((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE_CODE))
 										.intValue());
 						ta = paybillGenerationTrnDetails.getTa();
@@ -567,7 +568,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Transport Allowance Arrears
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANS_ALLOW_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setTransAllowArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setTransAllowArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANS_ALLOW_ARR_CODE))
 										.intValue());
 						transAllowArr = paybillGenerationTrnDetails.getTransAllowArr();
@@ -575,7 +576,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Tribal Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRIBAL_ALLOW_CODE) != null) {
-						paybillGenerationTrnDetails.setTribalAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setTribalAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRIBAL_ALLOW_CODE))
 										.intValue());
 						tribalAllow = paybillGenerationTrnDetails.getTribalAllow();
@@ -583,14 +584,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Uniform Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_UNIFORM_ALLOWANCE_CODE) != null) {
-						paybillGenerationTrnDetails.setUniformAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setUniformAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_UNIFORM_ALLOWANCE_CODE))
 										.intValue());
 					}
 					// Washing Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_WASHING_ALLOWANCE_CODE) != null) {
-						paybillGenerationTrnDetails.setWa((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setWa((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_WASHING_ALLOWANCE_CODE))
 										.intValue());
 						grossAmount += paybillGenerationTrnDetails.getWa();
@@ -599,14 +600,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PTA_CODE) != null) {
 						paybillGenerationTrnDetails
-								.setPermanentTravelAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+								.setPermanentTravelAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 										.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PTA_CODE)).intValue());
 
 					}
 					// Personal Pay
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PERSONAL_PAY_CODE) != null) {
-						paybillGenerationTrnDetails.setPersonalPay((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setPersonalPay((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PERSONAL_PAY_CODE))
 										.intValue());
 						personalPay = paybillGenerationTrnDetails.getPersonalPay();
@@ -614,7 +615,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Naxal Area Allowance
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NAXAL_AREA_ALLOW_CODE) != null) {
-						paybillGenerationTrnDetails.setNaxalAreaAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNaxalAreaAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NAXAL_AREA_ALLOW_CODE))
 										.intValue());
 						grossAmount += paybillGenerationTrnDetails.getNaxalAreaAllow();
@@ -623,7 +624,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMP_CONTRI_Code) != null) {
 						paybillGenerationTrnDetails
-								.setNpsEmployeeContri((double) ((BigInteger) hmAllowDeducCodeAndValues
+								.setNpsEmployeeContri((double) ((BigDecimal) hmAllowDeducCodeAndValues
 										.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMP_CONTRI_Code))
 												.intValue());
 						npsEmpContri = paybillGenerationTrnDetails.getNpsEmployeeContri();
@@ -631,7 +632,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT_Code) != null) {
 						paybillGenerationTrnDetails
-								.setNpsEmployerDeduct((double) ((BigInteger) hmAllowDeducCodeAndValues
+								.setNpsEmployerDeduct((double) ((BigDecimal) hmAllowDeducCodeAndValues
 										.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT_Code))
 												.intValue());
 						npsEmprContri = paybillGenerationTrnDetails.getNpsEmployerDeduct();
@@ -639,7 +640,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW_Code) != null) {
-						paybillGenerationTrnDetails.setNpsEmployerAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNpsEmployerAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW_Code))
 										.intValue());
 						npsEmprAllow = paybillGenerationTrnDetails.getNpsEmployerAllow();
@@ -648,7 +649,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Employer DCPS DA Arrears Recovery
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DA_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setEmpDcpsDaArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setEmpDcpsDaArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DA_ARR_CODE))
 										.intValue());
 						emprDcpsDaArr = paybillGenerationTrnDetails.getEmpDcpsDaArr();
@@ -657,7 +658,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Employer DCPS Delayed Recovery
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DELAY_CODE) != null) {
-						paybillGenerationTrnDetails.setEmpDcpsDelay((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setEmpDcpsDelay((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DELAY_CODE))
 										.intValue());
 						emprdcpsDelay = paybillGenerationTrnDetails.getEmpDcpsDelay();
@@ -665,7 +666,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Employer DCPS Pay Arrears Recovery
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_PAY_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setEmpDcpsPayArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setEmpDcpsPayArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_PAY_ARR_CODE))
 										.intValue());
 						emprDcpsPayArr = paybillGenerationTrnDetails.getEmpDcpsPayArr();
@@ -674,7 +675,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_REGULAR_RECOVERY_CODE) != null) {
 						paybillGenerationTrnDetails
-								.setEmpDcpsRegularRecovery((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setEmpDcpsRegularRecovery((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_REGULAR_RECOVERY_CODE))
 												.intValue());
 						emprDcpsReg = paybillGenerationTrnDetails.getEmpDcpsRegularRecovery();
@@ -690,7 +691,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMPONENT_ADJUST_DCPS_EMPR_CODE) != null) {
 						paybillGenerationTrnDetails
-								.setAdjustDcpsEmployer((double) ((BigInteger) hmAllowDeducCodeAndValues
+								.setAdjustDcpsEmployer((double) ((BigDecimal) hmAllowDeducCodeAndValues
 										.get(CommonConstants.PAYBILLDETAILS.COMPONENT_ADJUST_DCPS_EMPR_CODE))
 												.intValue());
 						adjust_dcps_empr = paybillGenerationTrnDetails.getAdjustDcpsEmployer();
@@ -698,14 +699,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// DCPS Arr
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setDcpsArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setDcpsArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_ARR_CODE)).intValue());
 						dcpsArr = paybillGenerationTrnDetails.getDcpsArr();
 					}
 					// DCPS DA Arrears Recovery
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DA_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setEmpDcpsDaArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setEmpDcpsDaArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DA_ARR_CODE))
 										.intValue());
 						dcpsDa = paybillGenerationTrnDetails.getEmpDcpsDaArr();
@@ -713,7 +714,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// DCPS Delayed Recovery
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DELAY_CODE) != null) {
-						paybillGenerationTrnDetails.setEmpDcpsDelay((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setEmpDcpsDelay((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_DELAY_CODE))
 										.intValue());
 						dcpsDelay = paybillGenerationTrnDetails.getEmpDcpsDelay();
@@ -721,7 +722,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// DCPS Pay Arrears Recovery
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_PAY_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setEmpDcpsPayArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setEmpDcpsPayArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_PAY_ARR_CODE))
 										.intValue());
 						dcpsPayArr = paybillGenerationTrnDetails.getEmpDcpsPayArr();
@@ -730,7 +731,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_REGULAR_RECOVERY_CODE) != null) {
 						paybillGenerationTrnDetails
-								.setEmpDcpsRegularRecovery((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setEmpDcpsRegularRecovery((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Emp_DCPS_REGULAR_RECOVERY_CODE))
 												.intValue());
 						dcpsReg = paybillGenerationTrnDetails.getEmpDcpsRegularRecovery();
@@ -738,49 +739,49 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// GIS
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS_CODE) != null) {
-						paybillGenerationTrnDetails.setGis((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGis((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS_CODE)).intValue());
 						gisAmount = paybillGenerationTrnDetails.getGis();
 					}
 					// GIS(ZP)
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS_ZP_CODE) != null) {
-						paybillGenerationTrnDetails.setGisZp((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGisZp((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS_ZP_CODE)).intValue());
 						GisZp = paybillGenerationTrnDetails.getGisZp();
 					}
 					// GPF_ABC Arrears
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ABC_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setGpfAbcArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfAbcArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ABC_ARR_CODE)).intValue());
 						GpfAbcArr = paybillGenerationTrnDetails.getGpfAbcArr();
 					}
 					// GPF_D_Arrears
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_D_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setGpfDArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfDArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_D_ARR_CODE)).intValue());
 						gpfDArr = paybillGenerationTrnDetails.getGpfDArr();
 					}
 					// GPF_GRP_ABC
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_GPF_GRP_ABC_CODE) != null) {
-						paybillGenerationTrnDetails.setGpfGrpABC((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfGrpABC((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_GPF_GRP_ABC_CODE)).intValue());
 						gpfGrpABC = paybillGenerationTrnDetails.getGpfGrpABC();
 					}
 					// GPF_GRP_D
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_GPF_GRP_D_CODE) != null) {
-						paybillGenerationTrnDetails.setGpfGrpD((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfGrpD((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_GPF_GRP_D_CODE)).intValue());
 						gpfGrpD = paybillGenerationTrnDetails.getGpfGrpD();
 					}
 					// Group Acc. Policy
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GRP_ACC_POLICY_CODE) != null) {
-						paybillGenerationTrnDetails.setGroupAccPolicy((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGroupAccPolicy((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GRP_ACC_POLICY_CODE))
 										.intValue());
 						groupAccPolicy = paybillGenerationTrnDetails.getGroupAccPolicy();
@@ -788,7 +789,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// House Rent Recovery ( H R R )
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRR_CODE) != null) {
-						paybillGenerationTrnDetails.setHrr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setHrr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRR_CODE)).intValue());
 						hrr = paybillGenerationTrnDetails.getHrr();
 					}
@@ -796,28 +797,28 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Income Tax( I .T )
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_INCOME_TAX_CODE) != null) {
-						paybillGenerationTrnDetails.setIt((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setIt((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_INCOME_TAX_CODE)).intValue());
 						it = paybillGenerationTrnDetails.getIt();
 					}
 					// LIC
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LIC_CODE) != null) {
-						paybillGenerationTrnDetails.setLIC((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setLIC((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LIC_CODE)).intValue());
 						lic = paybillGenerationTrnDetails.getLIC();
 					}
 					// GPF_INST
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_INST_Code) != null) {
-						paybillGenerationTrnDetails.setGpfInst((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfInst((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_INST_Code)).intValue());
 						gpfInst = paybillGenerationTrnDetails.getGpfInst();
 					}
 
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Recovery_Code) != null) {
-						paybillGenerationTrnDetails.setRecovery((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setRecovery((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Recovery_Code)).intValue());
 						recovery = paybillGenerationTrnDetails.getRecovery();
 					}
@@ -825,7 +826,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Other Deductions
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_DEDUCT_CODE) != null) {
-						paybillGenerationTrnDetails.setOtherDeduct((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setOtherDeduct((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_DEDUCT_CODE))
 										.intValue());
 						otherDeduc = paybillGenerationTrnDetails.getOtherDeduct();
@@ -833,7 +834,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Other Recovery
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_REC_CODE) != null) {
-						paybillGenerationTrnDetails.setOtherRec((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setOtherRec((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_REC_CODE)).intValue());
 						otherRec = paybillGenerationTrnDetails.getOtherRec();
 					}
@@ -841,7 +842,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Profession Tax
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_PT_CODE) != null) {
-						paybillGenerationTrnDetails.setPt((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setPt((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_PT_CODE)).intValue());
 						pt = paybillGenerationTrnDetails.getPt();
 					}
@@ -849,7 +850,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// PT Arrears
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PT_ARR_CODE) != null) {
-						paybillGenerationTrnDetails.setPtArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setPtArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PT_ARR_CODE)).intValue());
 						ptArr = paybillGenerationTrnDetails.getPtArr();
 					}
@@ -857,7 +858,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Service Charge
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SERVICE_CHARGE_CODE) != null) {
-						paybillGenerationTrnDetails.setServCharge((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setServCharge((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SERVICE_CHARGE_CODE))
 										.intValue());
 						ServCharge = paybillGenerationTrnDetails.getServCharge();
@@ -866,7 +867,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE) != null) {
 
-						paybillGenerationTrnDetails.setGpfAdvGrpAbc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfAdvGrpAbc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE))
 										.intValue());
 						gpfadvGrpABC = paybillGenerationTrnDetails.getGpfAdvGrpAbc();
@@ -875,7 +876,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE) != null) {
 
-						paybillGenerationTrnDetails.setGpfAdvGrpD((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfAdvGrpD((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE))
 										.intValue());
 						gpfadvGrpD = paybillGenerationTrnDetails.getGpfAdvGrpD();
@@ -884,7 +885,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE) != null) {
 
-						paybillGenerationTrnDetails.setGpfAdvGrpD((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfAdvGrpD((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE))
 										.intValue());
 						gpfadvGrpD = paybillGenerationTrnDetails.getGpfAdvGrpD();
@@ -893,7 +894,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					/*if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code) != null) {
 
-						paybillGenerationTrnDetails.setHbaHouse((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setHbaHouse((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code)).intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getHbaHouse();
 						//// HouseAdv = paybillGenerationTrnDetails.getHbaHouse();
@@ -922,7 +923,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPFA_Code) != null) {
 
-						paybillGenerationTrnDetails.setGpfAdvance((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfAdvance((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPFA_Code)).intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getHbaHouse();
 						//// HouseAdv = paybillGenerationTrnDetails.getHbaHouse();
@@ -934,7 +935,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						if (loandetails != null && loandetails.getLoanactivateflag() == 1) {
 							if (loandetails.getLoanprinemiamt() != null) {
 								paybillGenerationTrnDetails
-										.setGpfAdvance((double) ((BigInteger) hmAllowDeducCodeAndValues
+										.setGpfAdvance((double) ((BigDecimal) hmAllowDeducCodeAndValues
 												.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPFA_Code))
 														.intValue());
 								gpfAdvance = paybillGenerationTrnDetails.getGpfAdvance();
@@ -955,7 +956,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code) != null) {
 
-						paybillGenerationTrnDetails.setComputerAdv((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setComputerAdv((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code)).intValue());
 						CA = paybillGenerationTrnDetails.getComputerAdv();
 
@@ -963,7 +964,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Revenue_Stamp_Code) != null) {
 
-						paybillGenerationTrnDetails.setRevenueStamp((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setRevenueStamp((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Revenue_Stamp_Code))
 										.intValue());
 						revenueStamp = paybillGenerationTrnDetails.getRevenueStamp();
@@ -972,7 +973,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				/*	if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code) != null) {
 
-						paybillGenerationTrnDetails.setOtherRec((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setOtherRec((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code))
 										.intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getOtherVehAdv();
@@ -999,7 +1000,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Excess_Pay_Rec_Code) != null) {
 
-						paybillGenerationTrnDetails.setExcessPayrec((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setExcessPayrec((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Excess_Pay_Rec_Code))
 										.intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getOtherVehAdv();
@@ -1026,7 +1027,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code) != null) {
 
-						paybillGenerationTrnDetails.setFestivalAdv((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setFestivalAdv((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code)).intValue());
 						totalDeductionAmount += paybillGenerationTrnDetails.getFestivalAdv();
 						FA = paybillGenerationTrnDetails.getFestivalAdv();
@@ -1052,7 +1053,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CM_Fund_AC_INS_Code) != null) {
 
-						paybillGenerationTrnDetails.setCmFund((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setCmFund((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CM_Fund_AC_INS_Code))
 										.intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getCmFund();
@@ -1062,7 +1063,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th_Code) != null) {
 
-						paybillGenerationTrnDetails.setTa5th((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setTa5th((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th_Code))
 										.intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getCmFund();
@@ -1072,7 +1073,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Deputation_Allow_Code) != null) {
 
-						paybillGenerationTrnDetails.setDeputationAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setDeputationAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Deputation_Allow_Code))
 										.intValue());
 						deputAllow = paybillGenerationTrnDetails.getDeputationAllow();
@@ -1081,7 +1082,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Overtime_Allowance_Code) != null) {
 
-						paybillGenerationTrnDetails.setOTA((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setOTA((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Overtime_Allowance_Code))
 										.intValue());
 						ota = paybillGenerationTrnDetails.getOTA();
@@ -1090,7 +1091,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Hill_Station_Allowances_Code) != null) {
 
-						paybillGenerationTrnDetails.setHillStatAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setHillStatAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Hill_Station_Allowances_Code))
 										.intValue());
 						hillStatAllow = paybillGenerationTrnDetails.getHillStatAllow();
@@ -1099,7 +1100,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LeavePay_Code) != null) {
 
-						paybillGenerationTrnDetails.setLeavePay((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setLeavePay((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LeavePay_Code)).intValue());
 						if (paybillGenerationTrnDetails.getLeavePay() != null) {
 							leavePay = paybillGenerationTrnDetails.getLeavePay();
@@ -1111,7 +1112,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Tracer_Allowances_Code) != null) {
 
-						paybillGenerationTrnDetails.setTracerAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setTracerAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Tracer_Allowances_Code))
 										.intValue());
 						tracerAllow = paybillGenerationTrnDetails.getTracerAllow();
@@ -1120,7 +1121,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Naksalied_Allowances_Code) != null) {
 
-						paybillGenerationTrnDetails.setNaksaliedAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNaksaliedAllow((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Naksalied_Allowances_Code))
 										.intValue());
 						naksaliedAllow = paybillGenerationTrnDetails.getNaksaliedAllow();
@@ -1129,7 +1130,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Washing_Allowance_Code) != null) {
 
-						paybillGenerationTrnDetails.setWa((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setWa((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Washing_Allowance_Code))
 										.intValue());
 						wa = paybillGenerationTrnDetails.getWa(); /* paybillGenerationTrnDetails.getWa(); */
@@ -1138,7 +1139,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Subscription_Code) != null) {
 
-						paybillGenerationTrnDetails.setGpfSubscription((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfSubscription((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Subscription_Code))
 										.intValue());
 						gpfSubscrb = paybillGenerationTrnDetails.getGpfSubscription();
@@ -1147,7 +1148,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_Code) != null) {
 
-						paybillGenerationTrnDetails.setHba((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setHba((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_Code)).intValue());
 						hba = paybillGenerationTrnDetails.getHba();
 
@@ -1155,7 +1156,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Or_Bank_Loan_Code) != null) {
 
-						paybillGenerationTrnDetails.setSocOrBankLoan((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setSocOrBankLoan((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Or_Bank_Loan_Code))
 										.intValue());
 						socOrBankLoan = paybillGenerationTrnDetails.getSocOrBankLoan();
@@ -1164,7 +1165,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BLWF_Code) != null) {
 
-						paybillGenerationTrnDetails.setBLWF((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setBLWF((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BLWF_Code)).intValue());
 						BLWF = paybillGenerationTrnDetails.getBLWF();
 
@@ -1172,7 +1173,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Arrears_Code) != null) {
 
-						paybillGenerationTrnDetails.setGpfArrears((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfArrears((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Arrears_Code)).intValue());
 						GpfArrears = paybillGenerationTrnDetails.getGpfArrears();
 
@@ -1180,7 +1181,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Special_Arrears_Code) != null) {
 
-						paybillGenerationTrnDetails.setGpfSpecialArr((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfSpecialArr((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Special_Arrears_Code))
 										.intValue());
 						GpfSpclArrears = paybillGenerationTrnDetails.getGpfSpecialArr();
@@ -1190,7 +1191,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NDCPS_Subscription_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setNDCPSSubscription((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setNDCPSSubscription((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NDCPS_Subscription_Code))
 												.intValue());
 						NDCPSsubscrp = paybillGenerationTrnDetails.getNDCPSSubscription();
@@ -1199,7 +1200,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Allied_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setAlliedSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setAlliedSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Allied_Soc_Code)).intValue());
 						alliedSoc = paybillGenerationTrnDetails.getAlliedSoc();
 
@@ -1207,7 +1208,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Mantralaya_Soci_Code) != null) {
 
-						paybillGenerationTrnDetails.setMantralayaSoci((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setMantralayaSoci((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Mantralaya_Soci_Code))
 										.intValue());
 						mantralayaSoci = paybillGenerationTrnDetails.getMantralayaSoci();
@@ -1216,7 +1217,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Chiplun_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setChiplunSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setChiplunSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Chiplun_Soc_Code)).intValue());
 						chiplunSoc = paybillGenerationTrnDetails.getChiplunSoc();
 
@@ -1224,7 +1225,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ulhasnagar_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setUlhasnagarSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setUlhasnagarSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ulhasnagar_Soc_Code))
 										.intValue());
 						ulhasnagarSoc = paybillGenerationTrnDetails.getUlhasnagarSoc();
@@ -1233,7 +1234,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Engr_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setEngrSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setEngrSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Engr_Soc_Code)).intValue());
 						engrSoc = paybillGenerationTrnDetails.getEngrSoc();
 
@@ -1241,7 +1242,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_DA_Sub_Code) != null) {
 
-						paybillGenerationTrnDetails.setGpfDaSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGpfDaSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_DA_Sub_Code)).intValue());
 						gpfDaSub = paybillGenerationTrnDetails.getGpfDaSoc();
 
@@ -1265,7 +1266,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Pay_Fix_Diff_Code) != null) {
 
-						paybillGenerationTrnDetails.setPayFixDiff((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setPayFixDiff((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Pay_Fix_Diff_Code))
 										.intValue());
 						payFixDiff = paybillGenerationTrnDetails.getPayFixDiff();
@@ -1274,7 +1275,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_Code) != null) {
 
-						paybillGenerationTrnDetails.setNps((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNps((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_Code)).intValue());
 						nps = paybillGenerationTrnDetails.getNps();
 
@@ -1282,7 +1283,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Public_Health_Works_Code) != null) {
 
-						paybillGenerationTrnDetails.setPubHealWrks((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setPubHealWrks((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Public_Health_Works_Code))
 										.intValue());
 						pubHealWrks = paybillGenerationTrnDetails.getPubHealWrks();
@@ -1291,7 +1292,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sindhudurg_Oras_Code) != null) {
 
-						paybillGenerationTrnDetails.setSindhuOras((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setSindhuOras((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sindhudurg_Oras_Code))
 										.intValue());
 						sindhuOras = paybillGenerationTrnDetails.getSindhuOras();
@@ -1300,7 +1301,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Society_Code) != null) {
 
-						paybillGenerationTrnDetails.setJalgaonSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setJalgaonSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Society_Code))
 										.intValue());
 						jalgaonSoc = paybillGenerationTrnDetails.getJalgaonSoc();
@@ -1309,7 +1310,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manahar_bhai_Meh_Jal_Code) != null) {
 
-						paybillGenerationTrnDetails.setManaBhaiMehJal((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setManaBhaiMehJal((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manahar_bhai_Meh_Jal_Code))
 										.intValue());
 						manaBhaiMehJal = paybillGenerationTrnDetails.getManaBhaiMehJal();
@@ -1318,7 +1319,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Akola_Pari_Abhiyani_Code) != null) {
 
-						paybillGenerationTrnDetails.setAkolaPAriAbhi((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setAkolaPAriAbhi((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Akola_Pari_Abhiyani_Code))
 										.intValue());
 						akolaPAriAbhi = paybillGenerationTrnDetails.getAkolaPAriAbhi();
@@ -1327,7 +1328,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_ZP_Karmchari_Pat_Code) != null) {
 
-						paybillGenerationTrnDetails.setZpKarmPat((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setZpKarmPat((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_ZP_Karmchari_Pat_Code))
 										.intValue());
 						zpKarmPat = paybillGenerationTrnDetails.getZpKarmPat();
@@ -1337,7 +1338,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Vidharbha_Gramin_Kokan_Bn_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setVidharbhaGramkokBn((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setVidharbhaGramkokBn((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Vidharbha_Gramin_Kokan_Bn_Code))
 												.intValue());
 						vidharbhaGramkokBn = paybillGenerationTrnDetails.getVidharbhaGramkokBn();
@@ -1346,7 +1347,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Chanda_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setChandaSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setChandaSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Chanda_Soc_Code)).intValue());
 						chandaSoc = paybillGenerationTrnDetails.getChandaSoc();
 
@@ -1354,7 +1355,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_Soc_Nag_Code) != null) {
 
-						paybillGenerationTrnDetails.setJalsevaSocNag((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setJalsevaSocNag((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_Soc_Nag_Code))
 										.intValue());
 						jalsevaSocNag = paybillGenerationTrnDetails.getJalsevaSocNag();
@@ -1363,7 +1364,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setBhandaraSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setBhandaraSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Soc_Code))
 										.intValue());
 						bhandaraSoc = paybillGenerationTrnDetails.getBhandaraSoc();
@@ -1372,7 +1373,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GDCC_BANK_Code) != null) {
 
-						paybillGenerationTrnDetails.setGdccBank((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGdccBank((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GDCC_BANK_Code)).intValue());
 						gdccBank = paybillGenerationTrnDetails.getGdccBank();
 
@@ -1380,7 +1381,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Gondia_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setGondiaSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGondiaSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Gondia_Soc_Code)).intValue());
 						gondiaSoc = paybillGenerationTrnDetails.getGondiaSoc();
 
@@ -1388,7 +1389,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nagpur_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setNagpurSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNagpurSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nagpur_Soc_Code)).intValue());
 						nagpurSoc = paybillGenerationTrnDetails.getNagpurSoc();
 
@@ -1396,7 +1397,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Allahabad_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setAllahabadSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setAllahabadSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Allahabad_Soc_Code))
 										.intValue());
 						allahabadSoc = paybillGenerationTrnDetails.getAllahabadSoc();
@@ -1406,7 +1407,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhan_Dist_Cent_Cop_bnk_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setBhanDistCenCopBnk((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setBhanDistCenCopBnk((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhan_Dist_Cent_Cop_bnk_Code))
 												.intValue());
 						bhanDistCenCopBnk = paybillGenerationTrnDetails.getBhanDistCenCopBnk();
@@ -1415,7 +1416,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bank_of_Barora_Code) != null) {
 
-						paybillGenerationTrnDetails.setBankOfBarora((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setBankOfBarora((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bank_of_Barora_Code))
 										.intValue());
 						bankOfBarora = paybillGenerationTrnDetails.getBankOfBarora();
@@ -1424,7 +1425,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Court_Computation_Code) != null) {
 
-						paybillGenerationTrnDetails.setCourtComput((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setCourtComput((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Court_Computation_Code))
 										.intValue());
 						courtComput = paybillGenerationTrnDetails.getCourtComput();
@@ -1433,7 +1434,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_GS_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setJalgaonGSSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setJalgaonGSSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_GS_Soc_Code))
 										.intValue());
 						jalgaonGSSoc = paybillGenerationTrnDetails.getJalgaonGSSoc();
@@ -1442,7 +1443,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Handicap_Soci_Code) != null) {
 
-						paybillGenerationTrnDetails.setJalgaonHandiSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setJalgaonHandiSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Handicap_Soci_Code))
 										.intValue());
 						jalgaonHandiSoc = paybillGenerationTrnDetails.getJalgaonHandiSoc();
@@ -1452,7 +1453,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Dhule_Nandurbar_Bank_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setDhulenandurbarBnk((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setDhulenandurbarBnk((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Dhule_Nandurbar_Bank_Code))
 												.intValue());
 						dhulenandurbarBnk = paybillGenerationTrnDetails.getDhulenandurbarBnk();
@@ -1462,7 +1463,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Parisar_Abhi_Soc_Nashik_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setParisarAbhiSocNash((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setParisarAbhiSocNash((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Parisar_Abhi_Soc_Nashik_Code))
 												.intValue());
 						parisarAbhiSocNash = paybillGenerationTrnDetails.getParisarAbhiSocNash();
@@ -1471,7 +1472,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sarw_Aroy_Ban_Soci_Dhule_Code) != null) {
 
-						paybillGenerationTrnDetails.setSarwAroBanSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setSarwAroBanSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sarw_Aroy_Ban_Soci_Dhule_Code))
 										.intValue());
 						sarwAroBanSoc = paybillGenerationTrnDetails.getSarwAroBanSoc();
@@ -1480,7 +1481,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jaldhara_Soc_CL3_Code) != null) {
 
-						paybillGenerationTrnDetails.setJalSocCL3((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setJalSocCL3((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jaldhara_Soc_CL3_Code))
 										.intValue());
 						jalSocCL3 = paybillGenerationTrnDetails.getJalSocCL3();
@@ -1490,7 +1491,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Panipurvtha_Soc_Cl3Or4_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setPanipurvtaSocCL3or4((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setPanipurvtaSocCL3or4((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Panipurvtha_Soc_Cl3Or4_Code))
 												.intValue());
 						panipurvtaSocCL3or4 = paybillGenerationTrnDetails.getPanipurvtaSocCL3or4();
@@ -1499,7 +1500,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Govt_Bank_Code) != null) {
 
-						paybillGenerationTrnDetails.setGovBank((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setGovBank((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Govt_Bank_Code)).intValue());
 						govBank = paybillGenerationTrnDetails.getGovBank();
 
@@ -1507,7 +1508,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sangli_Sal_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setSangliSalSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setSangliSalSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sangli_Sal_Soc_Code))
 										.intValue());
 						sangliSalSoc = paybillGenerationTrnDetails.getSangliSalSoc();
@@ -1516,7 +1517,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setMjpSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setMjpSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Code)).intValue());
 						mjpSoc = paybillGenerationTrnDetails.getMjpSoc();
 
@@ -1525,7 +1526,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Road_Soc_CL3Or4_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setNashikRoadSocCL3or4((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setNashikRoadSocCL3or4((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Road_Soc_CL3Or4_Code))
 												.intValue());
 						nashikRoadSocCL3or4 = paybillGenerationTrnDetails.getNashikRoadSocCL3or4();
@@ -1534,7 +1535,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_MAlegaon_Soc_CL3_Code) != null) {
 
-						paybillGenerationTrnDetails.setJalsevaMalSocCL3((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setJalsevaMalSocCL3((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_MAlegaon_Soc_CL3_Code))
 										.intValue());
 						jalsevaMalSocCL3 = paybillGenerationTrnDetails.getJalsevaMalSocCL3();
@@ -1543,7 +1544,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Bank_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setNashikBankSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setNashikBankSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Bank_Soc_Code))
 										.intValue());
 						nashikBankSoc = paybillGenerationTrnDetails.getNashikBankSoc();
@@ -1552,7 +1553,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhagshree_Bank_Code) != null) {
 
-						paybillGenerationTrnDetails.setBhagshree_Bank((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setBhagshree_Bank((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhagshree_Bank_Code))
 										.intValue());
 						BhagshreeBank = paybillGenerationTrnDetails.getBhagshree_Bank();
@@ -1561,7 +1562,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LF_CODE) != null) {
 
-						paybillGenerationTrnDetails.setLicense_Fee((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setLicense_Fee((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LF_CODE)).intValue());
 						license = paybillGenerationTrnDetails.getLicense_Fee();
 
@@ -1569,7 +1570,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manda_Nashik_Soc_Code) != null) {
 
-						paybillGenerationTrnDetails.setMandaNashikSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setMandaNashikSoc((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manda_Nashik_Soc_Code))
 										.intValue());
 						mandaNashikSoc = paybillGenerationTrnDetails.getMandaNashikSoc();
@@ -1579,7 +1580,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ujwala_Mahila_Pat_Bhand_Code) != null) {
 
 						paybillGenerationTrnDetails
-								.setUjwalaMahilaPatBhan((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setUjwalaMahilaPatBhan((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ujwala_Mahila_Pat_Bhand_Code))
 												.intValue());
 						ujwalaMahilaPatBhan = paybillGenerationTrnDetails.getUjwalaMahilaPatBhan();
@@ -1588,7 +1589,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BC_Quarter_Code) != null) {
 
-						paybillGenerationTrnDetails.setBcQuar((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setBcQuar((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BC_Quarter_Code)).intValue());
 						bcQuar = paybillGenerationTrnDetails.getBcQuar();
 
@@ -1596,135 +1597,17 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Excess_Pay_Rec_Code) != null) {
 
-						paybillGenerationTrnDetails.setExcessPayrec((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setExcessPayrec((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Excess_Pay_Rec_Code))
 										.intValue());
 						excessPayrec = paybillGenerationTrnDetails.getExcessPayrec();
 
 					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Flag_Day_Code) != null) {
-
-						paybillGenerationTrnDetails.setFlagDay((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Flag_Day_Code)).intValue());
-						flagDay = paybillGenerationTrnDetails.getFlagDay();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setBhandJilAbhiKarPat((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code))
-												.intValue());
-						bhandJilAbhiKarPat = paybillGenerationTrnDetails.getBhandJilAbhiKarPat();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_karm_saha_Path_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setJalsevaKarmSahaPath((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_karm_saha_Path_Code))
-												.intValue());
-						jalsevaKarmSahaPath = paybillGenerationTrnDetails.getJalsevaKarmSahaPath();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Nanded_Code) != null) {
-
-						paybillGenerationTrnDetails.setSocNanded((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Nanded_Code))
-										.intValue());
-						socNanded = paybillGenerationTrnDetails.getSocNanded();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Aurangabad_Code) != null) {
-
-						paybillGenerationTrnDetails.setSocAurang((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Aurangabad_Code))
-										.intValue());
-						socAurang = paybillGenerationTrnDetails.getSocAurang();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Latur_Code) != null) {
-
-						paybillGenerationTrnDetails.setSocLatur((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Latur_Code))
-										.intValue());
-						socLatur = paybillGenerationTrnDetails.getSocLatur();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MLWF_OnlyMJP_Code) != null) {
-
-						paybillGenerationTrnDetails.setMlwfonlyMJP((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MLWF_OnlyMJP_Code))
-										.intValue());
-						mlwfOnlyMJP = paybillGenerationTrnDetails.getMlwfonlyMJP();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Maha_Lab_Welfare_Fund_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setMahaLabWelfareFund((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Maha_Lab_Welfare_Fund_Code))
-												.intValue());
-						mahaLabWelFund = paybillGenerationTrnDetails.getMahaLabWelfareFund();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Latur_Code) != null) {
-
-						paybillGenerationTrnDetails.setMjpSocLatur((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Latur_Code))
-										.intValue());
-						mjpLatur = paybillGenerationTrnDetails.getMjpSocLatur();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Solapur_Code) != null) {
-
-						paybillGenerationTrnDetails.setMjpSocSolapur((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Solapur_Code))
-										.intValue());
-						mjpSocSolapur = paybillGenerationTrnDetails.getMjpSocSolapur();
-
-					}
-
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_JalBhavan_Society_Code) != null) {
-
-						paybillGenerationTrnDetails.setJalbhavanSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_JalBhavan_Society_Code))
-										.intValue());
-						jalbhavanSoc = paybillGenerationTrnDetails.getJalbhavanSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Satara_Society_Code) != null) {
-
-						paybillGenerationTrnDetails.setSataraSoci((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Satara_Society_Code))
-										.intValue());
-						sataraSoci = paybillGenerationTrnDetails.getSataraSoci();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BEGIS_Code) != null) {
-
-						paybillGenerationTrnDetails.setBegis((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BEGIS_Code)).intValue());
-						begis = paybillGenerationTrnDetails.getBegis();
-
-					}
+					
 					if (hmAllowDeducCodeAndValues.get(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th_Code) != null) {
 
-						paybillGenerationTrnDetails.setTa5th((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setTa5th((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th_Code))
 										.intValue());
 						ta5th = paybillGenerationTrnDetails.getTa5th();
@@ -1733,251 +1616,18 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Arrears_Code) != null) {
 
-						paybillGenerationTrnDetails.setArrears((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setArrears((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Arrears_Code)).intValue());
 						arrears = paybillGenerationTrnDetails.getArrears();
 
 					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Hastantrit_pune_Mahan_soc_Code) != null) {
 
-						paybillGenerationTrnDetails
-								.setHastantritPunemahanSoc((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Hastantrit_pune_Mahan_soc_Code))
-												.intValue());
-						hastantritpune = paybillGenerationTrnDetails.getHastantritPunemahanSoc();
 
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_VangaonSociety_Code) != null) {
-
-						paybillGenerationTrnDetails.setVangaonSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_VangaonSociety_Code))
-										.intValue());
-						vangaonSoc = paybillGenerationTrnDetails.getVangaonSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_panipuravtha_kolhapur_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setPanipuravthaKolhapur((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_panipuravtha_kolhapur_Code))
-												.intValue());
-						panipuravthaKolhapur = paybillGenerationTrnDetails.getPanipuravthaKolhapur();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ahmednagar_pari_Abhiseva_Marya_Code) != null) {
-
-						paybillGenerationTrnDetails.setAhdPariAbhiMarya((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ahmednagar_pari_Abhiseva_Marya_Code))
-										.intValue());
-						ahdPariAbhiMarya = paybillGenerationTrnDetails.getAhdPariAbhiMarya();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Beed_Code) != null) {
-
-						paybillGenerationTrnDetails.setMjpSocBeed((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Beed_Code))
-										.intValue());
-						mjpSocBeed = paybillGenerationTrnDetails.getMjpSocBeed();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sal_owner_soc_Sangli_Code) != null) {
-
-						paybillGenerationTrnDetails.setSalOwnSocSangli((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sal_owner_soc_Sangli_Code))
-										.intValue());
-						salOwnSocSangli = paybillGenerationTrnDetails.getSalOwnSocSangli();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Shaskiy_panipuravtha_soc_satara_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setShaskiyPanipurvSocSatara((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Shaskiy_panipuravtha_soc_satara_Code))
-												.intValue());
-						shaskiyPaniPurvSocSatara = paybillGenerationTrnDetails.getShaskiyPanipurvSocSatara();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalbhavan_soc_sangli_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setJalbhavanSocSangli((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalbhavan_soc_sangli_Code))
-												.intValue());
-						jalbhavanSocSangli = paybillGenerationTrnDetails.getJalbhavanSocSangli();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_akola_society) != null) {
-
-						paybillGenerationTrnDetails.setAkolaSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_akola_society)).intValue());
-						akolaSoc = paybillGenerationTrnDetails.getAkolaSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_yavatmal_society_Code) != null) {
-
-						paybillGenerationTrnDetails.setYavatmalSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_yavatmal_society_Code))
-										.intValue());
-						yavatmalSoc = paybillGenerationTrnDetails.getYavatmalSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_nagari_sahakar_path_sansta_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setNagariSahaPantSansta((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_nagari_sahakar_path_sansta_Code))
-												.intValue());
-						nagSahaPatSansta = paybillGenerationTrnDetails.getNagariSahaPantSansta();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_engineering_society_Code) != null) {
-
-						paybillGenerationTrnDetails.setEnggSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_engineering_society_Code))
-										.intValue());
-						enggSoc = paybillGenerationTrnDetails.getEnggSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_daryapur_society_Code) != null) {
-
-						paybillGenerationTrnDetails.setDaryapurSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_daryapur_society_Code))
-										.intValue());
-						daryapurSoc = paybillGenerationTrnDetails.getDaryapurSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_public_health_society_Code) != null) {
-
-						paybillGenerationTrnDetails.setPubHealthSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_public_health_society_Code))
-										.intValue());
-						pubhealSoc = paybillGenerationTrnDetails.getPubHealthSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalpradaya_society_Code) != null) {
-
-						paybillGenerationTrnDetails.setJalpradayaSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalpradaya_society_Code))
-										.intValue());
-						jalpradayaSoc = paybillGenerationTrnDetails.getJalpradayaSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_zilha_pari_karmachari_pantsanstha_buldhana_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setZilhaPariKarmPantBul((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_zilha_pari_karmachari_pantsanstha_buldhana_Code))
-												.intValue());
-						zilhaPariKarmPant = paybillGenerationTrnDetails.getZilhaPariKarmPantBul();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SPECIAL_PAY_CODE) != null) {
-
-						paybillGenerationTrnDetails.setSpecialPay((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SPECIAL_PAY_CODE)).intValue());
-						specialPay = paybillGenerationTrnDetails.getSpecialPay();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Deputation_Allow_Code) != null) {
-
-						paybillGenerationTrnDetails.setDeputationAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Deputation_Allow_Code))
-										.intValue());
-						deputAllow = paybillGenerationTrnDetails.getDeputationAllow();
-
-					}
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalna_Soc_Code) != null) {
-
-						paybillGenerationTrnDetails.setJalnaSoc((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalna_Soc_Code)).intValue());
-						jalnaSoc = paybillGenerationTrnDetails.getJalnaSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setAmrawatiEnggCredSoc((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc_Code))
-												.intValue());
-						jalnaSoc = paybillGenerationTrnDetails.getAmrawatiEnggCredSoc();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA_Code) != null) {
-
-						paybillGenerationTrnDetails.setBharatratnaVishweshAbhiSahPatMarya(
-								(double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA_Code))
-												.intValue());
-						bharatratnavishsolapur = paybillGenerationTrnDetails.getBharatratnaVishweshAbhiSahPatMarya();
-
-					}
-
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_AccidentialPolicy_Code) != null) {
-
-						paybillGenerationTrnDetails.setAccidentPolicy((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_AccidentialPolicy_Code))
-										.intValue());
-						accidentPolicy = paybillGenerationTrnDetails.getAccidentPolicy();
-
-					}
-					if (hmAllowDeducCodeAndValues.get(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK_Code) != null) {
-
-						paybillGenerationTrnDetails
-								.setPuneDistCentCopBnk((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK_Code))
-												.intValue());
-						puneDistCentCoBnk = paybillGenerationTrnDetails.getPuneDistCentCopBnk();
-
-					}
-					/*
-					 * if (hmAllowDeducCodeAndValues.get( CommonConstants.PAYBILLDETAILS.
-					 * COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code) != null) {
-					 * 
-					 * paybillGenerationTrnDetails .setBhandJilAbhiKarPat((double) ((BigInteger)
-					 * hmAllowDeducCodeAndValues.get( CommonConstants.PAYBILLDETAILS.
-					 * COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code)) .intValue()); //
-					 * totalDeductionAmount+=paybillGenerationTrnDetails.getCmFund();
-					 * bhanZillaParWaPanchayatSamitiSanstha =
-					 * paybillGenerationTrnDetails.getBhandJilAbhiKarPat();
-					 * 
-					 * }
-					 */
-					if (hmAllowDeducCodeAndValues
-							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NDCPS_REC_Code) != null) {
-
-						paybillGenerationTrnDetails.setNdcpsRec((double) ((BigInteger) hmAllowDeducCodeAndValues
-								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NDCPS_REC_Code)).intValue());
-						ndcpsRec = paybillGenerationTrnDetails.getNdcpsRec();
-
-					}
 
 					/*if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT_Code) != null) { // COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE
 
-						paybillGenerationTrnDetails.setHbaHouseIntAmt((double) ((BigInteger) hmAllowDeducCodeAndValues
+						paybillGenerationTrnDetails.setHbaHouseIntAmt((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT_Code))
 										.intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getHbaHouse();
@@ -2007,7 +1657,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE_Code) != null) { //
 
 						paybillGenerationTrnDetails
-								.setMotorvehicleAdvance((double) ((BigInteger) hmAllowDeducCodeAndValues.get(
+								.setMotorvehicleAdvance((double) ((BigDecimal) hmAllowDeducCodeAndValues.get(
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE_Code))
 												.intValue());
 						// totalDeductionAmount+=paybillGenerationTrnDetails.getHbaHouse();
@@ -2048,11 +1698,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					paybillGenerationTrnDetails.setGrossTotalAmt((double) Math.round(grossAmount));
 
-					double dedByAG = gpfGrpABC + gpfGrpD + GpfAbcArr + gpfDArr;
+					double dedByAG = gpfGrpABC + gpfGrpD + GpfAbcArr + gpfDArr + gisAmount;
 					paybillGenerationTrnDetails.setDedAdjAg((double) Math.round(dedByAG));
 					System.out.println(gpfDaSub + rop + payFixDiff + nps + hrr + otherRec + lic + gpfInst);
 
-					double dedByTreasury = GisZp + it + groupAccPolicy + pt + gisAmount + npsEmpContri + npsEmprContri
+					double dedByTreasury = GisZp + it + groupAccPolicy + pt  + npsEmpContri + npsEmprContri
 							+ cmFund + socOrBankLoan + BLWF + NDCPSsubscrp + GpfSpclArrears + hba + begis + gpfSubscrb
 							+ gpfDaSub + rop + payFixDiff + nps + hrr + otherRec + lic + gpfInst + ndcpsRec + recovery
 							+ accidentPolicy + revenueStamp;
@@ -3467,23 +3117,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							dearnessPay += 0;
 						}
 					}
-					// Conveyance Allowance
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CONVEY_ALLOW)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CONVEY_ALLOW_CODE);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CONVEY_ALLOW_CODE) {
-
-							paybillGenerationTrnDetails.setConveyAllow(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							conveyAllow = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setConveyAllow((double) 0);
-							conveyAllow += 0;
-						}
-					}
 					// component for DA on TA
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_on_TA)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -4014,39 +3647,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							paybillGenerationTrnDetails.setHillStatAllow((double) 0);
 							hillStatAllow += 0;
 						}
-					} else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Tracer_Allowances)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Tracer_Allowances_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Tracer_Allowances_Code) {
-
-							paybillGenerationTrnDetails.setTracerAllow(
-									(double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-							tracerAllow = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setTracerAllow((double) 0);
-							tracerAllow += 0;
-						}
-					} else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Naksalied_Allowances)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Naksalied_Allowances_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Naksalied_Allowances_Code) {
-
-							paybillGenerationTrnDetails.setNaksaliedAllow(
-									(double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-							naksaliedAllow = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setNaksaliedAllow((double) 0);
-							naksaliedAllow += 0;
-						}
-					} else if (str
+					}else if (str
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Washing_Allowance)) {
 						wa = 50d;
 						paybillGenerationTrnDetails.setWa(wa);
@@ -4088,14 +3689,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							leavePay += 0;
 						}
 					}
-					/*
-					 * if (mstEmployeeModel.getGiscatagory() != null) { if
-					 * (mstEmployeeModel.getGiscatagory().equals(1) ||
-					 * mstEmployeeModel.getGiscatagory().equals(2)) { otherAllowanceEntity =
-					 * mstEmployeeService.findBEGISAmt(mstEmployeeModel.getGiscatagory(),
-					 * mstEmployeeModel.getBegisCatg()); } else { otherAllowanceEntity =
-					 * mstEmployeeService .findBEGISAmtwith(mstEmployeeModel.getGiscatagory()); } }
-					 */
 
 					// End For Allowances//
 					// Start for deduction component
@@ -7035,8 +6628,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * paybillHeadMpgModel.getPaybillMonth(); yer =
 					 * paybillHeadMpgModel.getPaybillYear();
 					 * 
-					 * BigInteger monthcurr = BigInteger.valueOf(mon); BigInteger yearcurr =
-					 * BigInteger.valueOf(yer);
+					 * BigDecimal monthcurr = BigDecimal.valueOf(mon); BigDecimal yearcurr =
+					 * BigDecimal.valueOf(yer);
 					 * 
 					 * LoanEmployeeDtlsEntity loanEmployeeDtlsEntity =
 					 * mstEmployeeService.findLoanDetails( mstEmployeeEntity2.getEmployeeId(),
@@ -7050,7 +6643,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * curryear); if (paybillLoanRecoverDtlsEntity != null) { if
 					 * (loanEmployeeDtlsEntity != null && allowDeducCode ==
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE &&
-					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigInteger gpfabc =
+					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigDecimal gpfabc =
 					 * null; Double gpfd = 0d; if (loanEmployeeDtlsEntity.getLoanprinemiamt() !=
 					 * null) { gpfabc = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfd =
 					 * gpfabc.doubleValue(); //
@@ -7063,7 +6656,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * 
 					 * if (loanEmployeeDtlsEntity != null && allowDeducCode ==
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE &&
-					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigInteger gpfabc =
+					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigDecimal gpfabc =
 					 * null; Double gpfd = 0d; if (loanEmployeeDtlsEntity.getLoanprinemiamt() !=
 					 * null) { gpfabc = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfd =
 					 * gpfabc.doubleValue();
@@ -7082,8 +6675,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * yer = 0; int curryear = 0; mon = paybillHeadMpgModel.getPaybillMonth(); yer =
 					 * paybillHeadMpgModel.getPaybillYear();
 					 * 
-					 * BigInteger monthcurr = BigInteger.valueOf(mon); BigInteger yearcurr =
-					 * BigInteger.valueOf(yer); List<Object[]> yearinfo =
+					 * BigDecimal monthcurr = BigDecimal.valueOf(mon); BigDecimal yearcurr =
+					 * BigDecimal.valueOf(yer); List<Object[]> yearinfo =
 					 * commonHomeMethodsService.findyearinfo(yearcurr); for (Object[] yearLst :
 					 * yearinfo) { curryear = (Integer) yearLst[1]; }
 					 * 
@@ -7101,7 +6694,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * 
 					 * if (loanEmployeeDtlsEntity != null && allowDeducCode ==
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE &&
-					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigInteger gpfAdvD =
+					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigDecimal gpfAdvD =
 					 * null; Double gpfGrpAdvD = 0d; if (loanEmployeeDtlsEntity.getLoanprinemiamt()
 					 * != null) { gpfAdvD = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfGrpAdvD =
 					 * gpfAdvD.doubleValue();
@@ -7115,7 +6708,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * 
 					 * } } else { // TODO if (loanEmployeeDtlsEntity != null && allowDeducCode ==
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE &&
-					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigInteger gpfAdvD =
+					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigDecimal gpfAdvD =
 					 * null; Double gpfGrpAdvD = 0d; if (loanEmployeeDtlsEntity.getLoanprinemiamt()
 					 * != null) { gpfAdvD = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfGrpAdvD =
 					 * gpfAdvD.doubleValue();
@@ -7137,8 +6730,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * else if (str .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_EXC_PAYRC)) { int loanActive = 0; int mon = 0; int yer =
 					 * 0; int curryear = 0; mon = paybillHeadMpgModel.getPaybillMonth(); yer =
-					 * paybillHeadMpgModel.getPaybillYear(); BigInteger monthcurr =
-					 * BigInteger.valueOf(mon); BigInteger yearcurr = BigInteger.valueOf(yer);
+					 * paybillHeadMpgModel.getPaybillYear(); BigDecimal monthcurr =
+					 * BigDecimal.valueOf(mon); BigDecimal yearcurr = BigDecimal.valueOf(yer);
 					 * 
 					 * List<Object[]> yearinfo = commonHomeMethodsService.findyearinfo(yearcurr);
 					 * for (Object[] yearLst : yearinfo) { curryear = (Integer) yearLst[1]; }
@@ -7154,7 +6747,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * 
 					 * if (loanEmployeeDtlsEntity != null && allowDeducCode ==
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_EXC_PAYRC_CODE &&
-					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigInteger exc = null;
+					 * loanEmployeeDtlsEntity.getLoanactivateflag() == 1) { BigDecimal exc = null;
 					 * Double excPayLoan = 0d; if (loanEmployeeDtlsEntity.getLoanprinemiamt() !=
 					 * null) { exc = loanEmployeeDtlsEntity.getLoanprinemiamt(); excPayLoan =
 					 * exc.doubleValue();
@@ -7377,10 +6970,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 			paybillGenerationTrnDetails.setGrossTotalAmt((double) Math.round(Total));
 
-			double dedByAG = gpfGrpABC + gpfGrpD + GpfAbcArr + gpfDArr + GpfAdvDLoan + GpfABC;
+			double dedByAG = gpfGrpABC + gpfGrpD + GpfAbcArr + gpfDArr + GpfAdvDLoan + GpfABC + gisAmount ;
 			paybillGenerationTrnDetails.setDedAdjAg((double) Math.round(dedByAG));
 
-			double dedByTreasury = GisZp + it + groupAccPolicy + pt + coHsg + gisAmount + GpfAdvDLoan + npsEmpContri
+			double dedByTreasury = GisZp + it + groupAccPolicy + pt + coHsg + GpfAdvDLoan + npsEmpContri
 					+ npsEmprContri + cmFund + excessPayment + empDcpsReg + empDcpsPayArr + empDcpsDelay + empDcpsDaArr
 					+ revenueStamp + socOrBankLoan + BLWF + NDCPSsubscrp + GpfSpclArrears + hba + beigs + gpfSubscrb
 					+ gpfDaSub + rop + payFixDiff + nps + hrr + empContri + lic + gpfInst + recovery + otherRec

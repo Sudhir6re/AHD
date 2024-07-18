@@ -135,7 +135,7 @@ Session currentSession = manager.unwrap(Session.class);
             	
             	lstObj.setOrderNo(StringHelperUtils.isNullInt(objLst[46]));
             	lstObj.setApprovalByDdoDate(StringHelperUtils.isNullDate(objLst[47]));
-            	lstObj.setEmployeeId(StringHelperUtils.isNullInt(objLst[48]));
+            	lstObj.setEmployeeId(StringHelperUtils.isNullLong(objLst[48]));
             	lstObj.setSevaarthId(StringHelperUtils.isNullString(objLst[49]));
             	
             	lstObj.setNomineename(StringHelperUtils.isNullString(objLst[50]));

@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class MstEmployeeModel {
 	//Fields
-	private Integer employeeId;
+	private Long employeeId;
 	private String sevaarthId;
 	private Character gender;
 	private Integer salutation;

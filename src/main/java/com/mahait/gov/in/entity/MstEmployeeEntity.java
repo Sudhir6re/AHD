@@ -40,7 +40,7 @@ public class MstEmployeeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "EMPLOYEE_ID")
-	private Integer employeeId;
+	private Long employeeId;
 
 	@Column(name = "SEVAARTH_ID")
 	private String sevaarthId;
