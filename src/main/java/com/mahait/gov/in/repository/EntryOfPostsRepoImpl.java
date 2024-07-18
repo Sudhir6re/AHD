@@ -351,7 +351,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
 		sb.append(" select a.post_name, a.post_id,f.employee_full_name_en,c.designation_name,e.PSR_NO, ");
-		sb.append(" g.ddo_code,b.post_type_lookup_id,d.lookup_name  from org_post_details_rlt a  ");
+		sb.append(" i.DESCRIPTION,b.post_type_lookup_id,d.lookup_name  from org_post_details_rlt a  ");
 		sb.append(" inner join org_post_mst b on a.post_id=b.post_id ");
 		sb.append(" inner join designation_mst c on a.dsgn_id = c.designation_id ");
 		sb.append(" inner join cmn_lookup_mst d on d.lookup_id=b.post_type_lookup_id  ");
@@ -359,6 +359,8 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		sb.append(" left join employee_mst f on f.post_detail_id=a.post_id  ");
 		sb.append(" inner join org_ddo_mst g on a.loc_id = cast(g.location_code as bigint)  ");
 		sb.append(" inner join cmn_lookup_mst  h on h.lookup_id=b.post_type_lookup_id   ");
+		sb.append(" left join mst_dcps_bill_group  i on i.BILL_GROUP_ID=e.bill_no   ");
+		
 		sb.append("  where a.loc_id in (SELECT cast(location_code as bigint) FROM org_ddo_mst  a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code" + 
 				"  where rept_ddo_code='"+loginDddo+"')");
 		
@@ -367,7 +369,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 					" and a.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='"
 							+ ddoSelected + "')");
 		} else if (BillNo != null && !(BillNo.trim()).equals(""))
-			sb.append("  and g.ddo_code  = " + BillNo);
+			sb.append("  and i.BILL_GROUP_ID  = " + BillNo);
 		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
 			sb.append("  and  upper(c.designation_id) like  upper('%" + Dsgn + "%')  ");
 		else
