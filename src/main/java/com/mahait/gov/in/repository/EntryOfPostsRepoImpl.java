@@ -350,34 +350,30 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		List postNameList = new ArrayList();
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
-
-		sb.append(
-				"select pd.post_name, pd.post_id, (select o.employee_full_name_en from employee_mst o, org_userpost_rlt up ");
-		sb.append(
-				" where o.user_id = up.user_id and up.post_id = pd.post_id and up.end_date is null and up.activate_flag = 1), ds.designation_name , P.PSR_NO    ");
-
-		sb.append(
-				"  ,(select mp.ddo_code from org_ddo_mst mp where p.loc_id = cast(mp.location_code as bigint)) BillNo, org.post_type_lookup_id, cmn.lookup_name from org_post_details_rlt pd, designation_mst ds, org_post_mst org, cmn_lookup_mst cmn");
-		sb.append("  , HR_PAY_POST_PSR_MPG p ");
-		sb.append("  where pd.loc_id in ("
-				+ " SELECT cast(location_code as bigint) FROM org_ddo_mst  a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code" + 
-				"  where rept_ddo_code='"+loginDddo+"')"
-				+ "and P.POST_ID = PD.POST_ID and  pd.dsgn_id = ds.designation_id");
-		if (PsrNo != null && !(PsrNo.trim()).equals(""))
-			sb.append("  and p.psr_no = " + PsrNo);
-		else if ((ddoSelected != null) && (ddoSelected != "")) {
+		sb.append(" select a.post_name, a.post_id,f.employee_full_name_en,c.designation_name,e.PSR_NO, ");
+		sb.append(" g.ddo_code,b.post_type_lookup_id,d.lookup_name  from org_post_details_rlt a  ");
+		sb.append(" inner join org_post_mst b on a.post_id=b.post_id ");
+		sb.append(" inner join designation_mst c on a.dsgn_id = c.designation_id ");
+		sb.append(" inner join cmn_lookup_mst d on d.lookup_id=b.post_type_lookup_id  ");
+		sb.append(" inner join HR_PAY_POST_PSR_MPG e on e.POST_ID=b.post_id  ");
+		sb.append(" left join employee_mst f on f.post_detail_id=a.post_id  ");
+		sb.append(" inner join org_ddo_mst g on a.loc_id = cast(g.location_code as bigint)  ");
+		sb.append(" inner join cmn_lookup_mst  h on h.lookup_id=b.post_type_lookup_id   ");
+		sb.append("  where a.loc_id in (SELECT cast(location_code as bigint) FROM org_ddo_mst  a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code" + 
+				"  where rept_ddo_code='"+loginDddo+"')");
+		
+		if ((ddoSelected != null) && (ddoSelected != "")) {
 			sb.append(
-					" and pd.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='"
+					" and a.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='"
 							+ ddoSelected + "')");
 		} else if (BillNo != null && !(BillNo.trim()).equals(""))
-			sb.append("  and mp.bill_no  = " + BillNo);
+			sb.append("  and g.bill_no  = " + BillNo);
 		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
-			sb.append("  and  upper(ds.designation_id) like  upper('%" + Dsgn + "%')  ");
+			sb.append("  and  upper(c.designation_id) like  upper('%" + Dsgn + "%')  ");
 		else
-			sb.append("  and  upper(pd.post_name) like  upper('%" + lPostName + "%') ");
-		sb.append(" and pd.post_id=org.post_id ");
-		sb.append(" and cmn.lookup_id=org.post_type_lookup_id and org.activate_flag=1 ");
-		sb.append("   order by pd.CREATED_DATE desc  ");
+			sb.append("  and  upper(a.post_name) like  upper('%" + lPostName + "%') ");
+		
+		sb.append("   order by a.CREATED_DATE desc  ");
 
 		System.out.println(sb.toString());
 

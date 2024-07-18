@@ -167,13 +167,14 @@ $("#btnFilter").click(function(){
 						$("#loaderMainNew").hide();
 						j=1;
 						if(len>0){
+							 dataTable.fnClearTable();
 							for (var i = 0; i < data.length; i++) {
-								 dataTable.fnClearTable();
 								 dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].billNo]);
 								 j++;
 							}
 						}
 						if(data.length==0){
+							tablePost.fnClearTable();
 							swal("No data found");
 						}
 				}
@@ -187,6 +188,12 @@ $("#Search").click(function(){
 	 var Dsgn=$("#designationCmb").val();
 	 var BillNo=$("#billCmb").val();
 	 var context = $("#appRootPath").val();
+	 
+	 
+	 if(ddoCode1=="-1"){
+		 ddoCode1="";
+	 }
+	 
 	if(Dsgn!='-1' && BillNo!="-1"){
 		 // $("#loaderMainNew").show();
 			$.ajax({
@@ -206,13 +213,14 @@ $("#Search").click(function(){
 						$("#loaderMainNew").hide();
 						j=1;
 						if(len>0){
+							 dataTable.fnClearTable();
 							for (var i = 0; i < data.length; i++) {
-								 dataTable.fnClearTable();
 								 dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].billNo]);
 								 j++;
 							}
 						}
 						if(data.length==0){
+							tablePost.fnClearTable();
 							swal("No data found");
 						}
 				}
@@ -224,9 +232,6 @@ $("#Search").click(function(){
 
 
 $("#searchPostDetails").click(function(){
-	
-	
-	
 	var tablePost= $("#tablePost").dataTable();
 	
 	 var ddoCode1=$("#cmbAsstDDO").val();
@@ -250,14 +255,12 @@ $("#searchPostDetails").click(function(){
 						$("#loaderMainNew").hide();
 						j=1;
 						if(len>0){
+							tablePost.fnClearTable();
 							for (var i = 0; i < data.length; i++) {
 								var input='<input type="checkbox" name="GroupCheck" id="GroupCheck1" value="'+data[i].orgPostMst.postId+'">';
 								var postname='<label id="postName'+i+'"><b>'+data[i].postName+'</b><b>T</b></label>';
-								tablePost.fnClearTable();
 								tablePost.fnAddData([input,data[i].postname]);
 								 j++;
-								 
-								 
 								 $("#counterPost").val(i);
 							}
 						}
