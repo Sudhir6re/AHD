@@ -367,7 +367,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 					" and a.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='"
 							+ ddoSelected + "')");
 		} else if (BillNo != null && !(BillNo.trim()).equals(""))
-			sb.append("  and g.bill_no  = " + BillNo);
+			sb.append("  and g.ddo_code  = " + BillNo);
 		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
 			sb.append("  and  upper(c.designation_id) like  upper('%" + Dsgn + "%')  ");
 		else
