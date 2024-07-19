@@ -97,11 +97,11 @@ function populateTable(data) {
            var row2 = '<span id="' + row[1] + '"><a href="#"  data-ddocode="'+ row[1]+'" class="ddoCode"    data-srno="'+index+'" >' + row[1] + '</a></span>';
     	var row3=null;
     	   if(row[5]==0){
-    		   row3= '<span class="btn btn-warning" >Pending</span>';
+    		   row3= '<span class="btn-warning" >Pending</span>';
     	   }else if(row[5]==1){
-    		   row3= '<span  class="btn btn-succes" >Approved</span>';
+    		   row3= '<span  class="btn-succes" >Approved</span>';
     	   }else{
-    		   row3= '<span  class="btn btn-danger >Rejected</span>';
+    		   row3= '<span  class="btn-danger >Rejected</span>';
     	   }
     	   
     	   var createdDate = new Date(row[7]); 
@@ -182,6 +182,12 @@ $("#txtRepDDOCode").blur(function(){
         data: { ddoCode: ddoCode },
     	async : true,
 		contentType : 'application/json',
+	 	beforeSend : function(){
+			$( "#loaderMainNew").show();
+			},
+		complete : function(data){
+			$( "#loaderMainNew").hide();
+		},
         success: function(response) {
         	if(response!=''){
         		 var dropdown = $('#cmbSubTreasury');
@@ -219,6 +225,12 @@ $.ajax({
 	contentType : 'application/json',
 	error : function(data) {
 		 console.log(data);
+	},
+ 	beforeSend : function(){
+		$( "#loaderMainNew").show();
+		},
+	complete : function(data){
+		$( "#loaderMainNew").hide();
 	},
 	success : function(response) {
 		 console.log(response);
@@ -294,6 +306,12 @@ $('body').on('click', '.ddoCode', function() {
 		contentType : 'application/json',
 		error : function(data) {
 			// console.log(data);
+		},
+	 	beforeSend : function(){
+			$( "#loaderMainNew").show();
+			},
+		complete : function(data){
+			$( "#loaderMainNew").hide();
 		},
 		success : function(data) {
 			// console.log(data);

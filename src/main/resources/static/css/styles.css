@@ -95,3 +95,20 @@ a {
     border-left: none !important;
     border-right: none !important;
 }
+.btn-success,.btn-warning,.btn-danger{
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border-radius: 4px;
+}
