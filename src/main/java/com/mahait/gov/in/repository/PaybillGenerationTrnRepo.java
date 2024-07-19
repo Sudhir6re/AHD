@@ -47,7 +47,7 @@ public interface PaybillGenerationTrnRepo {
 	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, Character cityClass);
 	public Integer isPaybillExistsForCurrentMonth(BigInteger schemeBillgroupId, int paybillMonth, int paybillYear);
 	public int getCheckIsBillInProcess(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType);
-	public String getgradePay7PC(Integer gradelevel);
+	public String getgradePay7PC(Long gradelevel);
 	public String isEmpRetired(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType, String userName);
 	
 	public String isEmpRetiredBySevaarthId(String sevaarthId,Date suppAnnDate);

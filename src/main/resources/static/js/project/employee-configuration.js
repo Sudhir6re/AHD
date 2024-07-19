@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
 	
 var paycomm =$("#payCommision").val();
 if(paycomm != '' && paycomm != undefined){
-	if(paycomm =='8'){ //7 pc
+	if(paycomm =='700005'){ //7 pc
 		
 		$('#payscalelevel').attr("readonly", false); 
 		$('#svnthpaybasic').attr("readonly", false);
@@ -20,7 +20,7 @@ if(paycomm != '' && paycomm != undefined){
 		$("#payInPayBand").attr("readonly", true);
 		$('#payInPayBand').empty();
 		$('#gradePay').empty();
-	}else if(paycomm =='2'){  //six pc 
+	}else if(paycomm =='700016'){  //six pc 
 		
 		$('#payscalelevel').addClass("ignore");
 		$('#svnthpaybasic').addClass("ignore");
@@ -330,7 +330,7 @@ if(paycomm != '' && paycomm != undefined){
 		var branchId=$(this).val();
 			$.ajax({
 				type : "GET",
-				url : "../level1/getIfscCodeByBranchId/"
+				url : "../ddoast/getIfscCodeByBranchIdForEmp/"
 						+ branchId,
 				async : true,
 				contentType : 'application/json',
@@ -591,10 +591,19 @@ if(paycomm != '' && paycomm != undefined){
 				required : true,
 				min : 1
 			},
+//			gender : {
+//				required : true,
+//				min : 1
+//			},
+			
 			gender : {
-				required : true,
-				min : 1
+				required : function() {
+					//returns true if uid3 is empty
+					return ($('input[name="gender"]:checked').val() == '' || $('input[name="gender"]:checked').val()==undefined);
+				},
+				minlength : 1,
 			},
+			
 			stateCode : {
 				required : true,
 				min : 1
@@ -694,7 +703,7 @@ if(paycomm != '' && paycomm != undefined){
 			payscalelevelId : {
 				required : function() {
 					//returns true if eidNo is empty
-					return !parseInt($("#payCommision").val())!=2;
+					return !parseInt($("#payCommision").val())!=700016;
 				},
 				//digits : true,
 				min : 1,
@@ -702,7 +711,7 @@ if(paycomm != '' && paycomm != undefined){
 			svnthpaybasic : {
 				required : function() {
 					//returns true if eidNo is empty
-					return parseInt($("#payCommision").val())!=2;
+					return parseInt($("#payCommision").val())!=700016;
 				},
 				min : 1,
 				//minlength : 1,
@@ -715,15 +724,15 @@ if(paycomm != '' && paycomm != undefined){
 			payScaleCode : {
 				required : function() {
 					//returns true if eidNo is empty
-					return parseInt($("#payCommision").val())==2;
+					return parseInt($("#payCommision").val())==700016;
 				},
-				min : parseInt($("#payCommision").val())==2?1:0,
+				min : parseInt($("#payCommision").val())==700016?1:0,
 				//minlength : 1,
 			},
 			payInPayBand : {
 				required : function() {
 					//returns true if eidNo is empty
-					return parseInt($("#payCommision").val())==2;
+					return parseInt($("#payCommision").val())==700016;
 				},
 			},
 			postdetailid : { //current post
@@ -844,10 +853,10 @@ if(paycomm != '' && paycomm != undefined){
 					},
 //					min : parseInt($('#gisapplicable').val())==1?0:1,
 				},
-				cityClass : {
-						required :true,
-						pattern: /^([A-Z]){1}?$/,
-					},
+//				cityClass : {
+//						required :true,
+//						pattern: /^([A-Z]){1}?$/,
+//					},
 				religionCode:{
 					required :true,
 					min:1,
@@ -1164,7 +1173,7 @@ $("#payCommision")
 					
 					
 					if (payCommisionId != '') {
-						if (payCommisionId == '8') {
+						if (payCommisionId == '700005') {
 //							$('#payScaleSeven').attr("disabled", true); 
 //							$('#basicPay').attr("disabled", true);
 							
@@ -1247,7 +1256,7 @@ $("#payCommision")
 										}
 									});
 						} 
-						else if (payCommisionId == '2') {
+						else if (payCommisionId == '700016') {
 							$('#payscalelevel').attr("disabled", true); 
 							$('#svnthpaybasic').attr("disabled", true); 
 							$('#payScaleSeven').attr("disabled", false); 
@@ -1470,8 +1479,8 @@ $("#designationId")
 															temp,
 															function(index,
 																	value) {
-																console
-																		.log(value[2]);
+//																console
+//																		.log(value[2]);
 																$(
 																		'#postdetailid')
 																		.append(
@@ -1500,45 +1509,61 @@ $("#accountmaintainby")
 		.change(
 				function() {
 					var accmainby = $("#accountmaintainby").val();
-					if(accmainby== 3)
+					if(accmainby== '700096')
 					{
 						$("#InputBox").hide();
 						//document.getElementById('pfseries').disabled = 'true';	
 						//document.getElementById('pfacno').disabled = 'true';	
-						document.getElementById('pfdescription').disabled = 'true';	
+						document.getElementById('pfdescription').value = 'Others';	
+						document.getElementById('pfseries').value = 'Others';	
+						
+//						$('#pfseries').empty();
+//						$('#pfacno').empty();
+//						$('#pfdescription').empty();
+						
+						
+//						$('#pfseries').append("<option value='1'>A</option>");
+//						$('#pfseries').append("<option value='2'>B</option>");
+//						$('#pfseries').append("<option value='3'>C</option>");
+//						$('#pfseries').append("<option value='4'>D</option>");
+//						$('#pfseries').append("<option value='5'>E</option>");
+//						$('#pfseries').append("<option value='6'>F</option>");
+//						$('#pfseries').append("<option value='7'>G</option>");
+//						$('#pfseries').append("<option value='8'>H</option>");
+//						$('#pfseries').append("<option value='9'>I</option>");
+//						$('#pfseries').append("<option value='10'>J</option>");
+//						$('#pfseries').append("<option value='11'>K</option>");
+//						$('#pfseries').append("<option value='12'>L</option>");
+//						$('#pfseries').append("<option value='13'>M</option>");
+//						$('#pfseries').append("<option value='14'>N</option>");
+//						$('#pfseries').append("<option value='15'>O</option>");
+//						$('#pfseries').append("<option value='16'>P</option>");
+//						$('#pfseries').append("<option value='17'>Q</option>");
+//						$('#pfseries').append("<option value='18'>R</option>");
+//						$('#pfseries').append("<option value='19'>S</option>");
+//						$('#pfseries').append("<option value='20'>T</option>");
+//						$('#pfseries').append("<option value='21'>U</option>");
+//						$('#pfseries').append("<option value='22'>V</option>");
+//						$('#pfseries').append("<option value='23'>W</option>");
+//						$('#pfseries').append("<option value='24'>X</option>");
+//						$('#pfseries').append("<option value='25'>Y</option>");
+//						$('#pfseries').append("<option value='26'>Z</option>");
+//						
+						
+					}
+					
+					else if(accmainby== '700094')
+					{
+						$("#InputBox").hide();
+						//document.getElementById('pfseries').disabled = 'true';	
+						//document.getElementById('pfacno').disabled = 'true';	
+//						document.getElementById('pfdescription').disabled = 'true';	
+						document.getElementById('pfdescription').value = '';	
+						document.getElementById('pfseries').disabled = 'true';	
+						
 						$('#pfseries').empty();
 						$('#pfacno').empty();
 						$('#pfdescription').empty();
-						
-						
-						$('#pfseries').append("<option value='1'>A</option>");
-						$('#pfseries').append("<option value='2'>B</option>");
-						$('#pfseries').append("<option value='3'>C</option>");
-						$('#pfseries').append("<option value='4'>D</option>");
-						$('#pfseries').append("<option value='5'>E</option>");
-						$('#pfseries').append("<option value='6'>F</option>");
-						$('#pfseries').append("<option value='7'>G</option>");
-						$('#pfseries').append("<option value='8'>H</option>");
-						$('#pfseries').append("<option value='9'>I</option>");
-						$('#pfseries').append("<option value='10'>J</option>");
-						$('#pfseries').append("<option value='11'>K</option>");
-						$('#pfseries').append("<option value='12'>L</option>");
-						$('#pfseries').append("<option value='13'>M</option>");
-						$('#pfseries').append("<option value='14'>N</option>");
-						$('#pfseries').append("<option value='15'>O</option>");
-						$('#pfseries').append("<option value='16'>P</option>");
-						$('#pfseries').append("<option value='17'>Q</option>");
-						$('#pfseries').append("<option value='18'>R</option>");
-						$('#pfseries').append("<option value='19'>S</option>");
-						$('#pfseries').append("<option value='20'>T</option>");
-						$('#pfseries').append("<option value='21'>U</option>");
-						$('#pfseries').append("<option value='22'>V</option>");
-						$('#pfseries').append("<option value='23'>W</option>");
-						$('#pfseries').append("<option value='24'>X</option>");
-						$('#pfseries').append("<option value='25'>Y</option>");
-						$('#pfseries').append("<option value='26'>Z</option>");
-						
-						
 					}
 					else
 						{
@@ -1546,7 +1571,7 @@ $("#accountmaintainby")
 					document.getElementById('pfseries').disabled = '';	
 					document.getElementById('pfacno').disabled = '';	
 				///	document.getElementById('pfdescription').disabled = '';	
-					if (designationId != '') {
+					if (accmainby != '') {
 						$
 								.ajax({
 									type : "GET",
@@ -1969,7 +1994,7 @@ function forwardToDDo() {
 	}
 
 	var genderv = document.getElementById("gender");
-	if (genderv.value === "0") {
+	if (genderv.value == "") {
 		swal('Please select gender');
 		return false;
 	}
@@ -2086,7 +2111,7 @@ function forwardToDDo() {
 		return false;
 	}
 	
-	if(payCommision.value != "2"){
+	if(payCommision.value != "700016"){
 	var payscalelevel = document.getElementById("payscalelevel");
 	if (payscalelevel.value === "0") {
 		swal('Please select Payscale Level');
@@ -4184,6 +4209,120 @@ $("#payScaleSeven").change(function() {
 
 });
 
+// added By Aks
+$("#postdetailid")
+.change(
+		function() {
+			var postdetailid = $("#postdetailid").val();
+			alert("postdetailid"+postdetailid);
+			if (postdetailid != '') {
+				$
+						.ajax({
+							type : "GET",
+							url : "employeeConfigurationGetCurrenOffice/"
+									+ postdetailid,
+							async : true,
+							contentType : 'application/json',
+							error : function(data) {
+								console.log(data);
+							},
+							success : function(data) {
+								// console.log(data);
+								// alert(data);
+								var len = data.length;
+								if (len != 0) {
+									// console.log(data);
+									$('#adminDepartmentId').empty();
+//									$('#adminDepartmentId')
+//											.append(
+//													"<option value='0'>Please Select</option>");
+									var temp = data;
+									$
+											.each(
+													temp,
+													function(index,
+															value) {
+//														console
+//																.log(value[2]);
+														$(
+																'#adminDepartmentId')
+																.append(
+																		"<option value="
+																				+ value[0]
+																				+ ">"
+																				+ value[1]
+																				+ "</option>");
+														 $("#instituteAdd").val(value[2]);
+														 $("#mobileNo2").val(value[3]);
+														 $("#instEmailId").val(value[6]);
+														 $("#cityClass").val(value[8]);
+													});
+								} else {
+									$('#adminDepartmentId').empty();
+									$('#adminDepartmentId')
+											.append(
+													"<option value='0'>Please Select</option>");
+									swal("Record not found !!!");
+								}
+							}
+						});
+			}
+
+		});
+//end designation
+
+$("#adminDepartmentId")
+.change(
+		function() {
+			var adminDepartmentId = $("#adminDepartmentId").val();
+			alert("adminDepartmentId"+adminDepartmentId);
+			if (adminDepartmentId != '') {
+				$
+						.ajax({
+							type : "GET",
+							url : "employeeConfigurationGetCurrenOfficeAddress/"
+									+ adminDepartmentId,
+							async : true,
+							contentType : 'application/json',
+							error : function(data) {
+								console.log(data);
+							},
+							success : function(data) {
+								// console.log(data);
+								// alert(data);
+								var len = data.length;
+								if (len != 0) {
+									// console.log(data);
+									$('#adminDepartmentId').empty();
+//									$('#adminDepartmentId')
+//											.append(
+//													"<option value='0'>Please Select</option>");
+									var temp = data;
+									$
+											.each(
+													temp,
+													function(index,
+															value) {
+//														console
+//																.log(value[2]);
+														 $("#instituteAdd").val(value[0]);
+														 $("#mobileNo2").val(value[1]);
+														 $("#instEmailId").val(value[4])
+													});
+								} else {
+									$('#adminDepartmentId').empty();
+									$('#adminDepartmentId')
+											.append(
+													"<option value='0'>Please Select</option>");
+									swal("Record not found !!!");
+								}
+							}
+						});
+			}
+
+		});
+
+// ended By Aks
 
 var today1 = new Date();
 var dd1 = today1.getDate();

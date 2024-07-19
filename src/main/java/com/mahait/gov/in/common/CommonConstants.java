@@ -103,6 +103,9 @@ public class CommonConstants {
 		String EMPSERVICEENDDTREASONS = "EMP_SERVICE_END_DT_REASONS";
 		String HEADOFOFFICECODE = "10001198220";
 		String COMMONCODE_SALUTATIONS = "Salutation";
+		String COMMONCODE_DCPSACCMAINTAINEDBY = "AccountMaintainedByForDCPSEmp";
+		String COMMONCODE_GPFACCMAINTAINEDBY = "AccountMaintaindedBy";
+		String COMMONCODE_GISAPPLICABLE = "GISDetails";
 	}
 	
 	public interface PAYBILLDETAILS{

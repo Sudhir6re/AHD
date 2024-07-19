@@ -1,5 +1,7 @@
 package com.mahait.gov.in.controller;
 
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,30 +9,43 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
+import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.entity.CmnLookupMst;
+import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstGpfDetailsEntity;
+import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ReligionMstEntity;
 import com.mahait.gov.in.model.DDOScreenModel;
+import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
+import com.mahait.gov.in.model.MstNomineeDetailsModel;
 import com.mahait.gov.in.model.MstStateModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
@@ -44,7 +59,8 @@ import com.mahait.gov.in.service.MstEmployeeService;
 
 
 @Controller
-@RequestMapping("/ddoast")
+//@RequestMapping("/ddoast")
+@RequestMapping(value= {"/ddoast","/ddo"})
 @PropertySource(value = { "classpath:application.properties" })
 public class EmployeeConfigurationController {
 
@@ -206,11 +222,11 @@ public class EmployeeConfigurationController {
 //		List<MstCommonEntity> cityClassList = new ArrayList<>();
 //		cityClassList = commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
 //		model.addAttribute("cityClassList", cityClassList);
-//		
-		List<MstCommonEntity> cityClassList = new ArrayList<>();
-		//cityClassList = commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
-		model.addAttribute("cityClassList", cityClassList);
 		
+//		List<MstCommonEntity> cityClassList = new ArrayList<>();
+//		//cityClassList = commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
+//		model.addAttribute("cityClassList", cityClassList);
+//		
 	
 
 		model.addAttribute("lstAdminOfficeMst", lstDepartment);
@@ -227,17 +243,27 @@ public class EmployeeConfigurationController {
 		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
 		model.addAttribute("lstDesignation", mstEmployeeService.getDesignationMstData(locale.getLanguage(),locId));
 		model.addAttribute("lstAppointment", mstEmployeeService.getAppoitnment(locale.getLanguage()));
+		model.addAttribute("lstQualification", mstEmployeeService.getQualification(locale.getLanguage()));
 		
-		/*model.addAttribute("lstDcpsAccnMaintainby", mstEmployeeService.getDcpsAccnMaintainby());
+		List<CmnLookupMst> lstDcpccnMaintainby = new ArrayList<>();
+		lstDcpccnMaintainby = commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_DCPSACCMAINTAINEDBY);
+		model.addAttribute("lstDcpsAccnMaintainby", lstDcpccnMaintainby);
 		
+//		model.addAttribute("lstDcpsAccnMaintainby", mstEmployeeService.getDcpsAccnMaintainby()); COMMONCODE_GPFACCMAINTAINEDBY
 		
-		model.addAttribute("lstAccountMaintainby", mstEmployeeService.getAccountMaintainby());
+		List<CmnLookupMst> lstAccnMaintainby = new ArrayList<>();
+		lstAccnMaintainby = commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_GPFACCMAINTAINEDBY);
+		model.addAttribute("lstAccountMaintainby", lstAccnMaintainby);
+//		model.addAttribute("lstAccountMaintainby", mstEmployeeService.getAccountMaintainby());
 		// model.addAttribute("lstCurntDepartment",
 		// mstDepartmentService.findMstDeptByDeptId(15));
 		model.addAttribute("lstCurntDepartment", lstDepartment);
+		List<CmnLookupMst> lstgisapplicable = new ArrayList<>();
+		lstgisapplicable = commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_GISAPPLICABLE);
+		model.addAttribute("lstGISApplicable", lstgisapplicable);
 		model.addAttribute("lstGISGroup", mstEmployeeService.getGISGroup());
-		model.addAttribute("lstGISApplicable", mstEmployeeService.getGISApplicable());
-		model.addAttribute("lstRelation", mstEmployeeService.getRelation());*/
+		
+		model.addAttribute("lstRelation", mstEmployeeService.getRelation());
 		model.addAttribute("lstAllBankList", mstBankService.lstAllBank());
 //		model.addAttribute("lstCommonMstSalutation", commonHomeMethodsService
 //				.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.COMMONCODE_SALUTATIONS));
@@ -276,23 +302,16 @@ public class EmployeeConfigurationController {
 	public @ResponseBody List<Object[]> employeeConfigurationGetpayScale(@PathVariable int payCommission, Model model,
 			Locale locale) {
 		List<Object[]> employeeConfigurationService = null;
-		if (payCommission == 2500341 || payCommission == 2) {
+		if (payCommission == 2500341 || payCommission == 700016) {
 			employeeConfigurationService = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
 		}
-		if (payCommission == 2500347 || payCommission == 8) {
+		if (payCommission == 2500347 || payCommission == 700005) {
 			employeeConfigurationService = mstEmployeeService.findEmployeeConfigurationGetpayscale(payCommission);
 		} else
 			return employeeConfigurationService;
 		return employeeConfigurationService;
 	}
-	@RequestMapping("/employeeConfigurationGetCurrentPost/{designationId}/{postdetailid}")
-	public @ResponseBody List<Object[]> employeeConfigurationGetCurrentPost(@PathVariable int designationId,
-			@PathVariable String postdetailid, Model model, Locale locale, HttpSession session) {
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		List<Object[]> employeeConfigurationService = mstEmployeeService.findEmployeeConfigurationGetCurrentPost(
-				designationId, messages.getUserName(), postdetailid != null ? postdetailid : "");
-		return employeeConfigurationService;
-	}
+
 	
 	@RequestMapping("/fetchcadregroupdtls/{cadreid}")
 	public @ResponseBody List<Object[]> fetchcadregroupdtls(@PathVariable String cadreid, Model model, Locale locale) {
@@ -326,6 +345,431 @@ public class EmployeeConfigurationController {
 				.findEmployeeConfigurationGetsvnbasicpay(payscale);
 		return employeeConfigurationService;
 	}
+	
+	@RequestMapping("/employeeConfigurationGetCurrentPost/{designationId}/{postdetailid}")
+	public @ResponseBody List<Object[]> employeeConfigurationGetCurrentPost(@PathVariable int designationId,
+			@PathVariable String postdetailid, Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		long locId = Long.parseLong((String) session.getAttribute("locationId"));
+		List<Object[]> employeeConfigurationService = mstEmployeeService.findEmployeeConfigurationGetCurrentPost(
+				designationId, messages.getUserName(), postdetailid != null ? postdetailid : "",locId);
+		return employeeConfigurationService;
+	}
+	
+	@RequestMapping("/employeeConfigurationGetCurrenOffice/{postdetailid}")
+	public @ResponseBody List<Object[]> employeeConfigurationGetCurrenOffice(@PathVariable long postdetailid, Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		long locId = Long.parseLong((String) session.getAttribute("locationId"));
+		List<Object[]> employeeConfigurationService = mstEmployeeService.employeeConfigurationGetCurrenOffice(
+				postdetailid, messages.getUserName(),locId);
+		return employeeConfigurationService;
+	}
+	
+	@RequestMapping("/employeeConfigurationGetCurrenOfficeAddress/{adminDepartmentId}")
+	public @ResponseBody List<Object[]> employeeConfigurationGetCurrenOfficeAddress(@PathVariable long adminDepartmentId, Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		long locId = Long.parseLong((String) session.getAttribute("locationId"));
+		List<Object[]> employeeConfigurationService = mstEmployeeService.employeeConfigurationGetCurrenOfficeAddress(
+				adminDepartmentId, messages.getUserName(),locId);
+		return employeeConfigurationService;
+	}
+	
+	@RequestMapping("/fetchbankbranch/{bankid}")
+	public @ResponseBody List<Object[]> getBankBranch(@PathVariable String bankid, Model model, Locale locale) {
 
+		List<Object[]> employeeConfigurationService = mstEmployeeService.getBankBranch(bankid);
+		return employeeConfigurationService;
+	}
+	@RequestMapping("/PfSeries/{accmainby}")
+	public @ResponseBody List<Object[]> getPfSeries(@PathVariable String accmainby, Model model, Locale locale) {
+
+		List<Object[]> employeeConfigurationService = mstEmployeeService.getPfSeries(accmainby);
+		return employeeConfigurationService;
+	}
+	
+//	@RequestMapping(value = "/getIfscCodeByBranchId/{branchId}", consumes = {
+//	"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+//public ResponseEntity<List<MstBankBranchEntity>> getIfscCodeByBranchId(
+//	@PathVariable int branchId) {
+//return ResponseEntity
+//		.ok(mstEmployeeService.getIfscCodeByBranchId(branchId));
+//}
+	@RequestMapping(value = "/getIfscCodeByBranchIdForEmp/{branchId}", consumes = {
+	"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<Object> getIfscCodeByBranchId(@PathVariable int branchId) {
+return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId));
+}
+	@RequestMapping(value = "/saveEmployeeConfiguration", method = { RequestMethod.POST })
+	public String saveEmployeeConfiguration(
+			@ModelAttribute("mstEmployeeModel") @Valid MstEmployeeModel mstEmployeeModel, BindingResult bindingResult,
+			HttpSession session, @RequestParam("files") MultipartFile[] files, RedirectAttributes redirectAttributes,
+			Model model, Locale locale) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+
+		String strAction = mstEmployeeModel.getAction();
+		if (strAction.equals("EditBack")) {
+			return "redirect:/ddoast/employeeDetails";
+		}
+		if (strAction.equals("Edit")) {
+			mstEmployeeModel.setUpdatedUserId(messages.getUserId());
+			long afterSaveId = mstEmployeeService.updateEmployeeConfiguration(mstEmployeeModel, files);
+			// int result=
+			// mstEmployeeService.savePhotoSignature(files,mstEmployeeModel.getDeptNm(),mstEmployeeModel.getEmployeeId());
+			if (afterSaveId > 0) {
+
+				if (mstEmployeeModel.getIsActive() == 2) {
+					redirectAttributes.addFlashAttribute("message", "SUCCESS");
+				} else {
+					redirectAttributes.addFlashAttribute("message", "Registration form is forwarded successfully");
+				}
+			}
+			return "redirect:/ddoast/employeeDetails";
+			// return "redirect:/level1/employeeDetailsList/{"+message+"}";
+		} else {
+			mstEmployeeModel.setCreatedUserId(messages.getUserId());
+			long afterSaveId = mstEmployeeService.saveEmployeeConfiguration(mstEmployeeModel, files);
+			// int saveimage=
+			// mstEmployeeService.savePhotoSignature(files,mstEmployeeModel.getDeptNm(),mstEmployeeModel.getEmployeeId());
+			if (afterSaveId > 0) 
+					redirectAttributes.addFlashAttribute("message", "SUCCESS");
+				else
+					redirectAttributes.addFlashAttribute("message", "Registration form is forwarded successfully");
+			return "redirect:/ddoast/employeeConfiguration";
+		}
+
+	}
+	
+	@RequestMapping(value = "/approveEmployeeDetail", method = { RequestMethod.GET, RequestMethod.POST })
+	public String getApproveEmployeeDetail(@ModelAttribute("mstEmployeeModel") MstEmployeeModel mstEmployeeModel,
+			BindingResult bindingResult, Model model, Locale locale, HttpSession session) {
+		String message = (String) model.asMap().get("message");
+		model.addAttribute("mstEmployeeModel", mstEmployeeModel);
+
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		long locId = Long.parseLong((String) session.getAttribute("locationId"));
+
+		if (message != null && message.equals("SUCCESS")) {
+			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_ENGLSH, STATUS.SUCCESS, model);
+			} else {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
+			}
+		}
+		// model.addAttribute("lstAdminOfficeMst",
+		// createAdminOfficeService.lstAdminOfficeMst());
+		// model.addAttribute("lstCadreMst",
+		// mstCadreService.getCadreMstData(locale.getLanguage()));
+		model.addAttribute("language", locale.getLanguage());
+		String strddo = messages.getDdoCode();
+
+		List<MstEmployeeModel> employeeConfigurationService = mstEmployeeService.getApproveEmployeeDetails(strddo,
+				locale.getLanguage(),locId);
+
+		// MstEmployeeEntity mm=employeeConfigurationService.get(0);
+		// logger.info("employeeConfigurationService="+mm);
+		model.addAttribute("employeedetails", employeeConfigurationService);
+		return "/views/approve-employee-details";
+	}
+	
+	
+	@RequestMapping(value = "/approveEmployeeConfiguration", method = { RequestMethod.GET, RequestMethod.POST })
+	public String approveEmployeeConfiguration(@ModelAttribute("mstEmployeeModel") MstEmployeeModel mstEmployeeModel,
+			Model model, Locale locale, HttpSession session) {
+
+		String message = (String) model.asMap().get("message");
+		mstEmployeeModel = mstEmployeeService.getEmployeeinfo(mstEmployeeModel.getEmployeeId());
+
+		// Get Image start
+		String key = "";
+		String rootPath = "";
+		String strOSName = System.getProperty("os.name");
+		boolean test = strOSName.contains("Windows");
+		if (strOSName.contains("Windows")) {
+			key = "serverempconfigimagepath";
+		} else {
+			key = "serverempconfigimagepathLinuxOS";
+		}
+		rootPath = environment.getRequiredProperty(key);
+
+		rootPath += mstEmployeeModel.getDeptNm() + "/" + mstEmployeeModel.getEmployeeId();
+		if (mstEmployeeModel.getPhotoAttachmentId() != null)
+			if (!mstEmployeeModel.getPhotoAttachmentId().equals("")) {
+			/*	String strphotoimg = mstEmployeeService.findEmployeeConfigurationUploadImage(
+						mstEmployeeModel.getPhotoAttachmentId(),
+						"photo" + mstEmployeeModel.getDeptNm() + mstEmployeeModel.getEmployeeId() + ".jpg");
+				mstEmployeeModel.setImagePath(strphotoimg);*/
+				
+				mstEmployeeModel.setImagePath(rootPath+"/"+"photo.jpg");
+			}
+		if (mstEmployeeModel.getSignatureAttachmentId() != null)
+			if (!mstEmployeeModel.getSignatureAttachmentId().equals("")) {
+			/*	String strsignimg = mstEmployeeService.findEmployeeConfigurationUploadImage(
+						mstEmployeeModel.getSignatureAttachmentId(),
+						"signature" + mstEmployeeModel.getDeptNm() + mstEmployeeModel.getEmployeeId() + ".jpg");
+				mstEmployeeModel.setImagePathSign(strsignimg);*/
+				
+				mstEmployeeModel.setImagePath(rootPath+"/"+"signature.jpg");
+			}
+		// String src1="Output1.jpg";
+
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		long locId = mstEmployeeService.getLocationCode(mstEmployeeModel.getDdoCode());
+		// Get Institution Details start
+//		List<Object[]> lstInstitueDtls = mstEmployeeService.getInstitueDtls(messages.getUserName().toString());
+//		if (!lstInstitueDtls.isEmpty()) {
+//			for (Object[] objLst : lstInstitueDtls) {
+//				mstEmployeeModel.setInstName(objLst[0].toString());
+//				mstEmployeeModel.setInsttelnoone(objLst[1].toString());
+//				mstEmployeeModel.setInsttelnotwo(objLst[2].toString());
+//				mstEmployeeModel.setInstemail(objLst[3].toString());
+//			}
+//		}
+//		// Get Institution Details end
+
+		// Get annuation age start
+		if (mstEmployeeModel.getCadreId() != null)
+			if (mstEmployeeModel.getCadreId().intValue() != 0) {
+				List<Object[]> lstCadregroup = mstEmployeeService.getCadreGroupMstData(locale.getLanguage(),
+						mstEmployeeModel.getCadreId().toString());
+				if (!lstCadregroup.isEmpty()) {
+					for (Object[] objLst : lstCadregroup) {
+						mstEmployeeModel.setSuperannuationage(Long.valueOf(objLst[1].toString()));
+					}
+				}
+			}
+
+		if (message != null && message.equals("SUCCESS")) {
+			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_ENGLSH, STATUS.SUCCESS, model);
+			} else {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
+			}
+		}
+		
+		
+		
+		List<ReligionMstEntity> mstReligionLst = new ArrayList<>();
+		mstReligionLst = commonHomeMethodsService.fetchAllReligions();
+		model.addAttribute("mstReligionLst", mstReligionLst);
+		
+		// model.addAttribute("lstAdminOfficeMst",
+		// mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(),
+		// messages.getUserName().toString()));
+		DDOScreenModel ddoScreenModel = new DDOScreenModel();
+//		List<DDOScreenModel> lstAdminOfficeMst = mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(),
+//				messages.getUserName().toString());
+		List<DDOScreenModel> lstAdminOfficeMst = mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(),
+				locId);
+		model.addAttribute("lstAdminOfficeMst", lstAdminOfficeMst);
+		// MstSubDepartmentEntity mstdeptentity =
+		// mstSubDepartmentServicee.findMstSubDeptByDeptId(23);
+		ddoScreenModel = lstAdminOfficeMst.get(0);
+		mstEmployeeModel.setAction("Edit");
+		// mstEmployeeModel.setDeptNm(mstdeptentity.getSubDepartmentShortName().toString());
+	//	mstEmployeeModel.setDeptNm(ddoScreenModel.getSubDeptShortName().toString());
+     mstEmployeeModel.setEmployeeId(mstEmployeeModel.getEmployeeId());
+		model.addAttribute("mstEmployeeModel", mstEmployeeModel);
+		model.addAttribute("employeeId", mstEmployeeModel.getEmployeeId());
+		// model.addAttribute("lstAdminOfficeMst",
+		// createAdminOfficeService.lstAdminOfficeMst());
+//		model.addAttribute("lstCadreMst", mstEmployeeService.getCadreMstData(locale.getLanguage()),locId);
+		model.addAttribute("lstCadreMst", mstEmployeeService.getCadreMstData(locale.getLanguage(),locId));
+		model.addAttribute("language", locale.getLanguage());
+
+		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
+		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
+//		model.addAttribute("lstDesignation", mstDesignationService.getDesignationMstData(locale.getLanguage()));
+		List<MstDesignationEntity> designation = mstEmployeeService.getDesignationMstData(locale.getLanguage(),locId);
+		model.addAttribute("lstDesignation",designation);
+		model.addAttribute("lstAllBankList", mstBankService.lstAllBank());
+//		model.addAttribute("lstCommonMstSalutation", commonHomeMethodsService
+//				.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.COMMONCODE_SALUTATION));
+		
+		List<CmnLookupMst> lookupLst = new ArrayList<>();
+		lookupLst = commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_SALUTATIONS);
+		model.addAttribute("lstCommonMstSalutation", lookupLst);
+		
+		model.addAttribute("lstCommonMstGIS", commonHomeMethodsService
+				.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.COMMONCODE_GIS));
+		model.addAttribute("lstCommonMstGender",
+				commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.COMMONCODE_GENDER));
+//		model.addAttribute("lstDcpsAccnMaintainby", mstEmployeeService.getDcpsAccnMaintainby());
+		List<CmnLookupMst> lstDcpccnMaintainby = new ArrayList<>();
+		lstDcpccnMaintainby = commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_DCPSACCMAINTAINEDBY);
+		model.addAttribute("lstDcpsAccnMaintainby", lstDcpccnMaintainby);
+		
+		List<CmnLookupMst> lstAccnMaintainby = new ArrayList<>();
+		lstAccnMaintainby = commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_GPFACCMAINTAINEDBY);
+		model.addAttribute("lstAccountMaintainby", lstAccnMaintainby);
+//		model.addAttribute("lstAccountMaintainby", mstEmployeeService.getAccountMaintainby());
+		// model.addAttribute("lstCurntDepartment",
+		// mstDepartmentService.findMstDeptByDeptId(15));
+		model.addAttribute("lstCurntDepartment", lstAdminOfficeMst);
+		List<CmnLookupMst> lstgisapplicable = new ArrayList<>();
+		lstgisapplicable = commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_GISAPPLICABLE);
+		model.addAttribute("lstGISApplicable", lstgisapplicable);
+		model.addAttribute("lstGISGroup", mstEmployeeService.getGISGroup());
+		//model.addAttribute("lstGISApplicable", mstEmployeeService.getGISApplicable());
+		model.addAttribute("lstRelation", mstEmployeeService.getRelation());
+		model.addAttribute("lstAppointment", mstEmployeeService.getAppoitnment(locale.getLanguage()));
+		model.addAttribute("lstQualification", mstEmployeeService.getQualification(locale.getLanguage()));
+		// Nominee Dtls Implementation start
+
+		// List<MstNomineeDetailsEntity>
+		// lstNmnDtls=mstEmployeeService.getNominees(mstEmployeeModel.getEmployeeId().toString());
+		// model.addAttribute("lstNmnDtls", lstNmnDtls);
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		List<MstNomineeDetailsModel> lstNmnDtls = new ArrayList<MstNomineeDetailsModel>();
+		List<MstNomineeDetailsEntity> lstNmnDtlsEntity=null;
+		if(mstEmployeeModel.getEmployeeId()!=null) {
+		 lstNmnDtlsEntity = mstEmployeeService
+					.getNominees(mstEmployeeModel.getEmployeeId().toString());
+		}
+		if(lstNmnDtlsEntity!=null)
+		for (Iterator iterator = lstNmnDtlsEntity.iterator(); iterator.hasNext();) {
+			MstNomineeDetailsEntity mstNomineeDetailsEntity = (MstNomineeDetailsEntity) iterator.next();
+			MstNomineeDetailsModel mstNomineeDetailsModel = new MstNomineeDetailsModel();
+			mstNomineeDetailsModel.setNomineename(mstNomineeDetailsEntity.getNomineename());
+			mstNomineeDetailsModel.setPercent_share(mstNomineeDetailsEntity.getPercent_share());
+			mstNomineeDetailsModel.setRelation(mstNomineeDetailsEntity.getRelation());
+			mstNomineeDetailsModel.setDob(formatter.format(mstNomineeDetailsEntity.getDob()));
+			mstNomineeDetailsModel.setNomineeaddress(mstNomineeDetailsEntity.getNomineeaddress());
+			lstNmnDtls.add(mstNomineeDetailsModel);
+
+		}
+		model.addAttribute("lstNmnDtls", lstNmnDtls);
+		// Nominee Dtls Implementation end
+
+		List<MstStateModel> listStatemdl = new ArrayList<MstStateModel>();
+		List<Object[]> listState = locationMasterService.findAllStates(1);
+		for (Iterator iterator = listState.iterator(); iterator.hasNext();) {
+			Object[] objects = (Object[]) iterator.next();
+			MstStateModel mstStateModel = new MstStateModel();
+			mstStateModel.setStateCode(Integer.parseInt(String.valueOf(objects[0])));
+			mstStateModel.setStateNameEn(String.valueOf(objects[1]));
+			listStatemdl.add(mstStateModel);
+		}
+
+		model.addAttribute("lstAllState", listStatemdl);
+		List<MstDistrictModel> listDistrictemdl = new ArrayList<MstDistrictModel>();
+		try {
+			List<Object[]> listDistrict = locationMasterService.findAllDistricts(mstEmployeeModel.getStateCode());
+			// logger.info("distric code list size="+listDistrict.size());
+			for (Iterator iterator = listDistrict.iterator(); iterator.hasNext();) {
+				Object[] objects = (Object[]) iterator.next();
+				MstDistrictModel mstDistrictModel = new MstDistrictModel();
+				mstDistrictModel.setDistrictId(String.valueOf(objects[0]));
+				mstDistrictModel.setDistrictName(String.valueOf(objects[1]));
+				listDistrictemdl.add(mstDistrictModel);
+				// logger.info("distric code list object4="+String.valueOf(objects[4]));
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			// e.printStackTrace();
+		}
+
+		try {
+     
+
+			model.addAttribute("lstAllBankBranchList",
+					mstEmployeeService.getBankBranch(String.valueOf(mstEmployeeModel.getBankId().toString())));
+			model.addAttribute("lstCurrentPost", mstEmployeeService.GetCurrentPostByLvlTwo(
+					mstEmployeeModel.getDesignationId(), mstEmployeeModel.getDdoCode(),locId));
+			
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			// e.printStackTrace();
+		}
+
+		model.addAttribute("lstAllDistrict", listDistrictemdl);
+
+		List<Object[]> payscalelevel = new ArrayList<Object[]>();
+		List<Object[]> lstsixpayscalelevel = new ArrayList<Object[]>();
+		List<Object[]> lstsvnbasicpay = new ArrayList<Object[]>();
+		List<Object[]> lstpfSeries = new ArrayList<Object[]>();
+				
+		if (mstEmployeeModel.getPayCommissionCode() != null && !mstEmployeeModel.getPayCommissionCode().equals(8))
+			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
+		if(mstEmployeeModel.getPayCommissionCode().equals(8)) {
+			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
+		}
+		if(mstEmployeeModel.getPayCommissionCode().equals(8)) {
+			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(8);
+		}
+
+		if (mstEmployeeModel.getPayscalelevelId() != null)
+			if (!mstEmployeeModel.getPayscalelevelId().equals("") && !mstEmployeeModel.getPayscalelevelId().equals("0"))
+				lstsvnbasicpay = mstEmployeeService
+						.findEmployeeConfigurationGetsvnbasicpay(mstEmployeeModel.getPayscalelevelId());
+		if (mstEmployeeModel.getAccountmaintainby() != null)
+			if (!mstEmployeeModel.getAccountmaintainby().equals("")
+					&& !mstEmployeeModel.getAccountmaintainby().equals("0"))
+				lstpfSeries = mstEmployeeService.getPfSeries(mstEmployeeModel.getAccountmaintainby());
+
+		model.addAttribute("lstsvnbasicpay", lstsvnbasicpay);
+		model.addAttribute("lstpayscalelevel", payscalelevel);
+		model.addAttribute("lstsixpayscalelevel", lstsixpayscalelevel);
+		model.addAttribute("lstpfSeries", lstpfSeries);
+		model.addAttribute("language", locale.getLanguage());
+
+		return "/views/approve-employee-configuration";
+	}
+	
+	@RequestMapping("/approveEmpDtls/{empid}/{sevaarthid}/{dcpsgpfflg}")
+	public @ResponseBody List<String> approveEmployeeConfiguration(@PathVariable String empid,
+			@PathVariable String sevaarthid, @PathVariable String dcpsgpfflg, Model model, Locale locale,HttpSession session) {
+
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		long curentIdCount = mstEmployeeService.getCount(sevaarthid);
+		String lStrSevarthEmpCode = "";
+		long tempIdCount = curentIdCount + 01;
+		String tempCountVar = String.format("%2s", tempIdCount).replace(' ', '0');
+
+		if (curentIdCount == 0) {
+			lStrSevarthEmpCode = lStrSevarthEmpCode + "01";
+		}
+		lStrSevarthEmpCode = sevaarthid + tempCountVar;
+
+		// Integer uid1 = Integer.valueOf(uid);
+		// logger.info("uid1="+uid1);
+
+		List<Long> status1 = mstEmployeeService.approveEmployeeConfiguration(empid, sevaarthid, dcpsgpfflg);
+		
+		
+		
+		int empcount = mstEmployeeService.getSevaarthid(sevaarthid);
+		
+//		if(empcount!=0) {
+//		}else {
+//			userService.createNewUser(sevaarthid);
+//		}
+		//end new user creation
+		
+		
+		//add entry into gpf mst details table
+	    int isSevaarthPresent = mstEmployeeService.checkSevaarthIdExistInGpfDetailMst(empid);
+		if(isSevaarthPresent==0  && dcpsgpfflg.equals("N")) {
+			MstGpfDetailsEntity mstGpfDetailsEntity=new MstGpfDetailsEntity();
+		//	mstGpfDetailsEntity
+			mstGpfDetailsEntity.setSevaarthId(sevaarthid);
+			mstGpfDetailsEntity.setPfacno("0");
+			mstGpfDetailsEntity.setAccountmaintainby("0");
+			mstGpfDetailsEntity.setIsactive("2");
+			mstGpfDetailsEntity.setEmployeeId(Long.valueOf(empid));
+			mstEmployeeService.saveGpfDetails(mstGpfDetailsEntity);
+		}
+		//end entry into gpf mst details table
+		
+		
+		//end gpf opening balance as zero 
+		
+		
+		
+		List<String> status = new ArrayList<String>();
+		status.add(lStrSevarthEmpCode);
+		return status;
+	}
 	
 }
