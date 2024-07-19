@@ -276,6 +276,59 @@ public List<Object[]> findAllMpgSchemeBillGroupbyParameter1(int id) {
 	List<Object[]> deptEligibilityForAllowAndDeductEntity = ddoBillGroupRepo.findMpgSchemeBillGroupBySchemeBillGroupId1(id);
 	return deptEligibilityForAllowAndDeductEntity;
 }
+
+@Override
+public Object findattachpostlist(String userName, String billgrpId) {
+	// TODO Auto-generated method stub
+	return ddoBillGroupRepo.findattachpostlist(userName, billgrpId);
+}
+
+@Override
+public Object finddetachpostlist(String userName, String billgrpId) {
+	// TODO Auto-generated method stub
+	return ddoBillGroupRepo.finddetachpostlist(userName, billgrpId);
+}
+
+@Override
+public String saveAttachDettachPost(MpgSchemeBillGroupModel mpgSchemeBillGroupModel) {
+
+	String result = "N";
+
+	// public String saveAttachDettachEmployeeBillGroup(String sevaarthId,int empid,
+	// int billGroupId,String status)
+	String lStrPostIdstoBeDetached = mpgSchemeBillGroupModel.getPostIdstoBeDetached();// StringUtility.getParameter("dcpsEmpIdstoBeDetached",
+																							// request);
+	String[] lStrArrDcpsEmpIdstoBeDetached = lStrPostIdstoBeDetached.split("~");
+	Long[] lLongArrDcpsEmpIdstoBeDetached = new Long[lStrArrDcpsEmpIdstoBeDetached.length];
+	for (Integer lInt = 0; lInt < lStrArrDcpsEmpIdstoBeDetached.length; lInt++) {
+		if (lStrArrDcpsEmpIdstoBeDetached[lInt] != "" && !lStrArrDcpsEmpIdstoBeDetached[lInt].equals("")) {
+			lLongArrDcpsEmpIdstoBeDetached[lInt] = Long.valueOf(lStrArrDcpsEmpIdstoBeDetached[lInt]);
+			result = ddoBillGroupRepo.saveAttachDettachPostToBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
+					lLongArrDcpsEmpIdstoBeDetached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					"Detach");// updateBillNoInPayroll(lLongArrDcpsEmpIdstoBeDetached[lInt], null, "Detach");
+		}
+	}
+
+	String lStrPostIdstoBeattached = mpgSchemeBillGroupModel.getPostIdstoBeAttached(); // StringUtility.getParameter("dcpsEmpIdstoBeAttached",
+																								// request);
+	String[] lStrArrPostIdstoBeAttached = lStrPostIdstoBeattached.split("~");
+	Long[] lLongArrPostIdstoBeAttached = new Long[lStrArrPostIdstoBeAttached.length];
+	for (Integer lInt = 0; lInt < lStrArrPostIdstoBeAttached.length; lInt++) {
+		if (lStrArrPostIdstoBeAttached[lInt] != "" && !lStrArrPostIdstoBeAttached[lInt].equals("")) {
+			lLongArrPostIdstoBeAttached[lInt] = Long.valueOf(lStrArrPostIdstoBeAttached[lInt]);
+			// lObjDdoBillGroupDAO.updateBillNoInPayroll(lLongArrDcpsEmpIdstoBeAttached[lInt],
+			// lLongbillGroupId, "Attach");
+			result = ddoBillGroupRepo.saveAttachDettachPostToBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
+					lLongArrPostIdstoBeAttached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					"Attach");
+		}
+	}
+
+
+
+	return result;
+
+}
 }
 
 

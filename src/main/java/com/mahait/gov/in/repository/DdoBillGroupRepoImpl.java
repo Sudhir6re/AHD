@@ -227,6 +227,144 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
 	}
+	@Override
+	public List<Object[]> findattachpostlist(String userName, String billgrpId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "select\r\n" + 
+				"        a.post_name,\r\n" + 
+				"        a.post_id,\r\n" + 
+				"        f.employee_full_name_en,\r\n" + 
+				"        c.designation_name,\r\n" + 
+				"        e.PSR_NO,\r\n" + 
+				"        i.DESCRIPTION,\r\n" + 
+				"        b.post_type_lookup_id,\r\n" + 
+				"        d.lookup_name , \r\n" + 
+				"		case when b.post_type_lookup_id = 10001198129 then 'P' \r\n" + 
+				"		 when b.post_type_lookup_id = 10001198130 then 'T'\r\n" + 
+				"		else 'S' end \r\n" + 
+				"    from\r\n" + 
+				"        org_post_details_rlt a   \r\n" + 
+				"    inner join\r\n" + 
+				"        org_post_mst b \r\n" + 
+				"            on a.post_id=b.post_id  \r\n" + 
+				"    inner join\r\n" + 
+				"        designation_mst c \r\n" + 
+				"            on a.dsgn_id = c.designation_id  \r\n" + 
+				"    inner join\r\n" + 
+				"        cmn_lookup_mst d \r\n" + 
+				"            on d.lookup_id=b.post_type_lookup_id   \r\n" + 
+				"    inner join\r\n" + 
+				"        HR_PAY_POST_PSR_MPG e \r\n" + 
+				"            on e.POST_ID=b.post_id   \r\n" + 
+				"    left join\r\n" + 
+				"        employee_mst f \r\n" + 
+				"            on f.post_detail_id=a.post_id   \r\n" + 
+				"    inner join\r\n" + 
+				"        org_ddo_mst g \r\n" + 
+				"            on a.loc_id = cast(g.location_code as bigint)   \r\n" + 
+				"    inner join\r\n" + 
+				"        cmn_lookup_mst  h \r\n" + 
+				"            on h.lookup_id=b.post_type_lookup_id    \r\n" + 
+				"    left join\r\n" + 
+				"        mst_dcps_bill_group  i \r\n" + 
+				"            on i.BILL_GROUP_ID=e.bill_no     \r\n" + 
+				"    where b.end_date > CURRENT_DATE and\r\n" + 
+				"         i.BILL_GROUP_ID = '"+billgrpId+"' and  \r\n" + 
+				"        a.loc_id in (\r\n" + 
+				"            SELECT\r\n" + 
+				"                cast(location_code as bigint) \r\n" + 
+				"            FROM\r\n" + 
+				"                org_ddo_mst  a \r\n" + 
+				"            inner join\r\n" + 
+				"                rlt_zp_ddo_map b \r\n" + 
+				"                    on a.ddo_code=b.zp_ddo_code  \r\n" + 
+				"            where\r\n" + 
+				"                zp_ddo_code='"+userName+"'\r\n" + 
+				"        ) \r\n" + 
+				"    order by\r\n" + 
+				"        a.CREATED_DATE desc ";
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+	@Override
+	public List<Object[]> finddetachpostlist(String userName, String billgrpId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "select\r\n" + 
+				"        a.post_name,\r\n" + 
+				"        a.post_id,\r\n" + 
+				"        f.employee_full_name_en,\r\n" + 
+				"        c.designation_name,\r\n" + 
+				"        e.PSR_NO,\r\n" + 
+				"        i.DESCRIPTION,\r\n" + 
+				"        b.post_type_lookup_id,\r\n" + 
+				"        d.lookup_name , \r\n" + 
+				"		case when b.post_type_lookup_id = 10001198129 then 'P' \r\n" + 
+				"		 when b.post_type_lookup_id = 10001198130 then 'T'\r\n" + 
+				"		else 'S' end \r\n" + 
+				"    from\r\n" + 
+				"        org_post_details_rlt a   \r\n" + 
+				"    inner join\r\n" + 
+				"        org_post_mst b \r\n" + 
+				"            on a.post_id=b.post_id  \r\n" + 
+				"    inner join\r\n" + 
+				"        designation_mst c \r\n" + 
+				"            on a.dsgn_id = c.designation_id  \r\n" + 
+				"    inner join\r\n" + 
+				"        cmn_lookup_mst d \r\n" + 
+				"            on d.lookup_id=b.post_type_lookup_id   \r\n" + 
+				"    inner join\r\n" + 
+				"        HR_PAY_POST_PSR_MPG e \r\n" + 
+				"            on e.POST_ID=b.post_id   \r\n" + 
+				"    left join\r\n" + 
+				"        employee_mst f \r\n" + 
+				"            on f.post_detail_id=a.post_id   \r\n" + 
+				"    inner join\r\n" + 
+				"        org_ddo_mst g \r\n" + 
+				"            on a.loc_id = cast(g.location_code as bigint)   \r\n" + 
+				"    inner join\r\n" + 
+				"        cmn_lookup_mst  h \r\n" + 
+				"            on h.lookup_id=b.post_type_lookup_id    \r\n" + 
+				"    left join\r\n" + 
+				"        mst_dcps_bill_group  i \r\n" + 
+				"            on i.BILL_GROUP_ID=e.bill_no     \r\n" + 
+				"    where b.end_date > CURRENT_DATE and  f.employee_full_name_en isnull and DESCRIPTION isnull and "+
+				"        a.loc_id in (\r\n" + 
+				"            SELECT\r\n" + 
+				"                cast(location_code as bigint) \r\n" + 
+				"            FROM\r\n" + 
+				"                org_ddo_mst  a \r\n" + 
+				"            inner join\r\n" + 
+				"                rlt_zp_ddo_map b \r\n" + 
+				"                    on a.ddo_code=b.zp_ddo_code  \r\n" + 
+				"            where\r\n" + 
+				"                zp_ddo_code='"+userName+"') \r\n" + 
+				"    order by\r\n" + 
+				"        a.CREATED_DATE desc ";
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+	@Override
+	public String saveAttachDettachPostToBillGroup(String sevaarthId, int empid, Long schemebillGroupId,
+			String status) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		StringBuffer hql = new StringBuffer();
+
+		if (status.equals("Detach")) {
+			hql.append("update hr_pay_post_psr_mpg set billgroup_id = null");
+		} else if (status.equals("Attach")) {
+			hql.append("update hr_pay_post_psr_mpg set billgroup_id = " + schemebillGroupId);
+		}
+		// hql.append(" where sevaarth_id = '" + sevaarthId+ "' and
+		// employee_id="+empid);
+		hql.append(" where  employee_id=" + empid);
+		// String hql = "update employee_mst set billgroup_id = " + billGroupId + "
+		// where sevaarth_id = '" + sevaarthId
+		// + "'";
+		Query query = currentSession.createSQLQuery(hql.toString());
+		long result = query.executeUpdate();
+		return "save";
+	}
+	
 
 	}
 
