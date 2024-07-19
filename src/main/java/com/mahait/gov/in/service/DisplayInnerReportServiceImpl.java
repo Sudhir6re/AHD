@@ -198,7 +198,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 						row.add(map.get("employee_full_name_en").toString());
 						row.add(map.get("sevaarth_id").toString());
 						if(map.get("pay_commission_code")!=null) {
-							if(map.get("pay_commission_code").equals("8")) {
+							if(map.get("pay_commission_code").equals("700005")) {
 								row.add("7th Pay Commission");
 							}else {
 								row.add(map.get("pay_commission_code").toString());
