@@ -28,7 +28,7 @@ public class PaybillGenerationTrnEntity {
     private Integer billCategory;
 	
 	@Column(name="SCHEME_BILLGROUP_ID")
-	private BigInteger schemeBillgroupId;
+	private Long schemeBillgroupId;
 	
 	@Column(name = "PAYBILL_MONTH")
 	private Integer paybillMonth;

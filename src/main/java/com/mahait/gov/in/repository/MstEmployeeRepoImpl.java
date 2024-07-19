@@ -38,7 +38,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, BigInteger billGroupId,
+	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, Long billGroupId,
 			int month, int year) {
 		String HQL = null;
 		year = year - 1;

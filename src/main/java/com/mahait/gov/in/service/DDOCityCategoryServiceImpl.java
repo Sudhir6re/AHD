@@ -28,7 +28,7 @@ public class DDOCityCategoryServiceImpl implements DDOCityCategoryService {
 		return dDOCityCategoryRepo.getNumberOfPaybillProcessed(schemeBillGroupId);	
 	}
 	@Override
-	public List<Object[]> getSevaarthIdMappedWithBillUpdate(int monthName, int yearName,BigInteger schemeBillGroupId) {
+	public List<Object[]> getSevaarthIdMappedWithBillUpdate(int monthName, int yearName,Long schemeBillGroupId) {
 		return dDOCityCategoryRepo.getSevaarthIdMappedWithBillUpdate(monthName,yearName,schemeBillGroupId);
 	}
 	

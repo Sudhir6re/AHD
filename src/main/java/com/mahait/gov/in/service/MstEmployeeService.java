@@ -25,7 +25,7 @@ public interface MstEmployeeService {
 
 	DdoOffice findAllGroup(String ddocode);
 	
-	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,BigInteger SchemeBillgroupId,int month,int year);
+	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,Long SchemeBillgroupId,int month,int year);
 	
 	 public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId,int allowDedCode);
 	 

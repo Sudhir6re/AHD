@@ -2,7 +2,6 @@ package com.mahait.gov.in.model;
 
 
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +16,7 @@ public class MstEmployeeModel {
 	private Long employeeId;
 	private String sevaarthId;
 	private Character gender;
-	private Integer salutation;
+	private Long salutation;
 	private String employeeFullNameEn;
 	private String employeeFNameEn;
 	private String employeeMNameEn;
@@ -31,14 +30,14 @@ public class MstEmployeeModel {
 	private String employeeMotherName;
 	private Character maritalStatus;
 	private Double sevenPcBasic;
-	private Integer yearId;
+	private Long yearId;
 	
 	
-	private Integer sevenPCLevel;
+	private Long sevenPCLevel;
 	
 	
 
-	private BigInteger empMapped;
+	private Long empMapped;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dob;
@@ -50,7 +49,7 @@ public class MstEmployeeModel {
 	private Long mobileNo2;
 	private String landlineNo;
 	private String emailId;
-	private Integer religionCode;
+	private Long religionCode;
 	private String eidNo;
 	private String uidNo;				
 	private String uidNo1;
@@ -60,56 +59,56 @@ public class MstEmployeeModel {
 	private String address1;
 	private String address2;
 	private String address3;
-	private Integer pinCode;
-	private Integer villageCode;
+	private Long pinCode;
+	private Long villageCode;
 	private String villageName;
-	private Integer talukaCode;
-	private Integer districtCode;
-	private Integer stateCode;
-	private Integer countryCode;
+	private Long talukaCode;
+	private Long districtCode;
+	private Long stateCode;
+	private Long countryCode;
 	private Date appointmentDate;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date doj;
-	private BigInteger userId;
-	private BigInteger cadreId;
-	private Integer empClass;
-	private BigInteger firstDesignationId;
-	private BigInteger designationId;
-	private BigInteger parentAdminDepartmentId;
-	private BigInteger parentFieldDepartmentId;
-	private BigInteger adminDepartmentId;
-	private BigInteger subCorporationId;
+	private Long userId;
+	private Long cadreId;
+	private Long empClass;
+	private Long firstDesignationId;
+	private Long designationId;
+	private Long parentAdminDepartmentId;
+	private Long parentFieldDepartmentId;
+	private Long adminDepartmentId;
+	private Long subCorporationId;
 	
-	private BigInteger fieldDepartmentId;
-	private BigInteger currentOfficeId;
-	private Integer payCommissionCode;
-	private BigInteger PayScaleCode;
+	private Long fieldDepartmentId;
+	private Long currentOfficeId;
+	private Long payCommissionCode;
+	private Long PayScaleCode;
 	private String payscaleDesc;
 	private String bankBranchName;
 	private String postName;
 	private String cadreName;
-	private Integer orderNo;
-	private Integer gisApplId;
+	private Long orderNo;
+	private Long gisApplId;
 	private String billDesc;
 
 
-	private BigInteger payInPayBand;
+	private Long payInPayBand;
 	private String payscalelevelId;
-//	private BigInteger svnthpaybasic;
-	private Integer gradePay;
-	private Integer bankId;
+//	private Long svnthpaybasic;
+	private Long gradePay;
+	private Long bankId;
 	private String ifscCode;
-	private BigInteger bankAcntNo;
-	private BigInteger bankBranchId;
+	private Long bankAcntNo;
+	private Long bankBranchId;
 	private String ddoCode;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date approvalByDdoDate;
-	private BigInteger billgroupId;
+	private Long billgroupId;
 	private Double basicPay;
-	private Integer percentageOfBasic;
+	private Long percentageOfBasic;
 	private String headActCode;
 	private Character employeeType;
-	private Integer isActive;
+	private Long isActive;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date empServiceEndDate;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -121,12 +120,12 @@ public class MstEmployeeModel {
 	private Date gradeId;
 	private String photoAttachmentId;
 	private String signatureAttachmentId;
-	private BigInteger createdUserId;
+	private Long createdUserId;
 	private Date createdDate;
 	private Date updatedDate;
-	private BigInteger updatedUserId;
+	private Long updatedUserId;
 	private String payCommissionName;
-	private Integer giscatagory;
+	private Long giscatagory;
 	
 	//Extra
 	private String employeeFullName;
@@ -151,7 +150,7 @@ public class MstEmployeeModel {
     private Date membership_date;
     private String nomineename;
     private String nomineeaddress;
-    private Integer percent_share;
+    private Long percent_share;
     private String relation;
     private String indiApproveOrderNo;
    
@@ -161,18 +160,18 @@ public class MstEmployeeModel {
     private String strArrPercentShare;
     private String strArrRelationship;
     
-	private Integer dcpsid;
+	private Long dcpsid;
 	private String dcpsno;
-    private Integer gisid;
-    private Integer gpf_id;
-    private Integer nomineeid;
+    private Long gisid;
+    private Long gpf_id;
+    private Long nomineeid;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date rdob;
     private String pfseries;
     private String imagePath;
     private String imagePathSign;
    // private String deptNm;
-	private Integer svnthpaybasic;
+	private Long svnthpaybasic;
 	private String physicallyHandicapped;
 	private String superannuationage;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -181,12 +180,12 @@ public class MstEmployeeModel {
 	private String insttelnoone;
 	private String insttelnotwo;
 	private String instemail;
-	private BigInteger payScaleId;
+	private Long payScaleId;
 	private Character cityClass;
-	private Integer acDcpsMaintainedBy;
+	private Long acDcpsMaintainedBy;
 	private String instituteAdd;
 	
-	private Integer buckleNo;
+	private Long buckleNo;
 	private Boolean isChangeParentDepartment;
 	private String reasonForChngParentFieldDept;
 	private String pranNo;

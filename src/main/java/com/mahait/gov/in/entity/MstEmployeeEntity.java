@@ -1,6 +1,5 @@
 package com.mahait.gov.in.entity;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class MstEmployeeEntity {
 	private Character gender;
 
 	@Column(name = "SALUTATION")
-	private Integer salutation;
+	private Long salutation;
 
 	@Column(name = "EMPLOYEE_FULL_NAME_EN")
 	private String employeeFullNameEn;
@@ -117,10 +116,10 @@ public class MstEmployeeEntity {
 	private String instemail;
 
 	@Column(name = "RELIGION_CODE")
-	private Integer religionCode;
+	private Long religionCode;
 
 	@Column(name = "GISCATAHORY")
-	private Integer giscatagory;
+	private Long giscatagory;
 
 	@Column(name = "EID_NO")
 	private String eidNo;
@@ -141,71 +140,71 @@ public class MstEmployeeEntity {
 	private String address3;
 
 	@Column(name = "PINCODE")
-	private Integer pinCode;
+	private Long pinCode;
 
 	@Column(name = "VILLAGE_CODE")
-	private Integer villageCode;
+	private Long villageCode;
 
 	@Column(name = "VILLAGE_NAME")
 	private String villageName;
 
 	@Column(name = "TALUKA_CODE")
-	private Integer talukaCode;
+	private Long talukaCode;
 
 	@Column(name = "DISTRICT_CODE")
-	private Integer districtCode;
+	private Long districtCode;
 
 	@Column(name = "sub_department_id")
-	private Integer subDeptId;
+	private Long subDeptId;
 
 	@Column(name = "STATE_CODE")
-	private Integer stateCode;
+	private Long stateCode;
 
 	@Column(name = "COUNTRY_CODE")
-	private Integer countryCode;
+	private Long countryCode;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "DOJ")
 	private Date doj;
 
 	@Column(name = "USER_ID")
-	private BigInteger userId;
+	private Long userId;
 
 	@Column(name = "CADRE_CODE")
-	private BigInteger cadreCode;
+	private Long cadreCode;
 
 	@Column(name = "EMP_CLASS")
-	private Integer empClass;
+	private Long empClass;
 
 	@Column(name = "FIRST_DESIGNATION_CODE")
-	private BigInteger firstDesignationCode;
+	private Long firstDesignationCode;
 
 	@Column(name = "DESIGNATION_CODE")
-	private BigInteger designationCode;
+	private Long designationCode;
 
 	@Column(name = "PARENT_ADMIN_DEPARTMENT_CODE")
-	private BigInteger parentAdminDepartmentCode;
+	private Long parentAdminDepartmentCode;
 
 	@Column(name = "PARENT_FIELD_DEPARTMENT_CODE")
-	private BigInteger parentFieldDepartmentCode;
+	private Long parentFieldDepartmentCode;
 
 	@Column(name = "ADMIN_DEPARTMENT_CODE")
-	private BigInteger adminDepartmentCode;
+	private Long adminDepartmentCode;
 
 	@Column(name = "SUB_CORPORATION_CODE")
-	private BigInteger subCorporationId;
+	private Long subCorporationId;
 
 	@Column(name = "FIELD_DEPARTMENT_CODE")
-	private BigInteger fieldDepartmentCode;
+	private Long fieldDepartmentCode;
 
 	@Column(name = "CURRENT_OFFICE_CODE")
-	private BigInteger currentOfficeCode;
+	private Long currentOfficeCode;
 
 	@Column(name = "PAY_COMMISSION_CODE")
-	private Integer payCommissionCode;
+	private Long payCommissionCode;
 
 	@Column(name = "PAY_SCALE_CODE")
-	private BigInteger payScaleCode;
+	private Long payScaleCode;
 
 	@Column(name = "IsApplicableforBeams", length = 1)
 	private Character IsApplicableforBeams;
@@ -252,10 +251,10 @@ public class MstEmployeeEntity {
 	private String dcpsNo;
 
 	@Column(name = "isgpfflag")
-	private Integer isgpfflag;
+	private Long isgpfflag;
 
 	@Column(name = "crtId")
-	private Integer crtId;
+	private Long crtId;
 	
 	@Column(name = "headOfAccCode")
 	private String headOfAccCode;
@@ -342,19 +341,19 @@ public class MstEmployeeEntity {
 	@Transient
 	private MultipartFile photoAttachmentIdnew;
 	@Transient
-	private Integer displayNameonPranCard;
+	private Long displayNameonPranCard;
 	@Transient
-	private Integer dobProof;
+	private Long dobProof;
 	@Transient
-	private Integer eduQual;
+	private Long eduQual;
 	@Transient
-	private Integer incomeRange;
+	private Long incomeRange;
 	@Transient
 	private String uidNo1;
 	@Transient
 	private String uidNo2;
 	@Transient
-	private Integer superAnnAge;
+	private Long superAnnAge;
 
 	@Column(name = "accMaintainedByOther")
 	private String accMaintainedByOther;
@@ -367,22 +366,22 @@ public class MstEmployeeEntity {
 
 	
 	@Column(name = "PAY_IN_PAY_BAND")
-	private BigInteger payInPayBand;
+	private Long payInPayBand;
 
 	@Column(name = "GRADE_PAY")
-	private Integer gradePay;
+	private Long gradePay;
 
 	@Column(name = "BANK_CODE")
-	private Integer bankCode;
+	private Long bankCode;
 
 	@Column(name = "IFSC_CODE")
 	private String ifscCode;
 
 	@Column(name = "BANK_ACNT_NO")
-	private BigInteger bankAcntNo;
+	private Long bankAcntNo;
 
 	@Column(name = "BANK_BRANCH_CODE")
-	private BigInteger bankBranchCode;
+	private Long bankBranchCode;
 
 	@Column(name = "DDO_CODE")
 	private String ddoCode;
@@ -391,13 +390,13 @@ public class MstEmployeeEntity {
 	private Date approvalByDdoDate;
 
 	@Column(name = "BILLGROUP_ID")
-	private BigInteger billGroupId;
+	private Long billGroupId;
 
 	@Column(name = "BASIC_PAY")
 	private Double basicPay;
 
 	@Column(name = "PERCENTAGE_OF_BASIC")
-	private Integer percentageOfBasic;
+	private Long percentageOfBasic;
 
 	@Column(name = "HEAD_ACT_CODE")
 	private String headActCode;
@@ -406,7 +405,7 @@ public class MstEmployeeEntity {
 	private Character employeeType;
 
 	@Column(name = "IS_ACTIVE")
-	private Integer isActive;
+	private Long isActive;
 
 	@Column(name = "EMP_SERVICE_END_DATE")
 	private Date empServiceEndDate;
@@ -428,7 +427,7 @@ public class MstEmployeeEntity {
 	private String signatureAttachmentId;
 
 	@Column(name = "CREATED_USER_ID")
-	private BigInteger createdUserId;
+	private Long createdUserId;
 
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
@@ -437,7 +436,7 @@ public class MstEmployeeEntity {
 	private Date updatedDate;
 
 	@Column(name = "UPDATED_USER_ID")
-	private BigInteger updatedUserId;
+	private Long updatedUserId;
 	@Column(name = "PAY_SCALE_LEVEL_ID")
 	private String payscalelevelId;
 
@@ -459,7 +458,7 @@ public class MstEmployeeEntity {
 	private String dcpsgpfflag;
 
 	@Column(name = "state_matrix_7pc_id")
-	private Integer svnthpaybasic;
+	private Long svnthpaybasic;
 
 	@Column(name = "pyhical_handicapped")
 	private String physicallyHandicapped;
@@ -469,16 +468,16 @@ public class MstEmployeeEntity {
 	private Date dtInitialAppointmentParentInst;
 
 	@Column(name = "seven_pc_level")
-	private Integer sevenPcLevel;
+	private Long sevenPcLevel;
 
 	@Column(name = "updated_basic_date")
 	private Date updatedBasicDate;
 
 	@Column(name = "updated_basic_user_id")
-	private BigInteger updatedBasicUserId;
+	private Long updatedBasicUserId;
 
 	@Column(name = "updated_basic_percentage")
-	private Integer updatedBasicPercent;
+	private Long updatedBasicPercent;
 
 	@Column(name = "updated_basic_witheff_date")
 	private Date updatedBasicwitheffDate;
@@ -497,10 +496,10 @@ public class MstEmployeeEntity {
 	private Date newJoiningDate;
 
 	@Column(name = "ac_dcps_maintained_by ")
-	private Integer acDcpsMaintedBy;
+	private Long acDcpsMaintedBy;
 
 	@Column(name = "buckle_no")
-	private Integer buckleNo;
+	private Long buckleNo;
 
 	@Column(name = "is_changeParent_department")
 	private Boolean isChangeParentDepartment;
@@ -536,7 +535,7 @@ public class MstEmployeeEntity {
 	private Character cityClass;
 
 	@Column(name = "GID_ID")
-	private BigInteger gisId;
+	private Long gisId;
 
 	@Column(name = "pay_scal_desc")
 	private String payScaleDesc;

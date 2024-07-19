@@ -312,7 +312,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			if (count > 0) {
 
 				// To Check Broken Period Exist or not
-				int payCommission = mstEmployeeEntity2.getPayCommissionCode();
+				Long payCommission = mstEmployeeEntity2.getPayCommissionCode();
 				int percentage = 0;
 				String percentageHRA = null;
 				String startDate = null;
@@ -369,7 +369,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					paybillGenerationTrnDetails.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
 					paybillGenerationTrnDetails.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
-					paybillGenerationTrnDetails.setSubDeptId(mstEmployeeEntity2.getSubDeptId());
+					////paybillGenerationTrnDetails.setSubDeptId(mstEmployeeEntity2.getSubDeptId());
 					paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
 
 
@@ -1651,12 +1651,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					paybillGenerationTrnDetails.setTotalNetAmt(grossAmount - Totaldeduc);
 					paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 					if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
-						if (mstEmployeeEntity2.getSevaarthId().equals("MJPABKM7901")) {
-							paybillGenerationTrnDetails.setSevenPcLevel(14);
-
-						} else {
 							paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());
-						}
 					} else {
 						if (mstEmployeeEntity2.getPayInPayBand() != null)
 							paybillGenerationTrnDetails.setPay_band(mstEmployeeEntity2.getPayInPayBand());
@@ -2108,7 +2103,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-						Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 
 						if (gradelevel >= 20) {
 							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
@@ -2268,7 +2263,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE6th)
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-						Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 						if (gradelevel >= 20) {
 							if (citygroup.equals("A")) {
 								if (physicalhand.equals("Y")) {
@@ -2381,7 +2376,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE)
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-						Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 						String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
 						Integer grade7PC = Integer.parseInt(gradePay7PC);
 
@@ -2727,7 +2722,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							cla = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						} else {
 
-							Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+							Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 							int claamt = 0;
 
 							if (SevenPcBasic < 3000) {
@@ -6698,12 +6693,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			paybillGenerationTrnDetails.setTotalNetAmt((double) Math.round(Net));
 			paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 			if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
-				if (mstEmployeeEntity2.getSevaarthId().equals("MJPABKM7901")) {
-					paybillGenerationTrnDetails.setSevenPcLevel(14);
-
-				} else {
 					paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());
-				}
 			} else {
 				if (mstEmployeeEntity2.getPayInPayBand() != null)
 					paybillGenerationTrnDetails.setPay_band(mstEmployeeEntity2.getPayInPayBand());
@@ -7431,7 +7421,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId(),
 					String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
 					String.valueOf(paybillHeadMpgModel.getPaybillYear()));
-			int payCommission = 0;
+			Long payCommission = 0l;
 			payCommission = mstEmployeeEntity2.getPayCommissionCode();
 			int percentage = 0;
 			String percentageHRA = null;
@@ -9146,7 +9136,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public Object[] getSevaarthIdMappedWithBill(String ddocode, int noofemp, BigInteger schemeBillGroupId, int month,
+	public Object[] getSevaarthIdMappedWithBill(String ddocode, int noofemp, Long schemeBillGroupId, int month,
 			int year) {
 		boolean flag = false;
 		/*
@@ -9179,7 +9169,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public Integer isPaybillExists(BigInteger schemeBillgroupId, int paybillMonth, int paybillYear) {
+	public Integer isPaybillExists(Long schemeBillgroupId, int paybillMonth, int paybillYear) {
 		// TODO Auto-generated method stub
 		return paybillHeadMpgRepo.isPaybillExistsForCurrentMonth(schemeBillgroupId, paybillMonth, paybillYear);
 	}
