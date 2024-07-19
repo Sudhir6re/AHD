@@ -92,32 +92,48 @@
 										<font size="3">Main Reports</font>
 									</div>
 									<div id="mainDiv">
-										&nbsp;&nbsp;&nbsp; <a th:href="@{/ddoast/outerReport}" target="_blank"> <font
-											size="3">Outer</font>
+										&nbsp;&nbsp;&nbsp; <a th:href="@{/ddoast/outerReport}"
+											target="_blank"> <font size="3">Outer</font>
 										</a> <br>&nbsp;&nbsp;&nbsp; <a
 											th:href="@{/ddoast/innerReport}" target="_blank"> <font
 											size="3">Inner</font>
-										</a> <br>&nbsp;&nbsp;&nbsp; <a href="" target="_blank">
-											<font size="3">Broken Period</font>
-										</a> <br>&nbsp;&nbsp;&nbsp; <a th:href="@{/ddoast/pageWiseAbstractReport}" target="_blank">
+										</a> <br>&nbsp;&nbsp;&nbsp; <a href="" target="_blank"> <font
+											size="3">Broken Period</font>
+										</a> <br>&nbsp;&nbsp;&nbsp; <a
+											th:href="@{/ddoast/pageWiseAbstractReport}" target="_blank">
 											<font size="3">PageWise</font>
-										</a> <br>&nbsp;&nbsp;&nbsp; <a th:href="@{/ddoast/groupWiseAbstractReport}" target="_blank">
+										</a> <br>&nbsp;&nbsp;&nbsp; <a
+											th:href="@{/ddoast/groupWiseAbstractReport}" target="_blank">
 											<font size="3">GroupWise</font>
-										</a> <br>&nbsp;&nbsp;&nbsp; <a target="_blank">
+										</a> <br>&nbsp;&nbsp;&nbsp; <a
+											th:href="@{/ddoast/bankStatementReport}" target="_blank">
 											<font size="3">Bank Statement</font>
-										</a> <br>&nbsp;&nbsp;&nbsp; <a href="" target="_blank">
+										</a> <br>&nbsp;&nbsp;&nbsp; <a
+											th:href="@{/ddoast/aquittanceRollReport}" target="_blank">
 											<font size="3">Aquittance Roll</font>
 										</a> <br>
+									</div> <br> <br>
+									<div>
+										<input type="checkbox" id="otherData" name="otherData">
+										<font size="3">GIS Reports</font>
+									</div>
+									<div id="gis" align="left">
+										&nbsp;&nbsp;&nbsp; <a th:href="@{/ddoast/gisReport}"
+											target="_blank"> <font size="3">GIS</font>
+										</a>
 									</div> <br>
-								<br>
 									<div>
 										<input type="checkbox" id="otherData" name="otherData">
 										<font size="3">Other Reports</font>
 									</div>
-									<div id="otherDiv" style="" align="left">
-										&nbsp;&nbsp;&nbsp; <a href="javascript:void(0)" target="_blank"> <font
-											size="3">Income Tax</font>
-										</a> <br>&nbsp;&nbsp;&nbsp; <a href="javascript:void(0)" target="_blank">
+									<div id="otherDiv" align="left">
+										&nbsp;&nbsp;&nbsp; <a th:href="@{/ddoast/incomeTaxReport}"
+											target="_blank"> <font size="3">Income Tax</font>
+										</a> <br>&nbsp;&nbsp;&nbsp; <a
+											th:href="@{/ddoast/accidentPolicyReport}" target="_blank">
+											<font size="3">Accident Policy</font>
+										</a> <br>&nbsp;&nbsp;&nbsp; <a
+											th:href="@{/ddoast/revenueStampReport}" target="_blank">
 											<font size="3">Revenue Stamp</font>
 										</a> <br>
 									</div> <br>
