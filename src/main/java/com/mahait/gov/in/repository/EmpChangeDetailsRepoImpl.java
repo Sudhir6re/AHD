@@ -53,7 +53,7 @@ Session currentSession = manager.unwrap(Session.class);
 		int i=1;
 		if (!lstprop.isEmpty()) {
             for (Object[] objLst : lstprop) {
-            	lstObj.setSalutation(StringHelperUtils.isNullInt(objLst[0]));
+            	lstObj.setSalutation(StringHelperUtils.isNullLong(objLst[0]));
             	lstObj.setEmployeeFNameEn(StringHelperUtils.isNullString(objLst[1]));
             	lstObj.setEmployeeMNameEn(StringHelperUtils.isNullString(objLst[2]));
             	lstObj.setEmployeeLNameEn(StringHelperUtils.isNullString(objLst[3]));
@@ -95,47 +95,47 @@ Session currentSession = manager.unwrap(Session.class);
             	lstObj.setMobileNo2(StringHelperUtils.isNullLong(objLst[14]));
             	lstObj.setPanNo(StringHelperUtils.isNullString(objLst[15]));
             	lstObj.setEmailId(StringHelperUtils.isNullString(objLst[16]));
-            	lstObj.setPinCode(StringHelperUtils.isNullInt(Integer.parseInt((String) objLst[17])));
+            	lstObj.setPinCode(StringHelperUtils.isNullLong(Integer.parseInt((String) objLst[17])));
             	lstObj.setVillageName(StringHelperUtils.isNullString(objLst[18]));
-            	lstObj.setPhysicallyHandicapped(StringHelperUtils.isNullString(String.valueOf(objLst[19])));
-            	lstObj.setCadreId(StringHelperUtils.isNullBigInteger(objLst[20]));
-            	lstObj.setEmpClass(StringHelperUtils.isNullInt(objLst[21]));
+            	lstObj.setPhysicallyHandicapped(StringHelperUtils.isNullString(objLst[19]));
+            	lstObj.setCadreId(StringHelperUtils.isNullLong(objLst[20]));
+            	lstObj.setEmpClass(StringHelperUtils.isNullLong(objLst[21]));
             	lstObj.setSuperAnnDate(StringHelperUtils.isNullDate(objLst[22]));
-            	lstObj.setPayCommissionCode(StringHelperUtils.isNullInt(objLst[23]));
-            	lstObj.setDesignationId(StringHelperUtils.isNullBigInteger(objLst[24]));
-            	lstObj.setPayScaleCode(StringHelperUtils.isNullBigInteger(objLst[25]));
+            	lstObj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[23]));
+            	lstObj.setDesignationId(StringHelperUtils.isNullLong(objLst[24]));
+            	lstObj.setPayScaleCode(StringHelperUtils.isNullLong(objLst[25]));
             	lstObj.setPayscalelevelId(StringHelperUtils.isNullString(objLst[26]));
             	//lstObj.setGradePay(StringHelperUtils.isNullInt(objLst[27]));
             	BigInteger b1 = (BigInteger) (objLst[28]);
             	int intValueOfb1 = b1.intValue();
             	lstObj.setBasicPay(StringHelperUtils.isNullDouble(intValueOfb1));
             	lstObj.setPostdetailid(StringHelperUtils.isNullLong(objLst[29]));
-            	lstObj.setAdminDepartmentId(StringHelperUtils.isNullBigInteger(objLst[30]));
+            	lstObj.setAdminDepartmentId(StringHelperUtils.isNullLong(objLst[30]));
             	lstObj.setAppointmentDate(((Date) objLst[31]));
             	BigDecimal b =  (BigDecimal) (objLst[32]);
                  String age = b.toString();
             	lstObj.setSuperannuationage(StringHelperUtils.isNullString(age));
-            	lstObj.setBankId(StringHelperUtils.isNullInt(objLst[33]));
-            	lstObj.setBankBranchId(StringHelperUtils.isNullBigInteger(objLst[34]));
-            	lstObj.setBankAcntNo(StringHelperUtils.isNullBigInteger(objLst[35]));
+            	lstObj.setBankId(StringHelperUtils.isNullLong(objLst[33]));
+            	lstObj.setBankBranchId(StringHelperUtils.isNullLong(objLst[34]));
+            	lstObj.setBankAcntNo(StringHelperUtils.isNullLong(objLst[35]));
             	lstObj.setIfscCode(StringHelperUtils.isNullString(objLst[36]));
             	lstObj.setDcpsgpfflag(StringHelperUtils.isNullString(String.valueOf(objLst[37])));
             	lstObj.setEidNo(StringHelperUtils.isNullString(objLst[38]));
             	lstObj.setEmployeeFullNameEn(StringHelperUtils.isNullString(objLst[39]));
-            	lstObj.setStateCode(StringHelperUtils.isNullInt(Integer.valueOf((String)objLst[40])));
+            	lstObj.setStateCode(StringHelperUtils.isNullLong(objLst[40]));
             	if(objLst[41]!=null)
             	{
-            	lstObj.setDistrictCode(StringHelperUtils.isNullInt(Integer.valueOf((String)objLst[41])));
+            	lstObj.setDistrictCode(StringHelperUtils.isNullLong(objLst[41]));
             	}
-            	lstObj.setCurrentOfficeId(StringHelperUtils.isNullBigInteger(objLst[42]));
+            	lstObj.setCurrentOfficeId(StringHelperUtils.isNullLong(objLst[42]));
             	
             	lstObj.setInsttelnotwo(StringHelperUtils.isNullString(objLst[43].toString()));
             	lstObj.setInstemail(StringHelperUtils.isNullString(objLst[44]));
             	lstObj.setRemark(StringHelperUtils.isNullString(objLst[45]));
             	
-            	lstObj.setOrderNo(StringHelperUtils.isNullInt(objLst[46]));
+            	lstObj.setOrderNo(StringHelperUtils.isNullLong(objLst[46]));
             	lstObj.setApprovalByDdoDate(StringHelperUtils.isNullDate(objLst[47]));
-            	lstObj.setEmployeeId(StringHelperUtils.isNullInt(objLst[48]));
+            	lstObj.setEmployeeId(StringHelperUtils.isNullLong(objLst[48]));
             	lstObj.setSevaarthId(StringHelperUtils.isNullString(objLst[49]));
             	
             	lstObj.setNomineename(StringHelperUtils.isNullString(objLst[50]));
@@ -147,13 +147,13 @@ Session currentSession = manager.unwrap(Session.class);
             	{
             	BigDecimal d = (BigDecimal) (objLst[53]);
             	int percent = d.intValue();
-            	lstObj.setPercent_share(StringHelperUtils.isNullInt(percent));
+            	lstObj.setPercent_share(StringHelperUtils.isNullLong(percent));
             	}
             	lstObj.setCityClass(StringHelperUtils.isNullCharacter(objLst[54]));
             	
             	char c=(char) objLst[55];  
             	int gisAppl=Character.getNumericValue(c);  
-            	lstObj.setGisApplId(StringHelperUtils.isNullInt(gisAppl));
+            	lstObj.setGisApplId(StringHelperUtils.isNullLong(gisAppl));
             	lstObj.setGisgroup(StringHelperUtils.isNullString(objLst[56].toString()));
             	lstObj.setLandlineNo(StringHelperUtils.isNullString(objLst[57]));
             	lstObj.setMembership_date(StringHelperUtils.isNullDate(objLst[58]));

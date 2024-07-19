@@ -208,7 +208,7 @@ public class PaybillGenerateController {
 	// check is already bill is generated according to sevaarth id
 	@GetMapping(value = "/getSevaarthIdMappedWithBill/{billNumber}/{monthName}/{yearName}")
 	public @ResponseBody List<Object[]> getSevaarthIdMappedWithBillUpdate(@PathVariable int monthName,
-			@PathVariable int yearName, @PathVariable BigInteger billNumber, HttpSession session) {
+			@PathVariable int yearName, @PathVariable Long billNumber, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		return dDOCityCategoryService.getSevaarthIdMappedWithBillUpdate(monthName, yearName, billNumber);
 	}
@@ -216,7 +216,7 @@ public class PaybillGenerateController {
 	// check Broken Period according to sevaarth id
 	@GetMapping(value = "/getSevaarthIdMappedWithBrokenPeriod/{noofemp}/{billNumber}/{monthName}/{yearName}")
 	public @ResponseBody Object[] getSevaarthIdMappedWithBrokenPeriod(@PathVariable int noofemp,
-			@PathVariable BigInteger billNumber, @PathVariable int monthName, @PathVariable int yearName,
+			@PathVariable Long billNumber, @PathVariable int monthName, @PathVariable int yearName,
 			HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		return paybillHeadMpgService.getSevaarthIdMappedWithBill(messages.getDdoCode(), noofemp, billNumber, monthName,

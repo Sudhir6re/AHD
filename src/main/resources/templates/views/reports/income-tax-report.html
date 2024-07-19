@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Income Tax</title>
+<link rel="stylesheet" th:href="@{/css/print.css}" />
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+<style>
+</style>
+</head>
+<body class="income-tax-report">
+	<div class="container-fluid">
+		<div th:replace="header/menuHeader :: var-script-header"></div>
+		<div id="print-content">
+			<fieldset>
+
+				<div class="text-center">
+					<h3 Class="PageHeading">Income Tax</h3>
+				</div>
+
+				<table class="bor-0">
+					<tbody>
+						<tr>
+							<td colspan="2" style="font-weight: bold; text-align: center;">Schedule
+								for the Recovery of Income Tax<br>From Major Head 8658
+							</td>
+						</tr>
+						<tr>
+							<td style="font-weight: bold; text-align: left;">For the
+								Month of July 2024</td>
+							<td style="font-weight: bold; text-align: right;">Treasury :
+								DEMO LVL2(2222)</td>
+						</tr>
+						<tr>
+							<td style="font-weight: bold; text-align: left;">Name of the
+								Office : MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA
+								UNIVERSITY(20541200001)</td>
+							<td style="font-weight: bold; text-align: right;"></td>
+						</tr>
+						<tr>
+							<td style="font-weight: bold; text-align: left;">TAN NO. :
+								PDES03028F</td>
+							<td style="font-weight: bold; text-align: right;"></td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr class="TableHeaderBG">
+							<th valign="bottom" width="5%">Sr. No.</th>
+							<th valign="bottom" width="25%">(Employee Code),Name and
+								Designation of Govt. Servent</th>
+							<th valign="bottom" width="25%">Pan number</th>
+							<th valign="bottom" width="20%">Gross</th>
+							<th valign="bottom" width="20%">Amount of Deduction</th>
+						</tr>
+						<tr>
+							<td align="center" valign="middle">1</td>
+							<td valign="middle">(20DHENEWM8901)- NEWTON (Head Clerk)</td>
+							<td align="center" valign="middle">-</td>
+							<td align="right" valign="middle">1,16,891</td>
+							<td align="right" valign="middle">1,500</td>
+						</tr>
+						<tr>
+							<td align="center" valign="middle"></td>
+							<td valign="middle"></td>
+							<td align="center" valign="middle"></td>
+							<td align="right" valign="middle" style="font-weight: bold;">TOTAL
+								(`)</td>
+							<td align="right" valign="middle" style="font-weight: bold;">1,500</td>
+						</tr>
+						<tr>
+							<td colspan="4" align="center" valign="middle"
+								style="font-weight: bold; text-align: Left;">Total
+								Deduction In Words (`): One Thousand Five Hundred only.</td>
+							<td align="right" valign="middle"></td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<table class="bor-0">
+					<tbody>
+
+						<tr>
+							<td colspan="2" valign="middle"
+								style="font-weight: bold; text-align: Right; border: 0px;">
+								<br /> <br /> <br /> <br />Incharge HM
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" valign="middle"
+								style="font-weight: bold; text-align: Right; border: 0px;">
+								MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA UNIVERSITY</td>
+						</tr>
+						<tr>
+							<td colspan="2" valign="middle"
+								style="font-weight: bold; text-align: Left; border: 0px;">
+								Portion for Treasury Office</td>
+						</tr>
+						<tr>
+							<td colspan="2" valign="middle"
+								style="font-weight: bold; text-align: Left; border: 0px;">
+								Treasury Voucher No. and Date</td>
+						</tr>
+						<tr>
+							<td colspan="2" valign="middle"
+								style="font-weight: bold; text-align: Left; border: 0px;">
+								Challan no. and Date</td>
+						</tr>
+
+						<tr>
+							<td colspan="2" valign="middle"
+								style="font-weight: bold; text-align: Right; border: 0px;">
+								Treasury Officer / Pay and Accounts Officer</td>
+						</tr>
+						<tr>
+							<td colspan="2" valign="middle"
+								style="font-weight: bold; text-align: Left; border: 0px;">
+								VERIFICATION TIME :19-07-2024 14:49:31.506</td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<table class="table bor-0">
+					<tbody>
+						<tr>
+							<td valign="middle" style="font-weight: bold;"><br /> <b>Verification
+									Time:-</b>19-07-2024 11:55:29.372<br /> <span>* Generated
+									By <span th:text="#{msg.thymeleaf.pagelabel.hteCustSevaarth}"></span>
+							</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+		<div class="text-center">
+			<button id="print" onclick="printContent('print-content');"
+				class="btn">Print</button>
+			<input type="button" name="btnBackAgain" id="btnBackAgain"
+				onclick="history.back()" value="Back" class="buttontag">
+		</div>
+	</div>
+
+</body>
+</html>

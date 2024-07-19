@@ -8,5 +8,5 @@ public interface DDOCityCategoryRepo {
 	public List<Object[]>getEmployeeMappedWithAllowanceDeduction(BigInteger schemeBillGroupId,String ddoCode);
 	public List<Object[]>getSevaarthIdMappedWithBill(int schemeBillGroupId,int month,int year,String ddoName);
 	public List<Object[]> getNumberOfPaybillProcessed(int schemeBillGroupId);
-	public List<Object[]> getSevaarthIdMappedWithBillUpdate(int monthName, int yearName,BigInteger schemeBillGroupId);
+	public List<Object[]> getSevaarthIdMappedWithBillUpdate(int monthName, int yearName,Long schemeBillGroupId);
 }

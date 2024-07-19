@@ -4419,7 +4419,7 @@ public class PayBillViewApprDelBillController {
 	@GetMapping(value="/findPayBillByMonthYear/{yearName}/{monthName}")
 	public @ResponseBody List<Object[]> findPayBillByMonthYear(@PathVariable int yearName,@PathVariable int monthName,Model model,Locale locale,HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		List<Object[]> consolatedFilterList =  payBillViewApprDelBill.findPayBillByMonthYear(monthName,yearName,messages.getUserName(),messages.getMstRoleEntity().getRoleId());
+		List<Object[]> consolatedFilterList =  payBillViewApprDelBill.findPayBillByMonthYear(monthName,yearName,messages.getDdoCode(),messages.getMstRoleEntity().getRoleId());
 		return consolatedFilterList;
     }
 	

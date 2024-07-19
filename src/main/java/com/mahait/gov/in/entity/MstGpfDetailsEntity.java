@@ -12,14 +12,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import lombok.Data;
 @Entity
+@Data
 @Table(name="gpf_mst",schema="public")
 public class MstGpfDetailsEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="gpf_id")
-	private Integer gpf_id;
+	private Long gpf_id;
 	@Column(name="employee_id")
 	private Integer employeeId;
 	@Column(name="account_maintain_by")
@@ -53,83 +56,5 @@ public class MstGpfDetailsEntity {
 	  @OneToOne(fetch = FetchType.LAZY) 
 	  @JoinColumn(name = "EMPLOYEE_ID",insertable = false, updatable = false) 
 	  private MstEmployeeEntity mstEmployeeEntity; 
-	
-	  
-	  
-
-	public MstEmployeeEntity getMstEmployeeEntity() {
-		return mstEmployeeEntity;
-	}
-	public void setMstEmployeeEntity(MstEmployeeEntity mstEmployeeEntity) {
-		this.mstEmployeeEntity = mstEmployeeEntity;
-	}
-	public String getSevaarthId() {
-		return sevaarthId;
-	}
-	public void setSevaarthId(String sevaarthId) {
-		this.sevaarthId = sevaarthId;
-	}
-	public Integer getGpf_id() {
-		return gpf_id;
-	}
-	public void setGpf_id(Integer gpf_id) {
-		this.gpf_id = gpf_id;
-	}
-	public Integer getEmployeeId() {
-		return employeeId;
-	}
-	public void setEmployeeId(Integer employeeId) {
-		this.employeeId = employeeId;
-	}
-	public String getAccountmaintainby() {
-		return accountmaintainby;
-	}
-	public void setAccountmaintainby(String accountmaintainby) {
-		this.accountmaintainby = accountmaintainby;
-	}
-	public String getPfacno() {
-		return pfacno;
-	}
-	public void setPfacno(String pfacno) {
-		this.pfacno = pfacno;
-	}
-	public String getPfdescription() {
-		return pfdescription;
-	}
-	public void setPfdescription(String pfdescription) {
-		this.pfdescription = pfdescription;
-	}
-	public String getIsactive() {
-		return isactive;
-	}
-	public void setIsactive(String isactive) {
-		this.isactive = isactive;
-	}
-	public Date getCreateddate() {
-		return createddate;
-	}
-	public void setCreateddate(Date createddate) {
-		this.createddate = createddate;
-	}
-	public BigInteger getCreatedid() {
-		return createdid;
-	}
-	public void setCreatedid(BigInteger createdid) {
-		this.createdid = createdid;
-	}
-	public Date getUpdatedate() {
-		return updatedate;
-	}
-	public void setUpdatedate(Date updatedate) {
-		this.updatedate = updatedate;
-	}
-	public BigInteger getUpdateid() {
-		return updateid;
-	}
-	public void setUpdateid(BigInteger updateid) {
-		this.updateid = updateid;
-	}
-	
-	
 	
 }

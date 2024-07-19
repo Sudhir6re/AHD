@@ -250,7 +250,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and deptallmt.department_allowdeduc_code not in (9,32) and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_code ";
+				+ sevaarthid + "' and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_seq ";
 
 		Query query = currentSession.createSQLQuery(HQL);
 		
@@ -266,7 +266,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and deptallmt.department_allowdeduc_code not in (9,32) and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_code";
+				+ sevaarthid + "' and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_seq";
 
 		Query query = currentSession.createSQLQuery(HQL);
 		/* List<Object[]> lstprop = query.list(); */
@@ -457,7 +457,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		StringBuilder lSBQuery = new StringBuilder();
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded   from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and  deptallmt.is_type=1 and deptallmt.department_allowdeduc_code not in (9,32) order by  deptallmt.department_allowdeduc_code";
+				+ sevaarthid + "' and  deptallmt.is_type=1  order by  deptallmt.department_allowdeduc_code";
 		Query lQuery = currentSession.createSQLQuery(HQL);
 		listAllowances = lQuery.list();
        
@@ -471,7 +471,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		StringBuilder lSBQuery = new StringBuilder();
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and   deptallmt.is_type in (2,3,4) and deptallmt.department_allowdeduc_code not in (9,32) order by  deptallmt.department_allowdeduc_code";
+				+ sevaarthid + "' and   deptallmt.is_type in (2,3,4)  order by  deptallmt.department_allowdeduc_code";
 		Query lQuery = currentSession.createSQLQuery(HQL);
 		listDeductions = lQuery.list();
 
@@ -518,11 +518,11 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 	public int getSevaarthIdMappedWithPayBillProcessed(String sevaarthid,int month,int year,String ddoName)
 	{
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "select count(*) from scheme_billgroup_mpg  a\r\n" + 
+		String hql = "select count(*) from mst_dcps_bill_group  a\r\n" + 
 				"inner join employee_mst b on a.bill_group_id =  b.billgroup_id and b.ddo_code = '"+ddoName+"'   \r\n" + 
 				"inner join paybill_generation_trn_details c on b.sevaarth_id = c.sevaarth_id and paybill_month ="+month+"  and paybill_year="+year+"\r\n" + 
 				"inner join paybill_generation_trn d on c.paybill_generation_trn_id = d.paybill_generation_trn_id and d.is_active in(5,6) "
-				+ "where b.sevaarth_id='"+sevaarthid+"'";
+				+ "where b.sevaarth_id='"+sevaarthid.trim()+"'";
 		Query query = currentSession.createSQLQuery(hql);
 		int result=((BigInteger)(query.list().get(0))).intValue();
 		return result;
@@ -532,11 +532,11 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 	public int getSevaarthIdMappedWithPayBillInprogress(String sevaarthid,int month,int year,String ddoName)
 	{
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "select count(*) from scheme_billgroup_mpg  a\r\n" + 
+		String hql = "select count(*) from mst_dcps_bill_group  a\r\n" + 
 				"inner join employee_mst b on a.bill_group_id =  b.billgroup_id and b.ddo_code = '"+ddoName+"'   \r\n" + 
 				"inner join paybill_generation_trn_details c on b.sevaarth_id = c.sevaarth_id and paybill_month ="+month+"  and paybill_year="+year+"\r\n" + 
 				"inner join paybill_generation_trn d on c.paybill_generation_trn_id = d.paybill_generation_trn_id and d.is_active not in (14,8) "
-				+ "where b.sevaarth_id='"+sevaarthid+"'";
+				+ "where b.sevaarth_id='"+sevaarthid.trim()+"'";
 		Query query = currentSession.createSQLQuery(hql);
 		int result=((BigInteger)(query.list().get(0))).intValue();
 		return result;
@@ -548,7 +548,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and deptallmt.department_allowdeduc_code  in (7,82,83,95,200) and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_code ";
+				+ sevaarthid.trim() + "' and deptallmt.department_allowdeduc_code  in (7,82,83,95,200) and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_code ";
 
 		Query query = currentSession.createSQLQuery(HQL);
 		
@@ -566,7 +566,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		StringBuilder lSBQuery = new StringBuilder();
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded   from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and  deptallmt.is_type=1 and deptallmt.department_allowdeduc_code  in (7,95) order by  deptallmt.department_allowdeduc_code";
+				+ sevaarthid.trim() + "' and  deptallmt.is_type=1 and deptallmt.department_allowdeduc_code  in (7,95) order by  deptallmt.department_allowdeduc_code";
 		Query lQuery = currentSession.createSQLQuery(HQL);
 		listAllowances = lQuery.list();
        
@@ -581,7 +581,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		StringBuilder lSBQuery = new StringBuilder();
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and   deptallmt.is_type in (1,2,3,4) and deptallmt.department_allowdeduc_code  in (82,83) order by  deptallmt.department_allowdeduc_code";
+				+ sevaarthid.trim() + "' and   deptallmt.is_type in (1,2,3,4) and deptallmt.department_allowdeduc_code  in (82,83) order by  deptallmt.department_allowdeduc_code";
 		Query lQuery = currentSession.createSQLQuery(HQL);
 		listDeductions = lQuery.list();
 

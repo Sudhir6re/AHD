@@ -21,7 +21,7 @@ public class BrokenPeriodAllowDeducEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="BROKEN_PERIOD_ALLOW_DEDUC_ID")
-	private Integer brokenPeriodAllowDeducId;
+	private Long brokenPeriodAllowDeducId;
 	@ManyToOne
 	@JoinColumn(name = "BROKEN_PERIOD_ID",  nullable=true,insertable = false, updatable = false)
 	BrokenPeriodEntity brokenPeriodEntity;
@@ -30,7 +30,7 @@ public class BrokenPeriodAllowDeducEntity {
 	@Column(name ="allow_deduc_code")
 	private Integer allowDeducCode;
 	@Column(name ="allow_deduc_amt")
-	private Integer allowDeducAmt;
+	private Double allowDeducAmt;
 	@Column(name ="is_type")
 	private Integer istype;
 	@Column(name ="status")

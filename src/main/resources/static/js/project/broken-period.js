@@ -558,8 +558,8 @@ function saveBrokenPrdData()
 			}
 			else
 			{
-				deductionCodes = deductionCodes + document.getElementById("dedectionscode"+lInt+counter).value + "0";
-				deductionValues = deductionValues + document.getElementById("dedections"+lInt+counter).value + "0";
+				deductionCodes = deductionCodes + document.getElementById("dedectionscode"+lInt+counter).value + ":";
+				deductionValues = deductionValues + document.getElementById("dedections"+lInt+counter).value + ":";
 			}
 		}
 	}

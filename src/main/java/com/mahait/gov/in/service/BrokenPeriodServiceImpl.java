@@ -71,10 +71,10 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		 */
 		// DD/MM/YYYY
 		logger.info("mstEmployeeModel.getSuperAnnDate()=" + mstEmployeeModel.getSuperAnnDate());
-		String strsuperAnnDate="";
+		String strsuperAnnDate = "";
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		if(mstEmployeeModel.getSuperAnnDate()!=null)
-		 strsuperAnnDate = formatter.format(mstEmployeeModel.getSuperAnnDate());
+		if (mstEmployeeModel.getSuperAnnDate() != null)
+			strsuperAnnDate = formatter.format(mstEmployeeModel.getSuperAnnDate());
 
 		lstResult.add(mstEmployeeModel.getEmployeeFullNameEn());
 		lstResult.add(mstEmployeeModel.getSevaarthId());
@@ -82,8 +82,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		lstResult.add("");
 		lstResult.add(mstEmployeeModel.getDcpsno());
 		lstResult.add(strsuperAnnDate);
-		if(mstEmployeeModel.getEmployeeId()!=null)
-		lstResult.add(mstEmployeeModel.getEmployeeId().toString());
+		if (mstEmployeeModel.getEmployeeId() != null)
+			lstResult.add(mstEmployeeModel.getEmployeeId().toString());
 
 		BrokenPeriodResponseModel bpResponseModel = new BrokenPeriodResponseModel();
 		bpResponseModel.setStatus("EmpDetail");
@@ -93,10 +93,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		bpResponseModel.setStatus("Sevaarthid");
 		bpResponseModel.setData(brokenPeriodModel.getSevaarthid());
 		brokenPeriodResponseModel.add(bpResponseModel);
-		/*bpResponseModel = new BrokenPeriodResponseModel();
-		bpResponseModel.setStatus("ddoCode");
-		bpResponseModel.setData(brokenPeriodModel.getDdocode());
-		brokenPeriodResponseModel.add(bpResponseModel);*/
+		/*
+		 * bpResponseModel = new BrokenPeriodResponseModel();
+		 * bpResponseModel.setStatus("ddoCode");
+		 * bpResponseModel.setData(brokenPeriodModel.getDdocode());
+		 * brokenPeriodResponseModel.add(bpResponseModel);
+		 */
 		// Broken Period Pay start
 		List<BrokenPeriodModel> allowEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAllowCompoMpgData(locId);
 		List<BrokenPeriodModel> deducAgEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAGDeducCompoMpgData(locId);
@@ -194,173 +196,174 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 		// Fetch Saved Data from Broken Period
 		// start######################################################################################
-		if(mstEmployeeModel.getEmployeeId()!=null)
-		if (!brokenPeriodRepo.checkBrokenPeriodPayExistsOrNot(mstEmployeeModel.getEmployeeId().longValue(),
-				Long.valueOf(brokenPeriodModel.getPaybillYear()), Long.valueOf(brokenPeriodModel.getPaybillMonth()),brokenPeriodModel.getDdocode())) {
-			bpResponseModel = new BrokenPeriodResponseModel();
-			bpResponseModel.setStatus("PaysAddedBefore");
-			bpResponseModel.setData(false);
-			brokenPeriodResponseModel.add(bpResponseModel);
-			brokenPeriodResponseModel.add(bpResponseModel);
-			bpResponseModel = new BrokenPeriodResponseModel();
-			bpResponseModel.setStatus("hidTotalRows");
-			bpResponseModel.setData(1);
-			brokenPeriodResponseModel.add(bpResponseModel);
-			bpResponseModel = new BrokenPeriodResponseModel();
-			bpResponseModel.setStatus("BrokenPeriodPayListSize");
-			bpResponseModel.setData(0);
-			brokenPeriodResponseModel.add(bpResponseModel);
+		if (mstEmployeeModel.getEmployeeId() != null)
+			if (!brokenPeriodRepo.checkBrokenPeriodPayExistsOrNot(mstEmployeeModel.getEmployeeId().longValue(),
+					Long.valueOf(brokenPeriodModel.getPaybillYear()), Long.valueOf(brokenPeriodModel.getPaybillMonth()),
+					brokenPeriodModel.getDdocode())) {
+				bpResponseModel = new BrokenPeriodResponseModel();
+				bpResponseModel.setStatus("PaysAddedBefore");
+				bpResponseModel.setData(false);
+				brokenPeriodResponseModel.add(bpResponseModel);
+				brokenPeriodResponseModel.add(bpResponseModel);
+				bpResponseModel = new BrokenPeriodResponseModel();
+				bpResponseModel.setStatus("hidTotalRows");
+				bpResponseModel.setData(1);
+				brokenPeriodResponseModel.add(bpResponseModel);
+				bpResponseModel = new BrokenPeriodResponseModel();
+				bpResponseModel.setStatus("BrokenPeriodPayListSize");
+				bpResponseModel.setData(0);
+				brokenPeriodResponseModel.add(bpResponseModel);
 
-			// logger.info("brokenPeriodResponseModel="+brokenPeriodResponseModel);
-		} else {
+				// logger.info("brokenPeriodResponseModel="+brokenPeriodResponseModel);
+			} else {
 
-			List<BrokenPeriodEntity> lListAddedBrokenPeriodPays = brokenPeriodRepo.getAddedBrokenPeriodPaysForEmp(
-					mstEmployeeModel.getEmployeeId().longValue(), Long.valueOf(brokenPeriodModel.getPaybillYear()),
-					Long.valueOf(brokenPeriodModel.getPaybillMonth()),brokenPeriodModel.getDdocode());
-			List DataForDisplayList = new ArrayList();
-			for (Integer lInt = 0; lInt < lListAddedBrokenPeriodPays.size(); lInt++) {
-				List lListAddedAllowances = new ArrayList();
-				List lListAddedAllowancesNew = new ArrayList();
-				List lListTempAddedAllowances = new ArrayList();
-				List lListAddedDeductions = new ArrayList();
-				List lListAddedDeductionsNew = new ArrayList();
-				List lListTempAddedDeductions = new ArrayList();
-				BrokenPeriodPayCustomModel brokenPeriodPayCustomVO = new BrokenPeriodPayCustomModel();
+				List<BrokenPeriodEntity> lListAddedBrokenPeriodPays = brokenPeriodRepo.getAddedBrokenPeriodPaysForEmp(
+						mstEmployeeModel.getEmployeeId().longValue(), Long.valueOf(brokenPeriodModel.getPaybillYear()),
+						Long.valueOf(brokenPeriodModel.getPaybillMonth()), brokenPeriodModel.getDdocode());
+				List DataForDisplayList = new ArrayList();
+				for (Integer lInt = 0; lInt < lListAddedBrokenPeriodPays.size(); lInt++) {
+					List lListAddedAllowances = new ArrayList();
+					List lListAddedAllowancesNew = new ArrayList();
+					List lListTempAddedAllowances = new ArrayList();
+					List lListAddedDeductions = new ArrayList();
+					List lListAddedDeductionsNew = new ArrayList();
+					List lListTempAddedDeductions = new ArrayList();
+					BrokenPeriodPayCustomModel brokenPeriodPayCustomVO = new BrokenPeriodPayCustomModel();
 
-				BrokenPeriodEntity brokenPeriodPay = lListAddedBrokenPeriodPays.get(lInt);
-				brokenPeriodPayCustomVO.setFromDate(brokenPeriodPay.getFromDate());
-				brokenPeriodPayCustomVO.setToDate(brokenPeriodPay.getToDate());
-				brokenPeriodPayCustomVO.setNoOfDays(brokenPeriodPay.getNoOfDays().longValue());
-				brokenPeriodPayCustomVO.setBasicPay(brokenPeriodPay.getBasicPay().longValue());
-				brokenPeriodPayCustomVO.setNetPay(brokenPeriodPay.getNetPay().longValue());
-				brokenPeriodPayCustomVO.setReason(brokenPeriodPay.getReason());
-				brokenPeriodPayCustomVO.setRemarks(brokenPeriodPay.getRemarks());
-				brokenPeriodPayCustomVO.setBasicForCalculation(brokenPeriodPay.getBasicForCalculation());
+					BrokenPeriodEntity brokenPeriodPay = lListAddedBrokenPeriodPays.get(lInt);
+					brokenPeriodPayCustomVO.setFromDate(brokenPeriodPay.getFromDate());
+					brokenPeriodPayCustomVO.setToDate(brokenPeriodPay.getToDate());
+					brokenPeriodPayCustomVO.setNoOfDays(brokenPeriodPay.getNoOfDays().longValue());
+					brokenPeriodPayCustomVO.setBasicPay(brokenPeriodPay.getBasicPay().longValue());
+					brokenPeriodPayCustomVO.setNetPay(brokenPeriodPay.getNetPay().longValue());
+					brokenPeriodPayCustomVO.setReason(brokenPeriodPay.getReason());
+					brokenPeriodPayCustomVO.setRemarks(brokenPeriodPay.getRemarks());
+					brokenPeriodPayCustomVO.setBasicForCalculation(brokenPeriodPay.getBasicForCalculation());
 
-				lListTempAddedAllowances = brokenPeriodRepo
-						.getAddedAllowancesForEmp(lListAddedBrokenPeriodPays.get(lInt).getBrokenPeriodId().longValue());
-				lListAddedAllowances.addAll(lListTempAddedAllowances);
+					lListTempAddedAllowances = brokenPeriodRepo.getAddedAllowancesForEmp(
+							lListAddedBrokenPeriodPays.get(lInt).getBrokenPeriodId().longValue());
+					lListAddedAllowances.addAll(lListTempAddedAllowances);
 
-				/*
-				 * for (int i = 0; i < (lListAllowancesForEmp != null ?
-				 * lListAllowancesForEmp.size() : 0); i++) { Long allowCode = (Long)
-				 * (((Object[]) lListAllowancesForEmp.get(i))[0]); boolean found = false; for
-				 * (int j = 0; j < (lListAddedAllowances != null ? lListAddedAllowances.size() :
-				 * 0); j++) { Object[] data = (Object[]) lListAddedAllowances.get(j); if
-				 * (Arrays.asList(data).contains(allowCode)) {
-				 * lListAddedAllowancesNew.add(data); found = true; break; } } if (!found) {
-				 * String allowDesc = (String) (((Object[]) lListAllowancesForEmp.get(i))[1]);
-				 * Object newData[] = { 0, 0, allowCode, 0, allowDesc };
-				 * lListAddedAllowancesNew.add(newData); } }
-				 */
+					/*
+					 * for (int i = 0; i < (lListAllowancesForEmp != null ?
+					 * lListAllowancesForEmp.size() : 0); i++) { Long allowCode = (Long)
+					 * (((Object[]) lListAllowancesForEmp.get(i))[0]); boolean found = false; for
+					 * (int j = 0; j < (lListAddedAllowances != null ? lListAddedAllowances.size() :
+					 * 0); j++) { Object[] data = (Object[]) lListAddedAllowances.get(j); if
+					 * (Arrays.asList(data).contains(allowCode)) {
+					 * lListAddedAllowancesNew.add(data); found = true; break; } } if (!found) {
+					 * String allowDesc = (String) (((Object[]) lListAllowancesForEmp.get(i))[1]);
+					 * Object newData[] = { 0, 0, allowCode, 0, allowDesc };
+					 * lListAddedAllowancesNew.add(newData); } }
+					 */
 
-				List lListAllowancesForEmp = brokenPeriodRepo
-						.getAllowancesListForGivenEmp(brokenPeriodModel.getSevaarthid());
-				List lListDeductionsForEmp = brokenPeriodRepo
-						.getDeductionsListForGivenEmp(brokenPeriodModel.getSevaarthid());
-				for (int i = 0; i < (lListAllowancesForEmp != null ? lListAllowancesForEmp.size() : 0); i++) {
-					Long allowCode = (Long) Long.valueOf((((Object[]) lListAllowancesForEmp.get(i))[0]).toString());
-					boolean found = false;
-					for (int j = 0; j < (lListAddedAllowances != null ? lListAddedAllowances.size() : 0); j++) {
-						Object[] data = (Object[]) lListAddedAllowances.get(j);
-						if (Arrays.asList(data).contains(allowCode.intValue())) {
-							lListAddedAllowancesNew.add(data);
-							found = true;
-							break;
+					List lListAllowancesForEmp = brokenPeriodRepo
+							.getAllowancesListForGivenEmp(brokenPeriodModel.getSevaarthid());
+					List lListDeductionsForEmp = brokenPeriodRepo
+							.getDeductionsListForGivenEmp(brokenPeriodModel.getSevaarthid());
+					for (int i = 0; i < (lListAllowancesForEmp != null ? lListAllowancesForEmp.size() : 0); i++) {
+						Long allowCode = (Long) Long.valueOf((((Object[]) lListAllowancesForEmp.get(i))[0]).toString());
+						boolean found = false;
+						for (int j = 0; j < (lListAddedAllowances != null ? lListAddedAllowances.size() : 0); j++) {
+							Object[] data = (Object[]) lListAddedAllowances.get(j);
+							if (Arrays.asList(data).contains(allowCode.intValue())) {
+								lListAddedAllowancesNew.add(data);
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							String allowDesc = (String) (((Object[]) lListAllowancesForEmp.get(i))[1]).toString();
+							Object newData[] = { 0, 0, allowCode, 0, allowDesc };
+							lListAddedAllowancesNew.add(newData);
 						}
 					}
-					if (!found) {
-						String allowDesc = (String) (((Object[]) lListAllowancesForEmp.get(i))[1]).toString();
-						Object newData[] = { 0, 0, allowCode, 0, allowDesc };
-						lListAddedAllowancesNew.add(newData);
-					}
-				}
-				logger.info("lListAddedAllowancesNew=" + lListAddedAllowancesNew);
+					logger.info("lListAddedAllowancesNew=" + lListAddedAllowancesNew);
 
-				brokenPeriodPayCustomVO.setAllowList(lListAddedAllowancesNew);
-				// for (Iterator iterator = lListAddedAllowancesNew.iterator();
-				// iterator.hasNext();) {
-				// Object[] object = (Object[]) iterator.next();
-				//
-				// logger.info("allowance object[]="+object);
-				// }
+					brokenPeriodPayCustomVO.setAllowList(lListAddedAllowancesNew);
+					// for (Iterator iterator = lListAddedAllowancesNew.iterator();
+					// iterator.hasNext();) {
+					// Object[] object = (Object[]) iterator.next();
+					//
+					// logger.info("allowance object[]="+object);
+					// }
 
-				/*
-				 * bpResponseModel =new BrokenPeriodResponseModel();
-				 * bpResponseModel.setStatus("hidTotalAllowances");
-				 * bpResponseModel.setData(lListAddedAllowancesNew.size());
-				 * brokenPeriodResponseModel.add(bpResponseModel);
-				 */
+					/*
+					 * bpResponseModel =new BrokenPeriodResponseModel();
+					 * bpResponseModel.setStatus("hidTotalAllowances");
+					 * bpResponseModel.setData(lListAddedAllowancesNew.size());
+					 * brokenPeriodResponseModel.add(bpResponseModel);
+					 */
 
-				lListTempAddedDeductions = brokenPeriodRepo
-						.getAddedDeductionsForEmp(lListAddedBrokenPeriodPays.get(lInt).getBrokenPeriodId().longValue());
-				lListAddedDeductions.addAll(lListTempAddedDeductions);
+					lListTempAddedDeductions = brokenPeriodRepo.getAddedDeductionsForEmp(
+							lListAddedBrokenPeriodPays.get(lInt).getBrokenPeriodId().longValue());
+					lListAddedDeductions.addAll(lListTempAddedDeductions);
 
-				for (int i = 0; i < (lListDeductionsForEmp != null ? lListDeductionsForEmp.size() : 0); i++) {
-					Long deducCode = (Long) Long.valueOf((((Object[]) lListDeductionsForEmp.get(i))[0]).toString());
-					boolean found = false;
-					for (int j = 0; j < (lListAddedDeductions != null ? lListAddedDeductions.size() : 0); j++) {
-						Object[] data = (Object[]) lListAddedDeductions.get(j);
-						if (Arrays.asList(data).contains(deducCode.intValue())) {
-							lListAddedDeductionsNew.add(data);
-							found = true;
-							break;
+					for (int i = 0; i < (lListDeductionsForEmp != null ? lListDeductionsForEmp.size() : 0); i++) {
+						Long deducCode = (Long) Long.valueOf((((Object[]) lListDeductionsForEmp.get(i))[0]).toString());
+						boolean found = false;
+						for (int j = 0; j < (lListAddedDeductions != null ? lListAddedDeductions.size() : 0); j++) {
+							Object[] data = (Object[]) lListAddedDeductions.get(j);
+							if (Arrays.asList(data).contains(deducCode.intValue())) {
+								lListAddedDeductionsNew.add(data);
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							String deducDesc = (String) (((Object[]) lListDeductionsForEmp.get(i))[1]);
+							Object newData[] = { 0, 0, deducCode, 0, deducDesc };
+							lListAddedDeductionsNew.add(newData);
 						}
 					}
-					if (!found) {
-						String deducDesc = (String) (((Object[]) lListDeductionsForEmp.get(i))[1]);
-						Object newData[] = { 0, 0, deducCode, 0, deducDesc };
-						lListAddedDeductionsNew.add(newData);
-					}
+
+					/*
+					 * bpResponseModel =new BrokenPeriodResponseModel();
+					 * bpResponseModel.setStatus("hidTotalDeductions");
+					 * bpResponseModel.setData(lListAddedDeductionsNew.size());
+					 * brokenPeriodResponseModel.add(bpResponseModel);
+					 */
+
+					// Long eisEmpId = lListAddedBrokenPeriodPays.get(lInt).getEisEmpId();
+					// lLongYearId, lLongMonthId
+
+					// generated = lObjBrokenPeriodDAO.isGenerated(lLongHrEisEmpId, lLongMonthId,
+					// lLongYearId);
+					brokenPeriodPayCustomVO.setDeductList(lListAddedDeductionsNew);
+					DataForDisplayList.add(brokenPeriodPayCustomVO);
+
 				}
-
+				// logger.info("Current date is..."+lObjDateFormat.format(gDtCurDate));
+				// inputMap.put("yearId", lStrYear);
+				// inputMap.put("monthId", lStrMonth);
+				// inputMap.put("lDtCurDate", lObjDateFormat.format(gDtCurDate));
 				/*
-				 * bpResponseModel =new BrokenPeriodResponseModel();
-				 * bpResponseModel.setStatus("hidTotalDeductions");
-				 * bpResponseModel.setData(lListAddedDeductionsNew.size());
-				 * brokenPeriodResponseModel.add(bpResponseModel);
+				 * inputMap.put("AddedAllowances", lListAddedAllowancesNew);
+				 * inputMap.put("AddedDeductions", lListAddedDeductionsNew);
+				 * inputMap.put("BrokenPeriodPayList", lListAddedBrokenPeriodPays);
 				 */
-
-				// Long eisEmpId = lListAddedBrokenPeriodPays.get(lInt).getEisEmpId();
-				// lLongYearId, lLongMonthId
-
-				// generated = lObjBrokenPeriodDAO.isGenerated(lLongHrEisEmpId, lLongMonthId,
-				// lLongYearId);
-				brokenPeriodPayCustomVO.setDeductList(lListAddedDeductionsNew);
-				DataForDisplayList.add(brokenPeriodPayCustomVO);
-
+				// inputMap.put("DataForDisplayList", DataForDisplayList);
+				// inputMap.put("BrokenPeriodPayListSize", lListAddedBrokenPeriodPays.size());
+				bpResponseModel = new BrokenPeriodResponseModel();
+				bpResponseModel.setStatus("hidTotalRows");
+				bpResponseModel.setData(lListAddedBrokenPeriodPays.size());
+				brokenPeriodResponseModel.add(bpResponseModel);
+				bpResponseModel = new BrokenPeriodResponseModel();
+				bpResponseModel.setStatus("DataForDisplayList");
+				bpResponseModel.setData(DataForDisplayList);
+				brokenPeriodResponseModel.add(bpResponseModel);
+				bpResponseModel = new BrokenPeriodResponseModel();
+				bpResponseModel.setStatus("BrokenPeriodPayListSize");
+				bpResponseModel.setData(lListAddedBrokenPeriodPays.size());
+				brokenPeriodResponseModel.add(bpResponseModel);
+				bpResponseModel = new BrokenPeriodResponseModel();
+				bpResponseModel.setStatus("PaysAddedBefore");
+				bpResponseModel.setData(true);
+				brokenPeriodResponseModel.add(bpResponseModel);
+				// inputMap.put("PaysAddedBefore", "Yes");
+				// inputMap.put("Generated", generated); // 0 = generated, 1(gen or apprvd)
+				// logger.info("brokenPeriodResponseModel="+brokenPeriodResponseModel);
 			}
-			// logger.info("Current date is..."+lObjDateFormat.format(gDtCurDate));
-			// inputMap.put("yearId", lStrYear);
-			// inputMap.put("monthId", lStrMonth);
-			// inputMap.put("lDtCurDate", lObjDateFormat.format(gDtCurDate));
-			/*
-			 * inputMap.put("AddedAllowances", lListAddedAllowancesNew);
-			 * inputMap.put("AddedDeductions", lListAddedDeductionsNew);
-			 * inputMap.put("BrokenPeriodPayList", lListAddedBrokenPeriodPays);
-			 */
-			// inputMap.put("DataForDisplayList", DataForDisplayList);
-			// inputMap.put("BrokenPeriodPayListSize", lListAddedBrokenPeriodPays.size());
-			bpResponseModel = new BrokenPeriodResponseModel();
-			bpResponseModel.setStatus("hidTotalRows");
-			bpResponseModel.setData(lListAddedBrokenPeriodPays.size());
-			brokenPeriodResponseModel.add(bpResponseModel);
-			bpResponseModel = new BrokenPeriodResponseModel();
-			bpResponseModel.setStatus("DataForDisplayList");
-			bpResponseModel.setData(DataForDisplayList);
-			brokenPeriodResponseModel.add(bpResponseModel);
-			bpResponseModel = new BrokenPeriodResponseModel();
-			bpResponseModel.setStatus("BrokenPeriodPayListSize");
-			bpResponseModel.setData(lListAddedBrokenPeriodPays.size());
-			brokenPeriodResponseModel.add(bpResponseModel);
-			bpResponseModel = new BrokenPeriodResponseModel();
-			bpResponseModel.setStatus("PaysAddedBefore");
-			bpResponseModel.setData(true);
-			brokenPeriodResponseModel.add(bpResponseModel);
-			// inputMap.put("PaysAddedBefore", "Yes");
-			// inputMap.put("Generated", generated); // 0 = generated, 1(gen or apprvd)
-			// logger.info("brokenPeriodResponseModel="+brokenPeriodResponseModel);
-		}
 		// Fetch Saved Data from Broken Period
 		// end######################################################################################
 
@@ -375,7 +378,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 	@Override
 	public List<BrokenPeriodResponseModel> calculateEmployeeSalary(String sevaarthid,
-			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap hmInputParam){
+			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap hmInputParam) {
 		Double grossAmt = 0d;
 		Double netAmt = 0d;
 		Double da = 0d;
@@ -428,7 +431,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		Double CreditSoc = 0d;
 		Double svnDA = 0d;
 		Double othrded = 0d;
-		int gradePay = 0;
+		Long gradePay = 0l;
 		Double basic = 0d;
 		Double npsEmprAllow = 0d;
 		Double npsEmprContri = 0d;
@@ -466,92 +469,85 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		String excessPayrecInst = null;
 		Double jalnaSoc = 0d;
 		Double amrawatidistEnggCredSoc = 0d;
-		Date fromDate=null;
-		Date toDate=null;
+		Date fromDate = null;
+		Date toDate = null;
 		Double HouseAdvInstAmt = 0d;
-		Double motorCycleAdvInst=0d;
-		Double motorCycleAdv=0d;
-		String motorCycleInst=null;
+		Double motorCycleAdvInst = 0d;
+		Double motorCycleAdv = 0d;
+		String motorCycleInst = null;
 
 		MstEmployeeModel mstEmployeeModel = new MstEmployeeModel();
 		List<String> lstResult = new ArrayList<String>();
 		mstEmployeeModel = brokenPeriodRepo.getEmployeeinfo(sevaarthid, hmInputParam.get("ddocode").toString());
 		// logger.info("Employee Name="+mstEmployeeModel.getEmployeeFullNameEn());
 		// logger.info("Basic Pay="+mstEmployeeModel.getBasicPay());
-		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 		try {
-			
-			 fromDate=sdf.parse(hmInputParam.get("fromDate").toString());
-			 toDate=sdf.parse(hmInputParam.get("toDate").toString());
-			
-		}catch(Exception e){
-			System.out.println(""+e);
-			
+
+			fromDate = sdf.parse(hmInputParam.get("fromDate").toString());
+			toDate = sdf.parse(hmInputParam.get("toDate").toString());
+
+		} catch (Exception e) {
+			System.out.println("" + e);
+
 		}
-		
-		String strDate = sdf.format(fromDate);  
-		
-		System.out.println("--------strDate-----------"+strDate);
-		int suspensepercent=0;
-		/*EmployeeSuspensionEntity employeeSuspensionEntity=mstEmployeeService.getSuspensionPercentage(mstEmployeeModel.getSevaarthId(),strDate);
-		if(employeeSuspensionEntity.getPercentage()!=null) {
-			  suspensepercent =employeeSuspensionEntity.getPercentage();
-		}
-	   */
-	    
-//	    BigInteger empCount = mstEmployeeService.findEmpSuspend(mstEmployeeModel.getSevaarthId());
-	    
-	    if( suspensepercent!=0) {
-	    	if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
-					&& mstEmployeeModel.getPayCommissionCode() != 8) {
-	    		///basic = mstEmployeeModel.getBasicPay()*suspensepercent;
-	    		basic = (double) (Math.round((mstEmployeeModel.getBasicPay() * suspensepercent)
+
+		String strDate = sdf.format(fromDate);
+
+		System.out.println("--------strDate-----------" + strDate);
+		int suspensepercent = 0;
+		/*
+		 * EmployeeSuspensionEntity
+		 * employeeSuspensionEntity=mstEmployeeService.getSuspensionPercentage(
+		 * mstEmployeeModel.getSevaarthId(),strDate);
+		 * if(employeeSuspensionEntity.getPercentage()!=null) { suspensepercent
+		 * =employeeSuspensionEntity.getPercentage(); }
+		 */
+
+		// BigInteger empCount =
+		// mstEmployeeService.findEmpSuspend(mstEmployeeModel.getSevaarthId());
+
+		if (suspensepercent != 0) {
+			if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
+					&& mstEmployeeModel.getPayCommissionCode() != 700005) {
+				/// basic = mstEmployeeModel.getBasicPay()*suspensepercent;
+				basic = (double) (Math.round((mstEmployeeModel.getBasicPay() * suspensepercent)
 						/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-	    	}else {
-	    		basic = (double) (Math.round((mstEmployeeModel.getSevenPcBasic() * suspensepercent)
+			} else {
+				basic = (double) (Math.round((mstEmployeeModel.getSevenPcBasic() * suspensepercent)
 						/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-	    	}
-	    	
-	    	
-	    }else {
-	    	if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
-					&& mstEmployeeModel.getPayCommissionCode() != 8) {
+			}
+
+		} else {
+			if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
+					&& mstEmployeeModel.getPayCommissionCode() != 700005) {
 				basic = mstEmployeeModel.getBasicPay();
 			} else {
 				basic = mstEmployeeModel.getSevenPcBasic();
 			}
-			
-	    }
-	    
-		
-		
-		
+
+		}
+
 		if (mstEmployeeModel.getGradePay() != null)
 			gradePay = mstEmployeeModel.getGradePay();
 		// Total number of days and Fractionofdays
 		int year = Integer.parseInt(hmInputParam.get("year").toString());
 		int month = Integer.parseInt(hmInputParam.get("month").toString());
-		
-		
-	
-		
-		
-		
-		
-		
+
 		Calendar cal2 = Calendar.getInstance();
 		cal2.setTime(fromDate);
-		/*cal2.set(Calendar.YEAR, year);
-		
-		// cal2.set(Calendar.MONTH, month-1);
-		cal2.set(Calendar.MONTH, month);*/
+		/*
+		 * cal2.set(Calendar.YEAR, year);
+		 * 
+		 * // cal2.set(Calendar.MONTH, month-1); cal2.set(Calendar.MONTH, month);
+		 */
 		// java.util.Date finYrDate = cal2.getTime();
 		int totalNoOfDays = cal2.getActualMaximum(Calendar.DAY_OF_MONTH);
-		
+
 		int noOfDays = Integer.parseInt(hmInputParam.get("noOfDays").toString());
-		gradePay = Math.round((gradePay * noOfDays) / totalNoOfDays);
-		basic =  (double) Math.round((basic * noOfDays) / totalNoOfDays);
+		gradePay = (long) Math.round((gradePay * noOfDays) / totalNoOfDays);
+		basic = (double) Math.round((basic * noOfDays) / totalNoOfDays);
 		mstEmployeeModel.setBasicPay(basic);
 		/*
 		 * logger.info("basic Day wise= "+basic); logger.info("month="+month);
@@ -572,10 +568,10 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 		logger.info("Sevaarth Id=" + sevaarthid);
 		// List<Object[]> fetchAllowDeducName(String sevaarthid)
-		
+
 		String cityClass = mstEmployeeModel.getCityClass().toString();
 		mstEmployeeModel.setCityClass(cityClass.charAt(0));
-		
+
 		int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
 		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
 
@@ -612,7 +608,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			logger.info("allEdpList.get(i).getDeptallowdeducid()=" + allEdpList.get(i).getDeptallowdeducid());
 			logger.info("svnDAloop=" + svnDA);
 			String name = allEdpList.get(i).getDeptalldetNm();
-			
+
 			String temp = name;
 			// allEdpList.get(i).getType()
 			int percentage = 0;
@@ -627,30 +623,28 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				startDate = String.valueOf(year2 - 2000) + '-' + String.valueOf(month2) + "-01";
 			}
 
-			DdoOffice ddoScreenEntity = mstEmployeeRepo.findAllGroup(mstEmployeeModel.getDdoCode().trim()); 
+			DdoOffice ddoScreenEntity = mstEmployeeRepo.findAllGroup(mstEmployeeModel.getDdoCode().trim());
 
 			String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
 			citygroup = spilt[1];
-			
 
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-				if (payCommission == 8 && !mstEmployeeModel.getGiscatagory().equals(3)) {
+				if (payCommission == 700005) {
 					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,
 							mstEmployeeModel.getCityClass());
-				} else {
+				}/* else {
 					percentage = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
-				}
+				}*/
 			} else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
 				percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
 				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,
-						mstEmployeeModel.getCityClass());
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC, mstEmployeeModel.getCityClass());
 			}
 			if (allEdpList.get(i).getType() == 1) {
 				// allowance
@@ -660,9 +654,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					// Start : 7 pc Calculation--> 17% of basic
 					svnDA = (double) (Math.round((mstEmployeeModel.getBasicPay() * percentage)
 							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					// logger.info("sevenpcDA "+sevenpcda);
-					// sevenpcda=(sevenpcda * noOfDays) / totalNoOfDays ;
-					// logger.info("sevenpcDA Day wise "+sevenpcda);
 					// End : 7 pc Calculation
 					logger.info("svnDA component3=" + svnDA);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(svnDA));
@@ -688,21 +679,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				}
 				// End for 6PC and 7PC DA
 
-				/*
-				 * else
-				 * if((allEdpList.get(i).getDeptalldetNm().equals(CommonConstants.PAYBILLDETAILS
-				 * .COMMONCODE_COMPONENT_DCPS_EMPLOYER))) { BrokenPeriodModel
-				 * brokenPeriodModel=allEdpList.get(i); //Start: DCPS Employer Contribution -->
-				 * 14 % of basic+DA dcpsempcontribution=
-				 * ((mstEmployeeModel.getBasicPay()+sevenpcda) * 14) /
-				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100; //
-				 * dcpsempcontribution=(dcpsempcontribution * noOfDays) / totalNoOfDays ; //End:
-				 * DCPS Employer Contribution
-				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(dcpsempcontribution));
-				 * allowEdpList.add(brokenPeriodModel); //
-				 * allowRuleList.add(brokenPeriodModel.getDeptallowdeducid());
-				 * allowRuleList.add(brokenPeriodModel); }
-				 */
 				/* HRA component */
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA)) {
@@ -757,13 +733,37 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA6th_Code);
 
 					if (employeeAllowDeducComponentAmtEntity != null) {
-						
-						hra6th = (double) (Math.round((employeeAllowDeducComponentAmtEntity.getNetAmt()* noOfDays) / totalNoOfDays));
+
+						hra6th = (double) (Math
+								.round((employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
 					}
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(hra6th));
 					allowEdpList.add(brokenPeriodModel);
 					// allowRuleList.add(brokenPeriodModel.getDeptallowdeducid());
 					allowRuleList.add(brokenPeriodModel);
+				}
+
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DEARNESS_PAY)) {
+					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
+							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DP_CODE);
+					if (employeeAllowDeducComponentAmtEntity != null) {
+						
+						dearnessPay = (double) (Math
+								.round((employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
+					}else {
+
+						brokenPeriodModel = allEdpList.get(i);
+						dearnessPay = 0d;
+						brokenPeriodModel.setDeptalldetValue(String.valueOf(dearnessPay));
+					}
+					brokenPeriodModel.setDeptalldetValue(String.valueOf(dearnessPay));
+					allowEdpList.add(brokenPeriodModel);
+					// allowRuleList.add(brokenPeriodModel.getDeptallowdeducid());
+					allowRuleList.add(brokenPeriodModel);
+
 				}
 
 				// Start Travels Allowances for 6PC
@@ -789,7 +789,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						ta = (double) 400;
 					}
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta));
-					ta=(ta * noOfDays) / totalNoOfDays ;
+					ta = (ta * noOfDays) / totalNoOfDays;
 					logger.info("ta Component=" + ta);
 					allowEdpList.add(brokenPeriodModel);
 					// allowRuleList.add(brokenPeriodModel.getDeptallowdeducid());
@@ -800,26 +800,26 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (gradelevel >= 20) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=3200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
+								Double taAmt = 3200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
 							} else {
 								ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								//ta5th = (double) ((1600) / totalNoOfDays);
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600) / totalNoOfDays);
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((800 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -827,25 +827,25 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else if (gradelevel >= 15 && gradelevel <= 19) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
+
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=400d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
+								Double taAmt = 400d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((400 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -853,48 +853,47 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else if (gradelevel >= 1 && gradelevel <= 14) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((200 * noOfDays) / totalNoOfDays); 
-								
+								Double taAmt = 200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((200 * noOfDays) / totalNoOfDays);
+
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((200 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=150d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
+								Double taAmt = 150d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((150 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						}
 						if (mstEmployeeModel.getSevaarthId().equals("MJPDMGM6601")) {
-							//ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
-							Double taAmt=400d;
-							ta5th =((taAmt * noOfDays) / totalNoOfDays);
+							// ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
+							Double taAmt = 400d;
+							ta5th = ((taAmt * noOfDays) / totalNoOfDays);
 
 						}
 
 					}
-//					ta5th=(ta5th * noOfDays) / totalNoOfDays ;
-					ta5th=(double) Math.round(ta5th);
+					// ta5th=(ta5th * noOfDays) / totalNoOfDays ;
+					ta5th = (double) Math.round(ta5th);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta5th));
 					logger.info("ta Component=" + ta5th);
 					allowEdpList.add(brokenPeriodModel);
@@ -902,30 +901,30 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					allowRuleList.add(brokenPeriodModel);
 
 				}
-				
+
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					if (gradePay >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400)  {
+					if (gradePay >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=3200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
+								Double taAmt = 3200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
 							} else {
 								ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								//ta5th = (double) ((1600) / totalNoOfDays);
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600) / totalNoOfDays);
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((800 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -934,25 +933,25 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							&& gradePay < CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
+
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=400d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
+								Double taAmt = 400d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((400 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -960,40 +959,39 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else if (gradePay <= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((200 * noOfDays) / totalNoOfDays); 
-								
+								Double taAmt = 200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((200 * noOfDays) / totalNoOfDays);
+
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((200 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=150d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
+								Double taAmt = 150d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((150 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						}
-						}
-					ta5th=(double) Math.round(ta5th);
+					}
+					ta5th = (double) Math.round(ta5th);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta5th));
 					logger.info("ta Component=" + ta5th);
 					allowEdpList.add(brokenPeriodModel);
@@ -1006,7 +1004,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC && allEdpList
 								.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
 					Integer grade7PC = Integer.parseInt(gradePay7PC);
 
@@ -1097,7 +1095,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							}
 						}
 					}
-					ta =((ta * noOfDays) / totalNoOfDays);
+					ta = ((ta * noOfDays) / totalNoOfDays);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta));
 					logger.info("ta Component=" + ta);
 					allowEdpList.add(brokenPeriodModel);
@@ -1178,9 +1176,9 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE) {
 						brokenPeriodModel = allEdpList.get(i);
-						brokenPeriodModel
-								.setDeptalldetValue(String.valueOf((employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
-						DaArr=(employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
+						brokenPeriodModel.setDeptalldetValue(String.valueOf(
+								(employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
+						DaArr = (employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
 						logger.info(
 								"Da Arr Component=" + String.valueOf(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						/*
@@ -1404,7 +1402,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 				}
 				// COMMONCODE_COMPONENT_LeavePay
-				
+
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LeavePay)) {
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -1413,7 +1411,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					BrokenPeriodModel brokenPeriodModel = null;
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LeavePay_Code) {
-						
+
 						/*
 						 * paybillGenerationTrnDetails.setSpecialPay((double)
 						 * (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
@@ -1423,21 +1421,21 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						 */
 						brokenPeriodModel = allEdpList.get(i);
 						brokenPeriodModel
-						.setDeptalldetValue(String.valueOf(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+								.setDeptalldetValue(String.valueOf(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						logger.info("special pay Allow Component="
 								+ String.valueOf(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 					} else {
 						/*
 						 * paybillGenerationTrnDetails .setSpecialPay((double) 0); specialPay+=0;
 						 */
-						
+
 						brokenPeriodModel = allEdpList.get(i);
 						brokenPeriodModel.setDeptalldetValue("0");
-						
+
 					}
 					allowEdpList.add(brokenPeriodModel);
 					allowRuleList.add(brokenPeriodModel);
-					
+
 				}
 				// Personal Pay
 
@@ -1480,108 +1478,108 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE);
 					BrokenPeriodModel brokenPeriodModel = null;
-					if (employeeAllowDeducComponentAmtEntity!=null && employeeAllowDeducComponentAmtEntity.getNetAmt()>0d && allEdpList.get(i)
-							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE) {
-						Double claaa=(employeeAllowDeducComponentAmtEntity.getNetAmt()* noOfDays) / totalNoOfDays;
-						claaa=(double) Math.round(claaa);
+					if (employeeAllowDeducComponentAmtEntity != null
+							&& employeeAllowDeducComponentAmtEntity.getNetAmt() > 0d && allEdpList.get(i)
+									.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE) {
+						Double claaa = (employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
+						claaa = (double) Math.round(claaa);
 						brokenPeriodModel = allEdpList.get(i);
-						brokenPeriodModel
-								.setDeptalldetValue(String.valueOf(claaa));
+						brokenPeriodModel.setDeptalldetValue(String.valueOf(claaa));
 						logger.info("DP=" + String.valueOf(claaa));
 					} else {
 						/*
 						 * paybillGenerationTrnDetails .setDearnessPay((double) 0); dearnessPay+=0;
 						 */
 						brokenPeriodModel = allEdpList.get(i);
-						
+
 						Double claamt = 0d;
-						if(payCommission==8) {
-							if(basic<3000) {
+						if (payCommission == 8) {
+							if (basic < 3000) {
 								if (citygroup.equals("A+")) {
-										claamt=90d;
+									claamt = 90d;
 								} else if (citygroup.equals("A")) {
-										claamt=65d;
-								}else if (citygroup.equals("B+")) {
-										claamt=45d;
-								}else if (citygroup.equals("B")) {
-										claamt=25d;
+									claamt = 65d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 45d;
+								} else if (citygroup.equals("B")) {
+									claamt = 25d;
 								}
-							}else if(basic>=3000 && basic<4499) {
+							} else if (basic >= 3000 && basic < 4499) {
 								if (citygroup.equals("A+")) {
-									claamt=125d;
+									claamt = 125d;
 								} else if (citygroup.equals("A")) {
-									claamt=95d;
-								}else if (citygroup.equals("B+")) {
-									claamt=65d;
-								}else if (citygroup.equals("B")) {
-									claamt=35d;
+									claamt = 95d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 65d;
+								} else if (citygroup.equals("B")) {
+									claamt = 35d;
 								}
-							}else if(basic>=4500 && basic<5999) {
-							if (citygroup.equals("A+")) {
-								claamt=200d;
-							} else if (citygroup.equals("A")) {
-								claamt=150d;
-							}else if (citygroup.equals("B+")) {
-								claamt=100d;
-							}else if (citygroup.equals("B")) {
-								claamt=65d;
+							} else if (basic >= 4500 && basic < 5999) {
+								if (citygroup.equals("A+")) {
+									claamt = 200d;
+								} else if (citygroup.equals("A")) {
+									claamt = 150d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 100d;
+								} else if (citygroup.equals("B")) {
+									claamt = 65d;
+								}
+							} else {
+								if (citygroup.equals("A+")) {
+									claamt = 300d;
+								} else if (citygroup.equals("A")) {
+									claamt = 240d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 180d;
+								} else if (citygroup.equals("B")) {
+									claamt = 120d;
+								}
 							}
-							}else {
+						} else {
+							if (basic < 3000) {
 								if (citygroup.equals("A+")) {
-									claamt=300d;
+									claamt = 90d;
 								} else if (citygroup.equals("A")) {
-									claamt=240d;
-								}else if (citygroup.equals("B+")) {
-									claamt=180d;
-								}else if (citygroup.equals("B")) {
-									claamt=120d;
+									claamt = 65d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 45d;
+								} else if (citygroup.equals("B")) {
+									claamt = 25d;
 								}
-						}
-						}else {
-							if(basic<3000) {
+							} else if (basic >= 3000 && basic < 4499) {
 								if (citygroup.equals("A+")) {
-										claamt=90d;
+									claamt = 125d;
 								} else if (citygroup.equals("A")) {
-										claamt=65d;
-								}else if (citygroup.equals("B+")) {
-										claamt=45d;
-								}else if (citygroup.equals("B")) {
-										claamt=25d;
+									claamt = 95d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 65d;
+								} else if (citygroup.equals("B")) {
+									claamt = 35d;
 								}
-							}else if(basic>=3000 && basic<4499) {
+							} else if (basic >= 4500 && basic < 5999) {
 								if (citygroup.equals("A+")) {
-									claamt=125d;
+									claamt = 200d;
 								} else if (citygroup.equals("A")) {
-									claamt=95d;
-								}else if (citygroup.equals("B+")) {
-									claamt=65d;
-								}else if (citygroup.equals("B")) {
-									claamt=35d;
+									claamt = 150d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 100d;
+								} else if (citygroup.equals("B")) {
+									claamt = 65d;
 								}
-							}else if(basic>=4500 && basic<5999) {
-							if (citygroup.equals("A+")) {
-								claamt=200d;
-							} else if (citygroup.equals("A")) {
-								claamt=150d;
-							}else if (citygroup.equals("B+")) {
-								claamt=100d;
-							}else if (citygroup.equals("B")) {
-								claamt=65d;
+							} else {
+								if (citygroup.equals("A+")) {
+									claamt = 300d;
+								} else if (citygroup.equals("A")) {
+									claamt = 240d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 180d;
+								} else if (citygroup.equals("B")) {
+									claamt = 120d;
+								}
 							}
-							}else {
-								if (citygroup.equals("A+")) {
-									claamt=300d;
-								} else if (citygroup.equals("A")) {
-									claamt=240d;
-								}else if (citygroup.equals("B+")) {
-									claamt=180d;
-								}else if (citygroup.equals("B")) {
-									claamt=120d;
-								}
 						}
-						}
-						Double clanew =(claamt* noOfDays) / totalNoOfDays;
-						clanew=(double) Math.round(clanew);
+						Double clanew = (claamt * noOfDays) / totalNoOfDays;
+						clanew = (double) Math.round(clanew);
 						brokenPeriodModel.setDeptalldetValue(String.valueOf(clanew));
 					}
 					allowEdpList.add(brokenPeriodModel);
@@ -1626,63 +1624,58 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 					BrokenPeriodModel brokenPeriodModel = null;
 					brokenPeriodModel = allEdpList.get(i);
-					if (mstEmployeeModel.getGiscatagory().equals(1)) {
+					///if (mstEmployeeModel.getGiscatagory().equals(1)) {
 						if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
-							
-							
-							Double DaArr1=0d;
-							Double DaArr2=0d;
-							Double DaArrtenpersent =0d;
-							Double DaArrforteenpersent =0d;
-							Double totalDaArr=0d;
-						if(month2==11 && year==2023) {
-							DaArr1=DaArr/4;
-							DaArr2=DaArr-DaArr1;
-							DaArrtenpersent=(DaArr1 * 10
-									/ 100);
-							DaArrforteenpersent=(DaArr2 * 14
-									/ 100);
-							totalDaArr=DaArrtenpersent+DaArrforteenpersent;
-							npsEmprAllow = (double) (Math.round((((mstEmployeeModel.getBasicPay() + svnDA ) * 14)
-									/ 100)+totalDaArr));
-						}else if(month==12 && year ==2023) {
-							DaArr1=DaArr/5;
-							DaArr2=DaArr-DaArr1;
-							DaArrtenpersent=(DaArr1 * 10
-									/ 100);
-							DaArrforteenpersent=(DaArr2 * 14
-									/ 100);
-							totalDaArr=DaArrtenpersent+DaArrforteenpersent;
-							npsEmprAllow = (double) (Math.round((((mstEmployeeModel.getBasicPay() + svnDA ) * 14)
-									/ 100)+totalDaArr));
-						}else {
-							npsEmprAllow = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}
-							
-						}else {
+
+							Double DaArr1 = 0d;
+							Double DaArr2 = 0d;
+							Double DaArrtenpersent = 0d;
+							Double DaArrforteenpersent = 0d;
+							Double totalDaArr = 0d;
+							if (month2 == 11 && year == 2023) {
+								DaArr1 = DaArr / 4;
+								DaArr2 = DaArr - DaArr1;
+								DaArrtenpersent = (DaArr1 * 10 / 100);
+								DaArrforteenpersent = (DaArr2 * 14 / 100);
+								totalDaArr = DaArrtenpersent + DaArrforteenpersent;
+								npsEmprAllow = (double) (Math
+										.round((((mstEmployeeModel.getBasicPay() + svnDA) * 14) / 100) + totalDaArr));
+							} else if (month == 12 && year == 2023) {
+								DaArr1 = DaArr / 5;
+								DaArr2 = DaArr - DaArr1;
+								DaArrtenpersent = (DaArr1 * 10 / 100);
+								DaArrforteenpersent = (DaArr2 * 14 / 100);
+								totalDaArr = DaArrtenpersent + DaArrforteenpersent;
+								npsEmprAllow = (double) (Math
+										.round((((mstEmployeeModel.getBasicPay() + svnDA) * 14) / 100) + totalDaArr));
+							} else {
+								npsEmprAllow = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr)
+										* 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							}
+
+						} else {
 							npsEmprAllow = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
-						
-					} else {
+
+					/*} else {
 						npsEmprAllow = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}
-					
-					/*if (year >= 20 && month >= 8) {
-						if (mstEmployeeModel.getBasicPay() != 0) {
-							npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-							brokenPeriodModel = allEdpList.get(i);
-						}
-
-					} else {
-						npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						brokenPeriodModel = allEdpList.get(i);
-
 					}*/
+
+					/*
+					 * if (year >= 20 && month >= 8) { if (mstEmployeeModel.getBasicPay() != 0) {
+					 * npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay() + da +
+					 * svnDA) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					 * brokenPeriodModel = allEdpList.get(i); }
+					 * 
+					 * } else { npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay()
+					 * + da + svnDA) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); brokenPeriodModel
+					 * = allEdpList.get(i);
+					 * 
+					 * }
+					 */
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprAllow));
 					allowEdpList.add(brokenPeriodModel);
 					allowRuleList.add(brokenPeriodModel);
@@ -1814,12 +1807,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Naksalied_Allowances_Code) {
 						brokenPeriodModel = allEdpList.get(i);
-						
-						Double naksaliseallow=(employeeAllowDeducComponentAmtEntity.getNetAmt()* noOfDays) / totalNoOfDays;
-						naksaliseallow=(double) Math.round(naksaliseallow);
+
+						Double naksaliseallow = (employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays)
+								/ totalNoOfDays;
+						naksaliseallow = (double) Math.round(naksaliseallow);
 						brokenPeriodModel = allEdpList.get(i);
-						brokenPeriodModel
-								.setDeptalldetValue(String.valueOf(naksaliseallow));
+						brokenPeriodModel.setDeptalldetValue(String.valueOf(naksaliseallow));
 					} else {
 						brokenPeriodModel = allEdpList.get(i);
 						brokenPeriodModel.setDeptalldetValue("0");
@@ -1844,12 +1837,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						brokenPeriodModel = allEdpList.get(i);
 						brokenPeriodModel.setDeptalldetValue("0");
 					}
-					
+
 					allowEdpList.add(brokenPeriodModel);
 					allowRuleList.add(brokenPeriodModel);
 
-					}
-				
+				}
+
 				// Washing_Allowance
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Washing_Allowance)) {
@@ -1857,18 +1850,18 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					BrokenPeriodModel brokenPeriodModel = null;
 					logger.info(" Inside iff for COMMONCODE_COMPONENT_TRIBAL_ALLOW ");
 					brokenPeriodModel = allEdpList.get(i);
-					
-					Double consVal=50d;
+
+					Double consVal = 50d;
 					wa = ((consVal * noOfDays) / totalNoOfDays);
-					
-					wa=(double) Math.round(wa);
-					
+
+					wa = (double) Math.round(wa);
+
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(wa));
 					System.out.println("Tribal Allow Component=" + String.valueOf(wa));
 					allowEdpList.add(brokenPeriodModel);
 					allowRuleList.add(brokenPeriodModel);
 				}
-				
+
 				// NDCPS_REC
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NDCPS_REC)) {
@@ -1885,12 +1878,11 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						brokenPeriodModel = allEdpList.get(i);
 						brokenPeriodModel.setDeptalldetValue("0");
 					}
-					
+
 					allowEdpList.add(brokenPeriodModel);
 					allowRuleList.add(brokenPeriodModel);
 
-					}
-				
+				}
 
 				// End For Allowances//
 
@@ -2051,17 +2043,17 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMP_CONTRI)) {
 
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					/*if (year >= 20 && month >= 8) {
-						if (mstEmployeeModel.getBasicPay() != 0) {
-							npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}
-
-					} else {
-						npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-
-					}*/
+					/*
+					 * if (year >= 20 && month >= 8) { if (mstEmployeeModel.getBasicPay() != 0) {
+					 * npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da +
+					 * svnDA) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 * 
+					 * } else { npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay()
+					 * + da + svnDA) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					 * 
+					 * }
+					 */
 					if (mstEmployeeModel.getGiscatagory().equals(1)) {
 						npsEmpContri = (double) (Math.ceil((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
@@ -2069,19 +2061,18 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						npsEmpContri = (double) (Math.ceil((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 					}
-					/*if (mstEmployeeModel.getGiscatagory().equals(1)) {
-						if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
-							npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}else {
-							npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}
-						
-					} else {
-						npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}*/
+					/*
+					 * if (mstEmployeeModel.getGiscatagory().equals(1)) { if (year == 2023 && month2
+					 * >= 8 || year >= 2024 && month2 >= 1) { npsEmpContri = (double)
+					 * (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }else {
+					 * npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA +
+					 * DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 * 
+					 * } else { npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay()
+					 * + svnDA + DaArr) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 */
 
 					logger.info("NPS EMP Contri=" + String.valueOf(npsEmpContri));
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmpContri));
@@ -2158,69 +2149,51 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT)) {
 
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					/*if (year >= 20 && month >= 8) {
-						if (mstEmployeeModel.getBasicPay() != 0) {
-							npsEmprContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}
-
-					} else {
-						npsEmprContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
+					if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
+						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-
-					}*/
+					} else {
+						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
+								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					}
 					/*if (mstEmployeeModel.getGiscatagory().equals(1)) {
-						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					} else {
-						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}*/
-					if (mstEmployeeModel.getGiscatagory().equals(1)) {
-						
-						
 
-						if(month2>=8 && year==2023 || month>=1 && year==2024) {
-							
-							 Double DaArr1=0d;
-								Double DaArr2=0d;
-								Double DaArrtenpersent =0d;
-								Double DaArrforteenpersent =0d;
-								Double totalDaArr=0d;
-							if(month2==11 && year==24) {
-								DaArr1=DaArr/4;
-								DaArr2=DaArr-DaArr1;
-								DaArrtenpersent=(DaArr1 * 10
-										/ 100);
-								DaArrforteenpersent=(DaArr2 * 14
-										/ 100);
-								totalDaArr=DaArrtenpersent+DaArrforteenpersent;
-								npsEmprContri = (double) (Math.round((((mstEmployeeModel.getBasicPay()  + svnDA ) * 14)
-										/ 100)+totalDaArr));
-							}else if(month2==12 && year==24) {
-								DaArr1=DaArr/5;
-								DaArr2=DaArr-DaArr1;
-								DaArrtenpersent=(DaArr1 * 10
-										/ 100);
-								DaArrforteenpersent=(DaArr2 * 14
-										/ 100);
-								totalDaArr=DaArrtenpersent+DaArrforteenpersent;
-								npsEmprContri = (double) (Math.round((((mstEmployeeModel.getBasicPay()  + svnDA ) * 14)
-										/ 100)+totalDaArr));
-							}else {
-								npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay()  + svnDA + DaArr) * 14
-										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						if (month2 >= 8 && year == 2023 || month >= 1 && year == 2024) {
+
+							Double DaArr1 = 0d;
+							Double DaArr2 = 0d;
+							Double DaArrtenpersent = 0d;
+							Double DaArrforteenpersent = 0d;
+							Double totalDaArr = 0d;
+							if (month2 == 11 && year == 24) {
+								DaArr1 = DaArr / 4;
+								DaArr2 = DaArr - DaArr1;
+								DaArrtenpersent = (DaArr1 * 10 / 100);
+								DaArrforteenpersent = (DaArr2 * 14 / 100);
+								totalDaArr = DaArrtenpersent + DaArrforteenpersent;
+								npsEmprContri = (double) (Math
+										.round((((mstEmployeeModel.getBasicPay() + svnDA) * 14) / 100) + totalDaArr));
+							} else if (month2 == 12 && year == 24) {
+								DaArr1 = DaArr / 5;
+								DaArr2 = DaArr - DaArr1;
+								DaArrtenpersent = (DaArr1 * 10 / 100);
+								DaArrforteenpersent = (DaArr2 * 14 / 100);
+								totalDaArr = DaArrtenpersent + DaArrforteenpersent;
+								npsEmprContri = (double) (Math
+										.round((((mstEmployeeModel.getBasicPay() + svnDA) * 14) / 100) + totalDaArr));
+							} else {
+								npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr)
+										* 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 							}
-							}else {
-							npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay()  + svnDA + DaArr) * 14
+						} else {
+							npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
-						
+
 					} else {
 						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}
-
+					}*/
 
 					logger.info("NPS EMP Contri=" + String.valueOf(npsEmprContri));
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprContri));
@@ -2824,59 +2797,59 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					dedRuleList.add(brokenPeriodModel);
 				}
 				// FA
-			/*	else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
-
-					LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity = mstEmployeeService.findFADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
-
-					
-					 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
-					 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
-					 
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					if (lnaFAEmployeeRequestMstEntity != null && lnaFAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							FA = lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
-
-						}
-
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(FA)));
-					} else {
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
-				/*// COMP_ADV
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV)) {
-					LNACAEmployeeRequestMstEntity lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
-
-					
-					 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
-					 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
-					 
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-
-					if (lnaCAEmployeeRequestMstEntity != null && lnaCAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							CA = lnaCAEmployeeRequestMstEntity.getInstallmentAmount();
-							// mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),gpfAdvD);
-						}
-
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(CA)));
-					} else {
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
+				 * 
+				 * LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity =
+				 * mstEmployeeService.findFADetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
+				 * 
+				 * 
+				 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
+				 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i); if
+				 * (lnaFAEmployeeRequestMstEntity != null &&
+				 * lnaFAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) { FA =
+				 * lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * 
+				 * }
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double)
+				 * Math.round(FA))); } else {
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
+				/*
+				 * // COMP_ADV else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_COMP_ADV)) { LNACAEmployeeRequestMstEntity
+				 * lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
+				 * 
+				 * 
+				 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
+				 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				 * 
+				 * if (lnaCAEmployeeRequestMstEntity != null &&
+				 * lnaCAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) { CA =
+				 * lnaCAEmployeeRequestMstEntity.getInstallmentAmount(); //
+				 * mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),
+				 * gpfAdvD); }
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double)
+				 * Math.round(CA))); } else {
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 				// GPF Advance
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPFAdvance)) {
@@ -3119,62 +3092,56 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					dedRuleList.add(brokenPeriodModel);
 				}
 				// BEGIS
-				/*else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BEGIS)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					OtherAllowanceEntity otherAllowanceEntity = null;
-					if (mstEmployeeModel.getGiscatagory() != null) {
-						if (mstEmployeeModel.getGiscatagory().equals(1)
-								|| mstEmployeeModel.getGiscatagory().equals(2)) {
-							otherAllowanceEntity = mstEmployeeService.findBEGISAmt(mstEmployeeModel.getGiscatagory(),
-									mstEmployeeModel.getBegisCatg());
-						} else {
-							otherAllowanceEntity = mstEmployeeService
-									.findBEGISAmtwith(mstEmployeeModel.getGiscatagory());
-						}
-					}
-					if (otherAllowanceEntity != null) {
-
-						brokenPeriodModel
-								.setDeptalldetValue(String.valueOf(Math.round(otherAllowanceEntity.getAmount())));
-					} else {
-						brokenPeriodModel.setDeptalldetValue("0");
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BEGIS))
+				 * { BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				 * OtherAllowanceEntity otherAllowanceEntity = null; if
+				 * (mstEmployeeModel.getGiscatagory() != null) { if
+				 * (mstEmployeeModel.getGiscatagory().equals(1) ||
+				 * mstEmployeeModel.getGiscatagory().equals(2)) { otherAllowanceEntity =
+				 * mstEmployeeService.findBEGISAmt(mstEmployeeModel.getGiscatagory(),
+				 * mstEmployeeModel.getBegisCatg()); } else { otherAllowanceEntity =
+				 * mstEmployeeService .findBEGISAmtwith(mstEmployeeModel.getGiscatagory()); } }
+				 * if (otherAllowanceEntity != null) {
+				 * 
+				 * brokenPeriodModel
+				 * .setDeptalldetValue(String.valueOf(Math.round(otherAllowanceEntity.getAmount(
+				 * )))); } else { brokenPeriodModel.setDeptalldetValue("0"); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 				/// House Advance
-				/*else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT)) {
-				
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAHBAEmployeeRequestMstEntity lnaHBAEmployeeRequestMstEntity = mstEmployeeService
-							.findHBADetails(mstEmployeeModel.getEmployeeId(),
-									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT_Code);
-
-
-					if (lnaHBAEmployeeRequestMstEntity != null
-							&& lnaHBAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaHBAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							//HouseAdv = lnaHBAEmployeeRequestMstEntity.getPrinAmtPerMonth();
-							HouseAdvInstAmt = lnaHBAEmployeeRequestMstEntity.getInstallmentAmount();
-							
-							Integer hbai = lnaHBAEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
-							Integer sancHbaInst = lnaHBAEmployeeRequestMstEntity.getSanctionedNoOfInstallment();
-							hbaHouseInst = hbai.toString() + "/" + sancHbaInst.toString();
-						
-						}
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdvInstAmt));
-					//	brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst));
-					
-
-					} else {
-						HouseAdvInstAmt=0d;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdvInstAmt));
-					//	brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/else {
+				/*
+				 * else if
+				 * (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(CommonConstants.
+				 * PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT)) {
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				 * LNAHBAEmployeeRequestMstEntity lnaHBAEmployeeRequestMstEntity =
+				 * mstEmployeeService .findHBADetails(mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT_Code);
+				 * 
+				 * 
+				 * if (lnaHBAEmployeeRequestMstEntity != null &&
+				 * lnaHBAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaHBAEmployeeRequestMstEntity.getInstallmentAmount() != null) { //HouseAdv
+				 * = lnaHBAEmployeeRequestMstEntity.getPrinAmtPerMonth(); HouseAdvInstAmt =
+				 * lnaHBAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * 
+				 * Integer hbai = lnaHBAEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
+				 * Integer sancHbaInst =
+				 * lnaHBAEmployeeRequestMstEntity.getSanctionedNoOfInstallment(); hbaHouseInst =
+				 * hbai.toString() + "/" + sancHbaInst.toString();
+				 * 
+				 * } brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdvInstAmt)); //
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst));
+				 * 
+				 * 
+				 * } else { HouseAdvInstAmt=0d;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdvInstAmt)); //
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */else {
 					allEdpList.get(i).setDeptalldetValue("0");
 					dedRuleList.add(allEdpList.get(i));
 					// dedRuleList.add("0");
@@ -4173,83 +4140,79 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//VangaonSociety
+				// VangaonSociety
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_VangaonSociety)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_VangaonSociety_Code);
-		
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_VangaonSociety_Code) {
-					
 
 						brokenPeriodModel.setDeptalldetValue(
 								String.valueOf(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-						
-						
+
 					} else {
 						brokenPeriodModel.setDeptalldetValue("0");
-					}	
+					}
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//panipuravtha_kolhapur
+				// panipuravtha_kolhapur
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_panipuravtha_kolhapur)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_panipuravtha_kolhapur_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_panipuravtha_kolhapur_Code) {
-					
 
 						brokenPeriodModel.setDeptalldetValue(
 								String.valueOf(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-					
+
 					} else {
 						brokenPeriodModel.setDeptalldetValue("0");
 					}
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//rajashrishahu_govbank_kolhapur
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_rajashrishahu_govbank_kolhapur)) {
-					
+				// rajashrishahu_govbank_kolhapur
+				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_rajashrishahu_govbank_kolhapur)) {
+
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_panipuravtha_kolhapur_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_rajashrishahu_govbank_kolhapur_Code) {
-					
+
 						brokenPeriodModel.setDeptalldetValue(
 								String.valueOf(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-					
-					
+
 					} else {
 						brokenPeriodModel.setDeptalldetValue("0");
 					}
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//Ahmednagar_pari_Abhiseva_Marya
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ahmednagar_pari_Abhiseva_Marya)) {
-					
+				// Ahmednagar_pari_Abhiseva_Marya
+				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ahmednagar_pari_Abhiseva_Marya)) {
+
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ahmednagar_pari_Abhiseva_Marya_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_rajashrishahu_govbank_kolhapur_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4261,15 +4224,14 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					dedRuleList.add(brokenPeriodModel);
 				}
 
-				
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Beed)) {
-					
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Beed)) {
+
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Beed_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Beed_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4280,15 +4242,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//Sal_owner_soc_Sangli
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sal_owner_soc_Sangli)) {
+				// Sal_owner_soc_Sangli
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sal_owner_soc_Sangli)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sal_owner_soc_Sangli_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sal_owner_soc_Sangli_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4299,15 +4261,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//Shaskiy_panipuravtha_soc_satara
+				// Shaskiy_panipuravtha_soc_satara
 				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Shaskiy_panipuravtha_soc_satara)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Shaskiy_panipuravtha_soc_satara_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Shaskiy_panipuravtha_soc_satara_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4318,15 +4280,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//jalbhavan_soc_sangli
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalbhavan_soc_sangli)) {
+				// jalbhavan_soc_sangli
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalbhavan_soc_sangli)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalbhavan_soc_sangli_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalbhavan_soc_sangli_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4337,15 +4299,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//akola_society
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_akola_society)) {
+				// akola_society
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_akola_society)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_akola_society_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_akola_society_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4356,15 +4318,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//yavatmal_society
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_yavatmal_society)) {
+				// yavatmal_society
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_yavatmal_society)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_yavatmal_society_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_yavatmal_society_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4375,15 +4337,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//nagari_sahakar_path_sansta
+				// nagari_sahakar_path_sansta
 				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_nagari_sahakar_path_sansta)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_nagari_sahakar_path_sansta_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_nagari_sahakar_path_sansta_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4394,15 +4356,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//engineering_society
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_engineering_society)) {
+				// engineering_society
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_engineering_society)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_engineering_society_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_engineering_society_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4413,15 +4375,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//daryapur_society
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_daryapur_society)) {
+				// daryapur_society
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_daryapur_society)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_daryapur_society_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_daryapur_society_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4432,15 +4394,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//public_health_society_Code
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_public_health_society)) {
+				// public_health_society_Code
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_public_health_society)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_public_health_society_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_public_health_society_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4451,15 +4413,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//jalpradaya_society
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalpradaya_society)) {
+				// jalpradaya_society
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalpradaya_society)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalpradaya_society_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalpradaya_society_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4470,15 +4432,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//zilha_pari_karmachari_pantsanstha_buldhana
+				// zilha_pari_karmachari_pantsanstha_buldhana
 				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_zilha_pari_karmachari_pantsanstha_buldhana)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_zilha_pari_karmachari_pantsanstha_buldhana_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_zilha_pari_karmachari_pantsanstha_buldhana_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4489,15 +4451,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//Jalna_soc
-				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalna_Soc)) {
+				// Jalna_soc
+				else if (allEdpList.get(i).getDeptalldetNm()
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalna_Soc)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalna_Soc_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_jalna_Soc_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4508,15 +4470,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//amrawati_dist_engg_credit_soc
+				// amrawati_dist_engg_credit_soc
 				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4527,16 +4489,16 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				
-				//PUNE_DIST_CENTRAL_COP_BANK
+
+				// PUNE_DIST_CENTRAL_COP_BANK
 				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK)) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					
+
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK_Code);
-					
+
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK_Code) {
 						brokenPeriodModel.setDeptalldetValue(
@@ -4547,10 +4509,10 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				
+
 				// BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA)) {
+				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA)) {
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA_Code);
@@ -4569,38 +4531,30 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara)) {
+
+				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara)) {
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code);
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code) {
-						
+
 						brokenPeriodModel.setDeptalldetValue(
 								String.valueOf(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
 						logger.info("RECURRING_DEP deduc Component=" + String.valueOf(
 								String.valueOf((double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()))));
 					} else {
-						
+
 						brokenPeriodModel.setDeptalldetValue("0");
 					}
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				
-				
+
 				// END BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA
-				
-				
-				
-				
-				
-				
-				
-				
+
 				else {
 					allEdpList.get(i).setDeptalldetValue("0");
 					dedRuleList.add(allEdpList.get(i));
@@ -4638,267 +4592,260 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-			/*	// GPF_ADV_GRP_ABC
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC)) {
-
-					LoanEmployeeDtlsEntity loanEmployeeDtlsEntity = mstEmployeeService.findLoanDetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
-
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					BigInteger gpfabc = null;
-					Double gpfd = 0d;
-					if (loanEmployeeDtlsEntity != null && allEdpList.get(i)
-							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE) {
-
-						gpfabc = loanEmployeeDtlsEntity.getLoanprinemiamt();
-						gpfd = gpfabc.doubleValue();
-						// paybillGenerationTrnDetails.setCoHsgSoc((double)
-						// Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(), gpfabc);
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfd));
-						logger.info("GPF_ADV_GRP_ABC deduc Component=" + String.valueOf(String.valueOf(gpfd)));
-
-					} else {
-						
-						 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
-						 
-						brokenPeriodModel.setDeptalldetValue("0");
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * // GPF_ADV_GRP_ABC else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC)) {
+				 * 
+				 * LoanEmployeeDtlsEntity loanEmployeeDtlsEntity =
+				 * mstEmployeeService.findLoanDetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i); BigInteger gpfabc =
+				 * null; Double gpfd = 0d; if (loanEmployeeDtlsEntity != null &&
+				 * allEdpList.get(i) .getDeptallowdeducid() ==
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE) {
+				 * 
+				 * gpfabc = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfd =
+				 * gpfabc.doubleValue(); // paybillGenerationTrnDetails.setCoHsgSoc((double) //
+				 * Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+				 * mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(),
+				 * gpfabc); brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfd));
+				 * logger.info("GPF_ADV_GRP_ABC deduc Component=" +
+				 * String.valueOf(String.valueOf(gpfd)));
+				 * 
+				 * } else {
+				 * 
+				 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue("0");
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 				// GPF_ADV_GRP_D
-			/*	else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D)) {
-					
-					 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
-					 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
-					 
-
-					LoanEmployeeDtlsEntity loanEmployeeDtlsEntity = mstEmployeeService.findLoanDetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE);
-
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					BigInteger gpfadvd = null;
-					Double gpfadvgrpd = 0d;
-					if (loanEmployeeDtlsEntity != null && allEdpList.get(i)
-							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE) {
-
-						gpfadvd = loanEmployeeDtlsEntity.getLoanprinemiamt();
-						gpfadvgrpd = gpfadvd.doubleValue();
-						mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(), gpfadvd);
-						// paybillGenerationTrnDetails.setCoHsgSoc((double)
-						// Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfadvgrpd));
-						logger.info("GPF_ADV_GRP_ABC deduc Component=" + String.valueOf(String.valueOf(gpfadvgrpd)));
-
-					} else {
-						
-						 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
-						 
-						brokenPeriodModel.setDeptalldetValue("0");
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_GPF_ADV_GRP_D)) {
+				 * 
+				 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
+				 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
+				 * 
+				 * 
+				 * LoanEmployeeDtlsEntity loanEmployeeDtlsEntity =
+				 * mstEmployeeService.findLoanDetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i); BigInteger gpfadvd =
+				 * null; Double gpfadvgrpd = 0d; if (loanEmployeeDtlsEntity != null &&
+				 * allEdpList.get(i) .getDeptallowdeducid() ==
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE) {
+				 * 
+				 * gpfadvd = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfadvgrpd =
+				 * gpfadvd.doubleValue();
+				 * mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(),
+				 * gpfadvd); // paybillGenerationTrnDetails.setCoHsgSoc((double) //
+				 * Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfadvgrpd));
+				 * logger.info("GPF_ADV_GRP_ABC deduc Component=" +
+				 * String.valueOf(String.valueOf(gpfadvgrpd)));
+				 * 
+				 * } else {
+				 * 
+				 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue("0");
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 
 				// House Adv
-/*
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAHBAEmployeeRequestMstEntity lnaHBAEmployeeRequestMstEntity = mstEmployeeService.findHBADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code);
-
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
-
-					if (lnaHBAEmployeeRequestMstEntity != null && lnaHBAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaHBAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							HouseAdv = lnaHBAEmployeeRequestMstEntity.getInstallmentAmount();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
-
-							Integer hbai = lnaHBAEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
-							Integer sancHbaInst = lnaHBAEmployeeRequestMstEntity.getSanctionedNoOfInstallment();
-							hbaHouseInst = hbai.toString() + "/" + sancHbaInst.toString();
-
-							// mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),gpfAdvD);
-						}
-
-					} else {
-						HouseAdv = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst));
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_HBA_HOUSE)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); LNAHBAEmployeeRequestMstEntity
+				 * lnaHBAEmployeeRequestMstEntity = mstEmployeeService.findHBADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaHBAEmployeeRequestMstEntity != null &&
+				 * lnaHBAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaHBAEmployeeRequestMstEntity.getInstallmentAmount() != null) { HouseAdv =
+				 * lnaHBAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
+				 * 
+				 * Integer hbai = lnaHBAEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
+				 * Integer sancHbaInst =
+				 * lnaHBAEmployeeRequestMstEntity.getSanctionedNoOfInstallment(); hbaHouseInst =
+				 * hbai.toString() + "/" + sancHbaInst.toString();
+				 * 
+				 * // mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),
+				 * gpfAdvD); }
+				 * 
+				 * } else { HouseAdv = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst));
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 
 				// Computer Adv
 
-			/*	else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNACAEmployeeRequestMstEntity lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
-
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
-
-					if (lnaCAEmployeeRequestMstEntity != null && lnaCAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							CA = lnaCAEmployeeRequestMstEntity.getInstallmentAmount();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(CA));
-						}
-
-					} else {
-						CA = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(CA));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_COMP_ADV)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); LNACAEmployeeRequestMstEntity
+				 * lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaCAEmployeeRequestMstEntity != null &&
+				 * lnaCAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) { CA =
+				 * lnaCAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(CA)); }
+				 * 
+				 * } else { CA = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(CA)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 
 				// Festival Adv
 
-			/*	else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity = mstEmployeeService.findFADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
-
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
-
-					if (lnaFAEmployeeRequestMstEntity != null && lnaFAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							FA = lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(FA));
-
-						}
-
-					} else {
-						FA = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(FA));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				 * LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity =
+				 * mstEmployeeService.findFADetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaFAEmployeeRequestMstEntity != null &&
+				 * lnaFAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) { FA =
+				 * lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(FA));
+				 * 
+				 * }
+				 * 
+				 * } else { FA = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(FA)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 
 				// Vehical Adv
-/*
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAVAEmployeeRequestMstEntity lnaVAEmployeeRequestMstEntity = mstEmployeeService.findVADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code);
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_OTHER_VEH_ADV)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); LNAVAEmployeeRequestMstEntity
+				 * lnaVAEmployeeRequestMstEntity = mstEmployeeService.findVADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaVAEmployeeRequestMstEntity != null &&
+				 * lnaVAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaVAEmployeeRequestMstEntity.getPrinInstallmentAmountMCA() != null) {
+				 * vehAdv = lnaVAEmployeeRequestMstEntity.getOddPrinAmtPlusPrinAmt();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv)); }
+				 * 
+				 * } else { vehAdv = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(otherVehAdvInst)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
+				/*
+				 * // Excess_Pay_Rec else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_Excess_Pay_Rec)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); ExcessPayRecoveryEntity excessPayRecoveryEntity =
+				 * mstEmployeeService .findExcPayRec(mstEmployeeModel.getSevaarthId());
+				 * 
+				 * 
+				 * if (excessPayRecoveryEntity != null && excessPayRecoveryEntity.getIsActive()
+				 * == '1') { if (excessPayRecoveryEntity.getPrinEmiAmt() != null) { excessPayrec
+				 * = excessPayRecoveryEntity.getPrinEmiAmt();
+				 * 
+				 * Integer excInst = excessPayRecoveryEntity.getLoanPrinInstNo() + 1; Integer
+				 * sancExcInst = excessPayRecoveryEntity.getTotalInstNo(); excessPayrecInst =
+				 * excInst.toString() + "/" + sancExcInst.toString(); }
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec));
+				 * //brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
+				 * 
+				 * 
+				 * } else { excessPayrec=0d;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec)); //
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 
-					if (lnaVAEmployeeRequestMstEntity != null && lnaVAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaVAEmployeeRequestMstEntity.getPrinInstallmentAmountMCA() != null) {
-							vehAdv = lnaVAEmployeeRequestMstEntity.getOddPrinAmtPlusPrinAmt();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv));
-						}
-
-					} else {
-						vehAdv = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(otherVehAdvInst));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}
-				*/
-				
-			/*	// Excess_Pay_Rec
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Excess_Pay_Rec)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					ExcessPayRecoveryEntity excessPayRecoveryEntity  = mstEmployeeService
-							.findExcPayRec(mstEmployeeModel.getSevaarthId());
-					
-					
-					if (excessPayRecoveryEntity != null
-							&& excessPayRecoveryEntity.getIsActive() == '1') {
-						if (excessPayRecoveryEntity.getPrinEmiAmt() != null) {
-							excessPayrec = excessPayRecoveryEntity.getPrinEmiAmt();
-
-							Integer excInst = excessPayRecoveryEntity.getLoanPrinInstNo() + 1;
-							Integer sancExcInst = excessPayRecoveryEntity.getTotalInstNo();
-							excessPayrecInst = excInst.toString() + "/" + sancExcInst.toString();
-						}
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec));
-						//brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
-						
-
-					} else {
-						excessPayrec=0d;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec));
-					//	brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
-				
-				
 				// House Adv
-				
-				
 
-				/*else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAMotorVehicleAdvEmployeeRequestMstEntity lnaMotorVehicleAdvEmployeeRequestMstEntity = mstEmployeeService
-							.findmotorCycleAdvDetails(mstEmployeeModel.getEmployeeId(),
-									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE_Code);
-					
-					if (lnaMotorVehicleAdvEmployeeRequestMstEntity != null
-							&& lnaMotorVehicleAdvEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaMotorVehicleAdvEmployeeRequestMstEntity.getPrinInstallmentAmountMCA() != null) {
-							/// HouseAdv = lnaHBAEmployeeRequestMstEntity.getPrinAmtPerMonth();
-							motorCycleAdvInst = lnaMotorVehicleAdvEmployeeRequestMstEntity.getPrinInstallmentAmountMCA();
-							Integer motorInst = lnaMotorVehicleAdvEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
-							Integer sancmotorCycleInst = lnaMotorVehicleAdvEmployeeRequestMstEntity
-									.getSancPrincipalInstallMCA();
-							motorCycleInst = motorInst.toString() + "/" + sancmotorCycleInst.toString();
-
-							// mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),gpfAdvD);
-						}
-						
-						
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleInst));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleAdvInst));
-						
-						
-						paybillGenerationTrnDetails.setMotorVehAdvInst(motorCycleInst);
-						paybillGenerationTrnDetails.setMotorvehicleAdvance(motorCycleAdvInst);
-						/// paybillGenerationTrnDetails.setHbaHouseIntAmt(HouseAdvInstAmt);;
-						motorCycleAdv = (double) (Math.round(motorCycleAdvInst));
-
-					}else {
-						motorCycleAdv = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleInst));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleAdvInst));
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
-		
-				
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE)) { BrokenPeriodModel
+				 * brokenPeriodModel = allEdpList.get(i);
+				 * LNAMotorVehicleAdvEmployeeRequestMstEntity
+				 * lnaMotorVehicleAdvEmployeeRequestMstEntity = mstEmployeeService
+				 * .findmotorCycleAdvDetails(mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE_Code);
+				 * 
+				 * if (lnaMotorVehicleAdvEmployeeRequestMstEntity != null &&
+				 * lnaMotorVehicleAdvEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaMotorVehicleAdvEmployeeRequestMstEntity.getPrinInstallmentAmountMCA() !=
+				 * null) { /// HouseAdv = lnaHBAEmployeeRequestMstEntity.getPrinAmtPerMonth();
+				 * motorCycleAdvInst =
+				 * lnaMotorVehicleAdvEmployeeRequestMstEntity.getPrinInstallmentAmountMCA();
+				 * Integer motorInst =
+				 * lnaMotorVehicleAdvEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
+				 * Integer sancmotorCycleInst = lnaMotorVehicleAdvEmployeeRequestMstEntity
+				 * .getSancPrincipalInstallMCA(); motorCycleInst = motorInst.toString() + "/" +
+				 * sancmotorCycleInst.toString();
+				 * 
+				 * // mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),
+				 * gpfAdvD); }
+				 * 
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleInst));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleAdvInst));
+				 * 
+				 * 
+				 * paybillGenerationTrnDetails.setMotorVehAdvInst(motorCycleInst);
+				 * paybillGenerationTrnDetails.setMotorvehicleAdvance(motorCycleAdvInst); ///
+				 * paybillGenerationTrnDetails.setHbaHouseIntAmt(HouseAdvInstAmt);;
+				 * motorCycleAdv = (double) (Math.round(motorCycleAdvInst));
+				 * 
+				 * }else { motorCycleAdv = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleInst));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(motorCycleAdvInst));
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 
 			}
-
 
 			// ########################################################################################
 
@@ -4932,25 +4879,17 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		bpResponseMode.setData(mstEmployeeModel.getBasicPay());
 		brokenPeriodResponseModel.add(bpResponseMode);
 		String month1 = String.valueOf(Integer.parseInt(hmInputParam.get("month").toString().trim()) + 1);
-		
-		
-		
-		
+
 		String monthyear = month1.length() == 1 ? "0" + month1 + "-" + hmInputParam.get("year").toString().trim()
 				: month1 + "-" + hmInputParam.get("year").toString().trim();
-		
-		
-		
-		
-		
-		
+
 		bpResponseMode = new BrokenPeriodResponseModel();
 		bpResponseMode.setStatus("status");
-	//	bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear, sevaarthid));
-		
-		
-		bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear, sevaarthid,fromDate,toDate));
-		
+		// bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear,
+		// sevaarthid));
+
+		bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear, sevaarthid, fromDate, toDate));
+
 		brokenPeriodResponseModel.add(bpResponseMode);
 
 		return brokenPeriodResponseModel;
@@ -5484,12 +5423,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 																					// request).trim());
 			Long lLongEisEmpId = Long.valueOf(inputMap.get("empId").toString());// Long.valueOf(StringUtility.getParameter("eisEmpId",
 																				// request).trim());
-			String ddoCode = inputMap.get("ddoCode").toString(); 
-			lBlFirstTimeSave = (!brokenPeriodRepo.checkBrokenPeriodPayExistsOrNot(lLongEisEmpId, lLongYear,
-					lLongMonth,ddoCode));
+			String ddoCode = inputMap.get("ddoCode").toString();
+			lBlFirstTimeSave = (!brokenPeriodRepo.checkBrokenPeriodPayExistsOrNot(lLongEisEmpId, lLongYear, lLongMonth,
+					ddoCode));
 			if (!lBlFirstTimeSave) {
 				List<BrokenPeriodEntity> lListBrokenPeriodPayList = brokenPeriodRepo
-						.getAddedBrokenPeriodPaysForEmp(lLongEisEmpId, lLongYear, lLongMonth,ddoCode);
+						.getAddedBrokenPeriodPaysForEmp(lLongEisEmpId, lLongYear, lLongMonth, ddoCode);
 				for (Integer lInt = 0; lInt < lListBrokenPeriodPayList.size(); lInt++) {
 					lLongBrknPrdIdForDelete = lListBrokenPeriodPayList.get(lInt).getBrokenPeriodId();
 					brokenPeriodRepo.deleteAllBrokenPeriodAllowancesForBrknPrdId(lLongBrknPrdIdForDelete);
@@ -5566,8 +5505,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		LocalDate currDt = LocalDate.now();
 		Date gDtCurrDt = Date.from(currDt.atStartOfDay(defaultZoneId).toInstant());
 		logger.info("gDtCurrDt=" + gDtCurrDt);
-		
-		String ddoCode = inputMap.get("ddoCode").toString(); 
+
+		String ddoCode = inputMap.get("ddoCode").toString();
 
 		BrokenPeriodEntity[] lArrMstBrokenPeriodPay = null;
 		List<BrokenPeriodAllowDeducEntity> lListRltBrokenPeriodAllow = new ArrayList<BrokenPeriodAllowDeducEntity>();
@@ -5602,10 +5541,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			lStrArrAllowancesCodes = lStrAllowancesCodes.split("~");
 			lStrArrAllowancesValues = lStrAllowancesValues.split("~");
 
-			
-			
-			
-			if(inputMap.get("deductionCodes")!=null) {
+			if (inputMap.get("deductionCodes") != null) {
 				try {
 					String lStrDeductionCodes = inputMap.get("deductionCodes").toString();// StringUtility.getParameter("deductionCodes",
 					// request);
@@ -5617,12 +5553,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 				}
 			}
-			
-			
-			
-			
-			
-			
 
 			for (Integer lInt = 0; lInt < lArrMstBrokenPeriodPay.length; lInt++) {
 				lObjMstBrokenPeriodPay = lArrMstBrokenPeriodPay[lInt];
@@ -5670,69 +5600,64 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					lObjRltBrokenPeriodAllow
 							.setAllowDeducCode(Integer.valueOf(lLongArrAllowancesCodesFinal[lIntInner].intValue()));
 					lObjRltBrokenPeriodAllow
-							.setAllowDeducAmt(Integer.valueOf(lLongArrAllowancesValuesFinal[lIntInner].intValue()));
+							.setAllowDeducAmt(lLongArrAllowancesValuesFinal[lIntInner].doubleValue());
 					lObjRltBrokenPeriodAllow.setIstype(1);
 					// lObjRltBrokenPeriodAllow.setCreatedUserId(gLngUserId);
 					lObjRltBrokenPeriodAllow.setCreatedDate(gDtCurrDt);
-					
+
 					lListRltBrokenPeriodAllow.add(lObjRltBrokenPeriodAllow);
 				}
 
 				// Generates VO List for Deductions
 
-				
-				
-				if(inputMap.get("deductionCodes")!=null) {
-				lStrArrDeductionsCodesFinal = lStrArrDeductionsCodes[lInt].split(":");
-				lStrArrDeductionsValuesFinal = lStrArrDeductionsValues[lInt].split(":");
+				if (inputMap.get("deductionCodes") != null) {
+					lStrArrDeductionsCodesFinal = lStrArrDeductionsCodes[lInt].split(":");
+					lStrArrDeductionsValuesFinal = lStrArrDeductionsValues[lInt].split(":");
 
-				lLongArrDeductionsCodesFinal = new Long[lStrArrDeductionsCodesFinal.length];
-				lLongArrDeductionsValuesFinal = new Long[lStrArrDeductionsCodesFinal.length];
+					lLongArrDeductionsCodesFinal = new Long[lStrArrDeductionsCodesFinal.length];
+					lLongArrDeductionsValuesFinal = new Long[lStrArrDeductionsCodesFinal.length];
 
-				for (Integer lIntInner = 0; lIntInner < lStrArrDeductionsCodesFinal.length; lIntInner++) {
-					// lLongArrDeductionsCodesFinal[lIntInner] =
-					// Long.valueOf(lStrArrDeductionsCodesFinal[lIntInner].trim());
-					lLongArrDeductionsCodesFinal[lIntInner] = Long
-							.valueOf((lStrArrDeductionsCodesFinal[lIntInner].trim() != null
-									&& !(lStrArrDeductionsCodesFinal[lIntInner].trim().equals(""))
-											? lStrArrDeductionsCodesFinal[lIntInner].trim()
-											: "0"));
+					for (Integer lIntInner = 0; lIntInner < lStrArrDeductionsCodesFinal.length; lIntInner++) {
+						// lLongArrDeductionsCodesFinal[lIntInner] =
+						// Long.valueOf(lStrArrDeductionsCodesFinal[lIntInner].trim());
+						lLongArrDeductionsCodesFinal[lIntInner] = Long
+								.valueOf((lStrArrDeductionsCodesFinal[lIntInner].trim() != null
+										&& !(lStrArrDeductionsCodesFinal[lIntInner].trim().equals(""))
+												? lStrArrDeductionsCodesFinal[lIntInner].trim()
+												: "0"));
+					}
+
+					for (Integer lIntInner = 0; lIntInner < lStrArrDeductionsValuesFinal.length; lIntInner++) {
+						// lLongArrDeductionsValuesFinal[lIntInner] =
+						// Long.valueOf(lStrArrDeductionsValuesFinal[lIntInner].trim());
+						String[] amt = lStrArrDeductionsValuesFinal[lIntInner].trim().toString().split("\\.");
+						lLongArrDeductionsValuesFinal[lIntInner] = Long
+								.valueOf((amt[0].trim() != null && !(amt[0].trim().equals("")) ? amt[0].trim() : "0"));
+						// lLongArrDeductionsValuesFinal[lIntInner]
+						// =Long.valueOf((lStrArrDeductionsValuesFinal[lIntInner].trim()!=null &&
+						// !(lStrArrDeductionsValuesFinal[lIntInner].trim().equals(""))?
+						// lStrArrDeductionsValuesFinal[lIntInner].trim():"0"));
+					}
+
+					for (Integer lIntInner = 0; lIntInner < lStrArrDeductionsCodesFinal.length; lIntInner++) {
+						lObjRltBrokenPeriodDeduc = new BrokenPeriodAllowDeducEntity();
+						// lLongRltBrokenPrdDeducId =
+						// IFMSCommonServiceImpl.getNextSeqNum("rlt_dcps_broken_period_deduc",inputMap);
+						// lObjRltBrokenPeriodDeduc.setBrokenPeriodDeducId(lLongRltBrokenPrdDeducId);
+						lObjRltBrokenPeriodDeduc.setBrokenPeriodEntity(lObjMstBrokenPeriodPay);
+						lObjRltBrokenPeriodDeduc.setBrokenPeriodId(lObjMstBrokenPeriodPay.getBrokenPeriodId());
+						lObjRltBrokenPeriodDeduc
+								.setAllowDeducCode(Integer.valueOf(lLongArrDeductionsCodesFinal[lIntInner].intValue()));
+						lObjRltBrokenPeriodDeduc
+								.setAllowDeducAmt(lLongArrDeductionsValuesFinal[lIntInner].doubleValue());
+						lObjRltBrokenPeriodDeduc.setIstype(2);
+						// lObjRltBrokenPeriodDeduc.setCreatedUserId(gLngUserId);
+						lObjRltBrokenPeriodDeduc.setCreatedDate(gDtCurrDt);
+
+						lListRltBrokenPeriodDeduc.add(lObjRltBrokenPeriodDeduc);
+					}
+
 				}
-
-				for (Integer lIntInner = 0; lIntInner < lStrArrDeductionsValuesFinal.length; lIntInner++) {
-					// lLongArrDeductionsValuesFinal[lIntInner] =
-					// Long.valueOf(lStrArrDeductionsValuesFinal[lIntInner].trim());
-					String[] amt = lStrArrDeductionsValuesFinal[lIntInner].trim().toString().split("\\.");
-					lLongArrDeductionsValuesFinal[lIntInner] = Long
-							.valueOf((amt[0].trim() != null && !(amt[0].trim().equals("")) ? amt[0].trim() : "0"));
-					// lLongArrDeductionsValuesFinal[lIntInner]
-					// =Long.valueOf((lStrArrDeductionsValuesFinal[lIntInner].trim()!=null &&
-					// !(lStrArrDeductionsValuesFinal[lIntInner].trim().equals(""))?
-					// lStrArrDeductionsValuesFinal[lIntInner].trim():"0"));
-				}
-				
-				
-				
-
-				for (Integer lIntInner = 0; lIntInner < lStrArrDeductionsCodesFinal.length; lIntInner++) {
-					lObjRltBrokenPeriodDeduc = new BrokenPeriodAllowDeducEntity();
-					// lLongRltBrokenPrdDeducId =
-					// IFMSCommonServiceImpl.getNextSeqNum("rlt_dcps_broken_period_deduc",inputMap);
-					// lObjRltBrokenPeriodDeduc.setBrokenPeriodDeducId(lLongRltBrokenPrdDeducId);
-					lObjRltBrokenPeriodDeduc.setBrokenPeriodEntity(lObjMstBrokenPeriodPay);
-					lObjRltBrokenPeriodDeduc.setBrokenPeriodId(lObjMstBrokenPeriodPay.getBrokenPeriodId());
-					lObjRltBrokenPeriodDeduc
-							.setAllowDeducCode(Integer.valueOf(lLongArrDeductionsCodesFinal[lIntInner].intValue()));
-					lObjRltBrokenPeriodDeduc
-							.setAllowDeducAmt(Integer.valueOf(lLongArrDeductionsValuesFinal[lIntInner].intValue()));
-					lObjRltBrokenPeriodDeduc.setIstype(2);
-					// lObjRltBrokenPeriodDeduc.setCreatedUserId(gLngUserId);
-					lObjRltBrokenPeriodDeduc.setCreatedDate(gDtCurrDt);
-
-					lListRltBrokenPeriodDeduc.add(lObjRltBrokenPeriodDeduc);
-				}
-
-			}
 			}
 
 			inputMap.put("lArrMstBrokenPeriodPay", lArrMstBrokenPeriodPay);
@@ -5772,9 +5697,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		Long lLongMonth = null;
 		Long lLongEisEmpId = null;
 
-		
-		String ddoCode = inputMap.get("ddoCode").toString(); 
-		
+		String ddoCode = inputMap.get("ddoCode").toString();
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		lLongYear = Long.valueOf(inputMap.get("paybillYear").toString()); // Long.valueOf(StringUtility.getParameter("year",
@@ -5821,7 +5745,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			}
 		}
 		String sevaarthid = inputMap.get("sevaarthid").toString();
-		//String ddoCode = inputMap.get("ddoCode").toString();
+		// String ddoCode = inputMap.get("ddoCode").toString();
 		String lStrNetPays = inputMap.get("netPays").toString(); // StringUtility.getParameter("netPays", request);
 		String[] lStrArrNetPays = lStrNetPays.split("~");
 		Long[] lLongArrNetPays = new Long[lStrArrNetPays.length];
@@ -5841,24 +5765,11 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		}
 
 		String[] lStrArrRemarks = lStrRemarks.split("~");
-		
-		
-		
-		
-		
-		
-		
-		String lstStrbasicForCalculation= inputMap.get("basicForCalculation").toString();// StringUtility.getParameter("remarks",
-		
-		String[] lstArrbasicForCalculation = lstStrbasicForCalculation.split("~");
-		
-		
-		
-		
 
-		
-		
-		
+		String lstStrbasicForCalculation = inputMap.get("basicForCalculation").toString();// StringUtility.getParameter("remarks",
+
+		String[] lstArrbasicForCalculation = lstStrbasicForCalculation.split("~");
+
 		BrokenPeriodEntity[] lArrMstBrokenPeriodPay = new BrokenPeriodEntity[lStrArrFromDate.length];
 
 		for (Integer lInt = 0; lInt < lStrArrFromDate.length; lInt++) {
@@ -5872,15 +5783,13 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			lObjMstBrokenPeriodPay.setFromDate(sdf.parse(lStrArrFromDate[lInt].trim()));
 			lObjMstBrokenPeriodPay.setToDate(sdf.parse(lStrArrToDate[lInt].trim()));
 			lObjMstBrokenPeriodPay.setNoOfDays(Integer.valueOf(lLongArrNoOfDays[lInt].intValue()));
-			
-			
+
 			lObjMstBrokenPeriodPay.setBasicPay(Integer.valueOf(lLongArrBasicPays[lInt].intValue()));
-			
-			
+
 			lObjMstBrokenPeriodPay.setNetPay(Integer.valueOf(lLongArrNetPays[lInt].intValue()));
 			lObjMstBrokenPeriodPay.setReason(lStrArrReasons[lInt].trim());
 			lObjMstBrokenPeriodPay.setDdoCode(ddoCode);
-			
+
 			if (lStrArrRemarks.length == 0) {
 				lObjMstBrokenPeriodPay.setRemarks(null);
 			} else if (!lStrArrRemarks[lInt].trim().equals("###")) {
@@ -5889,12 +5798,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			// lObjMstBrokenPeriodPay.setCreatedUserId(gLngUserId);
 			lObjMstBrokenPeriodPay.setCreatedDate(gDtCurrDt);
 
-			
-			
-			
-		
 			lObjMstBrokenPeriodPay.setBasicForCalculation(lstArrbasicForCalculation[lInt].trim());
-			
+
 			lArrMstBrokenPeriodPay[lInt] = lObjMstBrokenPeriodPay;
 		}
 		return lArrMstBrokenPeriodPay;
@@ -5977,7 +5882,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		Double CreditSoc = 0d;
 		Double svnDA = 0d;
 		Double othrded = 0d;
-		int gradePay = 0;
+		Long gradePay = 0l;
 		Double basic = 0d;
 		Double npsEmprAllow = 0d;
 		Double npsEmprContri = 0d;
@@ -6011,22 +5916,20 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		Double ta5th = 0d;
 		String hbaHouseInst = null;
 		String otherVehAdvInst = null;
-		
-		
-		Date fromDate=null;
-		Date toDate=null;
-		
+
+		Date fromDate = null;
+		Date toDate = null;
 
 		MstEmployeeModel mstEmployeeModel = new MstEmployeeModel();
 		List<String> lstResult = new ArrayList<String>();
-		
+
 		String excessPayrecInst = null;
 		mstEmployeeModel = brokenPeriodRepo.getEmployeeinfo(sevaarthid, hmInputParam.get("ddocode").toString());
-	
-		String 	startDate=null;
+
+		String startDate = null;
 		int year = Integer.parseInt(hmInputParam.get("year").toString());
 		int month = Integer.parseInt(hmInputParam.get("month").toString());
-		
+
 		int month2 = month + 1;
 		int year2 = year;
 		if (month2 < 10) {
@@ -6034,60 +5937,49 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		} else {
 			startDate = String.valueOf(year2 - 2000) + '-' + String.valueOf(month2) + "-01";
 		}
-		
-		
+
 		try {
-			SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-			 fromDate=sdf.parse(hmInputParam.get("fromDate").toString());
-			 toDate=sdf.parse(hmInputParam.get("toDate").toString());
-			
-		}catch(Exception e){
-			System.out.println(""+e);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			fromDate = sdf.parse(hmInputParam.get("fromDate").toString());
+			toDate = sdf.parse(hmInputParam.get("toDate").toString());
+
+		} catch (Exception e) {
+			System.out.println("" + e);
 		}
-		
-		
-		
-	
-		
-		
-		if(hmInputParam.get("basicForCalculation").toString().equals("newBasic")) {
-			
+
+		if (hmInputParam.get("basicForCalculation").toString().equals("newBasic")) {
+
 			// logger.info("Employee Name="+mstEmployeeModel.getEmployeeFullNameEn());
 			// logger.info("Basic Pay="+mstEmployeeModel.getBasicPay());
 			if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
-					&& mstEmployeeModel.getPayCommissionCode() != 8) {
+					&& mstEmployeeModel.getPayCommissionCode() != 700005) {
 				basic = mstEmployeeModel.getBasicPay();
 			} else {
 				basic = mstEmployeeModel.getSevenPcBasic();
 			}
-		}else if(hmInputParam.get("basicForCalculation").toString().equals("oldBasic")) {
+		} else if (hmInputParam.get("basicForCalculation").toString().equals("oldBasic")) {
 			Integer amount = 0;
 			Integer amount1 = 0;
 			amount = paybillHeadMpgRepo.getamtbeforeannualincment(mstEmployeeModel.getSevaarthId(), startDate);
-			basic=amount.doubleValue();
+			basic = amount.doubleValue();
 		}
-		
-		
-		
-		
+
 		if (mstEmployeeModel.getGradePay() != null)
 			gradePay = mstEmployeeModel.getGradePay();
 		// Total number of days and Fractionofdays
-		
+
 		Calendar cal2 = Calendar.getInstance();
 		cal2.set(Calendar.YEAR, year);
 		// cal2.set(Calendar.MONTH, month-1);
 		cal2.set(Calendar.MONTH, month);
-		
-		
-		Calendar toDate22= Calendar.getInstance();
+
+		Calendar toDate22 = Calendar.getInstance();
 		toDate22.setTime(toDate);
-		
-		
+
 		// java.util.Date finYrDate = cal2.getTime();
 		int totalNoOfDays = toDate22.getActualMaximum(Calendar.DAY_OF_MONTH);
 		int noOfDays = Integer.parseInt(hmInputParam.get("noOfDays").toString());
-		gradePay = Math.round((gradePay * noOfDays) / totalNoOfDays);
+		gradePay = (long) Math.round((gradePay * noOfDays) / totalNoOfDays);
 		basic = (double) Math.round((basic * noOfDays) / totalNoOfDays);
 		mstEmployeeModel.setBasicPay(basic);
 		/*
@@ -6110,7 +6002,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		logger.info("Sevaarth Id=" + sevaarthid);
 		// List<Object[]> fetchAllowDeducName(String sevaarthid)
 		String cityClass = String.valueOf(mstEmployeeModel.getCityClass());
-	//	mstEmployeeModel.setCityClass(cityClass.charAt(0));
+		// mstEmployeeModel.setCityClass(cityClass.charAt(0));
 		int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
 		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
 
@@ -6153,15 +6045,11 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			int percentage = 0;
 			String percentageHRA = null;
 			String citygroup = null;
-			
 
-
-			
 			DdoOffice ddoScreenEntity = mstEmployeeRepo.findAllGroup(mstEmployeeModel.getDdoCode().trim());
 			String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
 			citygroup = spilt[1];
-
 
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				if (payCommission == 8 && !mstEmployeeModel.getGiscatagory().equals(3)) {
@@ -6181,8 +6069,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
 				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,
-						mstEmployeeModel.getCityClass());
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC, mstEmployeeModel.getCityClass());
 			}
 			if (allEdpList.get(i).getType() == 1) { // allowance
 				if ((allEdpList.get(i).getDeptalldetNm()
@@ -6288,8 +6175,9 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA6th_Code);
 
 					if (employeeAllowDeducComponentAmtEntity != null) {
-						
-						hra6th = (double) (Math.round((employeeAllowDeducComponentAmtEntity.getNetAmt()* noOfDays) / totalNoOfDays));
+
+						hra6th = (double) (Math
+								.round((employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
 					}
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(hra6th));
 					allowEdpList.add(brokenPeriodModel);
@@ -6319,7 +6207,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else if (gradePay <= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400) {
 						ta = (double) 400;
 					}
-					ta=(ta * noOfDays) / totalNoOfDays ;
+					ta = (ta * noOfDays) / totalNoOfDays;
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta));
 					logger.info("ta Component=" + ta);
 					allowEdpList.add(brokenPeriodModel);
@@ -6331,26 +6219,26 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (gradelevel >= 20) {
 						if (citygroup.equals("A")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=3200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
+								Double taAmt = 3200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
 							} else {
 								ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								//ta5th = (double) ((1600) / totalNoOfDays);
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600) / totalNoOfDays);
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((800 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -6358,25 +6246,25 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else if (gradelevel >= 15 && gradelevel <= 19) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
+
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=400d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
+								Double taAmt = 400d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((400 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -6384,47 +6272,46 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else if (gradelevel >= 1 && gradelevel <= 15) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((200 * noOfDays) / totalNoOfDays); 
-								
+								Double taAmt = 200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((200 * noOfDays) / totalNoOfDays);
+
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((200 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=150d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
+								Double taAmt = 150d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((150 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						}
 						if (mstEmployeeModel.getSevaarthId().equals("MJPDMGM6601")) {
-							//ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
-							Double taAmt=400d;
-							ta5th =((taAmt * noOfDays) / totalNoOfDays);
+							// ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
+							Double taAmt = 400d;
+							ta5th = ((taAmt * noOfDays) / totalNoOfDays);
 
 						}
 
 					}
-					ta5th=(double) Math.round(ta5th);
+					ta5th = (double) Math.round(ta5th);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta5th));
 					logger.info("ta Component=" + ta5th);
 					allowEdpList.add(brokenPeriodModel);
@@ -6432,31 +6319,30 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					allowRuleList.add(brokenPeriodModel);
 
 				}
-				
-				
+
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					if (gradePay >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400)  {
+					if (gradePay >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=3200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
+								Double taAmt = 3200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((3200 * noOfDays) / totalNoOfDays);
 							} else {
 								ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								//ta5th = (double) ((1600) / totalNoOfDays);
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600) / totalNoOfDays);
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((800 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -6465,25 +6351,25 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							&& gradePay < CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1600d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 1600d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1600 * noOfDays) / totalNoOfDays);
+
 							} else {
-								Double taAmt=800d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
-								
+								Double taAmt = 800d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((800 * noOfDays) / totalNoOfDays);
+
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 							} else {
-								Double taAmt=400d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-							//	ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
+								Double taAmt = 400d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((400 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((400 * noOfDays) /
 								// totalNoOfDays) );
 							}
@@ -6491,40 +6377,39 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else if (gradePay <= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=200d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								//ta5th = (double) ((200 * noOfDays) / totalNoOfDays); 
-								
+								Double taAmt = 200d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+								// ta5th = (double) ((200 * noOfDays) / totalNoOfDays);
+
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((200 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						} else {
 							if (mstEmployeeModel.getPhysicallyHandicapped().equals("Y")) {
-								Double taAmt=1000d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								
-								//ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
+								Double taAmt = 1000d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((1000 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((1000 * noOfDays) /
 								// totalNoOfDays) );
 							} else {
-								Double taAmt=150d;
-								ta5th =((taAmt * noOfDays) / totalNoOfDays);
-								
-								//ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
+								Double taAmt = 150d;
+								ta5th = ((taAmt * noOfDays) / totalNoOfDays);
+
+								// ta5th = (double) ((150 * noOfDays) / totalNoOfDays);
 								// brokenPeriodModel.setDeptalldetValue(String.valueOf((150 * noOfDays) /
 								// totalNoOfDays) );
 							}
 						}
-						}
-					ta5th=(double) Math.round(ta5th);
+					}
+					ta5th = (double) Math.round(ta5th);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta5th));
 					logger.info("ta Component=" + ta5th);
 					allowEdpList.add(brokenPeriodModel);
@@ -6537,11 +6422,11 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC && allEdpList
 								.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
 					Integer grade7PC = Integer.parseInt(gradePay7PC);
 
-					if ((month + 1 >= 4 && year >= 2022)||year <= 2023) {
+					if ((month + 1 >= 4 && year >= 2022) || year <= 2023) {
 
 						if (gradelevel >= 20) {
 							if (citygroup.equals("A") || citygroup.equals("A+")) {
@@ -6628,7 +6513,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							}
 						}
 					}
-					ta=(ta * noOfDays) / totalNoOfDays ;
+					ta = (ta * noOfDays) / totalNoOfDays;
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(ta));
 					logger.info("ta Component=" + ta);
 					allowEdpList.add(brokenPeriodModel);
@@ -6710,9 +6595,9 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE) {
 						brokenPeriodModel = allEdpList.get(i);
-						brokenPeriodModel
-								.setDeptalldetValue(String.valueOf((employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
-						DaArr=(employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
+						brokenPeriodModel.setDeptalldetValue(String.valueOf(
+								(employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
+						DaArr = (employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
 						logger.info(
 								"Da Arr Component=" + String.valueOf(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						/*
@@ -6976,109 +6861,108 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE);
 					BrokenPeriodModel brokenPeriodModel = null;
-					if (employeeAllowDeducComponentAmtEntity.getNetAmt()>0d && allEdpList.get(i)
+					if (employeeAllowDeducComponentAmtEntity.getNetAmt() > 0d && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE) {
-						Double claaa=(employeeAllowDeducComponentAmtEntity.getNetAmt()* noOfDays) / totalNoOfDays;
-						claaa=(double) Math.round(claaa);
+						Double claaa = (employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
+						claaa = (double) Math.round(claaa);
 						brokenPeriodModel = allEdpList.get(i);
-						brokenPeriodModel
-								.setDeptalldetValue(String.valueOf(claaa));
+						brokenPeriodModel.setDeptalldetValue(String.valueOf(claaa));
 						logger.info("DP=" + String.valueOf(claaa));
 					} else {
 						/*
 						 * paybillGenerationTrnDetails .setDearnessPay((double) 0); dearnessPay+=0;
 						 */
 						brokenPeriodModel = allEdpList.get(i);
-						
+
 						Double claamt = 0d;
-						if(payCommission==8) {
-							if(basic<3000) {
+						if (payCommission == 8) {
+							if (basic < 3000) {
 								if (citygroup.equals("A+")) {
-										claamt=90d;
+									claamt = 90d;
 								} else if (citygroup.equals("A")) {
-										claamt=65d;
-								}else if (citygroup.equals("B+")) {
-										claamt=45d;
-								}else if (citygroup.equals("B")) {
-										claamt=25d;
+									claamt = 65d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 45d;
+								} else if (citygroup.equals("B")) {
+									claamt = 25d;
 								}
-							}else if(basic>=3000 && basic<4499) {
+							} else if (basic >= 3000 && basic < 4499) {
 								if (citygroup.equals("A+")) {
-									claamt=125d;
+									claamt = 125d;
 								} else if (citygroup.equals("A")) {
-									claamt=95d;
-								}else if (citygroup.equals("B+")) {
-									claamt=65d;
-								}else if (citygroup.equals("B")) {
-									claamt=35d;
+									claamt = 95d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 65d;
+								} else if (citygroup.equals("B")) {
+									claamt = 35d;
 								}
-							}else if(basic>=4500 && basic<5999) {
-							if (citygroup.equals("A+")) {
-								claamt=200d;
-							} else if (citygroup.equals("A")) {
-								claamt=150d;
-							}else if (citygroup.equals("B+")) {
-								claamt=100d;
-							}else if (citygroup.equals("B")) {
-								claamt=65d;
+							} else if (basic >= 4500 && basic < 5999) {
+								if (citygroup.equals("A+")) {
+									claamt = 200d;
+								} else if (citygroup.equals("A")) {
+									claamt = 150d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 100d;
+								} else if (citygroup.equals("B")) {
+									claamt = 65d;
+								}
+							} else {
+								if (citygroup.equals("A+")) {
+									claamt = 300d;
+								} else if (citygroup.equals("A")) {
+									claamt = 240d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 180d;
+								} else if (citygroup.equals("B")) {
+									claamt = 120d;
+								}
 							}
-							}else {
+						} else {
+							if (basic < 3000) {
 								if (citygroup.equals("A+")) {
-									claamt=300d;
+									claamt = 90d;
 								} else if (citygroup.equals("A")) {
-									claamt=240d;
-								}else if (citygroup.equals("B+")) {
-									claamt=180d;
-								}else if (citygroup.equals("B")) {
-									claamt=120d;
+									claamt = 65d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 45d;
+								} else if (citygroup.equals("B")) {
+									claamt = 25d;
 								}
-						}
-						}else {
-							if(basic<3000) {
+							} else if (basic >= 3000 && basic < 4499) {
 								if (citygroup.equals("A+")) {
-										claamt=90d;
+									claamt = 125d;
 								} else if (citygroup.equals("A")) {
-										claamt=65d;
-								}else if (citygroup.equals("B+")) {
-										claamt=45d;
-								}else if (citygroup.equals("B")) {
-										claamt=25d;
+									claamt = 95d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 65d;
+								} else if (citygroup.equals("B")) {
+									claamt = 35d;
 								}
-							}else if(basic>=3000 && basic<4499) {
+							} else if (basic >= 4500 && basic < 5999) {
 								if (citygroup.equals("A+")) {
-									claamt=125d;
+									claamt = 200d;
 								} else if (citygroup.equals("A")) {
-									claamt=95d;
-								}else if (citygroup.equals("B+")) {
-									claamt=65d;
-								}else if (citygroup.equals("B")) {
-									claamt=35d;
+									claamt = 150d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 100d;
+								} else if (citygroup.equals("B")) {
+									claamt = 65d;
 								}
-							}else if(basic>=4500 && basic<5999) {
-							if (citygroup.equals("A+")) {
-								claamt=200d;
-							} else if (citygroup.equals("A")) {
-								claamt=150d;
-							}else if (citygroup.equals("B+")) {
-								claamt=100d;
-							}else if (citygroup.equals("B")) {
-								claamt=65d;
+							} else {
+								if (citygroup.equals("A+")) {
+									claamt = 300d;
+								} else if (citygroup.equals("A")) {
+									claamt = 240d;
+								} else if (citygroup.equals("B+")) {
+									claamt = 180d;
+								} else if (citygroup.equals("B")) {
+									claamt = 120d;
+								}
 							}
-							}else {
-								if (citygroup.equals("A+")) {
-									claamt=300d;
-								} else if (citygroup.equals("A")) {
-									claamt=240d;
-								}else if (citygroup.equals("B+")) {
-									claamt=180d;
-								}else if (citygroup.equals("B")) {
-									claamt=120d;
-								}
 						}
-						}
-						
-						Double clanew =(claamt* noOfDays) / totalNoOfDays;
-						clanew=(double) Math.round(clanew);
+
+						Double clanew = (claamt * noOfDays) / totalNoOfDays;
+						clanew = (double) Math.round(clanew);
 						brokenPeriodModel.setDeptalldetValue(String.valueOf(clanew));
 					}
 					allowEdpList.add(brokenPeriodModel);
@@ -7123,33 +7007,28 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 					BrokenPeriodModel brokenPeriodModel = null;
 					brokenPeriodModel = allEdpList.get(i);
-					if (mstEmployeeModel.getGiscatagory().equals(1)) {
 						if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
 							npsEmprAllow = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}else {
+						} else {
 							npsEmprAllow = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
-						
-					} else {
-						npsEmprAllow = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}
-					
-					/*if (year >= 20 && month >= 8) {
-						if (mstEmployeeModel.getBasicPay() != 0) {
-							npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-							brokenPeriodModel = allEdpList.get(i);
-						}
 
-					} else {
-						npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						brokenPeriodModel = allEdpList.get(i);
 
-					}*/
+					/*
+					 * if (year >= 20 && month >= 8) { if (mstEmployeeModel.getBasicPay() != 0) {
+					 * npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay() + da +
+					 * svnDA) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					 * brokenPeriodModel = allEdpList.get(i); }
+					 * 
+					 * } else { npsEmprAllow += (double) (Math.round((mstEmployeeModel.getBasicPay()
+					 * + da + svnDA) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); brokenPeriodModel
+					 * = allEdpList.get(i);
+					 * 
+					 * }
+					 */
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprAllow));
 					allowEdpList.add(brokenPeriodModel);
 					allowRuleList.add(brokenPeriodModel);
@@ -7318,10 +7197,9 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					BrokenPeriodModel brokenPeriodModel = null;
 					logger.info(" Inside iff for COMMONCODE_COMPONENT_TRIBAL_ALLOW ");
 					brokenPeriodModel = allEdpList.get(i);
-					
-					
-					wa = (double) ((50* noOfDays) / totalNoOfDays);
-					wa=(double) Math.round(wa);
+
+					wa = (double) ((50 * noOfDays) / totalNoOfDays);
+					wa = (double) Math.round(wa);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(wa));
 					System.out.println("Tribal Allow Component=" + String.valueOf(wa));
 					allowEdpList.add(brokenPeriodModel);
@@ -7487,17 +7365,17 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMP_CONTRI)) {
 
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					/*if (year >= 20 && month >= 8) {
-						if (mstEmployeeModel.getBasicPay() != 0) {
-							npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}
-
-					} else {
-						npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-
-					}*/
+					/*
+					 * if (year >= 20 && month >= 8) { if (mstEmployeeModel.getBasicPay() != 0) {
+					 * npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da +
+					 * svnDA) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 * 
+					 * } else { npsEmpContri += (double) (Math.round((mstEmployeeModel.getBasicPay()
+					 * + da + svnDA) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					 * 
+					 * }
+					 */
 					if (mstEmployeeModel.getGiscatagory().equals(1)) {
 						npsEmpContri = (double) (Math.ceil((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
@@ -7505,20 +7383,18 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						npsEmpContri = (double) (Math.ceil((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 					}
-					/*if (mstEmployeeModel.getGiscatagory().equals(1)) {
-						if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
-							npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}else {
-							npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}
-						
-					} else {
-						npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}
-*/
+					/*
+					 * if (mstEmployeeModel.getGiscatagory().equals(1)) { if (year == 2023 && month2
+					 * >= 8 || year >= 2024 && month2 >= 1) { npsEmpContri = (double)
+					 * (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }else {
+					 * npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA +
+					 * DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 * 
+					 * } else { npsEmpContri = (double) (Math.round((mstEmployeeModel.getBasicPay()
+					 * + svnDA + DaArr) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 */
 					logger.info("NPS EMP Contri=" + String.valueOf(npsEmpContri));
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmpContri));
 					deducTyEdpList.add(brokenPeriodModel);
@@ -7594,40 +7470,45 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT)) {
 
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					/*if (year >= 20 && month >= 8) {
-						if (mstEmployeeModel.getBasicPay() != 0) {
-							npsEmprContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
-									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}
-
-					} else {
-						npsEmprContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14
+					/*
+					 * if (year >= 20 && month >= 8) { if (mstEmployeeModel.getBasicPay() != 0) {
+					 * npsEmprContri += (double) (Math.round((mstEmployeeModel.getBasicPay() + da +
+					 * svnDA) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 * 
+					 * } else { npsEmprContri += (double)
+					 * (Math.round((mstEmployeeModel.getBasicPay() + da + svnDA) * 14 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					 * 
+					 * }
+					 */
+					if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
+						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-
-					}*/
-					
-					if (mstEmployeeModel.getGiscatagory().equals(1)) {
+					} else {
+						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
+								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					}
+					/*if (mstEmployeeModel.getGiscatagory().equals(1)) {
 						if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
 							npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-						}else {
+						} else {
 							npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
-						
+
 					} else {
 						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 14
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}
-					
-					/*if (mstEmployeeModel.getGiscatagory().equals(1)) {
-						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					} else {
-						npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}
-*/
+					}*/
+
+					/*
+					 * if (mstEmployeeModel.getGiscatagory().equals(1)) { npsEmprContri = (double)
+					 * (Math.round((mstEmployeeModel.getBasicPay() + svnDA + DaArr) * 10 /
+					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); } else {
+					 * npsEmprContri = (double) (Math.round((mstEmployeeModel.getBasicPay() + svnDA
+					 * + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)); }
+					 */
 
 					logger.info("NPS EMP Contri=" + String.valueOf(npsEmprContri));
 					brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprContri));
@@ -8231,59 +8112,60 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					dedRuleList.add(brokenPeriodModel);
 				}
 				// FA
-			/*	else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
-
-					LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity = mstEmployeeService.findFADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
-
-					
-					 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
-					 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
-					 
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					if (lnaFAEmployeeRequestMstEntity != null && lnaFAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							FA = lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
-
-						}
-
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(FA)));
-					} else {
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
+				 * 
+				 * LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity =
+				 * mstEmployeeService.findFADetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
+				 * 
+				 * 
+				 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
+				 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i); if
+				 * (lnaFAEmployeeRequestMstEntity != null &&
+				 * lnaFAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) { FA =
+				 * lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * 
+				 * }
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double)
+				 * Math.round(FA))); } else {
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 				// COMP_ADV
-			/*	else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV)) {
-					LNACAEmployeeRequestMstEntity lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
-
-					
-					 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
-					 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
-					 
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-
-					if (lnaCAEmployeeRequestMstEntity != null && lnaCAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							CA = lnaCAEmployeeRequestMstEntity.getInstallmentAmount();
-							// mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),gpfAdvD);
-						}
-
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(CA)));
-					} else {
-						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_COMP_ADV)) { LNACAEmployeeRequestMstEntity
+				 * lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
+				 * 
+				 * 
+				 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
+				 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				 * 
+				 * if (lnaCAEmployeeRequestMstEntity != null &&
+				 * lnaCAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) { CA =
+				 * lnaCAEmployeeRequestMstEntity.getInstallmentAmount(); //
+				 * mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),
+				 * gpfAdvD); }
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double)
+				 * Math.round(CA))); } else {
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf((double) 0)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 				// GPF Advance
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPFAdvance)) {
@@ -8445,7 +8327,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_DA_Sub_Code);
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
-							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_DA_Sub_Code) {  
+							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_DA_Sub_Code) {
 
 						brokenPeriodModel.setDeptalldetValue(
 								String.valueOf(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
@@ -8525,31 +8407,24 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-			/*	// BEGIS
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BEGIS)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					OtherAllowanceEntity otherAllowanceEntity = null;
-					if (mstEmployeeModel.getGiscatagory() != null) {
-						if (mstEmployeeModel.getGiscatagory().equals(1)
-								|| mstEmployeeModel.getGiscatagory().equals(2)) {
-							otherAllowanceEntity = mstEmployeeService.findBEGISAmt(mstEmployeeModel.getGiscatagory(),
-									mstEmployeeModel.getBegisCatg());
-						} else {
-							otherAllowanceEntity = mstEmployeeService
-									.findBEGISAmtwith(mstEmployeeModel.getGiscatagory());
-						}
-					}
-					if (otherAllowanceEntity != null) {
-
-						brokenPeriodModel
-								.setDeptalldetValue(String.valueOf(Math.round(otherAllowanceEntity.getAmount())));
-					} else {
-						brokenPeriodModel.setDeptalldetValue("0");
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * // BEGIS else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BEGIS))
+				 * { BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				 * OtherAllowanceEntity otherAllowanceEntity = null; if
+				 * (mstEmployeeModel.getGiscatagory() != null) { if
+				 * (mstEmployeeModel.getGiscatagory().equals(1) ||
+				 * mstEmployeeModel.getGiscatagory().equals(2)) { otherAllowanceEntity =
+				 * mstEmployeeService.findBEGISAmt(mstEmployeeModel.getGiscatagory(),
+				 * mstEmployeeModel.getBegisCatg()); } else { otherAllowanceEntity =
+				 * mstEmployeeService .findBEGISAmtwith(mstEmployeeModel.getGiscatagory()); } }
+				 * if (otherAllowanceEntity != null) {
+				 * 
+				 * brokenPeriodModel
+				 * .setDeptalldetValue(String.valueOf(Math.round(otherAllowanceEntity.getAmount(
+				 * )))); } else { brokenPeriodModel.setDeptalldetValue("0"); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 
 				// ##################################################################
 
@@ -8851,7 +8726,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				
+
 				// Cop_Bank
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COP_Bank)) {
@@ -9805,7 +9680,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Satara_Society_Code) {
-						
+
 						brokenPeriodModel.setDeptalldetValue(
 								String.valueOf(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
 					} else {
@@ -9814,11 +9689,11 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				//Added by Vaibhav
-				
+				// Added by Vaibhav
+
 				// BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA)) {
+				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA)) {
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA_Code);
@@ -9837,13 +9712,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				
-				
+
 				// END BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA
-				
+
 				// COMMONCODE_COMPONENT_Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat)) {
+				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat)) {
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code);
@@ -9862,20 +9736,18 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-				
-				
-				
-				//Hastantrit_pune_Mahan_soc
+
+				// Hastantrit_pune_Mahan_soc
 				else if (allEdpList.get(i).getDeptalldetNm().equalsIgnoreCase(
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Hastantrit_pune_Mahan_soc)) {
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Hastantrit_pune_Mahan_soc_Code);
-					
+
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Hastantrit_pune_Mahan_soc_Code) {
-						
+
 						brokenPeriodModel.setDeptalldetValue(
 								String.valueOf(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
 					} else {
@@ -9883,14 +9755,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					}
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
-				}
-				else {
+				} else {
 					allEdpList.get(i).setDeptalldetValue("0");
 					dedRuleList.add(allEdpList.get(i));
 					// dedRuleList.add("0");
 				}
-				
-				
+
 			}
 
 			else if (allEdpList.get(i).getType() == 4) {
@@ -9923,252 +9793,244 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
-			/*	// GPF_ADV_GRP_ABC
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC)) {
-					
-					 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
-					 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
-					 
-
-					LoanEmployeeDtlsEntity loanEmployeeDtlsEntity = mstEmployeeService.findLoanDetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
-
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					BigInteger gpfabc = null;
-					Double gpfd = 0d;
-					if (loanEmployeeDtlsEntity != null && allEdpList.get(i)
-							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE) {
-
-						gpfabc = loanEmployeeDtlsEntity.getLoanprinemiamt();
-						gpfd = gpfabc.doubleValue();
-						// paybillGenerationTrnDetails.setCoHsgSoc((double)
-						// Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(), gpfabc);
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfd));
-						logger.info("GPF_ADV_GRP_ABC deduc Component=" + String.valueOf(String.valueOf(gpfd)));
-
-					} else {
-						
-						 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
-						 
-						brokenPeriodModel.setDeptalldetValue("0");
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * // GPF_ADV_GRP_ABC else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC)) {
+				 * 
+				 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
+				 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
+				 * 
+				 * 
+				 * LoanEmployeeDtlsEntity loanEmployeeDtlsEntity =
+				 * mstEmployeeService.findLoanDetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i); BigInteger gpfabc =
+				 * null; Double gpfd = 0d; if (loanEmployeeDtlsEntity != null &&
+				 * allEdpList.get(i) .getDeptallowdeducid() ==
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE) {
+				 * 
+				 * gpfabc = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfd =
+				 * gpfabc.doubleValue(); // paybillGenerationTrnDetails.setCoHsgSoc((double) //
+				 * Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+				 * mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(),
+				 * gpfabc); brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfd));
+				 * logger.info("GPF_ADV_GRP_ABC deduc Component=" +
+				 * String.valueOf(String.valueOf(gpfd)));
+				 * 
+				 * } else {
+				 * 
+				 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue("0");
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 				// GPF_ADV_GRP_D
-				/*else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D)) {
-					
-					 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
-					 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
-					 
-
-					LoanEmployeeDtlsEntity loanEmployeeDtlsEntity = mstEmployeeService.findLoanDetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE);
-
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					BigInteger gpfadvd = null;
-					Double gpfadvgrpd = 0d;
-					if (loanEmployeeDtlsEntity != null && allEdpList.get(i)
-							.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE) {
-
-						gpfadvd = loanEmployeeDtlsEntity.getLoanprinemiamt();
-						gpfadvgrpd = gpfadvd.doubleValue();
-						mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(), gpfadvd);
-						// paybillGenerationTrnDetails.setCoHsgSoc((double)
-						// Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfadvgrpd));
-						logger.info("GPF_ADV_GRP_ABC deduc Component=" + String.valueOf(String.valueOf(gpfadvgrpd)));
-
-					} else {
-						
-						 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
-						 
-						brokenPeriodModel.setDeptalldetValue("0");
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_GPF_ADV_GRP_D)) {
+				 * 
+				 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
+				 * mstEmployeeService .findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC_CODE);
+				 * 
+				 * 
+				 * LoanEmployeeDtlsEntity loanEmployeeDtlsEntity =
+				 * mstEmployeeService.findLoanDetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE);
+				 * 
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i); BigInteger gpfadvd =
+				 * null; Double gpfadvgrpd = 0d; if (loanEmployeeDtlsEntity != null &&
+				 * allEdpList.get(i) .getDeptallowdeducid() ==
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_D_CODE) {
+				 * 
+				 * gpfadvd = loanEmployeeDtlsEntity.getLoanprinemiamt(); gpfadvgrpd =
+				 * gpfadvd.doubleValue();
+				 * mstEmployeeService.updateEmpLoanAmt(mstEmployeeModel.getEmployeeId(),
+				 * gpfadvd); // paybillGenerationTrnDetails.setCoHsgSoc((double) //
+				 * Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(gpfadvgrpd));
+				 * logger.info("GPF_ADV_GRP_ABC deduc Component=" +
+				 * String.valueOf(String.valueOf(gpfadvgrpd)));
+				 * 
+				 * } else {
+				 * 
+				 * paybillGenerationTrnDetails .setLIC((double) 0); lic+=0;
+				 * 
+				 * brokenPeriodModel.setDeptalldetValue("0");
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 
 				// House Adv
 
-			/*	else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAHBAEmployeeRequestMstEntity lnaHBAEmployeeRequestMstEntity = mstEmployeeService.findHBADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code);
-
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
-
-					if (lnaHBAEmployeeRequestMstEntity != null && lnaHBAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaHBAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							HouseAdv = lnaHBAEmployeeRequestMstEntity.getInstallmentAmount();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
-
-							Integer hbai = lnaHBAEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
-							Integer sancHbaInst = lnaHBAEmployeeRequestMstEntity.getSanctionedNoOfInstallment();
-							hbaHouseInst = hbai.toString() + "/" + sancHbaInst.toString();
-
-							// mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),gpfAdvD);
-						}
-
-					} else {
-						HouseAdv = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst));
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_HBA_HOUSE)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); LNAHBAEmployeeRequestMstEntity
+				 * lnaHBAEmployeeRequestMstEntity = mstEmployeeService.findHBADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaHBAEmployeeRequestMstEntity != null &&
+				 * lnaHBAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaHBAEmployeeRequestMstEntity.getInstallmentAmount() != null) { HouseAdv =
+				 * lnaHBAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
+				 * 
+				 * Integer hbai = lnaHBAEmployeeRequestMstEntity.getNoOfInstallmentsPaid() + 1;
+				 * Integer sancHbaInst =
+				 * lnaHBAEmployeeRequestMstEntity.getSanctionedNoOfInstallment(); hbaHouseInst =
+				 * hbai.toString() + "/" + sancHbaInst.toString();
+				 * 
+				 * // mstEmployeeService.updateEmpLoanAmt(mstEmployeeEntity2.getEmployeeId(),
+				 * gpfAdvD); }
+				 * 
+				 * } else { HouseAdv = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(HouseAdv));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(hbaHouseInst));
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 */
 
 				// Computer Adv
-/*
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNACAEmployeeRequestMstEntity lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
-
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
-
-					if (lnaCAEmployeeRequestMstEntity != null && lnaCAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							CA = lnaCAEmployeeRequestMstEntity.getInstallmentAmount();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(CA));
-						}
-
-					} else {
-						CA = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(CA));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}
-*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_COMP_ADV)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); LNACAEmployeeRequestMstEntity
+				 * lnaCAEmployeeRequestMstEntity = mstEmployeeService.findCADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaCAEmployeeRequestMstEntity != null &&
+				 * lnaCAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaCAEmployeeRequestMstEntity.getInstallmentAmount() != null) { CA =
+				 * lnaCAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(CA)); }
+				 * 
+				 * } else { CA = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(CA)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 				// Festival Adv
 
-				/*else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity = mstEmployeeService.findFADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
-
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
-
-					if (lnaFAEmployeeRequestMstEntity != null && lnaFAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) {
-							FA = lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(FA));
-
-						}
-
-					} else {
-						FA = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(FA));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}
-*/
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)) {
+				 * BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				 * LNAFAEmployeeRequestMstEntity lnaFAEmployeeRequestMstEntity =
+				 * mstEmployeeService.findFADetails( mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaFAEmployeeRequestMstEntity != null &&
+				 * lnaFAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaFAEmployeeRequestMstEntity.getInstallmentAmount() != null) { FA =
+				 * lnaFAEmployeeRequestMstEntity.getInstallmentAmount();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(FA));
+				 * 
+				 * }
+				 * 
+				 * } else { FA = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(FA)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 				// Vehical Adv
 
-				/*else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					LNAVAEmployeeRequestMstEntity lnaVAEmployeeRequestMstEntity = mstEmployeeService.findVADetails(
-							mstEmployeeModel.getEmployeeId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code);
+				/*
+				 * else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_OTHER_VEH_ADV)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); LNAVAEmployeeRequestMstEntity
+				 * lnaVAEmployeeRequestMstEntity = mstEmployeeService.findVADetails(
+				 * mstEmployeeModel.getEmployeeId(),
+				 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code);
+				 * 
+				 * System.out.println("mstEmployeeEntity2.getEmployeeId()" +
+				 * mstEmployeeModel.getEmployeeId());
+				 * 
+				 * if (lnaVAEmployeeRequestMstEntity != null &&
+				 * lnaVAEmployeeRequestMstEntity.getIsActive() == 1) { if
+				 * (lnaVAEmployeeRequestMstEntity.getPrinInstallmentAmountMCA() != null) {
+				 * vehAdv = lnaVAEmployeeRequestMstEntity.getOddPrinAmtPlusPrinAmt();
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv)); }
+				 * 
+				 * } else { vehAdv = (double) 0;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv));
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(otherVehAdvInst)); }
+				 * deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel); }
+				 */
 
-					System.out.println("mstEmployeeEntity2.getEmployeeId()" + mstEmployeeModel.getEmployeeId());
+				/*
+				 * // Excess_Pay_Rec else if (allEdpList.get(i).getDeptalldetNm()
+				 * .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
+				 * COMMONCODE_COMPONENT_Excess_Pay_Rec)) { BrokenPeriodModel brokenPeriodModel =
+				 * allEdpList.get(i); ExcessPayRecoveryEntity excessPayRecoveryEntity =
+				 * mstEmployeeService .findExcPayRec(mstEmployeeModel.getSevaarthId());
+				 * 
+				 * 
+				 * if (excessPayRecoveryEntity != null && excessPayRecoveryEntity.getIsActive()
+				 * == '1') { if (excessPayRecoveryEntity.getPrinEmiAmt() != null) { excessPayrec
+				 * = excessPayRecoveryEntity.getPrinEmiAmt();
+				 * 
+				 * Integer excInst = excessPayRecoveryEntity.getLoanPrinInstNo() + 1; Integer
+				 * sancExcInst = excessPayRecoveryEntity.getTotalInstNo(); excessPayrecInst =
+				 * excInst.toString() + "/" + sancExcInst.toString(); }
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec));
+				 * //brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
+				 * 
+				 * 
+				 * } else { excessPayrec=0d;
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec)); //
+				 * brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
+				 * 
+				 * } deducTyEdpList.add(brokenPeriodModel); dedRuleList.add(brokenPeriodModel);
+				 * }
+				 * 
+				 * 
+				 * }
+				 */
 
-					if (lnaVAEmployeeRequestMstEntity != null && lnaVAEmployeeRequestMstEntity.getIsActive() == 1) {
-						if (lnaVAEmployeeRequestMstEntity.getPrinInstallmentAmountMCA() != null) {
-							vehAdv = lnaVAEmployeeRequestMstEntity.getOddPrinAmtPlusPrinAmt();
-							brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv));
-						}
+				/*
+				 * Double alltotal=basic+da+hra; Double dedtotal=pt+hrr+cla+lic; double
+				 * tota=alltotal-dedtotal; if(tota>=gpfadvgrpd) {
+				 * 
+				 * }
+				 */
 
-					} else {
-						vehAdv = (double) 0;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(vehAdv));
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(otherVehAdvInst));
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
-				}*/
-				
-				
-				
-				
-				
-		/*		// Excess_Pay_Rec
-				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Excess_Pay_Rec)) {
-					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					ExcessPayRecoveryEntity excessPayRecoveryEntity  = mstEmployeeService
-							.findExcPayRec(mstEmployeeModel.getSevaarthId());
-					
-					
-					if (excessPayRecoveryEntity != null
-							&& excessPayRecoveryEntity.getIsActive() == '1') {
-						if (excessPayRecoveryEntity.getPrinEmiAmt() != null) {
-							excessPayrec = excessPayRecoveryEntity.getPrinEmiAmt();
+				// ########################################################################################
 
-							Integer excInst = excessPayRecoveryEntity.getLoanPrinInstNo() + 1;
-							Integer sancExcInst = excessPayRecoveryEntity.getTotalInstNo();
-							excessPayrecInst = excInst.toString() + "/" + sancExcInst.toString();
-						}
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec));
-						//brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
-						
-
-					} else {
-						excessPayrec=0d;
-						brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrec));
-					//	brokenPeriodModel.setDeptalldetValue(String.valueOf(excessPayrecInst));
-
-					}
-					deducTyEdpList.add(brokenPeriodModel);
-					dedRuleList.add(brokenPeriodModel);
+				else {
+					// if (allEdpList.get(i).getLOOKUP_ID().equals("2500383")) { //Deduction like
+					// fax
+					deducOthEdpList.add(allEdpList.get(i));
+					allEdpList.get(i).setDeptalldetValue("0");
+					dedRuleList.add(allEdpList.get(i));
+					// dedRuleList.add("0");
 				}
-		
-
-			}*/
-
-			/*
-			 * Double alltotal=basic+da+hra; Double dedtotal=pt+hrr+cla+lic; double
-			 * tota=alltotal-dedtotal; if(tota>=gpfadvgrpd) {
-			 * 
-			 * }
-			 */
-
-			// ########################################################################################
-
-			else {
-				// if (allEdpList.get(i).getLOOKUP_ID().equals("2500383")) { //Deduction like
-				// fax
-				deducOthEdpList.add(allEdpList.get(i));
-				allEdpList.get(i).setDeptalldetValue("0");
-				dedRuleList.add(allEdpList.get(i));
-				// dedRuleList.add("0");
+				// if (allEdpList.get(i).getLOOKUP_ID().equals("2500381")) {
+				// deducTyEdpList.add(allEdpList.get(i));
+				// }
+				// }
 			}
-			// if (allEdpList.get(i).getLOOKUP_ID().equals("2500381")) {
-			// deducTyEdpList.add(allEdpList.get(i));
-			// }
-			// }
-		}
-		// Dynamic Process end
+			// Dynamic Process end
 		}
 		BrokenPeriodResponseModel bpResponseMode = new BrokenPeriodResponseModel();
 		bpResponseMode.setStatus("allowRuleList");
@@ -10189,24 +10051,23 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				: month1 + "-" + hmInputParam.get("year").toString().trim();
 		bpResponseMode = new BrokenPeriodResponseModel();
 		bpResponseMode.setStatus("status");
-		bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear, sevaarthid,fromDate,toDate));
+		bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear, sevaarthid, fromDate, toDate));
 		brokenPeriodResponseModel.add(bpResponseMode);
 
 		return brokenPeriodResponseModel;
-	
+
 	}
 
 	@Override
 	public List<BrokenPeriodResponseModel> saveBrokenPeriodDAArrayPay(String sevaarthid,
 			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap<String, String> hmInputParam) {
 
-		
 		Boolean lBlFlag = false;
 		Boolean lBlFirstTimeSave = null;
 		Long lLongBrknPrdIdForDelete = null;
 
 		try {
-			
+
 			Map inputMap = generateMap(hmInputParam);
 			BrokenPeriodEntity[] lArrMstBrokenPeriodPay = (BrokenPeriodEntity[]) inputMap.get("lArrMstBrokenPeriodPay");
 			List<BrokenPeriodAllowDeducEntity> lListRltBrokenPeriodAllow = (List<BrokenPeriodAllowDeducEntity>) inputMap
@@ -10220,11 +10081,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 																					// request).trim());
 			Long lLongEisEmpId = Long.valueOf(inputMap.get("empId").toString());// Long.valueOf(StringUtility.getParameter("eisEmpId",
 																				// request).trim());
-			String ddoCode = inputMap.get("ddoCode").toString(); 
-			lBlFirstTimeSave = (!brokenPeriodRepo.checkBrokenPeriodPayExistsOrNot(lLongEisEmpId, lLongYear,lLongMonth,ddoCode));
+			String ddoCode = inputMap.get("ddoCode").toString();
+			lBlFirstTimeSave = (!brokenPeriodRepo.checkBrokenPeriodPayExistsOrNot(lLongEisEmpId, lLongYear, lLongMonth,
+					ddoCode));
 			if (!lBlFirstTimeSave) {
 				List<BrokenPeriodEntity> lListBrokenPeriodPayList = brokenPeriodRepo
-						.getAddedBrokenPeriodPaysForEmp(lLongEisEmpId, lLongYear, lLongMonth,ddoCode);
+						.getAddedBrokenPeriodPaysForEmp(lLongEisEmpId, lLongYear, lLongMonth, ddoCode);
 				for (Integer lInt = 0; lInt < lListBrokenPeriodPayList.size(); lInt++) {
 					lLongBrknPrdIdForDelete = lListBrokenPeriodPayList.get(lInt).getBrokenPeriodId();
 					brokenPeriodRepo.deleteAllBrokenPeriodAllowancesForBrknPrdId(lLongBrknPrdIdForDelete);
@@ -10233,9 +10095,9 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				}
 			}
 
-			
 			List result = new ArrayList();
-			result = brokenPeriodRepo.saveBrokenPeriodDAArrayPay(lArrMstBrokenPeriodPay, lListRltBrokenPeriodAllow,lListRltBrokenPeriodDeduc);
+			result = brokenPeriodRepo.saveBrokenPeriodDAArrayPay(lArrMstBrokenPeriodPay, lListRltBrokenPeriodAllow,
+					lListRltBrokenPeriodDeduc);
 			BrokenPeriodResponseModel brokenPeriodResponseModel2 = new BrokenPeriodResponseModel();
 			brokenPeriodResponseModel2.setStatus("status");
 			brokenPeriodResponseModel2.setData(result.get(0));
@@ -10244,16 +10106,14 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			lBlFlag = true;
 
 		} catch (Exception ex) {
-			
+
 			ex.printStackTrace();
 			return brokenPeriodResponseModel;
 		}
 
-		
-
 		return brokenPeriodResponseModel;
 	}
-  
+
 	@Override
 	public List<BrokenPeriodResponseModel> brokenPeriodDAArray(BrokenPeriodModel brokenPeriodModel,
 			List<BrokenPeriodResponseModel> brokenPeriodResponseModel) {
@@ -10262,12 +10122,11 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		mstEmployeeModel = brokenPeriodRepo.getEmployeeinfo(brokenPeriodModel.getSevaarthid(),
 				brokenPeriodModel.getDdocode());
 
-		
 		logger.info("mstEmployeeModel.getSuperAnnDate()=" + mstEmployeeModel.getSuperAnnDate());
-		String strsuperAnnDate="";
+		String strsuperAnnDate = "";
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		if(mstEmployeeModel.getSuperAnnDate()!=null)
-		 strsuperAnnDate = formatter.format(mstEmployeeModel.getSuperAnnDate());
+		if (mstEmployeeModel.getSuperAnnDate() != null)
+			strsuperAnnDate = formatter.format(mstEmployeeModel.getSuperAnnDate());
 
 		lstResult.add(mstEmployeeModel.getEmployeeFullNameEn());
 		lstResult.add(mstEmployeeModel.getSevaarthId());
@@ -10275,8 +10134,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		lstResult.add("");
 		lstResult.add(mstEmployeeModel.getDcpsno());
 		lstResult.add(strsuperAnnDate);
-		if (mstEmployeeModel.getEmployeeId()!=null)
-		lstResult.add(mstEmployeeModel.getEmployeeId().toString());
+		if (mstEmployeeModel.getEmployeeId() != null)
+			lstResult.add(mstEmployeeModel.getEmployeeId().toString());
 
 		BrokenPeriodResponseModel bpResponseModel = new BrokenPeriodResponseModel();
 		bpResponseModel.setStatus("EmpDetail");
@@ -10286,10 +10145,12 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		bpResponseModel.setStatus("Sevaarthid");
 		bpResponseModel.setData(brokenPeriodModel.getSevaarthid());
 		brokenPeriodResponseModel.add(bpResponseModel);
-		/*bpResponseModel = new BrokenPeriodResponseModel();
-		bpResponseModel.setStatus("ddoCode");
-		bpResponseModel.setData(brokenPeriodModel.getDdocode());
-		brokenPeriodResponseModel.add(bpResponseModel);*/
+		/*
+		 * bpResponseModel = new BrokenPeriodResponseModel();
+		 * bpResponseModel.setStatus("ddoCode");
+		 * bpResponseModel.setData(brokenPeriodModel.getDdocode());
+		 * brokenPeriodResponseModel.add(bpResponseModel);
+		 */
 		// Broken Period Pay start
 		List<BrokenPeriodModel> allowEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAllowCompoMpgData(locId);
 		List<BrokenPeriodModel> deducAgEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAGDeducCompoMpgData(locId);
@@ -10303,7 +10164,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		List dedRuleList = new ArrayList();
 
 		List<Object[]> lstprop = brokenPeriodRepo.fetchAllowDeducNameDaArray(brokenPeriodModel.getSevaarthid());
-//		List<Object[]> lstprop = brokenPeriodRepo.fetchAllowDeducName(brokenPeriodModel.getSevaarthid());
+		// List<Object[]> lstprop =
+		// brokenPeriodRepo.fetchAllowDeducName(brokenPeriodModel.getSevaarthid());
 		/* return displayOuterReportRepo.getAllDataForOuternew(ddocode); */
 
 		List<BrokenPeriodModel> lstObj = new ArrayList<>();
@@ -10323,15 +10185,18 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				allowEdpList.add(allEdpList.get(i));
 				allowRuleList.add(allEdpList.get(i));
 			} else if (allEdpList.get(i).getType() == 2) {
-				if (allEdpList.get(i).getDeptallowdeducid() == 82|| allEdpList.get(i).getDeptallowdeducid() == 83)
+				if (allEdpList.get(i).getDeptallowdeducid() == 82 || allEdpList.get(i).getDeptallowdeducid() == 83)
 					dedRuleList.add(allEdpList.get(i)); // Deductions Adj. By CAFO/Supri./Admin.
-				/*else
-					dedRuleList.add(allEdpList.get(i));*/
+				/*
+				 * else dedRuleList.add(allEdpList.get(i));
+				 */
 
-			} /*else {
-
-				dedRuleList.add(allEdpList.get(i));// deducOthEdpList.add(allEdpList.get(i));
-			}*/
+			} /*
+				 * else {
+				 * 
+				 * dedRuleList.add(allEdpList.get(i));// deducOthEdpList.add(allEdpList.get(i));
+				 * }
+				 */
 		}
 
 		bpResponseModel = new BrokenPeriodResponseModel();
@@ -10353,16 +10218,18 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		bpResponseModel.setData(dedRuleList);
 		brokenPeriodResponseModel.add(bpResponseModel);
 
-		
-		/*bpResponseModel = new BrokenPeriodResponseModel();
-		bpResponseModel.setStatus("basicAmt");
-		bpResponseModel.setData(mstEmployeeModel.getBasicPay());
-		brokenPeriodResponseModel.add(bpResponseModel);*/
+		/*
+		 * bpResponseModel = new BrokenPeriodResponseModel();
+		 * bpResponseModel.setStatus("basicAmt");
+		 * bpResponseModel.setData(mstEmployeeModel.getBasicPay());
+		 * brokenPeriodResponseModel.add(bpResponseModel);
+		 */
 
 		// Fetch Saved Data from Broken Period
 		// start######################################################################################
 		if (!brokenPeriodRepo.checkBrokenPeriodPayExistsOrNot(mstEmployeeModel.getEmployeeId().longValue(),
-				Long.valueOf(brokenPeriodModel.getPaybillYear()), Long.valueOf(brokenPeriodModel.getPaybillMonth()),brokenPeriodModel.getDdocode())) {
+				Long.valueOf(brokenPeriodModel.getPaybillYear()), Long.valueOf(brokenPeriodModel.getPaybillMonth()),
+				brokenPeriodModel.getDdocode())) {
 			bpResponseModel = new BrokenPeriodResponseModel();
 			bpResponseModel.setStatus("PaysAddedBefore");
 			bpResponseModel.setData(false);
@@ -10382,7 +10249,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 			List<BrokenPeriodEntity> lListAddedBrokenPeriodPays = brokenPeriodRepo.getAddedBrokenPeriodPaysForEmp(
 					mstEmployeeModel.getEmployeeId().longValue(), Long.valueOf(brokenPeriodModel.getPaybillYear()),
-					Long.valueOf(brokenPeriodModel.getPaybillMonth()),brokenPeriodModel.getDdocode());
+					Long.valueOf(brokenPeriodModel.getPaybillMonth()), brokenPeriodModel.getDdocode());
 			List DataForDisplayList = new ArrayList();
 			for (Integer lInt = 0; lInt < lListAddedBrokenPeriodPays.size(); lInt++) {
 				List lListAddedAllowances = new ArrayList();
@@ -10397,7 +10264,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				brokenPeriodPayCustomVO.setFromDate(brokenPeriodPay.getFromDate());
 				brokenPeriodPayCustomVO.setToDate(brokenPeriodPay.getToDate());
 				brokenPeriodPayCustomVO.setNoOfDays(brokenPeriodPay.getNoOfDays().longValue());
-//				brokenPeriodPayCustomVO.setBasicPay(brokenPeriodPay.getBasicPay().longValue());
+				// brokenPeriodPayCustomVO.setBasicPay(brokenPeriodPay.getBasicPay().longValue());
 				brokenPeriodPayCustomVO.setNetPay(brokenPeriodPay.getNetPay().longValue());
 				brokenPeriodPayCustomVO.setReason(brokenPeriodPay.getReason());
 				brokenPeriodPayCustomVO.setRemarks(brokenPeriodPay.getRemarks());
@@ -10420,10 +10287,14 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				 * lListAddedAllowancesNew.add(newData); } }
 				 */
 
-				List lListAllowancesForEmp = brokenPeriodRepo.getAllowancesListForGivenEmpDAArray(brokenPeriodModel.getSevaarthid());
-//				List lListAllowancesForEmp = brokenPeriodRepo.getAllowancesListForGivenEmp(brokenPeriodModel.getSevaarthid());
-				List lListDeductionsForEmp = brokenPeriodRepo.getDeductionsListForGivenEmpDAArray(brokenPeriodModel.getSevaarthid());
-//				List lListDeductionsForEmp = brokenPeriodRepo.getDeductionsListForGivenEmp(brokenPeriodModel.getSevaarthid());
+				List lListAllowancesForEmp = brokenPeriodRepo
+						.getAllowancesListForGivenEmpDAArray(brokenPeriodModel.getSevaarthid());
+				// List lListAllowancesForEmp =
+				// brokenPeriodRepo.getAllowancesListForGivenEmp(brokenPeriodModel.getSevaarthid());
+				List lListDeductionsForEmp = brokenPeriodRepo
+						.getDeductionsListForGivenEmpDAArray(brokenPeriodModel.getSevaarthid());
+				// List lListDeductionsForEmp =
+				// brokenPeriodRepo.getDeductionsListForGivenEmp(brokenPeriodModel.getSevaarthid());
 				for (int i = 0; i < (lListAllowancesForEmp != null ? lListAllowancesForEmp.size() : 0); i++) {
 					Long allowCode = (Long) Long.valueOf((((Object[]) lListAllowancesForEmp.get(i))[0]).toString());
 					boolean found = false;
@@ -10533,94 +10404,88 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		return brokenPeriodResponseModel;
 	}
 
+	public List<BrokenPeriodResponseModel> calculateEmployeeDAArrears(String sevaarthid,
+			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap hmInputParam) {
+		Double grossAmt = 0d;
+		Double DaArr = 0d;
+		Double empContri = 0d;
+		Double emprallow = 0d;
+		Double emprDeduct = 0d;
+		Double netAmt = 0d;
 
-public List<BrokenPeriodResponseModel> calculateEmployeeDAArrears(String sevaarthid,
-		List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap hmInputParam) {
-	Double grossAmt = 0d;
-	Double DaArr = 0d;
-	Double empContri = 0d;
-	Double emprallow = 0d;
-	Double emprDeduct = 0d;
-	Double netAmt = 0d;
-	
+		MstEmployeeModel mstEmployeeModel = new MstEmployeeModel();
+		List<String> lstResult = new ArrayList<String>();
+		mstEmployeeModel = brokenPeriodRepo.getEmployeeinfo(sevaarthid, hmInputParam.get("ddocode").toString());
 
-	MstEmployeeModel mstEmployeeModel = new MstEmployeeModel();
-	List<String> lstResult = new ArrayList<String>();
-	mstEmployeeModel = brokenPeriodRepo.getEmployeeinfo(sevaarthid, hmInputParam.get("ddocode").toString());
-	
-	int year = Integer.parseInt(hmInputParam.get("year").toString());
-	int month = Integer.parseInt(hmInputParam.get("month").toString());
-	Calendar cal2 = Calendar.getInstance();
-	cal2.set(Calendar.YEAR, year);
-	// cal2.set(Calendar.MONTH, month-1);
-	cal2.set(Calendar.MONTH, month);
-	// java.util.Date finYrDate = cal2.getTime();
-	int totalNoOfDays = cal2.getActualMaximum(Calendar.DAY_OF_MONTH);
-	int noOfDays = Integer.parseInt(hmInputParam.get("noOfDays").toString());
-	// Broken Period Pay start
-	List<BrokenPeriodModel> allowEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAllowCompoMpgData();
-	List<BrokenPeriodModel> deducAgEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAGDeducCompoMpgData();
-	List<BrokenPeriodModel> deducTyEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getTRDeducCompoMpgData();
-	List<BrokenPeriodModel> deducOthEdpList = new ArrayList<BrokenPeriodModel>();// changes for other (nps)
-	// Broken Period Pay End
+		int year = Integer.parseInt(hmInputParam.get("year").toString());
+		int month = Integer.parseInt(hmInputParam.get("month").toString());
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(Calendar.YEAR, year);
+		// cal2.set(Calendar.MONTH, month-1);
+		cal2.set(Calendar.MONTH, month);
+		// java.util.Date finYrDate = cal2.getTime();
+		int totalNoOfDays = cal2.getActualMaximum(Calendar.DAY_OF_MONTH);
+		int noOfDays = Integer.parseInt(hmInputParam.get("noOfDays").toString());
+		// Broken Period Pay start
+		List<BrokenPeriodModel> allowEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAllowCompoMpgData();
+		List<BrokenPeriodModel> deducAgEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getAGDeducCompoMpgData();
+		List<BrokenPeriodModel> deducTyEdpList = new ArrayList<BrokenPeriodModel>();// edpDao.getTRDeducCompoMpgData();
+		List<BrokenPeriodModel> deducOthEdpList = new ArrayList<BrokenPeriodModel>();// changes for other (nps)
+		// Broken Period Pay End
 
-	List allowRuleList = new ArrayList();
-	List dedRuleList = new ArrayList();
+		List allowRuleList = new ArrayList();
+		List dedRuleList = new ArrayList();
 
-	logger.info("Sevaarth Id=" + sevaarthid);
-	String cityClass = String.valueOf(mstEmployeeModel.getCityClass());
-	
-	
-	
-	mstEmployeeModel.setCityClass(cityClass.charAt(0));
-	int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
-	logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
+		logger.info("Sevaarth Id=" + sevaarthid);
+		String cityClass = String.valueOf(mstEmployeeModel.getCityClass());
 
-	// basicAmount=mstEmployeeModel.getBasicPay();
+		mstEmployeeModel.setCityClass(cityClass.charAt(0));
+		int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
+		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
 
-	List<Object[]> lstprop = brokenPeriodRepo.fetchAllowDeducName(sevaarthid);
+		// basicAmount=mstEmployeeModel.getBasicPay();
 
-	List<BrokenPeriodModel> lstObj = new ArrayList<>();
-	if (!lstprop.isEmpty()) {
-		for (Object[] objLst : lstprop) {
-			BrokenPeriodModel obj = new BrokenPeriodModel();
-			obj.setDeptalldetNm(StringHelperUtils.isNullString(objLst[0]));
-			obj.setType(StringHelperUtils.isNullInt(objLst[1]));
-			obj.setDeptallowdeducid(StringHelperUtils.isNullInt(objLst[2]));
-			obj.setGroupNm(StringHelperUtils.isNullString(objLst[3]));
-			obj.setGisAmount(StringHelperUtils.isNullDouble(objLst[4]));
-			lstObj.add(obj);
+		List<Object[]> lstprop = brokenPeriodRepo.fetchAllowDeducName(sevaarthid);
+
+		List<BrokenPeriodModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				BrokenPeriodModel obj = new BrokenPeriodModel();
+				obj.setDeptalldetNm(StringHelperUtils.isNullString(objLst[0]));
+				obj.setType(StringHelperUtils.isNullInt(objLst[1]));
+				obj.setDeptallowdeducid(StringHelperUtils.isNullInt(objLst[2]));
+				obj.setGroupNm(StringHelperUtils.isNullString(objLst[3]));
+				obj.setGisAmount(StringHelperUtils.isNullDouble(objLst[4]));
+				lstObj.add(obj);
+			}
 		}
-	}
-	// Dynamic process start
-	List<BrokenPeriodModel> allEdpList = lstObj;
-	for (int i = 0; i < allEdpList.size(); i++) {
-		// if (allEdpList.get(i).getType() != null) {
-		String name = allEdpList.get(i).getDeptalldetNm();
-		
-		String temp = name;
-		// allEdpList.get(i).getType()
-		int percentage = 0;
-		String percentageHRA = null;
-		String startDate = null;
-		String citygroup = null;
-		int month2 = month + 1;
-		int year2 = year;
-		if (month2 < 10) {
-			startDate = String.valueOf(year2 - 2000) + '-' + String.valueOf("0" + month2) + "-01";
-		} else {
-			startDate = String.valueOf(year2 - 2000) + '-' + String.valueOf(month2) + "-01";
-		}
+		// Dynamic process start
+		List<BrokenPeriodModel> allEdpList = lstObj;
+		for (int i = 0; i < allEdpList.size(); i++) {
+			// if (allEdpList.get(i).getType() != null) {
+			String name = allEdpList.get(i).getDeptalldetNm();
 
+			String temp = name;
+			// allEdpList.get(i).getType()
+			int percentage = 0;
+			String percentageHRA = null;
+			String startDate = null;
+			String citygroup = null;
+			int month2 = month + 1;
+			int year2 = year;
+			if (month2 < 10) {
+				startDate = String.valueOf(year2 - 2000) + '-' + String.valueOf("0" + month2) + "-01";
+			} else {
+				startDate = String.valueOf(year2 - 2000) + '-' + String.valueOf(month2) + "-01";
+			}
 
-		DdoOffice ddoScreenEntity = mstEmployeeRepo.findAllGroup(mstEmployeeModel.getDdoCode().trim()); 
+			DdoOffice ddoScreenEntity = mstEmployeeRepo.findAllGroup(mstEmployeeModel.getDdoCode().trim());
 
-		String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
+			String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
-		citygroup = spilt[1];
-		
-		
-		 if (allEdpList.get(i).getDeptalldetNm()
+			citygroup = spilt[1];
+
+			if (allEdpList.get(i).getDeptalldetNm()
 					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAY_AND_ALLOWANCES_ARREARS)) {
 				EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 						.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
@@ -10629,132 +10494,120 @@ public List<BrokenPeriodResponseModel> calculateEmployeeDAArrears(String sevaart
 				if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
 						.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAY_AND_ALLOWANCES_ARREARS_CODE) {
 					brokenPeriodModel = allEdpList.get(i);
-					brokenPeriodModel.setDeptalldetValue(String.valueOf((employeeAllowDeducComponentAmtEntity.getNetAmt())));
-				}	
-				else {
+					brokenPeriodModel
+							.setDeptalldetValue(String.valueOf((employeeAllowDeducComponentAmtEntity.getNetAmt())));
+				} else {
 					brokenPeriodModel = allEdpList.get(i);
 					brokenPeriodModel.setDeptalldetValue("0");
 				}
 				allowEdpList.add(brokenPeriodModel);
 				allowRuleList.add(brokenPeriodModel);
 			}
-		
-		 if (allEdpList.get(i).getDeptalldetNm()
-				.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR)) {
-			EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-					.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE);
-			BrokenPeriodModel brokenPeriodModel = null;
-			if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
-					.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE) {
-				brokenPeriodModel = allEdpList.get(i);
-				brokenPeriodModel
-						.setDeptalldetValue(String.valueOf((employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
-				DaArr=(employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
-				logger.info(
-						"Da Arr Component=" + String.valueOf(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 
-				
-				if (mstEmployeeModel.getGiscatagory().equals(1)) {
+			if (allEdpList.get(i).getDeptalldetNm()
+					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR)) {
+				EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
+						.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
+								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE);
+				BrokenPeriodModel brokenPeriodModel = null;
+				if (employeeAllowDeducComponentAmtEntity != null && allEdpList.get(i)
+						.getDeptallowdeducid() == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA_ARR_CODE) {
+					brokenPeriodModel = allEdpList.get(i);
+					brokenPeriodModel.setDeptalldetValue(String
+							.valueOf((employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays));
+					DaArr = (employeeAllowDeducComponentAmtEntity.getNetAmt() * noOfDays) / totalNoOfDays;
+					logger.info("Da Arr Component=" + String.valueOf(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 
-					empContri = (double) (Math.round((DaArr) * 10
-							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					emprallow = (double) (Math.round((DaArr) * 10
-							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					emprDeduct = (double) (Math.round((DaArr) * 10
-							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					
+					if (mstEmployeeModel.getGiscatagory().equals(1)) {
 
-				} else {
-					empContri = (double) (Math.round((DaArr) * 14
-							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					emprallow = (double) (Math.round((DaArr) * 14
-							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					emprDeduct = (double) (Math.round((DaArr) * 14
-							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						empContri = (double) (Math
+								.round((DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						emprallow = (double) (Math
+								.round((DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						emprDeduct = (double) (Math
+								.round((DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+
+					} else {
+						empContri = (double) (Math
+								.round((DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						emprallow = (double) (Math
+								.round((DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						emprDeduct = (double) (Math
+								.round((DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					}
+
 				}
-				
-			}	
 
-			
-			
-			
-			else {
+				else {
+					brokenPeriodModel = allEdpList.get(i);
+					brokenPeriodModel.setDeptalldetValue("0");
+					// paybillGenerationTrnDetails
+					// .setDaArr((double) 0);
+					// DaArr+=0;
+
+				}
+				allowEdpList.add(brokenPeriodModel);
+				allowRuleList.add(brokenPeriodModel);
+			} else if (allEdpList.get(i).getDeptalldetNm()
+					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMP_CONTRI)
+					&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+
+				BrokenPeriodModel brokenPeriodModel = null;
 				brokenPeriodModel = allEdpList.get(i);
-				brokenPeriodModel.setDeptalldetValue("0");
-				// paybillGenerationTrnDetails
-				// .setDaArr((double) 0);
-				// DaArr+=0;
+				brokenPeriodModel.setDeptalldetValue(String.valueOf(empContri));
+
+				deducTyEdpList.add(brokenPeriodModel);
+				dedRuleList.add(brokenPeriodModel);
+
+			} else if (allEdpList.get(i).getDeptalldetNm()
+					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT)
+					&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+
+				BrokenPeriodModel brokenPeriodModel = null;
+				brokenPeriodModel = allEdpList.get(i);
+				brokenPeriodModel.setDeptalldetValue(String.valueOf(emprDeduct));
+
+				deducTyEdpList.add(brokenPeriodModel);
+				dedRuleList.add(brokenPeriodModel);
+			} else if (allEdpList.get(i).getDeptalldetNm()
+					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW)
+					&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+
+				BrokenPeriodModel brokenPeriodModel = null;
+				brokenPeriodModel = allEdpList.get(i);
+				brokenPeriodModel.setDeptalldetValue(String.valueOf(emprallow));
+
+				allowEdpList.add(brokenPeriodModel);
+				allowRuleList.add(brokenPeriodModel);
 
 			}
-			allowEdpList.add(brokenPeriodModel);
-			allowRuleList.add(brokenPeriodModel);
-		}else if (allEdpList.get(i).getDeptalldetNm()
-				.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMP_CONTRI)
-				&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-			
-			BrokenPeriodModel brokenPeriodModel = null;
-			brokenPeriodModel = allEdpList.get(i);
-			brokenPeriodModel.setDeptalldetValue(String.valueOf(empContri));
-			
-			deducTyEdpList.add(brokenPeriodModel);
-			dedRuleList.add(brokenPeriodModel);
-			
+
 		}
-		else if (allEdpList.get(i).getDeptalldetNm()
-				.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT)
-				&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-			
-			BrokenPeriodModel brokenPeriodModel = null;
-			brokenPeriodModel = allEdpList.get(i);
-			brokenPeriodModel.setDeptalldetValue(String.valueOf(emprDeduct));
-			
-			deducTyEdpList.add(brokenPeriodModel);
-			dedRuleList.add(brokenPeriodModel);
-		}
-	else if (allEdpList.get(i).getDeptalldetNm()
-			.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW)
-			&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-		
-		BrokenPeriodModel brokenPeriodModel = null;
-		brokenPeriodModel = allEdpList.get(i);
-		brokenPeriodModel.setDeptalldetValue(String.valueOf(emprallow));
-		
-		
-		allowEdpList.add(brokenPeriodModel);
-		allowRuleList.add(brokenPeriodModel);
-		
+		// Dynamic Process end
+
+		BrokenPeriodResponseModel bpResponseMode = new BrokenPeriodResponseModel();
+		bpResponseMode.setStatus("allowRuleList");
+		bpResponseMode.setData(allowRuleList);
+		brokenPeriodResponseModel.add(bpResponseMode);
+
+		bpResponseMode = new BrokenPeriodResponseModel();
+		bpResponseMode.setStatus("dedRuleList");
+		bpResponseMode.setData(dedRuleList);
+		brokenPeriodResponseModel.add(bpResponseMode);
+
+		bpResponseMode = new BrokenPeriodResponseModel();
+		bpResponseMode.setStatus("basicAmt");
+		bpResponseMode.setData(mstEmployeeModel.getBasicPay());
+		brokenPeriodResponseModel.add(bpResponseMode);
+		String month1 = String.valueOf(Integer.parseInt(hmInputParam.get("month").toString().trim()) + 1);
+		String monthyear = month1.length() == 1 ? "0" + month1 + "-" + hmInputParam.get("year").toString().trim()
+				: month1 + "-" + hmInputParam.get("year").toString().trim();
+		bpResponseMode = new BrokenPeriodResponseModel();
+		bpResponseMode.setStatus("status");
+		bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear, sevaarthid));
+		brokenPeriodResponseModel.add(bpResponseMode);
+
+		return brokenPeriodResponseModel;
 	}
-			
-
-
-		
-	}
-	// Dynamic Process end
-
-	BrokenPeriodResponseModel bpResponseMode = new BrokenPeriodResponseModel();
-	bpResponseMode.setStatus("allowRuleList");
-	bpResponseMode.setData(allowRuleList);
-	brokenPeriodResponseModel.add(bpResponseMode);
-
-	bpResponseMode = new BrokenPeriodResponseModel();
-	bpResponseMode.setStatus("dedRuleList");
-	bpResponseMode.setData(dedRuleList);
-	brokenPeriodResponseModel.add(bpResponseMode);
-
-	bpResponseMode = new BrokenPeriodResponseModel();
-	bpResponseMode.setStatus("basicAmt");
-	bpResponseMode.setData(mstEmployeeModel.getBasicPay());
-	brokenPeriodResponseModel.add(bpResponseMode);
-	String month1 = String.valueOf(Integer.parseInt(hmInputParam.get("month").toString().trim()) + 1);
-	String monthyear = month1.length() == 1 ? "0" + month1 + "-" + hmInputParam.get("year").toString().trim()
-			: month1 + "-" + hmInputParam.get("year").toString().trim();
-	bpResponseMode = new BrokenPeriodResponseModel();
-	bpResponseMode.setStatus("status");
-	bpResponseMode.setData(brokenPeriodRepo.CheckBrkPrdMonthExitOrNot(monthyear, sevaarthid));
-	brokenPeriodResponseModel.add(bpResponseMode);
-
-	return brokenPeriodResponseModel;
-}
 
 }
