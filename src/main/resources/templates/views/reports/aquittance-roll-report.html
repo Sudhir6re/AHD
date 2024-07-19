@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Aquittance Roll</title>
+<link rel="stylesheet" th:href="@{/css/print.css}" />
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+<style>
+</style>
+</head>
+<body class="aquittance-roll-report">
+	<div class="container-fluid">
+		<div th:replace="header/menuHeader :: var-script-header"></div>
+		<div id="print-content">
+			<fieldset>
+
+				<div class="text-center">
+					<h3 Class="PageHeading">Aquittance Roll</h3>
+				</div>
+				<table class="bor-0">
+					<tbody>
+						<tr>
+							<td colspan="2" style="font-weight: bold; text-align: center;"></td>
+						</tr>
+						<tr>
+							<td style="font-weight: bold; text-align: left;">For the
+								Month of July 2024</td>
+							<td style="font-weight: bold; text-align: right;">Section
+								:All Employees</td>
+						</tr>
+						<tr>
+							<td style="font-weight: bold; text-align: left;">Name of the
+								Office : MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA
+								UNIVERSITY</td>
+							<td style="font-weight: bold; text-align: right;">Treasury :
+								2222 DDO:20541200001</td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th align="center" valign="bottom" width="0%">Sr. No.</th>
+							<th align="center" valign="bottom" width="25%">Name of Govt.
+								servants</th>
+							<th align="center" valign="bottom" width="0%">Net Payable
+								Amount(Rs.)</th>
+							<th align="center" valign="bottom" width="15%">Dated Sign
+								with stamp</th>
+							<th align="center" valign="bottom" width="0%">L.I.C</th>
+							<th align="center" valign="bottom" width="0%">Total NG.Ded.
+							</th>
+							<th align="center" valign="bottom" width="0%">Net Amount</th>
+						</tr>
+						<tr>
+							<td align="center" valign="middle" style="font-weight: bold;">
+								1</td>
+							<td align="left" valign="middle">
+								<table class="bor-0">
+									<tbody>
+										<tr>
+											<td style="font-weight: bold;">JOSHI KULDEEP JAYANT</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">(20DHEKJJM8501)</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">(Attendant)</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								70,990</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+							</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								1,000</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								1,000</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								69,990</td>
+						</tr>
+						<tr class="TablerowBG2">
+							<td align="center" valign="middle"></td>
+							<td align="left" valign="middle" style="font-weight: bold;">
+								Total (`):</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								70,990</td>
+							<td align="right" valign="middle"></td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								1,000</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								1,000</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								69,990</td>
+						</tr>
+						<tr>
+							<td align="center" valign="middle"></td>
+							<td align="left" valign="middle" style="font-weight: bold;">
+								Grand Total (`):</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								70,990</td>
+							<td align="right" valign="middle"></td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								1,000</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								1,000</td>
+							<td align="right" valign="middle" style="font-weight: bold;">
+								69,990</td>
+						</tr>
+						<tr class="TablerowBG2">
+							<td align="center" valign="middle" style="font-weight: bold;">
+							</td>
+							<td colspan="6" align="left" valign="middle"
+								style="font-weight: bold;">Grand Total in Words (`):Sixty
+								Nine Thousand Nine Hundred and Ninty Only.</td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<table class="table bor-0">
+					<tbody>
+						<tr>
+							<td valign="middle" style="font-weight: bold;"><br /> <b>Verification
+									Time:-</b>19-07-2024 11:55:29.372<br /> <span>* Generated
+									By <span th:text="#{msg.thymeleaf.pagelabel.hteCustSevaarth}"></span>
+							</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+		<div class="text-center">
+			<button id="print" onclick="printContent('print-content');"
+				class="btn">Print</button>
+			<input type="button" name="btnBackAgain" id="btnBackAgain"
+				onclick="history.back()" value="Back" class="buttontag">
+		</div>
+	</div>
+
+</body>
+</html>
