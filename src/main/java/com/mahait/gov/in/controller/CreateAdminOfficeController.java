@@ -39,16 +39,12 @@ public class CreateAdminOfficeController {
 	CreateAdminOfficeService createAdminOfficeService;
 
 	@GetMapping("/createAdminOffice")
-	public String CreateAdminOffice(Model model, Locale locale, HttpSession session) {
+	public String CreateAdminOffice(Model model, Locale locale, HttpSession session,@ModelAttribute("zpRltDdoMapModel") ZpRltDdoMapModel zpRltDdoMapModel) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
-		// createAdminOfficeService.findAllDdoMappedlist(messages);
 		List<ZpAdminNameMst> lstZpAdminNameMst = createAdminOfficeService.fetchAllOfficeList(messages);
-
 		List<CmnTalukaMst> lstCmnTalukaMst = createAdminOfficeService.findAllTalukaList(messages);
 		List<CmnDistrictMst> lstCmnDistrctMst = createAdminOfficeService.findAllDistrictList(messages);
 
-		// model.addAttribute("lstZpRltDdoMapModel", lstZpRltDdoMapModel);
 
 		String districtName = null;
 		String talukaNametName = null;
@@ -60,25 +56,25 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
-		
-		if(model.asMap().get("uniqueId")!=null) {
-			String uniqeInstituteId= (String) model.asMap().get("uniqueId");
+
+		if (model.asMap().get("uniqueId") != null) {
+			String uniqeInstituteId = (String) model.asMap().get("uniqueId");
 			model.addAttribute("uniqeInstituteId", uniqeInstituteId);
 		}
-		
-		
-		if(model.asMap().get("ddoCode")!=null) {
-			String uniqueId= (String) model.asMap().get("ddoCode");
+
+		if (model.asMap().get("ddoCode") != null) {
+			String uniqueId = (String) model.asMap().get("ddoCode");
 			model.addAttribute("ddoCode", uniqueId);
 		}
-		
+
 		return "/views/create-admin-office";
 	}
 
 	@GetMapping("/createAdminOfficeMaster")
 	public String createAdminOfficeMaster(Model model, Locale locale, HttpSession session,
 			@ModelAttribute("zpRltDdoMapModel") ZpRltDdoMapModel zpRltDdoMapModel) {
-
+		zpRltDdoMapModel.setRadioFinalLevel("2");
+		zpRltDdoMapModel.setRadioGender("M");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
 		// createAdminOfficeService.findAllDdoMappedlist(messages);
@@ -102,50 +98,51 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
-
 		return "/views/create-office";
 	}
 
 	@PostMapping("/saveCreateAdminOffice")
 	public String saveCreateAdminOffice(Model model, Locale locale, HttpSession session,
-			 @ModelAttribute ("zpRltDdoMapModel") @Valid ZpRltDdoMapModel zpRltDdoMapModel,BindingResult result,RedirectAttributes redirectAttribute) {
-		
-		/* if (result.hasErrors()) {
-	            return "/views/create-office";
-	        }*/
+			@ModelAttribute("zpRltDdoMapModel") @Valid ZpRltDdoMapModel zpRltDdoMapModel, BindingResult result,
+			RedirectAttributes redirectAttribute) {
+
+		/*
+		 * if (result.hasErrors()) { return "/views/create-office"; }
+		 */
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		String uniqueId=createAdminOfficeService.saveCreateAdminOffice(zpRltDdoMapModel, messages);
+		String uniqueId = createAdminOfficeService.saveCreateAdminOffice(zpRltDdoMapModel, messages);
 
-		
-/*
-		// List<ZpRltDdoMapModel> lstZpRltDdoMapModel =
-		// createAdminOfficeService.findAllDdoMappedlist(messages);
-		List<ZpAdminNameMst> lstZpAdminNameMst = createAdminOfficeService.fetchAllOfficeList(messages);
-
-		List<CmnTalukaMst> lstCmnTalukaMst = createAdminOfficeService.findAllTalukaList(messages);
-		List<CmnDistrictMst> lstCmnDistrctMst = createAdminOfficeService.findAllDistrictList(messages);
-
-		List<Object[]> adminOfcLst = createAdminOfficeService.retriveDisctOfcList(messages, "");
-		model.addAttribute("adminOfcLst", adminOfcLst);
-
-		// model.addAttribute("lstZpRltDdoMapModel", lstZpRltDdoMapModel);
-
-		String districtName = null;
-		String talukaNametName = null;
-		String adminType = null;
-
-		List<Object[]> lstZpRltDdoMapRlt = createAdminOfficeService.findZpRltDtls(messages, districtName,
-				talukaNametName, adminType);
-		model.addAttribute("lstZpAdminNameMst", lstZpAdminNameMst);
-		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
-		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
-		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);*/
+		/*
+		 * // List<ZpRltDdoMapModel> lstZpRltDdoMapModel = //
+		 * createAdminOfficeService.findAllDdoMappedlist(messages); List<ZpAdminNameMst>
+		 * lstZpAdminNameMst = createAdminOfficeService.fetchAllOfficeList(messages);
+		 * 
+		 * List<CmnTalukaMst> lstCmnTalukaMst =
+		 * createAdminOfficeService.findAllTalukaList(messages); List<CmnDistrictMst>
+		 * lstCmnDistrctMst = createAdminOfficeService.findAllDistrictList(messages);
+		 * 
+		 * List<Object[]> adminOfcLst =
+		 * createAdminOfficeService.retriveDisctOfcList(messages, "");
+		 * model.addAttribute("adminOfcLst", adminOfcLst);
+		 * 
+		 * // model.addAttribute("lstZpRltDdoMapModel", lstZpRltDdoMapModel);
+		 * 
+		 * String districtName = null; String talukaNametName = null; String adminType =
+		 * null;
+		 * 
+		 * List<Object[]> lstZpRltDdoMapRlt =
+		 * createAdminOfficeService.findZpRltDtls(messages, districtName,
+		 * talukaNametName, adminType); model.addAttribute("lstZpAdminNameMst",
+		 * lstZpAdminNameMst); model.addAttribute("lstZpRltDdoMapRlt",
+		 * lstZpRltDdoMapRlt); model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
+		 * model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
+		 */
 		model.addAttribute("uniqueId", uniqueId);
 		redirectAttribute.addFlashAttribute("uniqueId", uniqueId);
 		redirectAttribute.addFlashAttribute("ddoCode", zpRltDdoMapModel.getTxtDDOCode());
 
 		return "redirect:/mdc/createAdminOffice";
-		
+
 	}
 
 	@RequestMapping(value = "/getAllTalukaByDistrictId/{districtId}", consumes = {
@@ -192,7 +189,7 @@ public class CreateAdminOfficeController {
 
 	@RequestMapping(value = "/fetchDdoDetails/{ddoCode}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Object[]>> fetchDdoDetails(@PathVariable Long ddoCode, HttpSession session) {
+	public ResponseEntity<List<Object[]>> fetchDdoDetails(@PathVariable String ddoCode, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
 		List<Object[]> lstZpRltDdoMapRlt = createAdminOfficeService.fetchDdoDetails(messages, ddoCode);
@@ -207,27 +204,15 @@ public class CreateAdminOfficeController {
 		return ResponseEntity.ok(response1);
 	}
 
-	/*
-	 * @RequestMapping(value = "/fetchDdoDetails/{ddoCode}", consumes = {
-	 * "application/json" }, headers = "Accept=application/json", produces =
-	 * MediaType.APPLICATION_JSON_VALUE) public ResponseEntity<List<Object[]>>
-	 * fetchDdoDetails(@PathVariable Long ddoCode, HttpSession session) { OrgUserMst
-	 * messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-	 * 
-	 * List<Object[]> lstZpRltDdoMapRlt =
-	 * createAdminOfficeService.fetchDdoDetails(messages, ddoCode);
-	 * 
-	 * return ResponseEntity.ok(lstZpRltDdoMapRlt); }
-	 */
 	@RequestMapping(value = "/generateDDOCode/{cmbSubTreasury}/{cmbAdminOffice}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> generateDDOCode(@PathVariable String cmbSubTreasury,
 			@PathVariable String cmbAdminOffice, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		String ddoCode=createAdminOfficeService.generateDDOCode(cmbAdminOffice, cmbSubTreasury);
-		  JsonObject response = new JsonObject();
-		    response.addProperty("ddoCode", ddoCode);
-		    return ResponseEntity.ok(response.toString());
+		String ddoCode = createAdminOfficeService.generateDDOCode(cmbAdminOffice, cmbSubTreasury);
+		JsonObject response = new JsonObject();
+		response.addProperty("ddoCode", ddoCode);
+		return ResponseEntity.ok(response.toString());
 	}
 
 	@RequestMapping(value = "/findDesignation", consumes = {
@@ -236,4 +221,11 @@ public class CreateAdminOfficeController {
 		List<MstDesignationEntity> response1 = createAdminOfficeService.findDesignation(txtDDODsgn);
 		return ResponseEntity.ok(response1);
 	}
+	
+	
+	
+	
+	
+	
+	
 }

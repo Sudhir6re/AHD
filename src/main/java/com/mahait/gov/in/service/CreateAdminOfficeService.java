@@ -28,7 +28,7 @@ public interface CreateAdminOfficeService {
 
 	List<Object[]> retriveDisctOfcList(OrgUserMst messages, String ofcId);
 
-	List<Object[]> fetchDdoDetails(OrgUserMst messages, Long ddoCode);
+	List<Object[]> fetchDdoDetails(OrgUserMst messages, String ddoCode);
 
 	String generateDDOCode(String cmbAdminOffice, String cmbSubTreasury);
 

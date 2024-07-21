@@ -93,4 +93,6 @@ public interface EntryOfPostsRepo {
 
 	HrPayOrderMst find(Long orderId);
 
+	List findLevel1DddoByDdoCode(String ddoCode);
+
 }

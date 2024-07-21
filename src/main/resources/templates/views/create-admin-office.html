@@ -43,15 +43,14 @@
 				<script type="text/javascript">
 				
 				</script>
-				<input type="hidden" id="ddoCode" name="ddoCode" th:value="${ddoCode}">
 				
-				<input type="hidden" id="uniqeInstituteId" name="uniqeInstituteId"  th:value="${uniqeInstituteId}"/>
 				
 				<form method="POST" name="DDOOfficeView"
-					th:object="${zpRltDdoMapModel}"
 					th:action="@{/mdc/saveCreateAdminOffice}"
-					action="./hrms.htm?actionFlag=loadDdoOfficeData">
-					
+					>
+					<input type="hidden" id="ddoCode" name="ddoCode" th:value="${ddoCode}">
+				
+				<input type="hidden" id="uniqeInstituteId" name="uniqeInstituteId"  th:value="${uniqeInstituteId}"/>
 					
 						
 					<fieldset class="tabstyle">
@@ -130,8 +129,20 @@
 									<th class="datatableheader"
 										style="text-align: center; font-size: 12px;">Hierarchy
 										Level</th>
-									<th class="datatableheader"
+										
+										
+										<th class="datatableheader"
+										style="text-align: center; font-size: 12px;">Created Date</th>
+										
+											
+											<th class="datatableheader hide"
+										style="text-align: center; font-size: 12px;">Zp Map Id</th>
+										
+										
+										<th class="datatableheader"
 										style="text-align: center; font-size: 12px;">Status</th>
+										
+										
 								</tr>
 							</thead>
 							<tbody>
@@ -156,75 +167,22 @@
 									<td><span th:text="${zpRltDdoMapRlt[4]}"></span></td>
 									<!--    <td><span th:text="${zpRltDdoMapRlt[5]}"></span> -->
 
+
+ 								<td th:text="${#dates.format(zpRltDdoMapRlt[7], 'dd-MM-yyyy')}?:'------'"></td>
+									
+									
+									<td  th:text="${zpRltDdoMapRlt[6]}" class="hide">
+									</td>
+									
 									<td><span th:switch="${zpRltDdoMapRlt[5]}"> <span
-											th:case="0" class="bg bg-warning">Pending</span> <span
-											th:case="1" class="bg bg-success">Approved</span> <span
-											th:case="*" class="bg bg-danger">Rejected</span>
+											th:case="0" class=" btn-warning">Pending</span> <span
+											th:case="1" class="btn-success">Approved</span> <span
+											th:case="*" class="btn-danger">Rejected</span>
 									</span></td>
+								
+					
 
 								</tr>
-
-								<!-- Iterate over lstZpRltDdoMapRlt -->
-								<!-- 	<tr th:each="zpRltDdoMapRlt, rowStat : ${lstZpRltDdoMapRlt}">
-									DDO Code
-									<td class="tablecelltext"
-										style="text-align: center; font-size: 12px;">
-										<div th:id="${rowStat.index}${zpRltDdoMapRlt[0]}">
-											<a href="#" 
-												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[0]} + '\', \'' + ${rowStat.index} + '\');'">
-												<span th:text="${zpRltDdoMapRlt[0]}"></span>
-											</a>
-										</div>
-									</td>
-									Level2 DDO Code
-									<td class="tablecelltext"
-										style="text-align: center; font-size: 12px;">
-										<div th:id="${rowStat.index}${zpRltDdoMapRlt[1]}">
-											<a href="#"
-												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[1]} + '\', \'' + ${rowStat.index} + '\');'">
-												<span th:text="${zpRltDdoMapRlt[1]}"></span>
-											</a>
-										</div>
-									</td>
-									Level3 DDO Code
-									<td class="tablecelltext"
-										style="text-align: center; font-size: 12px;">
-										<div th:if="${zpRltDdoMapRlt[2] != null}"
-											th:id="${rowStat.index}${zpRltDdoMapRlt[2]}">
-											<a href="#"
-												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[2]} + '\', \'' + ${rowStat.index} + '\');'">
-												<span th:text="${zpRltDdoMapRlt[2]}"></span>
-											</a>
-										</div>
-										<div th:unless="${zpRltDdoMapRlt[2] != null}">
-											<span>NA</span>
-										</div>
-									</td>
-									Level4 DDO Code
-									<td class="tablecelltext"
-										style="text-align: center; font-size: 12px;">
-										<div th:if="${zpRltDdoMapRlt[3] != null}"
-											th:id="${rowStat.index}${zpRltDdoMapRlt[3]}">
-											<a href="#"
-												th:onclick="'popupDtls(\'' + ${zpRltDdoMapRlt[3]} + '\', \'' + ${rowStat.index} + '\');'">
-												<span th:text="${zpRltDdoMapRlt[3]}"></span>
-											</a>
-										</div>
-										<div th:unless="${zpRltDdoMapRlt[3] != null}">
-											<span>NA</span>
-										</div>
-									</td>
-									Hierarchy Level
-									<td class="tablecelltext"
-										style="text-align: center; font-size: 12px;"><span
-										th:text="${zpRltDdoMapRlt[4]}"></span></td>
-									Status
-									<td class="tablecelltext"
-										style="text-align: center; font-size: 12px;"><span
-										th:switch="${zpRltDdoMapRlt[5]}"> <span th:case="0">Pending</span>
-											<span th:case="1">Approved</span> <span th:case="-1">Rejected</span>
-									</span></td>
-								</tr> -->
 							</tbody>
 						</table>
 						<br>&nbsp; <br> <br>

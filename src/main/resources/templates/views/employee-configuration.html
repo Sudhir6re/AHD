@@ -464,7 +464,7 @@ select.error, textarea.error, input.error {
 									<td width="15%"><label>Qualification&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="30%"><select class="form-control"
-											id="appointmentId" th:field="*{qId}">
+											id="qId" th:field="*{qId}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varPay : ${lstQualification}"
@@ -871,7 +871,15 @@ select.error, textarea.error, input.error {
 											name="indiApproveOrderNo" class="form-control alphanumeric" /></td>
 									</tr>
 									<tr>
-
+										<td width="15%"><label>Type of Teaching<b><font
+													color="red" size="4px;">*</font></b></label></td>
+									 <td width="30%"><input type="radio" size="2" id="Teaching" name="Teaching" ng-model="gender" th:field="*{Teaching}" 
+										 th:value="Teaching"/> <label>Teaching</label>  
+										  <input type="radio" value="Non Teaching"  id="Teaching" name="Teaching" ng-model="Teaching" th:field="*{Teaching}"
+										   th:value="Non Teaching"/>
+										    <label>Non Teaching</label> 
+										  </td>  
+					
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.indiApproDt}"></span>&nbsp;&nbsp;</label></td>
 										<td width="30%"><input type="date" size="40%"

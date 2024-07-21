@@ -5,22 +5,26 @@
 <title th:utext="#{msg.thymeleaf.pagelabel.createsubMenuScreen}"></title>
 </head>
 <body class="edit-sub-menu">
-	<div th:replace="header/newHeader :: var-script-newheader"></div>
-	<div th:replace="header/newHeader :: varnewheader"></div>
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
 	<div class="container min-height-600">
-<div class="breadcrumbMain">
-				<nav aria-label="breadcrumb">
-				  <ol class="breadcrumb">
-				<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
-				    <li class="breadcrumb-item"><a href="#"><span  th:utext="#{msg.thymeleaf.pagelabel.UtilitiesBD}"></span></a></li>
-				    <li class="breadcrumb-item active" aria-current="page"><span th:utext="#{msg.thymeleaf.pagelabel.createsubMenuScreen}"></span></li>
-				  </ol>
-				</nav>
-			</div>
-			<h3 Class="PageHeading"><span th:utext="#{msg.thymeleaf.pagelabel.createsubMenuScreen}"></span></h3>
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.UtilitiesBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pagelabel.createsubMenuScreen}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pagelabel.createsubMenuScreen}"></span>
+		</h3>
 		<fieldset class="container">
-		<!-- 	<b><legend th:utext="#{msg.thymeleaf.pagelabel.subMenuScreen}"
+			<!-- 	<b><legend th:utext="#{msg.thymeleaf.pagelabel.subMenuScreen}"
 					th:style="${'color: orange;'}"></legend></b> -->
 
 			<form class="form-horizontal" th:action="@{/master/saveEditSubMenu}"
@@ -41,7 +45,8 @@
 						<select class="form-control" id="roleId" th:field="*{roleId}">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option th:each="varRole : ${lstRole}" th:value="${varRole.roleId}"
+							<option th:each="varRole : ${lstRole}"
+								th:value="${varRole.roleId}"
 								th:text="${language=='mh' ? varRole.roleName : varRole.roleName}"></option>
 						</select>
 					</div>
@@ -53,7 +58,8 @@
 						<select class="form-control" id="menuCode" th:field="*{menuCode}">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option th:each="varMenu : ${lstMenu}" th:value="${varMenu.menuCode}"
+							<option th:each="varMenu : ${lstMenu}"
+								th:value="${varMenu.menuCode}"
 								th:text="${language=='mh' ? varMenu.menuNameMarathi : varMenu.menuNameEnglish}"></option>
 						</select>
 
@@ -108,15 +114,17 @@
 						th:utext="#{msg.thymeleaf.pagelabel.status}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label>
 					<div class="col-sm-3">
-						<select class="form-control" id="is_active" th:field="*{is_active}">
+						<select class="form-control" id="is_active"
+							th:field="*{is_active}">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option th:each="varCommon : ${lstCommonMst}" th:value="${varCommon.commonValue}"
+							<option th:each="varCommon : ${lstCommonMst}"
+								th:value="${varCommon.commonValue}"
 								th:text="${language=='mh' ? varCommon.commonValMarathi : varCommon.commonValEnglish}"></option>
 						</select>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<hr />
 					<div class="col-sm-offset-5 col-sm-1">

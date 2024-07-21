@@ -9,7 +9,7 @@ public interface CreateAdminOfficeRepo {
 
 	List<Object[]> getAllDDOOfficeDtlsData(String districtName, String talukaNametName, String adminType);
 
-	List<Object[]> findPostLocationByDdoCode(Long ddoCode);
+	List<Object[]> findPostLocationByDdoCode(String ddoCode);
 
 	List getAdminOfcCode(String adminOfc);
 
@@ -30,6 +30,8 @@ public interface CreateAdminOfficeRepo {
 	List<Object[]> lstAllDepartment();
 
 	List<Object[]> employeeMappingList(String logUserId);
+
+	int ddoCodeAlreadyExists(String level1DdoCode);
 
 
 }

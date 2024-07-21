@@ -65,5 +65,7 @@ public interface EntryOfPostsService {
 
 	void renewPostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId, OrgUserMst messages);
 
+	List findLevel1DddoByDdoCode(String ddoCode);
+
 
 }

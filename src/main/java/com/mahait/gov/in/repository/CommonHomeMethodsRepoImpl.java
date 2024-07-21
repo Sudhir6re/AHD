@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
@@ -344,5 +345,31 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	}
 			
 			
+
+	@Override
+	public List<BillStatusMstEntity> lstGetAllBillStatusForConsolidatePaybill() {
+		String HQL = "FROM BillStatusMstEntity as t  WHERE t.billStatusCode in (5,6,13) and t.isActive = 'Y' ORDER BY t.billStatusId";
+		return (List<BillStatusMstEntity>) manager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<Object[]> getBillsForConsolidation(String billStatus, Integer roleId, String userName, int yearName,
+			int monthName) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select a.paybill_generation_trn_id,ddd.bill_description,dd.scheme_code,dd.scheme_name,a.bill_gross_amt,a.bill_net_amount,a.is_active,a.ddo_code,a.no_of_employee from paybill_generation_trn a inner join \r\n"
+				+ "scheme_billgroup_mpg b on a.scheme_billgroup_id = b.bill_group_id \r\n"
+				+ "inner join ddo_map_rlt c on b.ddo_map_id = c.ddo_map_id \r\n"
+				+ "inner join scheme_mst dd on dd.scheme_id = b.scheme_id \r\n"
+				+ "inner join bill_group_mst ddd on b.bill_group_id = ddd.bill_group_id inner join ddo_reg_mst cccc on a.ddo_code = cccc.ddo_code and cccc.ddo_reg_id = ddo_code_user_id1  where a.ddo_code IN (select aa.ddo_code from ddo_reg_mst a inner join\r\n"
+				+ "ddo_map_rlt b on  a.ddo_reg_id= b.ddo_code_user_id2\r\n"
+				+ "inner join ddo_reg_mst aa on aa.ddo_reg_id = b.ddo_code_user_id1\r\n" + "where a.level_hierarchy = '"
+				+ roleId + "' and a.ddo_code = '" + userName + "') " + " and a.is_active in (6,10, 11,12,14) "
+				+ " and a.paybill_month=" + monthName + " and a.paybill_year =" // and dd.scheme_code='" + schemeCode +
+																				// "'
+				+ yearName + " order by paybill_generation_trn_id desc";
+
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
 
 }

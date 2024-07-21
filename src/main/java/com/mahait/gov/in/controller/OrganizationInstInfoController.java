@@ -56,15 +56,12 @@ public class OrganizationInstInfoController {
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		String[] ddo = messages.getUserName().split("_");
 		
-		String ddoCode = ddo[0];
+		String ddoCode = messages.getDdoCode();
 
 		// List<DDOScreenEntity>
 		// lstDDO=dDOScreenService.findDDOByUsername(messages.getUserName());
 
-		List<TopicModel> menuList = new ArrayList<>();
-		List<TopicModel> subMenuList = new ArrayList<>();
 		List<MstBankEntity> bankName = new ArrayList<>();
 		List<MstDesnModel> lstdesgination = new ArrayList<>();
 
@@ -75,8 +72,11 @@ public class OrganizationInstInfoController {
 		orgDdoMstModel=organizationInstInfoService.findDDOInfo(ddoCode); 
 
 		List<InstituteType> lstInstituteType =organizationInstInfoService.lstInstType(); 
-
-	
+		
+		if(orgDdoMstModel.getBankName()!= null) {
+		model.addAttribute("lstAllBankBranchList",
+				commonHomeMethodsService.getBankBranch(orgDdoMstModel.getBankName()));
+		}
 		if (message != null && message.equals("SUCCESS")) {
 			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
 				model = CommonUtils.initModel(CommonConstants.Message.ADDED_ENGLSH, STATUS.SUCCESS, model);
@@ -86,9 +86,7 @@ public class OrganizationInstInfoController {
 		}
 		model.addAttribute("lstdesgination", lstdesgination);
 	
-		model.addAttribute("subMenuList", subMenuList);
 		model.addAttribute("bankName", bankName);
-		model.addAttribute("menuList", menuList);
 		model.addAttribute("lstInstituteType", lstInstituteType);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("orgDdoMstModel", orgDdoMstModel);
@@ -102,8 +100,8 @@ public class OrganizationInstInfoController {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
-		orgDdoMstModel.setDdoCode(messages.getUserName());
-		int afterSaveId = organizationInstInfoService.SaveorgInstituteInfo(orgDdoMstModel);
+		orgDdoMstModel.setDdoCode(messages.getDdoCode());
+		Long afterSaveId = organizationInstInfoService.SaveorgInstituteInfo(orgDdoMstModel);
 		if (afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
 		}
@@ -121,9 +119,8 @@ public class OrganizationInstInfoController {
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
-		String[] ddo = messages.getUserName().split("_");
-		
-		String ddoCode = ddo[0];
+		List<InstituteType> lstInstituteType =organizationInstInfoService.lstInstType(); 
+		String ddoCode = messages.getDdoCode();
 
 		// List<DDOScreenEntity>
 		// lstDDO=dDOScreenService.findDDOByUsername(messages.getUserName());
@@ -139,7 +136,6 @@ public class OrganizationInstInfoController {
 
 		orgDdoMstModel=organizationInstInfoService.findDDOInfo(ddoCode); 
 
-		//List<InstituteType> lstInstituteType =organizationInstInfoService.lstInstType(); 
 
 	
 		if (message != null && message.equals("SUCCESS")) {
@@ -149,14 +145,13 @@ public class OrganizationInstInfoController {
 				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
 			}
 		}
-		/*model.addAttribute("lstAllBankBranchList",
-				commonHomeMethodsService.getBankBranch(String.valueOf(orgDdoMstModel.getBankCode().toString())));*/
+		
 		model.addAttribute("lstdesgination", lstdesgination);
 	
 		model.addAttribute("subMenuList", subMenuList);
 		model.addAttribute("bankName", bankName);
 		model.addAttribute("menuList", menuList);
-		//model.addAttribute("lstInstituteType", lstInstituteType);
+		model.addAttribute("lstInstituteType", lstInstituteType);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("orgDdoMstModel", orgDdoMstModel);
 		return "views/edit-hte-organization-institution-info";
@@ -167,7 +162,7 @@ public class OrganizationInstInfoController {
 									BindingResult bindingResult,RedirectAttributes redirectAttributes,Model model,Locale locale) {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		orgDdoMstModel.setDdoCode(messages.getUserName());
+		orgDdoMstModel.setDdoCode(messages.getDdoCode());
 		int message = organizationInstInfoService.updateorgInstituteInfo(orgDdoMstModel);
 		if(message>0) {
 				redirectAttributes.addFlashAttribute("message","Record Updated Successfully");

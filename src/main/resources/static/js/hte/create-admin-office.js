@@ -12,7 +12,16 @@ $(document).ready(function() {
 	}
 	
 
-	var dataTable= $("#ddoMapTable").dataTable();
+	//var dataTable= $("#ddoMapTable").dataTable();
+	
+	var dataTable= $('#ddoMapTable').dataTable({
+	    "columnDefs": [
+	        { "targets": [4], "visible": false } 
+	    ],
+	    "order": [[4, 'desc']] 
+	});
+	
+	
 $("#cmbDistrict").change(function(){
 	var context = $("#appRootPath").val();
 	var districtId = $("#cmbDistrict").val();
@@ -81,8 +90,6 @@ $("#btnFilter").click(function(){
 });
 
 
-
-
 function populateTable(data) {
     $.each(data, function(index, row) {
     	dataTable.fnClearTable();
@@ -90,17 +97,20 @@ function populateTable(data) {
            var row2 = '<span id="' + row[1] + '"><a href="#"  data-ddocode="'+ row[1]+'" class="ddoCode"    data-srno="'+index+'" >' + row[1] + '</a></span>';
     	var row3=null;
     	   if(row[5]==0){
-    		   row3= '<span class="bg bg-warning" >Pending</span>';
+    		   row3= '<span class="btn-warning" >Pending</span>';
     	   }else if(row[5]==1){
-    		   row3= '<span  class="bg bg-succes" >Pending</span>';
+    		   row3= '<span  class="btn-succes" >Approved</span>';
     	   }else{
-    		   row3= '<span  class="bg bg-danger >Pending</span>';
+    		   row3= '<span  class="btn-danger >Rejected</span>';
     	   }
+    	   
+    	   var createdDate = new Date(row[7]); 
+		    var formattedDate = dateToDMY(createdDate);
         dataTable.fnAddData(
 				[
 					row1,
 					row2,row[4],
-					row3
+					createdDate,row[6],row3
 						]);
     });
 }
@@ -137,7 +147,7 @@ $("#txtDDODsgn").keyup(function(){
 							$("#searchDiv").show();
 							$("#searchDiv")
 									.append(
-											"<p><a class='empdata'   empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
+											"<p><a class='empdata'    desginationId='"+data[i].desginationId+"'    empdesgn='"+data[i].desgination+"'>"+ data[i].desgination+ "</a></p>");
 							$("#searchDiv")
 									.css(
 											"border:1px solid #A5ACB2;");
@@ -156,7 +166,9 @@ $("#txtDDODsgn").keyup(function(){
 $('body').on('click', '.empdata', function() {
 	 $("#procceed").attr("disabled", false); 
 	var empdesgn=$(this).attr("empdesgn");  
+	var desginationId=$(this).attr("desginationId");  
 	$("#txtDDODsgn").val(empdesgn);
+	$("#desginationId").val(desginationId);
 	$("#searchDiv").hide();
 });
 
@@ -170,6 +182,12 @@ $("#txtRepDDOCode").blur(function(){
         data: { ddoCode: ddoCode },
     	async : true,
 		contentType : 'application/json',
+	 	beforeSend : function(){
+			$( "#loaderMainNew").show();
+			},
+		complete : function(data){
+			$( "#loaderMainNew").hide();
+		},
         success: function(response) {
         	if(response!=''){
         		 var dropdown = $('#cmbSubTreasury');
@@ -207,6 +225,12 @@ $.ajax({
 	contentType : 'application/json',
 	error : function(data) {
 		 console.log(data);
+	},
+ 	beforeSend : function(){
+		$( "#loaderMainNew").show();
+		},
+	complete : function(data){
+		$( "#loaderMainNew").hide();
 	},
 	success : function(response) {
 		 console.log(response);
@@ -283,11 +307,16 @@ $('body').on('click', '.ddoCode', function() {
 		error : function(data) {
 			// console.log(data);
 		},
+	 	beforeSend : function(){
+			$( "#loaderMainNew").show();
+			},
+		complete : function(data){
+			$( "#loaderMainNew").hide();
+		},
 		success : function(data) {
 			// console.log(data);
 			// alert(data);
 			var len = data.length;
-			if (len != 0) {
 
 				var temp = data;
 				$
@@ -301,23 +330,19 @@ $('body').on('click', '.ddoCode', function() {
 									setDDOdtls(value[0]+","+value[1], field, srno);
 								
 																							});
-			} else {
-			
-				swal("Record not found !!!");
-			}
 		}
 	});
 });
 
 function setDDOdtls(myAjax, field, srno) {
 	var divId = srno.toString() + field.toString();
-	document.getElementById(divId).innerHTML = '<a href="#"    data-ddocode="'+field+'"  data-srno="'+srno+'"   class="hideDdoCode"  >'+ field+ '<br>'+ myAjax + '</a>';
+	document.getElementById(divId).innerHTML = '<a   data-ddocode="'+field+'"  data-srno="'+srno+'"   class="hideDdoCode"  >'+ field+ '<br>'+ myAjax + '</a>';
 }
 
 function hideDtls(field, srno) {
 
 	var divId = srno.toString() + field.toString();
-	document.getElementById(divId).innerHTML = '<a href="#"  data-ddocode="'+field+'"  data-srno="'+srno+'"   class="ddoCode"   >' + field + '</a>';
+	document.getElementById(divId).innerHTML = '<a   data-ddocode="'+field+'"  data-srno="'+srno+'"   class="ddoCode"   >' + field + '</a>';
 }
 
     $("form[name='ZpDDOOffice']").validate({
@@ -447,3 +472,56 @@ function hideDtls(field, srno) {
         }
     });
 });
+
+
+
+
+
+function addSalutationToName() {
+	if (document.getElementById("radioSalutationShri").checked == true) {
+		document.getElementById("txtDDOName").value = 'Shri.';
+	}
+	if (document.getElementById("radioSalutationSmt").checked == true) {
+		document.getElementById("txtDDOName").value = 'Smt.';
+	}
+}
+function validateDDOName() {
+	var txt = document.getElementById("txtDDOName").value;
+	var regex = /^[ A-Za-z.-]*$/;
+	if (regex.test(txt)) {
+	} else {
+		alert('Please Enter Valid DDO Name.\nOnly Characters are allowed in DDO Name.');
+		document.getElementById("txtDDOName").value = '';
+		if (document.getElementById("radioSalutationShri").checked == true) {
+			//alert('Shree selected');
+			document.getElementById("txtDDOName").value = 'Shri.';
+		}
+		if (document.getElementById("radioSalutationSmt").checked == true) {
+			//alert('Smt Selected');
+			document.getElementById("txtDDOName").value = 'Smt.';
+		}
+		return false;
+	}
+}
+
+function validateMobileNo() {
+	var mobileNo = document.getElementById("txtMobileNo").value;
+	var regex = /^[0-9]*$/;
+	if (regex.test(mobileNo)) {
+	} else {
+		alert('Please enter only digit in Mobile No. field');
+		document.getElementById("txtMobileNo").value = '';
+		return false;
+	}
+	if (mobileNo.length != 10) {
+		alert('Please enter complete Mobile No.');
+		document.getElementById("txtMobileNo").value = '';
+		return false;
+	}
+	if (!(mobileNo.charAt(0) == 7 || mobileNo.charAt(0) == 8 || mobileNo
+			.charAt(0) == 9)) {
+		alert('Please enter valid mobile No.');
+		document.getElementById("txtMobileNo").value = '';
+		return false;
+	}
+}

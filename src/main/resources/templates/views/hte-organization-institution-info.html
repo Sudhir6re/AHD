@@ -150,10 +150,11 @@ input[type="button" i]:disabled {
 									</td>
 									<td align="left" width="35%">
 								  <select name="cmbBranchName" id="cmbBranchName" style="width:360px" th:field="*{branchName}"  th:class="${orgDdoMstModel.designationId!=null}? 'readonly' : ''"> 
-                                 <!-- <option
+                                 <option value="-1">-- Select --</option>
+                                 <option
 													th:each="varAllBankbranchList : ${lstAllBankBranchList}"
 													th:value="${varAllBankbranchList[0]}"
-													th:text="${language=='mh' ? varAllBankbranchList[1] : varAllBankbranchList[1]}"></option> -->
+													th:text="${language=='mh' ? varAllBankbranchList[1] : varAllBankbranchList[1]}"></option>
                             </select> 
 									</td>
 								</tr>
@@ -161,7 +162,7 @@ input[type="button" i]:disabled {
 									<td width="15%" align="left">IFS Code</td>
 									<td align="left" width="35%"><input type="text" th:attr="readonly=${orgDdoMstModel.designationId!=null}? 'true' : 'false'"
 										id="txtIFSCCode" style="text-transform: uppercase;"
-										th:field="*{ifsCode}" size="48" maxlength="20"
+										th:field="*{ifscCode}" size="48" maxlength="20"
 										name="txtIFSCCode"  class="form-control"></td>
 									<td width="15%" align="left">Bank Acc. No. <font
 										color="red" size="4px;">*</font>

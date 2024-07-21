@@ -1,6 +1,5 @@
 package com.mahait.gov.in.intercepter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UserDetailsServiceImpl;
 
+//@Order(Ordered.LOWEST_PRECEDENCE)
 @Component
 public class MenuIntercepter implements HandlerInterceptor {
 
@@ -51,6 +53,12 @@ public class MenuIntercepter implements HandlerInterceptor {
 	            return;
 	        }
 		
+		  
+		  // Retrieve the attribute and handle null case
+		    Boolean alreadyProcessed = (Boolean) request.getAttribute("menuIntercepterProcessed");
+		    if (alreadyProcessed != null && alreadyProcessed) {
+		        return;  // Skip processing if already processed
+		    }
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && !authentication.getPrincipal().equals("anonymousUser") ) {
@@ -73,6 +81,8 @@ public class MenuIntercepter implements HandlerInterceptor {
 						modelAndView.addObject("subMenuList", subMenuList);
 						modelAndView.addObject("levelRoleVal", levelRoleVal);
 					}
+					
+					request.setAttribute("menuIntercepterProcessed", true);
 				}
 			}
 		}

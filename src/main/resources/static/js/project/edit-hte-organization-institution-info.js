@@ -65,21 +65,16 @@ $("#cmbBranchName").change(function()
 		 			    	  if(len!=0)
 		 			    		  {
 		 			    		//console.log(data);
-		 			    		 $('#txtIFSCCode').empty();
-		 			    		$('#txtIFSCCode').append("<option value='0'>Please Select</option>");
 		 				    	 var temp = data;
-		 				   		  $.each( temp, function( index, value ){
-		 					    		console.log( value[3] ); 
-		 					    		 $('#txtIFSCCode').append("<option  data-id="+value[6]+" value="+value[0]+">" + value[3] + "</option>");
-		 				    		});
-		 				   		  
+		 				   		  for(var i=0;i<len;i++)
+		 				   			  {
+		 				   			  $("#txtIFSCCode").val(data[i].ifscCode);
+		 				   			  }
 		 				   		  
 		 			    		  }
 		 			    	  else
 		 			    		  {
-		 			    		 $('#txtIFSCCode').empty();
-		 			    		 $('#txtIFSCCode').append("<option value='0'>Please Select</option>");
-		 			    		//  swal("Record not found !!!");
+		 			    		 $("#txtIFSCCode").val("");
 		 			    		  }
 		 			    	}
 		 			 });	

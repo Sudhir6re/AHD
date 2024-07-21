@@ -1,22 +1,19 @@
-  
+  $(document).ready(function() {
+	var contextPath = $("#appRootPath").val();
   $("#txtSchemeCode").blur(function(){
 	  var schemeCode=$("#txtSchemeCode").val();
 	  $.ajax({
 		  type : "GET",
-		  url : "../ddo/displaySchemeNameForCode/"
+		  url : contextPath+"/ddo/displaySchemeNameForCode/"
 		  + schemeCode,
 		  async : true,
 		  contentType : 'application/json',
 		  error : function(data) {
 			  console.log(data);
-			  // alert("error");
 		  },
 		  success : function(data) {
-				// console.log(data);
-				// alert(data);
 				var len = data.length;
 				if (len != 0) {
-					// console.log(data);
 					$('#cmbSchemeName').empty();
 					$('#cmbSchemeName')
 							.append(
@@ -47,4 +44,6 @@
 				}
 			}
 	  });
+  });
+  
   });

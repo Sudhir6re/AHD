@@ -14,11 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.CmnLanguageMst;
+import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgEmpMst;
 import com.mahait.gov.in.entity.OrgGradeMst;
 import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.ZpRltDdoMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +47,7 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 
 		StringBuffer strQuery = new StringBuffer();
 		strQuery.append(
-				"SELECT zp.ZP_DDO_CODE,zp.REPT_DDO_CODE,zp.FINAL_DDO_CODE,zp.SPECIAL_DDO_CODE,zp.ZPLEVEL,zp.STATUS FROM  RLT_ZP_DDO_MAP zp ");
+				"SELECT zp.ZP_DDO_CODE,zp.REPT_DDO_CODE,zp.FINAL_DDO_CODE,zp.SPECIAL_DDO_CODE,zp.ZPLEVEL,zp.STATUS,zp.ZP_MAP_ID,zp.created_date FROM  RLT_ZP_DDO_MAP zp ");
 		strQuery.append(" inner join mst_dcps_ddo_office office on zp.zp_ddo_code=office.ddo_code ");
 		strQuery.append(" where zp.status is not null "); // zp.LANG_ID =1 and 
 		if ((districtName != null) && (districtName != "") && (Long.parseLong(districtName) != -1)) {
@@ -66,12 +69,13 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 	}
 	
 	@Override
-	public List<Object[]> findPostLocationByDdoCode(Long ddoCode) {
-		String sql = "select  c.POST_SHORT_NAME, b.loc_name,* from org_ddo_mst a left join CMN_LOCATION_MST b 	on cast(a.location_code as bigint) = b.loc_id left join"
-				+ "  ORG_POST_DETAILS_RLT c on b.loc_id = c.loc_id "+
-				"   WHERE  a.DDO_CODE =:ddoCode";
+	public List<Object[]> findPostLocationByDdoCode(String ddoCode) {
+		String sql = "WITH ddo_info AS (" + "    SELECT post_id, LOCATION_CODE " + "    FROM org_ddo_mst "
+				+ "    WHERE ddo_code = :ddoCode "+") " + "SELECT opd.POST_SHORT_NAME, clm.loc_name "
+				+ "FROM ORG_POST_DETAILS_RLT opd " + "JOIN ddo_info di ON opd.post_ID = di.post_id "
+				+ "JOIN CMN_LOCATION_MST clm ON clm.LOC_ID = cast(di.LOCATION_CODE as bigint)";
 		Query query = (Query) entityManager.createNativeQuery(sql);
-		query.setParameter("ddoCode", String.valueOf(ddoCode));
+		query.setParameter("ddoCode", ddoCode);
 		return query.getResultList();
 	}
 
@@ -212,8 +216,35 @@ public class CreateAdminOfficeRepoImpl implements CreateAdminOfficeRepo {
 		return (List<Object[]>) query.list();
 	}
 
+	@Override
+	public int ddoCodeAlreadyExists(String level1DdoCode) {		
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "From ZpRltDdoMap where zpDdoCode='" + level1DdoCode + "'";
+		Query query = currentSession.createQuery(hql);
+		List<ZpRltDdoMap> lstZpRltDdoMap = query.getResultList();
+	    int  count= lstZpRltDdoMap.size();
+	    
+	     hql = "From OrgDdoMst where ddoCode='" + level1DdoCode + "'";
+	     query = currentSession.createQuery(hql);
+	    List<OrgDdoMst> lstOrgDdoMst = query.getResultList();
+	    int  count1= lstOrgDdoMst.size();
+	    
+	     hql = "From DdoOffice where dcpsDdoCode='" + level1DdoCode + "'";
+	     query = currentSession.createQuery(hql);
+	    List<DdoOffice> lstDdoOffice = query.getResultList();
+	    int  count2= lstDdoOffice.size();
+	    
+	    
+	    hql = "From OrgUserMst where ddoCode='" + level1DdoCode + "'";
+	     query = currentSession.createQuery(hql);
+	    List<OrgUserMst> lstOrgUsermst = query.getResultList();
+	    int  count3= lstOrgUsermst.size();
+	    
+		if(count>0 || count1>0 || count2>0  || count3>0) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
 
-	
-	
-	
 }

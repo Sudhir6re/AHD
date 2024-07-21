@@ -145,12 +145,12 @@ public class PayBillViewApprDelBillController {
 		model.addAttribute("language", locale.getLanguage());
 
 		if(messages.getMstRoleEntity().getRoleId() == 3) {
-			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getUserName(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
+			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getDdoCode(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
 			return "/views/paybill/paybill-view-approve-delete-bill";
 				}
 		
 		else if(messages.getMstRoleEntity().getRoleId() != 3) {
-			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getUserName(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
+			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getDdoCode(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
 			return "/views/paybill/paybill-forward-change-statement-bill";
 		}
 		
@@ -4419,7 +4419,7 @@ public class PayBillViewApprDelBillController {
 	@GetMapping(value="/findPayBillByMonthYear/{yearName}/{monthName}")
 	public @ResponseBody List<Object[]> findPayBillByMonthYear(@PathVariable int yearName,@PathVariable int monthName,Model model,Locale locale,HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		List<Object[]> consolatedFilterList =  payBillViewApprDelBill.findPayBillByMonthYear(monthName,yearName,messages.getUserName(),messages.getMstRoleEntity().getRoleId());
+		List<Object[]> consolatedFilterList =  payBillViewApprDelBill.findPayBillByMonthYear(monthName,yearName,messages.getDdoCode(),messages.getMstRoleEntity().getRoleId());
 		return consolatedFilterList;
     }
 	
