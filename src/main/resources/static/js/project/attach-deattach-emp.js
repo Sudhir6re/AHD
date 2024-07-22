@@ -128,10 +128,14 @@ function isPaybillIsInProcessForAttach(sevaarthId) {
 	return len;
 }
 
+<<<<<<< HEAD
+function findAttachDettachEmp(){
+=======
 // START:Created by Manikandan for Attach and Dettach employee
 function findAttachDettachEmp(){
 // document.getElementById("myForm").submit();
 // alert("findAttachDettachEmp method executed");
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 	var billgroupid = document.getElementById("schemebillGroupId");
 	var type = document.getElementById("type");
 	if (billgroupid.value === "0") {
@@ -158,7 +162,10 @@ if (typee.value == "2") {
 function validateBeforeAttach(){
 	var chkBoxArr=document.getElementsByName('GroupCheck'); 
 	var chkLength=chkBoxArr.length;
+<<<<<<< HEAD
+=======
 // var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
@@ -167,10 +174,13 @@ function validateBeforeAttach(){
 			return true; 
 		}
 	} 
+<<<<<<< HEAD
+=======
 // if(typeOfOperation.Value == 1)
 // alert("Please select an employee to attach to Bill group");
 // if(typeOfOperation.Value == 2)
 // alert("Please select a Post to attach to Bill group");
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 	return false;
 }
 function AddRowInEmpBGTable()
@@ -190,10 +200,15 @@ function AddRowInEmpBGTable()
 	var counter = 1 ;
 	var tableEmpBG = document.getElementById("tableEmpBG");
 	var tableEmp =document.getElementById("tableEmp");
+<<<<<<< HEAD
+	for(var i=1;i<=counterEmp;i++)
+	{
+=======
 // alert("counterEmp="+counterEmp);
 	for(var i=1;i<=counterEmp;i++)
 	{
 // alert(document.getElementById("GroupCheck"+i).value);
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 		if(document.getElementById("GroupCheck"+i).checked)
 		{
 			dcpsEmpIdsToBeAddedToBGTable[counter] = document.getElementById("GroupCheck"+i).value ;
@@ -240,7 +255,10 @@ function AddRowInEmpBGTable()
 function validateBeforeDetach(){
 	var chkBoxArr=document.getElementsByName('GroupCheckBG'); 
 	var chkLength=chkBoxArr.length;
+<<<<<<< HEAD
+=======
 // var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
@@ -249,10 +267,13 @@ function validateBeforeDetach(){
 			return true; 
 		}
 	} 
+<<<<<<< HEAD
+=======
 // if(typeOfOperation.Value == 1)
 // alert("Please select an employee to attach to Bill group");
 // if(typeOfOperation.Value == 2)
 // alert("Please select a Post to attach to Bill group");
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 	return false;	
 }
 function AddRowInEmpTable()
@@ -320,7 +341,10 @@ function AddRowInEmpTable()
 }
 
 
+<<<<<<< HEAD
+=======
 // CheckAll and UnCheckAll
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 function checkUncheckAll(theElement)
 {
 	var theForm = theElement.form, z = 0;	
@@ -347,6 +371,13 @@ function checkUncheckAllBG(theElement)
 
 function AttachAndDetachEmp()
 {
+<<<<<<< HEAD
+
+	document.getElementById("status").value="SAVE";
+	$("#myForm").submit();
+}
+
+=======
 // if(document.getElementById("dcpsEmpIdstoBeDetached").value == "" &&
 // document.getElementById("dcpsEmpIdstoBeAttached").value == ""){
 // alert("No data is Saved, as no change has been made");
@@ -400,5 +431,6 @@ function AttachAndDetachEmp()
 
 
 
+>>>>>>> 76df848c74d308dc70139f9f5b768d5a499eb41b
 
 
