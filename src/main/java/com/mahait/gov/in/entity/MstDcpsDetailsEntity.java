@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+
 @Data
 @Entity
 @Table(name="dcps_details_mst",schema="public")
@@ -41,4 +42,5 @@ public class MstDcpsDetailsEntity {
 	@Column(name="sevaarth_id")
 	private String sevaarthId;
 
+	
 }

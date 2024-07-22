@@ -1,7 +1,17 @@
 jQuery(document).ready(function() {
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});
-	
+	$("#qid").select2();
+	$("#secqualification").select2();
+	$("#cadre").select2();
+	$("#designationId").select2();
+	$("#districtCode").select2();
+	$("#payscalelevel").select2();
+	$("#svnthpaybasic").select2();
+	$("#payScaleSeven").select2();
+	$("#bankId").select2();
+	$("#bankBranchId").select2();
+	$("#pfseries").select2();
 var paycomm =$("#payCommision").val();
 if(paycomm != '' && paycomm != undefined){
 	if(paycomm =='700005'){ //7 pc
@@ -1885,7 +1895,7 @@ function saveAsDraft() {
 	// alert fullName
 
 	// UID validation end
-	// $('#action').val('Edit');
+	$('#action').val('Edit');
 	$('#isActive').val('2');
 	// if(originalVal1==undefined){
 	// $('#bankAccountNo').val('');

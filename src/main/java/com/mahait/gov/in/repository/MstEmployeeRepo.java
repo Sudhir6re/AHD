@@ -18,12 +18,13 @@ import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.QualificationEntity;
 import com.mahait.gov.in.model.MstEmployeeModel;
 
 public interface MstEmployeeRepo {
 	
-	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, BigInteger billGroupId,
+	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, Long billGroupId,
 			int month, int year);
 
 	public DdoOffice findAllGroup(String ddoCode);
@@ -124,6 +125,13 @@ public interface MstEmployeeRepo {
 	public int checkSevaarthIdExistInGpfDetailMst(String sevaarthid);
 
 	public List<QualificationEntity> getQualification(String language);
+
+	public List<MstEmployeeEntity> getDcpsEmployeeDetails(String strddo);
+
+	public List<Long> approveDcpsEmployeeConfiguration(String empid, String dcpsnumber, String sevaarthid,
+			String dcpsgpfflg);
+
+	public void saveUserInfo(OrgUserMst lObjUserMst);
 
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 

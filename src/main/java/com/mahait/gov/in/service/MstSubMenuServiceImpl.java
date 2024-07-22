@@ -31,7 +31,7 @@ public class MstSubMenuServiceImpl implements MstSubMenuService {
 		mstSubMenuEntity.setController_name(mstSubMenuModel.getControllerName());
 		mstSubMenuEntity.setLink_name(mstSubMenuModel.getLinkName());
 		mstSubMenuEntity.setIs_active('1');
-		mstSubMenuEntity.setCreatedUserId(messages.getMstRoleEntity().getRoleId());
+		mstSubMenuEntity.setCreatedUserId(1);
 
 		int saveId = mstSubMenuRepo.saveSubMenu(mstSubMenuEntity);
 		

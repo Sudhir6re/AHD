@@ -431,7 +431,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		Double CreditSoc = 0d;
 		Double svnDA = 0d;
 		Double othrded = 0d;
-		int gradePay = 0;
+		Long gradePay = 0l;
 		Double basic = 0d;
 		Double npsEmprAllow = 0d;
 		Double npsEmprContri = 0d;
@@ -510,7 +510,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 		if (suspensepercent != 0) {
 			if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
-					&& mstEmployeeModel.getPayCommissionCode() != 8) {
+					&& mstEmployeeModel.getPayCommissionCode() != 700005) {
 				/// basic = mstEmployeeModel.getBasicPay()*suspensepercent;
 				basic = (double) (Math.round((mstEmployeeModel.getBasicPay() * suspensepercent)
 						/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
@@ -521,7 +521,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 		} else {
 			if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
-					&& mstEmployeeModel.getPayCommissionCode() != 8) {
+					&& mstEmployeeModel.getPayCommissionCode() != 700005) {
 				basic = mstEmployeeModel.getBasicPay();
 			} else {
 				basic = mstEmployeeModel.getSevenPcBasic();
@@ -546,7 +546,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		int totalNoOfDays = cal2.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 		int noOfDays = Integer.parseInt(hmInputParam.get("noOfDays").toString());
-		gradePay = Math.round((gradePay * noOfDays) / totalNoOfDays);
+		gradePay = (long) Math.round((gradePay * noOfDays) / totalNoOfDays);
 		basic = (double) Math.round((basic * noOfDays) / totalNoOfDays);
 		mstEmployeeModel.setBasicPay(basic);
 		/*
@@ -630,7 +630,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			citygroup = spilt[1];
 
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-				if (payCommission == 8) {
+				if (payCommission == 700005) {
 					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
@@ -800,7 +800,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (gradelevel >= 20) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
@@ -905,7 +905,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (gradePay >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
@@ -1004,7 +1004,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC && allEdpList
 								.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
 					Integer grade7PC = Integer.parseInt(gradePay7PC);
 
@@ -5882,7 +5882,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		Double CreditSoc = 0d;
 		Double svnDA = 0d;
 		Double othrded = 0d;
-		int gradePay = 0;
+		Long gradePay = 0l;
 		Double basic = 0d;
 		Double npsEmprAllow = 0d;
 		Double npsEmprContri = 0d;
@@ -5952,7 +5952,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			// logger.info("Employee Name="+mstEmployeeModel.getEmployeeFullNameEn());
 			// logger.info("Basic Pay="+mstEmployeeModel.getBasicPay());
 			if (mstEmployeeModel.getBasicPay() != null && mstEmployeeModel.getBasicPay() > 0
-					&& mstEmployeeModel.getPayCommissionCode() != 8) {
+					&& mstEmployeeModel.getPayCommissionCode() != 700005) {
 				basic = mstEmployeeModel.getBasicPay();
 			} else {
 				basic = mstEmployeeModel.getSevenPcBasic();
@@ -5979,7 +5979,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		// java.util.Date finYrDate = cal2.getTime();
 		int totalNoOfDays = toDate22.getActualMaximum(Calendar.DAY_OF_MONTH);
 		int noOfDays = Integer.parseInt(hmInputParam.get("noOfDays").toString());
-		gradePay = Math.round((gradePay * noOfDays) / totalNoOfDays);
+		gradePay = (long) Math.round((gradePay * noOfDays) / totalNoOfDays);
 		basic = (double) Math.round((basic * noOfDays) / totalNoOfDays);
 		mstEmployeeModel.setBasicPay(basic);
 		/*
@@ -6219,7 +6219,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (gradelevel >= 20) {
 						if (citygroup.equals("A")) {
@@ -6323,7 +6323,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				else if (allEdpList.get(i).getDeptalldetNm()
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					if (gradePay >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
 						if (citygroup.equals("A") || citygroup.equals("A+")) {
@@ -6422,7 +6422,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC && allEdpList
 								.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					Integer gradelevel = mstEmployeeModel.getSevenPCLevel();
+					Long gradelevel = mstEmployeeModel.getSevenPCLevel();
 					String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
 					Integer grade7PC = Integer.parseInt(gradePay7PC);
 

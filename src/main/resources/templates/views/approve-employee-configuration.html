@@ -466,17 +466,19 @@ input[type="Date"] {
 											disabled="disabled" class="form-control" /></td>
 									</tr>
 									
-										<tr>
+												<tr>
 									<td width="15%"><label>Qualification&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="30%"><select class="form-control"
-											id="appointmentId" th:field="*{qId}">
+											id="qid" th:field="*{qualification}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varPay : ${lstQualification}"
 													th:value="${varPay.qId}"
 													th:text="${language=='mh' ? varPay.qualification : varPay.qualification}"></option>
 										</select></td>
+										</tr>
+										<tr>
 										<td width="25%"><label>Secondary Qualification></span>
 												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>
 										<td width="25%"><select class="form-control"
@@ -484,26 +486,20 @@ input[type="Date"] {
 											th:field="*{secqualification}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varCommon : ${lstSecqualification}"
-													th:value="${varCommon.secqualification}"
-													th:text="${varCommon.secqualification}"></option>
+												<option th:each="varPay : ${lstQualification}"
+													th:value="${varPay.qualification}"
+													th:text="${language=='mh' ? varPay.qualification : varPay.qualification}"></option>
 										</select></td>
 									</tr>
-									<!-- <tr>
-										<td width="25%"><label><span
-												th:utext="#{msg.thymeleaf.pagelabel.physicallyhandicap}"></span>
-												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>
-										<td width="25%" colspan="3"><input Type="radio" size="2"
-											disabled="disabled" id="physicallyHandicapped"
-											th:field="*{physicallyHandicapped}" th:value="Y" /> <label>
-												<span
-												th:utext="#{msg.thymeleaf.pagelabel.whetherMinisterialYes}"></span>
-										</label> <input Type="radio" id="physicallyHandicapped"
-											disabled="disabled" name="physicallyHandicapped"
-											th:field="*{physicallyHandicapped}" th:value="N" /> <label><span
-												th:utext="#{msg.thymeleaf.pagelabel.whetherMinisterialNo}"></span></label>
-										</td>
-									</tr> -->
+									<tr>
+									
+										<td width="15%"><label>More Qualification<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input type="text" size="40%" id="morequalification" 
+											name="morequalification"
+											style="text-transform: uppercase" th:field="*{morequalification}"
+											class="form-control " /></td>
+									</tr>
 								</table>
 							</div>
 						</div>
@@ -544,7 +540,7 @@ input[type="Date"] {
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varFieldOfficeMst : ${lstAdminOfficeMst}"
 													th:value="${varFieldOfficeMst.subDepartmentId}"
-													th:text="${language=='mh' ? varFieldOfficeMst.subDeptName : varFieldOfficeMst.subDeptName}"></option>
+													th:text="${language=='mh' ? varFieldOfficeMst.subDepartmentId : varFieldOfficeMst.subDeptName}"></option>
 										</select></td>
 
 									</tr>
@@ -651,7 +647,7 @@ input[type="Date"] {
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varPay : ${lstAppointment}"
 													th:value="${varPay.appointmentId}"
-													th:text="${language=='mh' ? varPay.appointmentName : varPay.appointmentName}"></option>
+													th:text="${language=='mh' ? varPay.appointmentId : varPay.appointmentName}"></option>
 										</select></td>
 										
 									
@@ -851,16 +847,26 @@ input[type="Date"] {
 										<td width="30%"><input Type="text" size="40%"
 											disabled="disabled" ng-model="remark" id="remark"
 											th:field="*{remark}" class="form-control" /></td>
-												<td width="25%"><label><span
+											
+												
+												<td width="15%"><label>Type of Teaching<b><font
+													color="red" size="4px;">*</font></b></label></td>
+									 <td width="30%"><input type="radio" size="2" id="Teaching" name="Teaching" ng-model="Teaching" th:field="*{Teaching}" 
+										 th:value="Teaching"/> <label>Teaching</label>  
+										  <input type="radio" id="Teaching" name="Teaching" ng-model="Teaching" th:field="*{Teaching}"
+										   th:value="NonTeaching"/>
+										    <label>Non Teaching</label> 
+										  </td>  
+												
+									</tr>
+									<tr>
+									<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.indiApproOrdNo}"></span>
 												&nbsp;&nbsp;</label></td>
 										<td width="25%"><input Type="text" size="40%"
 											ng-model="indiApproveOrderNo" id="indiApproveOrderNo"
 											th:field="*{indiApproveOrderNo}" disabled="disabled"
 											class="form-control" /></td>
-									</tr>
-									<tr>
-									
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.indiApproDt}"></span>&nbsp;&nbsp;</label></td>
 										<td width="30%"><input Type="date" size="40%"
@@ -1054,9 +1060,9 @@ input[type="Date"] {
 											th:field="*{gisapplicable}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varGISApplicable : ${lstGISApplicable}"
-													th:value="${varGISApplicable[0]}"
-													th:text="${language=='mh' ? varGISApplicable[1] : varGISApplicable[1]}"></option>
+													<option th:each="varCommon : ${lstGISApplicable}"
+													th:value="${varCommon.lookupId}"
+													th:text="${language=='mh' ? varCommon.lookupName : varCommon.lookupName}"></option>
 										</select></td>
 										<td width="10%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.gisgroup}"></span>&nbsp;&nbsp;<b><font

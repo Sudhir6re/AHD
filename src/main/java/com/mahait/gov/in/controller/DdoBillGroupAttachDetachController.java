@@ -30,24 +30,22 @@ import com.mahait.gov.in.service.DdoBillGroupService;
 @Controller
 @RequestMapping("/ddoast")
 
-
-
 public class DdoBillGroupAttachDetachController {
-	
-		
+
 	@Autowired
 	DdoBillGroupService ddoBillGroupService;
-	
-//	public String loadAttachBillGroup(HttpServletRequest request, Model model, HttpServletResponse response,
-//			Locale locale, HttpSession session) {
-//
-//		String message = (String) model.asMap().get("message");
-//		
-//
-//		model.addAttribute("language", locale.getLanguage());
-//		return "/views/attach_dettach_employee";
-//	}
-//	
+
+	// public String loadAttachBillGroup(HttpServletRequest request, Model model,
+	// HttpServletResponse response,
+	// Locale locale, HttpSession session) {
+	//
+	// String message = (String) model.asMap().get("message");
+	//
+	//
+	// model.addAttribute("language", locale.getLanguage());
+	// return "/views/attach_dettach_employee";
+	// }
+	//
 	@RequestMapping(value = "/attachDeattachEmployee1", method = { RequestMethod.GET })
 	public String employeeAttachDettach(
 			@ModelAttribute("mpgSchemeBillGroupModel") MpgSchemeBillGroupModel mpgSchemeBillGroupModel,
@@ -55,20 +53,30 @@ public class DdoBillGroupAttachDetachController {
 			HttpSession session) {
 
 		String message = (String) model.asMap().get("message");
-		
+
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-//		List<TopicModel> menuList = new ArrayList<>();
-//		List<TopicModel> subMenuList = new ArrayList<>();
-//		
-//		menuList = commonHomeMethodsService.findMenuNameByRoleID(messages.getRole_id(),locale.getLanguage());
-//		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(messages.getRole_id(),locale.getLanguage());
-//		
-//		model.addAttribute("menuList", menuList);
-//		model.addAttribute("subMenuList", subMenuList);
-//		
-		/*model.addAttribute("lstAllBillGroup", mstBillGroupService.findAllBillGroup());*/
-		model.addAttribute("lstAllBillGroup", ddoBillGroupService.lstBillName(messages.getUserName()));;
-		/*model.addAttribute("lstMpgSchemeBillGroupDataTable", mpgSchemeBillGroupService.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));*/
+		// List<TopicModel> menuList = new ArrayList<>();
+		// List<TopicModel> subMenuList = new ArrayList<>();
+		//
+		// menuList =
+		// commonHomeMethodsService.findMenuNameByRoleID(messages.getRole_id(),locale.getLanguage());
+		// subMenuList =
+		// commonHomeMethodsService.findSubMenuByRoleID(messages.getRole_id(),locale.getLanguage());
+		//
+		// model.addAttribute("menuList", menuList);
+		// model.addAttribute("subMenuList", subMenuList);
+		//
+		/*
+		 * model.addAttribute("lstAllBillGroup",
+		 * mstBillGroupService.findAllBillGroup());
+		 */
+		model.addAttribute("lstAllBillGroup", ddoBillGroupService.lstBillName(messages.getUserName()));
+		;
+		/*
+		 * model.addAttribute("lstMpgSchemeBillGroupDataTable",
+		 * mpgSchemeBillGroupService.findAllMpgSchemeBillGroupByDDOCode(messages.
+		 * getUserName()));
+		 */
 		model.addAttribute("language", locale.getLanguage());
 		if (message != null && message.equals("SUCCESS")) {
 			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
@@ -81,47 +89,59 @@ public class DdoBillGroupAttachDetachController {
 			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
 				model = CommonUtils.initModel(CommonConstants.Message.SAVEUPDATEATTACHDETTACH, STATUS.SUCCESS, model);
 			} else {
-				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model); 
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
 			}
 		}
-		/*model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());
-		model.addAttribute("lstDDOWiseEmployee", mstEmployeeService.firstgetfindAllEmployeeByddoCode(messages.getUserName()));
-		*/
-		
-//		model.addAttribute("lstDeptDataTable", ddoBillGroupService.findAllEmployeesByDDOName(messages.getUserName()));
-//		model.addAttribute("lstDDOWiseEmployee", ddoBillGroupService.firstgetfindAllEmployeeByddoCode(messages.getUserName()));
-		
+		/*
+		 * model.addAttribute("lstDeptDataTable",
+		 * mstEmployeeService.findAllEmployees());
+		 * model.addAttribute("lstDDOWiseEmployee",
+		 * mstEmployeeService.firstgetfindAllEmployeeByddoCode(messages.getUserName()));
+		 */
+
+		// model.addAttribute("lstDeptDataTable",
+		// ddoBillGroupService.findAllEmployeesByDDOName(messages.getUserName()));
+		// model.addAttribute("lstDDOWiseEmployee",
+		// ddoBillGroupService.firstgetfindAllEmployeeByddoCode(messages.getUserName()));
+
 		String search = (String) model.asMap().get("SEARCH");
-		
-		List<Object[]> lstAttachedEmployee=null;
-		
-		String type=(String)model.asMap().get("type");
- 
+
+		List<Object[]> lstAttachedEmployee = null;
+
+		/// String type=(String)model.asMap().get("type");
+
 		if (search != null && search.equals("SEARCH")) {
-			String scmebillgroupid=(String)model.asMap().get("schemebillgroup");
-			 mpgSchemeBillGroupModel.setSchemebillGroupId(Long.valueOf(scmebillgroupid.trim()));
-			lstAttachedEmployee=ddoBillGroupService.findAttachedEmployee(messages.getUserName(),mpgSchemeBillGroupModel.getSchemebillGroupId().toString());
-			if(lstAttachedEmployee!=null&&lstAttachedEmployee.size()!=0) {
-			Object[] object=lstAttachedEmployee.get(0);
-			model.addAttribute("billDescription",object[5]);
-			mpgSchemeBillGroupModel.setBillGroupId(Long.valueOf(object[3].toString()));
-			}else {
-//				model.addAttribute("billDescription","");
+			String scmebillgroupid = (String) model.asMap().get("schemebillgroup");
+			String type = (String) model.asMap().get("type");
+			System.out.println("******************************Type" + type);
+			mpgSchemeBillGroupModel.setSchemebillGroupId(Long.valueOf(scmebillgroupid.trim()));
+			mpgSchemeBillGroupModel.setType(Long.valueOf(type.trim()));
+			lstAttachedEmployee = ddoBillGroupService.findAttachedEmployee(messages.getUserName(),
+					mpgSchemeBillGroupModel.getSchemebillGroupId().toString());
+			if (lstAttachedEmployee != null && lstAttachedEmployee.size() != 0) {
+				Object[] object = lstAttachedEmployee.get(0);
+				model.addAttribute("billDescription", object[5]);
+				mpgSchemeBillGroupModel.setBillGroupId(Long.valueOf(object[3].toString()));
+			} else {
+				// model.addAttribute("billDescription","");
 				MstDcpsBillGroup mpgSchemeBillGroupEntity = ddoBillGroupService
 						.findAllMpgSchemeBillGroupbyParameter(Long.valueOf(scmebillgroupid));
 				mpgSchemeBillGroupModel.setBillGroupId(mpgSchemeBillGroupModel.getSchemebillGroupId());
-			//	model.addAttribute("billDescription",mpgSchemeBillGroupEntity.getBillDescription());
+				// model.addAttribute("billDescription",mpgSchemeBillGroupEntity.getBillDescription());
 			}
-			model.addAttribute("lstAttachedEmployee",lstAttachedEmployee );
-			model.addAttribute("lstDettachEmployee", ddoBillGroupService.findDettachEmployee(messages.getUserName(),mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
-			model.addAttribute("mpgSchemeBillGroupModel", mpgSchemeBillGroupModel); 
-		}else {
-			model.addAttribute("billDescription","");
+			model.addAttribute("type", type);
+			model.addAttribute("lstAttachedEmployee", lstAttachedEmployee);
+			model.addAttribute("lstDettachEmployee", ddoBillGroupService.findDettachEmployee(messages.getUserName(),
+					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
+			model.addAttribute("lstattachpost", ddoBillGroupService.findattachpostlist(messages.getDdoCode(),
+					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
+			model.addAttribute("lstdetachpost", ddoBillGroupService.finddetachpostlist(messages.getDdoCode(),
+					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
+			model.addAttribute("mpgSchemeBillGroupModel", mpgSchemeBillGroupModel);
+		} else {
+			model.addAttribute("billDescription", "");
 		}
-			
-			
-	
-		
+
 		/*
 		 * model.addAttribute("lstMpgSchemeBillGroupDataTable",
 		 * mpgSchemeBillGroupService.findAllMpgSchemeBillGroup());
@@ -129,25 +149,33 @@ public class DdoBillGroupAttachDetachController {
 		model.addAttribute("language", locale.getLanguage());
 		return "/views/attach_dettach_employee";
 	}
-	
+
 	@RequestMapping(value = "/saveAttachDettachEmployee", method = { RequestMethod.POST })
 public String saveAttachDettachEmployee(@ModelAttribute("mpgSchemeBillGroupModel") MpgSchemeBillGroupModel mpgSchemeBillGroupModel, 
 		RedirectAttributes redirectAttributes, Model model, Locale locale) {
 		
 		
-        
+        String result = null;
         if(mpgSchemeBillGroupModel.getStatus().equals("SAVE")) {
+        	if(mpgSchemeBillGroupModel.getType()==1) {
         	//MpgSchemeBillGroupModel mpgSchemeBillGroupModel
-        	String result=ddoBillGroupService.saveAttachDettachEmployee(mpgSchemeBillGroupModel);
+        	result=ddoBillGroupService.saveAttachDettachEmployee(mpgSchemeBillGroupModel);
+        	}
+        	else if(mpgSchemeBillGroupModel.getType()==2){
+        	result=ddoBillGroupService.saveAttachDettachPost(mpgSchemeBillGroupModel);
+        	}
+        	
         	if(result.equals("save"))
         	redirectAttributes.addFlashAttribute("message", "SAVEORUPDATE");
         	return "redirect:/ddoast/attachDeattachEmployee1";
-        }else {
-		redirectAttributes.addFlashAttribute("SEARCH", "SEARCH");
-		redirectAttributes.addFlashAttribute("schemebillgroup",mpgSchemeBillGroupModel.getSchemebillGroupId().toString() );
-		return "redirect:/ddoast/attachDeattachEmployee1";
-        }
-	
+        }else
 
-}
-}
+	{
+		redirectAttributes.addFlashAttribute("SEARCH", "SEARCH");
+		redirectAttributes.addFlashAttribute("schemebillgroup",
+				mpgSchemeBillGroupModel.getSchemebillGroupId().toString());
+		redirectAttributes.addFlashAttribute("type", mpgSchemeBillGroupModel.getType().toString());
+		return "redirect:/ddoast/attachDeattachEmployee1";
+	}
+
+}}

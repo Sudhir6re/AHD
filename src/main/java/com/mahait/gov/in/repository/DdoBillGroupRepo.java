@@ -52,4 +52,11 @@ public interface DdoBillGroupRepo {
 
 	public List getBillgroupDtlsForAlreadySaved(String billGrpId);
 
+	public List<Object[]> findattachpostlist(String userName, String billgrpId);
+
+	public List<Object[]> finddetachpostlist(String userName, String billgrpId);
+
+	public String saveAttachDettachPostToBillGroup(String sevaarthId, int empid, Long schemebillGroupId,
+			String status);
+
 }

@@ -45,13 +45,7 @@ public class MstGisdetailsEntity {
 	@Column(name="remark")
 	private String remark;
 	
-	
 	@Column(name="gisApplicableOther")
 	private String gisApplicableOther;
-	
-	
-	
-	  
-	
 	
 }

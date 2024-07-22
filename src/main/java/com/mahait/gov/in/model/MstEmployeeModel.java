@@ -29,13 +29,13 @@ public class MstEmployeeModel {
 	private String employeeLNameMr;
 	private String locality;
 	private Long appointmentId;
-	private Long qid;
+	private Long qId;
 	private String employeeMotherName;
 	private Character maritalStatus;
 	private Double sevenPcBasic;
 	private Long yearId;
-	
-	
+	private String secqualification;
+	private String morequalification;
 	private Long sevenPCLevel;
 	
 	
@@ -205,7 +205,7 @@ public class MstEmployeeModel {
 	private String label;
 	private String appointment;
 	private String qualification;
-	
+	private String teaching;
 	
 	private List<MstNomineeDetailsModel> lstMstNomineeDetails;
 	

@@ -550,7 +550,15 @@ public class MstEmployeeEntity {
 	@Column(name = "APPOINTMENT")
 	private String appointment;
 	
-		
+	@Column(name = "EMP_TYPES")
+	private String teaching;
+	
+	@Column(name = "SEC_QUALIFICATION")
+	private String secqualification;
+	
+	
+	@Column(name = "MORE_QUALIFICATION")
+	private String morequalification;
 	}
 
 

@@ -18,6 +18,7 @@ import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.QualificationEntity;
 import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstCadreModel;
@@ -29,7 +30,7 @@ public interface MstEmployeeService {
 
 	DdoOffice findAllGroup(String ddocode);
 	
-	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,BigInteger SchemeBillgroupId,int month,int year);
+	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,Long SchemeBillgroupId,int month,int year);
 	
 	 public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId,int allowDedCode);
 	 
@@ -116,6 +117,17 @@ public interface MstEmployeeService {
 	int checkSevaarthIdExistInGpfDetailMst(String empid);
 
 	public List<QualificationEntity> getQualification(String language);
+
+	List<MstEmployeeModel> getDcpsEmployeeDetails(String strddo, String language, long locId);
+
+	Character getLastDigit(String dcpsnum);
+
+	Map getMappingData();
+
+	List<Long> approveDcpsEmployeeConfiguration(String empid, String dcpsnum, String lStrSevarthEmpCode,
+			String dcpsgpfflg);
+
+	public String createNewUser(String sevaarthid, OrgUserMst message);
 
 
 

@@ -32,6 +32,7 @@ import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.QualificationEntity;
 import com.mahait.gov.in.model.MstEmployeeModel;
 
@@ -50,7 +51,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, BigInteger billGroupId,
+	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, Long billGroupId,
 			int month, int year) {
 		String HQL = null;
 		year = year - 1;
@@ -417,7 +418,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 			MstNomineeDetailsEntity[] lArrNomineeDtls) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		objEntity.setDcpsgpfflag(mstEmployeeModel.getDcpsgpfflag());
-		currentSession.update(objEntity);
+		//currentSession.update(objEntity);
+		currentSession.save(objEntity);
 
 		long resNmnDtls = deleteNomineeDtls(objEntity.getEmployeeId());
 		if (lArrNomineeDtls != null)
@@ -710,13 +712,14 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setEmployeeLNameMr(mstEmployeeEntity.getEmployeeLNameMr());
 				mstEmployeeModel.setEmployeeMotherName(mstEmployeeEntity.getEmployeeMotherName());
 				mstEmployeeModel.setBuckleNo(mstEmployeeEntity.getBuckleNo());
-				if (mstEmployeeEntity.getGender() == 'M') {
-					mstEmployeeModel.setGender('1');
-				} else if (mstEmployeeEntity.getGender() == 'F') {
-					mstEmployeeModel.setGender('2');
-				} else {
-					mstEmployeeModel.setGender('3');
-				}
+//				if (mstEmployeeEntity.getGender() == 'M') {
+//					mstEmployeeModel.setGender('1');
+//				} else if (mstEmployeeEntity.getGender() == 'F') {
+//					mstEmployeeModel.setGender('2');
+//				} else {
+//					mstEmployeeModel.setGender('3');
+//				}
+				mstEmployeeModel.setGender(mstEmployeeEntity.getGender());
 				mstEmployeeModel.setReligionCode(mstEmployeeEntity.getReligionCode());
 				mstEmployeeModel.setMaritalStatus(mstEmployeeEntity.getMaritalStatus());
 				mstEmployeeModel.setEmployeeMNameMr(mstEmployeeEntity.getEmployeeMNameMr());
@@ -739,14 +742,16 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setEmailId(mstEmployeeEntity.getEmailId());
 				mstEmployeeModel.setPanNo(mstEmployeeEntity.getPanNo());
 				mstEmployeeModel.setDdoCode(mstEmployeeEntity.getDdoCode());
+				mstEmployeeModel.setMorequalification(mstEmployeeEntity.getMorequalification());
+				mstEmployeeModel.setSecqualification(mstEmployeeEntity.getSecqualification());
 
 				// Employee Details End
 
 				// Department Details Start
-				mstEmployeeModel.setParentAdminDepartmentId(mstEmployeeEntity.getParentAdminDepartmentCode());
-
-				if (mstEmployeeEntity.getParentFieldDepartmentCode() != null)
-					mstEmployeeModel.setParentFieldDepartmentId((mstEmployeeEntity.getParentFieldDepartmentCode().longValue()));
+				mstEmployeeModel.setParentAdminDepartmentId(mstEmployeeEntity.getFieldDepartmentCode());
+				mstEmployeeModel.setParentFieldDepartmentId(mstEmployeeEntity.getParentFieldDepartmentCode());
+//				if (mstEmployeeEntity.getParentFieldDepartmentCode() != null)
+//					mstEmployeeModel.setParentFieldDepartmentId((mstEmployeeEntity.getParentFieldDepartmentCode().longValue()));
 
 				mstEmployeeModel.setSubCorporationId(mstEmployeeEntity.getSubCorporationId());
 				mstEmployeeModel.setAdminDepartmentId(mstEmployeeEntity.getParentAdminDepartmentCode());
@@ -760,7 +765,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); // by default set to
 																							// retirement date added by
 				mstEmployeeModel.setAppointmentId(Long.valueOf(mstEmployeeEntity.getAppointment()));
-				mstEmployeeModel.setQid(Long.valueOf(mstEmployeeEntity.getQualification()));	// sudhir
+				//mstEmployeeModel.setQid(Long.valueOf(mstEmployeeEntity.getQualification()));// sudhir
+				mstEmployeeModel.setQualification(mstEmployeeEntity.getQualification());
 				mstEmployeeModel.setSuperAnnDate(mstEmployeeEntity.getSuperAnnDate());
 				mstEmployeeModel.setPayCommissionCode(mstEmployeeEntity.getPayCommissionCode());
 				mstEmployeeModel.setFirstDesignationId(mstEmployeeEntity.getFirstDesignationCode());
@@ -777,6 +783,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setPayScaleId(mstEmployeeEntity.getPayScaleCode());
 				mstEmployeeModel.setPayInPayBand(mstEmployeeEntity.getPayInPayBand());
 				mstEmployeeModel.setGradePay(mstEmployeeEntity.getGradePay());
+				mstEmployeeModel.setTeaching(mstEmployeeEntity.getTeaching());
 				/*if (mstEmployeeEntity.getBasicPay() != null) {
 					Integer basic = mstEmployeeEntity.getBasicPay().intValue();
 					mstEmployeeModel.setBasicPay(basic);
@@ -926,7 +933,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		hql.append(
 				"Select p.POST_ID,r.post_name from org_post_mst p inner join org_post_details_rlt r on r.post_id = p.post_id and p.activate_flag = 1 inner join MST_DCPS_DDO_OFFICE off on off.DCPS_DDO_OFFICE_MST_ID =p.office_id ");
 		hql.append("where r.LOC_ID = '"+loc_id+"' and (p.END_DATE > now() or p.END_DATE is null)" );
-		hql.append("and p.post_Id not in (select RL.post_detail_Id ");
+		hql.append("and p.post_Id in (select RL.post_detail_Id ");
 		hql.append("from employee_mst RL where RL.post_detail_Id is not null and rl.ddo_Code =(select ddo_code ");
 		hql.append("from org_ddo_mst where location_code= '"+loc_id+"')) ");
 		hql.append("and r.DSGN_ID = '"+designationId+"' ");
@@ -942,18 +949,29 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	@Override
 	public String getCmnLocationMst(String ddoCode) {
 		// TODO Auto-generated method stub
-		String strDeptNm = "";
+//		String strDeptNm = "";
+//		Session currentSession = entityManager.unwrap(Session.class);
+//		String hql = "SELECT loc.LOC_SHORT_NAME FROM CMN_LOCATION_MST loc  "
+//				+ "inner join ORG_DDO_MST ddo on cast(ddo.HOD_LOC_CODE  as bigint) = loc.LOC_ID  where ddo.DDO_CODE= '"+ddoCode+"'";
+//		Query query = currentSession.createSQLQuery(hql);
+//		List<Object[]> lstprop = query.list();
+//		if (!lstprop.isEmpty()) {
+//			for (Object[] objLst : lstprop) {
+//				strDeptNm = StringHelperUtils.isNullString(objLst[]);
+//			}
+//		}
+//		return strDeptNm;
+		
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "SELECT loc.LOC_SHORT_NAME FROM CMN_LOCATION_MST loc  "
-				+ "inner join ORG_DDO_MST ddo on ddo.HOD_LOC_CODE = loc.LOC_ID where ddo.DDO_CODE=" + ddoCode;
-		Query query = currentSession.createSQLQuery(hql);
-		List<Object[]> lstprop = query.list();
-		if (!lstprop.isEmpty()) {
-			for (Object[] objLst : lstprop) {
-				strDeptNm = StringHelperUtils.isNullString(objLst[1]);
-			}
-		}
-		return strDeptNm;
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("SELECT loc.LOC_SHORT_NAME FROM CMN_LOCATION_MST loc inner join ORG_DDO_MST ddo on cast(ddo.HOD_LOC_CODE  as bigint) = loc.LOC_ID  where ddo.DDO_CODE= '"+ddoCode+"' ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+		if (list != null && list.size() > 0)
+			rtnStr = (String) list.get(0);
+		return rtnStr;
 	}
 
 	@Override
@@ -1068,6 +1086,95 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		// TODO Auto-generated method stub
 		String HQL = "FROM QualificationEntity t ORDER BY t.qualification DESC";
 		return (List<QualificationEntity>) entityManager.createQuery(HQL).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MstEmployeeEntity> getDcpsEmployeeDetails(String strddo) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+		List<Object[]> result = null;
+		List<MstEmployeeEntity> result1 = new ArrayList<MstEmployeeEntity>();
+		StringBuffer strQuery = new StringBuffer();
+
+		try {
+			strQuery.append(
+					"select employee_id,employee_full_name_en,sevaarth_id,designation_code from employee_mst  where is_active=3 and  dcps_gpf_flag = 'Y' and ddo_code in (");
+			strQuery.append(
+					"select ddo_code from org_ddo_mst where ddo_code in (select dmr.zp_ddo_code from rlt_zp_ddo_map dmr ");
+			strQuery.append(
+					"inner join org_ddo_mst drm  on drm.ddo_code = dmr.rept_ddo_code  where drm.ddo_code='"
+							+ strddo + "'))");
+			Query query = currentSession.createSQLQuery(strQuery.toString());
+
+			result = query.list();
+
+		} catch (Exception e) {
+		}
+		for (Iterator iterator = result.iterator(); iterator.hasNext();) {
+			Object[] object = (Object[]) iterator.next();
+			MstEmployeeEntity mstEmployeeEntity = new MstEmployeeEntity();
+			//mstEmployeeEntity.setEmployeeId((Long) object[0]);
+			mstEmployeeEntity.setEmployeeId(Long.valueOf(object[0].toString()));
+			mstEmployeeEntity.setEmployeeFullNameEn(object[1].toString().toUpperCase());
+			if (object[2] != null)
+				mstEmployeeEntity.setSevaarthId(object[2].toString());
+			mstEmployeeEntity.setDesignationCode(Long.valueOf(object[3].toString()));
+
+			result1.add(mstEmployeeEntity);
+		}
+		return result1;
+	}
+	@Modifying(clearAutomatically = true)
+	@Override
+	public List<Long> approveDcpsEmployeeConfiguration(String empid, String Dcpsnumber, String sevaarthid,
+			String dcpsgpfflg) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		// MstEmployeeEntity objEntity=new MstEmployeeEntity();
+		// objEntity.setEmployeeId(empid);
+		// currentSession.delete(objEntity);
+		String hql = "update employee_mst set is_active=1,is_dcps_generate='Y', sevaarth_id='" + sevaarthid
+				+ "'  where employee_id = " + empid;
+		Query query = currentSession.createSQLQuery(hql);
+		Integer result = query.executeUpdate();
+
+		// String hql1 = "update dcps_details_mst set dcps_no='"+Dcpsnumber+"' where
+		// employee_id = "
+		// + empid;
+		// Query query1 = currentSession.createSQLQuery(hql1);
+
+		// Nominee Details
+		String hql1 = "update nominee_details_mst set  sevaarth_id='" + sevaarthid + "' where employee_id = " + empid;
+		Query query1 = currentSession.createSQLQuery(hql1);
+		Integer result1 = query1.executeUpdate();
+
+		// Gis Details
+		String hql2 = "update gis_details_mst set  sevaarth_id='" + sevaarthid + "' where employee_id = " + empid;
+		Query query2 = currentSession.createSQLQuery(hql2);
+		Integer result2 = query2.executeUpdate();
+
+		// DCPS and GPF Details
+		String hql3 = "";
+		if (dcpsgpfflg.equals("Y"))
+			hql3 = "update dcps_details_mst  set  dcps_no='" + Dcpsnumber + "',sevaarth_id='" + sevaarthid
+					+ "' where employee_id = " + empid;
+		else
+			hql3 = "update gpf_mst set sevaarth_id='" + sevaarthid + "' where employee_id = " + empid;
+
+		Query query3 = currentSession.createSQLQuery(hql3);
+		Integer result3 = query3.executeUpdate();
+
+		// logger.info("Query1 String=" + query1.getQueryString());
+		// Integer result1 = query1.executeUpdate();
+		List<Long> res = new ArrayList<Long>();
+		res.add((long) result);
+		return res;
+	}
+	
+	@Override
+	public void saveUserInfo(OrgUserMst objuserInfo) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.save(objuserInfo);
 	}
 	}
 
