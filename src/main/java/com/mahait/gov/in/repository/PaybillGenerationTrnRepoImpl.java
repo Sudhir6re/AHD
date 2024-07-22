@@ -851,7 +851,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public Integer isPaybillExistsForCurrentMonth(BigInteger schemeBillgroupId, int paybillMonth, int paybillYear) {
+	public Integer isPaybillExistsForCurrentMonth(Long schemeBillgroupId, int paybillMonth, int paybillYear) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = "select count(*)  from paybill_generation_trn where  paybill_month ='" + paybillMonth
 				+ "' and paybill_year ='" + paybillYear + "' and scheme_billgroup_id ='" + schemeBillgroupId
@@ -876,7 +876,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public String getgradePay7PC(Integer gradelevel) {
+	public String getgradePay7PC(Long gradelevel) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = "select grade_pay from rlt_payband_gp_state_7pc where level = '" + gradelevel + "'";
 		System.out.println("---------------getgradePay7PC-----------------" + HQL);

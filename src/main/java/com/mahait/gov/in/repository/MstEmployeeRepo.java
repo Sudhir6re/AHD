@@ -15,7 +15,7 @@ import com.mahait.gov.in.entity.MstRoleEntity;
 
 public interface MstEmployeeRepo {
 	
-	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, BigInteger billGroupId,
+	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, Long billGroupId,
 			int month, int year);
 
 	public DdoOffice findAllGroup(String ddoCode);

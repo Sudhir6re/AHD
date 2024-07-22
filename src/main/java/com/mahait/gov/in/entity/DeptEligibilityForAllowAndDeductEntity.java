@@ -51,7 +51,9 @@ public class DeptEligibilityForAllowAndDeductEntity {
 
 	@Column(name = "UPDATED_DATE")
 	private Date updatedDate;
-	
+
+	@Column(name="DEPARTMENT_ALLOWDEDUC_SEQ")
+	private Integer deptAllowDeducSeq;
 	
 
 	

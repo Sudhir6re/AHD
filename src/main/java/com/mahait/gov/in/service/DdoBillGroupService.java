@@ -74,4 +74,16 @@ public interface DdoBillGroupService {
 
 
 	public List<Object[]> findAllMpgSchemeBillGroupbyParameter1(int input);
+
+
+
+	public Object findattachpostlist(String userName, String billgrpId);
+
+
+
+	public Object finddetachpostlist(String userName, String billgrpId);
+
+
+
+	public String saveAttachDettachPost(MpgSchemeBillGroupModel mpgSchemeBillGroupModel);
 }

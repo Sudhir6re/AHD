@@ -234,13 +234,13 @@ public class PaybillGenerationTrnDetails {
 	private Integer paybillYear;
 
 	@Column(name = "PAY_COMMISSION_CODE")
-	private Integer payCommissionCode;
+	private Long payCommissionCode;
 	
 	@Column(name = "seven_pc_level")
-	private Integer sevenPcLevel;
+	private Long sevenPcLevel;
 	
 	@Column(name = "PAY_BAND" )
-	private BigInteger pay_band;
+	private Long pay_band;
 
 	@Column(name = "DA_ARR")
 	private Double daArr;
@@ -630,7 +630,7 @@ public class PaybillGenerationTrnDetails {
 	private Integer subDeptId;
 	
 	@Column(name = "desg_code")
-	private BigInteger desgCode;
+	private Long desgCode;
 	
 	@Column(name = "Jalna_soc")
 	private Double jalnaSoc;

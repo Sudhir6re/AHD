@@ -190,7 +190,7 @@
 									<tr>
 										<td align="center"><input type="submit" name="save" 
 											id="save" value="Save &amp; Forward To Reporting DDO"
-											class="buttontag hide"> 
+											class="buttontag" th:attr="readonly=${organisationDtlsModel.instiNo!=null}? 'true' : 'false'"> 
 											<!-- <a th:href="@{/ddoast/editddoOfficeDetails}"> -->
 											<input type="button"
 											name="btnedit" id="btnedit" value="Edit" class="buttontag">
