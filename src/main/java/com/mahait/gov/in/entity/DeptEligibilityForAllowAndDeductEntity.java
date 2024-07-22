@@ -27,7 +27,6 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	@Column(name="DEPARTMENT_ALLOWDEDUC_NAME")
 	private String departmentAllowdeducName;
 	
-	
 	@Column(name="department_allowdeduc_col_nm")
 	private String departmentAllowdeducColNm;
 
@@ -54,6 +53,10 @@ public class DeptEligibilityForAllowAndDeductEntity {
 
 	@Column(name="DEPARTMENT_ALLOWDEDUC_SEQ")
 	private Integer deptAllowDeducSeq;
+	
+	@Column(name="is_non_computation_component")
+	private Integer isNonComputationComponent;
+	
 	
 
 	
