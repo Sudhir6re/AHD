@@ -133,11 +133,16 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
 			obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
 			obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
-			obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[4]));
+			obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[4]));
 
-			obj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[5]));
+			int paycomm=(int) objLst[5];
+			Long lngPaycomm=(long)paycomm;
+			obj.setPayCommissionCode(lngPaycomm);
 
-			obj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[5]));
+			
+			int payComm = (int) objLst[5];
+			Long lngpaycomm=(long) payComm;
+			obj.setPayCommissionCode(lngpaycomm);
 			obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
 			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
 			obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
