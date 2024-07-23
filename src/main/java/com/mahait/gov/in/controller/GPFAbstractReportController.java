@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/ddoast")
 @Controller
-public class GISReportController {
-	@GetMapping("/gisReport")
-	public String gisReport(Model model, Locale locale, HttpSession session) {
-		return "/views/reports/gis-report";
+public class GPFAbstractReportController {
+	@GetMapping("/gpfAbstract")
+	public String gpfAbstract(Model model, Locale locale, HttpSession session) {
+		return "/views/reports/gpf-abstract";
 	}
-	@GetMapping("/gis")
-	public String gis(Model model, Locale locale, HttpSession session) {
-		return "/views/reports/gis-search";
+	@GetMapping("/gpfAbstractReport")
+	public String gpfAbstractReport(Model model, Locale locale, HttpSession session) {
+		return "/views/reports/gpf-abstract-report";
 	}
 }
