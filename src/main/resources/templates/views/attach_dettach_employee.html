@@ -231,13 +231,13 @@
 
 			<!-- 	For attach post to bill group -->
 
-			<FIELDSET class="tabstyle attachdetachempmain attachdettachposts" id="attachdettach"
+		<!-- 	<FIELDSET class="tabstyle attachdetachempmain attachdettachposts" id="attachdettachPost"
 				th:if="${lstDettachEmployee}!=null">
 				<LEGEND>
 					<B>Attach Detach Vacant Post</B>
 				</LEGEND>
-				<BR> <INPUT id=counterEmp type=hidden value=0 name=counterEmp>
-				<INPUT id=counterEmpBG type=hidden value=0 name=counterEmpBG>
+				<BR> <INPUT id="counterEmpPost" type=hidden value=0 name=counterEmp>
+				<INPUT id=counterEmpBGPost type=hidden value=0 name=counterEmpBG>
 
 				<TABLE class="table table-bordered">
 					<TBODY>
@@ -257,10 +257,10 @@
 
 											<span
 												th:each="dettachEmployeerow,iterationStatus : ${lstdetachpost}">
-												<!-- <TR class=even> -->
+												<TR class=even>
 												<TR>
 													<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT
-														th:id="${'GroupCheck'+iterationStatus.count}"
+														th:id="${'GroupCheckPost'+iterationStatus.count}"
 														type="checkbox" th:value="${dettachEmployeerow[1]}"
 														name="GroupCheck"> <SCRIPT>
 															document
@@ -268,7 +268,7 @@
 																	.getElementById("counterEmp").value) + 1;
 														</SCRIPT></TD>
 													<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL
-														th:id="${'empName'+iterationStatus.count}"><B><span
+														th:id="${'postId'+iterationStatus.count}"><B><span
 																th:text="${dettachEmployeerow[0]+'('+dettachEmployeerow[8]+')'}"></span></B></LABEL>
 													</TD>
 												</TR>
@@ -283,13 +283,13 @@
 								<div class="form-group">
 
 									<div class="col-sm-6">
-										<INPUT onclick=validateBeforeAttach() id=btnAttach
+										<INPUT onclick=validateBeforeAttachPost() id=btnAttach
 											class="buttontag btn" maxLength=3 size=3 type=button
 											value=Attach name=btnAttach>
 
 									</div>
 									<div class="col-sm-6">
-										<INPUT onclick=validateBeforeDetach() id=btnDetach
+										<INPUT onclick=validateBeforeDetachPost() id=btnDetach
 											class="buttontag btn" maxLength=3 size=3 type=button
 											value=Detach name=btnDetach>
 									</div>
@@ -304,7 +304,7 @@
 										<THEAD>
 											<TR>
 												<TH class=datatableheader><INPUT
-													onclick=checkUncheckAllBG(this) type=checkbox
+													onclick=checkUncheckAllBGPost(this) type=checkbox
 													name=SelectAllBG></TH>
 												<TH class="datatableheader sortable"><LABEL>POST(<span
 														th:text="${billDescription}"></span>)</LABEL></TH>
@@ -314,10 +314,10 @@
 
 											<span
 												th:each="attachedEmployeerow,iterationStatus : ${lstattachpost}">
-												<!-- <TR class=even> -->
+												<TR class=even>
 												<TR>
 													<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT
-														th:id="${'GroupCheckBG'+iterationStatus.count}"
+														th:id="${'GroupCheckBGPost'+iterationStatus.count}"
 														type=checkbox th:value="${attachedEmployeerow[1]}"
 														name=GroupCheckBG> <SCRIPT>
 															document
@@ -343,30 +343,28 @@
 				<TABLE>
 					<TBODY>
 						<TR>
-							<!-- <input type="hidden" name="billGroupId" id="billGroupId" th:field="*{billGroupId}" /> -->
+							<input type="hidden" name="billGroupId" id="billGroupId" th:field="*{billGroupId}" />
 							<TD width="50%"><INPUT id=postIdstoBeDetached size=100
 								type=hidden name=postIdstoBeDetached
 								th:field="*{postIdstoBeDetached}"></TD>
 							<TD width="50%"><INPUT id=postIdstoBeDetached size=100
 								type=hidden name=postIdstoBeDetached
 								th:field="*{postIdstoBeDetached}"></TD>
-								
-								0
 						</TR>
 					</TBODY>
 				</TABLE>
 				<BR>
 				<DIV align=center>
-					<INPUT onclick=AttachAndDetachEmp(); id=btnSaveData
+					<INPUT onclick=AttachAndDetachPost(); id=btnSaveData
 						class="buttontag btn" maxLength=3 size=3 type=button value=Save
 						name=btnSaveData>
-					<!-- <INPUT onclick=ReturnLoginPage();
+					<INPUT onclick=ReturnLoginPage();
 						id=btnBack class="buttontag btn" maxLength=3 size=3 type=button
-						value=Back name=btnBack> -->
+						value=Back name=btnBack>
 					<a th:href="@{/user/home}" class="btn"><span
 						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 				</DIV>
-			</FIELDSET>
+			</FIELDSET> -->
 
 
 
@@ -391,7 +389,6 @@
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<script>
 		$(document).ready(function() {
-
 			$("#schemebillGroupId").change(function() {
 				/* alert("The text has been changed."); */
 				$(".attachdetachempmain").hide();
@@ -403,9 +400,7 @@
 				} else if (type == '2')
 					$(".attachdetachempmain").show();
 			});
-
 		});
-
 		attachdettachpost
 	</script>
 	<script th:src="@{/js/project/attach-deattach-emp.js}"></script>

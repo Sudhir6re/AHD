@@ -179,7 +179,7 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		return 1;
 	}
 	@Override
-	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, String department_id, String empId, String sevaarthId,
 			String effectiveDate) {
 		// TODO Auto-generated method stub
 		try {

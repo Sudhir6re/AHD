@@ -215,14 +215,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		 * .findAllMpgSchemeBillGroupbyParameter(paybillHeadMpgModel.
 		 * getSchemeBillgroupId());
 		 */
-		String splitddo[] = paybillHeadMpgModel.getDdoCode().split("_");
+		//String splitddo[] = paybillHeadMpgModel.getDdoCode().split("_");
 		String ddoCode = null;
-		ddoCode = splitddo[0];
+		ddoCode =  paybillHeadMpgModel.getDdoCode();
 
 		DdoOffice ddoScreenEntity = mstEmployeeService.findAllGroup(ddoCode.trim());
-		String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
+		//String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
-		citygroup = spilt[1];
+		citygroup =ddoScreenEntity.getDcpsDdoOfficeCityClass();
 		
 			System.out.println("CityGroup"+citygroup);
 		objEntity.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
@@ -8274,7 +8274,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName) {
+	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName) {
 		// TODO Auto-generated method stub
 		List<MstEmployeeEntity> lstMstEmployeeEntity = paybillHeadMpgRepo.checkedBgisAndGisCatNull(schemeBillGroupId,
 				userName);
