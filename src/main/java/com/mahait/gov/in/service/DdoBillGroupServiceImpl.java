@@ -132,7 +132,7 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
 			obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
 			
-			BigInteger b = (BigInteger) objLst[4];
+			/*BigInteger b = (BigInteger) objLst[4];
 			obj.setEmployeeId(b.longValue());
 
 			int paycomm=(int) objLst[5];
@@ -142,7 +142,12 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			
 			int payComm = (int) objLst[5];
 			Long lngpaycomm=(long) payComm;
-			obj.setPayCommissionCode(lngpaycomm);
+			obj.setPayCommissionCode(lngpaycomm);*/
+			obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
+
+			obj.setPayCommissionCode(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
+
+			obj.setPayCommissionCode(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
 			obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
 			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
 			obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
@@ -265,7 +270,7 @@ public int deleteEmpMpgDdoAllowDeduc(String sevaarthId) {
 }
 
 @Override
-public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, String department_id, String empId, String sevaarthId,
 		String effectiveDate) {
 	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id,department_id, empId,sevaarthId,effectiveDate);
 	return 0;

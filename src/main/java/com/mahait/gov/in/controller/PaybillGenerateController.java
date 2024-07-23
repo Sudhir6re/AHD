@@ -274,7 +274,7 @@ public class PaybillGenerateController {
 	 */
 
 	@GetMapping(value = "/checkedBgisAndGisCatNull/{schemeBillGroupId}")
-	public ResponseEntity<List<MstEmployeeEntity>> checkedBgisAndGisCatNull(@PathVariable int schemeBillGroupId,
+	public ResponseEntity<List<MstEmployeeEntity>> checkedBgisAndGisCatNull(@PathVariable String schemeBillGroupId,
 			HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		List<MstEmployeeEntity> lstMstEmployeeEntity = paybillHeadMpgService.checkedBgisAndGisCatNull(schemeBillGroupId,

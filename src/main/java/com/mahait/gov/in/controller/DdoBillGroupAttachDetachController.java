@@ -116,7 +116,7 @@ public class DdoBillGroupAttachDetachController {
 			System.out.println("******************************Type" + type);
 			mpgSchemeBillGroupModel.setSchemebillGroupId(Long.valueOf(scmebillgroupid.trim()));
 			mpgSchemeBillGroupModel.setType(Long.valueOf(type.trim()));
-			lstAttachedEmployee = ddoBillGroupService.findAttachedEmployee(messages.getUserName(),
+			lstAttachedEmployee = ddoBillGroupService.findAttachedEmployee(messages.getDdoCode(),
 					mpgSchemeBillGroupModel.getSchemebillGroupId().toString());
 			if (lstAttachedEmployee != null && lstAttachedEmployee.size() != 0) {
 				Object[] object = lstAttachedEmployee.get(0);
@@ -131,7 +131,7 @@ public class DdoBillGroupAttachDetachController {
 			}
 			model.addAttribute("type", type);
 			model.addAttribute("lstAttachedEmployee", lstAttachedEmployee);
-			model.addAttribute("lstDettachEmployee", ddoBillGroupService.findDettachEmployee(messages.getUserName(),
+			model.addAttribute("lstDettachEmployee", ddoBillGroupService.findDettachEmployee(messages.getDdoCode(),
 					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
 			model.addAttribute("lstattachpost", ddoBillGroupService.findattachpostlist(messages.getDdoCode(),
 					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
