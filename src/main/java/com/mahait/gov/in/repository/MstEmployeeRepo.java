@@ -67,7 +67,7 @@ public interface MstEmployeeRepo {
 
 	public List<Object[]> getDesignationMstData(long fielddeptId);
 
-	public List<Object[]> findEmployeeConfigurationGetCurrentPost(int designationId, String ddocode,
+	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String ddocode,
 			String currpostcode, long loc_id);
 
 	public List<Object[]> employeeConfigurationGetCurrenOffice(long postdetailid, String userName,

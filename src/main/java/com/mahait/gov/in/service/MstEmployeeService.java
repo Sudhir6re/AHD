@@ -63,7 +63,7 @@ public interface MstEmployeeService {
 
 	public List<Object[]> findEmployeeConfigurationGetpayscale(int payCommission);
 
-	public List<Object[]> findEmployeeConfigurationGetCurrentPost(int designationId, String userName, String postdetailid , long locId);
+	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String userName, String postdetailid , long locId);
 
 	public List<Object[]> getCadreGroupMstData(String language, String cadreid);
 

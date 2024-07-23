@@ -46,8 +46,10 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				obj.setDateofjoining(StringHelperUtils.isNullDate(objLst[8]));
 				obj.setDateofexipry(StringHelperUtils.isNullDate(objLst[9]));
 				obj.setScaledec(StringHelperUtils.isNullString(objLst[10]));
-				BigDecimal basic=(BigDecimal) objLst[11];
-				obj.setBasicpay(basic.doubleValue());
+				if(objLst[11]!=null) {
+					BigDecimal basic=(BigDecimal) objLst[11];
+					obj.setBasicpay(basic.doubleValue());
+				}
 				BigDecimal sevenbasic=(BigDecimal) objLst[12];
 				obj.setSevenbasicpay(sevenbasic.doubleValue());
 				obj.setSevenPcLvl(StringHelperUtils.isNullString(objLst[13]));

@@ -76,8 +76,8 @@ public class DeptEligibilityForAllowAndDeductController {
 	
 	@GetMapping(value = "/saveEmpMpgDdoAllowDeduc/{department_allowdeduc_id}/{departmentId}/{empId}/{sevaarthId}/{effectiveDate}", consumes = {
 	"application/json" }, produces = { "application/json" })
-      public @ResponseBody List<MstEmployeeEntity> mutlip123(@PathVariable Object[] department_allowdeduc_id, @PathVariable int departmentId,
-	@PathVariable int empId, @PathVariable String sevaarthId,@PathVariable String effectiveDate, Locale locale) {
+      public @ResponseBody List<MstEmployeeEntity> mutlip123(@PathVariable Object[] department_allowdeduc_id, @PathVariable Long departmentId,
+	@PathVariable Long empId, @PathVariable String sevaarthId,@PathVariable String effectiveDate, Locale locale) {
      try {
       Date date=new SimpleDateFormat("yyyy-MM-dd").parse(effectiveDate);
           int i =0;

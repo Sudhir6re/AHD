@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class EmployeeStatisticsRepoImpl implements EmployeeStatisticsRepo{
-
+	
 	@PersistenceContext
 	EntityManager entityManager;
 		
@@ -25,7 +25,7 @@ public class EmployeeStatisticsRepoImpl implements EmployeeStatisticsRepo{
 				"case when dcps_gpf_flag='Y'  then 'DCPS' when dcps_gpf_flag='N' then k.lookup_name else '' end as DCPS,\r\n" + 
 				"case when dcps_gpf_flag='Y' then i.dcps_no  when dcps_gpf_flag='N' then h.pf_account_no  else '' end as gpfdcps,b.group_name_en as gisGroup,e.description,a.pyhical_handicapped,c.bank_name,\r\n" + 
 				"d.bank_branch_name,a.bank_acnt_no,a.pran_no from employee_mst a \r\n" + 
-				"inner join cadre_group_mst b on b.id=a.cadre_code \r\n" + 
+				"inner join cadre_group_mst b on b.id=cast (a.gisgroup  as bigInt) \r\n" + 
 				"inner join bank_mst c on c.bank_code=a.bank_code \r\n" + 
 				"inner join bank_branch_mst d on d.bank_branch_code=a.bank_branch_code\r\n" + 
 				"left join mst_dcps_Bill_group e on e.bill_group_id=a.billgroup_id\r\n" + 
