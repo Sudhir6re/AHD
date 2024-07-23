@@ -1,6 +1,7 @@
 package com.mahait.gov.in.entity;
 
-import java.math.BigInteger;
+
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,8 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
-@Entity
 @Data
+@Entity
 @Table(name="gpf_mst",schema="public")
 public class MstGpfDetailsEntity {
 
@@ -24,7 +25,7 @@ public class MstGpfDetailsEntity {
 	@Column(name="gpf_id")
 	private Long gpf_id;
 	@Column(name="employee_id")
-	private Integer employeeId;
+	private Long employeeId;
 	@Column(name="account_maintain_by")
 	private String accountmaintainby;
 	@Column(name="pf_account_no")
@@ -36,11 +37,11 @@ public class MstGpfDetailsEntity {
 	@Column(name="created_date")
 	private Date createddate;
 	@Column(name="created_id")
-	private BigInteger createdid;
+	private Long createdid;
 	@Column(name="update_date")
 	private Date updatedate;
 	@Column(name="update_id")
-	private BigInteger updateid;
+	private Long updateid;
 	@Column(name="sevaarth_id")
 	private String sevaarthId;
 	
@@ -56,5 +57,9 @@ public class MstGpfDetailsEntity {
 	  @OneToOne(fetch = FetchType.LAZY) 
 	  @JoinColumn(name = "EMPLOYEE_ID",insertable = false, updatable = false) 
 	  private MstEmployeeEntity mstEmployeeEntity; 
+	
+
+	
+	
 	
 }

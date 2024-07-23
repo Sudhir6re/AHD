@@ -1,5 +1,6 @@
 package com.mahait.gov.in.entity;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -540,4 +541,24 @@ public class MstEmployeeEntity {
 	@Column(name = "pay_scal_desc")
 	private String payScaleDesc;
 
-}
+	@Column(name = "HOD_lOC_CODE")
+	private Long parentFieldDepartmentId;
+	
+	@Column(name = "QUALIFICATION")
+	private String qualification;
+	
+	@Column(name = "APPOINTMENT")
+	private String appointment;
+	
+	@Column(name = "EMP_TYPES")
+	private String teaching;
+	
+	@Column(name = "SEC_QUALIFICATION")
+	private String secqualification;
+	
+	
+	@Column(name = "MORE_QUALIFICATION")
+	private String morequalification;
+	}
+
+
