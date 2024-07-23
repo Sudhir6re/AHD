@@ -2,20 +2,19 @@ package com.mahait.gov.in.model;
 
 
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.mahait.gov.in.entity.OrgPostMst;
-
 import lombok.Data;
 
 @Data
 public class MstEmployeeModel {
 	//Fields
-	private Long employeeId;
+	private BigInteger employeeId;
 	private String sevaarthId;
 	private Character gender;
 	private Long salutation;

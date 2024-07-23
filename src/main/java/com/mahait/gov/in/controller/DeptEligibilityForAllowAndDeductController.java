@@ -58,7 +58,7 @@ public class DeptEligibilityForAllowAndDeductController {
 		/*model.addAttribute("lstDDOWiseEmployee", mstEmployeeService.findAllEmployeeByddoCode(messages.getUserName()));
 		*/
 		/*model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());*/
-		model.addAttribute("lstDeptDataTable", ddoBillGroupService.findAllEmployeesByDDOName(messages.getUserName()));
+		model.addAttribute("lstDeptDataTable", ddoBillGroupService.findAllEmployeesByDDOName(messages.getDdoCode()));
 		
 		model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);
 		LocalDate now = LocalDate.now();
