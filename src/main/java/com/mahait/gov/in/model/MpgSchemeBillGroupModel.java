@@ -28,6 +28,8 @@ private static long serialVersionUID = 1L;
 	private String dcpsEmpIdstoBeAttached;
 	private String status;
 	private Long type;
+	private String postIdstoBeDetached;
+	private String postIdstoBeAttached;
 	
 	
 

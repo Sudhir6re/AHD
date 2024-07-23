@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstBankPay;
 
 
@@ -20,10 +21,10 @@ public class MstBankRepoImpl implements MstBankRepo{
 	EntityManager entityManager;
 
 @Override
-public List<MstBankPay> lstAllBank() {
+public List<MstBankEntity> lstAllBank() {
 	// TODO Auto-generated method stub
-	String HQL = "FROM MstBankPay as t ORDER BY t.bankName ASC";
-	return (List<MstBankPay>) entityManager.createQuery(HQL).getResultList();
+	String HQL = "FROM MstBankEntity as t ORDER BY t.bankName ASC";
+	return (List<MstBankEntity>) entityManager.createQuery(HQL).getResultList();
 }
 		
 	/*@Autowired

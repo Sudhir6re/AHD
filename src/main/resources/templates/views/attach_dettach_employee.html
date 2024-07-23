@@ -13,7 +13,7 @@
 	font-weight: bold;
 	font-size: 12px;
 	color: #cc7a06;
-	text-align: center;
+	text-align: center
 }
 </style>
 </head>
@@ -34,82 +34,73 @@
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
-					<li class="breadcrumb-item active" aria-current="page"><span th:utext="#{menu.master.sub.attachDeattachemployee1}"></span></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{menu.master.sub.attachDeattachemployee1}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<h3 Class="PageHeading">
 			<span th:utext="#{menu.master.sub.attachDeattachemployee1}"></span>
 		</h3>
-		<FORM class="form-horizontal" name="myForm" id="myForm" method="POST"
-			th:object="${mpgSchemeBillGroupModel}"
+		<FORM class="form-horizontal container" name="myForm" id="myForm"
+			method="POST" th:object="${mpgSchemeBillGroupModel}"
 			th:action="@{/ddoast/saveAttachDettachEmployee}"
 			enctype="multipart/form-data">
 			<input type="hidden" name="billGroupId" id="billGroupId"
-				th:field="*{billGroupId}" /> 
-				<input type="hidden" name="status"
-				id="status" th:field="*{status}" /> 
-				<input type="hidden"
+				th:field="*{billGroupId}" /> <input type="hidden" name="status"
+				id="status" th:field="*{status}" /> <input type="hidden"
 				name="message" id="message" th:value="${message}" />
 			<FIELDSET class="tabstyle container">
-				<LEGEND> Input Bill Group Details </LEGEND> 
-					<div class="form-group">
+				<LEGEND> Input Bill Group Details </LEGEND>
+				<div class="form-group">
 
-						<label class="control-label col-sm-2" for="title"><span
-							th:utext="#{msg.thymeleaf.pagelabel.billdescription}"></span>&nbsp;&nbsp;<b><font
-								color="red" size="4px;">*</font></b></label>
-						<div class="col-sm-4">
-							<select class="form-control" th:field="*{schemebillGroupId}"
-								id="schemebillGroupId" name="schemebillGroupId">
-								<option selected="selected" th:value="0" id="schemebillGroupId"
-									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-								<option th:each="varAllBillGroup : ${lstAllBillGroup}"
-									th:value="${varAllBillGroup.dcpsDdoBillGroupId}"
-									th:text="${language=='mh' ? varAllBillGroup.description : varAllBillGroup.description}"></option>
-							</select>
-						</div>
-<!-- 						<label class="control-label col-sm-2" for="title"><span -->
-<!-- 							th:utext="#{msg.thymeleaf.pageheading.typeattachDeattach}"></span>&nbsp;&nbsp;<b><font -->
-<!-- 								color="red" size="4px;">*</font></b></label> -->
-<!-- 						<div class="col-sm-4"> -->
-<!-- 							<select class="form-control" th:field="*{type}" -->
-<!-- 								id="type" name="type"> -->
-<!-- 								<option selected="selected" th:value="0" id="type" -->
-<!-- 									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
-<!-- <!-- 								<option th:each="varAllBillGroup : ${lstAllBillGroup}" -->
-<!-- <!-- 									th:value="${varAllBillGroup.dcpsDdoBillGroupId}" --> 
-<!-- <!-- 									th:text="${language=='mh' ? varAllBillGroup.description : varAllBillGroup.description}"></option> -->
-<!--       <option value="1">Attach Detach Employee</option> -->
-<!--     <option value="2">Attach Detach Vacant Post</option> -->
-<!-- 							</select> -->
-<!-- 						</div> -->
+					<label class="control-label col-sm-2" for="title"><span
+						th:utext="#{msg.thymeleaf.pagelabel.billdescription}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-4">
+						<select class="form-control" th:field="*{schemebillGroupId}"
+							id="schemebillGroupId" name="schemebillGroupId">
+							<option selected="selected" th:value="0" id="schemebillGroupId"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option th:each="varAllBillGroup : ${lstAllBillGroup}"
+								th:value="${varAllBillGroup.dcpsDdoBillGroupId}"
+								th:text="${language=='mh' ? varAllBillGroup.description : varAllBillGroup.description}"></option>
+						</select>
+					</div>
+					<label class="control-label col-sm-2" for="title"><span
+						th:utext="#{msg.thymeleaf.pageheading.typeattachDeattach}"></span>&nbsp;&nbsp;<b><font
+							color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-4">
+						<select class="form-control" th:field="*{type}" id="type"
+							name="type">
+							<option selected="selected" th:value="0" id="type"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 
-					</DIV>
-					<BR>
-					<DIV align=center>
-						<INPUT onclick="findAttachDettachEmp();" id=btnGo
-							class="buttontag btn" maxLength=3 size=3 type=button value=GO
-							name=btnGo> <INPUT onclick=ReturnLoginPage();
-							id=btnBackWithGo class="buttontag btn" maxLength=3 size=3
-							type=button value=Back name=btnBackWithGo>
-					</DIV>
-					<BR>
+							<option th:value="1">Attach Detach Employee</option>
+							<option th:value="2">Attach Detach Vacant Post</option>
+						</select>
+					</div>
+				</DIV>
+				<BR>
+				<DIV align=center>
+					<INPUT onclick="findAttachDettachEmp();" id=btnGo
+						class="buttontag btn" maxLength=3 size=3 type=button value=GO
+						name=btnGo> <INPUT onclick=ReturnLoginPage();
+						id=btnBackWithGo class="buttontag btn" maxLength=3 size=3
+						type=button value=Back name=btnBackWithGo>
+				</DIV>
+				<BR>
 			</FIELDSET>
 			<BR>
-			<FIELDSET class="tabstyle attachdetachempmain" id="attachdettach" th:if="${lstDettachEmployee}!=null">
+			<FIELDSET class="tabstyle attachdetachempmain attachdettachemp" id="attachdettach"
+				th:if="${lstDettachEmployee}!=null">
 				<LEGEND>
 					<B>Attach/Detach Employee</B>
 				</LEGEND>
-				<BR>
-				<TABLE>
-					<TBODY>
-						<TR></TR>
-					</TBODY>
-				</TABLE>
-				<INPUT id=counterEmp type=hidden value=0 name=counterEmp> <INPUT
-					id=counterEmpBG type=hidden value=0 name=counterEmpBG>
+				<BR> <INPUT id=counterEmp type=hidden value=0 name=counterEmp>
+				<INPUT id=counterEmpBG type=hidden value=0 name=counterEmpBG>
 
-				<TABLE  class="table table-bordered">
+				<TABLE class="table table-bordered">
 					<TBODY>
 						<TR>
 							<TD vAlign=top width="40%">
@@ -128,7 +119,7 @@
 											<span
 												th:each="dettachEmployeerow,iterationStatus : ${lstDettachEmployee}">
 												<!-- <TR class=even> -->
-												<TR class=odd>
+												<TR>
 													<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT
 														th:id="${'GroupCheck'+iterationStatus.count}"
 														type="checkbox" th:value="${dettachEmployeerow[0]}"
@@ -144,45 +135,6 @@
 												</TR>
 
 											</span>
-
-
-
-
-											<!-- <TR class=even>
-<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT id=GroupCheck2 type=checkbox value=99400326239 name=GroupCheck>
-<SCRIPT>
-												document.getElementById("counterEmp").value=Number(document.getElementById("counterEmp").value) + 1;
-									</SCRIPT>
- </TD>
-<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL id=empName2><B>NIKHIL (Social Worker)</B></LABEL> </TD></TR>
-<TR class=odd>
-<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT id=GroupCheck3 type=checkbox value=9940032628 name=GroupCheck>
-<SCRIPT>
-												document.getElementById("counterEmp").value=Number(document.getElementById("counterEmp").value) + 1;
-									</SCRIPT>
- </TD>
-<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL id=empName3><B>RAMAKANT RAJESH RAJAN (Cook)</B></LABEL> </TD></TR>
-<TR class=even>
-<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT id=GroupCheck4 type=checkbox value=9940032627 name=GroupCheck>
-<SCRIPT>
-												document.getElementById("counterEmp").value=Number(document.getElementById("counterEmp").value) + 1;
-									</SCRIPT>
- </TD>
-<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL id=empName4><B>RAMAYANA SHAHAJI PAWAR (Cook)</B></LABEL> </TD></TR>
-<TR class=odd>
-<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT id=GroupCheck5 type=checkbox value=99400326238 name=GroupCheck>
-<SCRIPT>
-												document.getElementById("counterEmp").value=Number(document.getElementById("counterEmp").value) + 1;
-									</SCRIPT>
- </TD>
-<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL id=empName5><B>RHEA RAI (Care Taker)</B></LABEL> </TD></TR>
-<TR class=even>
-<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT id=GroupCheck6 type=checkbox value=99400326224 name=GroupCheck>
-<SCRIPT>
-												document.getElementById("counterEmp").value=Number(document.getElementById("counterEmp").value) + 1;
-									</SCRIPT>
- </TD>
-<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL id=empName6><B>VINOD MADHUKAR CHAVAN (Social Worker)</B></LABEL> </TD></TR> -->
 										</TBODY>
 									</TABLE>
 								</DIV>
@@ -209,8 +161,7 @@
 							</TD>
 							<TD vAlign=top width="40%">
 								<DIV style="OVERFLOW: auto; HEIGHT: 400px; WIDTH: 100%">
-									<TABLE id=tableEmpBG class="datatable table table-bordered"
-										>
+									<TABLE id=tableEmpBG class="datatable table table-bordered">
 										<THEAD>
 											<TR>
 												<TH class=datatableheader><INPUT
@@ -225,7 +176,7 @@
 											<span
 												th:each="attachedEmployeerow,iterationStatus : ${lstAttachedEmployee}">
 												<!-- <TR class=even> -->
-												<TR class=odd>
+												<TR>
 													<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT
 														th:id="${'GroupCheckBG'+iterationStatus.count}"
 														type=checkbox th:value="${attachedEmployeerow[0]}"
@@ -242,21 +193,6 @@
 
 											</span>
 
-											<!-- <TR class=even>
-<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT id=GroupCheckBG2 type=checkbox value=9940032626 name=GroupCheckBG>
-<SCRIPT>
-														document.getElementById("counterEmpBG").value=Number(document.getElementById("counterEmpBG").value) + 1;
-										   </SCRIPT>
- </TD>
-<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL id=empNameBG2><B>ATUL AJAY RAJE (Senior Clerk)</B></LABEL> </TD></TR>
-<TR class=odd>
-<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT id=GroupCheckBG3 type=checkbox value=99400326241 name=GroupCheckBG>
-<SCRIPT>
-														document.getElementById("counterEmpBG").value=Number(document.getElementById("counterEmpBG").value) + 1;
-										   </SCRIPT>
- </TD>
-<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL id=empNameBG3><B>TEST SS (Assistant Teacher)</B></LABEL> </TD></TR> -->
-
 										</TBODY>
 									</TABLE>
 								</DIV>
@@ -265,7 +201,7 @@
 					</TBODY>
 				</TABLE>
 				<BR>
-				<TABLE >
+				<TABLE>
 					<TBODY>
 						<TR>
 							<!-- <input type="hidden" name="billGroupId" id="billGroupId" th:field="*{billGroupId}" /> -->
@@ -275,6 +211,7 @@
 							<TD width="50%"><INPUT id=dcpsEmpIdstoBeAttached size=100
 								type=hidden name=dcpsEmpIdstoBeAttached
 								th:field="*{dcpsEmpIdstoBeAttached}"></TD>
+							
 						</TR>
 					</TBODY>
 				</TABLE>
@@ -282,12 +219,157 @@
 				<DIV align=center>
 					<INPUT onclick=AttachAndDetachEmp(); id=btnSaveData
 						class="buttontag btn" maxLength=3 size=3 type=button value=Save
-						name=btnSaveData> <!-- <INPUT onclick=ReturnLoginPage();
+						name=btnSaveData>
+					<!-- <INPUT onclick=ReturnLoginPage();
 						id=btnBack class="buttontag btn" maxLength=3 size=3 type=button
 						value=Back name=btnBack> -->
-						<a th:href="@{/user/home}" class="btn"><span th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
+					<a th:href="@{/user/home}" class="btn"><span
+						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 				</DIV>
 			</FIELDSET>
+
+
+			<!-- 	For attach post to bill group -->
+
+		<!-- 	<FIELDSET class="tabstyle attachdetachempmain attachdettachposts" id="attachdettachPost"
+				th:if="${lstDettachEmployee}!=null">
+				<LEGEND>
+					<B>Attach Detach Vacant Post</B>
+				</LEGEND>
+				<BR> <INPUT id="counterEmpPost" type=hidden value=0 name=counterEmp>
+				<INPUT id=counterEmpBGPost type=hidden value=0 name=counterEmpBG>
+
+				<TABLE class="table table-bordered">
+					<TBODY>
+						<TR>
+							<TD vAlign=top width="40%">
+								<DIV style="OVERFLOW: auto; HEIGHT: 400px; WIDTH: 100%">
+									<TABLE id=tableEmp class="datatable table table-bordered"
+										style="WIDTH: 100%">
+										<THEAD>
+											<TR>
+												<TH class="datatableheader sorted order1"><INPUT
+													onclick=checkUncheckAll(this) type=checkbox name=SelectAll></TH>
+												<TH class="datatableheader sortable">Post (All)</TH>
+											</TR>
+										</THEAD>
+										<TBODY>
+
+											<span
+												th:each="dettachEmployeerow,iterationStatus : ${lstdetachpost}">
+												<TR class=even>
+												<TR>
+													<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT
+														th:id="${'GroupCheckPost'+iterationStatus.count}"
+														type="checkbox" th:value="${dettachEmployeerow[1]}"
+														name="GroupCheck"> <SCRIPT>
+															document
+																	.getElementById("counterEmp").value = Number(document
+																	.getElementById("counterEmp").value) + 1;
+														</SCRIPT></TD>
+													<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL
+														th:id="${'postId'+iterationStatus.count}"><B><span
+																th:text="${dettachEmployeerow[0]+'('+dettachEmployeerow[8]+')'}"></span></B></LABEL>
+													</TD>
+												</TR>
+
+											</span>
+										</TBODY>
+									</TABLE>
+								</DIV>
+							</TD>
+							<TD width="20%" align=center vAlign="middle"
+								style="vertical-align: middle;">
+								<div class="form-group">
+
+									<div class="col-sm-6">
+										<INPUT onclick=validateBeforeAttachPost() id=btnAttach
+											class="buttontag btn" maxLength=3 size=3 type=button
+											value=Attach name=btnAttach>
+
+									</div>
+									<div class="col-sm-6">
+										<INPUT onclick=validateBeforeDetachPost() id=btnDetach
+											class="buttontag btn" maxLength=3 size=3 type=button
+											value=Detach name=btnDetach>
+									</div>
+
+
+								</div>
+
+							</TD>
+							<TD vAlign=top width="40%">
+								<DIV style="OVERFLOW: auto; HEIGHT: 400px; WIDTH: 100%">
+									<TABLE id=tableEmpBG class="datatable table table-bordered">
+										<THEAD>
+											<TR>
+												<TH class=datatableheader><INPUT
+													onclick=checkUncheckAllBGPost(this) type=checkbox
+													name=SelectAllBG></TH>
+												<TH class="datatableheader sortable"><LABEL>POST(<span
+														th:text="${billDescription}"></span>)</LABEL></TH>
+											</TR>
+										</THEAD>
+										<TBODY>
+
+											<span
+												th:each="attachedEmployeerow,iterationStatus : ${lstattachpost}">
+												<TR class=even>
+												<TR>
+													<TD class=tablecelltext style="TEXT-ALIGN: center"><INPUT
+														th:id="${'GroupCheckBGPost'+iterationStatus.count}"
+														type=checkbox th:value="${attachedEmployeerow[1]}"
+														name=GroupCheckBG> <SCRIPT>
+															document
+																	.getElementById("counterEmpBG").value = Number(document
+																	.getElementById("counterEmpBG").value) + 1;
+														</SCRIPT></TD>
+													<TD class=tablecelltext style="TEXT-ALIGN: left"><LABEL
+														th:id="${'empNameBG'+iterationStatus.count}"><B><span
+																th:text="${attachedEmployeerow[0]+'('+attachedEmployeerow[1]+')'}"></span></B></LABEL>
+													</TD>
+												</TR>
+
+											</span>
+
+										</TBODY>
+									</TABLE>
+								</DIV>
+							</TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+				<BR>
+				<TABLE>
+					<TBODY>
+						<TR>
+							<input type="hidden" name="billGroupId" id="billGroupId" th:field="*{billGroupId}" />
+							<TD width="50%"><INPUT id=postIdstoBeDetached size=100
+								type=hidden name=postIdstoBeDetached
+								th:field="*{postIdstoBeDetached}"></TD>
+							<TD width="50%"><INPUT id=postIdstoBeDetached size=100
+								type=hidden name=postIdstoBeDetached
+								th:field="*{postIdstoBeDetached}"></TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+				<BR>
+				<DIV align=center>
+					<INPUT onclick=AttachAndDetachPost(); id=btnSaveData
+						class="buttontag btn" maxLength=3 size=3 type=button value=Save
+						name=btnSaveData>
+					<INPUT onclick=ReturnLoginPage();
+						id=btnBack class="buttontag btn" maxLength=3 size=3 type=button
+						value=Back name=btnBack>
+					<a th:href="@{/user/home}" class="btn"><span
+						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
+				</DIV>
+			</FIELDSET> -->
+
+
+
+
+
 			<INPUT id=actionFlag type=hidden name=actionFlag> <INPUT
 				id=elementId type=hidden name=elementId> <INPUT
 				id=billGroupId type=hidden name=billGroupId> <INPUT
@@ -307,16 +389,19 @@
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<script>
 		$(document).ready(function() {
-			 
 			$("#schemebillGroupId").change(function() {
 				/* alert("The text has been changed."); */
-				 $(".attachdetachempmain").hide();
+				$(".attachdetachempmain").hide();
 			});
 			$("#btnGo").change(function() {
-				 $(".attachdetachempmain").show();
+				var type = $("#type").val();
+				if (type == '1') {
+					$(".attachdetachempmain").show();
+				} else if (type == '2')
+					$(".attachdetachempmain").show();
 			});
-			
 		});
+		attachdettachpost
 	</script>
 	<script th:src="@{/js/project/attach-deattach-emp.js}"></script>
 </BODY>

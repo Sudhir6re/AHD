@@ -1,5 +1,8 @@
+var contextPath ="";
 $(document).ready(function() {
-	var contextPath = $("#appRootPath").val();
+	 contextPath = $("#appRootPath").val();
+});
+
 
 function funDdo1() {
 
@@ -8,6 +11,8 @@ function funDdo1() {
 		if(schemeId != "0"){
 			removeErrorClass($("#schemeName"));
 		}
+	
+
 		if (schemeId != '') {
 			$.ajax({
 				type : "GET",
@@ -16,19 +21,26 @@ function funDdo1() {
 				contentType : 'application/json',
 				error : function(data) {
 					console.log(data);
+					/* alert("eror is" + data); */
 				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
-				},
+
 				success : function(data) {
 					console.log(data);
 					$('#txtSchemeCode').val(0.);
 					$("#txtSchemeCode").val(data[0].schemeCode);
 					$("#cmbSubschemeName").val(data[0].schemeName);
 					$("#RadioPermenantTempBothP").val(data[0].schemeType);
+					/*var temp=data
+					 $("#txtSchemeCode").val('');
+					$.each(temp, function(index, value) {
+						$.each(value, function(index, value1) {
+							//console.log(index + "-" + value1);
+							if(index=="txtSchemeCode"){
+								console.log("txtSchemeCode");
+							
+							}
+						});
+					}); */
 				}
 			});
 		}
@@ -53,12 +65,20 @@ $(".officeName")
 								error : function(
 										data) {
 									console.log(data);
+									
 									$(".loaderMainNew").hide();
+									// alert(data);
 								},
 								success : function(
 										data) {
+									
+									
 									var temp=data;
 									$(".loaderMainNew").hide();
+									//$(".txtSchemeCode").val(data[3]);
+									
+									///office_name,state,district,taluka,town,village,address1,office_pin,office_city_class,dice_code,grant_applicable,tel_no1,fax,tribal_area_flag,
+									///email,hilly_area_flag,naxalite_area_flag
 									$.each(temp,function(index,value) {
 												$('#txtNameOfOffice').val(value[0]);
 												$('#stateId').val(value[1]);
@@ -91,6 +111,8 @@ $(".officeName")
 													 $('#RadioButtonNaxaliteAreaYes').prop("checked",true);
 												 else
 													 $('#RadioButtonNaxaliteAreaNo').prop("checked",true);
+												 
+												
 												
 											});
 									
@@ -120,14 +142,9 @@ $('#approve')
 							error : function(data) {
 								console.log(data);
 							},
-						 	beforeSend : function(){
-								$( "#loaderMainNew").show();
-								},
-							complete : function(data){
-								$( "#loaderMainNew").hide();
-							},
 							success : function(data) {
 								console.log(data);
+								// alert(data);
 									swal(
 											"Approved Successfully",
 											{
@@ -155,21 +172,17 @@ $('#btnRjct')
 						error : function(data) {
 							console.log(data);
 						},
-					 	beforeSend : function(){
-							$( "#loaderMainNew").show();
-							},
-						complete : function(data){
-							$( "#loaderMainNew").hide();
-						},
 						success : function(data) {
 							console.log(data);
+							// alert(data);
 							swal(
 									"Rejected Successfully",
 									{
 										icon : "success",
 									});
+							
+							
 						}
 				});
 			}
 		});
-});

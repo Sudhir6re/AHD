@@ -45,9 +45,9 @@ public interface PaybillGenerationTrnRepo {
 	public  List<Object[]> getViewDetialsReport(Integer monthName);
 	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc);
 	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, Character cityClass);
-	public Integer isPaybillExistsForCurrentMonth(BigInteger schemeBillgroupId, int paybillMonth, int paybillYear);
+	public Integer isPaybillExistsForCurrentMonth(Long schemeBillgroupId, int paybillMonth, int paybillYear);
 	public int getCheckIsBillInProcess(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType);
-	public String getgradePay7PC(Integer gradelevel);
+	public String getgradePay7PC(Long gradelevel);
 	public String isEmpRetired(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType, String userName);
 	
 	public String isEmpRetiredBySevaarthId(String sevaarthId,Date suppAnnDate);
@@ -56,7 +56,7 @@ public interface PaybillGenerationTrnRepo {
 	public Integer getannualincment(String sevaarthId, String startDate);
 	public Integer getamtbeforeannualincment(String sevaarthId, String startDate);
 	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc);
-	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName);
+	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
 	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);

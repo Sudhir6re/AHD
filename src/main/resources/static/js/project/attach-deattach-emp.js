@@ -7,40 +7,17 @@ $(document).ready(function(){
 		});
 	}
 	
-	/* $(".attchDeattachTable").datatable(); */
-	 $('.attchDeattachTable').DataTable();
 	var selecteditems  = [];
-	
-	
-	/*
-	 * $("#customFields").on('click', '.btnSelect', function() { // get the
-	 * current row var currentRow = $(this).closest("tr"); var col1 =
-	 * currentRow.find("td:eq(1)").text(); // get current row 2nd table cell TD
-	 * value var col2 = currentRow.find("td:eq(2)").text(); var col3 =
-	 * currentRow.find("td:eq(3)").text(); var col4 =
-	 * currentRow.find("td:eq(4)").text(); var data = col1 + "\n";
-	 * 
-	 * if($(this).is(":checked")){ selecteditems.push(col1); // alert("Checkbox
-	 * is checked."); } else if($(this).is(":not(:checked)")){
-	 * selecteditems.pop(col1); //alert("Checkbox is unchecked."); }
-	 * 
-	 * });
-	 * 
-	 * console.log(selecteditems);
-	 * 
-	 */
-     
      $("#btnSave").click(function(e){
     	
    	 	 var input = $('#schemebillGroupId').val();
    	 	 var sevaarthId = $('#sevaarthId').val(); 
-   	 	// alert("sevaarthId ="+sevaarthId);
    	 	var checkPaybillInProcess=isPaybillIsInProcessForAttach(sevaarthId);
 		
 		if(checkPaybillInProcess=="0"){
     		 $.ajax({
 			      type: "GET",
-			      url: "../level1/attachEmployee/"+sevaarthId+"/"+input,
+			      url: "../ddoast/attachEmployee/"+sevaarthId+"/"+input,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -63,11 +40,9 @@ $(document).ready(function(){
   
      $(".delete").click(function(){
     	   var sevaarthId=$(this).attr('value');
-    	   // alert("hi" + sevaarthId);
     	   var checkPaybillInProcess=isPaybillIsInProcessForAttach(sevaarthId);
       		
       		if(checkPaybillInProcess=="0"){
-    	  // alert("hi" + sevaarthId);
     	   swal({
     		   title: "Are you sure?",
     		   text: " to Dettach Employee!",
@@ -128,24 +103,45 @@ function isPaybillIsInProcessForAttach(sevaarthId) {
 	return len;
 }
 
-//START:Created by Manikandan for Attach and Dettach employee
+<<<<<<< Updated upstream
+// START:Created by Manikandan for Attach and Dettach employee
 function findAttachDettachEmp(){
-//document.getElementById("myForm").submit();
-//	alert("findAttachDettachEmp method executed");
+// document.getElementById("myForm").submit();
+// alert("findAttachDettachEmp method executed");
+=======
+function findAttachDettachEmp(){
+>>>>>>> Stashed changes
 	var billgroupid = document.getElementById("schemebillGroupId");
+	var type = document.getElementById("type");
 	if (billgroupid.value === "0") {
 		swal('Please select Bill Description');
+		return false;
+	}
+	if (type.value === "0") {
+		swal('Please select Attach detach Type');
 		return false;
 	}
 	document.getElementById("status").value="SEARCH";
 	$("#myForm").submit();
 }
+var typee = document.getElementById("type");
+$(".attachdettachemp").hide();
+$(".attachdettachposts").hide();
+if (typee.value == "1") {
+	$(".attachdettachemp").show();
+}
+if (typee.value == "2") {
+	$(".attachdettachposts").show();
+}
 
 function validateBeforeAttach(){
 	var chkBoxArr=document.getElementsByName('GroupCheck'); 
 	var chkLength=chkBoxArr.length;
-//	var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
+<<<<<<< Updated upstream
+// var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
 
+=======
+>>>>>>> Stashed changes
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
 		{
@@ -153,10 +149,13 @@ function validateBeforeAttach(){
 			return true; 
 		}
 	} 
-//	if(typeOfOperation.Value == 1)
-//		alert("Please select an employee to attach to Bill group");
-//	if(typeOfOperation.Value == 2)
-//		alert("Please select a Post to attach to Bill group");
+<<<<<<< Updated upstream
+// if(typeOfOperation.Value == 1)
+// alert("Please select an employee to attach to Bill group");
+// if(typeOfOperation.Value == 2)
+// alert("Please select a Post to attach to Bill group");
+=======
+>>>>>>> Stashed changes
 	return false;
 }
 function AddRowInEmpBGTable()
@@ -176,10 +175,15 @@ function AddRowInEmpBGTable()
 	var counter = 1 ;
 	var tableEmpBG = document.getElementById("tableEmpBG");
 	var tableEmp =document.getElementById("tableEmp");
-//	alert("counterEmp="+counterEmp);
+<<<<<<< Updated upstream
+// alert("counterEmp="+counterEmp);
 	for(var i=1;i<=counterEmp;i++)
 	{
-//		alert(document.getElementById("GroupCheck"+i).value);
+// alert(document.getElementById("GroupCheck"+i).value);
+=======
+	for(var i=1;i<=counterEmp;i++)
+	{
+>>>>>>> Stashed changes
 		if(document.getElementById("GroupCheck"+i).checked)
 		{
 			dcpsEmpIdsToBeAddedToBGTable[counter] = document.getElementById("GroupCheck"+i).value ;
@@ -214,20 +218,21 @@ function AddRowInEmpBGTable()
 	}
 	
 
-	for(i=counterEmp;i>=1;i--)
-	{
-		if(document.getElementById("GroupCheck"+i).checked)
-		{
-			tableEmp.rows[i].style.display = 'none' ;
-			document.getElementById("GroupCheck"+i).checked = false ;
-		}
-	}
+	 $('input[name="GroupCheckBG"]').each(function(index) {
+         if ($(this).is(':checked')) {
+             $("#tableEmpBG tr:eq(" + index + ")").hide();
+             $(this).prop('checked', false);
+         }
+     });
 }
 function validateBeforeDetach(){
 	var chkBoxArr=document.getElementsByName('GroupCheckBG'); 
 	var chkLength=chkBoxArr.length;
-//	var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
+<<<<<<< Updated upstream
+// var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
 
+=======
+>>>>>>> Stashed changes
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
 		{
@@ -235,10 +240,13 @@ function validateBeforeDetach(){
 			return true; 
 		}
 	} 
-//	if(typeOfOperation.Value == 1)
-//		alert("Please select an employee to attach to Bill group");
-//	if(typeOfOperation.Value == 2)
-//		alert("Please select a Post to attach to Bill group");
+<<<<<<< Updated upstream
+// if(typeOfOperation.Value == 1)
+// alert("Please select an employee to attach to Bill group");
+// if(typeOfOperation.Value == 2)
+// alert("Please select a Post to attach to Bill group");
+=======
+>>>>>>> Stashed changes
 	return false;	
 }
 function AddRowInEmpTable()
@@ -306,7 +314,10 @@ function AddRowInEmpTable()
 }
 
 
-//CheckAll and UnCheckAll
+<<<<<<< Updated upstream
+// CheckAll and UnCheckAll
+=======
+>>>>>>> Stashed changes
 function checkUncheckAll(theElement)
 {
 	var theForm = theElement.form, z = 0;	
@@ -331,55 +342,67 @@ function checkUncheckAllBG(theElement)
 }
 
 
-
 function AttachAndDetachEmp()
 {
-//	if(document.getElementById("dcpsEmpIdstoBeDetached").value == "" && document.getElementById("dcpsEmpIdstoBeAttached").value == ""){
-//		alert("No data is Saved, as no change has been made");
-//		return;
-//	}
+<<<<<<< Updated upstream
+// if(document.getElementById("dcpsEmpIdstoBeDetached").value == "" &&
+// document.getElementById("dcpsEmpIdstoBeAttached").value == ""){
+// alert("No data is Saved, as no change has been made");
+// return;
+// }
 	
-//	var dcpsEmpIdstoBeDetached = document.getElementById("dcpsEmpIdstoBeDetached").value ;
-//	var dcpsEmpIdstoBeAttached = document.getElementById("dcpsEmpIdstoBeAttached").value ;
-//	var billGroupId = document.getElementById("cmbBillGroup").value ;
-//	var typeOfOperation = document.getElementById("cmbTypeofAttachDetach").value;
+// var dcpsEmpIdstoBeDetached =
+// document.getElementById("dcpsEmpIdstoBeDetached").value ;
+// var dcpsEmpIdstoBeAttached =
+// document.getElementById("dcpsEmpIdstoBeAttached").value ;
+// var billGroupId = document.getElementById("cmbBillGroup").value ;
+// var typeOfOperation = document.getElementById("cmbTypeofAttachDetach").value;
 	
-	//alert('cmbTypeofAttachDetach is --'+document.getElementById("cmbTypeofAttachDetach").value);
+	// alert('cmbTypeofAttachDetach is
+	// --'+document.getElementById("cmbTypeofAttachDetach").value);
 
 	document.getElementById("status").value="SAVE";
 	$("#myForm").submit();
-//		var uri = "ifms.htm?actionFlag=attachAndDetachEmpToBG";
-//	var url = "dcpsEmpIdstoBeDetached=" + dcpsEmpIdstoBeDetached
-//	+ "&dcpsEmpIdstoBeAttached=" + dcpsEmpIdstoBeAttached + "&billGroupId=" + billGroupId + "&typeOfAttachDetach=" + typeOfOperation ;	
+// var uri = "ifms.htm?actionFlag=attachAndDetachEmpToBG";
+// var url = "dcpsEmpIdstoBeDetached=" + dcpsEmpIdstoBeDetached
+// + "&dcpsEmpIdstoBeAttached=" + dcpsEmpIdstoBeAttached + "&billGroupId=" +
+// billGroupId + "&typeOfAttachDetach=" + typeOfOperation ;
 //	
-//	var myAjax = new Ajax.Request(uri,
-//		       {
-//		        method: 'post',
-//		        asynchronous: false,
-//		        parameters:url,
-//		        onSuccess: function(myAjax) {
-//					getDataStateChangedForModifyBG(myAjax);
-//				},
-//		        onFailure: function(){ alert('Something went wrong...')} 
-//		          } );
+// var myAjax = new Ajax.Request(uri,
+// {
+// method: 'post',
+// asynchronous: false,
+// parameters:url,
+// onSuccess: function(myAjax) {
+// getDataStateChangedForModifyBG(myAjax);
+// },
+// onFailure: function(){ alert('Something went wrong...')}
+// } );
 }
 
-//function getDataStateChangedForModifyBG(myAjax)
-//{
-//	XMLDoc = myAjax.responseXML.documentElement;
-//	var XmlHiddenValues = XMLDoc.getElementsByTagName('XMLDOC');
-//	var test_Id = XmlHiddenValues[0].childNodes[0].firstChild.nodeValue;
+// function getDataStateChangedForModifyBG(myAjax)
+// {
+// XMLDoc = myAjax.responseXML.documentElement;
+// var XmlHiddenValues = XMLDoc.getElementsByTagName('XMLDOC');
+// var test_Id = XmlHiddenValues[0].childNodes[0].firstChild.nodeValue;
 //	
-//	if(test_Id)
-//	{
-//		alert("Bill Group Modified Successfully");
-//	}
-//	self.location.href = "ifms.htm?actionFlag=dcpsBillGroup&elementId=700017&billGroupId="+document.getElementById("cmbBillGroup").value;	
-//}
+// if(test_Id)
+// {
+// alert("Bill Group Modified Successfully");
+// }
+// self.location.href =
+// "ifms.htm?actionFlag=dcpsBillGroup&elementId=700017&billGroupId="+document.getElementById("cmbBillGroup").value;
+// }
 
-//End:Created by Manikandan for Attach and Dettach employee
+// End:Created by Manikandan for Attach and Dettach employee
 
 
 
+=======
+	document.getElementById("status").value="SAVE";
+	$("#myForm").submit();
+}
+
+>>>>>>> Stashed changes
 
 

@@ -160,12 +160,6 @@ $("#btnFilter").click(function(){
 					 console.log(data);
 					 $("#loaderMainNew").hide();
 				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
-				},
 				success : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
@@ -212,12 +206,6 @@ $("#Search").click(function(){
 					 console.log(data);
 					 $("#loaderMainNew").hide();
 				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
-				},
 				success : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
@@ -259,12 +247,6 @@ $("#searchPostDetails").click(function(){
 				error : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
-				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
 				},
 				success : function(data) {
 					 console.log(data);

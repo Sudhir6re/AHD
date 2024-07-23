@@ -262,17 +262,17 @@ public class AddNewDDOConfigRepository {
 			mstEmployeeEntity.setDtJoinCurrentPost(new Date());
 			mstEmployeeEntity.setMobileNo1(Long.valueOf(mobNo));
 			mstEmployeeEntity.setEmailId(email);
-			mstEmployeeEntity.setUserId(new BigInteger(lLngUserId.toString()));
+			mstEmployeeEntity.setUserId(lLngUserId);
 			mstEmployeeEntity.setPostdetailid(lLngUserId);
 			mstEmployeeEntity.setCreatedDate(new Date());
 			//mstEmployeeEntity.setGradePay(100064l);
 			if (lStrGendr.equals("M")) {
-				mstEmployeeEntity.setSalutation(1);
+				mstEmployeeEntity.setSalutation(1l);
 			} else if (lStrGendr.equals("F")) {
-				mstEmployeeEntity.setSalutation(1);
+				mstEmployeeEntity.setSalutation(1l);
 			}
 			
-			mstEmployeeEntity.setIsActive(1);
+			mstEmployeeEntity.setIsActive(1l);
 			
 			ghibSession.save(mstEmployeeEntity);
 			

@@ -159,51 +159,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double rop = 0d;
 		Double payFixDiff = 0d;
 		Double nps = 0d;
-		Double pubHealWrks = 0d;
-		Double sindhuOras = 0d;
-		Double jalgaonSoc = 0d;
-		Double manaBhaiMehJal = 0d;
-		Double akolaPAriAbhi = 0d;
-		Double zpKarmPat = 0d;
-		Double vidharbhaGramkokBn = 0d;
-		Double chandaSoc = 0d;
-		Double jalsevaSocNag = 0d;
-		Double bhandaraSoc = 0d;
-		Double gdccBank = 0d;
-		Double gondiaSoc = 0d;
-		Double nagpurSoc = 0d;
-		Double allahabadSoc = 0d;
-		Double bhanDistCenCopBnk = 0d;
-		Double bankOfBarora = 0d;
-		Double courtComput = 0d;
-		Double jalgaonGSSoc = 0d;
-		Double jalgaonHandiSoc = 0d;
-		Double dhulenandurbarBnk = 0d;
-		Double parisarAbhiSocNash = 0d;
-		Double sarwAroBanSoc = 0d;
-		Double jalSocCL3 = 0d;
-		Double panipurvtaSocCL3or4 = 0d;
-		Double govBank = 0d;
-		Double sangliSalSoc = 0d;
-		Double mjpSoc = 0d;
-		Double nashikRoadSocCL3or4 = 0d;
-		Double jalsevaMalSocCL3 = 0d;
-		Double nashikBankSoc = 0d;
-		Double mandaNashikSoc = 0d;
-		Double ujwalaMahilaPatBhan = 0d;
-		Double bcQuar = 0d;
-		Double excessPayrec = 0d;
-		Double flagDay = 0d;
-		Double bhandJilAbhiKarPat = 0d;
-		Double jalsevaKarmSahaPath = 0d;
-		Double socNanded = 0d;
-		Double socAurang = 0d;
-		Double socLatur = 0d;
-		Double mlwfOnlyMJP = 0d;
-		Double mahaLabWelFund = 0d;
-		Double mjpLatur = 0d;
-		Double jalbhavanSoc = 0d;
-		Double mjpSocSolapur = 0d;
 		Double empContri = 0d;
 		Double emprContri = 0d;
 		Double gpfInst = 0d;
@@ -260,14 +215,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		 * .findAllMpgSchemeBillGroupbyParameter(paybillHeadMpgModel.
 		 * getSchemeBillgroupId());
 		 */
-		String splitddo[] = paybillHeadMpgModel.getDdoCode().split("_");
+		//String splitddo[] = paybillHeadMpgModel.getDdoCode().split("_");
 		String ddoCode = null;
-		ddoCode = splitddo[0];
+		ddoCode =  paybillHeadMpgModel.getDdoCode();
 
 		DdoOffice ddoScreenEntity = mstEmployeeService.findAllGroup(ddoCode.trim());
-		String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
+		//String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
-		citygroup = spilt[1];
+		citygroup =ddoScreenEntity.getDcpsDdoOfficeCityClass();
 		
 			System.out.println("CityGroup"+citygroup);
 		objEntity.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
@@ -312,7 +267,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			if (count > 0) {
 
 				// To Check Broken Period Exist or not
-				int payCommission = mstEmployeeEntity2.getPayCommissionCode();
+				Long payCommission = mstEmployeeEntity2.getPayCommissionCode();
 				int percentage = 0;
 				String percentageHRA = null;
 				String startDate = null;
@@ -369,7 +324,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					paybillGenerationTrnDetails.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
 					paybillGenerationTrnDetails.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
-					paybillGenerationTrnDetails.setSubDeptId(mstEmployeeEntity2.getSubDeptId());
+					////paybillGenerationTrnDetails.setSubDeptId(mstEmployeeEntity2.getSubDeptId());
 					paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
 
 
@@ -1387,28 +1342,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					paybillGenerationTrnDetails.setDedAdjTry((double) Math.round(dedByTreasury));
 
 					System.out.println(CA + FA + HouseAdv + vehAdv + gpfAdvance + alliedSoc + mantralayaSoci
-							+ chiplunSoc + ulhasnagarSoc + engrSoc + pubHealWrks + sindhuOras + jalgaonSoc
-							+ manaBhaiMehJal + akolaPAriAbhi + zpKarmPat + vidharbhaGramkokBn + chandaSoc
-							+ jalsevaSocNag + bhandaraSoc + gdccBank + gondiaSoc + nagpurSoc + allahabadSoc
-							+ bhanDistCenCopBnk + bankOfBarora + courtComput + jalgaonGSSoc + jalgaonHandiSoc
-							+ dhulenandurbarBnk + parisarAbhiSocNash + sarwAroBanSoc + jalSocCL3 + panipurvtaSocCL3or4
-							+ govBank + sangliSalSoc + mjpSoc + nashikRoadSocCL3or4 + jalsevaMalSocCL3 + nashikBankSoc
-							+ mandaNashikSoc + ujwalaMahilaPatBhan + bcQuar + excessPayrec + flagDay
-							+ bhandJilAbhiKarPat + jalsevaKarmSahaPath + socNanded + socAurang + socLatur + mlwfOnlyMJP
-							+ mahaLabWelFund + mjpLatur + jalbhavanSoc + mjpSocSolapur + sataraSoci + rajashriShahu
+							+ chiplunSoc + ulhasnagarSoc + engrSoc + sataraSoci + rajashriShahu
 							+ license + Parsik_Janata_Sh_Vasi + BhagshreeBank + ServCharge);
 
 					// double dedByOthr = dedByTreasury + dedByAG ;
 					double dedByOthr = CA + FA + HouseAdv + vehAdv + gpfAdvance + alliedSoc + mantralayaSoci
-							+ chiplunSoc + ulhasnagarSoc + engrSoc + pubHealWrks + sindhuOras + jalgaonSoc
-							+ manaBhaiMehJal + akolaPAriAbhi + zpKarmPat + vidharbhaGramkokBn + chandaSoc
-							+ jalsevaSocNag + bhandaraSoc + gdccBank + gondiaSoc + nagpurSoc + allahabadSoc
-							+ bhanDistCenCopBnk + bankOfBarora + courtComput + jalgaonGSSoc + jalgaonHandiSoc
-							+ dhulenandurbarBnk + parisarAbhiSocNash + sarwAroBanSoc + jalSocCL3 + panipurvtaSocCL3or4
-							+ govBank + sangliSalSoc + mjpSoc + nashikRoadSocCL3or4 + jalsevaMalSocCL3 + nashikBankSoc
-							+ mandaNashikSoc + ujwalaMahilaPatBhan + bcQuar + excessPayrec + flagDay
-							+ bhandJilAbhiKarPat + jalsevaKarmSahaPath + socNanded + socAurang + socLatur + mlwfOnlyMJP
-							+ mahaLabWelFund + mjpLatur + jalbhavanSoc + mjpSocSolapur + sataraSoci + rajashriShahu
+							+ chiplunSoc + ulhasnagarSoc + engrSoc + sataraSoci + rajashriShahu
 							+ license + Parsik_Janata_Sh_Vasi + BhagshreeBank + hastantritpune + HouseAdvInstAmt
 							+ ServCharge + vangaonSoc + panipuravthaKolhapur + ahdPariAbhiMarya + mjpSocBeed
 							+ salOwnSocSangli + shaskiyPaniPurvSocSatara + jalbhavanSocSangli + akolaSoc + yavatmalSoc
@@ -1543,51 +1482,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					rop = 0d;
 					payFixDiff = 0d;
 					nps = 0d;
-					pubHealWrks = 0d;
-					sindhuOras = 0d;
-					jalgaonSoc = 0d;
-					manaBhaiMehJal = 0d;
-					akolaPAriAbhi = 0d;
-					zpKarmPat = 0d;
-					vidharbhaGramkokBn = 0d;
-					chandaSoc = 0d;
-					jalsevaSocNag = 0d;
-					bhandaraSoc = 0d;
-					gdccBank = 0d;
-					gondiaSoc = 0d;
-					nagpurSoc = 0d;
-					allahabadSoc = 0d;
-					bhanDistCenCopBnk = 0d;
-					bankOfBarora = 0d;
-					courtComput = 0d;
-					jalgaonGSSoc = 0d;
-					jalgaonHandiSoc = 0d;
-					dhulenandurbarBnk = 0d;
-					parisarAbhiSocNash = 0d;
-					sarwAroBanSoc = 0d;
-					jalSocCL3 = 0d;
-					panipurvtaSocCL3or4 = 0d;
-					govBank = 0d;
-					sangliSalSoc = 0d;
-					mjpSoc = 0d;
-					nashikRoadSocCL3or4 = 0d;
-					jalsevaMalSocCL3 = 0d;
-					nashikBankSoc = 0d;
-					mandaNashikSoc = 0d;
-					ujwalaMahilaPatBhan = 0d;
-					bcQuar = 0d;
-					excessPayrec = 0d;
-					flagDay = 0d;
-					bhandJilAbhiKarPat = 0d;
-					jalsevaKarmSahaPath = 0d;
-					socNanded = 0d;
-					socAurang = 0d;
-					socLatur = 0d;
-					mlwfOnlyMJP = 0d;
-					mahaLabWelFund = 0d;
-					mjpLatur = 0d;
-					jalbhavanSoc = 0d;
-					mjpSocSolapur = 0d;
 					empContri = 0d;
 					emprContri = 0d;
 					gpfInst = 0d;
@@ -1651,12 +1545,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					paybillGenerationTrnDetails.setTotalNetAmt(grossAmount - Totaldeduc);
 					paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 					if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
-						if (mstEmployeeEntity2.getSevaarthId().equals("MJPABKM7901")) {
-							paybillGenerationTrnDetails.setSevenPcLevel(14);
-
-						} else {
 							paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());
-						}
 					} else {
 						if (mstEmployeeEntity2.getPayInPayBand() != null)
 							paybillGenerationTrnDetails.setPay_band(mstEmployeeEntity2.getPayInPayBand());
@@ -2108,7 +1997,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE5th)
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-						Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 
 						if (gradelevel >= 20) {
 							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
@@ -2268,7 +2157,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE6th)
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-						Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 						if (gradelevel >= 20) {
 							if (citygroup.equals("A")) {
 								if (physicalhand.equals("Y")) {
@@ -2381,7 +2270,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE)
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-						Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 						String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
 						Integer grade7PC = Integer.parseInt(gradePay7PC);
 
@@ -2727,7 +2616,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							cla = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						} else {
 
-							Integer gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+							Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 							int claamt = 0;
 
 							if (SevenPcBasic < 3000) {
@@ -4950,789 +4839,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							engrSoc += 0;
 						}
 					}
-					// Public_Health_Works
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Public_Health_Works)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Public_Health_Works_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Public_Health_Works_Code) {
-
-							paybillGenerationTrnDetails.setPubHealWrks(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							pubHealWrks = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setPubHealWrks((double) 0);
-							pubHealWrks += 0;
-						}
-					}
-					// Sindhudurg_Oras
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sindhudurg_Oras)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sindhudurg_Oras_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sindhudurg_Oras_Code) {
-
-							paybillGenerationTrnDetails.setSindhuOras(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							sindhuOras = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setSindhuOras((double) 0);
-							sindhuOras += 0;
-						}
-					}
-					// Jalgaon_Society
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Society)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Society_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Society_Code) {
-
-							paybillGenerationTrnDetails.setJalgaonSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalgaonSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalgaonSoc((double) 0);
-							jalgaonSoc += 0;
-						}
-					}
-					// Manahar_bhai_Meh_Jal
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manahar_bhai_Meh_Jal)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manahar_bhai_Meh_Jal_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manahar_bhai_Meh_Jal_Code) {
-
-							paybillGenerationTrnDetails.setManaBhaiMehJal(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							manaBhaiMehJal = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setManaBhaiMehJal((double) 0);
-							manaBhaiMehJal += 0;
-						}
-					}
-					// Akola_Pari_Abhiyani
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Akola_Pari_Abhiyani)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Akola_Pari_Abhiyani_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Akola_Pari_Abhiyani_Code) {
-
-							paybillGenerationTrnDetails.setAkolaPAriAbhi(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							akolaPAriAbhi = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setAkolaPAriAbhi((double) 0);
-							akolaPAriAbhi += 0;
-						}
-					}
-					// ZP_Karmchari_Pat
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_ZP_Karmchari_Pat)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_ZP_Karmchari_Pat_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_ZP_Karmchari_Pat_Code) {
-
-							paybillGenerationTrnDetails.setZpKarmPat(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							zpKarmPat = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setZpKarmPat((double) 0);
-							zpKarmPat += 0;
-						}
-					}
-					// Vidharbha_Gramin_Kokan_Bn
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Vidharbha_Gramin_Kokan_Bn)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Vidharbha_Gramin_Kokan_Bn_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Vidharbha_Gramin_Kokan_Bn_Code) {
-
-							paybillGenerationTrnDetails.setVidharbhaGramkokBn(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							vidharbhaGramkokBn = (double) (Math
-									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setVidharbhaGramkokBn((double) 0);
-							vidharbhaGramkokBn += 0;
-						}
-					}
-					// Chanda_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Chanda_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Chanda_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Chanda_Soc_Code) {
-
-							paybillGenerationTrnDetails.setChandaSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							chandaSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setChandaSoc((double) 0);
-							chandaSoc += 0;
-						}
-					}
-					// Jalseva_Soc_Nag
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_Soc_Nag)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_Soc_Nag_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_Soc_Nag_Code) {
-
-							paybillGenerationTrnDetails.setJalsevaSocNag(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalsevaSocNag = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalsevaSocNag((double) 0);
-							jalsevaSocNag += 0;
-						}
-					}
-					// Bhandara_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Soc_Code) {
-
-							paybillGenerationTrnDetails.setBhandaraSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							bhandaraSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setBhandaraSoc((double) 0);
-							bhandaraSoc += 0;
-						}
-					}
-					// GDCC_BANK
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GDCC_BANK)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GDCC_BANK_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GDCC_BANK_Code) {
-
-							paybillGenerationTrnDetails.setGdccBank(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							gdccBank = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setGdccBank((double) 0);
-							gdccBank += 0;
-						}
-					}
-					// Gondia_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Gondia_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Gondia_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Gondia_Soc_Code) {
-
-							paybillGenerationTrnDetails.setGondiaSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							gondiaSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setGondiaSoc((double) 0);
-							gondiaSoc += 0;
-						}
-					}
-					// Nagpur_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nagpur_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nagpur_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nagpur_Soc_Code) {
-
-							paybillGenerationTrnDetails.setNagpurSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							nagpurSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setNagpurSoc((double) 0);
-							nagpurSoc += 0;
-						}
-					}
-					// Allahabad_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Allahabad_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Allahabad_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Allahabad_Soc_Code) {
-
-							paybillGenerationTrnDetails.setAllahabadSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							allahabadSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setAllahabadSoc((double) 0);
-							allahabadSoc += 0;
-						}
-					}
-					// Bhan_Dist_Cent_Cop_bnk
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhan_Dist_Cent_Cop_bnk)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhan_Dist_Cent_Cop_bnk_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhan_Dist_Cent_Cop_bnk_Code) {
-
-							paybillGenerationTrnDetails.setBhanDistCenCopBnk(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							bhanDistCenCopBnk = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setBhanDistCenCopBnk((double) 0);
-							bhanDistCenCopBnk += 0;
-						}
-					}
-					// Bank_of_Barora
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bank_of_Barora)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bank_of_Barora_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bank_of_Barora_Code) {
-
-							paybillGenerationTrnDetails.setBankOfBarora(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							bankOfBarora = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setBankOfBarora((double) 0);
-							bankOfBarora += 0;
-						}
-					}
-					// Court_Computation
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Court_Computation)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Court_Computation_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Court_Computation_Code) {
-
-							paybillGenerationTrnDetails.setCourtComput(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							courtComput = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setCourtComput((double) 0);
-							courtComput += 0;
-						}
-					}
-					// Jalgaon_GS_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_GS_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_GS_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_GS_Soc_Code) {
-
-							paybillGenerationTrnDetails.setJalgaonGSSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalgaonGSSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalgaonGSSoc((double) 0);
-							jalgaonGSSoc += 0;
-						}
-					}
-					// Jalgaon_Handicap_Soci
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Handicap_Soci)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Handicap_Soci_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalgaon_Handicap_Soci_Code) {
-
-							paybillGenerationTrnDetails.setJalgaonHandiSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalgaonHandiSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalgaonHandiSoc((double) 0);
-							jalgaonHandiSoc += 0;
-						}
-					}
-					// Dhule_Nandurbar_Bank
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Dhule_Nandurbar_Bank)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Dhule_Nandurbar_Bank_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Dhule_Nandurbar_Bank_Code) {
-
-							paybillGenerationTrnDetails.setDhulenandurbarBnk(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							dhulenandurbarBnk = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setDhulenandurbarBnk((double) 0);
-							dhulenandurbarBnk += 0;
-						}
-					}
-					// Parisar_Abhi_Soc_Nashik
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Parisar_Abhi_Soc_Nashik)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Parisar_Abhi_Soc_Nashik_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Parisar_Abhi_Soc_Nashik_Code) {
-
-							paybillGenerationTrnDetails.setParisarAbhiSocNash(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							parisarAbhiSocNash = (double) (Math
-									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setParisarAbhiSocNash((double) 0);
-							parisarAbhiSocNash += 0;
-						}
-					}
-					// Sarw_Aroy_Ban_Soci_Dhule
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sarw_Aroy_Ban_Soci_Dhule)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sarw_Aroy_Ban_Soci_Dhule_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sarw_Aroy_Ban_Soci_Dhule_Code) {
-
-							paybillGenerationTrnDetails.setSarwAroBanSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							sarwAroBanSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setSarwAroBanSoc((double) 0);
-							sarwAroBanSoc += 0;
-						}
-					}
-					// Jaldhara_Soc_CL3
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jaldhara_Soc_CL3)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jaldhara_Soc_CL3_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jaldhara_Soc_CL3_Code) {
-
-							paybillGenerationTrnDetails.setJalSocCL3(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalSocCL3 = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalSocCL3((double) 0);
-							jalSocCL3 += 0;
-						}
-					}
-					// Panipurvtha_Soc_Cl3or4
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Panipurvtha_Soc_Cl3Or4)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Panipurvtha_Soc_Cl3Or4_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Panipurvtha_Soc_Cl3Or4_Code) {
-
-							paybillGenerationTrnDetails.setPanipurvtaSocCL3or4(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							panipurvtaSocCL3or4 = (double) (Math
-									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setPanipurvtaSocCL3or4((double) 0);
-							panipurvtaSocCL3or4 += 0;
-						}
-					}
-					// Govt_Bank
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Govt_Bank)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Govt_Bank_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Govt_Bank_Code) {
-
-							paybillGenerationTrnDetails.setGovBank(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							govBank = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setGovBank((double) 0);
-							govBank += 0;
-						}
-					}
-					// Sangli_Sal_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sangli_Sal_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sangli_Sal_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Sangli_Sal_Soc_Code) {
-
-							paybillGenerationTrnDetails.setSangliSalSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							sangliSalSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setSangliSalSoc((double) 0);
-							sangliSalSoc += 0;
-						}
-					}
-					// MJP_Soc
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Code) {
-
-							paybillGenerationTrnDetails
-									.setMjpSoc((double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							mjpSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setMjpSoc((double) 0);
-							mjpSoc += 0;
-						}
-					}
-					// Nashik_Road_Soc_CL3Or4
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Road_Soc_CL3Or4)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Road_Soc_CL3Or4_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Road_Soc_CL3Or4_Code) {
-
-							paybillGenerationTrnDetails.setNashikRoadSocCL3or4(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							nashikRoadSocCL3or4 = (double) (Math
-									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setNashikRoadSocCL3or4((double) 0);
-							nashikRoadSocCL3or4 += 0;
-						}
-					}
-					// Jalseva_MAlegaon_Soc_CL3
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_MAlegaon_Soc_CL3)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_MAlegaon_Soc_CL3_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_MAlegaon_Soc_CL3_Code) {
-
-							paybillGenerationTrnDetails.setJalsevaMalSocCL3(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalsevaMalSocCL3 = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalsevaMalSocCL3((double) 0);
-							jalsevaMalSocCL3 += 0;
-						}
-					}
-					// Nashik_Bank_Soc
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Bank_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Bank_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Nashik_Bank_Soc_Code) {
-
-							paybillGenerationTrnDetails.setNashikBankSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							nashikBankSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setNashikBankSoc((double) 0);
-							nashikBankSoc += 0;
-						}
-					}
-					// Manda_Nashik_Soc
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manda_Nashik_Soc)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manda_Nashik_Soc_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Manda_Nashik_Soc_Code) {
-
-							paybillGenerationTrnDetails.setMandaNashikSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							mandaNashikSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setMandaNashikSoc((double) 0);
-							mandaNashikSoc += 0;
-						}
-					}
-					// Ujwala_Mahila_Pat_Bhand
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ujwala_Mahila_Pat_Bhand)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ujwala_Mahila_Pat_Bhand_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Ujwala_Mahila_Pat_Bhand_Code) {
-
-							paybillGenerationTrnDetails.setUjwalaMahilaPatBhan(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							ujwalaMahilaPatBhan = (double) (Math
-									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setUjwalaMahilaPatBhan((double) 0);
-							ujwalaMahilaPatBhan += 0;
-						}
-					}
-					// BC_Quarter
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BC_Quarter)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BC_Quarter_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BC_Quarter_Code) {
-
-							paybillGenerationTrnDetails
-									.setBcQuar((double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							bcQuar = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setBcQuar((double) 0);
-							bcQuar += 0;
-						}
-					}
-
-					// Flag_Day
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Flag_Day)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Flag_Day_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Flag_Day_Code) {
-
-							paybillGenerationTrnDetails.setFlagDay(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							flagDay = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setFlagDay((double) 0);
-							flagDay += 0;
-						}
-					}
-					// Bhand_Jil_Abhi_Karm_Pat
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code) {
-
-							paybillGenerationTrnDetails.setBhandJilAbhiKarPat(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							bhandJilAbhiKarPat = (double) (Math
-									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setBhandJilAbhiKarPat((double) 0);
-							bhandJilAbhiKarPat += 0;
-						}
-					}
-					// Jalseva_karm_saha_Path
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_karm_saha_Path)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_karm_saha_Path_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Jalseva_karm_saha_Path_Code) {
-
-							paybillGenerationTrnDetails.setJalsevaKarmSahaPath(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalsevaKarmSahaPath = (double) (Math
-									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalsevaKarmSahaPath((double) 0);
-							jalsevaKarmSahaPath += 0;
-						}
-					}
-					// Society_Nanded
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Nanded)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Nanded_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Nanded_Code) {
-
-							paybillGenerationTrnDetails.setSocNanded(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							socNanded = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setSocNanded((double) 0);
-							socNanded += 0;
-						}
-					}
-					// Society_Aurangabad
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Aurangabad)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Aurangabad_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Aurangabad_Code) {
-
-							paybillGenerationTrnDetails.setSocAurang(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							socAurang = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setSocAurang((double) 0);
-							socAurang += 0;
-						}
-					}
-					// Society_Latur
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Latur)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Latur_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Society_Latur_Code) {
-
-							paybillGenerationTrnDetails.setSocLatur(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							socLatur = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setSocLatur((double) 0);
-							socLatur += 0;
-						}
-					}
-					// Society_Latur
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MLWF_OnlyMJP)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MLWF_OnlyMJP_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MLWF_OnlyMJP_Code) {
-
-							paybillGenerationTrnDetails.setMlwfonlyMJP(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							mlwfOnlyMJP = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setMlwfonlyMJP((double) 0);
-							mlwfOnlyMJP += 0;
-						}
-					}
-					// Maha_Lab_Welfare_Fund
-					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Maha_Lab_Welfare_Fund)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Maha_Lab_Welfare_Fund_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Maha_Lab_Welfare_Fund_Code) {
-
-							paybillGenerationTrnDetails.setMahaLabWelfareFund(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							mahaLabWelFund = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setSocLatur((double) 0);
-							mahaLabWelFund += 0;
-						}
-					}
-					// MJP_Soc_Latur
-					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Latur)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Latur_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Latur_Code) {
-
-							paybillGenerationTrnDetails.setMjpSocLatur(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							mjpLatur = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setMjpSocLatur((double) 0);
-							mjpLatur += 0;
-						}
-					}
-					// MJP_Soc_Latur
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_JalBhavan_Society)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_JalBhavan_Society_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_JalBhavan_Society_Code) {
-
-							paybillGenerationTrnDetails.setJalbhavanSoc(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							jalbhavanSoc = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setJalbhavanSoc((double) 0);
-							jalbhavanSoc += 0;
-						}
-					}
-					// MJP_Soc_Solapur
-					else if (str
-							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Solapur)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Solapur_Code);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MJP_Soc_Solapur_Code) {
-
-							paybillGenerationTrnDetails.setMjpSocSolapur(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							mjpSocSolapur = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setMjpSocSolapur((double) 0);
-							mjpSocSolapur += 0;
-						}
-					}
 					// Satara_Society
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Satara_Society)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -6659,19 +5765,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 			// double dedByOthr = dedByTreasury + dedByAG ;
 			double dedByOthr = CA + FA + HouseAdv + vehAdv + gpfAdvance + alliedSoc + mantralayaSoci + chiplunSoc
-					+ ulhasnagarSoc + engrSoc + CreditSoc + CopBank + othrded + RecurringDep + pubHealWrks + sindhuOras
-					+ jalgaonSoc + manaBhaiMehJal + akolaPAriAbhi + zpKarmPat + vidharbhaGramkokBn + chandaSoc
-					+ jalsevaSocNag + bhandaraSoc + gdccBank + gondiaSoc + nagpurSoc + allahabadSoc + bhanDistCenCopBnk
-					+ bankOfBarora + courtComput + jalgaonGSSoc + jalgaonHandiSoc + dhulenandurbarBnk
-					+ parisarAbhiSocNash + sarwAroBanSoc + jalSocCL3 + panipurvtaSocCL3or4 + govBank + sangliSalSoc
-					+ +mjpSoc + nashikRoadSocCL3or4 + jalsevaMalSocCL3 + nashikBankSoc + mandaNashikSoc
-					+ ujwalaMahilaPatBhan + bcQuar + flagDay + bhandJilAbhiKarPat + jalsevaKarmSahaPath + socNanded
-					+ socAurang + socLatur + mlwfOnlyMJP + mahaLabWelFund + mjpLatur + jalbhavanSoc + mjpSocSolapur
-					+ rajashriShahu + license + sataraSoci + Parsik_Janata_Sh_Vasi + payfixAdv + ServCharge
+					+ ulhasnagarSoc + engrSoc + CreditSoc + CopBank + othrded + RecurringDep + rajashriShahu + license + sataraSoci + Parsik_Janata_Sh_Vasi + payfixAdv + ServCharge
 					+ BhagshreeBank + gpfLoanRec + vangaonSoc + panipuravthaKolhapur + rajshriGovbankKolhapur
 					+ ahdPariAbhiMarya + HouseAdvInstAmt + mjpSocBeed + salOwnSocSangli + shaskiyPaniPurvSocSatara
 					+ hastantritpune + jalbhavanSocSangli + akolaSoc + yavatmalSoc + nagSahaPatSansta + enggSoc
-					+ daryapurSoc + pubhealSoc + jalpradayaSoc + zilhaPariKarmPant + excessPayrec + jalnaSoc
+					+ daryapurSoc + pubhealSoc + jalpradayaSoc + zilhaPariKarmPant +   jalnaSoc
 					+ amrawatidistEnggCredSoc + puneDistCentCoBnk + bharatratnavishsolapur + motorCycleAdv
 					+ motorCycleAdvIntAmt + bhanZillaParWaPanchayatSamitiSanstha;
 			paybillGenerationTrnDetails.setDedAdjOtr((double) Math.round(dedByOthr));
@@ -6698,12 +5796,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			paybillGenerationTrnDetails.setTotalNetAmt((double) Math.round(Net));
 			paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 			if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
-				if (mstEmployeeEntity2.getSevaarthId().equals("MJPABKM7901")) {
-					paybillGenerationTrnDetails.setSevenPcLevel(14);
-
-				} else {
 					paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());
-				}
 			} else {
 				if (mstEmployeeEntity2.getPayInPayBand() != null)
 					paybillGenerationTrnDetails.setPay_band(mstEmployeeEntity2.getPayInPayBand());
@@ -6832,51 +5925,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			rop = 0d;
 			payFixDiff = 0d;
 			nps = 0d;
-			pubHealWrks = 0d;
-			sindhuOras = 0d;
-			jalgaonSoc = 0d;
-			manaBhaiMehJal = 0d;
-			akolaPAriAbhi = 0d;
-			zpKarmPat = 0d;
-			vidharbhaGramkokBn = 0d;
-			chandaSoc = 0d;
-			jalsevaSocNag = 0d;
-			bhandaraSoc = 0d;
-			gdccBank = 0d;
-			gondiaSoc = 0d;
-			nagpurSoc = 0d;
-			allahabadSoc = 0d;
-			bhanDistCenCopBnk = 0d;
-			bankOfBarora = 0d;
-			courtComput = 0d;
-			jalgaonGSSoc = 0d;
-			jalgaonHandiSoc = 0d;
-			dhulenandurbarBnk = 0d;
-			parisarAbhiSocNash = 0d;
-			sarwAroBanSoc = 0d;
-			jalSocCL3 = 0d;
-			panipurvtaSocCL3or4 = 0d;
-			govBank = 0d;
-			sangliSalSoc = 0d;
-			mjpSoc = 0d;
-			nashikRoadSocCL3or4 = 0d;
-			jalsevaMalSocCL3 = 0d;
-			nashikBankSoc = 0d;
-			mandaNashikSoc = 0d;
-			ujwalaMahilaPatBhan = 0d;
-			bcQuar = 0d;
-			excessPayrec = 0d;
-			flagDay = 0d;
-			bhandJilAbhiKarPat = 0d;
-			jalsevaKarmSahaPath = 0d;
-			socNanded = 0d;
-			socAurang = 0d;
-			socLatur = 0d;
-			mlwfOnlyMJP = 0d;
-			mahaLabWelFund = 0d;
-			mjpLatur = 0d;
-			jalbhavanSoc = 0d;
-			mjpSocSolapur = 0d;
 			empContri = 0d;
 			emprContri = 0d;
 			gpfInst = 0d;
@@ -7431,7 +6479,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId(),
 					String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
 					String.valueOf(paybillHeadMpgModel.getPaybillYear()));
-			int payCommission = 0;
+			Long payCommission = 0l;
 			payCommission = mstEmployeeEntity2.getPayCommissionCode();
 			int percentage = 0;
 			String percentageHRA = null;
@@ -9146,7 +8194,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public Object[] getSevaarthIdMappedWithBill(String ddocode, int noofemp, BigInteger schemeBillGroupId, int month,
+	public Object[] getSevaarthIdMappedWithBill(String ddocode, int noofemp, Long schemeBillGroupId, int month,
 			int year) {
 		boolean flag = false;
 		/*
@@ -9179,7 +8227,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public Integer isPaybillExists(BigInteger schemeBillgroupId, int paybillMonth, int paybillYear) {
+	public Integer isPaybillExists(Long schemeBillgroupId, int paybillMonth, int paybillYear) {
 		// TODO Auto-generated method stub
 		return paybillHeadMpgRepo.isPaybillExistsForCurrentMonth(schemeBillgroupId, paybillMonth, paybillYear);
 	}
@@ -9226,7 +8274,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName) {
+	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName) {
 		// TODO Auto-generated method stub
 		List<MstEmployeeEntity> lstMstEmployeeEntity = paybillHeadMpgRepo.checkedBgisAndGisCatNull(schemeBillGroupId,
 				userName);

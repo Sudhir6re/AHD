@@ -851,7 +851,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public Integer isPaybillExistsForCurrentMonth(BigInteger schemeBillgroupId, int paybillMonth, int paybillYear) {
+	public Integer isPaybillExistsForCurrentMonth(Long schemeBillgroupId, int paybillMonth, int paybillYear) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = "select count(*)  from paybill_generation_trn where  paybill_month ='" + paybillMonth
 				+ "' and paybill_year ='" + paybillYear + "' and scheme_billgroup_id ='" + schemeBillgroupId
@@ -876,7 +876,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public String getgradePay7PC(Integer gradelevel) {
+	public String getgradePay7PC(Long gradelevel) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = "select grade_pay from rlt_payband_gp_state_7pc where level = '" + gradelevel + "'";
 		System.out.println("---------------getgradePay7PC-----------------" + HQL);
@@ -973,7 +973,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		
 	}
 	@Override
-	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName) {
+	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName) {
 		// TODO Auto-generated method stub
 		String HQL = "FROM MstEmployeeEntity as  t  where t.ddoCode = '" + userName.trim() + "' and t.billGroupId = "
 				+ schemeBillGroupId + " AND t.isActive='1' and t.sevaarthId!=null and ((t.begisCatg is null or t.begisCatg='0') or  (t.giscatagory is null or t.giscatagory=0)) "

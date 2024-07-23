@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,11 +9,9 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.deser.SettableAnyProperty;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -24,7 +23,6 @@ import com.mahait.gov.in.model.MpgSchemeBillGroupModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
 import com.mahait.gov.in.model.Rltdcpsbillgroupclassmodel;
 import com.mahait.gov.in.repository.DdoBillGroupRepo;
-import com.mahait.gov.in.repository.DdoBillGroupRepoImpl;
 
 @Service
 @Transactional
@@ -133,8 +131,23 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
 			obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
 			obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
-			obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[4]));
-			obj.setPayCommissionCode(StringHelperUtils.isNullInt(objLst[5]));
+			
+			/*BigInteger b = (BigInteger) objLst[4];
+			obj.setEmployeeId(b.longValue());
+
+			int paycomm=(int) objLst[5];
+			Long lngPaycomm=(long)paycomm;
+			obj.setPayCommissionCode(lngPaycomm);
+
+			
+			int payComm = (int) objLst[5];
+			Long lngpaycomm=(long) payComm;
+			obj.setPayCommissionCode(lngpaycomm);*/
+			obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
+
+			obj.setPayCommissionCode(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
+
+			obj.setPayCommissionCode(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
 			obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
 			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
 			obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
@@ -257,7 +270,7 @@ public int deleteEmpMpgDdoAllowDeduc(String sevaarthId) {
 }
 
 @Override
-public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, String department_id, String empId, String sevaarthId,
 		String effectiveDate) {
 	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id,department_id, empId,sevaarthId,effectiveDate);
 	return 0;
@@ -275,6 +288,59 @@ public List<Object[]> findAllMpgSchemeBillGroupbyParameter1(int id) {
 	// TODO Auto-generated method stub
 	List<Object[]> deptEligibilityForAllowAndDeductEntity = ddoBillGroupRepo.findMpgSchemeBillGroupBySchemeBillGroupId1(id);
 	return deptEligibilityForAllowAndDeductEntity;
+}
+
+@Override
+public Object findattachpostlist(String userName, String billgrpId) {
+	// TODO Auto-generated method stub
+	return ddoBillGroupRepo.findattachpostlist(userName, billgrpId);
+}
+
+@Override
+public Object finddetachpostlist(String userName, String billgrpId) {
+	// TODO Auto-generated method stub
+	return ddoBillGroupRepo.finddetachpostlist(userName, billgrpId);
+}
+
+@Override
+public String saveAttachDettachPost(MpgSchemeBillGroupModel mpgSchemeBillGroupModel) {
+
+	String result = "N";
+
+	// public String saveAttachDettachEmployeeBillGroup(String sevaarthId,int empid,
+	// int billGroupId,String status)
+	String lStrPostIdstoBeDetached = mpgSchemeBillGroupModel.getPostIdstoBeDetached();// StringUtility.getParameter("dcpsEmpIdstoBeDetached",
+																							// request);
+	String[] lStrArrDcpsEmpIdstoBeDetached = lStrPostIdstoBeDetached.split("~");
+	Long[] lLongArrDcpsEmpIdstoBeDetached = new Long[lStrArrDcpsEmpIdstoBeDetached.length];
+	for (Integer lInt = 0; lInt < lStrArrDcpsEmpIdstoBeDetached.length; lInt++) {
+		if (lStrArrDcpsEmpIdstoBeDetached[lInt] != "" && !lStrArrDcpsEmpIdstoBeDetached[lInt].equals("")) {
+			lLongArrDcpsEmpIdstoBeDetached[lInt] = Long.valueOf(lStrArrDcpsEmpIdstoBeDetached[lInt]);
+			result = ddoBillGroupRepo.saveAttachDettachPostToBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
+					lLongArrDcpsEmpIdstoBeDetached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					"Detach");// updateBillNoInPayroll(lLongArrDcpsEmpIdstoBeDetached[lInt], null, "Detach");
+		}
+	}
+
+	String lStrPostIdstoBeattached = mpgSchemeBillGroupModel.getPostIdstoBeAttached(); // StringUtility.getParameter("dcpsEmpIdstoBeAttached",
+																								// request);
+	String[] lStrArrPostIdstoBeAttached = lStrPostIdstoBeattached.split("~");
+	Long[] lLongArrPostIdstoBeAttached = new Long[lStrArrPostIdstoBeAttached.length];
+	for (Integer lInt = 0; lInt < lStrArrPostIdstoBeAttached.length; lInt++) {
+		if (lStrArrPostIdstoBeAttached[lInt] != "" && !lStrArrPostIdstoBeAttached[lInt].equals("")) {
+			lLongArrPostIdstoBeAttached[lInt] = Long.valueOf(lStrArrPostIdstoBeAttached[lInt]);
+			// lObjDdoBillGroupDAO.updateBillNoInPayroll(lLongArrDcpsEmpIdstoBeAttached[lInt],
+			// lLongbillGroupId, "Attach");
+			result = ddoBillGroupRepo.saveAttachDettachPostToBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
+					lLongArrPostIdstoBeAttached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					"Attach");
+		}
+	}
+
+
+
+	return result;
+
 }
 }
 

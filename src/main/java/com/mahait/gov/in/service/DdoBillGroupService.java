@@ -64,7 +64,7 @@ public interface DdoBillGroupService {
 
 
 
-	public int saveEmpMpgDdoAllowDeduc(Object object, int departmentId, int empId, String sevaarthId,
+	public int saveEmpMpgDdoAllowDeduc(Object object, String departmentId, String empId, String sevaarthId,
 			String effectiveDate);
 
 
@@ -74,4 +74,16 @@ public interface DdoBillGroupService {
 
 
 	public List<Object[]> findAllMpgSchemeBillGroupbyParameter1(int input);
+
+
+
+	public Object findattachpostlist(String userName, String billgrpId);
+
+
+
+	public Object finddetachpostlist(String userName, String billgrpId);
+
+
+
+	public String saveAttachDettachPost(MpgSchemeBillGroupModel mpgSchemeBillGroupModel);
 }

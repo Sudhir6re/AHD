@@ -2,12 +2,13 @@ package com.mahait.gov.in.service;
 
 import java.util.List;
 
+import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstBankPay;
 
 
 public interface MstBankService {
 
-	 public List<MstBankPay> lstAllBank();
+	 public List<MstBankEntity> lstAllBank();
 	 
 //	 public List<Object[]> findAllBankBranchList(int bankCode);
 //	

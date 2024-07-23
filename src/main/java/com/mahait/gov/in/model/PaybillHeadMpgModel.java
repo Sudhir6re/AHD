@@ -11,9 +11,9 @@ public class PaybillHeadMpgModel {
 private static final long serialVersionUID = 1L;
 	
 	
-    private int paybillGenerationTrnDetailId;  
+    private Long paybillGenerationTrnDetailId;  
     private int billCategory;
-	private BigInteger schemeBillgroupId;
+	private Long schemeBillgroupId;
 	private int billGroupId;
 	private int paybillMonth;
 	private int paybillYear;

@@ -43,7 +43,7 @@ public interface DdoBillGroupRepo {
 
 	public int deleteEmpMpgDdoAllowDeduc(String sevaarthId);
 
-	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, String department_id, String empId, String sevaarthId,
 			String effectiveDate);
 
 	public List<Object[]> empEligibilityForAllowAndDeductCheckBoxId(String id);
@@ -51,5 +51,12 @@ public interface DdoBillGroupRepo {
 	public List<Object[]> findMpgSchemeBillGroupBySchemeBillGroupId1(int id);
 
 	public List getBillgroupDtlsForAlreadySaved(String billGrpId);
+
+	public List<Object[]> findattachpostlist(String userName, String billgrpId);
+
+	public List<Object[]> finddetachpostlist(String userName, String billgrpId);
+
+	public String saveAttachDettachPostToBillGroup(String sevaarthId, int empid, Long schemebillGroupId,
+			String status);
 
 }
