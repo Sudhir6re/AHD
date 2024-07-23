@@ -134,6 +134,9 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
 			obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
 			obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[4]));
+
+			obj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[5]));
+
 			obj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[5]));
 			obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
 			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
