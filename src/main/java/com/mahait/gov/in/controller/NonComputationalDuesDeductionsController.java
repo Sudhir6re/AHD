@@ -1,7 +1,5 @@
 package com.mahait.gov.in.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -22,7 +20,6 @@ import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.EmployeeAllowDeducComponentAmtModel;
-import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
 

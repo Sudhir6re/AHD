@@ -181,23 +181,20 @@ table, th, td {
 
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstagisgroup}"></span></label></b></th>
-
-									<th class="text-center"><b><label for="title"><span
-												th:utext="#{msg.thymeleaf.pagelabel.empstagisgroup}"></span></label></b></th>
 									<th class="text-center gis-val"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstagisvalue}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstaphyhand}"></span></label></b></th>
-
 									<th class="text-center bank-name"><b><label
-											for="title"><span
+											for="title"><span th:utext="#{msg.thymeleaf.pagelabel.empstabankname}"></span></label></b></th>
+
+									<th class="text-center branch-name"><b><label
+											for="title">
+											<span for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstabankname}"></span></label></b></th>
 									<th class="text-center branch-name"><b><label
 											for="title"><span>
 									<th class="text-center"><b><label for="title"><span
-												th:utext="#{msg.thymeleaf.pagelabel.empstabankname}"></span></label></b></th>
-									<th class="text-center"><b><label for="title"><span
-
 												th:utext="#{msg.thymeleaf.pagelabel.empstabankbranchname}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstaaccno}"></span></label></b></th>
@@ -235,10 +232,14 @@ table, th, td {
 
 									<td align="center" th:text="${varData.postname}"></td>
 									<td align="left" th:text="${varData.postType}"></td>
-									<td align="left" th:text="${#dates.format(varData.poststartdate, 'dd-MM-yyyy')}" ></td>
-									<td align="left" th:text="${#dates.format(varData.postenddate, 'dd-MM-yyyy')}" ></td>
-									<td align="left" th:text="${#dates.format(varData.dateofjoining, 'dd-MM-yyyy')}" ></td>
-									<td align="left" th:text="${#dates.format(varData.dateofexipry, 'dd-MM-yyyy')}" ></td>
+									<td align="left"
+										th:text="${#dates.format(varData.poststartdate, 'dd-MM-yyyy')}"></td>
+									<td align="left"
+										th:text="${#dates.format(varData.postenddate, 'dd-MM-yyyy')}"></td>
+									<td align="left"
+										th:text="${#dates.format(varData.dateofjoining, 'dd-MM-yyyy')}"></td>
+									<td align="left"
+										th:text="${#dates.format(varData.dateofexipry, 'dd-MM-yyyy')}"></td>
 									<td align="left" th:text="${varData.scaledec}"></td>
 									<td align="center" th:text="${varData.basicpay}"></td>
 									<td align="center" th:text="${varData.sevenbasicpay}"></td>
