@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,11 +9,9 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.deser.SettableAnyProperty;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -24,7 +23,6 @@ import com.mahait.gov.in.model.MpgSchemeBillGroupModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
 import com.mahait.gov.in.model.Rltdcpsbillgroupclassmodel;
 import com.mahait.gov.in.repository.DdoBillGroupRepo;
-import com.mahait.gov.in.repository.DdoBillGroupRepoImpl;
 
 @Service
 @Transactional
@@ -133,7 +131,9 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
 			obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
 			obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
-			obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[4]));
+			
+			BigInteger b = (BigInteger) objLst[4];
+			obj.setEmployeeId(b.longValue());
 
 			int paycomm=(int) objLst[5];
 			Long lngPaycomm=(long)paycomm;
