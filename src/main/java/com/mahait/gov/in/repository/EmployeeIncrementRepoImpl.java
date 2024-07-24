@@ -1,5 +1,6 @@
 package com.mahait.gov.in.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,9 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+
+import com.mahait.gov.in.entity.EmployeeIncrementEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 
 
 @Repository
@@ -53,12 +57,59 @@ public class EmployeeIncrementRepoImpl implements EmployeeIncrementRepo {
 	@Override
 	public List<Object[]> getIncrementDataForReptDDO(String userName, String currYear) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "SELECT  distinct p.INCR_CERTI_ORDER_NO,p.loc_id,p.INCR_ORDER_DATE,p.status,zp.zp_ddo_code,ddo.ddo_office \r\n" + 
-				"FROM RLT_ZP_DDO_MAP zp, ORG_DDO_MST ddo, HR_PAYFIX_MST p  where p.LOC_ID = cast(ddo.LOCATION_CODE as BigInt) and zp.ZP_DDO_CODE = ddo.DDO_CODE and p.activate_Flag in (0,1,-1) \r\n" + 
-				"and zp.ZP_DDO_CODE = ddo.DDO_CODE and zp.REPT_DDO_CODE ='"+userName+"'  order by zp.zp_ddo_code";//and year(p.CREATED_DATE)="+currYear+"
+		String hql = "SELECT\r\n" + 
+				"        distinct p.increment_order_no, \r\n" + 
+				"        p.increment_order_date,\r\n" + 
+				"        p.is_active,\r\n" + 
+				"        zp.zp_ddo_code,\r\n" + 
+				"        ddo.ddo_office   \r\n" + 
+				"    FROM\r\n" + 
+				"        RLT_ZP_DDO_MAP zp,\r\n" + 
+				"        ORG_DDO_MST ddo,\r\n" + 
+				"        employee_increment p  \r\n" + 
+				"    where\r\n" + 
+				"        zp.ZP_DDO_CODE = ddo.DDO_CODE \r\n" + 
+				"        and p.is_active = '1'\r\n" + 
+				"        and zp.ZP_DDO_CODE = p.DDO_CODE \r\n" + 
+				"        and zp.REPT_DDO_CODE ='"+userName+"'  order by zp.zp_ddo_code";//and year(p.CREATED_DATE)="+currYear+"
 		System.out.println("getEmpDataForIncrementApproval------" + hql);
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
+	}
+
+
+	@Override
+	public List<EmployeeIncrementEntity> findEmp(String orderNo) {
+		EmployeeIncrementEntity objDept = null;
+		String HQL = "FROM EmployeeIncrementEntity as t where incrementOrderNo = '" + orderNo + "' ";
+		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
+				.createQuery(HQL).getResultList();
+		return lstAllowanceDeductionMstEntity;
+	}
+
+
+	@Override
+	public void updateEmpBasicPay(MstEmployeeEntity mstEmployeeEntity) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.update(mstEmployeeEntity);
+	}
+
+
+	@Override
+	public Serializable approveAnnualIncrement(EmployeeIncrementEntity employeeIncrementEntity) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Serializable saveId = 1;
+		currentSession.update(employeeIncrementEntity);
+		return (Integer) saveId;
+	}
+
+
+	@Override
+	public MstEmployeeEntity findEmpByEmpId(Long employeeId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "From MstEmployeeEntity as t where t.employeeId = '"+ employeeId+"'";
+		Query query = currentSession.createSQLQuery(hql);
+		return entityManager.find(MstEmployeeEntity.class, employeeId);
 	}
 
 

@@ -992,8 +992,8 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
 				.createQuery(HQL).getResultList();
-		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getIncrementBasicPaySal()).findFirst().orElse(0);
-		return percentage;
+		Double percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getIncrementBasicPaySal()).findFirst().orElse((double) 0);
+		return percentage.intValue();
 	}
 
 	@Override
@@ -1005,8 +1005,8 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		
 		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
 				.createQuery(HQL).getResultList();
-		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPreBasicPay()).findFirst().orElse(0);
-		return percentage;
+		Double percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPreBasicPay()).findFirst().orElse((double) 0);
+		return percentage.intValue();
 	}
 
 	@Override
