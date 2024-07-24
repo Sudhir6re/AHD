@@ -569,8 +569,17 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		logger.info("Sevaarth Id=" + sevaarthid);
 		// List<Object[]> fetchAllowDeducName(String sevaarthid)
 
-		String cityClass = mstEmployeeModel.getCityClass().toString();
-		mstEmployeeModel.setCityClass(cityClass.charAt(0));
+	//	String cityClass = mstEmployeeModel.getCityClass().toString();
+		//mstEmployeeModel.setCityClass(cityClass.split(regex));
+		
+		String cityClass="";
+		
+		if(mstEmployeeModel.getCityClass()!=null) {
+			String spilt[] = mstEmployeeModel.getCityClass().split("-");
+			cityClass = spilt[1];
+			mstEmployeeModel.setCityClass(cityClass);
+		}
+		
 
 		int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
 		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
@@ -6045,11 +6054,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			int percentage = 0;
 			String percentageHRA = null;
 			String citygroup = null;
-
-			DdoOffice ddoScreenEntity = mstEmployeeRepo.findAllGroup(mstEmployeeModel.getDdoCode().trim());
-			String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
-
-			citygroup = spilt[1];
+			
 
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				if (payCommission == 8 && !mstEmployeeModel.getGiscatagory().equals(3)) {
@@ -10439,7 +10444,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		logger.info("Sevaarth Id=" + sevaarthid);
 		String cityClass = String.valueOf(mstEmployeeModel.getCityClass());
 
-		mstEmployeeModel.setCityClass(cityClass.charAt(0));
+		mstEmployeeModel.setCityClass(cityClass);
 		int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
 		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
 

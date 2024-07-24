@@ -834,7 +834,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, Character cityClass) {
+	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc,String cityClass) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = "select t.payCommissionCode,t.cityClass" + cityClass
 				+ " FROM HRAAllowanceMstEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc+"   and to_char(t.startDate,'YY-MM-DD')<='"+startDate+"' "
@@ -845,7 +845,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		List<Object[]> lstAllowanceDeductionMstEntity = (List<Object[]>) entityManager.createQuery(HQL).getResultList();
 		for (Object lst[] : lstAllowanceDeductionMstEntity) {
 			result = lst[1].toString();
-
 		}
 		return result;
 	}

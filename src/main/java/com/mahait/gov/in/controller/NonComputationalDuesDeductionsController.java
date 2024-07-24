@@ -63,7 +63,6 @@ public class NonComputationalDuesDeductionsController {
 		return "/views/NonGovernmentDuesAndDeduction";
     }
 	
-	/////
 	
 	@PostMapping(value = "/saveEmployeeNonGovDuesDeduct")
 	public String saveEmployeeNonGovDuesDeduct(@ModelAttribute("employeeAllowDeducComponentAmtModel") @Valid EmployeeAllowDeducComponentAmtModel employeeAllowDeducComponentAmtModel, 
@@ -77,6 +76,6 @@ public class NonComputationalDuesDeductionsController {
 				redirectAttributes.addFlashAttribute("message","SUCCESS");
 			}
 			
-			return "redirect:/master/nonGovDuesDeduction";
+			return "redirect:/ddoast/nonGovDuesDeduction";
 		}
 }
