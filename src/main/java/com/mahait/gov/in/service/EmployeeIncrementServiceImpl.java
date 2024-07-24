@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,11 +8,15 @@ import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.EmployeeIncrementEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.AnnualIncrementModel;
 import com.mahait.gov.in.repository.EmployeeIncrementRepo;
 
@@ -61,15 +66,43 @@ public class EmployeeIncrementServiceImpl implements EmployeeIncrementService{
 			for (Object[] objLst : lstprop) {
 				AnnualIncrementModel obj = new AnnualIncrementModel();
 		        obj.setOrderNo(StringHelperUtils.isNullString(objLst[0]));
-				obj.setIncrementOrderDate(StringHelperUtils.isNullDate(objLst[2]));
-				obj.setStatus(StringHelperUtils.isNullString(objLst[3]));
-				obj.setDdoCode(StringHelperUtils.isNullString(objLst[4]));
-				obj.setOfficeName(StringHelperUtils.isNullString(objLst[5]));
+				obj.setIncrementOrderDate(StringHelperUtils.isNullDate(objLst[1]));
+				obj.setIsActive(StringHelperUtils.isNullChar(objLst[2]));
+				obj.setDdoCode(StringHelperUtils.isNullString(objLst[3]));
+				obj.setOfficeName(StringHelperUtils.isNullString(objLst[4]));
 				// obj.setBasicPayIncrementId(StringHelperUtils.isNullInt(objLst[4]));
 				lstObj.add(obj);
 			}
 		}
 		return lstObj;
+	}
+
+	@Override
+	public int approveAnnualIncrement(@Valid AnnualIncrementModel annualIncrementModel, OrgUserMst messages) {
+		int id = 0;
+		List<EmployeeIncrementEntity> obj = employeeIncrementRepo.findEmp(annualIncrementModel.getOrderNo());
+		if (obj.size() > 0) {
+			for (EmployeeIncrementEntity employeeIncrementEntity : obj) {
+
+				employeeIncrementEntity.setIsActive('2');
+				employeeIncrementEntity.setUpdatedDate(new Date());
+				employeeIncrementEntity.setUpdatedUserId(messages.getUserId());
+
+				MstEmployeeEntity mstEmployeeEntity = employeeIncrementRepo
+						.findEmpByEmpId(employeeIncrementEntity.getEmployeeId());
+				if (mstEmployeeEntity.getPayCommissionCode() == 8) { // seven pc
+					mstEmployeeEntity.setSevenPcBasic(employeeIncrementEntity.getIncrementBasicPaySal().doubleValue());
+				} else if (mstEmployeeEntity.getPayCommissionCode() == 2) { // six pay basic
+					mstEmployeeEntity.setBasicPay(employeeIncrementEntity.getIncrementBasicPaySal().doubleValue());
+				}
+
+				employeeIncrementRepo.updateEmpBasicPay(mstEmployeeEntity);
+
+				Serializable approveGPF = employeeIncrementRepo.approveAnnualIncrement(employeeIncrementEntity);
+				id = (int) approveGPF;
+			}
+		}
+		return id;
 	}
 
 

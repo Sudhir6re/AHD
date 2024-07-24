@@ -50,7 +50,7 @@ $(document)
 												$
 														.ajax({
 															type : "GET",
-															url : "../transaction/findAllEmpForDue/"
+															url : "../ddoast/findAllEmpForDue/"
 																	+ schemeBillGroupId
 																	+ "/"
 																	+ payCommision,
@@ -296,7 +296,7 @@ $(document)
 						var basic = "";
 						$.ajax({
 							type : "GET",
-							url : "../transaction/findNextMatrix/" + empId
+							url : "../ddoast/findNextMatrix/" + empId
 									+ "/" + basicPay + "/" + level,
 							async : false,
 							contentType : 'application/json',
@@ -394,7 +394,7 @@ $(document)
 										$
 												.ajax({
 													type : "GET",
-													url : "../transaction/saveAnnualIncrementData/"
+													url : "../ddoast/saveAnnualIncrementData/"
 															+ empIds
 															+ "/"
 															+ sevaarthIds
@@ -445,7 +445,7 @@ function checkOrderNoAlreadyExists(certificateNumber) {
 	flag = 0;
 	$.ajax({
 		type : "GET",
-		url : "../transaction/checkOrderNoAlreadyExists/"
+		url : "../ddoast/checkOrderNoAlreadyExists/"
 				+ certificateNumber,
 		async : false,
 		dataType : 'json',

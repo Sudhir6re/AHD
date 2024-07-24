@@ -19,20 +19,21 @@ public class EmployeeIncrementEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "basic_pay_increment_id")
 	private Long basicPayIncrementId;
+	
 	@Column(name = "sevaarth_id")
 	private String sevaarthId;
 
 	@Column(name = "employee_id")
-	private int employeeId;
+	private Long employeeId;
 
 	@Column(name = "current_basic_pay")
-	private Integer currentBasicPay;
+	private Double currentBasicPay;
 
 	@Column(name = "current_basic_level_id")
-	private Integer currentBasicLevelId;
+	private Long currentBasicLevelId;
 
 	@Column(name = "pre_basic_pay")
-	private Integer preBasicPay;
+	private Double preBasicPay;
 
 	@Column(name = "increment_order_no")
 	private String incrementOrderNo;
@@ -41,10 +42,10 @@ public class EmployeeIncrementEntity {
 	private Date incrementOrderDate;
 
 	@Column(name = "increment_basic_pay_sal")
-	private Integer incrementBasicPaySal;
+	private Double incrementBasicPaySal;
 
 	@Column(name = "increment_basic_level_id")
-	private Integer incrementBasicLevelId;
+	private Long incrementBasicLevelId;
 
 	@Column(name = "effective_from_date")
 	private Date effective_from_date;
@@ -71,12 +72,15 @@ public class EmployeeIncrementEntity {
 	private Integer year;
 
 	@Column(name = "CREATED_USER_ID")
-	private Integer createdUserId;
+	private Long createdUserId;
 
 	@Column(name = "UPDATED_USER_ID")
-	private Integer updatedUserId;
+	private Long updatedUserId;
 
 	@Column(name = "DDO_CODE")
 	private String ddoCode;
+	
+	@Column(name = "paycommission_id")
+	private Long PaycommissionId;
 
 }

@@ -71,7 +71,6 @@
 								<th class="datatableheader">DDO Office</th>
 								<th class="datatableheader">Status</th>
 								<th class="datatableheader">Action</th>
-								<th class="datatableheader"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -85,7 +84,7 @@
 								<td th:text="${varEmp.incrementOrderDate}"></td>
 								<td th:text="${varEmp.ddoCode}"></td>
 								<td th:text="${varEmp.officeName}"></td>
-								<td style="text-align: center;" th:text="${varEmp.status}"></td>
+								<td style="text-align: center;" >Forwarded</td>
 								<td><a class="collapse-item"
 											th:href="@{'/ddo/MTR21/'+${varEmp.orderNo}}"><span>Print Report</span></a></td>
 											
