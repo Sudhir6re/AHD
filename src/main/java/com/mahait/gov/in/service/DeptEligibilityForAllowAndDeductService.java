@@ -25,4 +25,8 @@ public interface DeptEligibilityForAllowAndDeductService {
 	public int saveEmployeeNonGovDuesDeduct(
 			@Valid EmployeeAllowDeducComponentAmtModel employeeAllowDeducComponentAmtModel, OrgUserMst messages);
 
+	public List<DeptEligibilityForAllowAndDeductEntity> findDeptAllowAndDeductList();
+
+	public List<Object[]> getEmployeeAgainstId(int allowDeducComponentId, String ddoCode, String sevaarthId);
+
 }

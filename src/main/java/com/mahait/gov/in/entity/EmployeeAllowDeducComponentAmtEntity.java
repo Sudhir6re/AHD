@@ -23,7 +23,7 @@ public class EmployeeAllowDeducComponentAmtEntity {
 	private int empAwnDedCompoAmtId;  
 	
 	@Column(name="employee_id")
-	private int employeeId;  
+	private Long employeeId;  
 	   
 	@Column(name="EXISTING_AMT")
 	private double existingAmt;  

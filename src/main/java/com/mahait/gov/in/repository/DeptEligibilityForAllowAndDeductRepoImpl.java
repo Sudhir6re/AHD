@@ -163,4 +163,36 @@ public class DeptEligibilityForAllowAndDeductRepoImpl implements DeptEligibility
 		return (Integer) saveId;
 	}
 
+
+	@Override
+	public List<Object[]> getEmployeeAgainstId(int allowDeducComponentId, String ddoCode, String sevaarthId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql=null;
+		if(sevaarthId.equals("1"))
+		{
+			hql = "select  a.employee_full_name_en,a.sevaarth_id,c.is_type,case when a.pay_commission_code = 8  then a.seven_pc_basic else a.basic_pay end as basic_pay,a.employee_id,b.department_allowdeduc_code,a.field_department_code," + 
+					"case when d.net_amt <> 0  then d.net_amt else 0 end as net_amt, case when d.existing_amt <> 0  then d.existing_amt else 0 end as existing_amt ,case when d.net_amt <> 0  then d.net_amt else 0 end\r\n" + 
+					"from employee_mst a\r\n" + 
+					"inner join employee_allowdeduc_mpg b on a.sevaarth_id = b.sevaarth_id  \r\n" + 
+					"left join department_allowdeduc_mst c on b.department_allowdeduc_code = c.department_allowdeduc_code\r\n" + 
+					"left join employee_allowdeduc_component_amt d on a.sevaarth_id = d.sevaarth_id  and  d.department_allowdeduc_code = "+allowDeducComponentId+" \r\n" + 
+					"where a.ddo_code = '"+ddoCode.trim()+"' and  b.department_allowdeduc_code = '"+allowDeducComponentId+"' and a.is_active='1'";
+		}
+		else {
+			
+	
+		 //hql =  "select DISTINCT c.employee_full_name_en,c.sevaarth_id,a.is_type,c.basic_pay,c.employee_id,b.department_allowdeduc_code,c.field_department_code from department_allowdeduc_mst a inner join employee_allowdeduc_mpg b on a.department_allowdeduc_code = b.department_allowdeduc_code inner join employee_mst c on b.sevaarth_id = c.sevaarth_id where c.ddo_code = '"+ddoCode+"' and a.department_allowdeduc_code = "+allowDeducComponentId+" and c.sevaarth_id = '"+sevaarthId+"'"; //changed from department_allowdeduc_Id to department_allowdeduc_code 
+			hql = "select  a.employee_full_name_en,a.sevaarth_id,c.is_type,case when a.pay_commission_code = 8  then a.seven_pc_basic else a.basic_pay end as basic_pay,a.employee_id,b.department_allowdeduc_code,a.field_department_code," + 
+					"case when d.net_amt <> 0  then d.net_amt else 0 end as net_amt, case when d.existing_amt <> 0  then d.existing_amt else 0 end as existing_amt ,case when d.net_amt <> 0  then d.net_amt else 0 end\r\n" + 
+					"from employee_mst a\r\n" + 
+					"inner join employee_allowdeduc_mpg b on a.sevaarth_id = b.sevaarth_id  \r\n" + 
+					"left join department_allowdeduc_mst c on b.department_allowdeduc_code = c.department_allowdeduc_code\r\n" + 
+					"left join employee_allowdeduc_component_amt d on a.sevaarth_id = d.sevaarth_id  and  d.department_allowdeduc_code = "+allowDeducComponentId+" \r\n" + 
+					"where a.ddo_code = '"+ddoCode.trim()+"' and  b.department_allowdeduc_code = "+allowDeducComponentId+" and a.sevaarth_id = '"+sevaarthId+"' and a.is_active='1'"; 
+		}
+		System.out.println("query >>>>"+hql);
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+
 }
