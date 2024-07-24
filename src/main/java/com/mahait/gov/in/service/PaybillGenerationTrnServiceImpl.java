@@ -284,19 +284,24 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					startDate = String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
 				}
 
+				String cityClassStr = mstEmployeeEntity2.getCityClass().toString();
+				
+				String split1[]=cityClassStr.split("-");
+				String cityClass = split1[0];
+
 				if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,
-							mstEmployeeEntity2.getCityClass());
+							cityClass);
 
 				} else {
 					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,
-							mstEmployeeEntity2.getCityClass());
+							cityClass);
 				}
 
 				if (count > 0) {
@@ -337,8 +342,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						pt = paybillGenerationTrnDetails.getPt();
 					}
 
-					String cityClass = mstEmployeeEntity2.getCityClass().toString();
-
+			
 					if (payCommission == 700005) {
 
 						if (hmAllowDeducCodeAndValues
@@ -1575,7 +1579,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 			// String cityClass =
 			// mstEmployeeService.getCityClassAgainstDDO(paybillHeadMpgModel.getDdoCode());
-			String cityClass = mstEmployeeEntity2.getCityClass().toString();
+			String cityClassStr = mstEmployeeEntity2.getCityClass().toString();
+			
+			String split1[]=cityClassStr.split("-");
+			String cityClass = split1[0];
 
 			int payCommission = mstEmployeeService.getpayCommissionAgainstEmployee(mstEmployeeEntity2.getSevaarthId());
 			int gradePaynew = 0;
@@ -1669,7 +1676,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA5th)) {
 						percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 								CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC,
-								mstEmployeeEntity2.getCityClass());
+								cityClass);
 					}
 					if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA6th)) {
 						percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
@@ -1679,7 +1686,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA)) {
 						percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 								CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,
-								mstEmployeeEntity2.getCityClass());
+								cityClass);
 					}
 
 					System.out.println("------------percentageHRA----------" + percentageHRA);
@@ -1689,13 +1696,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,
-							mstEmployeeEntity2.getCityClass());
+							cityClass);
 				} else {
 					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC,
-							mstEmployeeEntity2.getCityClass());
+							cityClass);
 				}
 
 				// basic =sixpcbasic/monthday*presentday;
@@ -2081,18 +2088,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							ta5th = paybillGenerationTrnDetails.getTa5th();
 						}
 
-						if (mstEmployeeEntity2.getSevaarthId().equals("MJPPBNM8901")) {
-							paybillGenerationTrnDetails.setTa5th((double) 800);
-						}
-
-						/// MJPSCRM6601
-						if (mstEmployeeEntity2.getSevaarthId().equals("MJPSCRM6601")) {
-							paybillGenerationTrnDetails.setTa5th((double) 800);
-						}
-
-						if (mstEmployeeEntity2.getSevaarthId().equals("MJPMBCM7001")) {
-							paybillGenerationTrnDetails.setTa5th((double) 1000);
-						}
 						ta5th = paybillGenerationTrnDetails.getTa5th();
 
 					}
@@ -2103,7 +2098,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
 						if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
-							if (citygroup.equals("A") && citygroup.equals("A1")) {
+							if (citygroup.equals("Class A") && citygroup.equals("Class A1")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa5th((double) 3200);
 								} else {
@@ -2119,7 +2114,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							ta5th = paybillGenerationTrnDetails.getTa5th();
 						} else if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400
 								&& gradePaynew < CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
-							if (citygroup.equals("A") || citygroup.equals("A1")) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa5th((double) 1600);
 								} else {
@@ -2134,7 +2129,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							}
 							ta5th = paybillGenerationTrnDetails.getTa5th();
 						} else if (gradePaynew <= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400) {
-							if (citygroup.equals("A") || citygroup.equals("A1")) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa5th((double) 1000);
 								} else {
@@ -2160,7 +2155,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 						if (gradelevel >= 20) {
-							if (citygroup.equals("A")) {
+							if (citygroup.equals("Class A")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa6th((double) 4800);
 								} else {
@@ -2175,7 +2170,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							}
 							ta6th = paybillGenerationTrnDetails.getTa6th();
 						} else if (gradelevel >= 7 && gradelevel <= 19) {
-							if (citygroup.equals("A")) {
+							if (citygroup.equals("Class A")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa6th((double) 2400);
 								} else {
@@ -2190,7 +2185,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							}
 							ta6th = paybillGenerationTrnDetails.getTa6th();
 						} else if (gradelevel >= 1 && gradelevel <= 6) {
-							if (citygroup.equals("A")) {
+							if (citygroup.equals("Class A")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa6th((double) 2000);
 								} else {
@@ -2216,7 +2211,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
 						if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
-							if (citygroup.equals("A") && citygroup.equals("A1")) {
+							if (citygroup.equals("Class A") && citygroup.equals("Class A1")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa((double) 4800);
 								} else {
@@ -2232,7 +2227,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							ta = paybillGenerationTrnDetails.getTa();
 						} else if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400
 								&& gradePaynew < CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
-							if (citygroup.equals("A") || citygroup.equals("A1")) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa((double) 2400);
 								} else {
@@ -2247,7 +2242,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							}
 							ta = paybillGenerationTrnDetails.getTa();
 						} else if (gradePaynew <= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400) {
-							if (citygroup.equals("A") || citygroup.equals("A1")) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 								if (physicalhand.equals("Y")) {
 									paybillGenerationTrnDetails.setTa((double) 2000);
 								} else {
@@ -2279,7 +2274,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								|| paybillHeadMpgModel.getPaybillYear() >= 24) {
 
 							if (gradelevel >= 20) {
-								if (citygroup.equals("A") || citygroup.equals("A1")) {
+								if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 									if (physicalhand.equals("Y")) {
 										paybillGenerationTrnDetails.setTa((double) 10800);
 									} else {
@@ -2294,7 +2289,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								}
 								ta = paybillGenerationTrnDetails.getTa();
 							} else if (gradelevel >= 7 && gradelevel <= 19) {
-								if (citygroup.equals("A") || citygroup.equals("A1")) {
+								if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 									if (physicalhand.equals("Y")) {
 										paybillGenerationTrnDetails.setTa((double) 5400);
 									} else {
@@ -2309,7 +2304,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								}
 								ta = paybillGenerationTrnDetails.getTa();
 							} else if (gradelevel >= 1 && gradelevel <= 6) {
-								if (citygroup.equals("A") || citygroup.equals("A1")) {
+								if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 									if (physicalhand.equals("Y")) {
 										if (SevenPcBasic >= 24200 && cityClass.equalsIgnoreCase(
 												CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
@@ -2348,7 +2343,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						} else {
 							if (gradelevel >= 20) {
 
-								if (citygroup.equals("A") || citygroup.equals("A1")) {
+								if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 									if (physicalhand.equals("Y")) {
 										paybillGenerationTrnDetails.setTa((double) 4800);
 									} else {
@@ -2363,7 +2358,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								}
 								ta = paybillGenerationTrnDetails.getTa();
 							} else if (gradelevel >= 7 && gradelevel <= 19) {
-								if (citygroup.equals("A") || citygroup.equals("A1")) {
+								if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 									if (physicalhand.equals("Y")) {
 										paybillGenerationTrnDetails.setTa((double) 2000);
 									} else {
@@ -2378,7 +2373,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								}
 								ta = paybillGenerationTrnDetails.getTa();
 							} else if (gradelevel >= 1 && gradelevel <= 6) {
-								if (citygroup.equals("A") || citygroup.equals("A1")) {
+								if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
 									if (physicalhand.equals("Y")) {
 										paybillGenerationTrnDetails.setTa((double) 2000);
 									} else {
@@ -2621,43 +2616,43 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							int claamt = 0;
 
 							if (SevenPcBasic < 3000) {
-								if (citygroup.equals("A1")) {
+								if (citygroup.equals("Class A1")) {
 									claamt = 90;
-								} else if (citygroup.equals("A")) {
+								} else if (citygroup.equals("Class A")) {
 									claamt = 65;
-								} else if (citygroup.equals("B1")) {
+								} else if (citygroup.equals("Class B1")) {
 									claamt = 45;
-								} else if (citygroup.equals("B")) {
+								} else if (citygroup.equals("Class B")) {
 									claamt = 25;
 								}
 							} else if (SevenPcBasic >= 3000 && SevenPcBasic < 4499) {
-								if (citygroup.equals("A1")) {
+								if (citygroup.equals("Class A1")) {
 									claamt = 125;
-								} else if (citygroup.equals("A")) {
+								} else if (citygroup.equals("Class A")) {
 									claamt = 95;
-								} else if (citygroup.equals("B1")) {
+								} else if (citygroup.equals("Class B1")) {
 									claamt = 65;
-								} else if (citygroup.equals("B")) {
+								} else if (citygroup.equals("Class B")) {
 									claamt = 35;
 								}
 							} else if (SevenPcBasic >= 4500 && SevenPcBasic < 5999) {
-								if (citygroup.equals("A1")) {
+								if (citygroup.equals("Class A1")) {
 									claamt = 200;
-								} else if (citygroup.equals("A")) {
+								} else if (citygroup.equals("Class A")) {
 									claamt = 150;
-								} else if (citygroup.equals("B1")) {
+								} else if (citygroup.equals("Class B1")) {
 									claamt = 100;
-								} else if (citygroup.equals("B")) {
+								} else if (citygroup.equals("Class B")) {
 									claamt = 65;
 								}
 							} else {
-								if (citygroup.equals("A1")) {
+								if (citygroup.equals("Class A1")) {
 									claamt = 300;
-								} else if (citygroup.equals("A")) {
+								} else if (citygroup.equals("Class A")) {
 									claamt = 240;
-								} else if (citygroup.equals("B1")) {
+								} else if (citygroup.equals("Class B1")) {
 									claamt = 180;
-								} else if (citygroup.equals("B")) {
+								} else if (citygroup.equals("Class B")) {
 									claamt = 120;
 								}
 							}

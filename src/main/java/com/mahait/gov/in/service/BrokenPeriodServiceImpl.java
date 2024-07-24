@@ -570,7 +570,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		// List<Object[]> fetchAllowDeducName(String sevaarthid)
 
 		String cityClass = mstEmployeeModel.getCityClass().toString();
-		mstEmployeeModel.setCityClass(cityClass.charAt(0));
+		mstEmployeeModel.setCityClass(cityClass);
 
 		int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
 		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
@@ -10439,7 +10439,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		logger.info("Sevaarth Id=" + sevaarthid);
 		String cityClass = String.valueOf(mstEmployeeModel.getCityClass());
 
-		mstEmployeeModel.setCityClass(cityClass.charAt(0));
+		mstEmployeeModel.setCityClass(cityClass);
 		int payCommission = mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthid);
 		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
 

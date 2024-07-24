@@ -44,7 +44,7 @@ public interface PaybillGenerationTrnRepo {
 	public List<Object[]> getBrokenPeriodData(String sevaarthid,String monthid,String yearid,String Username ) ;
 	public  List<Object[]> getViewDetialsReport(Integer monthName);
 	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc);
-	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, Character cityClass);
+	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, String cityClass);
 	public Integer isPaybillExistsForCurrentMonth(Long schemeBillgroupId, int paybillMonth, int paybillYear);
 	public int getCheckIsBillInProcess(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType);
 	public String getgradePay7PC(Long gradelevel);

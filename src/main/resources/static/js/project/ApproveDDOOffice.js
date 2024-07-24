@@ -148,7 +148,7 @@ $('#approve')
 											{
 												icon : "success",
 											});
-								
+									location.reload();
 
 							}
 						});
@@ -178,6 +178,7 @@ $('#btnRjct')
 									{
 										icon : "success",
 									});
+							location.reload();
 							
 							
 						}
