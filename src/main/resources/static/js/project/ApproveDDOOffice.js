@@ -1,5 +1,8 @@
+var contextPath ="";
 $(document).ready(function() {
-	var contextPath = $("#appRootPath").val();
+	 contextPath = $("#appRootPath").val();
+});
+
 
 function funDdo1() {
 
@@ -8,6 +11,8 @@ function funDdo1() {
 		if(schemeId != "0"){
 			removeErrorClass($("#schemeName"));
 		}
+	
+
 		if (schemeId != '') {
 			$.ajax({
 				type : "GET",
@@ -16,19 +21,26 @@ function funDdo1() {
 				contentType : 'application/json',
 				error : function(data) {
 					console.log(data);
+					/* alert("eror is" + data); */
 				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
-				},
+
 				success : function(data) {
 					console.log(data);
 					$('#txtSchemeCode').val(0.);
 					$("#txtSchemeCode").val(data[0].schemeCode);
 					$("#cmbSubschemeName").val(data[0].schemeName);
 					$("#RadioPermenantTempBothP").val(data[0].schemeType);
+					/*var temp=data
+					 $("#txtSchemeCode").val('');
+					$.each(temp, function(index, value) {
+						$.each(value, function(index, value1) {
+							//console.log(index + "-" + value1);
+							if(index=="txtSchemeCode"){
+								console.log("txtSchemeCode");
+							
+							}
+						});
+					}); */
 				}
 			});
 		}
@@ -53,10 +65,14 @@ $(".officeName")
 								error : function(
 										data) {
 									console.log(data);
+									
 									$(".loaderMainNew").hide();
+									// alert(data);
 								},
 								success : function(
 										data) {
+									
+									
 									var temp=data;
 									$(".loaderMainNew").hide();
 									$.each(temp,function(index,value) {
@@ -74,6 +90,7 @@ $(".officeName")
 												 $('#txtTelNo1').val(value[11]);
 												 $('#txtfax').val(value[12]);
 												 $('#txtEmail').val(value[14]);
+												 $('#hiddenddoCode').val(ddoCode);
 												 var tribalArea= value[13];
 												 if(tribalArea=='Yes')
 													 $('#RadioButtonTriableAreaYes').prop("checked",true);
@@ -91,6 +108,8 @@ $(".officeName")
 													 $('#RadioButtonNaxaliteAreaYes').prop("checked",true);
 												 else
 													 $('#RadioButtonNaxaliteAreaNo').prop("checked",true);
+												 
+												
 												
 											});
 									
@@ -107,27 +126,23 @@ $(".officeName")
 $('#approve')
 .click(
 		function() {
-			var ddoCode = $('#txtdiceCode').val();
+			var ddoCode = $('#hiddenddoCode').val();
+			var cityClass=$('#ddoOffClass').val();
 			var flag=1;
 			 if (ddoCode != '') {
 				$
 						.ajax({
 							type : "GET",
 							url : contextPath+"/ddo/updateApproveRejectStatus/"
-									+ ddoCode +"/"+flag,
+									+ ddoCode +"/"+flag +"/"+cityClass,
 							async : true,
 							contentType : 'application/json',
 							error : function(data) {
 								console.log(data);
 							},
-						 	beforeSend : function(){
-								$( "#loaderMainNew").show();
-								},
-							complete : function(data){
-								$( "#loaderMainNew").hide();
-							},
 							success : function(data) {
 								console.log(data);
+								// alert(data);
 									swal(
 											"Approved Successfully",
 											{
@@ -142,7 +157,7 @@ $('#approve')
 $('#btnRjct')
 .click(
 		function() {
-			var ddoCode = $('#txtdiceCode').val();
+			var ddoCode = $('#hiddenddoCode').val();
 			var flag=2;
 			if (ddoCode != '') {
 				$
@@ -155,21 +170,17 @@ $('#btnRjct')
 						error : function(data) {
 							console.log(data);
 						},
-					 	beforeSend : function(){
-							$( "#loaderMainNew").show();
-							},
-						complete : function(data){
-							$( "#loaderMainNew").hide();
-						},
 						success : function(data) {
 							console.log(data);
+							// alert(data);
 							swal(
 									"Rejected Successfully",
 									{
 										icon : "success",
 									});
+							
+							
 						}
 				});
 			}
 		});
-});

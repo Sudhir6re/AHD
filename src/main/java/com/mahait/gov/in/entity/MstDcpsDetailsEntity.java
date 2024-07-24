@@ -1,6 +1,6 @@
 package com.mahait.gov.in.entity;
 
-import java.math.BigInteger;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,8 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
-@Entity
+
 @Data
+@Entity
 @Table(name="dcps_details_mst",schema="public")
 public class MstDcpsDetailsEntity {
 	
@@ -21,7 +22,7 @@ public class MstDcpsDetailsEntity {
 	@Column(name="dcps_id")
 	private Long dcpsid;
 	@Column(name="employee_id")
-	private Integer employeeId;
+	private Long employeeId;
 	@Column(name="dcps_no")
 	private String dcpsno;
 	@Column(name="pf_ac_no")
@@ -33,12 +34,13 @@ public class MstDcpsDetailsEntity {
 	@Column(name="created_date")
 	private Date createddate;
 	@Column(name="created_id")
-	private BigInteger createdid;
+	private Long createdid;
 	@Column(name="update_date")
 	private Date updatedate;
 	@Column(name="update_id")
-	private BigInteger updateid;
+	private Long updateid;
 	@Column(name="sevaarth_id")
 	private String sevaarthId;
+
 	
 }

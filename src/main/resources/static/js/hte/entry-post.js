@@ -3,7 +3,7 @@ $(document).ready(function() {
 	
 	var dataTable= $("#postDetails").dataTable();
 	
-	 if ($('#cmbAsstDDO').length) {
+	    if ($('#cmbAsstDDO').length) {
 	        $('#cmbAsstDDO').select2();
 	    }
 	    if ($('#ddoCode').length) {
@@ -17,6 +17,15 @@ $(document).ready(function() {
 	    
 	    if ($('#billCmb').length) {
 	    	$('#billCmb').select2();
+	    }
+	    
+	    
+	    if ($('#subjectCmb').length) {
+	    	$('#subjectCmb').select2();
+	    }
+	    
+	    if ($('#cmbTaluka').length) {
+	    	$('#cmbTaluka').select2();
 	    }
 	    
 	    
@@ -160,12 +169,6 @@ $("#btnFilter").click(function(){
 					 console.log(data);
 					 $("#loaderMainNew").hide();
 				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
-				},
 				success : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
@@ -212,12 +215,6 @@ $("#Search").click(function(){
 					 console.log(data);
 					 $("#loaderMainNew").hide();
 				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
-				},
 				success : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
@@ -259,12 +256,6 @@ $("#searchPostDetails").click(function(){
 				error : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
-				},
-			 	beforeSend : function(){
-					$( "#loaderMainNew").show();
-					},
-				complete : function(data){
-					$( "#loaderMainNew").hide();
 				},
 				success : function(data) {
 					 console.log(data);

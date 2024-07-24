@@ -7,11 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/mdc")
+@RequestMapping("/ddoast")
 @Controller
-public class EmployeeStatasticController {
-	@GetMapping("/employeeStatastic")
-	public String employeeStatastic(Model model, Locale locale, HttpSession session) {
-		return "/views/employee-statastic";
+public class PostReportsController {
+	@GetMapping("/postReports")
+	public String postReports(Model model, Locale locale, HttpSession session) {
+		return "/views/reports/post-reports";
 	}
 }

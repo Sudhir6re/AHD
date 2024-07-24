@@ -1,3 +1,8 @@
+	var contextPath =
+$(document).ready(function() {
+	 contextPath = $("#appRootPath").val();
+});
+
 $('#btnApprove')
 							.click(
 									function() {
@@ -7,7 +12,7 @@ $('#btnApprove')
 											$
 													.ajax({
 														type : "GET",
-														url : "../updateApproveStatus/"
+														url : contextPath"/ddo/updateApproveStatus/"
 																+ zpDdoCode +"/"+flag,
 														async : true,
 														contentType : 'application/json',
@@ -37,7 +42,7 @@ $('#btnReject')
 				$
 				.ajax({
 					type : "GET",
-					url : "../updateApproveStatus/"
+					url : contextPath+"/ddo/updateApproveStatus/"
 						+ zpDdoCode +"/"+flag,
 						async : true,
 						contentType : 'application/json',
@@ -53,7 +58,7 @@ $('#btnReject')
 										icon : "success",
 									});
 							
-							
+							window.location.href = contextPath+"/ddo/approveDdoOfficeDataList";
 						}
 				});
 			}

@@ -132,6 +132,9 @@
 								id="RadioPermenantTempBothT" value="S">Statutory &nbsp;<input
 								type="radio" name="RadioPermenantTempBoth"  th:field="*{dcpsDdoBillTypeOfPost}"
 								id="RadioPermenantTempBothB" value="B" checked="checked">Both
+								
+								<br>
+								<label id="dcpsDdoBillTypeOfPost-error" class="error " for="dcpsDdoBillTypeOfPost"></label>
 						</div>
 						<label class="control-label col-sm-3" for="title"><span>Group</span>
 							<b> <font color="red" size="4px;">*</font>
@@ -144,8 +147,14 @@
 							th:field="*{billgroupclass[2].billgroupclass}"	value="B">B &nbsp;&nbsp;<input type="checkbox"
 								name="Group" id="GroupBnGz" th:field="*{billgroupclass[3].billgroupclass}" value="BnGz">BnGz
 							&nbsp;&nbsp;<input type="checkbox" name="Group" id="GroupC"
-								th:field="*{billgroupclass[4].billgroupclass}" value="C">C &nbsp;&nbsp;<input type="checkbox"
+								th:field="*{billgroupclass[4].billgroupclass}" value="C">C &nbsp;&nbsp;
+								
+								<input type="checkbox"
 							th:field="*{billgroupclass[5].billgroupclass}"	name="Group" id="GroupD" value="D">D
+							
+							
+							
+							<label id="errorClass"></label>
 						</div>
 					</div>
 				</fieldset>
@@ -154,9 +163,8 @@
 				<br>
 				<div class="text-center">
 					<input type="submit" name="btnSave" id="btnSave" value="Save"
-						size="3" maxlength="3" class="btn"> <input type="button"
-						name="btnDelete" id="btnDelete" value="Delete" size="3"
-						maxlength="3" class="btn"> <a th:href="@{/user/home}"
+						 class="btn"> <input type="button"
+						name="btnDelete" id="btnDelete" value="Delete"  class="btn"> <a th:href="@{/user/home}"
 						class="btn"><span
 						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 				</div>

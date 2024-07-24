@@ -14,4 +14,8 @@ public class GISReportController {
 	public String gisReport(Model model, Locale locale, HttpSession session) {
 		return "/views/reports/gis-report";
 	}
+	@GetMapping("/gis")
+	public String gis(Model model, Locale locale, HttpSession session) {
+		return "/views/reports/gis-search";
+	}
 }

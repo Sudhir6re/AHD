@@ -2,18 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-
-
 <style>
-/* .tableFixHead {
-        overflow-y: auto;
-        height: 270px;
-      } */
-/* .tableFixHead thead th {
-	position: sticky;
-	top: 0;
+.branch-name, .bank-name, .gis-val {
+	min-width: 400px ! IMPORTANT;
 }
- */
+
+.emp-name {
+	min-width: 250px ! IMPORTANT;
+}
+
+table#employeeStatisticsReportTable td {
+	min-width: 150px;
+}
+
 table {
 	border-collapse: collapse;
 	width: 100%;
@@ -96,12 +97,12 @@ table, th, td {
 	.showprintt {
 		display: block;
 	}
-	.hide,.btn {
+	.hide, .btn {
 		display: none !important;
 	}
-	
 }
 </style>
+
 </head>
 <body class="employeeStatistics">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
@@ -143,29 +144,29 @@ table, th, td {
 									</th>
 								</tr>
 								<tr>
-									<th class="text-center"><b><label for="title"><span
+									<th class="text-center emp-name"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstsempname}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstasavaarthid}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstadob}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstaemptype}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstacarde}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstapostname}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstaposttype}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstapoststartDate}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstapostendDate}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstadateofjoining}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstadateofserviceexpiry}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstascaledes}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstabasicsal}"></span></label></b></th>
@@ -173,54 +174,58 @@ table, th, td {
 												th:utext="#{msg.thymeleaf.pagelabel.empstasevenpcbasic}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstasevenpcbasicLvl}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstapfseries}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstagpfdcpsaccno}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
-												th:utext="#{msg.thymeleaf.pagelabel.empstagisgroup}"></span></label></b></th>
 									<th class="text-center"><b><label for="title"><span
+												th:utext="#{msg.thymeleaf.pagelabel.empstagisgroup}"></span></label></b></th>
+									<th class="text-center gis-val"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstagisvalue}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstaphyhand}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center bank-name"><b><label
+											for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstabankname}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center branch-name"><b><label
+											for="title"><span
+												th:utext="#{msg.thymeleaf.pagelabel.empstabankbranchname}"></span></label></b></th>
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstaaccno}"></span></label></b></th>
-												<th class="text-center"><b><label for="title"><span
+									<th class="text-center"><b><label for="title"><span
 												th:utext="#{msg.thymeleaf.pagelabel.empstapranno}"></span></label></b></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="varAbs : ${lstempstcBillObj}">
-									<td align="center" th:text="${varAbs.savaarthid}"></td>
-									<td align="left" th:text="${varAbs.empname}"></td>
-									<td align="center" th:text="${varAbs.aadharno}"></td>
-									<td align="center" th:text="${varAbs.panno}"></td>
-									<td align="center" th:text="${varAbs.dob}"></td>
-									<td align="center" th:text="${varAbs.prenno}"></td>
-									<td align="left" th:text="${varAbs.prenstatus}"></td>
-									<td align="left" th:text="${varAbs.prenremarks}"></td>
-									<td align="left" th:text="${varAbs.empType}"></td>
-									<td align="left" th:text="${varAbs.cadre}"></td>
-									<td align="left" th:text="${varAbs.postname}"></td>
-									<td align="left" th:text="${varAbs.postType}"></td>
-									<td align="center" th:text="${varAbs.poststartdate}"></td>
-									<td align="center" th:text="${varAbs.postenddate}"></td>
-									<td align="center" th:text="${varAbs.dateofjoining}"></td>
-									<td align="center" th:text="${varAbs.dateofexipry}"></td>
-									<td align="left" th:text="${varAbs.scaledec}"></td>
-									<td align="right" th:text="${varAbs.basicpay}"></td>
-									<td align="right" th:text="${varAbs.sevenbasicpay}"></td>
-									<td align="left" th:text="${varAbs.pfserives}"></td>
-									<td align="left" th:text="${varAbs.gpfdcps}"></td>
-									<td align="left" th:text="${varAbs.gisgroup}"></td>
-									<td align="left" th:text="${varAbs.gisvalue}"></td>
-									<td align="left" th:text="${varAbs.handicap}"></td>
-									<td align="left" th:text="${varAbs.bankname}"></td>
-									<td align="left" th:text="${varAbs.bankbarname}"></td>
-									<td align="center" th:text="${varAbs.ifsccode}"></td>
-									<td align="center" th:text="${varAbs.accno}"></td>
+								<tr th:each="varData : ${empList}">
+									<td align="left" th:text="${varData.empname}"></td>
+									<td align="center" th:text="${varData.sevaarthId}"></td>
+									<td align="center" th:text="${varData.dob}"></td>
+									<td align="center" th:text="${varData.sevaarthId}"></td>
+									<td align="center" th:text="${varData.cadre}"></td>
+									<td align="left" th:text="${varData.postname}"></td>
+									<td align="left" th:text="${varData.postType}"></td>
+									<td align="center"
+										th:text="${#dates.format(varData.poststartdate, 'dd-MM-yyyy')}"></td>
+									<td align="center"
+										th:text="${#dates.format(varData.postenddate, 'dd-MM-yyyy')}"></td>
+									<td align="center"
+										th:text="${#dates.format(varData.dateofjoining, 'dd-MM-yyyy')}"></td>
+									<td align="center"
+										th:text="${#dates.format(varData.dateofexipry, 'dd-MM-yyyy')}"></td>
+									<td align="center" th:text="${varData.scaledec}"></td>
+									<td align="right" th:text="${varData.basicpay}"></td>
+									<td align="right" th:text="${varData.sevenbasicpay}"></td>
+									<td align="center" th:text="${varData.sevenPcLvl}"></td>
+									<td align="center" th:text="${varData.pfserives}"></td>
+									<td align="left" th:text="${varData.gpfdcps}"></td>
+									<td align="center" th:text="${varData.gisgroup}"></td>
+									<td align="left" th:text="${varData.gisvalue}"></td>
+									<td align="left" th:text="${varData.handicap}"></td>
+									<td align="left" th:text="${varData.bankname}"></td>
+									<td align="left" th:text="${varData.bankbarname}"></td>
+									<td align="left" th:text="${varData.accno}"></td>
+									<td align="left" th:text="${varData.pranNo}"></td>
 
 
 

@@ -1,6 +1,5 @@
 package com.mahait.gov.in.repository;
 
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -17,26 +16,25 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.model.MstEmployeeModel;
 
-
 @Repository
 @SuppressWarnings("unchecked")
 public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
-	
+
 	@PersistenceContext
 	EntityManager manager;
 
 	@Override
 	public List<Object[]> findEmpforChangeDtls(String userName) {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select employee_full_name_en,sevaarth_id,dob,gender,employee_id from employee_mst where ddo_code = '"+userName+"' and is_active = '1'";
+		String hql = "select employee_full_name_en,sevaarth_id,dob,gender,employee_id from employee_mst where ddo_code = '"
+				+ userName + "' and is_active = '1'";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
 
 	@Override
 	public MstEmployeeModel getEmpData(int empId) {
-		
-Session currentSession = manager.unwrap(Session.class);
+     Session currentSession = manager.unwrap(Session.class);
 		
 		String HQL = "select a.salutation,a.employee_f_name_en,a.employee_m_name_en,a.employee_l_name_en,a.employee_full_name_mr,a.uid_no,a.gender,a.marital_status,a.dob,a.doj,a.address1,"
 				+ "a.address2,a.address3,a.mobile_no1,a.mobile_no2,a.pan_no,a.email_id,a.pincode,a.village_name,a.pyhical_handicapped,a.cadre_code,a.emp_class,a.super_ann_date,a.pay_commission_code,"
@@ -97,6 +95,7 @@ Session currentSession = manager.unwrap(Session.class);
             	lstObj.setEmailId(StringHelperUtils.isNullString(objLst[16]));
             	lstObj.setPinCode(StringHelperUtils.isNullLong(Integer.parseInt((String) objLst[17])));
             	lstObj.setVillageName(StringHelperUtils.isNullString(objLst[18]));
+            	lstObj.setPhysicallyHandicapped(StringHelperUtils.isNullString(String.valueOf(objLst[19])));
             	lstObj.setPhysicallyHandicapped(StringHelperUtils.isNullString(objLst[19]));
             	lstObj.setCadreId(StringHelperUtils.isNullLong(objLst[20]));
             	lstObj.setEmpClass(StringHelperUtils.isNullLong(objLst[21]));
@@ -114,7 +113,8 @@ Session currentSession = manager.unwrap(Session.class);
             	lstObj.setAppointmentDate(((Date) objLst[31]));
             	BigDecimal b =  (BigDecimal) (objLst[32]);
                  String age = b.toString();
-            	lstObj.setSuperannuationage(StringHelperUtils.isNullString(age));
+            	lstObj.setSuperannuationage(StringHelperUtils.isNullLong(age));
+            	lstObj.setSuperannuationage(StringHelperUtils.isNullLong(age));
             	lstObj.setBankId(StringHelperUtils.isNullLong(objLst[33]));
             	lstObj.setBankBranchId(StringHelperUtils.isNullLong(objLst[34]));
             	lstObj.setBankAcntNo(StringHelperUtils.isNullLong(objLst[35]));
@@ -122,6 +122,10 @@ Session currentSession = manager.unwrap(Session.class);
             	lstObj.setDcpsgpfflag(StringHelperUtils.isNullString(String.valueOf(objLst[37])));
             	lstObj.setEidNo(StringHelperUtils.isNullString(objLst[38]));
             	lstObj.setEmployeeFullNameEn(StringHelperUtils.isNullString(objLst[39]));
+            	lstObj.setStateCode(StringHelperUtils.isNullLong(Integer.valueOf((String)objLst[40])));
+            	if(objLst[41]!=null)
+            	{
+            	lstObj.setDistrictCode(StringHelperUtils.isNullLong(Integer.valueOf((String)objLst[41])));
             	lstObj.setStateCode(StringHelperUtils.isNullLong(objLst[40]));
             	if(objLst[41]!=null)
             	{
@@ -149,7 +153,7 @@ Session currentSession = manager.unwrap(Session.class);
             	int percent = d.intValue();
             	lstObj.setPercent_share(StringHelperUtils.isNullLong(percent));
             	}
-            	lstObj.setCityClass(StringHelperUtils.isNullCharacter(objLst[54]));
+            	lstObj.setCityClass(StringHelperUtils.isNullString(objLst[54]));
             	
             	char c=(char) objLst[55];  
             	int gisAppl=Character.getNumericValue(c);  
@@ -157,10 +161,14 @@ Session currentSession = manager.unwrap(Session.class);
             	lstObj.setGisgroup(StringHelperUtils.isNullString(objLst[56].toString()));
             	lstObj.setLandlineNo(StringHelperUtils.isNullString(objLst[57]));
             	lstObj.setMembership_date(StringHelperUtils.isNullDate(objLst[58]));
+            	
+            	
+            	
             
                 i++;
             }
         }
+		}
 		return lstObj;
 	}
 
@@ -168,7 +176,8 @@ Session currentSession = manager.unwrap(Session.class);
 	public List<Object[]> getEmpSignPhoto(Integer employeeId) {
 		// TODO Auto-generated method stub 04/08/2021
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select photo_attachment_id,signature_attachment_id from employee_mst where employee_id ="+employeeId;
+		String hql = "select photo_attachment_id,signature_attachment_id from employee_mst where employee_id ="
+				+ employeeId;
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
@@ -179,95 +188,82 @@ Session currentSession = manager.unwrap(Session.class);
 		return null;
 	}
 
-	/*@Override
-	public List<MstSevenMatrixEntity> getsevenPCBasic(int payscaleId) {
-
-Session currentSession = manager.unwrap(Session.class);
-		
-		String HQL = "SELECT state_matrix_7pc_id, s_"+ payscaleId + " FROM state_matrix_7pc_mst";
-		Query query = currentSession.createSQLQuery(HQL);
-		
-		
-		List<MstSevenMatrixEntity> obj= new ArrayList<>();
-		
-		List<Object[]> lstprop = query.list();
-	
-		int i=1;
-		if (!lstprop.isEmpty()) {
-            for (Object[] objLst : lstprop) {
-            	MstSevenMatrixEntity lstObj = new MstSevenMatrixEntity();
-            	lstObj.setS1(StringHelperUtils.isNullInt(objLst[1]));
-            	lstObj.setStatematrix7PCId(StringHelperUtils.isNullInt(objLst[0]));
-            	obj.add(lstObj);
-	}
-         	
-
-		}
-		return obj;
-	}
-
-	@Override
-	public List<MstEmployeeEntity> findEmpLst(String ddocode) {
-		Session currentSession = manager.unwrap(Session.class);
-	//	String  HQL = "FROM MstEmployeeEntity as t where t.isActive='1' and t.ddoCode is not null ";
-	//	String  HQL = "SELECT a FROM MstEmployeeEntity a INNER JOIN a.mstSubDepartmentEntity b INNER JOIN a.mstGpfDetailsEntity c  where a.isActive='1' and a.ddoCode is not null ";
-			String  HQL = "SELECT a FROM MstEmployeeEntity a INNER JOIN a.mstSubDepartmentEntity b  where (a.isActive='1' or a.isActive='4') and a.ddoCode ='"+ddocode+"' ";
-		return (List<MstEmployeeEntity>) manager.createQuery(HQL).getResultList();
-	}
-
-	@Override
-	public MstEmployeeEntity getEmployeeData(int empId) {
-		MstEmployeeEntity objDept = null;
-		Session currentSession = manager.unwrap(Session.class);
-		objDept = currentSession.get(MstEmployeeEntity.class, empId);
-		return objDept;
-	}
-	@Override
-	public List<Object[]> GetCurrentPost(int designationId, String ddocode) {
-
-		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select c.post_details_id,c.post_name,a.designation_code,a.designation_name from designation_mst a inner join post_mst b on a.designation_code = b.designation_code inner join post_details_rlt c on b.post_code = c.post_code where a.is_active = '1' and a.designation_code = '"
-				+ designationId
-				+ "' and c.ddo_id in (select ddo_code_user_id1 from ddo_map_rlt where ddo_code_user_id1 in (select ddo_reg_id from ddo_reg_mst where ddo_code='"
-				+ ddocode + "'));";
-		Query query = currentSession.createSQLQuery(hql);
-		return query.list();
-	}
-
-	@Override
-	public void updateChangeEmpDtls(MstEmployeeEntity objDeptForReject) {
-		Session currentSession = manager.unwrap(Session.class);
-		currentSession.update(objDeptForReject);
-	}
-	
-
-	@Override
-	public List<MstEmployeeEntity> findEmpLstforApprovChngDtls() {
-		Session currentSession = manager.unwrap(Session.class);
-		//String  HQL = "FROM MstEmployeeEntity as t where t.isActive='1' and t.ddoCode is not null ";
-		String  HQL = "SELECT a FROM MstEmployeeEntity a INNER JOIN a.mstSubDepartmentEntity b  where a.isActive='5' and a.ddoCode is not null ";
-		return (List<MstEmployeeEntity>) manager.createQuery(HQL).getResultList();
-	}
-
-	@Override
-	public MstEmployeeEntity findempid(Integer employeeId) {
-		MstEmployeeEntity objDept = null;
-		Session currentSession = manager.unwrap(Session.class);
-		objDept = currentSession.get(MstEmployeeEntity.class, employeeId);
-		return objDept;
-	}
-
-	@Override
-	public List<Object[]> GetCurrentPostDesigation(Integer postdetailid) {
-
-		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select post_details_id,post_name from post_details_rlt where post_details_id="+postdetailid;
-		Query query = currentSession.createSQLQuery(hql);
-		return (List<Object[]>) query.list();
-	}
-	@Override
-	public void updateChangeEmpHstDtls(ChangeDtlsHst changeDtlsHst) {
-		Session currentSession = manager.unwrap(Session.class);
-		currentSession.save(changeDtlsHst);
-	}*/
+	/*
+	 * @Override public List<MstSevenMatrixEntity> getsevenPCBasic(int payscaleId) {
+	 * 
+	 * Session currentSession = manager.unwrap(Session.class);
+	 * 
+	 * String HQL = "SELECT state_matrix_7pc_id, s_"+ payscaleId +
+	 * " FROM state_matrix_7pc_mst"; Query query =
+	 * currentSession.createSQLQuery(HQL);
+	 * 
+	 * 
+	 * List<MstSevenMatrixEntity> obj= new ArrayList<>();
+	 * 
+	 * List<Object[]> lstprop = query.list();
+	 * 
+	 * int i=1; if (!lstprop.isEmpty()) { for (Object[] objLst : lstprop) {
+	 * MstSevenMatrixEntity lstObj = new MstSevenMatrixEntity();
+	 * lstObj.setS1(StringHelperUtils.isNullInt(objLst[1]));
+	 * lstObj.setStatematrix7PCId(StringHelperUtils.isNullInt(objLst[0]));
+	 * obj.add(lstObj); }
+	 * 
+	 * 
+	 * } return obj; }
+	 * 
+	 * @Override public List<MstEmployeeEntity> findEmpLst(String ddocode) { Session
+	 * currentSession = manager.unwrap(Session.class); // String HQL =
+	 * "FROM MstEmployeeEntity as t where t.isActive='1' and t.ddoCode is not null "
+	 * ; // String HQL =
+	 * "SELECT a FROM MstEmployeeEntity a INNER JOIN a.mstSubDepartmentEntity b INNER JOIN a.mstGpfDetailsEntity c  where a.isActive='1' and a.ddoCode is not null "
+	 * ; String HQL =
+	 * "SELECT a FROM MstEmployeeEntity a INNER JOIN a.mstSubDepartmentEntity b  where (a.isActive='1' or a.isActive='4') and a.ddoCode ='"
+	 * +ddocode+"' "; return (List<MstEmployeeEntity>)
+	 * manager.createQuery(HQL).getResultList(); }
+	 * 
+	 * @Override public MstEmployeeEntity getEmployeeData(int empId) {
+	 * MstEmployeeEntity objDept = null; Session currentSession =
+	 * manager.unwrap(Session.class); objDept =
+	 * currentSession.get(MstEmployeeEntity.class, empId); return objDept; }
+	 * 
+	 * @Override public List<Object[]> GetCurrentPost(int designationId, String
+	 * ddocode) {
+	 * 
+	 * Session currentSession = manager.unwrap(Session.class); String hql =
+	 * "select c.post_details_id,c.post_name,a.designation_code,a.designation_name from designation_mst a inner join post_mst b on a.designation_code = b.designation_code inner join post_details_rlt c on b.post_code = c.post_code where a.is_active = '1' and a.designation_code = '"
+	 * + designationId +
+	 * "' and c.ddo_id in (select ddo_code_user_id1 from ddo_map_rlt where ddo_code_user_id1 in (select ddo_reg_id from ddo_reg_mst where ddo_code='"
+	 * + ddocode + "'));"; Query query = currentSession.createSQLQuery(hql); return
+	 * query.list(); }
+	 * 
+	 * @Override public void updateChangeEmpDtls(MstEmployeeEntity objDeptForReject)
+	 * { Session currentSession = manager.unwrap(Session.class);
+	 * currentSession.update(objDeptForReject); }
+	 * 
+	 * 
+	 * @Override public List<MstEmployeeEntity> findEmpLstforApprovChngDtls() {
+	 * Session currentSession = manager.unwrap(Session.class); //String HQL =
+	 * "FROM MstEmployeeEntity as t where t.isActive='1' and t.ddoCode is not null "
+	 * ; String HQL =
+	 * "SELECT a FROM MstEmployeeEntity a INNER JOIN a.mstSubDepartmentEntity b  where a.isActive='5' and a.ddoCode is not null "
+	 * ; return (List<MstEmployeeEntity>) manager.createQuery(HQL).getResultList();
+	 * }
+	 * 
+	 * @Override public MstEmployeeEntity findempid(Integer employeeId) {
+	 * MstEmployeeEntity objDept = null; Session currentSession =
+	 * manager.unwrap(Session.class); objDept =
+	 * currentSession.get(MstEmployeeEntity.class, employeeId); return objDept; }
+	 * 
+	 * @Override public List<Object[]> GetCurrentPostDesigation(Integer
+	 * postdetailid) {
+	 * 
+	 * Session currentSession = manager.unwrap(Session.class); String hql =
+	 * "select post_details_id,post_name from post_details_rlt where post_details_id="
+	 * +postdetailid; Query query = currentSession.createSQLQuery(hql); return
+	 * (List<Object[]>) query.list(); }
+	 * 
+	 * @Override public void updateChangeEmpHstDtls(ChangeDtlsHst changeDtlsHst) {
+	 * Session currentSession = manager.unwrap(Session.class);
+	 * currentSession.save(changeDtlsHst); }
+	 */
 }

@@ -973,7 +973,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		
 	}
 	@Override
-	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName) {
+	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName) {
 		// TODO Auto-generated method stub
 		String HQL = "FROM MstEmployeeEntity as  t  where t.ddoCode = '" + userName.trim() + "' and t.billGroupId = "
 				+ schemeBillGroupId + " AND t.isActive='1' and t.sevaarthId!=null and ((t.begisCatg is null or t.begisCatg='0') or  (t.giscatagory is null or t.giscatagory=0)) "

@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.mahait.gov.in.entity.OrgPostMst;
+
 import lombok.Data;
 
 @Data
@@ -27,12 +29,13 @@ public class MstEmployeeModel {
 	private String employeeLNameMr;
 	private String locality;
 	private Long appointmentId;
+	private Long qId;
 	private String employeeMotherName;
 	private Character maritalStatus;
 	private Double sevenPcBasic;
 	private Long yearId;
-	
-	
+	private String secqualification;
+	private String morequalification;
 	private Long sevenPCLevel;
 	
 	
@@ -173,7 +176,7 @@ public class MstEmployeeModel {
    // private String deptNm;
 	private Long svnthpaybasic;
 	private String physicallyHandicapped;
-	private String superannuationage;
+	private Long superannuationage;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dtInitialAppointmentParentInst;
 	private String instName;
@@ -181,7 +184,7 @@ public class MstEmployeeModel {
 	private String insttelnotwo;
 	private String instemail;
 	private Long payScaleId;
-	private Character cityClass;
+	private String cityClass;
 	private Long acDcpsMaintainedBy;
 	private String instituteAdd;
 	
@@ -200,7 +203,9 @@ public class MstEmployeeModel {
 	private Double totalNetAmt;
 	private Double totalDedAmt;
 	private String label;
-	
+	private String appointment;
+	private String qualification;
+	private String teaching;
 	
 	private List<MstNomineeDetailsModel> lstMstNomineeDetails;
 	

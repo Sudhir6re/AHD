@@ -67,7 +67,7 @@ select.error, textarea.error, input.error {
 			<!-- 		<h1 th:utext="#{common.label.title}"></h1> -->
 
 			<form class="form-horizontal" name="myForm" id="myForm"
-				th:action="@{/ddoasst/employeeConfiguration}"
+				th:action="@{/ddoast/saveEmployeeConfiguration}"
 				th:object="${mstEmployeeModel}" method="POST"
 				enctype="multipart/form-data">
 				<input type="hidden" name="deptNm" id="deptNm" th:field="*{deptNm}"
@@ -460,7 +460,40 @@ select.error, textarea.error, input.error {
 											class="form-control " /></td>
 									</tr>
 
-
+			<tr>
+									<td width="15%"><label>Qualification&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><select class="form-control"
+											id="qid" th:field="*{qualification}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstQualification}"
+													th:value="${varPay.qId}"
+													th:text="${language=='mh' ? varPay.qualification : varPay.qualification}"></option>
+										</select></td>
+										</tr>
+										<tr>
+										<td width="25%"><label>Secondary Qualification></span>
+												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><select class="form-control"
+											id="secqualification" name="secqualification"
+											th:field="*{secqualification}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstQualification}"
+													th:value="${varPay.qualification}"
+													th:text="${language=='mh' ? varPay.qualification : varPay.qualification}"></option>
+										</select></td>
+									</tr>
+									<tr>
+									
+										<td width="15%"><label>More Qualification<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input type="text" size="40%" id="morequalification" 
+											name="morequalification"
+											style="text-transform: uppercase" th:field="*{morequalification}"
+											class="form-control " /></td>
+									</tr>
 
 
 								</table>
@@ -500,8 +533,8 @@ select.error, textarea.error, input.error {
 											class="form-control readonlydropdown" readonly="readonly"
 											id="parentFieldDepartmentId" name="parentFieldDepartmentId"
 											th:field="*{parentFieldDepartmentId}">
-												<option th:value="0" th:selected="selected"
-													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+<!-- 												<option th:value="0" th:selected="selected" -->
+<!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
 
 												<option th:each="varFieldOfficeMst : ${lstAdminOfficeMst}"
 													th:value="${varFieldOfficeMst.subDepartmentId}"
@@ -805,22 +838,29 @@ select.error, textarea.error, input.error {
 									</tr>-->
 									<tr>
 
-										<td width="15%"><label><span
-												th:utext="#{msg.thymeleaf.pagelabel.cityClass}"></span>&nbsp;&nbsp;<b><font
-													color="red" size="4px;">*</font></b></label></td>
-										<td width="30%">
-											<!-- 	<input type="text" size="40%"
-											id="cityClass" ng-model="cityClass"
-											th:field="*{districtCode}" class="form-control" /> --> <select
-											class="form-control" th:field="*{cityClass}">
-												<option selected="selected" th:value="0"
-													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varCityClassList : ${cityClassList}"
-													th:value="${varCityClassList.commonValEnglish}"
-													th:text="${language=='mh' ? varCityClassList.commonValEnglish : varCityClassList.commonValMarathi}"></option>
-										</select>
+<!-- 										<td width="15%"><label><span -->
+<!-- 												th:utext="#{msg.thymeleaf.pagelabel.cityClass}"></span>&nbsp;&nbsp;<b><font -->
+<!-- 													color="red" size="4px;">*</font></b></label></td> -->
+<!-- 										<td width="30%"> -->
+<!-- 												<input type="text" size="40%"
+<!-- 											id="cityClass" ng-model="cityClass" -->
+<!-- 											th:field="*{districtCode}" class="form-control" /> --> <select -->
+<!-- 											class="form-control" th:field="*{cityClass}"> -->
+<!-- 												<option selected="selected" th:value="0" -->
+<!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
+<!-- 												<option th:each="varCityClassList : ${cityClassList}" -->
+<!-- 													th:value="${varCityClassList.commonValEnglish}" -->
+<!-- 													th:text="${language=='mh' ? varCityClassList.commonValEnglish : varCityClassList.commonValMarathi}"></option> -->
+<!-- 										</select> -->
 
-										</td>
+<!-- 										</td> -->
+										
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.cityClass}"></span>&nbsp;&nbsp;</label></td>
+										<td width="30%"><input type="text" size="40%"
+											id="cityClass" ng-model="cityClass" th:field="*{cityClass}"
+											class="form-control" /></td>
+										
 										<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.dtofJoinCurrentPost}"></span>
 												&nbsp;&nbsp;</label></td>
@@ -834,15 +874,24 @@ select.error, textarea.error, input.error {
 										<td width="30%"><input type="text" size="40%"
 											ng-model="remark" id="remark" th:field="*{remark}"
 											class="form-control" /></td>
+											<td width="15%"><label>Type of Teaching<b><font
+													color="red" size="4px;">*</font></b></label></td>
+									 <td width="30%"><input type="radio" size="2" id="Teaching" name="Teaching" ng-model="Teaching" th:field="*{Teaching}" 
+										 th:value="Teaching"/> <label>Teaching</label>  
+										  <input type="radio" id="Teaching" name="Teaching" ng-model="Teaching" th:field="*{Teaching}"
+										   th:value="NonTeaching"/>
+										    <label>Non Teaching</label> 
+										  </td>  
+					
+										
+									</tr>
+									<tr>
 										<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.indiApproOrdNo}"></span>
 												&nbsp;&nbsp;</label></td>
 										<td width="25%"><input type="text" size="40%"
 											ng-model="indiApproveOrderNo" id="indiApproveOrderNo"
 											name="indiApproveOrderNo" class="form-control alphanumeric" /></td>
-									</tr>
-									<tr>
-
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.indiApproDt}"></span>&nbsp;&nbsp;</label></td>
 										<td width="30%"><input type="date" size="40%"
@@ -933,11 +982,11 @@ select.error, textarea.error, input.error {
 										<td width="30%"><select class="form-control"
 											id="dcpsaccountmaintainby"
 											th:field="*{dcpsaccountmaintainby}">
-												<option th:value="0"
+													<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varDcpsMtby : ${lstDcpsAccnMaintainby}"
-													th:value="${varDcpsMtby[0]}"
-													th:text="${language=='mh' ? varDcpsMtby[1] : varDcpsMtby[1]}"></option>
+												<option th:each="varCommon : ${lstDcpsAccnMaintainby}"
+													th:value="${varCommon.lookupId}"
+													th:text="${language=='mh' ? varCommon.lookupName : varCommon.lookupName}"></option>
 										</select></td>
 									</tr>
 									<tr>
@@ -969,11 +1018,11 @@ select.error, textarea.error, input.error {
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="25%"><select class="form-control"
 											id="accountmaintainby" th:field="*{accountmaintainby}">
-												<option th:value="0"
+													<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varAccMaintainby : ${lstAccountMaintainby}"
-													th:value="${varAccMaintainby[0]}"
-													th:text="${language=='mh' ? varAccMaintainby[1] : varAccMaintainby[1]}"></option>
+												<option th:each="varCommon : ${lstAccountMaintainby}"
+													th:value="${varCommon.lookupId}"
+													th:text="${language=='mh' ? varCommon.lookupName : varCommon.lookupName}"></option>
 										</select></td>
 
 
@@ -990,12 +1039,11 @@ select.error, textarea.error, input.error {
 										<td width="30%" class="pfSeriesDive"><select
 											class="form-control" id="pfseries"
 											onchange="getPfseriesPfacc();" th:field="*{pfseries}">
-												<option th:value="0"
+													<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-
-												<option th:each="varpfSeries : ${lstpfSeries}"
-													th:value="${varpfSeries[0]}"
-													th:text="${language=='mh' ? varpfSeries[1] : varpfSeries[1]}"></option>
+												<option th:each="varCommon : ${lstAccountMaintainby}"
+													th:value="${varCommon.lookupId}"
+													th:text="${language=='mh' ? varCommon.lookupName : varCommon.lookupName}"></option>
 
 										</select></td>
 									</tr>
@@ -1054,9 +1102,9 @@ select.error, textarea.error, input.error {
 											id="gisapplicable" th:field="*{gisapplicable}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-												<option th:each="varGISApplicable : ${lstGISApplicable}"
-													th:value="${varGISApplicable[0]}"
-													th:text="${language=='mh' ? varGISApplicable[1] : varGISApplicable[1]}"></option>
+												<option th:each="varCommon : ${lstGISApplicable}"
+													th:value="${varCommon.lookupId}"
+													th:text="${language=='mh' ? varCommon.lookupName : varCommon.lookupName}"></option>
 										</select></td>
 
 
@@ -1293,10 +1341,10 @@ select.error, textarea.error, input.error {
 					<a class="btn btn-primary" th:href="@{/pdf/Proforma B.pdf}"
 						target="_blank"><span
 						th:text="#{msg.thymeleaf.pagelabel.printPerformaB}"></span></a> -->
-					<!-- <input
-						type="button" id="btnSave" class="btn btn-primary"
-						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}"
-						th:onclick="'saveAsDraft();'" /> -->
+<!-- 					<input -->
+<!-- 						type="button" id="btnSave" class="btn btn-primary" -->
+<!-- 						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}" -->
+<!-- 						th:onclick="'saveAsDraft();'" />  -->
 
 
 					<!-- 							ng-click="saveAsDraft();" /> -->

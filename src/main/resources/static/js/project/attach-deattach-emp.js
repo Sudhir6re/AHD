@@ -7,40 +7,17 @@ $(document).ready(function(){
 		});
 	}
 	
-	/* $(".attchDeattachTable").datatable(); */
-// $('.attchDeattachTable').DataTable();
 	var selecteditems  = [];
-	
-	
-	/*
-	 * $("#customFields").on('click', '.btnSelect', function() { // get the
-	 * current row var currentRow = $(this).closest("tr"); var col1 =
-	 * currentRow.find("td:eq(1)").text(); // get current row 2nd table cell TD
-	 * value var col2 = currentRow.find("td:eq(2)").text(); var col3 =
-	 * currentRow.find("td:eq(3)").text(); var col4 =
-	 * currentRow.find("td:eq(4)").text(); var data = col1 + "\n";
-	 * 
-	 * if($(this).is(":checked")){ selecteditems.push(col1); // alert("Checkbox
-	 * is checked."); } else if($(this).is(":not(:checked)")){
-	 * selecteditems.pop(col1); //alert("Checkbox is unchecked."); }
-	 * 
-	 * });
-	 * 
-	 * console.log(selecteditems);
-	 * 
-	 */
-     
      $("#btnSave").click(function(e){
     	
    	 	 var input = $('#schemebillGroupId').val();
    	 	 var sevaarthId = $('#sevaarthId').val(); 
-   	 	// alert("sevaarthId ="+sevaarthId);
    	 	var checkPaybillInProcess=isPaybillIsInProcessForAttach(sevaarthId);
 		
 		if(checkPaybillInProcess=="0"){
     		 $.ajax({
 			      type: "GET",
-			      url: "../level1/attachEmployee/"+sevaarthId+"/"+input,
+			      url: "../ddoast/attachEmployee/"+sevaarthId+"/"+input,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -63,11 +40,9 @@ $(document).ready(function(){
   
      $(".delete").click(function(){
     	   var sevaarthId=$(this).attr('value');
-    	   // alert("hi" + sevaarthId);
     	   var checkPaybillInProcess=isPaybillIsInProcessForAttach(sevaarthId);
       		
       		if(checkPaybillInProcess=="0"){
-    	  // alert("hi" + sevaarthId);
     	   swal({
     		   title: "Are you sure?",
     		   text: " to Dettach Employee!",
@@ -128,10 +103,7 @@ function isPaybillIsInProcessForAttach(sevaarthId) {
 	return len;
 }
 
-// START:Created by Manikandan for Attach and Dettach employee
 function findAttachDettachEmp(){
-// document.getElementById("myForm").submit();
-// alert("findAttachDettachEmp method executed");
 	var billgroupid = document.getElementById("schemebillGroupId");
 	var type = document.getElementById("type");
 	if (billgroupid.value === "0") {
@@ -158,8 +130,6 @@ if (typee.value == "2") {
 function validateBeforeAttach(){
 	var chkBoxArr=document.getElementsByName('GroupCheck'); 
 	var chkLength=chkBoxArr.length;
-// var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
-
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
 		{
@@ -167,10 +137,6 @@ function validateBeforeAttach(){
 			return true; 
 		}
 	} 
-// if(typeOfOperation.Value == 1)
-// alert("Please select an employee to attach to Bill group");
-// if(typeOfOperation.Value == 2)
-// alert("Please select a Post to attach to Bill group");
 	return false;
 }
 function AddRowInEmpBGTable()
@@ -190,10 +156,8 @@ function AddRowInEmpBGTable()
 	var counter = 1 ;
 	var tableEmpBG = document.getElementById("tableEmpBG");
 	var tableEmp =document.getElementById("tableEmp");
-// alert("counterEmp="+counterEmp);
 	for(var i=1;i<=counterEmp;i++)
 	{
-// alert(document.getElementById("GroupCheck"+i).value);
 		if(document.getElementById("GroupCheck"+i).checked)
 		{
 			dcpsEmpIdsToBeAddedToBGTable[counter] = document.getElementById("GroupCheck"+i).value ;
@@ -240,8 +204,6 @@ function AddRowInEmpBGTable()
 function validateBeforeDetach(){
 	var chkBoxArr=document.getElementsByName('GroupCheckBG'); 
 	var chkLength=chkBoxArr.length;
-// var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
-
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
 		{
@@ -249,10 +211,6 @@ function validateBeforeDetach(){
 			return true; 
 		}
 	} 
-// if(typeOfOperation.Value == 1)
-// alert("Please select an employee to attach to Bill group");
-// if(typeOfOperation.Value == 2)
-// alert("Please select a Post to attach to Bill group");
 	return false;	
 }
 function AddRowInEmpTable()
@@ -320,7 +278,6 @@ function AddRowInEmpTable()
 }
 
 
-// CheckAll and UnCheckAll
 function checkUncheckAll(theElement)
 {
 	var theForm = theElement.form, z = 0;	
@@ -347,58 +304,9 @@ function checkUncheckAllBG(theElement)
 
 function AttachAndDetachEmp()
 {
-// if(document.getElementById("dcpsEmpIdstoBeDetached").value == "" &&
-// document.getElementById("dcpsEmpIdstoBeAttached").value == ""){
-// alert("No data is Saved, as no change has been made");
-// return;
-// }
-	
-// var dcpsEmpIdstoBeDetached =
-// document.getElementById("dcpsEmpIdstoBeDetached").value ;
-// var dcpsEmpIdstoBeAttached =
-// document.getElementById("dcpsEmpIdstoBeAttached").value ;
-// var billGroupId = document.getElementById("cmbBillGroup").value ;
-// var typeOfOperation = document.getElementById("cmbTypeofAttachDetach").value;
-	
-	// alert('cmbTypeofAttachDetach is
-	// --'+document.getElementById("cmbTypeofAttachDetach").value);
-
 	document.getElementById("status").value="SAVE";
 	$("#myForm").submit();
-// var uri = "ifms.htm?actionFlag=attachAndDetachEmpToBG";
-// var url = "dcpsEmpIdstoBeDetached=" + dcpsEmpIdstoBeDetached
-// + "&dcpsEmpIdstoBeAttached=" + dcpsEmpIdstoBeAttached + "&billGroupId=" +
-// billGroupId + "&typeOfAttachDetach=" + typeOfOperation ;
-//	
-// var myAjax = new Ajax.Request(uri,
-// {
-// method: 'post',
-// asynchronous: false,
-// parameters:url,
-// onSuccess: function(myAjax) {
-// getDataStateChangedForModifyBG(myAjax);
-// },
-// onFailure: function(){ alert('Something went wrong...')}
-// } );
 }
-
-// function getDataStateChangedForModifyBG(myAjax)
-// {
-// XMLDoc = myAjax.responseXML.documentElement;
-// var XmlHiddenValues = XMLDoc.getElementsByTagName('XMLDOC');
-// var test_Id = XmlHiddenValues[0].childNodes[0].firstChild.nodeValue;
-//	
-// if(test_Id)
-// {
-// alert("Bill Group Modified Successfully");
-// }
-// self.location.href =
-// "ifms.htm?actionFlag=dcpsBillGroup&elementId=700017&billGroupId="+document.getElementById("cmbBillGroup").value;
-// }
-
-// End:Created by Manikandan for Attach and Dettach employee
-
-
 
 
 

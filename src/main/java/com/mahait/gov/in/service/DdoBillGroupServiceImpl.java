@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,11 +9,9 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.deser.SettableAnyProperty;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -24,7 +23,6 @@ import com.mahait.gov.in.model.MpgSchemeBillGroupModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
 import com.mahait.gov.in.model.Rltdcpsbillgroupclassmodel;
 import com.mahait.gov.in.repository.DdoBillGroupRepo;
-import com.mahait.gov.in.repository.DdoBillGroupRepoImpl;
 
 @Service
 @Transactional
@@ -133,8 +131,26 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
 			obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
 			obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
-			obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[4]));
-			obj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[5]));
+			
+			/*BigInteger b = (BigInteger) objLst[4];
+			obj.setEmployeeId(b.longValue());
+
+			BigInteger paycomm=(BigInteger) objLst[5];
+			Long lngPaycomm=paycomm.longValue();
+			obj.setPayCommissionCode(lngPaycomm);
+
+			
+<<<<<<< HEAD
+			BigInteger payComm = (BigInteger) objLst[5];
+			Long lngpaycomm=payComm.longValue();
+			obj.setPayCommissionCode(lngpaycomm);
+=======
+			int payComm = (int) objLst[5];
+			Long lngpaycomm=(long) payComm;
+			obj.setPayCommissionCode(lngpaycomm);*/
+			obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
+
+			obj.setPayCommissionCode(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
 			obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
 			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
 			obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
@@ -257,7 +273,7 @@ public int deleteEmpMpgDdoAllowDeduc(String sevaarthId) {
 }
 
 @Override
-public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, int department_id, int empId, String sevaarthId,
+public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long department_id, Long empId, String sevaarthId,
 		String effectiveDate) {
 	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id,department_id, empId,sevaarthId,effectiveDate);
 	return 0;

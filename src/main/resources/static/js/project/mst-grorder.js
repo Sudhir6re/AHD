@@ -180,6 +180,25 @@ function selectAllTaluka1()
 	  }
 }
 $(document).ready(function() {
+	var contextPath = $("#appRootPath").val();
+	
+	 if ($('#department_id').length) {
+	        $('#department_id').select2();
+	    }
+	    if ($('#ddoCode').length) {
+	        $('#ddoCode').select2();
+	    }
+	    
+	    
+	    if ($('#designationCmb').length) {
+	        $('#designationCmb').select2();
+	    }
+	    
+	    if ($('#billCmb').length) {
+	    	$('#billCmb').select2();
+	    }
+	
+	
 					
 				var a=0;
 								$.ajax({
@@ -767,7 +786,6 @@ $.validator.addMethod('filesize', function (value, element, param) {
 
 
 $("form[name='mstGrOrder']").validate({
-    // Specify validation rules
     rules: {
     	departmentId:{
     		required:true,
@@ -842,8 +860,6 @@ $("form[name='mstGrOrder']").validate({
 		endDate:"Please Select End Date",
 		isApplicableForEndDt:"Please Select Applicable For End Date ",
     },
-    // Make sure the form is submitted to the destination defined
-    // in the "action" attribute of the form when valid
     submitHandler: function(form) {
     	 if($("input[name='isApplicableLocation']:checked").val()=="Yes" && $("#districtConcatCode").val()=="0"){
        	  addErrorClass($("#districtConcatCode"),"Please Select District");
