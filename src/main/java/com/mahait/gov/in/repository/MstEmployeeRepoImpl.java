@@ -18,15 +18,11 @@ import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AppoinmentEntity;
-import com.mahait.gov.in.entity.MstCadreGroupEntity;
-import com.mahait.gov.in.entity.MstDcpsBillGroup;
-import com.mahait.gov.in.entity.MstDcpsDesignation;
-import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
-import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstCadreGroupEntity;
+import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
