@@ -1,5 +1,14 @@
-
 $(document).ready(function() {
+	
+	
+	   if ($('#cmbDistrict').length) {
+	        $('#cmbDistrict').select2();
+	    }
+	   
+	   if ($('#cmbTaluka').length) {
+	        $('#cmbTaluka').select2();
+	    }
+	
 	var contextPath = $("#appRootPath").val();
 	var DDOCode =$("#ddoCode").val(); 
 	var instituteId = $("#uniqeInstituteId").val();
@@ -182,6 +191,12 @@ $("#txtRepDDOCode").blur(function(){
         data: { ddoCode: ddoCode },
     	async : true,
 		contentType : 'application/json',
+		beforeSend : function(){
+			$( "#loaderMainNew").show();
+			},
+		complete : function(data){
+			$( "#loaderMainNew").hide();
+		},	
         success: function(response) {
         	if(response!=''){
         		 var dropdown = $('#cmbSubTreasury');
@@ -220,6 +235,12 @@ $.ajax({
 	error : function(data) {
 		 console.log(data);
 	},
+	beforeSend : function(){
+		$( "#loaderMainNew").show();
+		},
+	complete : function(data){
+		$( "#loaderMainNew").hide();
+	},	
 	success : function(response) {
 		 console.log(response);
 		 var ddoCode = response.ddoCode;

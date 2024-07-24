@@ -14,4 +14,9 @@ public class AquittanceRollReportController {
 	public String aquittanceRollReport(Model model, Locale locale, HttpSession session) {
 		return "/views/reports/aquittance-roll-report";
 	}
+
+	@GetMapping("/aquittanceRoll")
+	public String aquittanceRoll(Model model, Locale locale, HttpSession session) {
+		return "/views/reports/aquittance-roll";
+	}
 }
