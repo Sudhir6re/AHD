@@ -1,4 +1,5 @@
 jQuery(document).ready(function() {
+	var contextPath = $("#appRootPath").val();
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});
 	$("#qid").select2();
@@ -340,9 +341,10 @@ if(paycomm != '' && paycomm != undefined){
 		var branchId=$(this).val();
 			$.ajax({
 				type : "GET",
-				url : "../ddoast/getIfscCodeByBranchIdForEmp/"
+				url : context+"/ddoast/getIfscCodeByBranchIdForEmp/"
 						+ branchId,
 				async : true,
+				
 				contentType : 'application/json',
 				error : function(data) {
 					 console.log(data);

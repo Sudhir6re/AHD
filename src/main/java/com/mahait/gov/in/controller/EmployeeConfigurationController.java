@@ -349,7 +349,7 @@ public class EmployeeConfigurationController {
 	}
 	
 	@RequestMapping("/employeeConfigurationGetCurrentPost/{designationId}/{postdetailid}")
-	public @ResponseBody List<Object[]> employeeConfigurationGetCurrentPost(@PathVariable int designationId,
+	public @ResponseBody List<Object[]> employeeConfigurationGetCurrentPost(@PathVariable Long designationId,
 			@PathVariable String postdetailid, Model model, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		long locId = Long.parseLong((String) session.getAttribute("locationId"));

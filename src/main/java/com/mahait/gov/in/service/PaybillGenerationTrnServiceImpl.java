@@ -220,6 +220,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		ddoCode =  paybillHeadMpgModel.getDdoCode();
 
 		DdoOffice ddoScreenEntity = mstEmployeeService.findAllGroup(ddoCode.trim());
+		citygroup = ddoScreenEntity.getDcpsDdoOfficeCityClass();
 		//String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
 		citygroup =ddoScreenEntity.getDcpsDdoOfficeCityClass();

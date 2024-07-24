@@ -526,14 +526,11 @@ public class MstEmployeeEntity {
 	@Column(name = "BEGIS_CATG")
 	private String begisCatg;
 
-	
-	
-
 	@Column(name = "joining_relieving_reason")
 	private String joiningRelievingReason;
 
 	@Column(name = "city_class")
-	private Character cityClass;
+	private String cityClass;
 
 	@Column(name = "GID_ID")
 	private Long gisId;

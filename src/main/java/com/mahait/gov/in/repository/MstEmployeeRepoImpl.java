@@ -294,7 +294,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	}
 
 	@Override
-	public List<Object[]> findEmployeeConfigurationGetCurrentPost(int designationId, String ddocode,
+	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String ddocode,
 			String currpostcode, long loc_id) {
 		// TODO Auto-generated method stub
 			Session currentSession = entityManager.unwrap(Session.class);

@@ -153,7 +153,7 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
             	int percent = d.intValue();
             	lstObj.setPercent_share(StringHelperUtils.isNullLong(percent));
             	}
-            	lstObj.setCityClass(StringHelperUtils.isNullCharacter(objLst[54]));
+            	lstObj.setCityClass(StringHelperUtils.isNullString(objLst[54]));
             	
             	char c=(char) objLst[55];  
             	int gisAppl=Character.getNumericValue(c);  

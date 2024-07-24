@@ -70,7 +70,7 @@ public class DdoBillGroupAttachDetachController {
 		 * model.addAttribute("lstAllBillGroup",
 		 * mstBillGroupService.findAllBillGroup());
 		 */
-		model.addAttribute("lstAllBillGroup", ddoBillGroupService.lstBillName(messages.getUserName()));
+		model.addAttribute("lstAllBillGroup", ddoBillGroupService.lstBillName(messages.getDdoCode()));
 		;
 		/*
 		 * model.addAttribute("lstMpgSchemeBillGroupDataTable",
