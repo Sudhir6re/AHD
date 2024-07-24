@@ -52,7 +52,7 @@ public class DeptEligibilityForAllowAndDeductRepoImpl implements DeptEligibility
 				"151,152,153,154,155,156,157,158,159,160,162,163,"
 				+ "164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,198,199,200,201,202)   ORDER BY t.departmentAllowdeducName ASC"; //changed from departmentAllowdeducId to departmentAllowdeducCode 
 		*/
-		String HQL = "FROM DeptEligibilityForAllowAndDeductEntity as t where t.isNonComputationComponent=0    ORDER BY t.departmentAllowdeducName ASC"; //changed from departmentAllowdeducId to departmentAllowdeducCode 
+		String HQL = "FROM DeptEligibilityForAllowAndDeductEntity as t where t.isNonComputationComponent=0   ORDER BY t.departmentAllowdeducName ASC"; //changed from departmentAllowdeducId to departmentAllowdeducCode 
 		
 		return (List<DeptEligibilityForAllowAndDeductEntity>) entityManager.createQuery(HQL).getResultList();
 	}

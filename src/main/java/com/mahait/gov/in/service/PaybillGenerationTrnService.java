@@ -133,7 +133,7 @@ public interface PaybillGenerationTrnService {
 
 	public PaybillGenerationTrnEntity findPaybillById(Long paybillGenerationTrnId, String voucherNo, Date voucherDate,String chqNo,Date chequeDate,String accNo,String ifscCode,Long userId);
 
-	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName);
+	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
 
 	
 }

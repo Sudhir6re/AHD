@@ -1,3 +1,9 @@
+var contextPath ="";
+$(document).ready(function() {
+	 contextPath = $("#appRootPath").val();
+});
+
+
 function funDdo1() {
 
 		var schemeId = $('#cmbSchemeName').val();
@@ -10,7 +16,7 @@ function funDdo1() {
 		if (schemeId != '') {
 			$.ajax({
 				type : "GET",
-				url : "../ddoast/getSchemeCodeAgainstName/" + schemeId,
+				url : contextPath+"/ddoast/getSchemeCodeAgainstName/" + schemeId,
 				async : true,
 				contentType : 'application/json',
 				error : function(data) {
@@ -53,7 +59,7 @@ $(".officeName")
 					$
 							.ajax({
 								type : "GET",
-								url : "../ddo/getAlreadySavedDataforDDO/"+ ddoCode,
+								url : contextPath+"/ddo/getAlreadySavedDataforDDO/"+ ddoCode,
 								async : true,
 								contentType : 'application/json',
 								error : function(
@@ -129,7 +135,7 @@ $('#approve')
 				$
 						.ajax({
 							type : "GET",
-							url : "../updateApproveRejectStatus/"
+							url : contextPath+"/ddo/updateApproveRejectStatus/"
 									+ ddoCode +"/"+flag,
 							async : true,
 							contentType : 'application/json',
@@ -159,7 +165,7 @@ $('#btnRjct')
 				$
 				.ajax({
 					type : "GET",
-					url : "../updateApproveRejectStatus/"
+					url : contextPath+"/ddo/updateApproveRejectStatus/"
 						+ ddoCode +"/"+flag,
 						async : true,
 						contentType : 'application/json',

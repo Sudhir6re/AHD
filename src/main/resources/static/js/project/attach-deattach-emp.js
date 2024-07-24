@@ -7,40 +7,17 @@ $(document).ready(function(){
 		});
 	}
 	
-	/* $(".attchDeattachTable").datatable(); */
-// $('.attchDeattachTable').DataTable();
 	var selecteditems  = [];
-	
-	
-	/*
-	 * $("#customFields").on('click', '.btnSelect', function() { // get the
-	 * current row var currentRow = $(this).closest("tr"); var col1 =
-	 * currentRow.find("td:eq(1)").text(); // get current row 2nd table cell TD
-	 * value var col2 = currentRow.find("td:eq(2)").text(); var col3 =
-	 * currentRow.find("td:eq(3)").text(); var col4 =
-	 * currentRow.find("td:eq(4)").text(); var data = col1 + "\n";
-	 * 
-	 * if($(this).is(":checked")){ selecteditems.push(col1); // alert("Checkbox
-	 * is checked."); } else if($(this).is(":not(:checked)")){
-	 * selecteditems.pop(col1); //alert("Checkbox is unchecked."); }
-	 * 
-	 * });
-	 * 
-	 * console.log(selecteditems);
-	 * 
-	 */
-     
      $("#btnSave").click(function(e){
     	
    	 	 var input = $('#schemebillGroupId').val();
    	 	 var sevaarthId = $('#sevaarthId').val(); 
-   	 	// alert("sevaarthId ="+sevaarthId);
    	 	var checkPaybillInProcess=isPaybillIsInProcessForAttach(sevaarthId);
 		
 		if(checkPaybillInProcess=="0"){
     		 $.ajax({
 			      type: "GET",
-			      url: "../level1/attachEmployee/"+sevaarthId+"/"+input,
+			      url: "../ddoast/attachEmployee/"+sevaarthId+"/"+input,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -63,11 +40,9 @@ $(document).ready(function(){
   
      $(".delete").click(function(){
     	   var sevaarthId=$(this).attr('value');
-    	   // alert("hi" + sevaarthId);
     	   var checkPaybillInProcess=isPaybillIsInProcessForAttach(sevaarthId);
       		
       		if(checkPaybillInProcess=="0"){
-    	  // alert("hi" + sevaarthId);
     	   swal({
     		   title: "Are you sure?",
     		   text: " to Dettach Employee!",
@@ -128,10 +103,20 @@ function isPaybillIsInProcessForAttach(sevaarthId) {
 	return len;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 // START:Created by Manikandan for Attach and Dettach employee
 function findAttachDettachEmp(){
 // document.getElementById("myForm").submit();
 // alert("findAttachDettachEmp method executed");
+<<<<<<< HEAD
+=======
+=======
+function findAttachDettachEmp(){
+>>>>>>> Stashed changes
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 	var billgroupid = document.getElementById("schemebillGroupId");
 	var type = document.getElementById("type");
 	if (billgroupid.value === "0") {
@@ -158,8 +143,14 @@ if (typee.value == "2") {
 function validateBeforeAttach(){
 	var chkBoxArr=document.getElementsByName('GroupCheck'); 
 	var chkLength=chkBoxArr.length;
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 // var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
 
+=======
+>>>>>>> Stashed changes
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
 		{
@@ -167,10 +158,19 @@ function validateBeforeAttach(){
 			return true; 
 		}
 	} 
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 // if(typeOfOperation.Value == 1)
 // alert("Please select an employee to attach to Bill group");
 // if(typeOfOperation.Value == 2)
 // alert("Please select a Post to attach to Bill group");
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 	return false;
 }
 function AddRowInEmpBGTable()
@@ -190,12 +190,23 @@ function AddRowInEmpBGTable()
 	var counter = 1 ;
 	var tableEmpBG = document.getElementById("tableEmpBG");
 	var tableEmp =document.getElementById("tableEmp");
+<<<<<<< HEAD
 	for(var i=1;i<=counterEmp;i++)
 	{
+=======
+<<<<<<< Updated upstream
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 // alert("counterEmp="+counterEmp);
 	for(var i=1;i<=counterEmp;i++)
 	{
 // alert(document.getElementById("GroupCheck"+i).value);
+<<<<<<< HEAD
+=======
+=======
+	for(var i=1;i<=counterEmp;i++)
+	{
+>>>>>>> Stashed changes
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 		if(document.getElementById("GroupCheck"+i).checked)
 		{
 			dcpsEmpIdsToBeAddedToBGTable[counter] = document.getElementById("GroupCheck"+i).value ;
@@ -230,20 +241,24 @@ function AddRowInEmpBGTable()
 	}
 	
 
-	for(i=counterEmp;i>=1;i--)
-	{
-		if(document.getElementById("GroupCheck"+i).checked)
-		{
-			tableEmp.rows[i].style.display = 'none' ;
-			document.getElementById("GroupCheck"+i).checked = false ;
-		}
-	}
+	 $('input[name="GroupCheckBG"]').each(function(index) {
+         if ($(this).is(':checked')) {
+             $("#tableEmpBG tr:eq(" + index + ")").hide();
+             $(this).prop('checked', false);
+         }
+     });
 }
 function validateBeforeDetach(){
 	var chkBoxArr=document.getElementsByName('GroupCheckBG'); 
 	var chkLength=chkBoxArr.length;
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 // var typeOfOperation = document.getElementById('cmbTypeofAttachDetach');
 
+=======
+>>>>>>> Stashed changes
 	for(var i=0;i<chkLength;i++){ 
 		if(chkBoxArr[i].checked)
 		{
@@ -251,10 +266,19 @@ function validateBeforeDetach(){
 			return true; 
 		}
 	} 
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 // if(typeOfOperation.Value == 1)
 // alert("Please select an employee to attach to Bill group");
 // if(typeOfOperation.Value == 2)
 // alert("Please select a Post to attach to Bill group");
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 	return false;	
 }
 function AddRowInEmpTable()
@@ -322,7 +346,14 @@ function AddRowInEmpTable()
 }
 
 
+<<<<<<< HEAD
 // CheckAll and UnCheckAll
+=======
+<<<<<<< Updated upstream
+// CheckAll and UnCheckAll
+=======
+>>>>>>> Stashed changes
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 function checkUncheckAll(theElement)
 {
 	var theForm = theElement.form, z = 0;	
@@ -349,11 +380,15 @@ function checkUncheckAllBG(theElement)
 
 function AttachAndDetachEmp()
 {
+<<<<<<< HEAD
 
 	document.getElementById("status").value="SAVE";
 	$("#myForm").submit();
 }
 
+=======
+<<<<<<< Updated upstream
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 // if(document.getElementById("dcpsEmpIdstoBeDetached").value == "" &&
 // document.getElementById("dcpsEmpIdstoBeAttached").value == ""){
 // alert("No data is Saved, as no change has been made");
@@ -407,5 +442,14 @@ function AttachAndDetachEmp()
 
 
 
+<<<<<<< HEAD
+=======
+=======
+	document.getElementById("status").value="SAVE";
+	$("#myForm").submit();
+}
+
+>>>>>>> Stashed changes
+>>>>>>> 95da510032d2a1d0c1fdf963c309e7b2937b528d
 
 

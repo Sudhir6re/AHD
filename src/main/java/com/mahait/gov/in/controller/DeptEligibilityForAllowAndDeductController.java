@@ -41,9 +41,7 @@ public class DeptEligibilityForAllowAndDeductController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
 	List<Object[]> deptEligibilityForAllowAndDeductEntity =  createAdminOfficeService.
-			employeeMappingList(messages.getUserName());
-		
-		
+			employeeMappingList(messages.getDdoCode());
 		
 //		List<TopicModel> menuList = new ArrayList<>();
 //		List<TopicModel> subMenuList = new ArrayList<>();

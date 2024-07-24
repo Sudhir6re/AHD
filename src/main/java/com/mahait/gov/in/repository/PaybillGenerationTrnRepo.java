@@ -56,7 +56,7 @@ public interface PaybillGenerationTrnRepo {
 	public Integer getannualincment(String sevaarthId, String startDate);
 	public Integer getamtbeforeannualincment(String sevaarthId, String startDate);
 	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc);
-	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(int schemeBillGroupId, String userName);
+	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
 	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
