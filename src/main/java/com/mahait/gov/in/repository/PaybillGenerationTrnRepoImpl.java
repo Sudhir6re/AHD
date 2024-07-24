@@ -836,7 +836,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc,String cityClass) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select t.payCommissionCode,t.cityClass" + cityClass
+		String HQL = "select t.payCommissionCode,t.cityClass '"+ cityClass +"'"
 				+ " FROM HRAAllowanceMstEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc+"   and to_char(t.startDate,'YY-MM-DD')<='"+startDate+"' "
 				+ " and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate + "'   ORDER BY t.startDate DESC";
 		System.out.println("---------------getHRAPercentageByMonthYear-----------------" + HQL);
@@ -991,8 +991,8 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
 				.createQuery(HQL).getResultList();
-		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getIncrementBasicPaySal()).findFirst().orElse(0);
-		return percentage;
+		Double percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getIncrementBasicPaySal()).findFirst().orElse((double) 0);
+		return percentage.intValue();
 	}
 
 	@Override
@@ -1004,8 +1004,8 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		
 		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
 				.createQuery(HQL).getResultList();
-		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPreBasicPay()).findFirst().orElse(0);
-		return percentage;
+		Double percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPreBasicPay()).findFirst().orElse((double) 0);
+		return percentage.intValue();
 	}
 
 	@Override
