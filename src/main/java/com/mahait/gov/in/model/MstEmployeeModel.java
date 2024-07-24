@@ -184,7 +184,7 @@ public class MstEmployeeModel {
 	private String insttelnotwo;
 	private String instemail;
 	private Long payScaleId;
-	private Character cityClass;
+	private String cityClass;
 	private Long acDcpsMaintainedBy;
 	private String instituteAdd;
 	
