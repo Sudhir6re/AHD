@@ -1071,7 +1071,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 
 		List<Long> messages = mstEmployeeService.approveDcpsEmployeeConfiguration(empid, dcpsnum, lStrSevarthEmpCode,
 				dcpsgpfflg);
-	int empcount = mstEmployeeService.getSevaarthid(sevaarthid);
+	     int empcount = mstEmployeeService.getSevaarthid(sevaarthid);
 //		
 		if(empcount!=0) {
 		}else {
