@@ -3,7 +3,7 @@ $(document).ready(function() {
 	
 	var dataTable= $("#postDetails").dataTable();
 	
-	 if ($('#cmbAsstDDO').length) {
+	    if ($('#cmbAsstDDO').length) {
 	        $('#cmbAsstDDO').select2();
 	    }
 	    if ($('#ddoCode').length) {
@@ -17,6 +17,15 @@ $(document).ready(function() {
 	    
 	    if ($('#billCmb').length) {
 	    	$('#billCmb').select2();
+	    }
+	    
+	    
+	    if ($('#subjectCmb').length) {
+	    	$('#subjectCmb').select2();
+	    }
+	    
+	    if ($('#cmbTaluka').length) {
+	    	$('#cmbTaluka').select2();
 	    }
 	    
 	    
