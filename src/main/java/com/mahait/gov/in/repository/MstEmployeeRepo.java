@@ -1,18 +1,14 @@
 package com.mahait.gov.in.repository;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
 import com.mahait.gov.in.entity.AppoinmentEntity;
-import com.mahait.gov.in.entity.MstCadreGroupEntity;
-import com.mahait.gov.in.entity.MstDcpsDesignation;
-import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
-import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstCadreGroupEntity;
+import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
@@ -30,7 +26,7 @@ public interface MstEmployeeRepo {
 	public DdoOffice findAllGroup(String ddoCode);
 
 	public int getpayCommissionAgainstEmployee(String sevaarthId);
-
+	
 	public List<Object[]> findEmployeeAllowanceDeduction(String sevaarthId);
 
 	public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId, int allowDedCode);

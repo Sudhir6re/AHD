@@ -13,5 +13,10 @@ public class BankStatementReportController {
 			HttpSession session) {
 		return "/views/reports/bank-statement-report";
 	}
+	@GetMapping("/bankStatement")
+	public String bankStatement( Model model, Locale locale,
+			HttpSession session) {
+		return "/views/reports/bank-statement";
+	}
 
 }

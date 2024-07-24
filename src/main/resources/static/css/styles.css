@@ -1,4 +1,4 @@
-.bor-0 table, .bor-0 td, .bor-0 tr, .bor-0 tbody, .bor-0 thead, .bor-0 {
+.bor-0 table, .bor-0 td, .bor-0 tr, .bor-0 tbody, .bor-0 thead, .bor-0,.bor-0 th {
 	border: none !important;
 }
 

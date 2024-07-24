@@ -1,3 +1,11 @@
+var contextPath =
+$(document).ready(function() {
+	 contextPath = $("#appRootPath").val();
+	  if ($('#cmbSchemeName').length) {
+	        $('#cmbSchemeName').select2();
+	    }
+});
+
 function funDdo1() {
 
 		var schemeId = $('#cmbSchemeName').val();
@@ -5,36 +13,29 @@ function funDdo1() {
 		if(schemeId != "0"){
 			removeErrorClass($("#schemeName"));
 		}
-	
 
 		if (schemeId != '') {
 			$.ajax({
 				type : "GET",
-				url : "../ddoast/getSchemeCodeAgainstName/" + schemeId,
+				url : contextPath+"/ddoast/getSchemeCodeAgainstName/" + schemeId,
 				async : true,
 				contentType : 'application/json',
 				error : function(data) {
 					console.log(data);
-					/* alert("eror is" + data); */
 				},
-
+				beforeSend : function(){
+					$( "#loaderMainNew").show();
+					},
+				complete : function(data){
+					$( "#loaderMainNew").hide();
+				},	
 				success : function(data) {
 					console.log(data);
 					$('#txtSchemeCode').val(0.);
 					$("#txtSchemeCode").val(data[0].schemeCode);
 					$("#cmbSubschemeName").val(data[0].schemeName);
 					$("#RadioPermenantTempBothP").val(data[0].schemeType);
-					/*var temp=data
-					 $("#txtSchemeCode").val('');
-					$.each(temp, function(index, value) {
-						$.each(value, function(index, value1) {
-							//console.log(index + "-" + value1);
-							if(index=="txtSchemeCode"){
-								console.log("txtSchemeCode");
-							
-							}
-						});
-					}); */
+				
 				}
 			});
 		}
@@ -53,23 +54,27 @@ $(".billGrpId")
 					$
 							.ajax({
 								type : "GET",
-								url : "../ddoast/getBillDtlsForAlreadySaved/"+ billGrpId,
+								url : contextPath+"/ddoast/getBillDtlsForAlreadySaved/"+ billGrpId,
 								async : true,
 								contentType : 'application/json',
 								error : function(
 										response) {
 									console.log(response);
-									
 									$(".loaderMainNew").hide();
 									// alert(data);
 								},
+								beforeSend : function(){
+									$( "#loaderMainNew").show();
+									},
+								complete : function(data){
+									$( "#loaderMainNew").hide();
+								},	
 								success : function(
 										response) {
 									if(response!=''){
 									
 									var temp=response;
 									$(".loaderMainNew").hide();
-									//$(".txtSchemeCode").val(data[3]);
 									
 									
 									$.each(response.billdetails,function(index,value) {
@@ -84,20 +89,11 @@ $(".billGrpId")
 													 $('#RadioPermenantTempBothT').prop("checked",true);
 												 else
 													 $('#RadioPermenantTempBothB').prop("checked",true);
-												 
-//												var gropuValues=value[1].split(",");
-//												
-//												for(var i=0;i<gropuValues.length;i++){
-//													$('input[name="group"][value="'+ gropuValues[i]+ '"]').prop("checked",true);
-//												}
-												
 												
 											});
 									
 									
 									  $.each(response.grpdtls, function(index, value) {
-//						                     dropdown.append($('<option value="'+value[0]+'"></option>').text(value[1])); // Adjust the value index as needed
-										 
 												if(value == 'NA')
 													 $('#GroupNA').prop("checked",true);
 												if(value == 'A')
@@ -110,9 +106,6 @@ $(".billGrpId")
 													 $('#GroupC').prop("checked",true);
 												if(value == 'D')
 													 $('#GroupD').prop("checked",true);
-										
-											
-						                     
 						                 });
 									
 								}
@@ -121,3 +114,63 @@ $(".billGrpId")
 					}
 
 		});
+
+
+
+
+
+$('#frmDdoGroupBill').validate({
+    rules: {
+        dcpsDdoSchemeCode: {
+            required: true,
+            min: 1 
+        },
+        txtSchemeCode: {
+            required: true
+        },
+        dcpsDdoBillTypeOfPost: {
+            required: true
+        },
+        description: {
+        	required: true
+        },
+    },
+    messages: {
+        dcpsDdoSchemeCode: {
+            required: "Please select a Scheme Name",
+            min: "Please select a Scheme Name"
+        },
+        cmbSubschemeName: {
+            required: "Please select a Subscheme Name"
+        },
+        dcpsDdoBillTypeOfPost: {
+            required: "Please select a Type of Post"
+        },
+        description: {
+        	required: "Please enter description"
+        }
+    },
+    submitHandler: function(form) {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var isChecked = false;
+
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                isChecked = true;
+            }
+        });
+        if (!isChecked) {
+            addErrorClass($("#errorClass"),"Please select at least one Group.");
+            return false;
+        }else{
+        	removeErrorClass($("#errorClass"));
+        	form.submit(); 
+        }
+    }
+  
+});
+
+
+
+
+

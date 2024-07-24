@@ -7,19 +7,16 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+@Data
+@Entity
+@Table(name = "Qualification")
+public class QualificationEntity {
 
+	@Id
+	@Column(name = "Q_ID")
+	private Long qId;
 
-	@Data
-	@Entity
-	@Table(name = "Qualification")
-	public class QualificationEntity {
-		
-		    @Id
-		    @Column(name = "Q_ID")
-		    private Long qId;
+	@Column(name = "QUALIFICATION", nullable = false, length = 100)
+	private String qualification;
 
-		  
-		    @Column(name = "QUALIFICATION", nullable = false, length = 100)
-		    private String qualification;
-	  
-		}
+}
