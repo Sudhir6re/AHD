@@ -161,7 +161,7 @@ public class DDOInfoServiceImpl implements DDOInfoService{
 	}
 
 	@Override
-	public DdoOffice updateApproveRejectStatus(String ddoCode, int flag) {
+	public DdoOffice updateApproveRejectStatus(String ddoCode, int flag, String cityClass) {
 		// TODO Auto-generated method stub
 	
 
@@ -171,6 +171,7 @@ public class DDOInfoServiceImpl implements DDOInfoService{
 			
 			if(flag==1) {
 				ddoOffice.setStatusFlag(1L); 
+				ddoOffice.setDcpsDdoOfficeCityClass(cityClass); 
 			}else {
 				ddoOffice.setStatusFlag(0L); 	
 			}

@@ -75,10 +75,6 @@ $(".officeName")
 									
 									var temp=data;
 									$(".loaderMainNew").hide();
-									//$(".txtSchemeCode").val(data[3]);
-									
-									///office_name,state,district,taluka,town,village,address1,office_pin,office_city_class,dice_code,grant_applicable,tel_no1,fax,tribal_area_flag,
-									///email,hilly_area_flag,naxalite_area_flag
 									$.each(temp,function(index,value) {
 												$('#txtNameOfOffice').val(value[0]);
 												$('#stateId').val(value[1]);
@@ -94,6 +90,7 @@ $(".officeName")
 												 $('#txtTelNo1').val(value[11]);
 												 $('#txtfax').val(value[12]);
 												 $('#txtEmail').val(value[14]);
+												 $('#hiddenddoCode').val(ddoCode);
 												 var tribalArea= value[13];
 												 if(tribalArea=='Yes')
 													 $('#RadioButtonTriableAreaYes').prop("checked",true);
@@ -129,14 +126,15 @@ $(".officeName")
 $('#approve')
 .click(
 		function() {
-			var ddoCode = $('#txtdiceCode').val();
+			var ddoCode = $('#hiddenddoCode').val();
+			var cityClass=$('#ddoOffClass').val();
 			var flag=1;
 			 if (ddoCode != '') {
 				$
 						.ajax({
 							type : "GET",
 							url : contextPath+"/ddo/updateApproveRejectStatus/"
-									+ ddoCode +"/"+flag,
+									+ ddoCode +"/"+flag +"/"+cityClass,
 							async : true,
 							contentType : 'application/json',
 							error : function(data) {
@@ -159,7 +157,7 @@ $('#approve')
 $('#btnRjct')
 .click(
 		function() {
-			var ddoCode = $('#txtdiceCode').val();
+			var ddoCode = $('#hiddenddoCode').val();
 			var flag=2;
 			if (ddoCode != '') {
 				$

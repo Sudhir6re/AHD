@@ -100,11 +100,11 @@ public class DDOOfficeController {
 		
     }
 	
-	@GetMapping("/updateApproveRejectStatus/{ddoCode}/{flag}")
+	@GetMapping("/updateApproveRejectStatus/{ddoCode}/{flag}/{cityClass}")
 	public String updateApproveRejectStatus(@ModelAttribute("newRegDDOModel") NewRegDDOModel newRegDDOModel,@PathVariable String ddoCode,
-			@PathVariable int flag,Model model,Locale locale,HttpSession session,HttpServletRequest request, Object paybillHeadMpgRepo) {
+			@PathVariable int flag,@PathVariable String cityClass,Model model,Locale locale,HttpSession session,HttpServletRequest request, Object paybillHeadMpgRepo) {
 		
-		DdoOffice orgUserMst  =  ddoInfoService.updateApproveRejectStatus(ddoCode,flag);
+		DdoOffice orgUserMst  =  ddoInfoService.updateApproveRejectStatus(ddoCode,flag,cityClass);
 		
 		if(orgUserMst!=null)
 			model.addAttribute("message","Approved Successfully");

@@ -40,7 +40,7 @@ public interface DDOInfoService {
 
 		List<Object[]> getAlreadySavedDataforDDO(String ddoCode);
 
-		DdoOffice updateApproveRejectStatus(String ddoCode, int flag);
+		DdoOffice updateApproveRejectStatus(String ddoCode, int flag, String cityClass);
 
 		List<NewRegDDOModel> getLstTown();
 }
