@@ -26,13 +26,10 @@ public interface DeptEligibilityForAllowAndDeductService {
 	public int saveEmployeeNonGovDuesDeduct(
 			@Valid EmployeeAllowDeducComponentAmtModel employeeAllowDeducComponentAmtModel, OrgUserMst messages);
 
-<<<<<<< Updated upstream
 	public List<DeptEligibilityForAllowAndDeductEntity> findDeptAllowAndDeductList();
 
 	public List<Object[]> getEmployeeAgainstId(int allowDeducComponentId, String ddoCode, String sevaarthId);
-=======
 	public int saveAllowDeductionMst(@Valid DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,
 			OrgUserMst messages);
->>>>>>> Stashed changes
 
 }

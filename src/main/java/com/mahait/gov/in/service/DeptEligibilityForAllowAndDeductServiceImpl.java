@@ -112,7 +112,6 @@ public class DeptEligibilityForAllowAndDeductServiceImpl implements DeptEligibil
 		}
 
 		@Override
-<<<<<<< Updated upstream
 		public List<DeptEligibilityForAllowAndDeductEntity> findDeptAllowAndDeductList() {
 			// TODO Auto-generated method stub
 			return deptEligibilityForAllowAndDeductRepo.findDeptAllowAndDeductList();
@@ -122,7 +121,7 @@ public class DeptEligibilityForAllowAndDeductServiceImpl implements DeptEligibil
 		public List<Object[]> getEmployeeAgainstId(int allowDeducComponentId, String ddoCode, String sevaarthId) {
 			// TODO Auto-generated method stub
 			return deptEligibilityForAllowAndDeductRepo.getEmployeeAgainstId(allowDeducComponentId,ddoCode,sevaarthId);
-=======
+		}
 		public int saveAllowDeductionMst(
 				@Valid DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,
 				OrgUserMst messages) {
@@ -141,7 +140,6 @@ public class DeptEligibilityForAllowAndDeductServiceImpl implements DeptEligibil
 			int saveId = deptEligibilityForAllowAndDeductRepo.saveAllowDeductionMst(mstDeptEligibilityForAllowAndDeductEntity);
 			
 			return saveId;
->>>>>>> Stashed changes
 		}
 
 }

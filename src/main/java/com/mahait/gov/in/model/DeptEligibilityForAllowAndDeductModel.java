@@ -5,10 +5,6 @@ import java.util.List;
 
 import lombok.Data;
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 @Data
 public class DeptEligibilityForAllowAndDeductModel implements Serializable{
 
@@ -29,8 +25,4 @@ public class DeptEligibilityForAllowAndDeductModel implements Serializable{
 	private List<DeptEligibilityForAllowAndDeductModel> lstDeptEligibilityForAllowAndDeductModel;
 	
 	
-<<<<<<< Updated upstream
-=======
-	
->>>>>>> Stashed changes
 }
