@@ -359,8 +359,6 @@ public class MstEmployeeEntity {
 	@Column(name = "accMaintainedByOther")
 	private String accMaintainedByOther;
 
-
-
 	
 	@Transient
 	private String uidNo3;
@@ -438,6 +436,7 @@ public class MstEmployeeEntity {
 
 	@Column(name = "UPDATED_USER_ID")
 	private Long updatedUserId;
+	
 	@Column(name = "PAY_SCALE_LEVEL_ID")
 	private String payscalelevelId;
 
