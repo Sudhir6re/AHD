@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pageheading.professionalTax}"></title>
+<title th:utext="#{menu.master.sub.changeStmt}"></title>
 </head>
-<body class="professional-tax">
+<body class="change-statement">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 	<div class="container min-height-600">
@@ -15,14 +15,14 @@
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.reportBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pageheading.professionalTax}"></span></li>
+						th:utext="#{menu.master.sub.changeStmt}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<div class="formMainwithNoborTb container">
 			<div class="text-center">
 				<h3 Class="PageHeading">
-					<span th:utext="#{msg.thymeleaf.pageheading.professionalTax}"></span>
+					<span th:utext="#{menu.master.sub.changeStmt}"></span>
 				</h3>
 			</div>
 			<br />
@@ -50,15 +50,6 @@
 								</select></td>
 							</tr>
 							<tr>
-								<td width="20%" align="center"><b>Bill No&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label></b></td>
-								<td width="30%"><select id="billNo" name="billNo">
-										<option value="-1">---------Select---------</option>
-										<option value="9910000330"
-											title="Regular Vocational Osmanabad">Regular
-											Vocational Osmanabad</option>
-
-								</select></td>
 								<td align="center" width="20%"><b>Year&nbsp;&nbsp;<label
 										class="mandatoryindicator">*</label></b></td>
 								<td width="30%"><select name="year" id="year"
@@ -68,10 +59,24 @@
 										<option value="2023">2023</option>
 										<option value="2024" selected="selected">2024</option>
 								</select></td>
+								<td class="captionTag" align="center"><b>Bill Type<font
+										color="RED">*</font></b></td>
+								<td colspan="1"><select class="selecttag"
+									name="billTypePara" id="billTypePara">
+										<option value="-1">-- Select --</option>
+										<option value="250015">Paybill</option>
+								</select></td>
 							</tr>
 							<tr>
-								<td width="20%" align="center"><b>No of Records</b></td>
-								<td width="30%"><input type="text" name="numofrecord" /></td>
+								<td width="20%" align="center"><b>Bill No&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></b></td>
+								<td width="30%"><select id="billNo" name="billNo">
+										<option value="-1">---------Select---------</option>
+										<option value="9910000330"
+											title="Regular Vocational Osmanabad">Regular
+											Vocational Osmanabad</option>
+
+								</select></td>
 							</tr>
 
 							<tr bgcolor="#f3f3f3">
@@ -83,7 +88,7 @@
 									<!-- <input
 								type="button" name="GenerateReport" id="rptBtn_GenerateReport"
 								value="Generate Report" class="btn"> --> <a
-									th:href="@{/ddoast/profTaxReport}" class="btn"
+									th:href="@{/ddoast/changeStatementReport}" class="btn"
 									id="rptBtn_GenerateReport">Generate Report</a> <input
 									type="reset" name="ResetParams" id="rptBtn_ResetBtn"
 									value="Reset" class="btn"> <input type="button"
