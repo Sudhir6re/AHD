@@ -1,24 +1,35 @@
+	var context ="";
+$(document).ready(function() {
+	context = $("#appRootPath").val();
+});
+
 $("#cmbBankName").change(function() 
 		 {
 		 	  var bankId = $("#cmbBankName").val();
-		 //alert("bank  is "+bankId);
+		 // alert("bank is "+bankId);
 		     	 if (bankId != '') 
 		     	 {
 		     		 $.ajax({
 		 			      type: "GET",
-		 			      url: "mstBank/"+bankId,
+		 			      url: context+"/ddoast/mstBank/"+bankId,
 		 			      async: true,
 		 			      contentType:'application/json',
 		 			      error: function(data){
-		 			    	 //console.log(data);
+		 			    	 // console.log(data);
 		 			      },
+		 			     beforeSend : function(){
+			 					$( "#loaderMainNew").show();
+			 					},
+			 				complete : function(data){
+			 					$( "#loaderMainNew").hide();
+			 				},
 		 			      success: function(data){
-		 			    	 //console.log(data);
-		 			    	  //alert(data);
+		 			    	 // console.log(data);
+		 			    	  // alert(data);
 		 			    	 var len=data.length;
 		 			    	  if(len!=0)
 		 			    		  {
-		 			    		//console.log(data);
+		 			    		// console.log(data);
 		 			    		 $('#cmbBranchName').empty();
 		 			    		$('#cmbBranchName').append("<option value='0'>Please Select</option>");
 		 				    	 var temp = data;
@@ -33,7 +44,7 @@ $("#cmbBankName").change(function()
 		 			    		  {
 		 			    		 $('#cmbBranchName').empty();
 		 			    		 $('#cmbBranchName').append("<option value='0'>Please Select</option>");
-		 			    		//  swal("Record not found !!!");
+		 			    		// swal("Record not found !!!");
 		 			    		  }
 		 			    	}
 		 			 });	
@@ -47,24 +58,30 @@ $("#cmbBankName").change(function()
 $("#cmbBranchName").change(function() 
 		 {
 		 	  var branchId = $("#cmbBranchName").val();
-		 //alert("bank  is "+bankId);
+		 // alert("bank is "+bankId);
 		     	 if (branchId != '') 
 		     	 {
 		     		 $.ajax({
 		 			      type: "GET",
-		 			      url: "getIfscCodeByBranchId/"+branchId,
+		 			      url: context+"/ddoast/getIfscCodeByBranchId/"+branchId,
 		 			      async: true,
 		 			      contentType:'application/json',
 		 			      error: function(data){
-		 			    	 //console.log(data);
+		 			    	 // console.log(data);
 		 			      },
+		 			     beforeSend : function(){
+			 					$( "#loaderMainNew").show();
+			 					},
+			 				complete : function(data){
+			 					$( "#loaderMainNew").hide();
+			 				},
 		 			      success: function(data){
-		 			    	 //console.log(data);
-		 			    	  //alert(data);
+		 			    	 // console.log(data);
+		 			    	  // alert(data);
 		 			    	 var len=data.length;
 		 			    	  if(len!=0)
 		 			    		  {
-		 			    		//console.log(data);
+		 			    		// console.log(data);
 		 				    	 var temp = data;
 		 				   		  for(var i=0;i<len;i++)
 		 				   			  {
