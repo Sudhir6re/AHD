@@ -111,4 +111,35 @@ public class DeptEligibilityForAllowAndDeductServiceImpl implements DeptEligibil
 			return  id;
 		}
 
+		@Override
+		public List<DeptEligibilityForAllowAndDeductEntity> findDeptAllowAndDeductList() {
+			// TODO Auto-generated method stub
+			return deptEligibilityForAllowAndDeductRepo.findDeptAllowAndDeductList();
+		}
+
+		@Override
+		public List<Object[]> getEmployeeAgainstId(int allowDeducComponentId, String ddoCode, String sevaarthId) {
+			// TODO Auto-generated method stub
+			return deptEligibilityForAllowAndDeductRepo.getEmployeeAgainstId(allowDeducComponentId,ddoCode,sevaarthId);
+		}
+		public int saveAllowDeductionMst(
+				@Valid DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,
+				OrgUserMst messages) {
+			DeptEligibilityForAllowAndDeductEntity mstDeptEligibilityForAllowAndDeductEntity = new DeptEligibilityForAllowAndDeductEntity();
+			
+			mstDeptEligibilityForAllowAndDeductEntity.setDepartmentAllowdeducCode(deptEligibilityForAllowAndDeductModel.getDepartmentAllowdeducCode());
+			mstDeptEligibilityForAllowAndDeductEntity.setIsActive('1');
+			mstDeptEligibilityForAllowAndDeductEntity.setIsType(deptEligibilityForAllowAndDeductModel.getIsType());
+			mstDeptEligibilityForAllowAndDeductEntity.setDepartmentAllowdeducName(deptEligibilityForAllowAndDeductModel.getDepartmentAllowdeducName());
+			mstDeptEligibilityForAllowAndDeductEntity.setCreatedUserId(messages.getUserId());
+			mstDeptEligibilityForAllowAndDeductEntity.setCreatedDate(new Date());
+			mstDeptEligibilityForAllowAndDeductEntity.setDepartmentAllowdeducColNm(deptEligibilityForAllowAndDeductModel.getDepartmentAllowdeducName());
+			mstDeptEligibilityForAllowAndDeductEntity.setIsNonComputationComponent(deptEligibilityForAllowAndDeductModel.getNonComputational());
+			
+
+			int saveId = deptEligibilityForAllowAndDeductRepo.saveAllowDeductionMst(mstDeptEligibilityForAllowAndDeductEntity);
+			
+			return saveId;
+		}
+
 }

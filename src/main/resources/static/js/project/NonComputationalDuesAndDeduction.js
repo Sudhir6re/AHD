@@ -1,4 +1,6 @@
+var contextPath ="";
 jQuery(document).ready(function($) {
+	 contextPath = $("#appRootPath").val();
 	var varMessage = $("#message").val();
 	if(varMessage != "" && varMessage != undefined) {
 		swal(''+varMessage, {
@@ -12,7 +14,12 @@ $(document).ready(function(){
     $("#search").click(function(e){
     	e.preventDefault();
 	  var componentVal=$("#componentId").val();
-	  var ddoCode=$('#logUser').text();
+	  var ddoCodeLevel1=$('#logUser').text();
+	  
+	  var parts = ddoCodeLevel1.split('_'); 
+	  var ddoCode = parts[0]; 
+	  
+	  
 	  var sevaarthId=$("#searchSevaarthId").val();
 	  //var deptallowcode=$("#deptallowcode").val();
 	  //var deptcode=$("#deptcode").val();
@@ -21,8 +28,14 @@ $(document).ready(function(){
 	  var res = componentVal.split(")");    //split two data from single string
 	  var allowDeducComponentId=res[1];
 	  $.ajax({
-		  url: "../level1/getEmployeeAgainstId/"+allowDeducComponentId+'/'+ddoCode+'/'+sevaarthId,
+		  url: contextPath+"/ddoast/getEmployeeAgainstId/"+allowDeducComponentId+'/'+ddoCode+'/'+sevaarthId,
 		  cache: false,
+		  	beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
 		  success: function(data){
 			  
 			  
@@ -88,7 +101,12 @@ var checknumber = $('#textbox_id').val();
 $("#componentId").change(function(e){
 	e.preventDefault();
   var componentVal=$("#componentId").val();
-  var ddoCode=$('#logUser').text();
+//  var ddoCode=$('#logUser').text();
+  var ddoCodeLevel1=$('#logUser').text();
+  
+  var parts = ddoCodeLevel1.split('_'); 
+  var ddoCode = parts[0]; 
+  
   var sevaarthId=$("#searchSevaarthId").val();
  // var deptallowcode=$("#deptallowcode").val();
     //var deptcode=$("#deptcode").val();
@@ -100,8 +118,14 @@ $("#componentId").change(function(e){
   var res = componentVal.split(")");    //split two data from single string
   var allowDeducComponentId=res[1];
   $.ajax({
-	  url: "../level1/getEmployeeAgainstId/"+allowDeducComponentId+'/'+ddoCode+'/'+sevaarthId,
+	  url:  contextPath+"/ddoast/getEmployeeAgainstId/"+allowDeducComponentId+'/'+ddoCode+'/'+sevaarthId,
 	  cache: false,
+	  	beforeSend : function(){
+			$( "#loaderMainNew").show();
+			},
+		complete : function(data){
+			$( "#loaderMainNew").hide();
+		},	
 	  success: function(data){
 		  $('#tblNonGovDuesDeduct').dataTable().fnClearTable();
 		  $('#tblNonGovDuesDeduct').show();

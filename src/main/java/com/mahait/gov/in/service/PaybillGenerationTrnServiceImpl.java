@@ -209,6 +209,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double motorCycleAdvIntAmt = 0d;
 		String motorCycleInst = null;
 		Double bhanZillaParWaPanchayatSamitiSanstha = 0d;
+		Double mtrCoSoc = 0d; 
+		Double conStore=0d;
+		Double mis=0d;
 
 		/*
 		 * MpgSchemeBillGroupEntity mpgSchemeBillGroupEntity = mpgSchemeBillGroupService
@@ -1665,13 +1668,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				System.out.println(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
 				if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-					if (payCommission == 8 && !mstEmployeeEntity2.getGiscatagory().equals(3)) {
+					if (payCommission == 700005) {
 						percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 								CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
-					} else {
+					} /*else {
 						percentage = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
 								CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
-					}
+					}*/
 
 					if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA5th)) {
 						percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
@@ -3003,158 +3006,24 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						if (mstEmployeeEntity2.getRevisedBasic() != null) {
 							if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 
-								if (mstEmployeeEntity2.getGiscatagory().equals(1)) {
-									if (paybillHeadMpgModel.getPaybillMonth() >= 8
-											&& paybillHeadMpgModel.getPaybillYear() == 24
-											|| paybillHeadMpgModel.getPaybillMonth() >= 1
-													&& paybillHeadMpgModel.getPaybillYear() == 25) {
-										Double DaArr1 = 0d;
-										Double DaArr2 = 0d;
-										Double DaArrtenpersent = 0d;
-										Double DaArrforteenpersent = 0d;
-										Double totalDaArr = 0d;
-										if (paybillHeadMpgModel.getPaybillMonth() == 11
-												&& paybillHeadMpgModel.getPaybillYear() == 24) {
-											DaArr1 = DaArr / 4;
-											DaArr2 = DaArr - DaArr1;
-											DaArrtenpersent = (DaArr1 * 10 / 100);
-											DaArrforteenpersent = (DaArr2 * 14 / 100);
-											totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-											npsEmprAllow = (double) (Math
-													.ceil((((SevenPcBasic + svnDA) * 14) / 100) + totalDaArr));
-										} else if (paybillHeadMpgModel.getPaybillMonth() == 12
-												&& paybillHeadMpgModel.getPaybillYear() == 24) {
-											DaArr1 = DaArr / 5;
-											DaArr2 = DaArr - DaArr1;
-											DaArrtenpersent = (DaArr1 * 10 / 100);
-											DaArrforteenpersent = (DaArr2 * 14 / 100);
-											totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-											npsEmprAllow = (double) (Math
-													.ceil((((SevenPcBasic + svnDA) * 14) / 100) + totalDaArr));
-										} else {
-											npsEmprAllow = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 14
-													/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-										}
-
-									} else {
-										npsEmprAllow = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 10
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-									}
-
-								} else {
 									npsEmprAllow = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 14
 											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								}
 							} else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
 
-								if (mstEmployeeEntity2.getGiscatagory().equals(1)) {
-									if (paybillHeadMpgModel.getPaybillMonth() >= 8
-											&& paybillHeadMpgModel.getPaybillYear() == 24
-											|| paybillHeadMpgModel.getPaybillMonth() >= 1
-													&& paybillHeadMpgModel.getPaybillYear() == 25) {
-
-										Double DaArr1 = 0d;
-										Double DaArr2 = 0d;
-										Double DaArrtenpersent = 0d;
-										Double DaArrforteenpersent = 0d;
-										Double totalDaArr = 0d;
-										if (paybillHeadMpgModel.getPaybillMonth() == 11
-												&& paybillHeadMpgModel.getPaybillYear() == 24) {
-											DaArr1 = DaArr / 4;
-											DaArr2 = DaArr - DaArr1;
-											DaArrtenpersent = (DaArr1 * 10 / 100);
-											DaArrforteenpersent = (DaArr2 * 14 / 100);
-											totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-											npsEmprAllow = (double) (Math
-													.ceil((((SixPcBasic + da) * 14) / 100) + totalDaArr));
-										} else if (paybillHeadMpgModel.getPaybillMonth() == 12
-												&& paybillHeadMpgModel.getPaybillYear() == 24) {
-											DaArr1 = DaArr / 5;
-											DaArr2 = DaArr - DaArr1;
-											DaArrtenpersent = (DaArr1 * 10 / 100);
-											DaArrforteenpersent = (DaArr2 * 14 / 100);
-											totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-											npsEmprAllow = (double) (Math
-													.ceil((((SixPcBasic + da) * 14) / 100) + totalDaArr));
-										} else {
-											npsEmprAllow = (double) (Math.ceil((SixPcBasic + da + DaArr) * 14
-													/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-										}
-									} else {
-										npsEmprAllow = (double) (Math.ceil((SixPcBasic + da + DaArr) * 10
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-									}
-
-								} else {
 									npsEmprAllow = (double) (Math.ceil((SixPcBasic + da + DaArr) * 14
 											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								}
 							} else {
 								npsEmprAllow = 0d;
 							}
 						} else {
 							if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 
-								if (mstEmployeeEntity2.getGiscatagory().equals(1)) {
-									if (paybillHeadMpgModel.getPaybillMonth() >= 8
-											&& paybillHeadMpgModel.getPaybillYear() == 24
-											|| paybillHeadMpgModel.getPaybillMonth() >= 1
-													&& paybillHeadMpgModel.getPaybillYear() == 25) {
-
-										Double DaArr1 = 0d;
-										Double DaArr2 = 0d;
-										Double DaArrtenpersent = 0d;
-										Double DaArrforteenpersent = 0d;
-										Double totalDaArr = 0d;
-										if (paybillHeadMpgModel.getPaybillMonth() == 11
-												&& paybillHeadMpgModel.getPaybillYear() == 24) {
-											DaArr1 = DaArr / 4;
-											DaArr2 = DaArr - DaArr1;
-											DaArrtenpersent = (DaArr1 * 10 / 100);
-											DaArrforteenpersent = (DaArr2 * 14 / 100);
-											totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-											npsEmprAllow = (double) (Math
-													.ceil((((SevenPcBasic + svnDA) * 14) / 100) + totalDaArr));
-										} else if (paybillHeadMpgModel.getPaybillMonth() == 12
-												&& paybillHeadMpgModel.getPaybillYear() == 24) {
-											DaArr1 = DaArr / 5;
-											DaArr2 = DaArr - DaArr1;
-											DaArrtenpersent = (DaArr1 * 10 / 100);
-											DaArrforteenpersent = (DaArr2 * 14 / 100);
-											totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-											npsEmprAllow = (double) (Math
-													.ceil((((SevenPcBasic + svnDA) * 14) / 100) + totalDaArr));
-										} else {
-											npsEmprAllow = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 14
-													/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-										}
-									} else {
-										npsEmprAllow = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 10
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-									}
-
-								} else {
 									npsEmprAllow = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 14
 											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								}
 							} else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
 
-								if (mstEmployeeEntity2.getGiscatagory().equals(1)) {
-									if (paybillHeadMpgModel.getPaybillMonth() >= 8
-											&& paybillHeadMpgModel.getPaybillYear() == 24
-											|| paybillHeadMpgModel.getPaybillMonth() >= 1
-													&& paybillHeadMpgModel.getPaybillYear() == 25) {
-										npsEmprAllow = (double) (Math.ceil((SixPcBasic + da + DaArr) * 14
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-									} else {
-										npsEmprAllow = (double) (Math.ceil((SixPcBasic + da + DaArr) * 10
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-									}
-
-								} else {
 									npsEmprAllow = (double) (Math.ceil((SixPcBasic + da + DaArr) * 14
 											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								}
 							} else {
 								npsEmprAllow = 0d;
 							}
@@ -4011,94 +3880,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						}
 						if ((payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC)) {
 
-							if (mstEmployeeEntity2.getGiscatagory().equals(1)) {
-								if (paybillHeadMpgModel.getPaybillMonth() >= 8
-										&& paybillHeadMpgModel.getPaybillYear() == 24
-										|| paybillHeadMpgModel.getPaybillMonth() >= 1
-												&& paybillHeadMpgModel.getPaybillYear() == 25) {
-
-									Double DaArr1 = 0d;
-									Double DaArr2 = 0d;
-									Double DaArrtenpersent = 0d;
-									Double DaArrforteenpersent = 0d;
-									Double totalDaArr = 0d;
-									if (paybillHeadMpgModel.getPaybillMonth() == 11
-											&& paybillHeadMpgModel.getPaybillYear() == 24) {
-										DaArr1 = DaArr / 4;
-										DaArr2 = DaArr - DaArr1;
-										DaArrtenpersent = (DaArr1 * 10 / 100);
-										DaArrforteenpersent = (DaArr2 * 14 / 100);
-										totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-										npsEmprContri = (double) (Math
-												.ceil((((SixPcBasic + da) * 14) / 100) + totalDaArr));
-									} else if (paybillHeadMpgModel.getPaybillMonth() == 12
-											&& paybillHeadMpgModel.getPaybillYear() == 24) {
-										DaArr1 = DaArr / 5;
-										DaArr2 = DaArr - DaArr1;
-										DaArrtenpersent = (DaArr1 * 10 / 100);
-										DaArrforteenpersent = (DaArr2 * 14 / 100);
-										totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-										npsEmprContri = (double) (Math
-												.ceil((((SixPcBasic + da) * 14) / 100) + totalDaArr));
-									} else {
-										npsEmprContri = (double) (Math.ceil((SixPcBasic + da + DaArr) * 14
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-									}
-								} else {
-									npsEmprContri = (double) (Math.ceil((SixPcBasic + da + DaArr) * 10
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								}
-
-							} else {
 								npsEmprContri = (double) (Math.ceil((SixPcBasic + da + DaArr) * 14
 										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 
-							}
 						} else if ((payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)) {
 
-							if (mstEmployeeEntity2.getGiscatagory().equals(1)) {
-
-								if (paybillHeadMpgModel.getPaybillMonth() >= 8
-										&& paybillHeadMpgModel.getPaybillYear() == 24
-										|| paybillHeadMpgModel.getPaybillMonth() >= 1
-												&& paybillHeadMpgModel.getPaybillYear() == 25) {
-
-									Double DaArr1 = 0d;
-									Double DaArr2 = 0d;
-									Double DaArrtenpersent = 0d;
-									Double DaArrforteenpersent = 0d;
-									Double totalDaArr = 0d;
-									if (paybillHeadMpgModel.getPaybillMonth() == 11
-											&& paybillHeadMpgModel.getPaybillYear() == 24) {
-										DaArr1 = DaArr / 4;
-										DaArr2 = DaArr - DaArr1;
-										DaArrtenpersent = (DaArr1 * 10 / 100);
-										DaArrforteenpersent = (DaArr2 * 14 / 100);
-										totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-										npsEmprContri = (double) (Math
-												.ceil((((SevenPcBasic + svnDA) * 14) / 100) + totalDaArr));
-									} else if (paybillHeadMpgModel.getPaybillMonth() == 12
-											&& paybillHeadMpgModel.getPaybillYear() == 24) {
-										DaArr1 = DaArr / 5;
-										DaArr2 = DaArr - DaArr1;
-										DaArrtenpersent = (DaArr1 * 10 / 100);
-										DaArrforteenpersent = (DaArr2 * 14 / 100);
-										totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-										npsEmprContri = (double) (Math
-												.ceil((((SevenPcBasic + svnDA) * 14) / 100) + totalDaArr));
-									} else {
-										npsEmprContri = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 14
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-									}
-								} else {
-									npsEmprContri = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 10
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								}
-
-							} else {
 								npsEmprContri = (double) (Math.ceil((SevenPcBasic + svnDA + DaArr) * 14
 										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-							}
 						}
 						paybillGenerationTrnDetails.setNpsEmployerDeduct(npsEmprContri);// setNpsEmployeeContri
 					}
@@ -5278,85 +5066,83 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							jalnaSoc += 0;
 						}
 					}
-					// amrawati_dist_engg_credit_soc
+					// CREDIT_SOC
 					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc)) {
+							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CREDIT_SOC)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
 										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc_Code);
-
+						
 						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_amrawati_dist_engg_credit_soc_Code) {
-
-							paybillGenerationTrnDetails.setAmrawatiEnggCredSoc(
+								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CREDIT_SOC_CODE) {
+							
+							paybillGenerationTrnDetails.setCreditSoc(
 									(double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-							amrawatidistEnggCredSoc = (double) (Math
+							CreditSoc = (double) (Math
 									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						} else {
-							paybillGenerationTrnDetails.setAmrawatiEnggCredSoc((double) 0);
-							amrawatidistEnggCredSoc += 0;
+							paybillGenerationTrnDetails.setCreditSoc((double) 0);
+							CreditSoc += 0;
 						}
 					}
-					// Added by Vaibhav
-					// BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA
+					// CON_STORE
 					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA)) {
+							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CON_STORE)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA_Code);
-
+										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CON_STORE_CODE);
+						
 						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA_Code) {
-
-							paybillGenerationTrnDetails.setBharatratnaVishweshAbhiSahPatMarya(
+								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CON_STORE_CODE) {
+							
+							paybillGenerationTrnDetails.setConStore(
 									(double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-							bharatratnavishsolapur = (double) (Math
+							conStore = (double) (Math
 									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						} else {
-							paybillGenerationTrnDetails.setBharatratnaVishweshAbhiSahPatMarya((double) 0);
-							bharatratnavishsolapur += 0;
+							paybillGenerationTrnDetails.setConStore((double) 0);
+							conStore += 0;
 						}
-					}
-					// Added by Vaibhav
-					// Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara
+					} 
+					// MTR_CO_OP_SOC
 					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara)) {
+							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MTR_CO_OP_SOC)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code);
-
+										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MTR_CO_OP_SOC_CODE);
+						
 						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Bhand_Jil_Abhi_Karm_Pat_Code) {
-
-							paybillGenerationTrnDetails
-									.setBhandaraZillaParishadWPanchayatSamitiKaramachariSahakariSanstha(
-											(double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-							bhanZillaParWaPanchayatSamitiSanstha = (double) (Math
+								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MTR_CO_OP_SOC_CODE) {
+							
+							paybillGenerationTrnDetails.setMtrCoOpSoc(
+									(double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+							mtrCoSoc = (double) (Math
 									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						} else {
-							paybillGenerationTrnDetails
-									.setBhandaraZillaParishadWPanchayatSamitiKaramachariSahakariSanstha((double) 0);
-							bhanZillaParWaPanchayatSamitiSanstha += 0;
+							paybillGenerationTrnDetails.setMtrCoOpSoc((double) 0);
+							mtrCoSoc += 0;
 						}
 					}
-					// PUNE_DIST_CENTRAL_COP_BANK
+					// MIS
 					else if (str.equalsIgnoreCase(
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK)) {
+							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MIS)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK_Code);
-
+										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MIS_CODE);
+						
 						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK_Code) {
-
-							paybillGenerationTrnDetails.setPuneDistCentCopBnk(
+								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MIS_CODE) {
+							
+							paybillGenerationTrnDetails.setMis(
 									(double) Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-							puneDistCentCoBnk = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+							mis = (double) (Math
+									.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 						} else {
-							paybillGenerationTrnDetails.setPuneDistCentCopBnk((double) 0);
-							puneDistCentCoBnk += 0;
+							paybillGenerationTrnDetails.setMis((double) 0);
+							mis += 0;
 						}
 					}
+			
 
 					/*
 					 * "jalpradaya_society"
@@ -5767,7 +5553,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					+ hastantritpune + jalbhavanSocSangli + akolaSoc + yavatmalSoc + nagSahaPatSansta + enggSoc
 					+ daryapurSoc + pubhealSoc + jalpradayaSoc + zilhaPariKarmPant +   jalnaSoc
 					+ amrawatidistEnggCredSoc + puneDistCentCoBnk + bharatratnavishsolapur + motorCycleAdv
-					+ motorCycleAdvIntAmt + bhanZillaParWaPanchayatSamitiSanstha;
+					+ motorCycleAdvIntAmt + bhanZillaParWaPanchayatSamitiSanstha +mtrCoSoc+conStore+mis;
 			paybillGenerationTrnDetails.setDedAdjOtr((double) Math.round(dedByOthr));
 
 			double Totaldeduc = dedByAG + dedByTreasury + dedByOthr;
@@ -5960,6 +5746,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			motorCycleAdvInst = 0d;
 			motorCycleAdvIntAmt = 0d;
 			bhanZillaParWaPanchayatSamitiSanstha = 0d;
+			mtrCoSoc = 0d; 
+			conStore=0d;
+			mis=0d;
 
 			}
 		}

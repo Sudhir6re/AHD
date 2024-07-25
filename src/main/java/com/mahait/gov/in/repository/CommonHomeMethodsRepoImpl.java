@@ -372,4 +372,18 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return query.list();
 	}
 
+	@Override
+	public String findCodeSeq(String deptAllowDedCode, String deptAllowDedMst) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select max(" + deptAllowDedCode + ")+1 codeseq from " + deptAllowDedMst;
+		// logger.info(">>>"+HQL);
+		String strclmncodeseq = null;
+		Query query = currentSession.createSQLQuery(HQL);
+		if (query.list().get(0) != null)
+			strclmncodeseq = query.list().get(0).toString();
+		else
+			strclmncodeseq = "1";
+		return strclmncodeseq;
+	}
+
 }

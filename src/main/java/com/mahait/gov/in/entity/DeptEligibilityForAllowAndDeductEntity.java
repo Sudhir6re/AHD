@@ -40,7 +40,7 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	private Character isActive;
 	
 	@Column(name = "CREATED_USER_ID")
-	private Integer createdUserId;
+	private Long createdUserId;
 	
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;

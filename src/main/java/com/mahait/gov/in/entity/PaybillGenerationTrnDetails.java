@@ -669,6 +669,17 @@ public class PaybillGenerationTrnDetails {
 	private Double BhandaraZillaParishadWPanchayatSamitiKaramachariSahakariSanstha;
 	
 	
+	@Column(name = "CON_STORE")
+	private Double conStore;
+	
+	
+	@Column(name = "MTR_CO_OP_SOC")
+	private Double mtrCoOpSoc;
+	
+	@Column(name = "MIS")
+	private Double mis;
+	
+	
 	@Column(name = "HRA_Percentage")
 	private Integer hraPercent;
 	

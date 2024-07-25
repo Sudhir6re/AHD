@@ -51,18 +51,52 @@ public class DeptEligibilityForAllowAndDeductAdminController {
 	@Autowired
 	OrderMasterService orderMasterService;
 	
+	
+	@GetMapping("/mstAllowAndDeduct")
+	public String msgAllowAndDeduct(@ModelAttribute("mstAllowAndDeductModel") DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,
+										Model model,Locale locale,HttpSession session) {
+		
+		String message = (String)model.asMap().get("message");
+		model.addAttribute("mstBankModel", deptEligibilityForAllowAndDeductModel);
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		List<TopicModel> menuList = new ArrayList<>();
+		List<TopicModel> subMenuList = new ArrayList<>();
+		
+		/*menuList = commonHomeMethodsService.findMenuNameByRoleID(messages.getRole_id(),locale.getLanguage());
+		subMenuList = commonHomeMethodsService.findSubMenuByRoleID(messages.getRole_id(),locale.getLanguage());
+		
+		model.addAttribute("menuList", menuList);
+		model.addAttribute("subMenuList", subMenuList);
+		
+		if(message != null && message.equals("SUCCESS")) {
+			if(locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_ENGLSH, STATUS.SUCCESS, model);
+			} else {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
+			}
+		}*/
+		model.addAttribute("lstDeptDataTable1", deptEligibilityForAllowAndDeductService.findDeptEligibilityForAllowAndDeductList());
+		model.addAttribute("lstAllDepartment", createAdminOfficeService.lstAllDepartment());
+		model.addAttribute("language", locale.getLanguage());
+		deptEligibilityForAllowAndDeductModel.setDepartmentAllowdeducCode(Integer.valueOf(commonHomeMethodsService.findCodeSeq("department_allowdeduc_code","department_allowdeduc_mst"))); 
+		model.addAttribute("deptEligibilityForAllowAndDeductModel",deptEligibilityForAllowAndDeductModel); 
+		return "/views/mst-allowance-deduction";
+    }
+	
 	@PostMapping("/saveAllowDeductionMst")
 	public String saveAllowDeductionMst(@ModelAttribute("mstAllowAndDeductModel") @Valid DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, Locale locale,HttpSession session) {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
-		/*int afterSaveId = deptEligibilityForAllowAndDeductService.saveAllowDeductionMst(deptEligibilityForAllowAndDeductModel,messages);
+		int afterSaveId = deptEligibilityForAllowAndDeductService.saveAllowDeductionMst(deptEligibilityForAllowAndDeductModel,messages);
 		if (afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
-		}*/
+		}
 
-		return "redirect:/admin/mstAllowAndDeduct";
+		return "redirect:/ddo/mstAllowAndDeduct";
 	}
 	
 	@GetMapping("/deptEligibilityForAllowAndDeductAdmin")

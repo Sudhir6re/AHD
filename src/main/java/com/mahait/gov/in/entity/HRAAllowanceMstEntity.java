@@ -27,7 +27,6 @@ public class HRAAllowanceMstEntity {
 	
 	@Column(name="department_allowdeduc_code")
 	private Integer departmentAllowdeducCode;
-	
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="START_DATE")

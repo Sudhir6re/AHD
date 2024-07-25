@@ -94,6 +94,8 @@ public interface CommonHomeMethodsService {
 	public String getBillsForConsolidation(String billStatus, Integer roleId, String userName, int parseInt,
 			int parseInt2);
 
+	public String findCodeSeq(String DeptAllowDedCode, String DeptAllowDedMst);
+
 	
 	
 	

@@ -1,3 +1,4 @@
+var contextPath = $("#appRootPath").val();
 jQuery(document).ready(function() {
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});

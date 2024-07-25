@@ -130,9 +130,9 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 				
 				
 				
-				if(mstEmployeeEntity.getPayCommissionCode()==2)
+				if(mstEmployeeEntity.getPayCommissionCode()==700016)
 				    mstEmployeeModel.setBasicPay(mstEmployeeEntity.getBasicPay());
-				if(mstEmployeeEntity.getPayCommissionCode()==8)
+				if(mstEmployeeEntity.getPayCommissionCode()==700005)
 					mstEmployeeModel.setSevenPcBasic(mstEmployeeEntity.getSevenPcBasic());
 				
 				mstEmployeeModel.setPercentageOfBasic(mstEmployeeEntity.getPercentageOfBasic());

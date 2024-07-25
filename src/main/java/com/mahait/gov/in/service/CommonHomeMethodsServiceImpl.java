@@ -506,4 +506,10 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 		return JsonResponseHelper.getJSONResponseString(str);
 
 	}
+
+	@Override
+	public String findCodeSeq(String DeptAllowDedCode, String DeptAllowDedMst) {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.findCodeSeq(DeptAllowDedCode,DeptAllowDedMst);
+	}
 }
