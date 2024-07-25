@@ -1185,6 +1185,23 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+//	@Override
+//	public void saveUserId(String sevaarthId, long user_id) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+	
+	@Override
+	public String saveUserId(String sevaarthId, long user_id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "update employee_mst set user_id = " + user_id + " where sevaarth_id = '" + sevaarthId
+				+ "'";
+		Query query = currentSession.createSQLQuery(hql);
+		query.executeUpdate();
+		return "save";
+	}
+
 	}
 
 	

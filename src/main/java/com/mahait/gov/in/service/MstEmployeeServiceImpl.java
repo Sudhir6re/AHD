@@ -1529,46 +1529,24 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 	public String createNewUser(String sevaarthId,OrgUserMst message,MstEmployeeModel mstEmployeeModel) {
 		    OrgUserMst lObjUserMst  = new OrgUserMst();
 		    CmnLookupMst lObjCmnLookupMst =cmnLookupMstRepository.findByLookupId(1l);
-//		    objUser.setUserName(sevaarthId);
-//			objUser.setRole_id(7);
-//			objUser.setFullName("USER_LEVEL7");
-//		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//		objUser.setPassword(bCryptPasswordEncoder.encode(sevaarthId));
-//		objUser.setIs_active("1");
-//		objUser.setCreatedDate(new Date());
-//		objUser.setAppCode(1); 
-//		userInfoRepo.saveUserInfo(objUser);
-//		return sevaarthId;
+
 		    Session ghibSession = entityManager.unwrap(Session.class);     
 	
-			Long lLngUserId = null;
+		    	Long lLngUserId = null;
 				CmnLocationMst lObjCmnLocationMst = new CmnLocationMst();
-
-
-				
-			//	lLngUserId = 0l;//getNextSeqNoLocForUserMst();
-			//	lObjUserMst.setUserId(lLngUserId);
 
 				lObjUserMst.setUserName(sevaarthId);
 				lObjUserMst.setDdoCode(sevaarthId);
-
 				lObjUserMst.setPassword(passwordEncoder.encode("ifms123"));
-
 				Optional<MstRoleEntity> findById = mstRoleRepo.findById(4);
 				lObjUserMst.setMstRoleEntity(findById.get());
-				
 				lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
-
 				lObjUserMst.setStartDate(new Date());
-				
 				lObjUserMst.setActivateFlag(0l);
 				lObjUserMst.setAppCode(1);
 				lObjUserMst.setCreatedDate(new Date());
-
 				lObjUserMst.setCreatedBy(message.getCreatedBy());
-
 				lObjUserMst.setCreatedByPost(message.getCreatedByPost());
-
 				lObjUserMst.setSecretQueCode("Secret_Other");
 				lObjUserMst.setSecretQueOther("Secret_Other");// TODO -- Needs to Change
 				lObjUserMst.setSecretAnswer("ifms");
@@ -1578,7 +1556,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				
 		//Serializable save = ghibSession.save(lObjUserMst);
        OrgUserMst savedetails = mstEmployeeRepo.saveUserInfo(lObjUserMst);
-   	OrgPostMst orgpostmst = orgPostMstRepository.findByPostId(mstEmployeeModel.getPostdetailid());
+    	OrgPostMst orgpostmst = orgPostMstRepository.findByPostId(mstEmployeeModel.getPostdetailid());
 		OrgUserpostRlt lObjOrgUserpostRlt = new OrgUserpostRlt();
 	
 		lObjOrgUserpostRlt.setOrgUserMst(savedetails);
@@ -1591,6 +1569,10 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		lObjOrgUserpostRlt.setCmnLookupUserPostType(lObjCmnLookupMst);
 	//	lObjOrgUserpostRlt.setCmnLocationMst(postId.getLookupId());
 		ghibSession.save(lObjOrgUserpostRlt);
+		
+		long user_id = savedetails.getUserId();
+		
+   	   String save = mstEmployeeRepo.saveUserId(sevaarthId,user_id);
 		
 		return sevaarthId;
 	

@@ -132,6 +132,9 @@ public interface MstEmployeeRepo {
 
 	public OrgPostDetailsRlt findPostdetailById(Long postdetailid);
 
+	public String saveUserId(String sevaarthId, long user_id);
+
+
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 
 
