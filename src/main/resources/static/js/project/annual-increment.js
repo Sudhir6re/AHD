@@ -1,6 +1,9 @@
+	var contextPath="";
 $(document)
 		.ready(
 				function() {
+					
+					 contextPath = $("#appRootPath").val();
 					var empIds = [];
 					var sevaarthIds = [];
 					var basicPays = [];
@@ -50,7 +53,7 @@ $(document)
 												$
 														.ajax({
 															type : "GET",
-															url : "../ddoast/findAllEmpForDue/"
+															url : context+"/ddoast/findAllEmpForDue/"
 																	+ schemeBillGroupId
 																	+ "/"
 																	+ payCommision,
@@ -294,9 +297,10 @@ $(document)
 
 					function getUpdatedBasicPay(empId, basicPay, level) {
 						var basic = "";
+						var context = $("#appRootPath").val();
 						$.ajax({
 							type : "GET",
-							url : "../ddoast/findNextMatrix/" + empId
+							url : context+"/ddoast/findNextMatrix/" + empId
 									+ "/" + basicPay + "/" + level,
 							async : false,
 							contentType : 'application/json',
@@ -394,7 +398,7 @@ $(document)
 										$
 												.ajax({
 													type : "GET",
-													url : "../ddoast/saveAnnualIncrementData/"
+													url : context+"/ddoast/saveAnnualIncrementData/"
 															+ empIds
 															+ "/"
 															+ sevaarthIds
@@ -445,7 +449,7 @@ function checkOrderNoAlreadyExists(certificateNumber) {
 	flag = 0;
 	$.ajax({
 		type : "GET",
-		url : "../ddoast/checkOrderNoAlreadyExists/"
+		url : context+"/ddoast/checkOrderNoAlreadyExists/"
 				+ certificateNumber,
 		async : false,
 		dataType : 'json',

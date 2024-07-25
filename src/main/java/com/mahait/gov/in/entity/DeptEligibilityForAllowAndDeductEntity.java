@@ -56,6 +56,17 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	
 	@Column(name="is_non_computation_component")
 	private Integer isNonComputationComponent;
+
+	@Override
+	public String toString() {
+		return "DeptEligibilityForAllowAndDeductEntity [departmentAllowdeducId=" + departmentAllowdeducId
+				+ ", departmentAllowdeducCode=" + departmentAllowdeducCode + ", departmentAllowdeducName="
+				+ departmentAllowdeducName + ", departmentAllowdeducColNm=" + departmentAllowdeducColNm
+				+ ", headAccountCode=" + headAccountCode + ", isType=" + isType + ", isActive=" + isActive
+				+ ", createdUserId=" + createdUserId + ", createdDate=" + createdDate + ", updatedUserId="
+				+ updatedUserId + ", updatedDate=" + updatedDate + ", deptAllowDeducSeq=" + deptAllowDeducSeq
+				+ ", isNonComputationComponent=" + isNonComputationComponent + "]";
+	}
 	
 	
 

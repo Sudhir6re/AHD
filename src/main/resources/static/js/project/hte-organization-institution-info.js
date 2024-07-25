@@ -1,3 +1,8 @@
+	var context ="";
+$(document).ready(function() {
+	context = $("#appRootPath").val();
+}
+
 $("#cmbBankName").change(function() 
 		 {
 		 	  var bankId = $("#cmbBankName").val();
@@ -6,12 +11,18 @@ $("#cmbBankName").change(function()
 		     	 {
 		     		 $.ajax({
 		 			      type: "GET",
-		 			      url: "mstBank/"+bankId,
+		 			      url: context+"/ddoast/mstBank/"+bankId,
 		 			      async: true,
 		 			      contentType:'application/json',
 		 			      error: function(data){
 		 			    	 //console.log(data);
 		 			      },
+		 			     beforeSend : function(){
+		 					$( "#loaderMainNew").show();
+		 					},
+		 				complete : function(data){
+		 					$( "#loaderMainNew").hide();
+		 				},
 		 			      success: function(data){
 		 			    	 //console.log(data);
 		 			    	  //alert(data);
@@ -52,12 +63,18 @@ $("#cmbBranchName").change(function()
 		     	 {
 		     		 $.ajax({
 		 			      type: "GET",
-		 			      url: "getIfscCodeByBranchId/"+branchId,
+		 			      url: context+"/ddoast/getIfscCodeByBranchId/"+branchId,
 		 			      async: true,
 		 			      contentType:'application/json',
 		 			      error: function(data){
 		 			    	 //console.log(data);
 		 			      },
+		 			     beforeSend : function(){
+		 					$( "#loaderMainNew").show();
+		 					},
+		 				complete : function(data){
+		 					$( "#loaderMainNew").hide();
+		 				},
 		 			      success: function(data){
 		 			    	 //console.log(data);
 		 			    	  //alert(data);
