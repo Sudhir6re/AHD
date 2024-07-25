@@ -124,7 +124,7 @@ public interface MstEmployeeService {
 	List<Long> approveDcpsEmployeeConfiguration(String empid, String dcpsnum, String lStrSevarthEmpCode,
 			String dcpsgpfflg);
 
-	public String createNewUser(String sevaarthid, OrgUserMst message);
+	public String createNewUser(String sevaarthid, OrgUserMst message, MstEmployeeModel mstEmployeeModel);
 
 
 

@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URLDecoder;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,7 +57,10 @@ import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.OrgPostDetailsRlt;
+import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.OrgUserpostRlt;
 import com.mahait.gov.in.entity.QualificationEntity;
 import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstCadreModel;
@@ -64,6 +68,7 @@ import com.mahait.gov.in.model.MstEmployeeModel;
 import com.mahait.gov.in.repository.CmnLookupMstRepository;
 import com.mahait.gov.in.repository.MstEmployeeRepo;
 import com.mahait.gov.in.repository.MstRoleRepo;
+import com.mahait.gov.in.repository.OrgPostMstRepository;
 
 
 @Service
@@ -82,7 +87,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 	@Autowired
 	private Environment environment;
-
+	@Autowired
+	private OrgPostMstRepository orgPostMstRepository;
 	@PersistenceContext
 	EntityManager entityManager;
 
@@ -1520,7 +1526,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return result;
 	}
 	@Override
-	public String createNewUser(String sevaarthId,OrgUserMst message) {
+	public String createNewUser(String sevaarthId,OrgUserMst message,MstEmployeeModel mstEmployeeModel) {
 		    OrgUserMst lObjUserMst  = new OrgUserMst();
 		    CmnLookupMst lObjCmnLookupMst =cmnLookupMstRepository.findByLookupId(1l);
 //		    objUser.setUserName(sevaarthId);
@@ -1571,7 +1577,21 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				
 				
 		//Serializable save = ghibSession.save(lObjUserMst);
-		mstEmployeeRepo.saveUserInfo(lObjUserMst);
+       OrgUserMst savedetails = mstEmployeeRepo.saveUserInfo(lObjUserMst);
+   	OrgPostMst orgpostmst = orgPostMstRepository.findByPostId(mstEmployeeModel.getPostdetailid());
+		OrgUserpostRlt lObjOrgUserpostRlt = new OrgUserpostRlt();
+	
+		lObjOrgUserpostRlt.setOrgUserMst(savedetails);
+		lObjOrgUserpostRlt.setStartDate(new Timestamp(new Date().getTime()));
+		lObjOrgUserpostRlt.setActivateFlag(1l);
+		lObjOrgUserpostRlt.setOrgPostMstByPostId(orgpostmst);
+		lObjOrgUserpostRlt.setCreatedByPost(message.getCreatedByPost());
+		lObjOrgUserpostRlt.setCreatedBy(message.getCreatedBy());
+		lObjOrgUserpostRlt.setCreatedDate(new Timestamp(new Date().getTime()));
+		lObjOrgUserpostRlt.setCmnLookupUserPostType(lObjCmnLookupMst);
+	//	lObjOrgUserpostRlt.setCmnLocationMst(postId.getLookupId());
+		ghibSession.save(lObjOrgUserpostRlt);
+		
 		return sevaarthId;
 	
 		

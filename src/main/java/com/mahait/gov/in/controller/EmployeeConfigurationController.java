@@ -728,7 +728,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		String lStrSevarthEmpCode = "";
 		long tempIdCount = curentIdCount + 01;
 		String tempCountVar = String.format("%2s", tempIdCount).replace(' ', '0');
-
+		MstEmployeeModel mstEmployeeModel = mstEmployeeService.getEmployeeinfo(Long.valueOf(empid));
 		if (curentIdCount == 0) {
 			lStrSevarthEmpCode = lStrSevarthEmpCode + "01";
 		}
@@ -745,7 +745,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		
 		if(empcount!=0) {
 		}else {
-			mstEmployeeService.createNewUser(sevaarthid,messages);
+			mstEmployeeService.createNewUser(sevaarthid,messages,mstEmployeeModel);
 		}
 		//end new user creation
 		
@@ -1059,7 +1059,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		lStrSevarthEmpCode = sevaarthid;
 		dcpsnum = dcpsnum + lStrSevarthEmpCode.substring(lStrSevarthEmpCode.length() - 8);
 		Character incrementvalue = mstEmployeeService.getLastDigit(dcpsnum);
-		
+		MstEmployeeModel mstEmployeeModel = mstEmployeeService.getEmployeeinfo(Long.valueOf(empid));
 		
 		List<ReligionMstEntity> mstReligionLst = new ArrayList<>();
 		mstReligionLst = commonHomeMethodsService.fetchAllReligions();
@@ -1075,7 +1075,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 //		
 		if(empcount!=0) {
 		}else {
-			mstEmployeeService.createNewUser(sevaarthid,message);
+			mstEmployeeService.createNewUser(sevaarthid,message,mstEmployeeModel);
 		}
 		List<String> status = new ArrayList<String>();
 		status.add(dcpsnum);

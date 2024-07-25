@@ -14,6 +14,7 @@ import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.OrgPostDetailsRlt;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.QualificationEntity;
 import com.mahait.gov.in.model.MstEmployeeModel;
@@ -127,7 +128,9 @@ public interface MstEmployeeRepo {
 	public List<Long> approveDcpsEmployeeConfiguration(String empid, String dcpsnumber, String sevaarthid,
 			String dcpsgpfflg);
 
-	public void saveUserInfo(OrgUserMst lObjUserMst);
+	public OrgUserMst saveUserInfo(OrgUserMst lObjUserMst);
+
+	public OrgPostDetailsRlt findPostdetailById(Long postdetailid);
 
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 
