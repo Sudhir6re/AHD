@@ -78,6 +78,8 @@ public class DeptEligibilityForAllowAndDeductAdminController {
 			}
 		}*/
 		model.addAttribute("lstDeptDataTable1", deptEligibilityForAllowAndDeductService.findDeptEligibilityForAllowAndDeductList());
+		System.out.println("listdata"+deptEligibilityForAllowAndDeductService.findDeptEligibilityForAllowAndDeductList());
+		
 		model.addAttribute("lstAllDepartment", createAdminOfficeService.lstAllDepartment());
 		model.addAttribute("language", locale.getLanguage());
 		deptEligibilityForAllowAndDeductModel.setDepartmentAllowdeducCode(Integer.valueOf(commonHomeMethodsService.findCodeSeq("department_allowdeduc_code","department_allowdeduc_mst"))); 

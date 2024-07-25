@@ -31,8 +31,9 @@ $("#departmentCodeAdmin").change(function()
 */
 
 
-
+var context = "";
 $(document).ready(function(){
+	context = $("#appRootPath").val();
 	var selecteditems  = [];
 	var serialid  = [];
      $(".chk").click(function(){
@@ -96,7 +97,7 @@ $(document).ready(function(){
 			      type: "GET",
 			     /* url: "../master/saveMpgDdoAllowDeduc/"+selecteditems+"/"+input +"/"+action+"/"+serialid+"/"+effectiveDate,*/
 			      
-			      url: "../ddo/saveDeptEligibilityAllowDeducAdmin/"+selecteditems+"/"+action+"/"+serialid+"/"+effectiveDate+"/"+ddoCode,
+			      url: context+"/ddo/saveDeptEligibilityAllowDeducAdmin/"+selecteditems+"/"+action+"/"+serialid+"/"+effectiveDate+"/"+ddoCode,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -138,7 +139,7 @@ $(document).ready(function(){
     			    	 {
     			    		 $.ajax({
     						      type: "GET",
-    						      url: "../ddo/findallowDeductLevel1/"+input,
+    						      url: context+"/ddo/findallowDeductLevel1/"+input,
     						      async: true,
     						      contentType:'application/json',
     						      error: function(data){
