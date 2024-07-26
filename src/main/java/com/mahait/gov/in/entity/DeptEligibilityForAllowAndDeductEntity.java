@@ -40,7 +40,7 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	private Character isActive;
 	
 	@Column(name = "CREATED_USER_ID")
-	private Integer createdUserId;
+	private Long createdUserId;
 	
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
@@ -56,6 +56,17 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	
 	@Column(name="is_non_computation_component")
 	private Integer isNonComputationComponent;
+
+	@Override
+	public String toString() {
+		return "DeptEligibilityForAllowAndDeductEntity [departmentAllowdeducId=" + departmentAllowdeducId
+				+ ", departmentAllowdeducCode=" + departmentAllowdeducCode + ", departmentAllowdeducName="
+				+ departmentAllowdeducName + ", departmentAllowdeducColNm=" + departmentAllowdeducColNm
+				+ ", headAccountCode=" + headAccountCode + ", isType=" + isType + ", isActive=" + isActive
+				+ ", createdUserId=" + createdUserId + ", createdDate=" + createdDate + ", updatedUserId="
+				+ updatedUserId + ", updatedDate=" + updatedDate + ", deptAllowDeducSeq=" + deptAllowDeducSeq
+				+ ", isNonComputationComponent=" + isNonComputationComponent + "]";
+	}
 	
 	@Column(name="method_name")
 	private String methodName;

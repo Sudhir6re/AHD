@@ -1,5 +1,6 @@
+	var context ="";
 $(document).ready(function() {
-	var contextPath = $("#appRootPath").val();
+	context = $("#appRootPath").val();
 	
 	var dataTable= $("#postDetails").dataTable();
 	

@@ -28,6 +28,8 @@ import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
+import com.mahait.gov.in.entity.OrgPostDetailsRlt;
+import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.QualificationEntity;
 import com.mahait.gov.in.model.MstEmployeeModel;
@@ -1168,10 +1170,38 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	}
 	
 	@Override
-	public void saveUserInfo(OrgUserMst objuserInfo) {
+	public OrgUserMst saveUserInfo(OrgUserMst objuserInfo) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.save(objuserInfo);
+		Serializable userId =currentSession.save(objuserInfo);
+		OrgUserMst save = currentSession.get(OrgUserMst.class, userId);
+		
+		return save; 
 	}
+
+
+
+	@Override
+	public OrgPostDetailsRlt findPostdetailById(Long postdetailid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+//	@Override
+//	public void saveUserId(String sevaarthId, long user_id) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+	
+	@Override
+	public String saveUserId(String sevaarthId, long user_id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "update employee_mst set user_id = " + user_id + " where sevaarth_id = '" + sevaarthId
+				+ "'";
+		Query query = currentSession.createSQLQuery(hql);
+		query.executeUpdate();
+		return "save";
+	}
+
 	}
 
 	

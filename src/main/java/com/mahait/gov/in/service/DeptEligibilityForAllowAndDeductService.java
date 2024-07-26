@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.mahait.gov.in.entity.DeptEligibilityForAllowAndDeductEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.DeptEligibilityForAllowAndDeductModel;
 import com.mahait.gov.in.model.EmployeeAllowDeducComponentAmtModel;
 
 public interface DeptEligibilityForAllowAndDeductService {
@@ -28,5 +29,7 @@ public interface DeptEligibilityForAllowAndDeductService {
 	public List<DeptEligibilityForAllowAndDeductEntity> findDeptAllowAndDeductList();
 
 	public List<Object[]> getEmployeeAgainstId(int allowDeducComponentId, String ddoCode, String sevaarthId);
+	public int saveAllowDeductionMst(@Valid DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,
+			OrgUserMst messages);
 
 }

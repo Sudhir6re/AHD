@@ -92,5 +92,7 @@ public interface CommonHomeMethodsRepo {
 
 	public List<Object[]> getBillsForConsolidation(String billStatus, Integer roleId, String userName, int parseInt,
 			int parseInt2);
+
+	public String findCodeSeq(String deptAllowDedCode, String deptAllowDedMst);
 	
 }

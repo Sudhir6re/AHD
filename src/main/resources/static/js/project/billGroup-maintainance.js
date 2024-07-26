@@ -165,6 +165,7 @@ $('#frmDdoGroupBill').validate({
         }else{
         	removeErrorClass($("#errorClass"));
         	form.submit(); 
+        	$( "#loaderMainNew").show();
         }
     }
   

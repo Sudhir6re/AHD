@@ -1,4 +1,7 @@
+var context = "";
+
 $(document).ready(function(){
+	context = $("#appRootPath").val();
 	var selecteditems  = [];
 	var serialid  = [];
      $(".chk").click(function(){
@@ -42,7 +45,7 @@ $(document).ready(function(){
 			      type: "GET",
 			     /* url: "../master/saveMpgDdoAllowDeduc/"+selecteditems+"/"+input +"/"+action+"/"+serialid+"/"+effectiveDate,*/
 			      
-			      url: "../moderator/saveDeptEligibilityAllowDeducLevel1/"+selecteditems+"/"+input +"/"+action+"/"+serialid+"/"+effectiveDate+"/"+ddoCode,
+			      url: context+"/moderator/saveDeptEligibilityAllowDeducLevel1/"+selecteditems+"/"+input +"/"+action+"/"+serialid+"/"+effectiveDate+"/"+ddoCode,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -83,7 +86,8 @@ $(document).ready(function(){
     			    	 {
     			    		 $.ajax({
     						      type: "GET",
-    						      url: "../moderator/deptEligibilityForAllowAndDeduct1/"+input,
+    						      url: context+"/moderator/deptEligibilityForAllowAndDeduct1/"+input,
+    						     
     						      async: true,
     						      contentType:'application/json',
     						      error: function(data){
@@ -132,7 +136,7 @@ $(document).ready(function(){
  	
 	 $.ajax({
 	      type: "GET",
-	      url: "../moderator/deptEligibilityForAllowAndDeduct6",
+	      url: context+"/moderator/deptEligibilityForAllowAndDeduct6",
 	      async: true,
 	      contentType:'application/json',
 	      error: function(data){
@@ -152,7 +156,7 @@ $(document).ready(function(){
 	 
 	 $.ajax({
 	      type: "GET",
-	      url: "../moderator/deptEligibilityForAllowAndDeduct5",
+	      url: context+"/moderator/deptEligibilityForAllowAndDeduct5",
 	      async: true,
 	      contentType:'application/json',
 	      error: function(data){
@@ -180,7 +184,7 @@ $(document).ready(function(){
 		 //delete component from database
 		 $.ajax({
 		      type: "GET",
-		      url: "../moderator/deleteMappedEmployeee/"+input ,
+		      url: context+"/moderator/deleteMappedEmployeee/"+input ,
 		      async: true,
 		      contentType:'application/json',
 		      error: function(data){
@@ -203,7 +207,7 @@ $(document).ready(function(){
 
 $.ajax({
     type: "GET",
-    url: "../level1/findallDDOcodebylevel2",
+    url: context+"/level1/findallDDOcodebylevel2",
     async: true,
     contentType:'application/json',
     error: function(data){
@@ -240,7 +244,7 @@ $("#ddo_code").change(function()
 		    	 {
 		    		 $.ajax({
 					      type: "GET",
-					      url: "../master/deptEligibilityForAllowAndDeductDDOWise/"+input,
+					      url: context+"/master/deptEligibilityForAllowAndDeductDDOWise/"+input,
 					      async: true,
 					      contentType:'application/json',
 					      error: function(data){
@@ -306,7 +310,7 @@ $("#departmentCode").change(function()
 		    	 {
 		    		 $.ajax({
 					      type: "GET",
-					      url: "../master/deptEligibilityForAllowAndDeduct1/"+input,
+					      url: context+"/master/deptEligibilityForAllowAndDeduct1/"+input,
 					      async: true,
 					      contentType:'application/json',
 					      error: function(data){
@@ -381,7 +385,7 @@ $("#departmentCode").change(function()
 		    	 {
 		    		 $.ajax({
 					      type: "GET",
-					      url: "../master/deptEligibilityForAllowAndDeduct1/"+input,
+					      url: context+"/master/deptEligibilityForAllowAndDeduct1/"+input,
 					      async: true,
 					      contentType:'application/json',
 					      error: function(data){
@@ -462,7 +466,7 @@ function validateAllowDeduct() {
 			$
 					.ajax({
 						type : "GET",
-						url : "../admin/validateAllowDeduct/"+allowdeductName+"/"+isType,
+						url : context+"/admin/validateAllowDeduct/"+allowdeductName+"/"+isType,
 						async : false,
 						contentType : 'application/json',
 						error : function(data) {

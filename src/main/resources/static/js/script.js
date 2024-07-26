@@ -435,10 +435,10 @@ $(document).ready(
 			var contextPath = $("#appRootPath").val();
 			
 			
-			if(window.location.host=='mjpsevaarth.in'){
-				contextPath="https://mjpsevaarth.in";
-			}else if(window.location.host=='stag.mjpsevaarth.in'){
-				contextPath="https://stag.mjpsevaarth.in";
+			if(window.location.host=='http://10.10.84.162:8085/DCPS'){
+				contextPath="http://10.10.84.162:8085/DCPS";
+			}else if(window.location.host=='http://10.10.84.162:8085/DCPS/'){
+				contextPath="http://10.10.84.162:8085/DCPS";
 			}
 			
 			

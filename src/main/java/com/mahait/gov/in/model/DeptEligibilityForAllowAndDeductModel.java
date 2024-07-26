@@ -5,7 +5,6 @@ import java.util.List;
 
 import lombok.Data;
 
-
 @Data
 public class DeptEligibilityForAllowAndDeductModel implements Serializable{
 
@@ -21,6 +20,7 @@ public class DeptEligibilityForAllowAndDeductModel implements Serializable{
 	
 	private Integer employeeId;
 	private String sevaarthId;
+	private Integer nonComputational;
 	
 	private List<DeptEligibilityForAllowAndDeductModel> lstDeptEligibilityForAllowAndDeductModel;
 	

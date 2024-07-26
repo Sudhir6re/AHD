@@ -1,5 +1,5 @@
+var contextPath = $("#appRootPath").val();
 jQuery(document).ready(function() {
-	var contextPath = $("#appRootPath").val();
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});
 	$("#qid").select2();
@@ -341,13 +341,18 @@ if(paycomm != '' && paycomm != undefined){
 		var branchId=$(this).val();
 			$.ajax({
 				type : "GET",
-				url : context+"/ddoast/getIfscCodeByBranchIdForEmp/"
+				url : contextPath+"/ddoast/getIfscCodeByBranchIdForEmp/"
 						+ branchId,
 				async : true,
-				
 				contentType : 'application/json',
 				error : function(data) {
 					 console.log(data);
+				},
+				beforeSend : function(){
+					$( "#loaderMainNew").show();
+					},
+				complete : function(data){
+					$( "#loaderMainNew").hide();
 				},
 				success : function(data) {
 					 console.log(data);
@@ -359,13 +364,6 @@ if(paycomm != '' && paycomm != undefined){
 			});
 	     });
 
-	
-   	
-	
-	
-	
-	
-	
 	
 	
 	$("#imagePath").show();
@@ -1207,12 +1205,18 @@ $("#payCommision")
 							$
 									.ajax({
 										type : "GET",
-										url : "fetchPayscale/" + payCommisionId,
+										url : contextPath+"/ddoast/fetchPayscale/" + payCommisionId,
 										async : true,
 										contentType : 'application/json',
 										error : function(data) {
 											// console.log(data);
 										},
+										beforeSend : function(){
+											$( "#loaderMainNew").show();
+											},
+										complete : function(data){
+											$( "#loaderMainNew").hide();
+										},	
 										success : function(data) {
 											 console.log(data);
 											// alert(data);
@@ -1286,12 +1290,18 @@ $("#payCommision")
 							$('#basicPay').empty(); 
 							$.ajax({
 										type : "GET",
-										url : "fetchPayscale/" + payCommisionId,
+										url : contextPath+"/ddoast/fetchPayscale/" + payCommisionId,
 										async : true,
 										contentType : 'application/json',
 										error : function(data) {
 											console.log("error in 6 pc "+data);
 										},
+										beforeSend : function(){
+											$( "#loaderMainNew").show();
+											},
+										complete : function(data){
+											$( "#loaderMainNew").hide();
+										},	
 										success : function(data) {
 											console.log("success in 6 pc "+data);
 											var len = data.length;
@@ -1357,12 +1367,18 @@ $("#payscalelevel")
 						$
 								.ajax({
 									type : "GET",
-									url : "fetchsvnpaybasic/" + payScale,
+									url : contextPath+"/ddoast/fetchsvnpaybasic/" + payScale,
 									async : true,
 									contentType : 'application/json',
 									error : function(data) {
 										// console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -1409,11 +1425,17 @@ $("#payscalelevel").change(function() {
 						
 								$.ajax({
 											type : "GET",
-											url : "fetchpayScaleSeven/" + payScaleSeven,
+											url : contextPath+"/ddoast/fetchpayScaleSeven/" + payScaleSeven,
 											async : true,
 											contentType : 'application/json',
 											error : function(data) {
 											},
+											beforeSend : function(){
+												$( "#loaderMainNew").show();
+												},
+											complete : function(data){
+												$( "#loaderMainNew").hide();
+											},	
 											success : function(data) {
 												var len = data.length;
 												if (len != 0) {
@@ -1463,18 +1485,25 @@ $("#designationId")
 				function() {
 					var designationId = $("#designationId").val();
 					var postdetailid = $("#postdetailid").val();
+				
 					// alert("DDO CODE is "+designationId);
 					if (designationId != '') {
 						$
 								.ajax({
 									type : "GET",
-									url : "employeeConfigurationGetCurrentPost/"
+									url : contextPath+"/ddoast/employeeConfigurationGetCurrentPost/"
 											+ designationId+"/"+postdetailid,
 									async : true,
 									contentType : 'application/json',
 									error : function(data) {
 										console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -1587,12 +1616,18 @@ $("#accountmaintainby")
 						$
 								.ajax({
 									type : "GET",
-									url : "PfSeries/" + accmainby,
+									url : contextPath+"/ddoast/PfSeries/" + accmainby,
 									async : true,
 									contentType : 'application/json',
 									error : function(data) {
 										console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -2463,6 +2498,12 @@ function validateUIDUniqe() {
 						error : function(data) {
 							// console.log(data);
 						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
 						success : function(data) {
 							//     console.log(data);
 							//      alert(data);
@@ -2535,6 +2576,12 @@ function validateMobileUniqe() {
 						contentType : 'application/json',
 						error : function(data) {
 						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
 						success : function(data) {
 							var len = data.length;
 							var checkFlag = data;
@@ -2573,6 +2620,12 @@ function validateTelePhoneUniqe() {
 						contentType : 'application/json',
 						error : function(data) {
 						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
 						success : function(data) {
 							var len = data.length;
 							var checkFlag = data;
@@ -2649,6 +2702,12 @@ function validatePanUniqe() {
 						contentType : 'application/json',
 						error : function(data) {
 						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
 						success : function(data) {
 							var len = data.length;
 							var checkFlag = data;
@@ -2959,12 +3018,18 @@ $("#stateCode")
 						$
 								.ajax({
 									type : "GET",
-									url : "fetchDistricts/" + stateId,
+									url : contextPath+"/ddoast/fetchDistricts/" + stateId,
 									async : true,
 									contentType : 'application/json',
 									error : function(data) {
 										// console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -3025,6 +3090,12 @@ $("#parentFieldDepartmentId")
 									error : function(data) {
 										// console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -3111,12 +3182,18 @@ function approveEmpDtls() {
 	if (uniqid != '') {
 		$.ajax({
 			type : "GET",
-			url : "approveEmpDtls/" + uniqid + "/" + sevaarthid + "/" + dcpsgpfflg,
+			url : contextPath+"/ddo/approveEmpDtls/" + uniqid + "/" + sevaarthid + "/" + dcpsgpfflg,
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {
 				// console.log(data);
 			},
+			beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
 			success : function(data) {
 				var sevaarthIdres = data;
 				// alert(checkFlag);
@@ -3167,6 +3244,12 @@ function forwardLvlThreeEmpDtls() {
 			error : function(data) {
 				// console.log(data);
 			},
+			beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
 			success : function(data) {
 				var sevaarthIdres = data;
 				// alert(checkFlag);
@@ -3197,6 +3280,12 @@ function rejectEmpDtls() {
 			error : function(data) {
 				// console.log(data);
 			},
+			beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
 			success : function(data) {
 				var checkFlag = data;
 
@@ -3246,12 +3335,18 @@ $("#bankId")
 						$
 								.ajax({
 									type : "GET",
-									url : "fetchbankbranch/" + bankid,
+									url : contextPath+"/ddoast/fetchbankbranch/" + bankid,
 									async : true,
 									contentType : 'application/json',
 									error : function(data) {
 										// console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -3481,7 +3576,7 @@ $("#cadre")
 				function() {
 					var cadreid = $("#cadre").val();
 					// alert("DDO CODE is "+departmentId);
-					  alert("cadreid"+cadreid);
+					//  alert("cadreid"+cadreid);
 
 					var dob = $("#dob").val();
 					if (dob == "") {
@@ -3494,12 +3589,18 @@ $("#cadre")
 						$
 								.ajax({
 									type : "GET",
-									url : "fetchcadregroupdtls/" + cadreid,
+									url : contextPath+"/ddoast/fetchcadregroupdtls/" + cadreid,
 									async : true,
 									contentType : 'application/json',
 									error : function(data) {
 										// console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -3565,12 +3666,18 @@ $("#cadre")
 						$
 								.ajax({
 									type : "GET",
-									url : "fetchcadregroupdtlsDate/" + cadreid + "/" + dob,
+									url : contextPath+"/ddoast/fetchcadregroupdtlsDate/" + cadreid + "/" + dob,
 									async : true,
 									contentType : 'application/json',
 									error : function(data) {
 										// console.log(data);
 									},
+									beforeSend : function(){
+										$( "#loaderMainNew").show();
+										},
+									complete : function(data){
+										$( "#loaderMainNew").hide();
+									},	
 									success : function(data) {
 										// console.log(data);
 										// alert(data);
@@ -4028,12 +4135,18 @@ function approveDcpsEmpDtls() {
 	if (empid != '') {
 		$.ajax({
 			type : "GET",
-			url : "approveDcpsEmpDtls/" + empid + "/" + dcpsnumber+"/"+sevaarthid+"/"+dcpsgpfflg,
+			url : contextPath+"/ddo/approveDcpsEmpDtls/" + empid + "/" + dcpsnumber+"/"+sevaarthid+"/"+dcpsgpfflg,
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {
 				// console.log(data);
 			},
+			beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
 			success : function(data) {
 				var dcpsid = data;
 //				 alert(dcpsid);
@@ -4187,11 +4300,17 @@ $("#payScaleSeven").change(function() {
 		$('#basicPay').attr("disabled", false); 
 			$.ajax({
 						type : "GET",
-						url : "fetchpayScaleSeven/" + payScaleSeven,
+						url : contextPath+"/ddoast/fetchpayScaleSeven/" + payScaleSeven,
 						async : true,
 						contentType : 'application/json',
 						error : function(data) {
 						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
 						success : function(data) {
 							var len = data.length;
 							if (len != 0) {
@@ -4226,18 +4345,24 @@ $("#postdetailid")
 .change(
 		function() {
 			var postdetailid = $("#postdetailid").val();
-			alert("postdetailid"+postdetailid);
+			//alert("postdetailid"+postdetailid);
 			if (postdetailid != '') {
 				$
 						.ajax({
 							type : "GET",
-							url : "employeeConfigurationGetCurrenOffice/"
+							url : contextPath+"/ddoast/employeeConfigurationGetCurrenOffice/"
 									+ postdetailid,
 							async : true,
 							contentType : 'application/json',
 							error : function(data) {
 								console.log(data);
 							},
+							beforeSend : function(){
+								$( "#loaderMainNew").show();
+								},
+							complete : function(data){
+								$( "#loaderMainNew").hide();
+							},	
 							success : function(data) {
 								// console.log(data);
 								// alert(data);
@@ -4299,6 +4424,12 @@ $("#adminDepartmentId")
 							error : function(data) {
 								console.log(data);
 							},
+							beforeSend : function(){
+								$( "#loaderMainNew").show();
+								},
+							complete : function(data){
+								$( "#loaderMainNew").hide();
+							},	
 							success : function(data) {
 								// console.log(data);
 								// alert(data);
@@ -4406,11 +4537,17 @@ function validateBankAccNumUniqe() {
 			$
 					.ajax({
 						type : "GET",
-						url : "validateAccountNum/" + accountNum+"/"+employeeId,
+						url : contextPath+"/ddoast/validateAccountNum/" + accountNum+"/"+employeeId,
 						async : true,
 						contentType : 'application/json',
 						error : function(data) {
 						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
 						success : function(data) {
 							var len = data.length;
 							var checkFlag = data;
