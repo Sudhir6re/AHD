@@ -1,7 +1,7 @@
 	var context ="";
 $(document).ready(function() {
 	context = $("#appRootPath").val();
-}
+});
 
 $("#cmbBankName").change(function() 
 		 {
