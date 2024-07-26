@@ -149,26 +149,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				dedRuleList.add(allEdpList.get(i));// deducOthEdpList.add(allEdpList.get(i));
 			}
 		}
-		// Dynamic Process end
-		// BrokenPeriodResponseModel bpResponseMode2 =new BrokenPeriodResponseModel();
-		// bpResponseMode2.setStatus("allowEdpList");
-		// bpResponseMode2.setData(allowEdpList);
-		// brokenPeriodResponseModel.add(bpResponseMode2);
-		//
-		// BrokenPeriodResponseModel bpResponseMode3 =new BrokenPeriodResponseModel();
-		// bpResponseMode3.setStatus("deducAgEdpList");
-		// bpResponseMode3.setData(deducAgEdpList);
-		// brokenPeriodResponseModel.add(bpResponseMode3);
-		//
-		// BrokenPeriodResponseModel bpResponseMode4 =new BrokenPeriodResponseModel();
-		// bpResponseMode4.setStatus("deducTyEdpList");
-		// bpResponseMode4.setData(deducTyEdpList);
-		// brokenPeriodResponseModel.add(bpResponseMode4);
-		//
-		// BrokenPeriodResponseModel bpResponseMode5 =new BrokenPeriodResponseModel();
-		// bpResponseMode5.setStatus("deducOthEdpList");
-		// bpResponseMode5.setData(deducOthEdpList);
-		// brokenPeriodResponseModel.add(bpResponseMode5);
 
 		bpResponseModel = new BrokenPeriodResponseModel();
 		bpResponseModel.setStatus("hidTotalAllowances");
@@ -244,18 +224,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							lListAddedBrokenPeriodPays.get(lInt).getBrokenPeriodId().longValue());
 					lListAddedAllowances.addAll(lListTempAddedAllowances);
 
-					/*
-					 * for (int i = 0; i < (lListAllowancesForEmp != null ?
-					 * lListAllowancesForEmp.size() : 0); i++) { Long allowCode = (Long)
-					 * (((Object[]) lListAllowancesForEmp.get(i))[0]); boolean found = false; for
-					 * (int j = 0; j < (lListAddedAllowances != null ? lListAddedAllowances.size() :
-					 * 0); j++) { Object[] data = (Object[]) lListAddedAllowances.get(j); if
-					 * (Arrays.asList(data).contains(allowCode)) {
-					 * lListAddedAllowancesNew.add(data); found = true; break; } } if (!found) {
-					 * String allowDesc = (String) (((Object[]) lListAllowancesForEmp.get(i))[1]);
-					 * Object newData[] = { 0, 0, allowCode, 0, allowDesc };
-					 * lListAddedAllowancesNew.add(newData); } }
-					 */
 
 					List lListAllowancesForEmp = brokenPeriodRepo
 							.getAllowancesListForGivenEmp(brokenPeriodModel.getSevaarthid());
@@ -281,19 +249,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					logger.info("lListAddedAllowancesNew=" + lListAddedAllowancesNew);
 
 					brokenPeriodPayCustomVO.setAllowList(lListAddedAllowancesNew);
-					// for (Iterator iterator = lListAddedAllowancesNew.iterator();
-					// iterator.hasNext();) {
-					// Object[] object = (Object[]) iterator.next();
-					//
-					// logger.info("allowance object[]="+object);
-					// }
-
-					/*
-					 * bpResponseModel =new BrokenPeriodResponseModel();
-					 * bpResponseModel.setStatus("hidTotalAllowances");
-					 * bpResponseModel.setData(lListAddedAllowancesNew.size());
-					 * brokenPeriodResponseModel.add(bpResponseModel);
-					 */
 
 					lListTempAddedDeductions = brokenPeriodRepo.getAddedDeductionsForEmp(
 							lListAddedBrokenPeriodPays.get(lInt).getBrokenPeriodId().longValue());
@@ -316,19 +271,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							lListAddedDeductionsNew.add(newData);
 						}
 					}
-
-					/*
-					 * bpResponseModel =new BrokenPeriodResponseModel();
-					 * bpResponseModel.setStatus("hidTotalDeductions");
-					 * bpResponseModel.setData(lListAddedDeductionsNew.size());
-					 * brokenPeriodResponseModel.add(bpResponseModel);
-					 */
-
-					// Long eisEmpId = lListAddedBrokenPeriodPays.get(lInt).getEisEmpId();
-					// lLongYearId, lLongMonthId
-
-					// generated = lObjBrokenPeriodDAO.isGenerated(lLongHrEisEmpId, lLongMonthId,
-					// lLongYearId);
 					brokenPeriodPayCustomVO.setDeductList(lListAddedDeductionsNew);
 					DataForDisplayList.add(brokenPeriodPayCustomVO);
 

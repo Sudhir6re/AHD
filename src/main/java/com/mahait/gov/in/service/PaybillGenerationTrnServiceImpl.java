@@ -1,6 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mahait.gov.in.common.CommonConstants;
+import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
@@ -39,9 +42,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
 
+
 	@SuppressWarnings("unused")
 	@Override
-	public Long savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {
+	public Long savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {/*
 		PaybillGenerationTrnEntity objEntity = new PaybillGenerationTrnEntity();
 		PaybillGenerationTrnDetails hr = new PaybillGenerationTrnDetails();
 		PaybillStatusEntity paybillStatusEntity = new PaybillStatusEntity();
@@ -64,7 +68,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double dcpsArr = 0d;
 		Double dcpsReg = 0d;
 		Double gisAmount = 0d;
-		/* Double gradePay = 0d; */
+		 Double gradePay = 0d; 
 		Double gpfGrpD = 0d;
 		Double GpfAbcArr = 0d;
 		Double gpfGrpABC = 0d;
@@ -213,11 +217,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double conStore=0d;
 		Double mis=0d;
 
-		/*
+		
 		 * MpgSchemeBillGroupEntity mpgSchemeBillGroupEntity = mpgSchemeBillGroupService
 		 * .findAllMpgSchemeBillGroupbyParameter(paybillHeadMpgModel.
 		 * getSchemeBillgroupId());
-		 */
+		 
 		//String splitddo[] = paybillHeadMpgModel.getDdoCode().split("_");
 		String ddoCode = null;
 		ddoCode =  paybillHeadMpgModel.getDdoCode();
@@ -233,9 +237,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		objEntity.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
 		objEntity.setBillTypeId(paybillHeadMpgModel.getBillTypeId());
 		objEntity.setCreatedUserId(paybillHeadMpgModel.getCreatedUserId());
-		/*
+		
 		 * objEntity.setSchemeBillgroupId(paybillHeadMpgModel.getSchemeBillgroupId());
-		 */
+		 
 		objEntity.setSchemeBillgroupId(paybillHeadMpgModel.getSchemeBillgroupId());
 		objEntity.setCreatedDate(new Date());
 		objEntity.setBillcreationDate(new Date());
@@ -278,9 +282,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				int month2 = paybillHeadMpgModel.getPaybillMonth();
 				int year2 = paybillHeadMpgModel.getPaybillYear();
-				/*
+				
 				 * int month2 = month + 1; int year2 = year;
-				 */
+				 
 				if (month2 < 10) {
 					startDate = String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
 				} else {
@@ -451,13 +455,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						payandallarr = paybillGenerationTrnDetails.getPayAndAllowancesArrears();
 					}
 
-					/*if (hmAllowDeducCodeAndValues
+					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE) != null) {
 						paybillGenerationTrnDetails.setFamilyPlanAllow((double) ((BigInteger) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE))
 								.intValue());;
 						da = paybillGenerationTrnDetails.getDa();
-					}*/
+					}
 
 					// DCPS Employer Contribution
 					if (hmAllowDeducCodeAndValues
@@ -854,7 +858,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						gpfadvGrpD = paybillGenerationTrnDetails.getGpfAdvGrpD();
 
 					}
-					/*if (hmAllowDeducCodeAndValues
+					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code) != null) {
 
 						paybillGenerationTrnDetails.setHbaHouse((double) ((BigDecimal) hmAllowDeducCodeAndValues
@@ -882,7 +886,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							}
 
 						}
-					}*/
+					}
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPFA_Code) != null) {
 
@@ -933,7 +937,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						revenueStamp = paybillGenerationTrnDetails.getRevenueStamp();
 
 					}
-				/*	if (hmAllowDeducCodeAndValues
+					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code) != null) {
 
 						paybillGenerationTrnDetails.setOtherRec((double) ((BigDecimal) hmAllowDeducCodeAndValues
@@ -1012,7 +1016,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 						}
 
-					}*/
+					}
 					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CM_Fund_AC_INS_Code) != null) {
 
@@ -1096,7 +1100,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						paybillGenerationTrnDetails.setWa((double) ((BigDecimal) hmAllowDeducCodeAndValues
 								.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Washing_Allowance_Code))
 										.intValue());
-						wa = paybillGenerationTrnDetails.getWa(); /* paybillGenerationTrnDetails.getWa(); */
+						wa = paybillGenerationTrnDetails.getWa();  paybillGenerationTrnDetails.getWa(); 
 
 					}
 					if (hmAllowDeducCodeAndValues
@@ -1264,7 +1268,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 
 
-					/*if (hmAllowDeducCodeAndValues
+					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT_Code) != null) { // COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE
 
 						paybillGenerationTrnDetails.setHbaHouseIntAmt((double) ((BigDecimal) hmAllowDeducCodeAndValues
@@ -1291,9 +1295,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							}
 
 						}
-					}*/
+					}
 
-					/*if (hmAllowDeducCodeAndValues
+					if (hmAllowDeducCodeAndValues
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE_Code) != null) { //
 
 						paybillGenerationTrnDetails
@@ -1321,7 +1325,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							}
 
 						}
-					}*/
+					}
 
 					// Deductions Component End#############################
 
@@ -1396,7 +1400,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					dcpsArr = 0d;
 					dcpsReg = 0d;
 					gisAmount = 0d;
-					/* Double gradePay = 0d; */
+					 Double gradePay = 0d; 
 					gpfGrpD = 0d;
 					GpfAbcArr = 0d;
 					gpfGrpABC = 0d;
@@ -1543,13 +1547,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					motorCycleAdv = 0d;
 
 					paybillGenerationTrnDetails.setGrossTotalAmt(grossAmount);
-					/*
-					 * paybillGenerationTrnDetails .setTotalDeduction(totalDeductionAmount);
-					 */
 					paybillGenerationTrnDetails.setTotalDeduction(Totaldeduc);
 
-					// paybillGenerationTrnDetails.setTotalNetAmt(grossAmount -
-					// totalDeductionAmount);
 					paybillGenerationTrnDetails.setTotalNetAmt(grossAmount - Totaldeduc);
 					paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 					if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
@@ -1642,7 +1641,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				Integer amount = 0;
 				Integer amount1 = 0;
 
-				/*
+				
 				 * amount =
 				 * paybillHeadMpgRepo.getannualincment(mstEmployeeEntity2.getSevaarthId(),
 				 * startDate);
@@ -1660,7 +1659,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 * (), startDate);
 				 * 
 				 * if (amount1 != 0) SixPcBasic = amount1.doubleValue(); }
-				 */
+				 
 
 				if (mstEmployeeEntity2.getHraBasic() != null) {
 					hraBasic = mstEmployeeEntity2.getHraBasic();
@@ -1671,10 +1670,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (payCommission == 700005) {
 						percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
 								CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
-					} /*else {
+					} else {
 						percentage = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
 								CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
-					}*/
+					}
 
 					if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA5th)) {
 						percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
@@ -1779,12 +1778,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						}
 					}
 
-					/* HRA component */
+					 HRA component 
 
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA)
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
-						/* HRA component for 7PC */
+						 HRA component for 7PC 
 						if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 
 							if (mstEmployeeEntity2.getRevisedBasic() != null) {
@@ -1847,7 +1846,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							paybillGenerationTrnDetails.setHra((double) Math.round(hra));
 						}
 
-						/* HRA component for 6PC */
+						 HRA component for 6PC 
 						else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC
 								|| payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC) {
 
@@ -1882,7 +1881,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							paybillGenerationTrnDetails.setHra((double) Math.round(hra));
 						}
 					}
-					/* End of HRA Component */
+					 End of HRA Component 
 
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA5th)
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
@@ -1995,12 +1994,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								.setDcpsEmployer(dcps_empr + dcpsDa + dcpsDelay + dcpsPayArr + dcpsArr);
 					}
 
-					/*
+					
 					 * if(mstEmployeeEntity2.getSevaarthId().equals("MJPDMSM7301")) {
 					 * System.out.println("--------------");
 					 * 
 					 * }
-					 */
+					 
 
 					// Start Travels Allowances for 5th and 7PC
 
@@ -3907,7 +3906,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							paybillGenerationTrnDetails.setHba((double) 0);
 							hba += 0;
 						}
-					} /*
+					} 
 						 * else if
 						 * (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)
 						 * ) {
@@ -3936,7 +3935,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						 * } else { paybillGenerationTrnDetails.setFestivalAdv(0d); FA = (double) 0;
 						 * 
 						 * } }
-						 */ /*
+						  
 							 * else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 							 * COMMONCODE_COMPONENT_COMP_ADV)) { EmployeeAllowDeducComponentAmtEntity
 							 * employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -3951,7 +3950,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							 * (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
 							 * 
 							 * } else { paybillGenerationTrnDetails.setComputerAdv((double) 0); CA += 0; } }
-							 */ else if (str
+							  else if (str
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_LIC)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
@@ -4012,7 +4011,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						paybillGenerationTrnDetails.setBLWF(12d);
 						BLWF += 12d;
 
-						/*
+						
 						 * EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity =
 						 * mstEmployeeService .findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
 						 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_BLWF_Code);
@@ -4024,7 +4023,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						 * (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()))); BLWF =
 						 * (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())); }
 						 * else { paybillGenerationTrnDetails.setBLWF((double) 0); BLWF += 0; }
-						 */
+						 
 					}
 					// NDCPS_Subscription
 					else if (str
@@ -4044,7 +4043,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							NDCPSsubscrp += 0;
 						}
 					}
-					/*
+					
 					 * // GPF_Arrears else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_GPF_Arrears)) { EmployeeAllowDeducComponentAmtEntity
 					 * employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -4059,7 +4058,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())); }
 					 * else { paybillGenerationTrnDetails.setGpfArrears((double) 0); GpfArrears +=
 					 * 0; } }
-					 */
+					 
 					// GPF_Special_Arrears
 					else if (str.equalsIgnoreCase(
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Special_Arrears)) {
@@ -4080,7 +4079,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					}
 					// GPF_Special_Arrears
 
-					/*
+					
 					 * else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_BEGIS)) { OtherAllowanceEntity otherAllowanceEntity =
 					 * null; if (mstEmployeeEntity2.getGiscatagory() != null) { if
@@ -4097,7 +4096,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * paybillGenerationTrnDetails.setBegis(0d); beigs = (0d); }
 					 * 
 					 * }
-					 */
+					 
 					// GPF_Subscription
 					else if (str
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_Subscription)) {
@@ -4154,7 +4153,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						}
 					}
 					// pay_Fix_Diff
-					/*
+					
 					 * else if (str .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_Pay_Fix_Diff)) {
 					 * 
@@ -4178,7 +4177,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * 0;
 					 * 
 					 * } }
-					 */
+					 
 					// NPS
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -4199,7 +4198,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					}
 
 					/// Computer Advance
-					/*
+					
 					 * else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_COMP_ADV)) {
 					 * 
@@ -4228,10 +4227,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * } else { paybillGenerationTrnDetails.setComputerAdv(0d); CA = (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 
 					/// Festival Advance
-					/*
+					
 					 * else if
 					 * (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA)
 					 * ) {
@@ -4258,7 +4257,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * } else { paybillGenerationTrnDetails.setFestivalAdv(0d); FA = (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 					/// GPF Advance
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPFAdvance)) {
 
@@ -4373,7 +4372,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					}
 
 					/// House Advance
-					/*
+					
 					 * else if (str.equalsIgnoreCase(
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_INT_AMT)) {
 					 * 
@@ -4403,7 +4402,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 					// NDCPS_REC
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NDCPS_REC)) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -4422,7 +4421,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						}
 					}
 
-					/*
+					
 					 * else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_HBA_HOUSE)) {
 					 * 
@@ -4445,7 +4444,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * } else { paybillGenerationTrnDetails.setHbaHouse(0d); HouseAdv = (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 
 					break;
 				case 3:
@@ -5144,10 +5143,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					}
 			
 
-					/*
+					
 					 * "jalpradaya_society"
-					 */
-					/*
+					 
+					
 					 * // Other Recovery
 					 * 
 					 * else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
@@ -5164,7 +5163,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())); }
 					 * else { paybillGenerationTrnDetails.setOtherRec((double) 0); otherRec += 0; }
 					 * }
-					 */
+					 
 					break;
 				case 4:
 					// CO_HSG_SOC
@@ -5186,7 +5185,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						}
 					}
 					// for GPF_ADV_GRP_ABC
-					/*
+					
 					 * else if (str.equalsIgnoreCase(
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GPF_ADV_GRP_ABC)) { int
 					 * loanActive = 0; int mon = 0; int yer = 0; int curryear = 0; mon =
@@ -5232,9 +5231,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * mon, curryear); } paybillGenerationTrnDetails.setGpfAdvGrpAbc(gpfd); GpfABC =
 					 * (double) (Math.round(gpfd)); } else {
 					 * paybillGenerationTrnDetails.setGpfAdvGrpAbc(0d); GpfABC = (double) 0; } } }
-					 */
+					 
 					/// GPF_ADV_GRP_D
-					/*
+					
 					 * else if (str .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_GPF_ADV_GRP_D)) { int loanActive = 0; int mon = 0; int
 					 * yer = 0; int curryear = 0; mon = paybillHeadMpgModel.getPaybillMonth(); yer =
@@ -5289,9 +5288,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * (double) 0;
 					 * 
 					 * } } }
-					 */
+					 
 
-					/*
+					
 					 * else if (str .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_EXC_PAYRC)) { int loanActive = 0; int mon = 0; int yer =
 					 * 0; int curryear = 0; mon = paybillHeadMpgModel.getPaybillMonth(); yer =
@@ -5340,10 +5339,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * } else { paybillGenerationTrnDetails.setExcPayRc(0d); excPayRc = (double) 0;
 					 * 
 					 * } } }
-					 */
+					 
 
 					/// House Advance
-					/*
+					
 					 * else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_HBA_HOUSE)) {
 					 * 
@@ -5376,10 +5375,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * } else { paybillGenerationTrnDetails.setHbaHouse(0d); HouseAdv = (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 
 					/// Motor Vehical Advance
-					/*
+					
 					 * else if (str .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_OTHER_VEH_ADV)) {
 					 * 
@@ -5408,10 +5407,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * } else { paybillGenerationTrnDetails.setOtherRec(0d); vehAdv = (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 
 					// Excess_Pay_Rec
-					/*
+					
 					 * else if (str .equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.
 					 * COMMONCODE_COMPONENT_Excess_Pay_Rec)) {
 					 * 
@@ -5433,10 +5432,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 
 					/// Motor Cycle Advance
-					/*
+					
 					 * else if (str.equalsIgnoreCase(
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_MOTORCYCLE_ADVANCE)) {
 					 * 
@@ -5466,10 +5465,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 
 					/// Motor Vehicle Advance Installment Amount
-					/*
+					
 					 * else if (str.equalsIgnoreCase(
 					 * CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Motor_Veh_Adv_Inst)) {
 					 * 
@@ -5500,7 +5499,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					 * motorCycleAdvIntAmt = (double) 0;
 					 * 
 					 * } }
-					 */
+					 
 
 					break;
 				}
@@ -5558,21 +5557,21 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 			double Totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 
-			/*
+			
 			 * double Totaldeduc = (pt + dcpsDa + dcpsDelay + dcpsPayArr + dcpsReg + dcpsArr
 			 * + adjust_dcps_empr + gisAmount + gpfGrpABC + gpfGrpD + GpfAbcArr +
 			 * groupAccPolicy + gpfDArr + ptArr + otherDeduc + GisZp + hrr + otherRec +
 			 * GpfAdvDLoan + GpfABC + it + ServCharge + revenueStamp + excessPayment +
 			 * cmFund + npsEmprContri + npsEmpContri + HouseAdv + CA + FA + vehAdv);
-			 */
+			 
 
 			paybillGenerationTrnDetails.setTotalDeduction((double) Math.round(Totaldeduc));
 
-			/*
+			
 			 * paybillGenerationTrnDetails.setTotalNetAmt(paybillGenerationTrnDetails.
 			 * getBasicPay() + da + hra + dcps_empr - pt - adjust_dcps_empr - dcpsReg -
 			 * dcpsArr - dcpsDa - dcpsDelay - dcpsPayArr - gisAmount);
-			 */
+			 
 			double Net = Total - Totaldeduc;
 
 			paybillGenerationTrnDetails.setTotalNetAmt((double) Math.round(Net));
@@ -5585,20 +5584,20 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}
 			paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
 			Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
-			/*
+			
 			 * grossAmt += paybillGenerationTrnDetails.getBasicPay() + da + hra + dcps_empr;
-			 */
+			 
 			grossAmt += basic + hra + da + svnDA + dcps_empr + ta + tribalAllow + transAllowArr + DaArr + addHRA
 					+ naxalAreaAllow + spclDutyAllow + otherAllow + basicArr + specialPay + personalPay + cla
 					+ dearnessPay + conveyAllow + DaOnTA + contriProvFund + excPayRc + npsEmprAllow + emprDcpsDaArr
 					+ emprDcpsDelayedRec + emprDcpsPayArr + emprDcpsRegRec + hra6th + hra5th + ta5th + ta6th + wa
 					+ deputAllow + ota + hillStatAllow + tracerAllow + naksaliedAllow + GpfArrears + arrears + leavePay
 					+ payandallarr;
-			/*
+			
 			 * netAmt += paybillGenerationTrnDetails.getBasicPay() + da + hra + dcps_empr -
 			 * pt - adjust_dcps_empr - dcpsReg - dcpsArr - dcpsDa - dcpsDelay - dcpsPayArr -
 			 * gisAmount;
-			 */
+			 
 			netAmt += Total - Totaldeduc;
 			// grossAmt = 0d;
 			// netAmt = 0d;
@@ -5760,7 +5759,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
 
 		return (Long) id;
-	}
+	*/
+		return 0l;}
 
 	private double valueOf(Object object) {
 
@@ -6096,7 +6096,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	// Created by Manikandan:Supplimentaory Paybill Generation Method
 	@SuppressWarnings("unused")
 	@Override
-	public Long saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {
+	public Long saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {/*
 		// List<Object[]> isBrokenPeriodEmpty(String sevaarthid,String monthid,String
 		// yearid )
 		PaybillGenerationTrnEntity objEntity = new PaybillGenerationTrnEntity();
@@ -6234,17 +6234,17 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		String otherVehAdvInst = null;
 		String hbaHouseInst = null;
 
-		/*
+		
 		 * MpgSchemeBillGroupEntity mpgSchemeBillGroupEntity = mpgSchemeBillGroupService
 		 * .findAllMpgSchemeBillGroupbyParameter(paybillHeadMpgModel.
 		 * getSchemeBillgroupId());
-		 */
+		 
 
 		objEntity.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
 		objEntity.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
-		/*
+		
 		 * objEntity.setSchemeBillgroupId(paybillHeadMpgModel.getSchemeBillgroupId());
-		 */
+		 
 		objEntity.setSchemeBillgroupId(paybillHeadMpgModel.getSchemeBillgroupId());
 		objEntity.setCreatedDate(new Date());
 		objEntity.setIsActive(1);
@@ -6342,11 +6342,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
 				}
 
-				/*
+				
 				 * hrPayPaybillEntity.setPaybillGenerationTrnId(objEntity.
 				 * getPaybillGenerationTrnId());
-				 */
-				/* hrPayPaybillEntity.setPaybillGenerationTrnId(paybillGenerationTrnId); */
+				 
+				 hrPayPaybillEntity.setPaybillGenerationTrnId(paybillGenerationTrnId); 
 
 				// broken period HRA start
 				/// String cityClass =
@@ -6433,14 +6433,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// grossAmount+=paybillGenerationTrnDetails.getBasicArr();
 					basicArr = paybillGenerationTrnDetails.getBasicArr();
 				}
-				/*
+				
 				 * //Cash Allowance if
 				 * (hmAllowDeducCodeAndValues.get(CommonConstants.PAYBILLDETAILS.
 				 * COMMONCODE_COMPONENT_SVN_DA_CODE) != null) { paybillGenerationTrnDetails
 				 * .setc( (double) ((BigInteger)hmAllowDeducCodeAndValues
 				 * .get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_DA_CODE)).
 				 * intValue()); grossAmount+=paybillGenerationTrnDetails.getBasicArr(); }
-				 */
+				 
 
 				// CLA-5thPay
 				if (hmAllowDeducCodeAndValues
@@ -6537,14 +6537,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// grossAmount+=paybillGenerationTrnDetails.getHra();
 					hra = paybillGenerationTrnDetails.getHra();
 				}
-				/*
+				
 				 * //License Fee if
 				 * (hmAllowDeducCodeAndValues.get(CommonConstants.PAYBILLDETAILS.
 				 * COMMONCODE_COMPONENT_SVN_DA_CODE) != null) { paybillGenerationTrnDetails
 				 * .set( (double) ((BigInteger)hmAllowDeducCodeAndValues
 				 * .get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_DA_CODE)).
 				 * intValue()); grossAmount+=paybillGenerationTrnDetails.getHra(); }
-				 */
+				 
 				// Non-Computational HRA
 				if (hmAllowDeducCodeAndValues
 						.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NCA_CODE) != null) {
@@ -6824,13 +6824,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					hrr = paybillGenerationTrnDetails.getHrr();
 				}
 				// HRR Arrear
-				/*
+				
 				 * if (hmAllowDeducCodeAndValues.get(CommonConstants.PAYBILLDETAILS.
 				 * COMPONENT_COMPONENT_PT_CODE) != null) { paybillGenerationTrnDetails
 				 * .set((double) ((BigInteger)hmAllowDeducCodeAndValues
 				 * .get(CommonConstants.PAYBILLDETAILS.COMPONENT_COMPONENT_PT_CODE)).intValue())
 				 * ; totalDeductionAmount+=paybillGenerationTrnDetails.getDcpsArr(); }
-				 */
+				 
 				// Income Tax( I .T )
 				if (hmAllowDeducCodeAndValues
 						.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_INCOME_TAX_CODE) != null) {
@@ -6909,7 +6909,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					gpfadvGrpD = paybillGenerationTrnDetails.getGpfAdvGrpD();
 
 				}
-				/*
+				
 				 * if (hmAllowDeducCodeAndValues
 				 * .get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HBA_HOUSE_Code) !=
 				 * null) {
@@ -6943,7 +6943,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 * gpfAdvD); }
 				 * 
 				 * } }
-				 */
+				 
 				if (hmAllowDeducCodeAndValues
 						.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_COMP_ADV_Code) != null) {
 
@@ -6953,7 +6953,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					CA = paybillGenerationTrnDetails.getComputerAdv();
 
 				}
-				/*
+				
 				 * if (hmAllowDeducCodeAndValues
 				 * .get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_OTHER_VEH_ADV_Code)
 				 * != null) {
@@ -6984,7 +6984,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 * paybillGenerationTrnDetails.setOthrVehAdvInst(otherVehAdvInst); }
 				 * 
 				 * } }
-				 */
+				 
 				if (hmAllowDeducCodeAndValues
 						.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FA_Code) != null) {
 
@@ -7060,7 +7060,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							.get(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Washing_Allowance_Code))
 									.intValue());
 					// totalDeductionAmount+=paybillGenerationTrnDetails.getCmFund();
-					wa = (double) 50; /* paybillGenerationTrnDetails.getWa(); */
+					wa = (double) 50;  paybillGenerationTrnDetails.getWa(); 
 					paybillGenerationTrnDetails.setWa(wa);
 
 				}
@@ -7665,13 +7665,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				System.out.println("-----------checking data--------------" + DaOnTA + emprDcpsDaArr + emprdcpsDelay
 						+ emprDcpsPayArr + emprDcpsReg);
 
-				/*
+				
 				 * grossAmount = (basicpay + hra + da + svnDA + dcps_empr + ta + tribalAllow +
 				 * transAllowArr + DaArr + naxalAreaAllow + basicArr + specialPay + personalPay
 				 * + cla + dearnessPay + conveyAllow + DaOnTA + npsEmprAllow + wa + deputAllow +
 				 * ota + hillStatAllow + tracerAllow + naksaliedAllow + GpfArrears + hra6th +
 				 * ta5th + arrears);
-				 */
+				 
 
 				grossAmount = (basicpay + hra + da + svnDA + dcps_empr + ta + tribalAllow + transAllowArr + DaArr
 						+ naxalAreaAllow + basicArr + specialPay + personalPay + cla + dearnessPay + conveyAllow
@@ -7699,8 +7699,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						+ bcQuar + excessPayrec + flagDay + bhandJilAbhiKarPat + jalsevaKarmSahaPath + socNanded
 						+ socAurang + socLatur + mlwfOnlyMJP + mahaLabWelFund + mjpLatur + jalbhavanSoc + mjpSocSolapur;
 				paybillGenerationTrnDetails.setDedAdjOtr((double) Math.round(dedByOthr));
-
-				/*
+			
+				
 				 * double NonGovDed = pubHealWrks + sindhuOras + jalgaonSoc + manaBhaiMehJal +
 				 * akolaPAriAbhi + zpKarmPat + vidharbhaGramkokBn + chandaSoc + jalsevaSocNag +
 				 * bhandaraSoc + gdccBank + gondiaSoc + nagpurSoc + allahabadSoc +
@@ -7711,38 +7711,38 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 * ujwalaMahilaPatBhan + bcQuar + excessPayrec + flagDay + bhandJilAbhiKarPat +
 				 * jalsevaKarmSahaPath + socNanded + socAurang + socLatur + mlwfOnlyMJP +
 				 * mahaLabWelFund + mjpLatur + jalbhavanSoc + mjpSocSolapur;
-				 */
+				 
 
 				double Totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 
-				/*
+				
 				 * double Totaldeduc = (pt + dcpsDa + dcpsDelay + dcpsPayArr + dcpsReg + dcpsArr
 				 * + adjust_dcps_empr + gisAmount + gpfGrpABC + gpfGrpD + GpfAbcArr +
 				 * groupAccPolicy + gpfDArr + ptArr + otherDeduc + GisZp + hrr + otherRec +
 				 * GpfAdvDLoan + GpfABC + it + ServCharge + revenueStamp + excessPayment +
 				 * cmFund + npsEmprContri + npsEmpContri + HouseAdv + CA + FA + vehAdv);
-				 */
+				 
 
 				paybillGenerationTrnDetails.setTotalDeduction((double) Math.round(Totaldeduc));
 
-				/*
+				
 				 * paybillGenerationTrnDetails.setTotalNetAmt(paybillGenerationTrnDetails.
 				 * getBasicPay() + da + hra + dcps_empr - pt - adjust_dcps_empr - dcpsReg -
 				 * dcpsArr - dcpsDa - dcpsDelay - dcpsPayArr - gisAmount);
-				 */
+				 
 
 				// paybillGenerationTrnDetails.setGrossTotalAmt((double) Math.round(Total));
 
 				// paybillGenerationTrnDetails.setTotalDeduction((double)
 				// Math.round(Totaldeduc));
 
-				/*
+				
 				 * paybillGenerationTrnDetails.setTotalNetAmt(paybillGenerationTrnDetails.
 				 * getBasicPay() + da + hra + dcps_empr - pt - adjust_dcps_empr - dcpsReg -
 				 * dcpsArr - dcpsDa - dcpsDelay - dcpsPayArr - gisAmount);
-				 */
+				 
 
-				/*
+				
 				 * double dedByAG = gpfGrpABC + gpfGrpD + GpfAbcArr + gpfDArr; //
 				 * paybillGenerationTrnDetails.setDedAdjAg((double) Math.round(dedByAG));
 				 * 
@@ -7756,51 +7756,51 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 * ServCharge + cmFund + npsEmprContri + npsEmpContri + HouseAdv + CA + FA +
 				 * vehAdv + gpfAdvance + socOrBankLoan + BLWF + NDCPSsubscrp + GpfSpclArrears +
 				 * hba + gpfDaSub + rop + payFixDiff + nps + mantralayaSoci + begis);
-				 */
+				 
 				// paybillGenerationTrnDetails.setDedAdjTry((double) Math.round(dedByTreasury));
 
 				double Net = grossAmount - Totaldeduc;
 				// double dedByOthr = dedByTreasury + dedByAG ;
-				/*
+				
 				 * double dedByOthr = CA + FA + HouseAdv + vehAdv + otherRec + gpfAdvance +
 				 * alliedSoc + mantralayaSoci + chiplunSoc + ulhasnagarSoc + engrSoc + gpfDaSub
 				 * + rop + payFixDiff + nps ;
-				 */
+				 
 				// paybillGenerationTrnDetails.setDedAdjOtr((double) Math.round(dedByOthr));
-				/*
+				
 				 * double NonGovDed = dedByAG + dedByTreasury + dedByOthr;
-				 */
+				 
 
-				/*
+				
 				 * grossAmount = (basicpay + hra + svnDA + npsEmprAllow + da + dcps_empr + ta +
 				 * tribalAllow + transAllowArr + DaArr + naxalAreaAllow + basicArr + specialPay
 				 * + personalPay + cla + dearnessPay + conveyAllow + DaOnTA + emprDcpsDaArr +
 				 * emprdcpsDelay + emprDcpsPayArr + emprDcpsReg);
-				 */
+				 
 
-				/*
+				
 				 * double dedByAG = gpfadvGrpD + gpfadvGrpABC + gpfGrpABC + gpfGrpD + GpfAbcArr
 				 * + gpfDArr;
-				 */
+				 
 				paybillGenerationTrnDetails.setDedAdjAg((double) Math.round(dedByAG));
 
-				/*
+				
 				 * double dedByTreasury = GisZp + it + groupAccPolicy + pt + dcpsReg + gisAmount
 				 * + dcpsDa + dcpsDelay + cmFund + npsEmpContri + npsEmprContri + dcpsPayArr;
-				 */
+				 
 				paybillGenerationTrnDetails.setDedAdjTry((double) Math.round(dedByTreasury));
 
 				// double dedByOthr =totalDeductionAmount ;
-				/* double dedByOthr = CA + FA + HouseAdv + vehAdv + otherRec; */
+				 double dedByOthr = CA + FA + HouseAdv + vehAdv + otherRec; 
 				paybillGenerationTrnDetails.setDedAdjOtr((double) Math.round(dedByOthr));
 
-				/*
+				
 				 * double Totaldeduc=(pt + dcpsDa + dcpsDelay + dcpsPayArr + dcpsReg + dcpsArr +
 				 * adjust_dcps_empr + gisAmount + gpfGrpABC + gpfGrpD + GpfAbcArr +
 				 * groupAccPolicy + gpfDArr + ptArr + otherDeduc + GisZp + hrr + otherRec
 				 * +gpfadvGrpD +gpfadvGrpABC + it + ServCharge +npsEmprContri +
 				 * npsEmpContri+FA+vehAdv+CA+HouseAdv+cmFund+dcpsPayArr);
-				 */
+				 
 				// double Totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 
 				paybillGenerationTrnDetails.setTotalDeduction((double) Math.round(Totaldeduc));
@@ -7937,9 +7937,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				arrears = 0d;
 
 				paybillGenerationTrnDetails.setGrossTotalAmt(grossAmount);
-				/*
+				
 				 * paybillGenerationTrnDetails .setTotalDeduction(totalDeductionAmount);
-				 */
+				 
 				paybillGenerationTrnDetails.setTotalDeduction(Totaldeduc);
 
 				// paybillGenerationTrnDetails.setTotalNetAmt(grossAmount -
@@ -7961,16 +7961,17 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 		objEntity.setBillNetAmount((double) Math.round(netAmt));
 		objEntity.setPaybillGenerationTrnId(val);
-		/*
+		
 		 * objEntity.setBillGrossAmt(grossAmt); objEntity.setBillNetAmount(netAmt);
 		 * objEntity.setPaybillGenerationTrnId(val);
-		 */
+		 
 
 		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
 
 		return (Long) id;
 
-	}
+	*/
+		return 0l;}
 
 	@Override
 	public List<Object[]> getViewDetialsReport(Integer consolidatedId) {
@@ -8065,5 +8066,942 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				userName);
 		return lstMstEmployeeEntity;
 	}
+	
+	
+	@SuppressWarnings("unused")
+	@Override
+	public Long savePaybillHeadMpgNew(PaybillHeadMpgModel paybillHeadMpgModel) {
+		PaybillGenerationTrnEntity objEntity = new PaybillGenerationTrnEntity();
+		PaybillGenerationTrnDetails hr = new PaybillGenerationTrnDetails();
+		PaybillStatusEntity paybillStatusEntity = new PaybillStatusEntity();
+		
+		String citygroup=null;
+		String ddoCode = null;
+		Double svnDA = 0d; 
+		Double da = 0d; 
+		Double cla=0d;
+		Double SevenPcBasic=0d;
+		Double sixPcBasic=0d;
+		Double grossAmount=0d;
+		Double totaldeduc=0d;
+		Double grossAmt=0d;
+		Double netAmount=0d;
+		Double dedByAG =0d;
+		Double dedByTreasury=0d;
+		Double dedByOthr =0d;
+		Double netAmt=0d;
+		Double dearnessPay=0d;
+		Double famAllow=0d;
+		Double hillStatAllow = 0d;
+		Double ta = 0d;
+		Double tribalAllow = 0d; 
+		Double hra = 0d; 
+		Double DaOnTA = 0d; 
+		Double hrr = 0d; 
+		Double pt = 0d; 
+		Double emprDcpsReg = 0d; 
+		Double empDcpsReg = 0d; 
+		Double gisAmount = 0d; 
+		Double lic = 0d; 
+		Double CopBank = 0d; 
+		Double mtrCoSoc = 0d; 
+		Double mis = 0d; 
+		Double recurringDep = 0d; 
+		Double misc = 0d; 
+		Double atsInct50 = 0d; 
+		Double atsInct30 = 0d; 
+		Double force1Inct100 = 0d; 
+		Double force1Inct25 = 0d; 
+		Double pgAllow = 0d; 
+		
+		
+		
+		
+		ddoCode =  paybillHeadMpgModel.getDdoCode();
 
+		DdoOffice ddoScreenEntity = mstEmployeeService.findAllGroup(ddoCode.trim());
+		citygroup = ddoScreenEntity.getDcpsDdoOfficeCityClass();
+		String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
+
+		citygroup =spilt[1];
+		
+			System.out.println("CityGroup"+citygroup);
+		objEntity.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
+		objEntity.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
+		objEntity.setBillTypeId(paybillHeadMpgModel.getBillTypeId());
+		objEntity.setCreatedUserId(paybillHeadMpgModel.getCreatedUserId());
+		objEntity.setSchemeBillgroupId(paybillHeadMpgModel.getSchemeBillgroupId());
+		objEntity.setCreatedDate(new Date());
+		objEntity.setBillcreationDate(new Date());
+		objEntity.setIsActive(5);
+		objEntity.setDdoCode(ddoCode);
+		objEntity.setNoOfEmployee(paybillHeadMpgModel.getNoOfEmployee());
+
+		List<MstEmployeeEntity> mstEmployeeEntity = null;
+		mstEmployeeEntity = mstEmployeeService.findAllWorkingEmployeeByDDOCodeAndBillGroup(
+				paybillHeadMpgModel.getDdoCode(), paybillHeadMpgModel.getSchemeBillgroupId(),
+				paybillHeadMpgModel.getPaybillMonth(), paybillHeadMpgModel.getPaybillYear());
+
+		Long val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
+
+		paybillStatusEntity.setBillNo(val);
+		paybillStatusEntity.setCreatedDate(new Date());
+		paybillStatusEntity.setIsActive(1);
+		paybillStatusEntity.setUserId(paybillHeadMpgModel.getCreatedUserId());
+		paybillStatusEntity.setMacId(paybillHeadMpgModel.getMacId());
+
+		String startDate = null;
+
+		int month2 = paybillHeadMpgModel.getPaybillMonth();
+		int year2 = paybillHeadMpgModel.getPaybillYear();
+		if (month2 < 10) {
+			startDate = String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
+		} else {
+			startDate = String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
+		}
+		
+		int percentageRate[]=new int[3];
+		percentageRate[0] = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
+		percentageRate[1]=paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
+		percentageRate[2]=paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC);
+		
+		int centralpercentageRate[]=new int[3];
+		centralpercentageRate[0] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
+		centralpercentageRate[1] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
+		centralpercentageRate[2] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC);
+		
+		for (MstEmployeeEntity mstEmployeeEntity2 : mstEmployeeEntity) {
+			
+			// To Check Broken Period Exist or not
+			Long payCommission = mstEmployeeEntity2.getPayCommissionCode();
+			int percentage = 0;
+			String percentageHRA = null;
+			String cityClassStr = mstEmployeeEntity2.getCityClass().toString();
+			String split1[]=cityClassStr.split("-");
+			String cityClass = split1[0];
+			
+			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+				percentage = percentageRate[0];
+				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,
+						cityClass);
+			} else {
+				percentage = percentageRate[1];
+				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,
+						cityClass);
+			}
+
+			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId().trim(),
+					String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
+					String.valueOf(paybillHeadMpgModel.getPaybillYear()));
+			PaybillGenerationTrnDetails paybillGenerationTrnDetails = new PaybillGenerationTrnDetails();
+			paybillGenerationTrnDetails.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
+			paybillGenerationTrnDetails.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
+			paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
+			
+		
+			if (count > 0) {
+
+			
+				
+				Map hmAllowDeducCodeAndValues = new HashMap();
+				int basicpay = 0;
+				int netpay = 0;
+				int allowdedcode = 0;
+				int isType = 0;
+				String brokenMethodName=null;
+				List<Object[]> lstBrokenPeriodData = paybillHeadMpgRepo.getBrokenPeriodData(
+						mstEmployeeEntity2.getSevaarthId().toString().trim(),
+						String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
+						String.valueOf(paybillHeadMpgModel.getPaybillYear()),
+						paybillHeadMpgModel.getDdoCode().trim());
+				for (Object[] objects : lstBrokenPeriodData) {
+					allowdedcode = (int) objects[4];
+					hmAllowDeducCodeAndValues.put(objects[4], objects[5]); // 4 code,5 amount,6 Name
+					basicpay = ((BigInteger) objects[2]).intValue();
+					netpay = ((BigInteger) objects[3]).intValue();
+					brokenMethodName=(String) objects[7];
+					isType= (int) objects[8];
+					
+					
+					
+					if(brokenMethodName!= null) {
+						
+						Double temp=0d;
+							if(objects[5]!=null) {
+								temp = new BigDecimal(objects[5].toString()).doubleValue();
+							}
+							else {
+								temp=0d;
+							}
+							switch (isType) {
+							case 1:
+								grossAmount=grossAmount+temp;
+								break;
+							case 2:
+								dedByAG=dedByAG+temp;
+								break;
+							case 3:
+								dedByTreasury=dedByTreasury+temp;
+								break;
+							case 4:
+								dedByOthr=dedByOthr+temp;
+								break;
+							
+							}
+							
+							
+							Field fieldName = null;
+							try {
+								fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(brokenMethodName);
+								fieldName.setAccessible(true);
+								try {
+									fieldName.set(paybillGenerationTrnDetails, temp);
+								} catch (IllegalArgumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							} catch (NoSuchFieldException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SecurityException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							
+					}
+				}
+
+				// END:Fetch Broken Period Allowance and Deduction Data
+
+				// Fetching Broken Period Data
+
+				
+				
+				totaldeduc=dedByAG+dedByTreasury+dedByOthr;
+				netAmount=grossAmount - totaldeduc;
+				
+				paybillGenerationTrnDetails.setGrossTotalAmt(grossAmount);
+				paybillGenerationTrnDetails.setTotalDeduction(totaldeduc);
+
+				paybillGenerationTrnDetails.setTotalNetAmt(netAmt);
+				paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
+				if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
+						paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());
+				} else {
+					if (mstEmployeeEntity2.getPayInPayBand() != null)
+						paybillGenerationTrnDetails.setPay_band(mstEmployeeEntity2.getPayInPayBand());
+				}
+
+				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
+				Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+				grossAmt += grossAmount;
+
+				netAmt += grossAmount - totaldeduc;
+	
+				objEntity.setBillGrossAmt((double) Math.round(grossAmt));
+				objEntity.setBillNetAmount((double) Math.round(netAmt));
+				objEntity.setPaybillGenerationTrnId(val);
+
+		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
+		Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
+
+		return (Long) id;
+	}else {
+		
+		int gradePaynew = 0;
+		List<Object[]> object = mstEmployeeService.employeeAllowDeduction(mstEmployeeEntity2.getSevaarthId());
+		paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
+		Double gpfpercentage = 0d;
+
+		for (Object[] object12 : object) {
+
+			int a = (int) object12[5];
+			String str = (String) object12[6];
+			String gisgroup = (String) object12[11];
+			String methodName = (String) object12[12];
+			String groupname = (String) object12[7];
+			// gisAmount = (double) object12[8];
+			if (object12[9] != null)
+				gradePaynew = (int) object12[9];
+			int allowDeducCode = (int) object12[2];
+			String physicalhand = Character.toString((char) object12[10]);
+
+			Double svnPcBasic = 0d;
+			Double basic = null;
+			Double hraBasic = 0d;
+			if (mstEmployeeEntity2.getSevenPcBasic() != null) {
+
+				if (mstEmployeeEntity2.getRevisedBasic() != null) {
+
+					basic = mstEmployeeEntity2.getRevisedBasic();
+				} else {
+					basic = mstEmployeeEntity2.getSevenPcBasic();
+				}
+
+				basic = basic.doubleValue();
+			} else {
+				SevenPcBasic = 0d;
+			}
+			if (mstEmployeeEntity2.getBasicPay() != null && !mstEmployeeEntity2.getPayCommissionCode().equals(700005)) {
+				basic = mstEmployeeEntity2.getBasicPay();
+			}
+		
+				//SVN DA
+				if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_PC_DA)
+						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL
+						&& (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)) {
+
+						svnDA = (double) ((basic * percentage)
+								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100);
+						paybillGenerationTrnDetails.setSvnDA(svnDA);
+				} else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DA)
+						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL
+						&& (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC)) {
+
+						da = (double) (Math.round((basic * percentage)
+								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						paybillGenerationTrnDetails.setDa((double) Math.round((da)));
+				}
+				// CLA
+			
+				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA)) {
+			EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
+					.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
+							CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE);
+
+			if (employeeAllowDeducComponentAmtEntity != null
+					&& employeeAllowDeducComponentAmtEntity.getNetAmt() > 0d
+					&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_CLA_CODE) {
+
+				paybillGenerationTrnDetails
+						.setCla((double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
+				cla = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+			} else {
+
+				Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+				int claamt = 0;
+
+				if (basic < 3000) {
+					if (citygroup.equals("Class A1")) {
+						claamt = 90;
+					} else if (citygroup.equals("Class A")) {
+						claamt = 65;
+					} else if (citygroup.equals("Class B1")) {
+						claamt = 45;
+					} else if (citygroup.equals("Class B")) {
+						claamt = 25;
+					}
+				} else if (basic >= 3000 && basic < 4499) {
+					if (citygroup.equals("Class A1")) {
+						claamt = 125;
+					} else if (citygroup.equals("Class A")) {
+						claamt = 95;
+					} else if (citygroup.equals("Class B1")) {
+						claamt = 65;
+					} else if (citygroup.equals("Class B")) {
+						claamt = 35;
+					}
+				} else if (basic >= 4500 && basic < 5999) {
+					if (citygroup.equals("Class A1")) {
+						claamt = 200;
+					} else if (citygroup.equals("Class A")) {
+						claamt = 150;
+					} else if (citygroup.equals("Class B1")) {
+						claamt = 100;
+					} else if (citygroup.equals("Class B")) {
+						claamt = 65;
+					}
+				} else {
+					if (citygroup.equals("Class A1")) {
+						claamt = 300;
+					} else if (citygroup.equals("Class A")) {
+						claamt = 240;
+					} else if (citygroup.equals("Class B1")) {
+						claamt = 180;
+					} else if (citygroup.equals("Class B")) {
+						claamt = 120;
+					}
+				}
+
+				paybillGenerationTrnDetails.setCla((double) claamt);
+				cla = (double) claamt;
+			}
+			}
+		 // Dearness Pay
+			else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DEARNESS_PAY)) {
+				EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
+						.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
+								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DP_CODE);
+
+				if (employeeAllowDeducComponentAmtEntity != null
+						&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DP_CODE) {
+
+					paybillGenerationTrnDetails.setDearnessPay(
+							(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
+					dearnessPay = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+				} else {
+					paybillGenerationTrnDetails.setDearnessPay((double) 0);
+					dearnessPay += 0;
+				}
+			}
+				
+		 // FAMILY_PLAN_ALLOW
+			else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FAMILY_PLAN_ALLOW)) {
+				EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
+						.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
+								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE);
+				
+				if (employeeAllowDeducComponentAmtEntity != null
+						&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE) {
+					
+					paybillGenerationTrnDetails.setDearnessPay(
+							(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
+					famAllow = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+				} else {
+					paybillGenerationTrnDetails.setDearnessPay((double) 0);
+					famAllow += 0;
+				}
+			}
+		
+		// Start Travels Allowances for 6PC
+				else if (str
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE)
+						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC
+						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+
+					if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
+						if (citygroup.equals("Class A") && citygroup.equals("Class A1")) {
+							if (physicalhand.equals("Y")) {
+								paybillGenerationTrnDetails.setTa((double) 4800);
+							} else {
+								paybillGenerationTrnDetails.setTa((double) 2400);
+							}
+						} else {
+							if (physicalhand.equals("Y")) {
+								paybillGenerationTrnDetails.setTa((double) 2400);
+							} else {
+								paybillGenerationTrnDetails.setTa((double) 1200);
+							}
+						}
+						ta = paybillGenerationTrnDetails.getTa();
+					} else if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400
+							&& gradePaynew < CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
+						if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+							if (physicalhand.equals("Y")) {
+								paybillGenerationTrnDetails.setTa((double) 2400);
+							} else {
+								paybillGenerationTrnDetails.setTa((double) 1200);
+							}
+						} else {
+							if (physicalhand.equals("Y")) {
+								paybillGenerationTrnDetails.setTa((double) 2000);
+							} else {
+								paybillGenerationTrnDetails.setTa((double) 600);
+							}
+						}
+						ta = paybillGenerationTrnDetails.getTa();
+					} else if (gradePaynew <= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400) {
+						if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+							if (physicalhand.equals("Y")) {
+								paybillGenerationTrnDetails.setTa((double) 2000);
+							} else {
+								paybillGenerationTrnDetails.setTa((double) 400);
+							}
+						} else {
+							if (physicalhand.equals("Y")) {
+								paybillGenerationTrnDetails.setTa((double) 2000);
+							} else {
+								paybillGenerationTrnDetails.setTa((double) 400);
+							}
+						}
+						ta = paybillGenerationTrnDetails.getTa();
+					}
+				}
+		// Start Travels Allowances for 7PC
+
+				else if (str
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE)
+						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
+						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+					Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
+					String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
+					Integer grade7PC = Integer.parseInt(gradePay7PC);
+
+					if ((paybillHeadMpgModel.getPaybillMonth() >= 4 && paybillHeadMpgModel.getPaybillYear() >= 23)
+							|| paybillHeadMpgModel.getPaybillYear() >= 24) {
+
+						if (gradelevel >= 20) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 10800);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 5400);
+								}
+							} else {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 5400);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 2700);
+								}
+							}
+							ta = paybillGenerationTrnDetails.getTa();
+						} else if (gradelevel >= 7 && gradelevel <= 19) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 5400);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 2700);
+								}
+							} else {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 2700);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 1350);
+								}
+							}
+							ta = paybillGenerationTrnDetails.getTa();
+						} else if (gradelevel >= 1 && gradelevel <= 6) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+								if (physicalhand.equals("Y")) {
+									if (basic >= 24200 && cityClass.equalsIgnoreCase(
+											CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
+										paybillGenerationTrnDetails.setTa((double) 5400);
+									} else {
+
+										paybillGenerationTrnDetails.setTa((double) 2700);
+									}
+								} else if (basic >= 24200 && cityClass
+										.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
+									paybillGenerationTrnDetails.setTa((double) 2700);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 1000);
+								}
+
+							} else {
+								if (physicalhand.equals("Y")) {
+									if (basic >= 24200 && cityClass.equalsIgnoreCase(
+											CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
+										paybillGenerationTrnDetails.setTa((double) 2700);
+									} else {
+
+										paybillGenerationTrnDetails.setTa((double) 2250);
+									}
+								} else {
+									if (basic >= 24200 && !cityClass.equalsIgnoreCase(
+											CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
+										paybillGenerationTrnDetails.setTa((double) 1350);
+									} else {
+										paybillGenerationTrnDetails.setTa((double) 675);
+									}
+								}
+							}
+							ta = paybillGenerationTrnDetails.getTa();
+						}
+					} else {
+						if (gradelevel >= 20) {
+
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 4800);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 2400);
+								}
+							} else {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 2400);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 1200);
+								}
+							}
+							ta = paybillGenerationTrnDetails.getTa();
+						} else if (gradelevel >= 7 && gradelevel <= 19) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 2000);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 1200);
+								}
+							} else {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 2000);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 600);
+								}
+							}
+							ta = paybillGenerationTrnDetails.getTa();
+						} else if (gradelevel >= 1 && gradelevel <= 6) {
+							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 2000);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 400);
+								}
+							} else {
+								if (physicalhand.equals("Y")) {
+									paybillGenerationTrnDetails.setTa((double) 2000);
+								} else {
+									paybillGenerationTrnDetails.setTa((double) 400);
+								}
+							}
+
+						}
+					}
+					ta = paybillGenerationTrnDetails.getTa();
+				}
+			/* HRA component */
+//				
+				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA)
+						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+
+					/* HRA component for 7PC */
+					if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+
+						if (mstEmployeeEntity2.getRevisedBasic() != null) {
+							if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
+								if (mstEmployeeEntity2.getRevisedBasic() >= 22500) {
+									hra = (double) (Math.round((mstEmployeeEntity2.getRevisedBasic()
+											* Double.parseDouble(percentageHRA))
+											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								} else {
+									hra = (double) (5400);
+								}
+							} else if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y)) {
+								if (mstEmployeeEntity2.getRevisedBasic() >= 22500) {
+									hra = (double) (Math.round((mstEmployeeEntity2.getRevisedBasic()
+											* Double.parseDouble(percentageHRA))
+											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								} else {
+									hra = (double) (3600);
+								}
+							} else {
+								if (mstEmployeeEntity2.getRevisedBasic() >= 22500) {
+									hra = (double) (Math.round((mstEmployeeEntity2.getRevisedBasic()
+											* Double.parseDouble(percentageHRA))
+											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								} else {
+									hra = (double) (1800);
+								}
+							}
+
+						} else {
+							if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
+								if (basic >= 22500) {
+									hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								} else {
+									hra = (double) (5400);
+								}
+							} else if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y)) {
+								if (basic >= 22500) {
+									hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								} else {
+									hra = (double) (3600);
+								}
+							} else {
+								if (basic >= 22500) {
+									hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								} else {
+									hra = (double) (1800);
+								}
+							}
+
+						}
+
+						paybillGenerationTrnDetails.setHra((double) Math.round(hra));
+					}
+
+					/* HRA component for 6PC */
+					else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC
+							|| payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC) {
+
+						if (mstEmployeeEntity2.getRevisedBasic() != null) {
+							if (cityClass.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X))
+								hra = (double) (Math.round(
+										(mstEmployeeEntity2.getRevisedBasic() * Double.parseDouble(percentageHRA))
+												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							else if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y))
+								hra = (double) (Math.round(
+										(mstEmployeeEntity2.getRevisedBasic() * Double.parseDouble(percentageHRA))
+												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							else if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Z))
+								hra = (double) (Math.round(
+										((mstEmployeeEntity2.getRevisedBasic() * Double.parseDouble(percentageHRA))
+												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)));
+						} else {
+							if (cityClass.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X))
+								hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							else if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y))
+								hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							else if (cityClass
+									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Z))
+								hra = (double) (Math.round(((basic	 * Double.parseDouble(percentageHRA))
+										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)));
+						}
+						paybillGenerationTrnDetails.setHra((double) Math.round(hra));
+					}
+				}
+				/* End of HRA Component */
+			
+				// Professional Tax//
+				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_PT)
+						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+					// Double svnpcbasic=
+					// Double.valueOf(basic.toString());
+					if (paybillHeadMpgModel.getPaybillMonth() == 2) {
+						if (mstEmployeeEntity2.getRevisedBasic() != null) {
+							if (mstEmployeeEntity2
+									.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
+								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+							else if (mstEmployeeEntity2
+									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
+									&& mstEmployeeEntity2
+											.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_GREATER_THAN_5500)
+								pt = 275d;
+							else if (mstEmployeeEntity2
+									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_GREATER_THAN_5500)
+								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_300;
+							else
+								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+						} else {
+							if (sixPcBasic > 0) {
+								if (mstEmployeeEntity2
+										.getBasicPay() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+								else if (mstEmployeeEntity2
+										.getBasicPay() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
+										&& mstEmployeeEntity2
+												.getBasicPay() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = 275d;
+								else if (mstEmployeeEntity2
+										.getBasicPay() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_300;
+								else
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+							} else {
+								if (basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
+										&& basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = 275d;
+								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_300;
+								else
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+							}
+						}
+					} else {
+
+						if (mstEmployeeEntity2.getRevisedBasic() != null) {
+							if (mstEmployeeEntity2
+									.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
+								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+							else if (mstEmployeeEntity2
+									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
+									&& mstEmployeeEntity2
+											.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_175;
+							else if (mstEmployeeEntity2
+									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_200;
+							else
+								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+						} else {// basic
+							if (sixPcBasic > 0) {
+								if (sixPcBasic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+								else if (sixPcBasic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
+										&& sixPcBasic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = 175d;
+								else if (sixPcBasic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_200;
+								else
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+
+							} else {
+								if (basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
+										&& basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = 275d;
+								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_200;
+								else
+									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
+							}
+
+						}
+					}
+					paybillGenerationTrnDetails.setPt(pt);
+
+				}
+				
+				// Start GIS Component
+				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS)
+						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
+					gisAmount = (double) object12[8];
+					if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_A)
+							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_A)
+									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_A)) {
+						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
+					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_B)
+							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_B)
+									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_B)) {
+						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
+					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_BNGZ)
+							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_BNGZ)
+									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_BNGZ)) {
+						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
+					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_C)
+							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_C)
+									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_C)) {
+						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
+					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_D)
+							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_D)
+									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_D)) {
+						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
+					}
+				}
+				// End GIS Component
+				if(methodName!= null) {
+					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
+							.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),allowDeducCode);
+					
+					
+					if(employeeAllowDeducComponentAmtEntity!=null) {
+						
+						
+						Double temp = (double)(Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+						
+						Field fieldName = null;
+						try {
+							fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
+							fieldName.setAccessible(true);
+							try {
+								fieldName.set(paybillGenerationTrnDetails, temp);
+							} catch (IllegalArgumentException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} catch (NoSuchFieldException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SecurityException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					////	paybillGenerationTrnDetails.setAtsInc50(atsInct50);
+						
+					}
+					
+					
+					List<AllowanceDeductionRuleMstEntity> lst = paybillHeadMpgRepo.fetchComponentDtlsByCompoId(allowDeducCode);
+					Double tempVal=0d;
+					if(lst.size()>0) {
+						if(lst.get(0).getPercentage()!=null) {
+							
+							 tempVal = (double)((Math.round(basic)*lst.get(0).getPercentage()/CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							Field fieldName = null;
+							try {
+								fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
+								fieldName.setAccessible(true);
+								try {
+									fieldName.set(paybillGenerationTrnDetails, tempVal);
+								} catch (IllegalArgumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							} catch (NoSuchFieldException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SecurityException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						}else {
+							tempVal = (double)(Math.round(lst.get(0).getAmount()));
+							
+							Field fieldName = null;
+							try {
+								fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
+								fieldName.setAccessible(true);
+								try {
+									fieldName.set(paybillGenerationTrnDetails, tempVal);
+								} catch (IllegalArgumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							} catch (NoSuchFieldException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SecurityException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						////	paybillGenerationTrnDetails.setAtsInc50(atsInct50);
+							
+						}
+					}
+				}
+		
+	}
+
+		
+	grossAmount=svnDA+da+dearnessPay+famAllow+ta+hra+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getAtsInc30())+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getAtsInc50())
+	+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getForce1Inc100())+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getForce1Inc25());
+		
+	
+			totaldeduc=StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getLIC())+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getConStore())+
+					StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getCopBank())+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getMtrCoOpSoc())
+					+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getRecurringDep())+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getMisc())
+					+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getMis())+StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getCoHsgSoc())
+				;
+			netAmt=grossAmount-totaldeduc;
+		
+}
+			
+			objEntity.setBillGrossAmt(grossAmount);
+			objEntity.setBillNetAmount(netAmt);
+			paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
+			Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+	}
+	
+		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
+		Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
+		return val;
+	}
 }

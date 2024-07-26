@@ -122,7 +122,8 @@ public class PaybillGenerateController {
 			if (paybillHeadMpgModel.getBillTypeId() == 3) { // 1-->Regular,2-->Supplimentory
 				afterSaveId = paybillHeadMpgService.saveSupPaybillHeadMpg(paybillHeadMpgModel);
 			} else { // regular
-				afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
+			///	afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
+				afterSaveId = paybillHeadMpgService.savePaybillHeadMpgNew(paybillHeadMpgModel);
 			} /*
 				 * else if(paybillHeadMpgModel.getBillTypeId()==3){ // suspension bill
 				 * afterSaveId =
@@ -246,33 +247,6 @@ public class PaybillGenerateController {
 		return ResponseEntity.ok(existingData);
 	}
 
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @RequestMapping(value = "/approveBill/{consolidatedId}",
-	 * method=RequestMethod.POST) public ResponseEntity<String>
-	 * approveBill(@ModelAttribute("consolidatePayBillTrnEntity")
-	 * ConsolidatePayBillTrnEntity consolidatePayBillTrnEntity, Model model,Locale
-	 * locale,HttpSession session,@PathVariable int
-	 * consolidatedId,HttpServletRequest request) {
-	 * 
-	 * // select * from consolidate_paybill_trn
-	 * consolidatePayBillTrnEntity=bdsintegrationservice.findPayBillInfoById(
-	 * consolidatedId); consolidatePayBillTrnEntity.setStatus(11);
-	 * consolidatePayBillTrnEntity.setIsActive(11);
-	 * consolidatePayBillTrnEntity.setUpdatedDate(new Date());
-	 * bdsintegrationservice.approvePayBill(consolidatePayBillTrnEntity);
-	 * List<Object[]> lst=bdsintegrationservice.findPayBillDetails(consolidatedId);
-	 * for (Object object[] : lst) { Integer
-	 * payGenTrnId=Integer.parseInt(object[0].toString());
-	 * PaybillGenerationTrnEntity
-	 * paybillGenerationTrnEntity=bdsintegrationservice.findPaybillObj(payGenTrnId);
-	 * paybillGenerationTrnEntity.setIsActive(11);
-	 * paybillGenerationTrnEntity.setUpdatedDate(new Date());
-	 * bdsintegrationservice.approveBill(paybillGenerationTrnEntity); } String
-	 * msg="Bill Approved Successfully"; return ResponseEntity.ok(msg); }
-	 */
-
 	@GetMapping(value = "/checkedBgisAndGisCatNull/{schemeBillGroupId}")
 	public ResponseEntity<List<MstEmployeeEntity>> checkedBgisAndGisCatNull(@PathVariable String schemeBillGroupId,
 			HttpSession session) {
@@ -281,5 +255,7 @@ public class PaybillGenerateController {
 				messages.getUserName());
 		return ResponseEntity.ok(lstMstEmployeeEntity);
 	}
+	
+
 
 }

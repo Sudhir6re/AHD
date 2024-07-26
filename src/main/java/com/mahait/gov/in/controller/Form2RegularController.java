@@ -151,9 +151,9 @@ public class Form2RegularController {
 		}*/
 		
 		
-		String empContrinword=CashWordConverter.doubleConvert(totalNpsEmpContri);
+	/*	String empContrinword=CashWordConverter.doubleConvert(totalNpsEmpContri);
 		String emprContrinword=CashWordConverter.doubleConvert(totalNpsEmprContri);
-		String totalContrinword=CashWordConverter.doubleConvert(grandtotalContri);
+		String totalContrinword=CashWordConverter.doubleConvert(grandtotalContri);*/
         BigInteger bigInteger = BigInteger.valueOf(regularReportModel.getMonthId());
 		
 		String monname="";
@@ -219,9 +219,9 @@ public class Form2RegularController {
         model.addAttribute("createddate", sdf.format(new Date()));
         model.addAttribute("systemdate", sdf.format(new Date()));
 		//String word=CashWordConverter.doubleConvert(Totalamt);
-	model.addAttribute("empContrinword", empContrinword);
+	/*model.addAttribute("empContrinword", empContrinword);
 		model.addAttribute("emprContrinword", emprContrinword);
-		model.addAttribute("totalContrinword", totalContrinword);
+		model.addAttribute("totalContrinword", totalContrinword);*/
 		
 		model.addAttribute("totalNpsEmpContri", totalNpsEmpContri);
 		model.addAttribute("totalNpsEmprContri", totalNpsEmprContri);

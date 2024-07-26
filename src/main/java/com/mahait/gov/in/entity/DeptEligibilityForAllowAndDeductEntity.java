@@ -57,6 +57,12 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	@Column(name="is_non_computation_component")
 	private Integer isNonComputationComponent;
 	
+	@Column(name="method_name")
+	private String methodName;
+	
+	@Column(name="broken_method_name")
+	private String brokenMethodName;
+	
 	
 
 	

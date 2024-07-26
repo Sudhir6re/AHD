@@ -340,10 +340,16 @@ public class CommonConstants {
 		String COMMONCODE_COMPONENT_Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara = "bhandara_zilla_parishadwpanchayat_samiti_karamachari_sahakari";
 		String COMMONCODE_COMPONENT_CON_STORE = "CON_STORE";
 		String COMMONCODE_COMPONENT_MIS = "MIS";
+		String COMMONCODE_COMPONENT_FAMILY_PLAN_ALLOW = "FAMILY_PLAN_ALLOW";
+		String COMMONCODE_COMPONENT_ATS_Incentive_50 = "ATS_Incentive_50";
+		String COMMONCODE_COMPONENT_ATS_Incentive_30 = "ATS_Incentive_30";
+		String COMMONCODE_COMPONENT_Force1_Incentive_100 = "Force1_Incentive_100";
+		String COMMONCODE_COMPONENT_Force1_Incentive_25 = "Force1_Incentive_25";
+		String COMMONCODE_COMPONENT_PG_Allow = "PG_Allow";
 		
 		String COMMONCODE_COMPONENT_CVP1 =  "CVP1";
 		String COMMONCODE_COMPONENT_CVP2 =  "CVP2";
-		String COMMONCODE_COMPONENT_CVP3 =  "CVP3";
+		String COMMONCODE_COMPONENT_CVP3 =  "CVP3";//  
 		
 		
 		
@@ -611,6 +617,11 @@ public class CommonConstants {
 		int COMMONCODE_COMPONENT_PUNE_DIST_CENTRAL_COP_BANK_Code = 198;
 		int COMMONCODE_COMPONENT_NDCPS_REC_Code = 199;
 		int COMMONCODE_COMPONENT_BHARATRATNA_VISHWESH_ABHI_SAH_PAT_MARYA_Code = 201;
+		int COMMONCODE_COMPONENT_ATS_Incentive_50_Code = 4;
+		int COMMONCODE_COMPONENT_ATS_Incentive_30_Code = 18;
+		int COMMONCODE_COMPONENT_Force1_Incentive_100_Code = 11;
+		int COMMONCODE_COMPONENT_Force1_Incentive_25_Code = 12;
+		int COMMONCODE_COMPONENT_PG_Allow_Code = 14;
 		///int COMMONCODE_COMPONENT_Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara_Code = 163;
 
 		

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionMstEntity;
+import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
+import com.mahait.gov.in.entity.CentralGovtDAMasterEntity;
 import com.mahait.gov.in.entity.EmployeeIncrementEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
@@ -800,11 +802,11 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 			StringBuffer sb = new StringBuffer();
 			sb.append(
 					"select bppay.emp_id,bppay.sevaarth_id,sum(bppay.basic_pay) basicpay,sum(bppay.net_pay) netpay,bpallded.allow_deduc_code, ");
-			sb.append("sum(bpallded.allow_deduc_amt) allow_ded_amt , deptallmst.department_allowdeduc_col_nm ");
+			sb.append("sum(bpallded.allow_deduc_amt) allow_ded_amt , deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_type ");
 			sb.append("from broken_period_pay_mst bppay inner join broken_period_allow_deduc_mst bpallded on bppay.broken_period_id=bpallded.broken_period_id ");
 			sb.append("inner join department_allowdeduc_mst deptallmst on deptallmst.department_allowdeduc_code=bpallded.allow_deduc_code ");
 			sb.append("where bppay.sevaarth_id='"+sevaarthid+"' and bppay.month_id="+monthid+" and bppay.year_id="+yearid+" and bppay.ddo_code='"+Username+"' ");
-			sb.append(" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm order by bppay.emp_id");
+			sb.append(" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_type order by bppay.emp_id");
 			Query query = currentSession.createSQLQuery(sb.toString());
 			return query.list();
 		}
@@ -1010,47 +1012,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 	@Override
 	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity) {
-
-		// logger.info("inside the saved method- ");
-
-		Session currentSession = entityManager.unwrap(Session.class);
-		Serializable saveId = currentSession.save(paybillStatusEntity);
-		return (Integer) saveId;
-	}
-/*
-	@Override
-	public Integer getannualincment(String sevaarthId, String startDate) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "FROM EmployeeIncrementEntity  where sevaarthId='"+sevaarthId+"'   and to_char(effective_from_date,'YY-MM-DD')<='"+startDate+"' "
-				+ " and (to_increment_date is null OR to_char(to_increment_date,'YY-MM-DD')>='"+startDate+"')  ORDER BY basic_pay_increment_id DESC";
-		System.out.println("--------------------------------" + HQL);
-
-		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
-				.createQuery(HQL).getResultList();
-		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getIncrementBasicPaySal()).findFirst().orElse(0);
-		return percentage;
-	}
-	@Override
-	public Integer getamtbeforeannualincment(String sevaarthId, String startDate) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "FROM EmployeeIncrementEntity  where sevaarthId='"+sevaarthId+"'   and to_char(effective_from_date,'YY-MM-DD')<='"+startDate+"' "
-				+ " and (to_increment_date is null OR to_char(to_increment_date,'YY-MM-DD')>='"+startDate+"')  ORDER BY basic_pay_increment_id DESC";
-		System.out.println("--------------------------------" + HQL);
-		
-		List<EmployeeIncrementEntity> lstAllowanceDeductionMstEntity = (List<EmployeeIncrementEntity>) entityManager
-				.createQuery(HQL).getResultList();
-		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPreBasicPay()).findFirst().orElse(0);
-		return percentage;
-	}
-
-	@Override
-	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		String HQL1 = "FROM CentralGovtDAMasterEntity as t where t.payCommissionCode="+commoncodePaycommission7pc+"   and to_char(t.startDate,'YY-MM-DD')>='"+startDate+"' "
@@ -1076,137 +1037,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity) {
-		// TODO Auto-generated method stub
-		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.save(faLoanDtlsTrnEntity);
-	}
-
-	@Override
-	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity) {
-		// TODO Auto-generated method stub
-		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.save(caLoanDtlsTrnEntity);
-	}
-
-	@Override
-	public void saveVaDtlsTrn(VaLoanDtlsTrnEntity vaLoanDtlsTrnEntity) {
-		// TODO Auto-generated method stub
-		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.save(vaLoanDtlsTrnEntity);
-	}
-
-	@Override
-	public void saveHbaDtlsTrn(HbaLoanDtlsTrnEntity hbaLoanDtlsTrnEntity) {
-		// TODO Auto-generated method stub
-		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.save(hbaLoanDtlsTrnEntity);
-	}
-
-
-	
-	@Override
-	public Double findAllrecoveryAmt(Date d, String ppoNo) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		double currentBal=0d;
-		List results=null;
-		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-	    String currDate=sdf.format(d);
-		String HQL = "select coalesce(sum(amount), 0) from pension_emp_recov_dtls where ppo_no='"+ppoNo+"' and REC_FROM_PENSION='P' " + 
-				"and  recovery_from_date<='"+currDate+"'" + 
-				"and recovery_to_date>='"+currDate+"'" ;
-		results = currentSession.createSQLQuery(HQL).list();
-		if(results.size()>0) {
-			currentBal= (double) results.get(0);
-		}
-        return currentBal;
-	}
-
-	@Override
-	public Double findDaPercentage(String startDate, String endDate, int payCommisionCode) {
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		
-		String HQL="FROM PensDaRateMstEntity as t where t.payCommissionCode="+payCommisionCode+" and '"+startDate+"' between start_date and  case when end_date is null then '"+startDate+"' else end_date end";
-			
-		List<PensDaRateMstEntity> lstAllowanceDeductionMstEntity = (List<PensDaRateMstEntity>) entityManager
-				.createQuery(HQL).getResultList();
-		
-		if(lstAllowanceDeductionMstEntity==null && lstAllowanceDeductionMstEntity.size()==0 ) {
-			 HQL = "FROM PensDaRateMstEntity as t where t.payCommissionCode="+payCommisionCode+"   and to_char(t.startDate,'YY-MM-DD')<='"+startDate+"' "
-					+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')<='"+startDate+"')  ORDER BY t.startDate DESC";
-		
-			 lstAllowanceDeductionMstEntity = (List<PensDaRateMstEntity>) entityManager
-						.createQuery(HQL).getResultList();
-		}
-		
-		if(lstAllowanceDeductionMstEntity.size()>0) {
-			return  lstAllowanceDeductionMstEntity.get(0).getPercentage();
-		}else {
-			return 0d;
-		}
-	}
-
-	@Override
-	public Double getTotalArrearSum(int month2, int year2, String ppoNo) {
-		// TODO Auto-generated method stub
-		Session currentSession = entityManager.unwrap(Session.class);
-		double currentBal=0d;
-		List results=null;
-		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-	  //  String currDate=sdf.format(d);
-		String HQL = "select coalesce(sum(total), 0) from pension_da_arrear_pay_mst where ppo_no='"+ppoNo+"'  " + 
-				"and  paybill_year="+year2+"" + 
-				"and paybill_month="+month2+"" ;
-		results = currentSession.createSQLQuery(HQL).list();
-		if(results.size()>0) {
-			currentBal= (double) results.get(0);
-		}
-        return currentBal;
-	}
-
-
-	@Override
-	public List<PensionEmpRecovDtlsEntity> findAllRecoveryDetails(Date fromDate, Date toDate, String ppoNo) {
-	    Session currentSession = entityManager.unwrap(Session.class);
-	    List<PensionEmpRecovDtlsEntity> lstPensionEmpRecovDtlsEntity = new ArrayList<>();
-
-	    StringBuilder lSBQuery = new StringBuilder();
-	    lSBQuery.append("SELECT t FROM PensionEmpRecovDtlsEntity as t ");
-	    lSBQuery.append("WHERE t.ppoNo = :ppoNo ");
-	    lSBQuery.append("AND (");
-	    lSBQuery.append("    (t.recoveryFromDate >= :fromDate AND t.recoveryToDate <= :toDate) ");
-	    lSBQuery.append("    OR (t.recoveryFromDate BETWEEN :fromDate AND :toDate) ");
-	    lSBQuery.append("    OR (t.recoveryToDate BETWEEN :fromDate AND :toDate) ");
-	    lSBQuery.append("    OR (:fromDate BETWEEN t.recoveryFromDate AND t.recoveryToDate)  OR (t.recoveryFromPension = 'permanent')");
-	    lSBQuery.append(") ");
-	    lSBQuery.append("AND (t.recoveryFromPension = 'p' OR t.recoveryFromPension = 'permanent' or t.recoveryFromPension = 'P')");
-
-	    Query lQuery = currentSession.createQuery(lSBQuery.toString());
-	    lQuery.setParameter("ppoNo", ppoNo);
-	    lQuery.setParameter("fromDate", fromDate);
-	    lQuery.setParameter("toDate", toDate);
-
-	    lstPensionEmpRecovDtlsEntity = lQuery.list();
-
-	    return lstPensionEmpRecovDtlsEntity;
-	}
-
-
-
-	@Override
-	public List<PensionEmpRecovDtlsEntity> findRecoveryDetails(String ppoNo, String futureString) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL="FROM PensionEmpRecovDtlsEntity as t where t.ppoNo='"+ppoNo+"' and t.noOfInstallmentsPaid<=t.noOfInstallment";
-		List<PensionEmpRecovDtlsEntity> lstPensionEmpRecovDtlsEntity = (List<PensionEmpRecovDtlsEntity>) entityManager
-				.createQuery(HQL).getResultList();
-		return lstPensionEmpRecovDtlsEntity;
-	}
-
-	@Override
 	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity) {
-
-		// logger.info("inside the saved method- ");
 
 		Session currentSession = entityManager.unwrap(Session.class);
 		Serializable saveId = currentSession.save(paybillStatusEntity);
@@ -1214,46 +1045,16 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public Double findGratuityRecoveryAmt(Date date, String ppoNo) {
+	public List<AllowanceDeductionRuleMstEntity> fetchComponentDtlsByCompoId(int CompoId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		double currentBal=0d;
-		List results=null;
-		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-		String HQL = "select coalesce(sum(amount), 0) from pension_emp_recov_dtls where ppo_no='"+ppoNo+"' and REC_FROM_PENSION='G' ";
-		results = currentSession.createSQLQuery(HQL).list();
-		if(results.size()>0) {
-			currentBal= (double) results.get(0);
-		}
-        return currentBal;
+		
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where t.departmentAllowdeducCode="+CompoId+" ";	
+		
+		List<AllowanceDeductionRuleMstEntity> lstAllowanceDeductionMstEntity1 = (List<AllowanceDeductionRuleMstEntity>) entityManager
+				.createQuery(HQL1).getResultList();
+		
+		return lstAllowanceDeductionMstEntity1;
 	}
-	
-	@Override
-	public List<Object[]> getSuspensionBrokenPeriodData(String sevaarthid, String monthid, String yearid,String Username) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		StringBuffer sb = new StringBuffer();
-		sb.append(
-				"select bppay.emp_id,bppay.sevaarth_id,sum(bppay.basic_pay) basicpay,sum(bppay.net_pay) netpay,bpallded.allow_deduc_code, ");
-		sb.append("sum(bpallded.allow_deduc_amt) allow_ded_amt , deptallmst.department_allowdeduc_col_nm ");
-		sb.append("from suspension_broken_period_pay_mst bppay inner join suspension_broken_period_allow_deduc_mst bpallded on bppay.broken_period_id=bpallded.broken_period_id ");
-		sb.append("inner join department_allowdeduc_mst deptallmst on deptallmst.department_allowdeduc_code=bpallded.allow_deduc_code ");
-		sb.append("where bppay.sevaarth_id='"+sevaarthid+"' and bppay.month_id="+monthid+" and bppay.year_id="+yearid+" and bppay.ddo_code='"+Username+"' ");
-		sb.append(" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm order by bppay.emp_id");
-		Query query = currentSession.createSQLQuery(sb.toString());
-		return query.list();
-	}
-
-	@Override
-	public int isSuspensionBrokenPeriodEmpty(String sevaarthid, String monthid, String yearid) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select count(*)  from suspension_broken_period_pay_mst where sevaarth_id ='" + sevaarthid + "' and month_id="
-				+ monthid + " and year_id=" + yearid;
-		Query query = currentSession.createSQLQuery(HQL);
-		// logger.info("query="+query.getQueryString());
-		// logger.info("query.list().get(0)="+query.list().get(0));
-		int result = ((BigInteger) query.list().get(0)).intValue();
-		return result;
-
-	}*/
 
 	
 

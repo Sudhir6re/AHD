@@ -1,10 +1,10 @@
 package com.mahait.gov.in.repository;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
@@ -58,6 +58,7 @@ public interface PaybillGenerationTrnRepo {
 	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc);
 	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
 	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity);
+	List<AllowanceDeductionRuleMstEntity> fetchComponentDtlsByCompoId(int CompoId);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);
