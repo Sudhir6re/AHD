@@ -1,6 +1,5 @@
 package com.mahait.gov.in.entity;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,58 +15,62 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="ALLOWANCE_DEDUCDUCTION_WISE_RULE_MST",schema="public")
+@Table(name = "ALLOWANCE_DEDUCDUCTION_WISE_RULE_MST", schema = "public")
 public class AllowanceDeductionRuleMstEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ALLOWANCE_DEDUCDUCTION_WISE_RULE_ID")
+	@Column(name = "ALLOWANCE_DEDUCDUCTION_WISE_RULE_ID")
 	private Integer allowanceDeductionWiseRuleId;
-	
-	@Column(name="department_allowdeduc_code")
+
+	@Column(name = "department_allowdeduc_code")
 	private Integer departmentAllowdeducCode;
 
-	@Column(name="IS_TYPE")
+	@Column(name = "IS_TYPE")
 	private Integer isType;
-	
-	@Column(name="AMOUNT",length =13,precision=2)
+
+	@Column(name = "AMOUNT", length = 13, precision = 2)
 	private Double amount;
-	
-	@Column(name="PERCENTAGE")
+
+	@Column(name = "PERCENTAGE")
 	private Integer percentage;
-    
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name="START_DATE")
+	@Column(name = "START_DATE")
 	private Date startDate;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name="END_DATE")
+	@Column(name = "END_DATE")
 	private Date endDate;
-	
-	@Column(name="pay_commission_code")
+
+	@Column(name = "pay_commission_code")
 	private Integer payCommissionCode;
-	
+
 	@Column(name = "created_user_id")
 	private int createdUserId;
-	
+
 	@Column(name = "updated_user_id")
 	private int updatedUserId;
-	
+
 	@Column(name = "created_date")
 	private Date createdDate;
-	
+
 	@Column(name = "updated_date")
 	private Date updatedDate;
-	
-	
+
 	@Column(name = "is_active")
 	private char isActive;
+
+	@Column(name = "min_basic")
+	private Double minBasic;
 	
+	@Column(name = "max_basic")
+	private Double maxBasic;
 	
+	@Column(name = "city_class")
+	private char cityClass;
+
 	private transient String commisionName;
 	private transient String departmentAlloDeducName;
 
-
-
-	
 }

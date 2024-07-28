@@ -249,7 +249,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 	public List<Object[]> fetchAllowDeducName(String sevaarthid) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
+		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount,deptallmt.method_name,deptallmt.formulas  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
 				+ sevaarthid + "' and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_seq ";
 
 		Query query = currentSession.createSQLQuery(HQL);

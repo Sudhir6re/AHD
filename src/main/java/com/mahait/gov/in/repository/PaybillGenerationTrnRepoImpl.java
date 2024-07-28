@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionMstEntity;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
+import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.CentralGovtDAMasterEntity;
 import com.mahait.gov.in.entity.EmployeeIncrementEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -802,7 +803,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 			StringBuffer sb = new StringBuffer();
 			sb.append(
 					"select bppay.emp_id,bppay.sevaarth_id,sum(bppay.basic_pay) basicpay,sum(bppay.net_pay) netpay,bpallded.allow_deduc_code, ");
-			sb.append("sum(bpallded.allow_deduc_amt) allow_ded_amt , deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_type ");
+			sb.append("sum(bpallded.allow_deduc_amt) allow_ded_amt , deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_allowdeduc_type_sum ");
 			sb.append("from broken_period_pay_mst bppay inner join broken_period_allow_deduc_mst bpallded on bppay.broken_period_id=bpallded.broken_period_id ");
 			sb.append("inner join department_allowdeduc_mst deptallmst on deptallmst.department_allowdeduc_code=bpallded.allow_deduc_code ");
 			sb.append("where bppay.sevaarth_id='"+sevaarthid+"' and bppay.month_id="+monthid+" and bppay.year_id="+yearid+" and bppay.ddo_code='"+Username+"' ");
@@ -1054,6 +1055,33 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 				.createQuery(HQL1).getResultList();
 		
 		return lstAllowanceDeductionMstEntity1;
+	}
+
+	@Override
+	public List<CLAMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
+			Long payCommissionCode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		String HQL1 = "FROM CLAMstEntity as t where t.minBasic<="+basic+" and (maxBasic is null or maxBasic >= "+basic+") and cityGrp='"+citygroup+"'";	
+		
+		List<CLAMstEntity> claMstLst = (List<CLAMstEntity>) entityManager
+				.createQuery(HQL1).getResultList();
+		
+		return claMstLst;
+	}
+
+	@Override
+	public List<AllowanceDeductionRuleMstEntity> fetchhraDtls(int allowDeducCode, String startDate, String citygroup,
+			Double basic,int payComm) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t and to_char(t.startDate,'YY-MM-DD')<='"+startDate+"' and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='"+startDate+"'  "
+				+ "and t.cityClass ='"+citygroup+"' and basic>=22500 and t.payCommissionCode="+payComm+" ORDER BY t.startDate DESC";	
+		
+		List<AllowanceDeductionRuleMstEntity> hraLst = (List<AllowanceDeductionRuleMstEntity>) entityManager
+				.createQuery(HQL1).getResultList();
+		
+		return hraLst;
 	}
 
 	
