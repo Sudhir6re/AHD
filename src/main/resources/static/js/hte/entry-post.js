@@ -71,14 +71,9 @@ $("#orderCmb").change(function(){
 	      success: function(data){
 	    		 var len = data.length;
 	    		 if(len>0){
-	    			 
 	    			  var orderDate = new Date(data[0].orderDate); // Convert string to Date object
 	    			    var formattedDate = orderDate.toISOString().split('T')[0]; // Convert Date to yyyy-MM-dd format
-
 	    			    $("#OrderDate").val(formattedDate);
-	    			   // $("#ddoCode").val(data[0].ddoCode);
-	    			    
-	    			 //$( "#OrderDate").val(new Date(data[0].orderDate));
 	    		 }
 				}
 	 });
@@ -86,6 +81,19 @@ $("#orderCmb").change(function(){
 
 
 
+
+
+
+$("#postTypeCmbBox").change(function(){
+	var context = $("#appRootPath").val();
+	var typePost = $("#postTypeCmbBox").val();
+	
+	if(typePost=="10001198130"){
+		$(".sanDateDiv").show();
+	}else{
+		$(".sanDateDiv").hide();
+	}
+});
 
 $("#cmbNewOrder").change(function(){
 	var context = $("#appRootPath").val();
@@ -170,6 +178,12 @@ $("#btnFilter").click(function(){
 					 console.log(data);
 					 $("#loaderMainNew").hide();
 				},
+				beforeSend : function(){
+					$( "#loaderMainNew").show();
+					},
+				complete : function(data){
+					$( "#loaderMainNew").hide();
+				},	
 				success : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
@@ -216,6 +230,12 @@ $("#Search").click(function(){
 					 console.log(data);
 					 $("#loaderMainNew").hide();
 				},
+				beforeSend : function(){
+					$( "#loaderMainNew").show();
+					},
+				complete : function(data){
+					$( "#loaderMainNew").hide();
+				},	
 				success : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
@@ -258,6 +278,12 @@ $("#searchPostDetails").click(function(){
 					 console.log(data);
 					 $("#loaderMainNew").hide();
 				},
+				beforeSend : function(){
+					$( "#loaderMainNew").show();
+					},
+				complete : function(data){
+					$( "#loaderMainNew").hide();
+				},	
 				success : function(data) {
 					 console.log(data);
 					 $("#loaderMainNew").hide();
@@ -383,6 +409,7 @@ $("form[name='postEntryModel']").validate({
     },
     submitHandler: function(form) {
         form.submit(); 
+        $("#loaderMainNew").show();
     }
 });
 

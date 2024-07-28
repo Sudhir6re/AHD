@@ -6,6 +6,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminOfficeMst;
 import com.mahait.gov.in.model.ZpAdminOfficeMstModel;
@@ -40,10 +44,7 @@ public class AdminOfficeMasterController {
 		if (messageResponse != null) {
 			model.addAttribute("messageResponse", messageResponse);
 		}
-		
-	
-		
-		
+
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		List<ZpAdminOfficeMstModel> lstZpAdminOfficeMstModel = adminOfficeMasterService.findAllZpAdminOfficeMstModel();
 
@@ -64,6 +65,9 @@ public class AdminOfficeMasterController {
 			RedirectAttributes redirectAttributes) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		zpAdminOfficeMstModel.setCreatedBy(messages.getUserId());
+		zpAdminOfficeMstModel.setCreatedByPost(messages.getUserId());
+		zpAdminOfficeMstModel.setIsActive(1);
+
 		ZpAdminOfficeMst zpAdminOfficeMst = adminOfficeMasterService.createOffice(zpAdminOfficeMstModel);
 
 		MessageResponse messageResponse = new MessageResponse();
@@ -92,6 +96,13 @@ public class AdminOfficeMasterController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		Integer isDeleted = adminOfficeMasterService.deleteOfficeById(officeId, messages);
 		return "redirect:/mdc/adminOfficeMaster";
+	}
+
+	@RequestMapping(value = "/officeNameExists/{officeName}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Boolean> officeNameExists(@PathVariable String officeName) {
+		boolean response1 = adminOfficeMasterService.officeNameExists(officeName);
+		return ResponseEntity.ok(response1);
 	}
 
 }

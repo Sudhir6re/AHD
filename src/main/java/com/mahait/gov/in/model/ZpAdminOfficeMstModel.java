@@ -3,6 +3,9 @@ package com.mahait.gov.in.model;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import lombok.Data;
 
@@ -10,8 +13,6 @@ import lombok.Data;
 @Data
 public class ZpAdminOfficeMstModel {
 	
-	
-
 	private Long ofcId;
 
 	private String officeName;
@@ -34,14 +35,6 @@ public class ZpAdminOfficeMstModel {
 
 	private String dcpsOffName;
 	
- 
-    
     private Integer isActive;
-    
-    
-	
-	
-	
-	
 
 }

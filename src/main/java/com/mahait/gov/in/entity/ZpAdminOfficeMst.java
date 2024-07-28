@@ -26,12 +26,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "ZP_ADMIN_OFFICE_MST")
-//@EqualsAndHashCode(of = "ofcId")
 public class ZpAdminOfficeMst implements Serializable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	
@@ -50,41 +46,23 @@ public class ZpAdminOfficeMst implements Serializable {
     @Column(name = "LANG_ID", precision = 10, scale = 0)
     private Long langId;
 
-    /*@Column(name = "CREATED_BY", precision = 10, scale = 0)
-    private Long createdBy;*/
-
     @Column(name = "CREATED_DATE", length = 20)
     private Timestamp createdDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst createdByPost;
+    @Column(name = "CREATED_BY_POST")
+    private Long createdByPost;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UPDATED_BY_POST", referencedColumnName = "POST_ID")
-    @Fetch(FetchMode.SELECT)
-    private OrgPostMst updatedByPost;
+    @Column(name = "UPDATED_BY_POST")
+    private Long updatedByPost;
 
     
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CREATED_BY", referencedColumnName = "USER_ID", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private OrgUserMst createdBy;
+    @Column(name = "CREATED_BY")
+    private Long createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UPDATED_BY", referencedColumnName = "USER_ID")
-    @Fetch(FetchMode.SELECT)
-    private OrgUserMst updatedBy;
-    
-    /*
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_lookup_id", nullable = false)
-    @Fetch(FetchMode.SELECT)
-    private CmnLookupMst cmnLookupMst;
-    */
-
+    @Column(name = "UPDATED_BY")
+    private Long updatedBy;
+   
 
     @Column(name = "scheme_code", length = 20)
     private String schemeCode;

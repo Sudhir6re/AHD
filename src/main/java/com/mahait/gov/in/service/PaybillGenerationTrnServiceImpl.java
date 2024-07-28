@@ -21,7 +21,6 @@ import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
-import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;

@@ -1,4 +1,7 @@
+var context ="";
 jQuery(document).ready(function($) {
+	context = $("#appRootPath").val();	
+	$("#tblDataTable").dataTable();
 	var varMessage = $("#message").val();
 	if(varMessage != "" && varMessage != undefined) {
 		swal(''+varMessage, {
@@ -7,91 +10,63 @@ jQuery(document).ready(function($) {
 	}
 });
 
-function ConfirmDeleteRecord(key,isActive) {
-	if(isActive==1) {
+
+
+
+$("#officeName").blur(function(){
+	var officeName = $("#officeName").val();
+	if (officeName != '') {
 		$.ajax({
-		        type: "GET",
-			    url: "../master/checkSubMenuExists/"+key,
-			    async: false,
-			   
-		        success: function (data) {
-		        if(parseInt(data) > 0) {
-        		swal({
-        			 title: "Not Allowed ! ",
-       			  	 text: "Sub Menu Found Against This Menu !",
-       			  	 icon: "warning",
-	  				 timer: 3000
-		  			});
-	        }  else {
-	        	$.ajax({
-	        	    type: "GET",
-	        	    url: "../master/checkMenuRoleMappingExists/"+key,
-	        	    async: false,
-	        	   
-	        	    success: function (data) {
-	        	    if(parseInt(data) > 0) {
-	        		swal({
-	        			 title: "Not Allowed ! ",
-	        			  	 text: "Menu And Role Mapping Found Against This Menu !",
-	        			  	 icon: "warning",
-	        				 timer: 3000
-	        				});
-	        	}  else {
-		    		swal({
-		    			  title: "Are You Sure ?",
-		    			  text: "Status of this record will be InActive !",
-		    			  icon: "warning",
-		    			  buttons: true,
-		    			  dangerMode: true,
-		    			}).then((willDelete) => {
-		    			    if (willDelete) {   
-		    					$.ajax({
-		    					      type: "GET",
-		    					      url: "../master/deleteMenu/"+key,
-		    					      async: true,
-		    					      success: function(data){
-		    					    	  swal("Deleted successfully !", {
-		    					    	      icon: "success",
-		    					    	  });
-		    					    	  setTimeout(function() {
-		    								    location.reload(true);
-		    								}, 3000);
-		    					      }
-		    					 });
-		    			     }
-		    		})
-	        	}
-	        	    }
-	        	});
-	        }  
-		        }
+			type : "GET",
+			url : context+"/mdc/officeNameExists/"+officeName,
+			async : false,
+			contentType : 'application/json',
+			error : function(data) {
+				console.log(data);
+			},
+			success : function(data) {
+				console.log(data);
+				var len = data.length;
+				var checkFlag = data;
+				var status=true;
+				if (checkFlag == 0) {
+					status = true;
+					$("#btnSave").prop("disabled",false);
+				} else if (checkFlag > 0) {
+					swal(officeName + ' Already Present in the system, Please enter the Different officename !!!');
+					document.getElementById("officeName").value = "";
+					$("#btnSave").prop("disabled",true);
+				}
+			}
 		});
-	} else {
-		 swal({
-	    	  title: 'Not allowed !',
-	    	  text: 'This record is already deleted',
-			  icon: "warning",
-	    });
 	}
-  }
+});
 
 
-
-$("form[name='mstMenu']").validate({
-    // Specify validation rules
+$("form[name='createOffice']").validate({
     rules: {
-    	menuNameEnglish: "required",
-    	menuNameMarathi: "required",
-  
+    	officeName: "required",
+    	officeCode: "required",
+    	dcpsOffName : {
+    		  required: true,
+              minLengthSelect: 2,
+		},
     },
-    // Specify validation error messages
     messages: {
-    	menuNameEnglish: "Please Enter Menu Name",
-    	menuNameMarathi: "Please Enter Menu Name Marathi",
+    	officeName: "Please Enter Admin Office Name",
+    	officeCode: "Please Enter office Code",
+    	dcpsOffName: {
+            required: "Please Enter Dcps office Name",
+            minLengthSelect: "Please Enter Dcps office Name",
+        }
     },
-    // Make sure the form is submitted to the destination defined
-    // in the "action" attribute of the form when valid
     submitHandler: function(form) {
       form.submit();
+      $("#loaderMainNew").show();
     }
   });
+
+
+$.validator.addMethod("minLengthSelect", function(value, element, minLength) {
+    return value.length >= minLength;
+}, "Please select an option with at least {0} characters.");
