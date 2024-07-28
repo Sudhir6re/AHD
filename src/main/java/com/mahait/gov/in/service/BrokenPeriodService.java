@@ -22,8 +22,4 @@ public interface BrokenPeriodService {
 			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap<String, String> hmInputParam);
 	List<BrokenPeriodResponseModel> brokenPeriodDAArray(BrokenPeriodModel brokenPeriodModel,
 			List<BrokenPeriodResponseModel> brokenPeriodResponseModel); 
-	public List<BrokenPeriodResponseModel> calculateEmployeeDAArrears(String sevaarthid,
-			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap hmInputParam);
-	/*public List<BrokenPeriodResponseModel> saveBrokenPeriodArrears(String sevaarthid,
-			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap<String, String> hmInputParam);*/
 }

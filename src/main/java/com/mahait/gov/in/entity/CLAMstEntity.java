@@ -33,6 +33,15 @@ public class CLAMstEntity {
 	@Column(name="AMOUNT",length =13,precision=2)
 	private Double amount;
 	
+	@Column(name="min_basic")
+	private Double minBasic;
+	
+	@Column(name="max_basic")
+	private Double maxBasic;
+	
+	@Column(name="allow_deduc_code")
+	private Long allowDeducCode;
+	
 	@Column(name="PERCENTAGE")
 	private Integer percentage;
 	

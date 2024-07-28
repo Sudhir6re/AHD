@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
+import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -8330,6 +8331,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			String str = (String) object12[6];
 			String gisgroup = (String) object12[11];
 			String methodName = (String) object12[12];
+			int isTypeforSum = (int) object12[13];
 			String groupname = (String) object12[7];
 			// gisAmount = (double) object12[8];
 			if (object12[9] != null)
@@ -8391,51 +8393,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 				int claamt = 0;
-
-				if (basic < 3000) {
-					if (citygroup.equals("Class A1")) {
-						claamt = 90;
-					} else if (citygroup.equals("Class A")) {
-						claamt = 65;
-					} else if (citygroup.equals("Class B1")) {
-						claamt = 45;
-					} else if (citygroup.equals("Class B")) {
-						claamt = 25;
-					}
-				} else if (basic >= 3000 && basic < 4499) {
-					if (citygroup.equals("Class A1")) {
-						claamt = 125;
-					} else if (citygroup.equals("Class A")) {
-						claamt = 95;
-					} else if (citygroup.equals("Class B1")) {
-						claamt = 65;
-					} else if (citygroup.equals("Class B")) {
-						claamt = 35;
-					}
-				} else if (basic >= 4500 && basic < 5999) {
-					if (citygroup.equals("Class A1")) {
-						claamt = 200;
-					} else if (citygroup.equals("Class A")) {
-						claamt = 150;
-					} else if (citygroup.equals("Class B1")) {
-						claamt = 100;
-					} else if (citygroup.equals("Class B")) {
-						claamt = 65;
-					}
-				} else {
-					if (citygroup.equals("Class A1")) {
-						claamt = 300;
-					} else if (citygroup.equals("Class A")) {
-						claamt = 240;
-					} else if (citygroup.equals("Class B1")) {
-						claamt = 180;
-					} else if (citygroup.equals("Class B")) {
-						claamt = 120;
-					}
-				}
-
+				
+				
+				List<CLAMstEntity> lstCla= paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeEntity2.getSevenPcLevel(),basic,citygroup,mstEmployeeEntity2.getPayCommissionCode());
+				if(lstCla.size()>0) 
+					cla=lstCla.get(0).getAmount();
 				paybillGenerationTrnDetails.setCla((double) claamt);
-				cla = (double) claamt;
 			}
 			}
 		 // Dearness Pay
@@ -8664,65 +8627,40 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA)
 						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
+					
 					/* HRA component for 7PC */
 					if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 
-						if (mstEmployeeEntity2.getRevisedBasic() != null) {
-							if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
-								if (mstEmployeeEntity2.getRevisedBasic() >= 22500) {
-									hra = (double) (Math.round((mstEmployeeEntity2.getRevisedBasic()
-											* Double.parseDouble(percentageHRA))
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								} else {
-									hra = (double) (5400);
-								}
-							} else if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y)) {
-								if (mstEmployeeEntity2.getRevisedBasic() >= 22500) {
-									hra = (double) (Math.round((mstEmployeeEntity2.getRevisedBasic()
-											* Double.parseDouble(percentageHRA))
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								} else {
-									hra = (double) (3600);
-								}
-							} else {
-								if (mstEmployeeEntity2.getRevisedBasic() >= 22500) {
-									hra = (double) (Math.round((mstEmployeeEntity2.getRevisedBasic()
-											* Double.parseDouble(percentageHRA))
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								} else {
-									hra = (double) (1800);
-								}
-							}
-
-						} else {
+						if (basic != null) {
 							if (cityClass
 									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
 								if (basic >= 22500) {
-									hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+									hra = (double) (Math.round((basic
+											* Double.parseDouble(percentageHRA))
 											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 								} else {
-									hra = (double) (5400);
+									hra = (double) (5400);  //x
 								}
 							} else if (cityClass
 									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y)) {
 								if (basic >= 22500) {
-									hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+									hra = (double) (Math.round((basic
+											* Double.parseDouble(percentageHRA))
 											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 								} else {
-									hra = (double) (3600);
+									hra = (double) (3600);   //y
 								}
 							} else {
 								if (basic >= 22500) {
-									hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
+									hra = (double) (Math.round((basic
+											* Double.parseDouble(percentageHRA))
 											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 								} else {
-									hra = (double) (1800);
+									hra = (double) (1800);  //z
 								}
 							}
 
-						}
+						} 
 
 						paybillGenerationTrnDetails.setHra((double) Math.round(hra));
 					}
@@ -8921,9 +8859,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					
 					
 					List<AllowanceDeductionRuleMstEntity> lst = paybillHeadMpgRepo.fetchComponentDtlsByCompoId(allowDeducCode);
+					
 					Double tempVal=0d;
+					
 					if(lst.size()>0) {
 						if(lst.get(0).getPercentage()!=null) {
+							
+							
 							
 							 tempVal = (double)((Math.round(basic)*lst.get(0).getPercentage()/CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 							Field fieldName = null;
