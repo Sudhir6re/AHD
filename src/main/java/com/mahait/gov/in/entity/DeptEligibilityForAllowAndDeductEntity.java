@@ -57,16 +57,17 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	@Column(name="is_non_computation_component")
 	private Integer isNonComputationComponent;
 
-	@Override
-	public String toString() {
-		return "DeptEligibilityForAllowAndDeductEntity [departmentAllowdeducId=" + departmentAllowdeducId
-				+ ", departmentAllowdeducCode=" + departmentAllowdeducCode + ", departmentAllowdeducName="
-				+ departmentAllowdeducName + ", departmentAllowdeducColNm=" + departmentAllowdeducColNm
-				+ ", headAccountCode=" + headAccountCode + ", isType=" + isType + ", isActive=" + isActive
-				+ ", createdUserId=" + createdUserId + ", createdDate=" + createdDate + ", updatedUserId="
-				+ updatedUserId + ", updatedDate=" + updatedDate + ", deptAllowDeducSeq=" + deptAllowDeducSeq
-				+ ", isNonComputationComponent=" + isNonComputationComponent + "]";
-	}
+	@Column(name="method_name")
+	private String methodName;
+	
+	@Column(name="broken_method_name")
+	private String brokenMethodName;
+	
+	@Column(name="is_Allowdeduc_Type_sum")
+	private String isAllowdeducTypeSum;
+	
+	@Column(name="formulas")
+	private String formulas;
 	
 	
 

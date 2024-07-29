@@ -26,12 +26,12 @@ select.error, textarea.error, input.error {
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.UtilitiesBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pagelabel.menuScreen}"></span></li>
+						th:utext="#{msg.thymeleaf.pageheading.createOffice}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<h3 Class="PageHeading">
-			<span th:utext="#{msg.thymeleaf.pagelabel.menuScreen}"></span>
+			<span th:utext="#{msg.thymeleaf.pageheading.createOffice}"></span>
 		</h3>
 
 		<fieldset class="container">
@@ -47,7 +47,7 @@ select.error, textarea.error, input.error {
 
 
 			<form class="form-horizontal" th:action="@{/mdc/createOfficeMaster}"
-				th:object="${zpAdminOfficeMstModel}" method="POST" name="mstMenu"
+				th:object="${zpAdminOfficeMstModel}" method="POST" name="createOffice"
 				enctype="multipart/form-data">
 
 				<input type="hidden" name="language" id="language"
@@ -70,7 +70,7 @@ select.error, textarea.error, input.error {
 						th:utext="#{msg.thymeleaf.formLabel.officeCode}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="officeCode"
+						<input type="text" class="form-control" id="officeCode" readonly
 							th:field="*{officeCode}" />
 					</div>
 
@@ -143,9 +143,9 @@ select.error, textarea.error, input.error {
 							<th th:utext="#{msg.thymeleaf.formLabel.adminOfficeName}"
 								style="text-align: center;" />
 
-						<!-- 	<th th:utext="#{msg.thymeleaf.pagelabel.status}"
+						 	<th th:utext="#{msg.thymeleaf.pagelabel.status}"
 								style="text-align: center;" />
-							<th th:utext="#{msg.thymeleaf.datatablelabel.action}"
+						<!--	<th th:utext="#{msg.thymeleaf.datatablelabel.action}"
 								style="text-align: center;"></th> -->
 						</tr>
 					</thead>

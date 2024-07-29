@@ -30,13 +30,12 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	public List<Object[]> findentry(Integer yearId, Integer monthId, Long billGroup,String ddoCode) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select distinct a.employee_full_name_en as name,c.basic_pay,c.svn_pc_da,b.pf_ac_no,d.paybill_generation_trn_id,c.nps_emp_contri,c.nps_empr_deduct,c.nps_empr_allow,a.dcps_no" + 
-				" from  employee_mst a \r\n" + 
-				"left join dcps_details_mst b on b.employee_id=a.employee_id \r\n" + 
-				"inner join paybill_generation_trn_details c on c.sevaarth_id=a.sevaarth_id \r\n" + 
-				"inner join paybill_generation_trn d on d.paybill_generation_trn_id=c.paybill_generation_trn_id \r\n" + 
-				"where d.scheme_billgroup_id = " + billGroup + "  and  d.paybill_month= " + monthId + " and  d.paybill_year= '" + yearId + "'  and d.is_active=14 and d.ddo_code='"+ddoCode+"'"
-						+ "and a.dcps_gpf_flag = 'Y'";
+		String HQL = "select distinct a.employee_full_name_en as name,c.basic_pay,c.svn_pc_da,b.pf_ac_no,d.paybill_generation_trn_id,c.nps_emp_contri,\r\n" + 
+				"c.nps_empr_deduct,c.nps_empr_allow,a.dcps_no from  employee_mst a left join dcps_details_mst b on b.employee_id=a.employee_id \r\n" + 
+				"inner join paybill_generation_trn_details c on c.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn d \r\n" + 
+				"on d.paybill_generation_trn_id=c.paybill_generation_trn_id where d.scheme_billgroup_id = '"+billGroup+"'\r\n" + 
+				"and  d.paybill_month= "+monthId+" and  d.paybill_year= "+yearId+"  and d.ddo_code='"+ddoCode+"'\r\n" + 
+				"and a.dcps_gpf_flag = 'Y'";
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("HQL:"+HQL);
 		return query.list();

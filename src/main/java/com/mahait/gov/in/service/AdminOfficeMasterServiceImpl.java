@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ZpAdminOfficeMst;
 import com.mahait.gov.in.mapper.ZpAdminOfficeMstMapper;
@@ -66,8 +67,13 @@ public class AdminOfficeMasterServiceImpl implements AdminOfficeMasterService {
 
     @Override
     public String generateOfficeCode() {
-        Long maxAdminCode = 1l;//zpAdminNameMstRepository.findMaxAdminCode();
+        Long maxAdminCode =zpAdminNameMstRepository.findMaxAdminCode();
         return String.valueOf(maxAdminCode != null ? maxAdminCode + 1 : 1);
     }
-}
 
+	@Override
+	public boolean officeNameExists(String officeName) {
+		// TODO Auto-generated method stub
+		return zpAdminOfficeMstRepository.existsByOfficeName(officeName);
+	}
+}

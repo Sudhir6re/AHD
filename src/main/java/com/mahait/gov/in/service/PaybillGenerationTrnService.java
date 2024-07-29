@@ -74,6 +74,8 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 /*import com.mahait.gov.in.entity.MstEmployeeEntity;*/
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
@@ -134,6 +136,8 @@ public interface PaybillGenerationTrnService {
 	public PaybillGenerationTrnEntity findPaybillById(Long paybillGenerationTrnId, String voucherNo, Date voucherDate,String chqNo,Date chequeDate,String accNo,String ifscCode,Long userId);
 
 	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
+
+	public Long savePaybillHeadMpgNew(@Valid PaybillHeadMpgModel paybillHeadMpgModel);
 
 	
 }

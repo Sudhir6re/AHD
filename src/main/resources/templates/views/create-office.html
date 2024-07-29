@@ -178,7 +178,7 @@
 									<td><label class="captionTag" id="ZPDDOOOFFICE_TREASURY">Treasury
 											Name</label></td>
 									<td><input type="text" name="txtTreasuryName"   th:field="*{txtTreasuryName}" 
-										id="txtTreasuryName" class="texttag disabledcontrol" value=""
+										id="txtTreasuryName" class="texttag disabledcontrol" value="" readonly
 										maxlength="50/">
 										
 										
@@ -190,7 +190,7 @@
 									<td><label class="captionTag"
 										id="ZPDDOOFFICE_DDO_TREASURY_CODE">Treasury Code</label></td>
 									<td><input type="text" name="txtTreasuryCode"   th:field="*{txtTreasuryCode}" 
-										id="txtTreasuryCode" class="texttag disabledcontrol" value=""
+										id="txtTreasuryCode" class="texttag disabledcontrol" value="" readonly
 										maxlength="4/">
 										
 										
@@ -201,7 +201,7 @@
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_SUB_TREASURY">Sub Treasury Name</label></td>
-									<td><select name="cmbSubTreasury" id="cmbSubTreasury"   th:field="*{cmbSubTreasury}" 
+									<td><select name="cmbSubTreasury" id="cmbSubTreasury"    th:field="*{cmbSubTreasury}" 
 										class="selecttag mandatorycontrol">
 											<option value="-1">---------------------------------
 												Select -----------------------------------</option>
@@ -259,7 +259,7 @@
 									<td><label class="captionTag" id="ZPDDOOOFFICE_DDO_CODE">DDO
 											Code</label></td>
 									<td><input type="text" name="txtDDOCode" id="txtDDOCode"   th:field="*{txtDDOCode}" 
-										class="texttag disabledcontrol" value="" readonly=""
+										class="texttag disabledcontrol" value="" readonly
 										maxlength="50/">
 										
 										<p th:if="${#fields.hasErrors('txtDDOCode')}" th:class="error" th:errors="*{txtDDOCode}" />

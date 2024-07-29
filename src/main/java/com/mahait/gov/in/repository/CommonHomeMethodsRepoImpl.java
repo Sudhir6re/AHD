@@ -61,7 +61,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		String hql = "select sub_menu_id,menu_code,role_id,sub_menu_name_english,sub_menu_name_marathi,	controller_name,link_name  from sub_menu_mst where role_Id='"
 				+ levelRoleVal + "' and is_active='" + 1 + "' order by sub_menu_id ";
 		Query query = currentSession.createSQLQuery(hql);
-		return (List<Object[]>) query.list();
+		//return (List<Object[]>) query.list();
+		
+		return query.getResultList(); 
 
 	}
 

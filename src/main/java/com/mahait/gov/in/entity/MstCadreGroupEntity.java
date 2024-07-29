@@ -44,5 +44,9 @@ public class MstCadreGroupEntity {
 	
 	@Column(name = "PREMIUM_GIS_AMOUNT")
 	private Double preGisAmount;
+	
+	
+	
+	
 
 }

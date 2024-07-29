@@ -365,13 +365,6 @@ if(paycomm != '' && paycomm != undefined){
 	     });
 
 	
-   	
-	
-	
-	
-	
-	
-	
 	
 	$("#imagePath").show();
 	$("#imagePathSign").show();

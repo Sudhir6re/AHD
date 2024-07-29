@@ -38,13 +38,22 @@ public class RegularReportServiceImpl implements RegularReportService{
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				RegularReportModel obj = new RegularReportModel();
-				/*obj.setOfficeName(StringHelperUtils.isNullString(objLst[1]));
-				String address=objLst[2] + " " + objLst[3];
-				obj.setAddress(StringHelperUtils.isNullString(objLst[2]));
-				obj.setDdoCode(StringHelperUtils.isNullString(objLst[5]));
-				if(objLst[4].equals('0')) {
-					obj.setStatus("Pending");
-				}*/
+				///a.employee_full_name_en as name,c.basic_pay,c.svn_pc_da,b.pf_ac_no,d.paybill_generation_trn_id,c.nps_emp_contri,
+				///c.nps_empr_deduct,c.nps_empr_allow,a.dcps_no
+				
+				obj.setName(StringHelperUtils.isNullString(objLst[0]));
+				obj.setBasicpay(StringHelperUtils.isNullDouble(objLst[1]));
+				obj.setSvnpcda(StringHelperUtils.isNullDouble(objLst[2]));
+				obj.setPfacc(StringHelperUtils.isNullString(objLst[3]));
+				obj.setPaybillId(StringHelperUtils.isNullLong(objLst[4]));
+				if(objLst[5]!=null) {
+					obj.setNpsEmpContri(StringHelperUtils.isNullDouble(objLst[5]));
+				}else {
+					obj.setNpsEmpContri(0d);
+				}
+				obj.setNpsEmployerDedu(StringHelperUtils.isNullDouble(objLst[6]));
+				obj.setNpsEmprAllow(StringHelperUtils.isNullDouble(objLst[7]));
+				obj.setDcpsNo(StringHelperUtils.isNullString(objLst[8]));
 
 				lstObj.add(obj);
 			}

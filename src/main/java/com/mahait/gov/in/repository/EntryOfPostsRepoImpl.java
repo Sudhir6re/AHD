@@ -409,8 +409,8 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public List<HrPayOrderMst> getAllOrderDataByDate(long locId, String todaysDate, String ddoCode) {
 		List orderMstList = null;
 		Session hibSession = getSession();
-		String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode in (" + locId
-				+ ") or or orderMst.ddoCode='" + ddoCode + "') order by orderMst.orderName";
+		String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode in ('" + locId
+				+ "') or  orderMst.ddoCode='" + ddoCode + "') order by orderMst.orderName";
 		Query query = hibSession.createQuery(strQuery);
 		orderMstList = query.list();
 		return orderMstList;

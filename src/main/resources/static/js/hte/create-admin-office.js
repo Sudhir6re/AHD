@@ -35,6 +35,7 @@ $("#cmbDistrict").change(function(){
 	var context = $("#appRootPath").val();
 	var districtId = $("#cmbDistrict").val();
 	
+	$( "#loaderMainNew").show();
 	$.ajax({
 	      type: "POST",
 	      url: context+"/mdc/getAllTalukaByDistrictId/"+districtId,
@@ -52,6 +53,7 @@ $("#cmbDistrict").change(function(){
 	      success: function(data){
 	    		 var len = data.length;
 	    		 $('#cmbTaluka').empty();
+	    		 $( "#loaderMainNew").hide();
 	    		 $('#cmbTaluka').append($('<option  value="-1"></option>').text("Please Select")); 
 					if (len != 0) {
 							   for(var i=0;i<len;i++){
@@ -69,6 +71,8 @@ $("#btnFilter").click(function(){
 	var districtId = $("#cmbDistrict").val();
 	var talukaId = $("#cmbTaluka").val();
 	var cmbAdminType = $("#cmbAdminType").val();
+	
+	$( "#loaderMainNew").show();
 	$.ajax({
 	      type: "POST",
 	      url: context+"/mdc/findZpRltDtls",
@@ -77,16 +81,17 @@ $("#btnFilter").click(function(){
         dataType: 'json',
 	      async: false,
 	      contentType:'application/json',
+	  	beforeSend : function(){
+			$( "#loaderMainNew").show();
+			},
+		complete : function(data){
+			$( "#loaderMainNew").hide();
+		},	
 	      error: function(data){
 	    	  console.log(data);
 	      },
-		  	beforeSend : function(){
-				$( "#loaderMainNew").show();
-				},
-			complete : function(data){
-				$( "#loaderMainNew").hide();
-			},	
 	      success: function(data){
+	    	  $( "#loaderMainNew").hide();
 	    		 var len = data.length;
 					if (len != 0) {
 						populateTable(data);	
@@ -127,8 +132,9 @@ function populateTable(data) {
 $("#txtDDODsgn").keyup(function(){
 	 var txtDDODsgn=$("#txtDDODsgn").val();
 	 var context = $("#appRootPath").val();
+	 
 	if(txtDDODsgn!='' && txtDDODsgn!="0"){
-		 // $("#loaderMainNew").show();
+		  $("#loaderMainNew").show();
 			$.ajax({
 				type : "GET",
 			    url: context+"/mdc/findDesignation",
@@ -185,6 +191,7 @@ $('body').on('click', '.empdata', function() {
 $("#txtRepDDOCode").blur(function(){
 	var context = $("#appRootPath").val();
 	var ddoCode=$("#txtRepDDOCode").val();
+	$( "#loaderMainNew").show();
     $.ajax({
     	url : context+"/mdc/getddoInfo",
         type: 'GET',
@@ -198,6 +205,7 @@ $("#txtRepDDOCode").blur(function(){
 			$( "#loaderMainNew").hide();
 		},	
         success: function(response) {
+        	$( "#loaderMainNew").hide();
         	if(response!=''){
         		 var dropdown = $('#cmbSubTreasury');
                  dropdown.empty();
@@ -226,7 +234,7 @@ $("#txtRepDDOCode").blur(function(){
 $("#cmbSubTreasury").change(function(){
 	var cmbSubTreasury=$("#cmbSubTreasury").val();
 	var cmbAdminOffice=$("#cmbAdminOffice").val();
-
+	$( "#loaderMainNew").show();
 $.ajax({
 	type : "GET",
 	url : contextPath+"/mdc/generateDDOCode/" + cmbSubTreasury+"/"+cmbAdminOffice,
@@ -242,6 +250,7 @@ $.ajax({
 		$( "#loaderMainNew").hide();
 	},	
 	success : function(response) {
+		$( "#loaderMainNew").hide();
 		 console.log(response);
 		 var ddoCode = response.ddoCode;
 		 if(ddoCode!=''){
@@ -262,6 +271,7 @@ $("#cmbAdminOffice").change(function(){
 	var context = $("#appRootPath").val();
 	var ofcId = $("#cmbAdminOffice").val();
 	
+	$( "#loaderMainNew").show();
 	$.ajax({
 	      type: "POST",
 	      url: context+"/mdc/fetchDistrictOfcByOffcId/"+ofcId,
@@ -277,6 +287,7 @@ $("#cmbAdminOffice").change(function(){
 				$( "#loaderMainNew").hide();
 			},	
 	      success: function(data){
+	    	  $( "#loaderMainNew").hide();
 	    	  $('#cmbDistrict').empty();
 	    	  $('#cmbTaluka').append($('<option  value="-1"></option>').text("Please Select")); 
 	    		 var len = data.length;
@@ -308,6 +319,7 @@ $('body').on('click', '.ddoCode', function() {
 	
 	var ddoCode=field;
 
+	$( "#loaderMainNew").show();
 	$.ajax({
 		type : "GET",
 		url : contextPath+"/mdc/fetchDdoDetails/" + ddoCode,
@@ -315,12 +327,13 @@ $('body').on('click', '.ddoCode', function() {
 		contentType : 'application/json',
 		error : function(data) {
 			// console.log(data);
+			$( "#loaderMainNew").hide();
 		},
 		success : function(data) {
 			// console.log(data);
 			// alert(data);
 			var len = data.length;
-
+			$( "#loaderMainNew").hide();
 				var temp = data;
 				$
 						.each(
@@ -472,6 +485,7 @@ function hideDtls(field, srno) {
         },
         submitHandler: function(form) {
             form.submit();
+            $("#loaderMainNew").show();
         }
     });
 });

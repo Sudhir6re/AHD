@@ -15,6 +15,7 @@ public class RegularReportModel {
 	private String treasuryCode;
 	private String DeptName;
 	private Long billGroup;
+	private Long paybillId;
 	private String recordcount;
 	private Double basicpay;
 	private String name;
@@ -24,6 +25,7 @@ public class RegularReportModel {
 	private Double totalContri;
 	private Double npsEmpContri;
 	private Double npsEmployerDedu;
+	private Double npsEmprAllow;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fromDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
