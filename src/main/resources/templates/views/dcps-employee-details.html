@@ -71,7 +71,7 @@
 							<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"
 								style="text-align: center;" />
 
-							<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
+							<th th:utext="#{msg.thymeleaf.datatablelabel.ddocode}"
 								style="text-align: center;" />
 
 							<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
@@ -93,7 +93,7 @@
 						<tr th:each="varempdtls : ${employeedetails}">
 							<td th:text="${varempdtlsStat.index+1}"></td>
 							<td th:text="${varempdtls.employeeFullName}"></td>
-							<td th:text="${varempdtls.departmentNameEn}"></td>
+							<td th:text="${varempdtls.ddoCode}"></td>
 							<td th:text="${varempdtls.designationName}"></td>
 							<td th:text="${varempdtls.sevaarthId}"></td>
 
