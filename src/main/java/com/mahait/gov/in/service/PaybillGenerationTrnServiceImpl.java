@@ -8798,8 +8798,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				// Start GIS Component
 				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS)
 						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-					gisAmount = (double) object12[8];
-					if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_A)
+					//gisAmount = (double) object12[8];
+					 gisAmount=paybillHeadMpgRepo.findGisComponentValue(gisgroup,mstEmployeeEntity2.getDoj());
+				//	mstEmployeeEntity2
+					 paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
+					/*if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_A)
 							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_A)
 									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_A)) {
 						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
@@ -8819,7 +8822,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_D)
 									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_D)) {
 						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
-					}
+					}*/
 				}
 				// End GIS Component
 				if(methodName!= null) {
