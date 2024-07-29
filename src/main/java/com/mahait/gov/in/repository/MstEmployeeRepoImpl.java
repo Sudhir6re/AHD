@@ -617,7 +617,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 
 		try {
 			strQuery.append(
-					"select employee_id,employee_full_name_en,sevaarth_id,designation_code from employee_mst  where is_active=3 and dcps_gpf_flag='N' and ddo_code in (");
+					"select employee_id,employee_full_name_en,sevaarth_id,designation_code,ddo_code from employee_mst  where is_active=3 and dcps_gpf_flag='N' and ddo_code in (");
 			strQuery.append(
 					"select ddo_code from org_ddo_mst where ddo_code in (select dmr.zp_ddo_code from rlt_zp_ddo_map dmr ");
 			strQuery.append(
@@ -646,6 +646,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 			if (object[2] != null)
 				mstEmployeeEntity.setSevaarthId(object[2].toString());
 			mstEmployeeEntity.setDesignationCode(Long.valueOf(object[3].toString()));
+			mstEmployeeEntity.setDdoCode(object[4].toString());
 			result1.add(mstEmployeeEntity);
 			// logger.info("mstEmployeeEntity="+mstEmployeeEntity);
 		}
@@ -1097,7 +1098,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 
 		try {
 			strQuery.append(
-					"select employee_id,employee_full_name_en,sevaarth_id,designation_code from employee_mst  where is_active=3 and  dcps_gpf_flag = 'Y' and ddo_code in (");
+					"select employee_id,employee_full_name_en,sevaarth_id,designation_code,ddo_code from employee_mst  where is_active=3 and  dcps_gpf_flag = 'Y' and ddo_code in (");
 			strQuery.append(
 					"select ddo_code from org_ddo_mst where ddo_code in (select dmr.zp_ddo_code from rlt_zp_ddo_map dmr ");
 			strQuery.append(
@@ -1118,6 +1119,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 			if (object[2] != null)
 				mstEmployeeEntity.setSevaarthId(object[2].toString());
 			mstEmployeeEntity.setDesignationCode(Long.valueOf(object[3].toString()));
+			mstEmployeeEntity.setDdoCode(object[4].toString());
 
 			result1.add(mstEmployeeEntity);
 		}
@@ -1131,7 +1133,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		// MstEmployeeEntity objEntity=new MstEmployeeEntity();
 		// objEntity.setEmployeeId(empid);
 		// currentSession.delete(objEntity);
-		String hql = "update employee_mst set is_active=1,is_dcps_generate='Y', sevaarth_id='" + sevaarthid
+		String hql = "update employee_mst set is_active=1,is_dcps_generate='Y', dcps_no = '"+Dcpsnumber+"',sevaarth_id='" + sevaarthid
 				+ "'  where employee_id = " + empid;
 		Query query = currentSession.createSQLQuery(hql);
 		Integer result = query.executeUpdate();
