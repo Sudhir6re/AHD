@@ -357,7 +357,10 @@ $("form[name='postEntryModel']").validate({
             required: true,
         },
         endDate: {
-            required: true,
+         //   required: true,
+            required : function() {
+				return $("#postTypeCmbBox").val()=="10001198130";
+			},
         },
          postNumber: {
             required: true,
@@ -417,8 +420,4 @@ $("form[name='postEntryModel']").validate({
 });
 
 
-
-
-
-   
 
