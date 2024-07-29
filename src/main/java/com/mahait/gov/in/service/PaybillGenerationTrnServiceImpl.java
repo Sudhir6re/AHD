@@ -8113,6 +8113,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double force1Inct100 = 0d; 
 		Double force1Inct25 = 0d; 
 		Double pgAllow = 0d; 
+		Double groupAccPolicy = 0d; 
 		
 		
 		
@@ -8442,184 +8443,20 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC
 						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-
-					if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
-						if (citygroup.equals("Class A") && citygroup.equals("Class A1")) {
-							if (physicalhand.equals("Y")) {
-								paybillGenerationTrnDetails.setTa((double) 4800);
-							} else {
-								paybillGenerationTrnDetails.setTa((double) 2400);
-							}
-						} else {
-							if (physicalhand.equals("Y")) {
-								paybillGenerationTrnDetails.setTa((double) 2400);
-							} else {
-								paybillGenerationTrnDetails.setTa((double) 1200);
-							}
-						}
-						ta = paybillGenerationTrnDetails.getTa();
-					} else if (gradePaynew >= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400
-							&& gradePaynew < CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_5400) {
-						if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-							if (physicalhand.equals("Y")) {
-								paybillGenerationTrnDetails.setTa((double) 2400);
-							} else {
-								paybillGenerationTrnDetails.setTa((double) 1200);
-							}
-						} else {
-							if (physicalhand.equals("Y")) {
-								paybillGenerationTrnDetails.setTa((double) 2000);
-							} else {
-								paybillGenerationTrnDetails.setTa((double) 600);
-							}
-						}
-						ta = paybillGenerationTrnDetails.getTa();
-					} else if (gradePaynew <= CommonConstants.PAYBILLDETAILS.COMMONCODE_GRADE_PAY_AMOUNT_4400) {
-						if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-							if (physicalhand.equals("Y")) {
-								paybillGenerationTrnDetails.setTa((double) 2000);
-							} else {
-								paybillGenerationTrnDetails.setTa((double) 400);
-							}
-						} else {
-							if (physicalhand.equals("Y")) {
-								paybillGenerationTrnDetails.setTa((double) 2000);
-							} else {
-								paybillGenerationTrnDetails.setTa((double) 400);
-							}
-						}
-						ta = paybillGenerationTrnDetails.getTa();
+					
+					ta=paybillHeadMpgRepo.fetchtaDtls(basic,startDate,payCommission,mstEmployeeEntity2.getGradePay(),cityClass,mstEmployeeEntity2.getPhysicallyHandicapped());
+					Long percentBasic=mstEmployeeEntity2.getPercentageOfBasic();
+					Double ratio=(double) (percentBasic/100);
+					ta = ratio*ta;
+					paybillGenerationTrnDetails.setTa(ta);
 					}
-				}
 		// Start Travels Allowances for 7PC
-
 				else if (str
 						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_TRANSPORT_ALLOWANCE)
 						&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
-					String gradePay7PC = paybillHeadMpgRepo.getgradePay7PC(gradelevel);
-					Integer grade7PC = Integer.parseInt(gradePay7PC);
-
-					if ((paybillHeadMpgModel.getPaybillMonth() >= 4 && paybillHeadMpgModel.getPaybillYear() >= 23)
-							|| paybillHeadMpgModel.getPaybillYear() >= 24) {
-
-						if (gradelevel >= 20) {
-							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 10800);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 5400);
-								}
-							} else {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 5400);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 2700);
-								}
-							}
-							ta = paybillGenerationTrnDetails.getTa();
-						} else if (gradelevel >= 7 && gradelevel <= 19) {
-							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 5400);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 2700);
-								}
-							} else {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 2700);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 1350);
-								}
-							}
-							ta = paybillGenerationTrnDetails.getTa();
-						} else if (gradelevel >= 1 && gradelevel <= 6) {
-							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-								if (physicalhand.equals("Y")) {
-									if (basic >= 24200 && cityClass.equalsIgnoreCase(
-											CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
-										paybillGenerationTrnDetails.setTa((double) 5400);
-									} else {
-
-										paybillGenerationTrnDetails.setTa((double) 2700);
-									}
-								} else if (basic >= 24200 && cityClass
-										.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
-									paybillGenerationTrnDetails.setTa((double) 2700);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 1000);
-								}
-
-							} else {
-								if (physicalhand.equals("Y")) {
-									if (basic >= 24200 && cityClass.equalsIgnoreCase(
-											CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
-										paybillGenerationTrnDetails.setTa((double) 2700);
-									} else {
-
-										paybillGenerationTrnDetails.setTa((double) 2250);
-									}
-								} else {
-									if (basic >= 24200 && !cityClass.equalsIgnoreCase(
-											CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
-										paybillGenerationTrnDetails.setTa((double) 1350);
-									} else {
-										paybillGenerationTrnDetails.setTa((double) 675);
-									}
-								}
-							}
-							ta = paybillGenerationTrnDetails.getTa();
-						}
-					} else {
-						if (gradelevel >= 20) {
-
-							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 4800);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 2400);
-								}
-							} else {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 2400);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 1200);
-								}
-							}
-							ta = paybillGenerationTrnDetails.getTa();
-						} else if (gradelevel >= 7 && gradelevel <= 19) {
-							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 2000);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 1200);
-								}
-							} else {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 2000);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 600);
-								}
-							}
-							ta = paybillGenerationTrnDetails.getTa();
-						} else if (gradelevel >= 1 && gradelevel <= 6) {
-							if (citygroup.equals("Class A") || citygroup.equals("Class A1")) {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 2000);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 400);
-								}
-							} else {
-								if (physicalhand.equals("Y")) {
-									paybillGenerationTrnDetails.setTa((double) 2000);
-								} else {
-									paybillGenerationTrnDetails.setTa((double) 400);
-								}
-							}
-
-						}
-					}
+					ta=paybillHeadMpgRepo.fetchtaDtls(basic,startDate,payCommission,gradelevel,cityClass,mstEmployeeEntity2.getPhysicallyHandicapped());
 					ta = paybillGenerationTrnDetails.getTa();
 				}
 			/* HRA component */
@@ -8627,78 +8464,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA)
 						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
+					hra=paybillHeadMpgRepo.fetchHraDtls(basic,startDate,cityClass);
+					paybillGenerationTrnDetails.setHra((double) Math.round(hra));
 					
-					/* HRA component for 7PC */
-					if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-
-						if (basic != null) {
-							if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X)) {
-								if (basic >= 22500) {
-									hra = (double) (Math.round((basic
-											* Double.parseDouble(percentageHRA))
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								} else {
-									hra = (double) (5400);  //x
-								}
-							} else if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y)) {
-								if (basic >= 22500) {
-									hra = (double) (Math.round((basic
-											* Double.parseDouble(percentageHRA))
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								} else {
-									hra = (double) (3600);   //y
-								}
-							} else {
-								if (basic >= 22500) {
-									hra = (double) (Math.round((basic
-											* Double.parseDouble(percentageHRA))
-											/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-								} else {
-									hra = (double) (1800);  //z
-								}
-							}
-
-						} 
-
-						paybillGenerationTrnDetails.setHra((double) Math.round(hra));
-					}
-
-					/* HRA component for 6PC */
-					else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC
-							|| payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC) {
-
-						if (mstEmployeeEntity2.getRevisedBasic() != null) {
-							if (cityClass.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X))
-								hra = (double) (Math.round(
-										(mstEmployeeEntity2.getRevisedBasic() * Double.parseDouble(percentageHRA))
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-							else if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y))
-								hra = (double) (Math.round(
-										(mstEmployeeEntity2.getRevisedBasic() * Double.parseDouble(percentageHRA))
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-							else if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Z))
-								hra = (double) (Math.round(
-										((mstEmployeeEntity2.getRevisedBasic() * Double.parseDouble(percentageHRA))
-												/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)));
-						} else {
-							if (cityClass.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_X))
-								hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
-										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-							else if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Y))
-								hra = (double) (Math.round((basic * Double.parseDouble(percentageHRA))
-										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-							else if (cityClass
-									.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_CITY_CLASS_Z))
-								hra = (double) (Math.round(((basic	 * Double.parseDouble(percentageHRA))
-										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100)));
-						}
-						paybillGenerationTrnDetails.setHra((double) Math.round(hra));
-					}
 				}
 				/* End of HRA Component */
 			
@@ -8708,121 +8476,37 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Double svnpcbasic=
 					// Double.valueOf(basic.toString());
 					if (paybillHeadMpgModel.getPaybillMonth() == 2) {
-						if (mstEmployeeEntity2.getRevisedBasic() != null) {
-							if (mstEmployeeEntity2
-									.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
+						pt=300d;
+					}else {
+						if (basic > 0) {
+							if (basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4999)
 								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-							else if (mstEmployeeEntity2
-									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
-									&& mstEmployeeEntity2
-											.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_GREATER_THAN_5500)
-								pt = 275d;
-							else if (mstEmployeeEntity2
-									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_GREATER_THAN_5500)
-								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_300;
-							else
-								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-						} else {
-							if (sixPcBasic > 0) {
-								if (mstEmployeeEntity2
-										.getBasicPay() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-								else if (mstEmployeeEntity2
-										.getBasicPay() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
-										&& mstEmployeeEntity2
-												.getBasicPay() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = 275d;
-								else if (mstEmployeeEntity2
-										.getBasicPay() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_300;
-								else
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-							} else {
-								if (basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
-										&& basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = 275d;
-								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_300;
-								else
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-							}
-						}
-					} else {
-
-						if (mstEmployeeEntity2.getRevisedBasic() != null) {
-							if (mstEmployeeEntity2
-									.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
-								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-							else if (mstEmployeeEntity2
-									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
-									&& mstEmployeeEntity2
-											.getRevisedBasic() <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_175;
-							else if (mstEmployeeEntity2
-									.getRevisedBasic() > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
+							else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4999
+									&& basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_GREATER_THAN_9999)
+								pt = 175d;
+							else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
 								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_200;
 							else
 								pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-						} else {// basic
-							if (sixPcBasic > 0) {
-								if (sixPcBasic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-								else if (sixPcBasic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
-										&& sixPcBasic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = 175d;
-								else if (sixPcBasic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_200;
-								else
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
 
-							} else {
-								if (basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_4500
-										&& basic <= CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = 275d;
-								else if (basic > CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_LESS_THAN_5500)
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_200;
-								else
-									pt = CommonConstants.PAYBILLDETAILS.COMMONCODE_PT_AMOUNT_0;
-							}
-
-						}
+					}
 					}
 					paybillGenerationTrnDetails.setPt(pt);
 
 				}
+				// Group_Acc_policy
+				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Accidential_Policy)) {
+
+					groupAccPolicy=paybillHeadMpgRepo.fetchAccidentialPilocyDtls(startDate,citygroup);
+					
+							paybillGenerationTrnDetails.setAccidentPolicy((double) Math.round(groupAccPolicy));
+						}
 				
 				// Start GIS Component
 				else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS)
 						&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-					//gisAmount = (double) object12[8];
-					 gisAmount=paybillHeadMpgRepo.findGisComponentValue(gisgroup,mstEmployeeEntity2.getDoj());
-				//	mstEmployeeEntity2
+					 gisAmount=paybillHeadMpgRepo.findGisComponentValue(gisgroup,mstEmployeeEntity2.getDoj(),startDate);
 					 paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
-					/*if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_A)
-							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_A)
-									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_A)) {
-						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
-					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_B)
-							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_B)
-									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_B)) {
-						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
-					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_BNGZ)
-							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_BNGZ)
-									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_BNGZ)) {
-						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
-					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_C)
-							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_C)
-									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_C)) {
-						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
-					} else if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_D)
-							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_D)
-									|| gisAmount == CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_D)) {
-						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
-					}*/
 				}
 				// End GIS Component
 				if(methodName!= null) {
@@ -8842,21 +8526,15 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							try {
 								fieldName.set(paybillGenerationTrnDetails, temp);
 							} catch (IllegalArgumentException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (IllegalAccessException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						} catch (NoSuchFieldException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (SecurityException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
-					////	paybillGenerationTrnDetails.setAtsInc50(atsInct50);
 						
 					}
 					
@@ -8878,17 +8556,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								try {
 									fieldName.set(paybillGenerationTrnDetails, tempVal);
 								} catch (IllegalArgumentException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								} catch (IllegalAccessException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							} catch (NoSuchFieldException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (SecurityException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							
@@ -8902,22 +8576,15 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								try {
 									fieldName.set(paybillGenerationTrnDetails, tempVal);
 								} catch (IllegalArgumentException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								} catch (IllegalAccessException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							} catch (NoSuchFieldException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (SecurityException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
-						////	paybillGenerationTrnDetails.setAtsInc50(atsInct50);
-							
 						}
 					}
 				}

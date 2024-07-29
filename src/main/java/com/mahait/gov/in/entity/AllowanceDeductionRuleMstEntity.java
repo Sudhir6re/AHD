@@ -15,12 +15,12 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "ALLOWANCE_DEDUCDUCTION_WISE_RULE_MST", schema = "public")
+@Table(name = "ALLOWANCE_DEDUCTION_WISE_RULE_MST", schema = "public")
 public class AllowanceDeductionRuleMstEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ALLOWANCE_DEDUCDUCTION_WISE_RULE_ID")
+	@Column(name = "ALLOWANCE_DEDUCTION_WISE_RULE_ID")
 	private Integer allowanceDeductionWiseRuleId;
 
 	@Column(name = "department_allowdeduc_code")
