@@ -3470,7 +3470,10 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						&& allEdpList.get(i)
 								.getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					logger.info("Gis mmmm### Component=");
+					 gisAmount=paybillHeadMpgRepo.findGisComponentValue(allEdpList.get(i).getGroupNm(),mstEmployeeModel.getDoj());
+					brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(gisAmount)));
+					
+					/*logger.info("Gis mmmm### Component=");
 					gisAmount = allEdpList.get(i).getGisAmount();
 					if (allEdpList.get(i).getGroupNm()
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_A)
@@ -3503,7 +3506,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						// paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
 						brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(gisAmount)));
 						logger.info("Gis deduc Component=" + String.valueOf((double) Math.round(gisAmount)));
-					}
+					}*/
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);
 				}
