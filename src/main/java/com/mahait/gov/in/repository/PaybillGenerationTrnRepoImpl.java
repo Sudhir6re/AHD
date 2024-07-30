@@ -1070,13 +1070,13 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public Double findGisComponentValue(String gisgroup, Date doj,String startDate) {
+	public Double findGisComponentValue(String gisgroup, Date doj, String startDate) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		String sql = "select  CASE WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.gis_amount "
 				+ "WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) <1 THEN p.premium_gis_amount  else p.gis_amount "
-				+ " END AS selected_amount from cadre_group_mst p WHERE group_name_en = :groupName"; 
-							  
+				+ " END AS selected_amount from cadre_group_mst p WHERE group_name_en = :groupName";
+
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("doj", doj);
 		query.setParameter("groupName", gisgroup);
@@ -1090,11 +1090,11 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public Double fetchHraDtls(Double basic, String startDate, String cityClass) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		String sql = "select case when :basic<min_amount then min_amount else :basic *multiplier/100 end as amount from hra_mst "
-				+ " where city_type=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null \r\n" + 
-				"or to_char(end_date,'YY-MM-DD')>=:startDate)"; 
-							  
+				+ " where city_type=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null \r\n"
+				+ "or to_char(end_date,'YY-MM-DD')>=:startDate)";
+
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("basic", basic);
 		query.setParameter("cityClass", cityClass);
@@ -1107,17 +1107,16 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 	@Override
 	public Double fetchtaDtls(Double basic, String startDate, Long payCommission, Long gradePay, String cityClass,
-			String physicallyHandicapped) 
-	{
+			String physicallyHandicapped) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String sql=null;
-		NativeQuery<Double> query ;
-		if(payCommission==700005) {
-			 sql = "SELECT amount FROM ta_mst where  city_class=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null " + 
-			 		" or to_char(end_date,'YY-MM-DD')>=:startDate) and physical_hand = :physicallyHandicapped and lower_grade_pay_or_svn_pc_level <=:gradePay\r\n" + 
-			 		"and higher_grade_pay_or_svn_pc_level>=:gradePay and :basic>=min_basic"; 
-								  
-			 query = currentSession.createNativeQuery(sql);
+		String sql = null;
+		NativeQuery<Double> query;
+		if (payCommission == 700005) {
+			sql = "SELECT amount FROM ta_mst where  city_class=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null "
+					+ " or to_char(end_date,'YY-MM-DD')>=:startDate) and physical_hand = :physicallyHandicapped and lower_grade_pay_or_svn_pc_level <=:gradePay\r\n"
+					+ "and higher_grade_pay_or_svn_pc_level>=:gradePay and :basic>=min_basic";
+
+			query = currentSession.createNativeQuery(sql);
 			query.setParameter("basic", basic);
 			query.setParameter("cityClass", cityClass);
 			query.setParameter("startDate", startDate);
@@ -1126,17 +1125,16 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 			query.setParameter("physicallyHandicapped", physicallyHandicapped);
 
 			query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
-			
-		}else {
-			
-			 sql = "SELECT amount FROM ta_mst where pay_commission_code=:payCommission";
-			 
-			 query = currentSession.createNativeQuery(sql);
+
+		} else {
+
+			sql = "SELECT amount FROM ta_mst where pay_commission_code=:payCommission";
+
+			query = currentSession.createNativeQuery(sql);
 			query.setParameter("payCommission", payCommission);
 
 			query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
 		}
-	
 
 		return (Double) query.uniqueResult();
 		// TODO Auto-generated method stub
@@ -1145,15 +1143,31 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
-		String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst where  city_group=:citygroup and to_char(start_date,'YY-MM-DD')<=:startDate \r\n" + 
-				"and (end_date is null or to_char(end_date,'YY-MM-DD')>=:startDate)"; 
-							  
+
+		String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst where  city_group=:citygroup and to_char(start_date,'YY-MM-DD')<=:startDate "
+				+ "and (end_date is null or to_char(end_date,'YY-MM-DD')>=:startDate)";
+
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("citygroup", citygroup);
 		query.setParameter("startDate", startDate);
 
 		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
+
+		return (Double) query.uniqueResult();
+	}
+
+	@Override
+	public Double calculatePt(Double basic, int paybillMonth) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		String sql = "SELECT calculate_pt(:basic, :paybillMonth) AS pt";
+
+		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
+
+		query.setParameter("basic", basic);
+		query.setParameter("paybillMonth", paybillMonth);
+
+		query.addScalar("pt", StandardBasicTypes.DOUBLE);
 
 		return (Double) query.uniqueResult();
 	}

@@ -69,6 +69,7 @@ public interface PaybillGenerationTrnRepo {
 	public Double fetchtaDtls(Double basic, String startDate, Long payCommission, Long gradePay, String cityClass,
 			String physicallyHandicapped);
 	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup);
+	public Double calculatePt(Double basic, int paybillMonth);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);
