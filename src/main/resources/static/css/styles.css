@@ -95,3 +95,6 @@ a {
     border-left: none !important;
     border-right: none !important;
 }
+select:disabled, input:disabled {
+    background: #ddd;
+}

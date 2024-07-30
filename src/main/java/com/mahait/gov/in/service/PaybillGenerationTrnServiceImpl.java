@@ -8720,7 +8720,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
-					
+					//double precision, bigint, integer, bigint, character varying, character varying
 						ta = paybillHeadMpgRepo.fetchtaDtls(basic, payCommission, allowDeducCode,gradelevel,cityClass,mstEmployeeEntity2.getPhysicallyHandicapped());
 						ta = paybillGenerationTrnDetails.getTa();
 						grossAmount=grossAmount+ta;

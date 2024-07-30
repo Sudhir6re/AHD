@@ -2797,7 +2797,7 @@ input[type=search] {
 input[type=date], input[type=time], input[type=datetime-local], input[type=month]
 	{
 	line-height: 34px;
-	line-height: 1.42857143 \0
+	line-height: 1.42857143 \0
 }
 
 input[type=date].input-sm, input[type=time].input-sm, input[type=datetime-local].input-sm,
@@ -4165,7 +4165,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 .nav>li {
 	position: relative;
 	display: block;
-	background: #3c8dbc;
+	/* background: #3c8dbc; */
 }
 
 .nav>li>a {
