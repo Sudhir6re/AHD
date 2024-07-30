@@ -22,6 +22,7 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UserDetailsServiceImpl;
+import com.mahait.gov.in.service.WelcomeService;
 
 //@Order(Ordered.LOWEST_PRECEDENCE)
 @Component
@@ -30,6 +31,10 @@ public class MenuIntercepter implements HandlerInterceptor {
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final CommonHomeMethodsService commonHomeMethodsService;
 	private final HttpSession session;
+	
+	
+	@Autowired
+	WelcomeService welcomeService;
 
 	@Autowired
 	public MenuIntercepter(UserDetailsServiceImpl userDetailsServiceImpl,
@@ -53,6 +58,7 @@ public class MenuIntercepter implements HandlerInterceptor {
 	            return;
 	        }
 		
+		  welcomeService.idleTerminateConnectivity();
 		  
 		  // Retrieve the attribute and handle null case
 		    Boolean alreadyProcessed = (Boolean) request.getAttribute("menuIntercepterProcessed");

@@ -8283,11 +8283,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					}
 				}
 
-				// END:Fetch Broken Period Allowance and Deduction Data
-
-				// Fetching Broken Period Data
-
-				
 				
 				totaldeduc=dedByAG+dedByTreasury+dedByOthr;
 				netAmount=grossAmount - totaldeduc;
@@ -8801,6 +8796,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					//gisAmount = (double) object12[8];
 					 gisAmount=paybillHeadMpgRepo.findGisComponentValue(gisgroup,mstEmployeeEntity2.getDoj());
 				//	mstEmployeeEntity2
+					 
 					 paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
 					/*if (gisgroup.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_GROUP_A)
 							&& (gisAmount.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_GROUP_A)
