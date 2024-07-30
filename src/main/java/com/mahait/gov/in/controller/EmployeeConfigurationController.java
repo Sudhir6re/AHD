@@ -892,7 +892,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		mstEmployeeModel.setAction("Edit");
 		// mstEmployeeModel.setDeptNm(mstdeptentity.getSubDepartmentShortName().toString());
 		//mstEmployeeModel.setDeptNm(ddoScreenModel.getSubDeptShortName().toString());
-		mstEmployeeModel.setDdoCode(messages.getDdoCode());
+		mstEmployeeModel.setDdoCode(mstEmployeeModel.getDdoCode());
 
 		
 		// Get annuation age end

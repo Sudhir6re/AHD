@@ -1189,7 +1189,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 			// Group_Acc_policy
 			else if (allEdpList.get(i).getDeptalldetNm()
-					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GRP_ACC_POLICY)) {
+					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Accidential_Policy)) {
 				EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 						.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GRP_ACC_POLICY_CODE);
@@ -3470,7 +3470,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						&& allEdpList.get(i)
 								.getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
-					 gisAmount=paybillHeadMpgRepo.findGisComponentValue(allEdpList.get(i).getGroupNm(),mstEmployeeModel.getDoj());
+					 gisAmount=paybillHeadMpgRepo.findGisComponentValue(allEdpList.get(i).getGroupNm(),mstEmployeeModel.getDoj(), citygroup);
 					brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(gisAmount)));
 					
 					/*logger.info("Gis mmmm### Component=");
@@ -3597,7 +3597,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				}
 				// Group_Acc_policy
 				else if (allEdpList.get(i).getDeptalldetNm()
-						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GRP_ACC_POLICY)) {
+						.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Accidential_Policy)) {
 					EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
 							.findGRPComponentsData(mstEmployeeModel.getSevaarthId(),
 									CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GRP_ACC_POLICY_CODE);

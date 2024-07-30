@@ -1,5 +1,9 @@
 package com.mahait.gov.in.model;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -22,5 +26,29 @@ public class OrganisationDtlsModel {
 	private String email;
 	private Long fax;
 	private String cityId;
+	
+	private Long instituteType;
+	private String ddoOffice;
+	
+	private String bankId;
+	private String parentAdminDepartmentId;
+	private String ParentFieldDepartmentId;
+	private String ItoWardCircle;
+	private String designationId;
+	private String bankCode;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date startDate;
+	private String tanNo;
+
+	private String itaWardNo;
+	
+	private String bankName;
+
+	private String branchName;
+
+	private String accountNo;
+
+	private String ifscCode;
+	private String Remarks;
 
 }

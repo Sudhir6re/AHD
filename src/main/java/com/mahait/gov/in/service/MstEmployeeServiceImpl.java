@@ -1017,6 +1017,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 //		objEntity.setQualification(mstEmployeeModel.getQualification());
 		objEntity.setSecqualification(mstEmployeeModel.getSecqualification());
 		objEntity.setMorequalification(mstEmployeeModel.getMorequalification());
+		
 
 		// Employee Details End
 
@@ -1034,7 +1035,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		if (mstEmployeeModel.getSuperannuationage() != null)
 			objEntity.setSuperAnnAge(Long.valueOf(mstEmployeeModel.getSuperannuationage()));
 		objEntity.setEmpServiceEndDate(mstEmployeeModel.getSuperAnnDate()); // by default set to retirement date added
-																			// by sudhir
+		objEntity.setCurrentOfficeCode(mstEmployeeModel.getCurrentOfficeId());																	// by sudhir
 		objEntity.setSuperAnnDate(mstEmployeeModel.getSuperAnnDate());
 		objEntity.setPayCommissionCode(mstEmployeeModel.getPayCommissionCode());
 		objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
@@ -1355,6 +1356,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					mstEmployeeEntity.getDesignationCode() != null ? mstEmployeeEntity.getDesignationCode().toString()
 							: "0".toString())
 					.toUpperCase());
+			mstEmployeeModel.setDdoCode(mstEmployeeEntity.getDdoCode());
 			mstEmployeeModel.setDepartmentNameEn(DeptName);
 			mstEmployeeModel.setSubdeptNm(SubDeptName);
 			result.add(mstEmployeeModel);
@@ -1437,6 +1439,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					mstEmployeeEntity.getDesignationCode() != null ? mstEmployeeEntity.getDesignationCode().toString()
 							: "0".toString())
 					.toUpperCase());
+			mstEmployeeModel.setDdoCode(mstEmployeeEntity.getDdoCode());
 			mstEmployeeModel.setDepartmentNameEn(DeptName);
 			
 			result.add(mstEmployeeModel);
