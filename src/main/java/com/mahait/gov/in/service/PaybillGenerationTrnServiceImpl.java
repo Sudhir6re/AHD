@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mahait.gov.in.common.CommonConstants;
-import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
@@ -8587,12 +8586,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				Double gpfpercentage = 0d;
 
 				for (Object[] object12 : object) {
-
+					int isTypeforSum =0;
 					int a = (int) object12[5];
 					String str = (String) object12[6];
 					String gisgroup = (String) object12[11];
 					String methodName = (String) object12[12];
-					int isTypeforSum = (int) object12[13];
+					if(object12[13]!=null)
+					isTypeforSum = (int) object12[13];
 					String groupname = (String) object12[7];
 					// gisAmount = (double) object12[8];
 					if (object12[9] != null)
@@ -8636,6 +8636,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						da = (double) (Math.round(
 								(basic * percentage) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						paybillGenerationTrnDetails.setDa((double) Math.round((da)));
+						
+						grossAmount=grossAmount+da;
 					}
 					// CLA
 
@@ -8651,6 +8653,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							paybillGenerationTrnDetails
 									.setCla((double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
 							cla = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+							grossAmount=grossAmount+cla;
 						} else {
 
 							Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
@@ -8662,6 +8665,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							if (lstCla.size() > 0)
 								cla = lstCla.get(0).getAmount();
 							paybillGenerationTrnDetails.setCla((double) claamt);
+							grossAmount=grossAmount+cla;
 						}
 					}
 					// Dearness Pay
@@ -8676,29 +8680,25 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							paybillGenerationTrnDetails.setDearnessPay(
 									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
 							dearnessPay = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+							
 						} else {
 							paybillGenerationTrnDetails.setDearnessPay((double) 0);
 							dearnessPay += 0;
 						}
+						grossAmount=grossAmount+dearnessPay;
 					}
 
 					// FAMILY_PLAN_ALLOW
 					else if (str
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FAMILY_PLAN_ALLOW)) {
-						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
-								.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(),
-										CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE);
-
-						if (employeeAllowDeducComponentAmtEntity != null
-								&& allowDeducCode == CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_FPA_CODE) {
-
-							paybillGenerationTrnDetails.setDearnessPay(
-									(double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt())));
-							famAllow = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
-						} else {
-							paybillGenerationTrnDetails.setDearnessPay((double) 0);
-							famAllow += 0;
+						
+						if(payCommission==700005) {
+							famAllow=paybillHeadMpgRepo.calculateFamilyAllow(payCommission,mstEmployeeEntity2.getSevenPcLevel(),allowDeducCode);
+						}else {
+							famAllow=paybillHeadMpgRepo.calculateFamilyAllow(payCommission,mstEmployeeEntity2.getGradePay(),allowDeducCode);
 						}
+							paybillGenerationTrnDetails.setFamilyPlanAllow(famAllow);
+							grossAmount=grossAmount+famAllow;
 					}
 
 					// Start Travels Allowances for 6PC
@@ -8707,13 +8707,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
-						ta = paybillHeadMpgRepo.fetchtaDtls(basic, startDate, payCommission,
-								mstEmployeeEntity2.getGradePay(), cityClass,
-								mstEmployeeEntity2.getPhysicallyHandicapped());
+						ta = paybillHeadMpgRepo.fetchtaDtls(basic, payCommission, allowDeducCode,mstEmployeeEntity2.getGradePay(),cityClass,mstEmployeeEntity2.getPhysicallyHandicapped());
 						Long percentBasic = mstEmployeeEntity2.getPercentageOfBasic();
 						Double ratio = (double) (percentBasic / 100);
 						ta = ratio * ta;
 						paybillGenerationTrnDetails.setTa(ta);
+						grossAmount=grossAmount+ta;
 					}
 					// Start Travels Allowances for 7PC
 					else if (str
@@ -8721,9 +8720,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
-						ta = paybillHeadMpgRepo.fetchtaDtls(basic, startDate, payCommission, gradelevel, cityClass,
-								mstEmployeeEntity2.getPhysicallyHandicapped());
+					
+						ta = paybillHeadMpgRepo.fetchtaDtls(basic, payCommission, allowDeducCode,gradelevel,cityClass,mstEmployeeEntity2.getPhysicallyHandicapped());
 						ta = paybillGenerationTrnDetails.getTa();
+						grossAmount=grossAmount+ta;
 					}
 					/* HRA component */
 					//
@@ -8732,6 +8732,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 						hra = paybillHeadMpgRepo.fetchHraDtls(basic, startDate, cityClass);
 						paybillGenerationTrnDetails.setHra((double) Math.round(hra));
+						grossAmount=grossAmount+hra;
 
 					}
 					/* End of HRA Component */
@@ -8747,6 +8748,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						groupAccPolicy = paybillHeadMpgRepo.fetchAccidentialPilocyDtls(startDate, citygroup);
 
 						paybillGenerationTrnDetails.setAccidentPolicy((double) Math.round(groupAccPolicy));
+						grossAmount=grossAmount+groupAccPolicy;
 					}
 
 					// Start GIS Component
@@ -8755,6 +8757,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						gisAmount = paybillHeadMpgRepo.findGisComponentValue(gisgroup, mstEmployeeEntity2.getDoj(),
 								startDate);
 						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
+						grossAmount=grossAmount+gisAmount;
 					}
 					// End GIS Component
 					if (methodName != null) {
@@ -8764,6 +8767,23 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						if (employeeAllowDeducComponentAmtEntity != null) {
 
 							Double temp = (double) (Math.round(employeeAllowDeducComponentAmtEntity.getNetAmt()));
+							
+							switch (isTypeforSum) {
+							case 1:
+								grossAmount = grossAmount + temp;
+								break;
+							case 2:
+								dedByAG = dedByAG + temp;
+								break;
+							case 3:
+								dedByTreasury = dedByTreasury + temp;
+								break;
+							case 4:
+								dedByOthr = dedByOthr + temp;
+								break;
+
+							}
+							
 
 							Field fieldName = null;
 							try {
@@ -8794,6 +8814,23 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 								tempVal = (double) ((Math.round(basic) * lst.get(0).getPercentage()
 										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								
+								switch (isTypeforSum) {
+								case 1:
+									grossAmount = grossAmount + tempVal;
+									break;
+								case 2:
+									dedByAG = dedByAG + tempVal;
+									break;
+								case 3:
+									dedByTreasury = dedByTreasury + tempVal;
+									break;
+								case 4:
+									dedByOthr = dedByOthr + tempVal;
+									break;
+
+								}
+								
 								Field fieldName = null;
 								try {
 									fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
@@ -8836,28 +8873,49 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				}
 
-				grossAmount = svnDA + da + dearnessPay + famAllow + ta + hra
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getAtsInc30())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getAtsInc50())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getForce1Inc100())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getForce1Inc25());
 
-				totaldeduc = StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getLIC())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getConStore())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getCopBank())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getMtrCoOpSoc())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getRecurringDep())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getMisc())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getMis())
-						+ StringHelperUtils.isNullDouble(paybillGenerationTrnDetails.getCoHsgSoc());
+				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 				netAmt = grossAmount - totaldeduc;
+				
+				paybillGenerationTrnDetails.setGrossTotalAmt(grossAmount);
+				paybillGenerationTrnDetails.setTotalDeduction(totaldeduc);
 
+				paybillGenerationTrnDetails.setTotalNetAmt(netAmt);
+				paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
+				if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
+					paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());
+				} else {
+					if (mstEmployeeEntity2.getPayInPayBand() != null)
+						paybillGenerationTrnDetails.setPay_band(mstEmployeeEntity2.getPayInPayBand());
+				}
+
+				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
+				Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+				grossAmt += grossAmount;
+
+				netAmt += grossAmount - totaldeduc;
+
+				objEntity.setBillGrossAmt((double) Math.round(grossAmt));
+				objEntity.setBillNetAmount((double) Math.round(netAmt));
+				objEntity.setPaybillGenerationTrnId(val);
+/*
+				
+				grossAmt = grossAmt +grossAmount;
+				netAmount = netAmount+netAmt;
+
+				
+				
+				Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
+				Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);*/
+				
+				
 			}
 
-			objEntity.setBillGrossAmt(grossAmount);
-			objEntity.setBillNetAmount(netAmt);
+	
+			/*objEntity.setBillGrossAmt(grossAmt);
+			objEntity.setBillNetAmount(netAmount);
 			paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
-			Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+			Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);*/
 		}
 
 		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
