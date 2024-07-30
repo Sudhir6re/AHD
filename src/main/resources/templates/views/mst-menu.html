@@ -34,7 +34,7 @@ select.error, textarea.error, input.error {
 			<!-- <b><legend th:utext="#{msg.thymeleaf.pagelabel.menuScreen}"
 					th:style="${'color: orange;'}"></legend></b> -->
 
-			<form class="form-horizontal" th:action="@{/master/saveMenu}"
+			<form class="form-horizontal container" th:action="@{/master/saveMenu}"
 				th:object="${mstMenuModel}" method="POST" name="mstMenu"
 				enctype="multipart/form-data">
 
