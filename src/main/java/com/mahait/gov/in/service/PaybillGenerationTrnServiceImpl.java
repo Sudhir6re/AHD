@@ -8398,6 +8398,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
 		citygroup = spilt[1];
+		
+		String cadre="A";
 
 		System.out.println("CityGroup" + citygroup);
 		objEntity.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
@@ -8458,7 +8460,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			String percentageHRA = null;
 			String cityClassStr = mstEmployeeEntity2.getCityClass().toString();
 			String split1[] = cityClassStr.split("-");
+			
+			
 			String cityClass = split1[0];
+			
+		
+			
 
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				percentage = percentageRate[0];
@@ -8722,6 +8729,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 					//double precision, bigint, integer, bigint, character varying, character varying
 						ta = paybillHeadMpgRepo.fetchtaDtls(basic, payCommission, allowDeducCode,gradelevel,cityClass,mstEmployeeEntity2.getPhysicallyHandicapped());
+						paybillGenerationTrnDetails.setTa(ta);
 						ta = paybillGenerationTrnDetails.getTa();
 						grossAmount=grossAmount+ta;
 					}
@@ -8730,7 +8738,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_HRA)
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
-						hra = paybillHeadMpgRepo.fetchHraDtls(basic, startDate, cityClass);
+						hra = paybillHeadMpgRepo.fetchHraDtls(basic, startDate, cityClass,allowDeducCode);
 						paybillGenerationTrnDetails.setHra((double) Math.round(hra));
 						grossAmount=grossAmount+hra;
 
@@ -8745,7 +8753,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					} else if (str
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Accidential_Policy)) {
 
-						groupAccPolicy = paybillHeadMpgRepo.fetchAccidentialPilocyDtls(startDate, citygroup);
+						groupAccPolicy = paybillHeadMpgRepo.fetchAccidentialPilocyDtls(startDate, cadre,allowDeducCode);
 
 						paybillGenerationTrnDetails.setAccidentPolicy((double) Math.round(groupAccPolicy));
 						grossAmount=grossAmount+groupAccPolicy;
