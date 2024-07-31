@@ -1059,10 +1059,14 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t and to_char(t.startDate,'YY-MM-DD')<='" + startDate
-				+ "' and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate + "'  "
-				+ "and t.cityClass ='" + citygroup + "' and basic>=22500 and t.payCommissionCode=" + payComm
+				+ "' and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate + "'  and departmentAllowdeducCode ="+allowDeducCode
+				+ " and t.cityClass ='" + citygroup + "' and "+basic+">=22500 and t.payCommissionCode=" + payComm
 				+ " ORDER BY t.startDate DESC";
 
+		
+		
+
+		
 		List<AllowanceDeductionRuleMstEntity> hraLst = (List<AllowanceDeductionRuleMstEntity>) entityManager
 				.createQuery(HQL1).getResultList();
 
@@ -1081,80 +1085,55 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.setParameter("doj", doj);
 		query.setParameter("groupName", gisgroup);
 		query.setParameter("startDate", startDate);
-
+		
 		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
 
 		return (Double) query.uniqueResult();
 	}
 
 	@Override
-	public Double fetchHraDtls(Double basic, String startDate, String cityClass) {
+	public Double fetchHraDtls(Double basic, String startDate, String cityClass,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String sql = "select case when :basic<min_amount then min_amount else :basic *multiplier/100 end as amount from hra_mst "
-				+ " where city_type=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null \r\n"
-				+ "or to_char(end_date,'YY-MM-DD')>=:startDate)";
+		String sql = "SELECT CASE WHEN :basic < min_amount THEN min_amount ELSE :basic * multiplier / 100 END AS amount "
+				+ "FROM hra_mst " + "WHERE city_type = :cityClass "
+				+ "AND to_char(start_date, 'YY-MM-DD') <= :startDate "
+				+ "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)";
 
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("basic", basic);
 		query.setParameter("cityClass", cityClass);
 		query.setParameter("startDate", startDate);
 
-		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
+		query.addScalar("amount", StandardBasicTypes.DOUBLE);
 
 		return (Double) query.uniqueResult();
 	}
 
 	@Override
-	public Double fetchtaDtls(Double basic, String startDate, Long payCommission, Long gradePay, String cityClass,
-			String physicallyHandicapped) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		String sql = null;
-		NativeQuery<Double> query;
-		if (payCommission == 700005) {
-			sql = "SELECT amount FROM ta_mst where  city_class=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null "
-					+ " or to_char(end_date,'YY-MM-DD')>=:startDate) and physical_hand = :physicallyHandicapped and lower_grade_pay_or_svn_pc_level <=:gradePay\r\n"
-					+ "and higher_grade_pay_or_svn_pc_level>=:gradePay and :basic>=min_basic";
+	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup,int allowDeducCode) {
+	    Session currentSession = entityManager.unwrap(Session.class);
+	    
+	    
+	       
+	    
 
-			query = currentSession.createNativeQuery(sql);
-			query.setParameter("basic", basic);
-			query.setParameter("cityClass", cityClass);
-			query.setParameter("startDate", startDate);
-			query.setParameter("payCommission", payCommission);
-			query.setParameter("gradePay", gradePay);
-			query.setParameter("physicallyHandicapped", physicallyHandicapped);
+	    String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst " +
+	                 "WHERE department_allowdeduc_code=:allowDeducCode AND city_group = :citygroup " +
+	                 "AND to_char(start_date, 'YY-MM-DD') <= :startDate " +
+	                 "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)";
 
-			query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
+	    NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 
-		} else {
+	    query.setParameter("citygroup", citygroup);
+	    query.setParameter("startDate", startDate);
+	    query.setParameter("allowDeducCode", allowDeducCode);
 
-			sql = "SELECT amount FROM ta_mst where pay_commission_code=:payCommission";
+	    query.addScalar("amount", StandardBasicTypes.DOUBLE);
 
-			query = currentSession.createNativeQuery(sql);
-			query.setParameter("payCommission", payCommission);
-
-			query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
-		}
-
-		return (Double) query.uniqueResult();
-		// TODO Auto-generated method stub
+	    return (Double) query.uniqueResult();
 	}
 
-	@Override
-	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup) {
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst where  city_group=:citygroup and to_char(start_date,'YY-MM-DD')<=:startDate "
-				+ "and (end_date is null or to_char(end_date,'YY-MM-DD')>=:startDate)";
-
-		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
-		query.setParameter("citygroup", citygroup);
-		query.setParameter("startDate", startDate);
-
-		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
-
-		return (Double) query.uniqueResult();
-	}
 
 	@Override
 	public Double calculatePt(Double basic, int paybillMonth) {
@@ -1168,6 +1147,59 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.setParameter("paybillMonth", paybillMonth);
 
 		query.addScalar("pt", StandardBasicTypes.DOUBLE);
+
+		return (Double) query.uniqueResult();
+	}
+
+	@Override
+	public Double calculateFamilyAllow(Long payCommission, Long sevenPcLevel, int allowDeducCode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		String sql = " select ALLOWANCE_DEDUCTION_WISE_RULE_ID,amount from allowance_deduction_wise_rule_mst where  department_allowdeduc_code = :allowDeducCode and "
+				+ " :sevenPcLevel BETWEEN grade_pay_lower AND COALESCE(grade_pay_higher, :sevenPcLevel) and pay_commission_code = :payCommission ";
+
+		Query query = currentSession.createNativeQuery(sql);
+		query.setParameter("payCommission", payCommission);
+		query.setParameter("sevenPcLevel", sevenPcLevel);
+		query.setParameter("allowDeducCode", allowDeducCode);
+
+		query.list();
+
+		List<Object[]> lstemp = query.list();
+		if (lstemp.size() > 1) {
+			for (Object[] objects : lstemp) {
+				if (sevenPcLevel >= StringHelperUtils.isNullDouble(objects[1])) {
+					return StringHelperUtils.isNullDouble(objects[1]);
+				}
+			}
+		} else if (lstemp.size() == 1) {
+			for (Object[] objects : lstemp) {
+				return StringHelperUtils.isNullDouble(objects[1]);
+			}
+
+		}
+
+		return 0d;
+	}
+
+	@Override
+	public Double fetchtaDtls(Double basic, Long payCommission, int allowDeducCode, Long gradelevel, String cityClass,
+			String physicallyHandicapped) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		String sql = "SELECT calculate_ta(" + basic + "," + payCommission + "," + allowDeducCode + "," + gradelevel
+				+ ",'" + cityClass + "','" + physicallyHandicapped + "') AS ta";
+
+		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
+		/*
+		 * query.setParameter("basic", basic); query.setParameter("payCommission",
+		 * payCommission); query.setParameter("allowDeducCode", allowDeducCode);
+		 * query.setParameter("gradelevel", gradelevel); query.setParameter("cityClass",
+		 * cityClass); query.setParameter("physicallyHandicapped",
+		 * physicallyHandicapped);
+		 */
+
+		query.addScalar("ta", StandardBasicTypes.DOUBLE);
 
 		return (Double) query.uniqueResult();
 	}

@@ -14,8 +14,8 @@ public class HouseRentRecoveryReportController {
 	public String houseRentRecovery(Model model, Locale locale, HttpSession session) {
 		return "/views/reports/house-rent-recovery";
 	}
-	/*@GetMapping("/houseRentRecoveryReport")
+	@GetMapping("/houseRentRecoveryReport")
 	public String houseRentRecoveryReport(Model model, Locale locale, HttpSession session) {
 		return "/views/reports/house-rent-recovery-report";
-	}*/
+	}
 }

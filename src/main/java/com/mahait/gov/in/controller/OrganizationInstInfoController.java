@@ -90,7 +90,8 @@ public class OrganizationInstInfoController {
 		model.addAttribute("lstInstituteType", lstInstituteType);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("orgDdoMstModel", orgDdoMstModel);
-		return "views/hte-organization-institution-info";
+		return "views/org-detail-com-info";
+		//return "views/hte-organization-institution-info";
 	}
 
 	@PostMapping("/saveorgInstituteInfo")

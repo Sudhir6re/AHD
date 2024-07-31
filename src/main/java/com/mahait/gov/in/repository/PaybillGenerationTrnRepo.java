@@ -65,11 +65,12 @@ public interface PaybillGenerationTrnRepo {
 	public List<AllowanceDeductionRuleMstEntity> fetchhraDtls(int allowDeducCode, String startDate, String citygroup,
 			Double basic, int i);
 	public Double findGisComponentValue(String gisgroup, Date doj, String startDate);
-	public Double fetchHraDtls(Double basic, String startDate, String cityClass);
-	public Double fetchtaDtls(Double basic, String startDate, Long payCommission, Long gradePay, String cityClass,
-			String physicallyHandicapped);
-	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup);
+	public Double fetchHraDtls(Double basic, String startDate, String cityClass, int allowDeducCode);
 	public Double calculatePt(Double basic, int paybillMonth);
+	public Double calculateFamilyAllow(Long payCommission, Long sevenPcLevel, int allowDeducCode);
+	public Double fetchtaDtls(Double basic, Long payCommission, int allowDeducCode, Long gradelevel, String cityClass,
+			String physicallyHandicapped);
+	Double fetchAccidentialPilocyDtls(String startDate, String citygroup, int allowDeducCode);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);

@@ -9,13 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/ddoast")
 @Controller
-public class IncomeTaxReportController {
-	@GetMapping("/incomeTaxReport")
-	public String incomeTaxReport(Model model, Locale locale, HttpSession session) {
-		return "/views/reports/income-tax-report";
-	}
-	@GetMapping("/incomeTax")
-	public String incomeTax(Model model, Locale locale, HttpSession session) {
-		return "/views/reports/income-tax";
+public class EmpWiseCityClassMappingController {
+	@GetMapping("/empWiseCityClassMapping")
+	public String empWiseCityClassMapping(Model model, Locale locale, HttpSession session) {
+		return "/views/emp-wise-city-class-mapping";
 	}
 }
