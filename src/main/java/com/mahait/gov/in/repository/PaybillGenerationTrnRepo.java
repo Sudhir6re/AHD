@@ -71,6 +71,7 @@ public interface PaybillGenerationTrnRepo {
 	public Double fetchtaDtls(Double basic, Long payCommission, int allowDeducCode, Long gradelevel, String cityClass,
 			String physicallyHandicapped);
 	Double fetchAccidentialPilocyDtls(String startDate, String citygroup, int allowDeducCode);
+	public String getEmpCadre(String sevaarthId, Long empClass);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);

@@ -1113,10 +1113,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup,int allowDeducCode) {
 	    Session currentSession = entityManager.unwrap(Session.class);
-	    
-	    
-	       
-	    
 
 	    String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst " +
 	                 "WHERE department_allowdeduc_code=:allowDeducCode AND city_group = :citygroup " +
@@ -1202,6 +1198,16 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.addScalar("ta", StandardBasicTypes.DOUBLE);
 
 		return (Double) query.uniqueResult();
+	}
+
+	@Override
+	public String getEmpCadre(String sevaarthId, Long empClass) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = "select group_name_en from cadre_group_mst a inner join employee_mst b on a.id=b.emp_class where b.sevaarth_id='"+sevaarthId+"'";
+		System.out.println("---------------getEmpCadre-----------------" + HQL);
+		Query query = currentSession.createSQLQuery(HQL);
+		String result = (String) query.list().get(0);
+		return result;
 	}
 
 }
