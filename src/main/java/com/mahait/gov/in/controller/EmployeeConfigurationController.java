@@ -704,7 +704,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 						.findEmployeeConfigurationGetsvnbasicpay(mstEmployeeModel.getPayscalelevelId());
 		if (mstEmployeeModel.getAccountmaintainby() != null)
 			if (!mstEmployeeModel.getAccountmaintainby().equals("")
-					&& !mstEmployeeModel.getAccountmaintainby().equals("0"))
+					&& !mstEmployeeModel.getAccountmaintainby().equals("0") && !(mstEmployeeModel.getAccountmaintainby()!=null))
 				lstpfSeries = mstEmployeeService.getPfSeries(mstEmployeeModel.getAccountmaintainby());
 
 		model.addAttribute("lstsvnbasicpay", lstsvnbasicpay);
@@ -967,7 +967,6 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		model.addAttribute("lstNmnDtls", lstNmnDtls);
 		// Nominee Dtls Implementation end
 
-
 		
 		List<MstStateModel> listStatemdl = new ArrayList<MstStateModel>();
 		List<Object[]> listState = locationMasterService.findAllStates(1);
@@ -1000,7 +999,6 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		}
 
 		try {
-
 			model.addAttribute("lstAllBankBranchList",
 					mstEmployeeService.getBankBranch(String.valueOf(mstEmployeeModel.getBankId().toString())));
 			model.addAttribute("lstCurrentPost", mstEmployeeService.GetCurrentPostByLvlTwo(
@@ -1063,8 +1061,6 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		model.addAttribute("mstReligionLst", mstReligionLst);
 	
 		dcpsnum = dcpsnum + incrementvalue;
-
-
 
 		List<Long> messages = mstEmployeeService.approveDcpsEmployeeConfiguration(empid, dcpsnum, lStrSevarthEmpCode,
 				dcpsgpfflg);
