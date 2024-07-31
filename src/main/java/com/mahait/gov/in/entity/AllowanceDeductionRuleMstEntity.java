@@ -47,10 +47,10 @@ public class AllowanceDeductionRuleMstEntity {
 	private Integer payCommissionCode;
 
 	@Column(name = "created_user_id")
-	private int createdUserId;
+	private Long createdUserId;
 
 	@Column(name = "updated_user_id")
-	private int updatedUserId;
+	private Long updatedUserId;
 
 	@Column(name = "created_date")
 	private Date createdDate;
@@ -59,7 +59,7 @@ public class AllowanceDeductionRuleMstEntity {
 	private Date updatedDate;
 
 	@Column(name = "is_active")
-	private char isActive;
+	private Character isActive;
 
 	@Column(name = "min_basic")
 	private Double minBasic;
@@ -68,9 +68,12 @@ public class AllowanceDeductionRuleMstEntity {
 	private Double maxBasic;
 	
 	@Column(name = "city_class")
-	private char cityClass;
-
-	private transient String commisionName;
-	private transient String departmentAlloDeducName;
+	private Character cityClass;
+	
+	@Column(name = "grade_pay_lower")
+	private Integer gradePayLower;
+	
+	@Column(name = "grade_pay_higher")
+	private Integer gradePayHigher;
 
 }

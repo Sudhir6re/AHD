@@ -64,7 +64,7 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	private String brokenMethodName;
 	
 	@Column(name="is_Allowdeduc_Type_sum")
-	private String isAllowdeducTypeSum;
+	private Integer isAllowdeducTypeSum;
 	
 	@Column(name="formulas")
 	private String formulas;
