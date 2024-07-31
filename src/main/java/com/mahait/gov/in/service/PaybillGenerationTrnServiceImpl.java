@@ -8559,6 +8559,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				
 				paybillGenerationTrnDetails.setBasicPay((double) basicpay);
+				grossAmount=grossAmount+paybillGenerationTrnDetails.getBasicPay();
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 				netAmount = grossAmount - totaldeduc;
 
@@ -8631,6 +8632,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						basic = mstEmployeeEntity2.getBasicPay();
 					}
 					
+					
+					grossAmount=grossAmount+basic;
 					paybillGenerationTrnDetails.setBasicPay(basic);
 
 					// SVN DA
