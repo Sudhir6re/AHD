@@ -17,7 +17,7 @@
 						<input type="text" size="40%" id="sevaarthId" name="sevaarthId"
 							maxlength="11" style="text-transform: uppercase"
 							th:field="*{sevaarthId}"
-							th:attr="disabled=${sevaarthId==null} ? 'false' : 'true'"
+							th:attr="readonly=${mstEmployeeModel.sevaarthId==null} ? 'true' : 'false'"
 							class="form-control" />
 					</div>
 				</td>

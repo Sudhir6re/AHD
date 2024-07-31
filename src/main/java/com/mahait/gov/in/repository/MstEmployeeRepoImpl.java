@@ -974,9 +974,9 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public long getLocationCode(String getLocationCode) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = " Select cast(location_code as int) from org_ddo_mst where ddo_code  = '"+getLocationCode+"'";
+		String HQL = " Select cast(location_code  as bigint) from org_ddo_mst where ddo_code  = '"+getLocationCode+"'";
 		Query query = currentSession.createSQLQuery(HQL);
-		int result = (int) query.list().get(0);
+		long result = (long) StringHelperUtils.isNullBigInteger(query.list().get(0)).longValue();
 		return result;
 	}
 

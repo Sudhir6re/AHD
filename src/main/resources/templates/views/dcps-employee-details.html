@@ -27,13 +27,12 @@
 	//Edit method ended
 </script>
 </head>
-<body 
-	class="dcps-employee-details">
+<body class="dcps-employee-details">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
 	<div class="container min-height-600">
-	<div class="breadcrumbMain">
+		<div class="breadcrumbMain">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
@@ -44,96 +43,90 @@
 				</ol>
 			</nav>
 		</div>
-
-		<fieldset class="container">
-			<legend th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"
+		<form class="form-horizontal container" name="myDForm" id="myDForm"
+			th:action="@{/ddo/approveDCPSEmployeeConfiguration}"
+			th:object="${mstEmployeeModel}" method="POST"
+			enctype="multipart/form-data">
+			<fieldset class="">
+				<legend th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"
 					th:style="${'color: orange;'}"></legend>
-
-			<form class="form-horizontal" name="myDForm" id="myDForm"
-				th:action="@{/ddo/approveDCPSEmployeeConfiguration}"
-				th:object="${mstEmployeeModel}" method="POST"
-				enctype="multipart/form-data">
-
-				<input type="hidden" name="employeeId" id="employeeId"
-					th:field="*{employeeId}" class="form-control" /> <input
-					type="hidden" name="language" id="language" th:value="${language}" />
-				<input type="hidden" name="message" id="message"
-					th:value="${message}" />
+			</fieldset>
+			<input type="hidden" name="employeeId" id="employeeId"
+				th:field="*{employeeId}" class="form-control" /> <input
+				type="hidden" name="language" id="language" th:value="${language}" />
+			<input type="hidden" name="message" id="message"
+				th:value="${message}" />
 
 
-				<table id="tblDataTable" class="table table-striped table-bordered"
-					style="width: 100%">
-					<thead>
-						<tr style="text-align: center;">
-							<th th:utext="#{msg.thymeleaf.pagelabel.empid}"
-								style="text-align: center;" />
+			<table id="tblDataTable" class="table table-striped table-bordered"
+				style="width: 100%">
+				<thead>
+					<tr style="text-align: center;">
+						<th th:utext="#{msg.thymeleaf.pagelabel.empid}"
+							style="text-align: center;" />
 
-							<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"
-								style="text-align: center;" />
+						<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"
+							style="text-align: center;" />
 
-							<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
-								style="text-align: center;" />
+						<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
+							style="text-align: center;" />
 
-							<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
-								style="text-align: center;" />
+						<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
+							style="text-align: center;" />
 
-							<th th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"
-								style="text-align: center;" />
+						<th th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"
+							style="text-align: center;" />
 
 
-							<th th:utext="#{msg.thymeleaf.datatablelabel.action}" 
- 								style="text-align: center;"></th> 
-						</tr>
-					</thead>
+						<th th:utext="#{msg.thymeleaf.datatablelabel.action}"
+							style="text-align: center;"></th>
+					</tr>
+				</thead>
 
-					<tbody>
+				<tbody>
 
 
 
-						<tr th:each="varempdtls : ${employeedetails}">
-							<td th:text="${varempdtlsStat.index+1}"></td>
-							<td th:text="${varempdtls.employeeFullName}"></td>
-							<td th:text="${varempdtls.departmentNameEn}"></td>
-							<td th:text="${varempdtls.designationName}"></td>
-							<td th:text="${varempdtls.sevaarthId}"></td>
+					<tr th:each="varempdtls : ${employeedetails}">
+						<td th:text="${varempdtlsStat.index+1}"></td>
+						<td th:text="${varempdtls.employeeFullName}"></td>
+						<td th:text="${varempdtls.departmentNameEn}"></td>
+						<td th:text="${varempdtls.designationName}"></td>
+						<td th:text="${varempdtls.sevaarthId}"></td>
 
-							<td>
-								<div class="form-group text-center">
-<!-- 									<div class="col-sm-offset-1 col-sm-1"> -->
-<!-- 										<a data-toggle="tooltip" title="Edit" -->
-<!-- 											th:onclick="|editempconfig(${varempdtls.employeeId})|"> -->
-<!-- 											<span class="glyphicon glyphicon-edit"></span> -->
-<!-- 										</a> -->
-<!-- 									</div> -->
-										<a data-toggle="tooltip" title="Edit"
-											th:onclick="|editempconfig(${varempdtls.employeeId})|">
-											<span class="glyphicon glyphicon-edit"></span>
-										</a>
-									</div>
-<!-- 									<div class="col-sm-offset-1 col-sm-1"> -->
-<!-- 										<a data-toggle="tooltip" title="Edit" -->
-<!-- 											th:href="@{'/master/deleteEmployeeConfiguration/' + ${varempdtls.employeeId}}"><span -->
-<!-- 											class="glyphicon glyphicon-trash"></span></a> -->
-<!-- 										<a data-toggle="tooltip" title="Delete"
+						<td>
+							<div class="form-group text-center">
+								<!-- 									<div class="col-sm-offset-1 col-sm-1"> -->
+								<!-- 										<a data-toggle="tooltip" title="Edit" -->
+								<!-- 											th:onclick="|editempconfig(${varempdtls.employeeId})|"> -->
+								<!-- 											<span class="glyphicon glyphicon-edit"></span> -->
+								<!-- 										</a> -->
+								<!-- 									</div> -->
+								<a data-toggle="tooltip" title="Edit"
+									th:onclick="|editempconfig(${varempdtls.employeeId})|"> <span
+									class="glyphicon glyphicon-edit"></span>
+								</a>
+							</div> <!-- 									<div class="col-sm-offset-1 col-sm-1"> --> <!-- 										<a data-toggle="tooltip" title="Edit" -->
+							<!-- 											th:href="@{'/master/deleteEmployeeConfiguration/' + ${varempdtls.employeeId}}"><span -->
+							<!-- 											class="glyphicon glyphicon-trash"></span></a> -->
+							<!-- 										<a data-toggle="tooltip" title="Delete"
 <!-- 											th:onclick="${'ConfirmDeleteRecord('+varSubMenu.subMenuKey+', '+varSubMenu.menuKey+', '+varSubMenu.roleKey+', '+varSubMenu.isActive+');'}"> -->
-<!-- 											<span class="glyphicon glyphicon-trash"></span> -->
-<!-- 										</a> --> 
-<!-- 										<a data-toggle="tooltipDelete" title="Delete"
+							<!-- 											<span class="glyphicon glyphicon-trash"></span> -->
+							<!-- 										</a> --> <!-- 										<a data-toggle="tooltipDelete" title="Delete"
 <!-- 											th:onclick="'ConfirmDeleteRecord('+${varSubMenu.subMenuKey}+','+${varSubMenu.menuKey}+,'+${varSubMenu.roleKey}+','+${varSubMenu.isActive}+');'"><span -->
-<!-- 											class="glyphicon glyphicon-trash"></span></a> --> 
-<!-- 									</div> -->
-							</td>
+							<!-- 											class="glyphicon glyphicon-trash"></span></a> -->
+							<!-- 									</div> -->
+						</td>
 
-						</tr>
-					</tbody>
+					</tr>
+				</tbody>
 
-				</table>
+			</table>
 
-				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" />
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
 
-			</form>
-		</fieldset>
+		</form>
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
