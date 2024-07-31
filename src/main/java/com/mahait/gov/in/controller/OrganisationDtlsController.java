@@ -31,7 +31,7 @@ import com.mahait.gov.in.service.OrganisationDtlsService;
 
 @Controller
 @RequestMapping(value= {"/ddoast","/ddo"})
-public class OrganisationDtlsController {
+public class OrganisationDtlsController   extends BaseController {
 
 	@Autowired
 	OrganisationDtlsService organisationDtlsService;
@@ -76,6 +76,9 @@ public class OrganisationDtlsController {
 		modelAndView.addObject("organisationDtlsModel", organisationDtlsModel);
 		modelAndView.addObject("language", locale.getLanguage());
 		// model.addAttribute("lstStates", commonHomeMethodsService.lstGetAllState());
+		
+		
+		addMenuAndSubMenu(modelAndView,messages);
 		return modelAndView;
 	}
 
@@ -141,6 +144,8 @@ public class OrganisationDtlsController {
 		modelAndView.setViewName("/views/edit-organization-details");
 		modelAndView.addObject("organisationDtlsModel", organisationDtlsModel);
 		modelAndView.addObject("language", locale.getLanguage());
+		
+		addMenuAndSubMenu(modelAndView,messages);
 		// model.addAttribute("lstStates", commonHomeMethodsService.lstGetAllState());
 		return modelAndView;
 	}

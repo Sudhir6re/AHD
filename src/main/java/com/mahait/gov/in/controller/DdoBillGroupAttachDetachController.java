@@ -30,7 +30,7 @@ import com.mahait.gov.in.service.DdoBillGroupService;
 @Controller
 @RequestMapping("/ddoast")
 
-public class DdoBillGroupAttachDetachController {
+public class DdoBillGroupAttachDetachController  extends BaseController{
 
 	@Autowired
 	DdoBillGroupService ddoBillGroupService;
@@ -146,6 +146,7 @@ public class DdoBillGroupAttachDetachController {
 		 * model.addAttribute("lstMpgSchemeBillGroupDataTable",
 		 * mpgSchemeBillGroupService.findAllMpgSchemeBillGroup());
 		 */
+		addMenuAndSubMenu(model,messages);	
 		model.addAttribute("language", locale.getLanguage());
 		return "/views/attach_dettach_employee";
 	}

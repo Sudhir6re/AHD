@@ -38,7 +38,7 @@ import com.mahait.gov.in.service.EntryOfPostsService;
 
 @RequestMapping("/ddo")
 @Controller
-public class EntryOfPostsController {
+public class EntryOfPostsController  extends BaseController{
 
 	@Autowired
 	OrgPostDetailsRltRepository orgPostDetailsRltRepository;
@@ -108,6 +108,8 @@ public class EntryOfPostsController {
 
 			model.addAttribute("getPostNameForDisplay", getPostNameForDisplay);
 		}
+		
+		addMenuAndSubMenu(model,messages);
 		return "/views/entry-of-posts";
 	}
 
@@ -186,6 +188,7 @@ public class EntryOfPostsController {
 			// model.addAttribute("ddoSelected", ddoSelected);
 		}
 
+		addMenuAndSubMenu(model,messages);
 		model.addAttribute("postEntryModel", postEntryModel);
 
 		return "/views/add-posts";
@@ -235,6 +238,7 @@ public class EntryOfPostsController {
 		model.addAttribute("postExpiryList", postExpiryList);
 		
 
+		addMenuAndSubMenu(model,messages);
 		return "/views/update-posts";
 	}
 

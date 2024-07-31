@@ -33,7 +33,7 @@ import com.mahait.gov.in.service.CreateAdminOfficeService;
 
 @RequestMapping("/mdc")
 @Controller
-public class CreateAdminOfficeController {
+public class CreateAdminOfficeController  extends BaseController {
 
 	@Autowired
 	CreateAdminOfficeService createAdminOfficeService;
@@ -66,6 +66,8 @@ public class CreateAdminOfficeController {
 			String uniqueId = (String) model.asMap().get("ddoCode");
 			model.addAttribute("ddoCode", uniqueId);
 		}
+		
+		addMenuAndSubMenu(model,messages);	
 
 		return "/views/create-admin-office";
 	}
@@ -98,6 +100,7 @@ public class CreateAdminOfficeController {
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
+		addMenuAndSubMenu(model,messages);	
 		return "/views/create-office";
 	}
 

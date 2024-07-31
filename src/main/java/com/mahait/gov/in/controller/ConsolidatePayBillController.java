@@ -45,7 +45,7 @@ import com.mahait.gov.in.service.ViewDelConsolidatePayBillService;
 
 @Controller
 @RequestMapping("/ddo")
-public class ConsolidatePayBillController {
+public class ConsolidatePayBillController  extends BaseController{
 //	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -100,6 +100,7 @@ public class ConsolidatePayBillController {
 		//model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAllPayBillsForConsolidatedAgainstDDO(messages.getUserName(),messages.getRole_id()));
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("userId", messages.getUserId());
+		addMenuAndSubMenu(model,messages);	
 		return "/views/paybill/consolidate-paybill";
     }
 	
@@ -274,6 +275,8 @@ public class ConsolidatePayBillController {
 			model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 //			model.addAttribute("lstDDOCode", commonHomeMethodsService.findAllScheme());
 			model.addAttribute("language", locale.getLanguage());
+			
+			addMenuAndSubMenu(model,messages);	
 			return "/views/paybill/view-delete-consolidated-paybill";
 	}
 	

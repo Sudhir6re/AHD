@@ -24,7 +24,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UserDetailsServiceImpl;
 
 //@Order(Ordered.LOWEST_PRECEDENCE)
-@Component
+//@Component
 public class MenuIntercepter implements HandlerInterceptor {
 
 	private final UserDetailsServiceImpl userDetailsServiceImpl;

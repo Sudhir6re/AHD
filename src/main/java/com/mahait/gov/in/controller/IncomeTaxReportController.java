@@ -7,15 +7,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mahait.gov.in.entity.OrgUserMst;
+
 @RequestMapping("/ddoast")
 @Controller
-public class IncomeTaxReportController {
+public class IncomeTaxReportController  extends BaseController {
 	@GetMapping("/incomeTaxReport")
 	public String incomeTaxReport(Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/reports/income-tax-report";
 	}
 	@GetMapping("/incomeTax")
 	public String incomeTax(Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/reports/income-tax";
 	}
 }

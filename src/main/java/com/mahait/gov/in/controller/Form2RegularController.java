@@ -28,7 +28,7 @@ import com.mahait.gov.in.service.PaybillGenerationTrnService;
 import com.mahait.gov.in.service.RegularReportService;
 @RequestMapping("/ddoast")
 @Controller
-public class Form2RegularController {
+public class Form2RegularController  extends BaseController{
 	
 	
 	@Autowired
@@ -50,7 +50,7 @@ public class Form2RegularController {
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
-		
+		addMenuAndSubMenu(model,messages);
 		return "/views/form2-regular";
 	}
 	
@@ -248,7 +248,7 @@ public class Form2RegularController {
 		model.addAttribute("nextMonth",nextMonth);
 		NextYear="Paybill of Month "+monname+" - " +curryear+" Paid In Month "+NextMon+"-"+NextYear;
 		model.addAttribute("NextYear",NextYear);
-		
+		addMenuAndSubMenu(model,messages);
 	
 		return "/views/reports/form2-regular-report";
 	}

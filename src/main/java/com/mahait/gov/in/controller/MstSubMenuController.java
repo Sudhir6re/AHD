@@ -31,7 +31,7 @@ import com.mahait.gov.in.service.MstSubMenuService;
 
 @Controller
 @RequestMapping("/master")
-public class MstSubMenuController {
+public class MstSubMenuController  extends BaseController{
 
 	@Autowired
 	MstSubMenuService mstSubMenuService;
@@ -55,6 +55,7 @@ public class MstSubMenuController {
 		model.addAttribute("lstRole", commonHomeMethodsService.findAllRole(locale.getLanguage()));
 		model.addAttribute("lstSubMenu", commonHomeMethodsService.findAllSubMenu(locale.getLanguage()));
 		model.addAttribute("language", locale.getLanguage());
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-sub-menu";
 	}
 
@@ -72,6 +73,7 @@ public class MstSubMenuController {
 		if (afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
 		}
+		addMenuAndSubMenu(model,messages);
 		model.addAttribute("language", locale.getLanguage());
 		return "redirect:/master/mstSubMenu"; /* redirects to controller URL */
 	}
@@ -97,6 +99,9 @@ public class MstSubMenuController {
 		model.addAttribute("lstCommonMst",
 				commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.COMMONCODE_STATUS));
 
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
+		
 		return "/views/edit-sub-menu";
 	}
 
@@ -129,6 +134,7 @@ public class MstSubMenuController {
 			model.addAttribute("mstSubMenuModel", new MstSubMenuModel());
 			model.addAttribute("language", locale.getLanguage());
 		}
+		addMenuAndSubMenu(model,messages);
 		return "views/mst-sub-menu";
 	}
 }

@@ -41,7 +41,7 @@ import com.mahait.gov.in.service.WelcomeService;
 @RestController
 @EnableJdbcHttpSession
 @RequestMapping("/mdc")
-public class AllowanceDeductionWiseMasterController {
+public class AllowanceDeductionWiseMasterController  extends BaseController{
 
 //	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -100,6 +100,9 @@ public class AllowanceDeductionWiseMasterController {
 		modelAndView.addObject("subMenuList", subMenuList);
 		modelAndView.addObject("message", message);
 		modelAndView.addObject("allowanceDeductionMstEntity", allowanceDeductionMstEntity);
+		
+		
+		addMenuAndSubMenu(modelAndView,messages);
 		modelAndView.setViewName("/views/allowance-deduction-mst");
 		return modelAndView;
 	}
@@ -235,6 +238,8 @@ public class AllowanceDeductionWiseMasterController {
 //		List<DeptEligibilityForAllowAndDeductEntity> lstAllowancedeductName=allowanceDeductionWiseMstService.fetchLstDeptEligibilityForAllowAndDeductEntityByType(allowanceDeductionMstEntity.getIsType());
 //		modelAndView.addObject("lstAllowancedeductName", lstAllowancedeductName);
 		modelAndView.addObject("allowanceDeductionMstEntity", allowanceDeductionMstEntity);
+		
+		addMenuAndSubMenu(modelAndView,messages);
 		modelAndView.setViewName("/views/edit-allowance-deduction-mst");
 		return modelAndView;
 	}

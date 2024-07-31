@@ -35,7 +35,7 @@ import com.mahait.gov.in.service.DDOInfoService;
 
 @Controller
 @RequestMapping("/ddo")
-public class DDOOfficeController {
+public class DDOOfficeController  extends BaseController{
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -83,6 +83,8 @@ public class DDOOfficeController {
 		model.addAttribute("lstTown", ddoInfoService.getLstTown());
 		model.addAttribute("lstApprDdoOffice", ddoInfoService.getDDOOffForApproval(messages.getUserName()));
 		
+		
+		addMenuAndSubMenu(model,messages);	
 		return "/views/ApproveDDOOffice";
 	}
 /*	
