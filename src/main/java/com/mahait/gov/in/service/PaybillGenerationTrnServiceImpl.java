@@ -8484,6 +8484,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			paybillGenerationTrnDetails.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
 			paybillGenerationTrnDetails.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
 			paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
+			paybillGenerationTrnDetails.setSevaarthId(mstEmployeeEntity2.getSevaarthId().trim());
 
 			if (count > 0) {
 				Map hmAllowDeducCodeAndValues = new HashMap();
@@ -8556,6 +8557,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				// Fetching Broken Period Data
 
+				
+				paybillGenerationTrnDetails.setBasicPay((double) basicpay);
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 				netAmount = grossAmount - totaldeduc;
 
@@ -8627,6 +8630,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& !mstEmployeeEntity2.getPayCommissionCode().equals(700005)) {
 						basic = mstEmployeeEntity2.getBasicPay();
 					}
+					
+					paybillGenerationTrnDetails.setBasicPay(basic);
 
 					// SVN DA
 					if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_PC_DA)
@@ -8881,11 +8886,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				}
 
+				
+				
 
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 				netAmt = grossAmount - totaldeduc;
 				
 				paybillGenerationTrnDetails.setGrossTotalAmt(grossAmount);
+				
 				paybillGenerationTrnDetails.setTotalDeduction(totaldeduc);
 
 				paybillGenerationTrnDetails.setTotalNetAmt(netAmt);
