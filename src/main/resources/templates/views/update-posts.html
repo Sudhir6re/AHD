@@ -24,34 +24,36 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-			<form method="post" th:action="@{/ddo/renewPostEntry}"  id="renewPost" name="renewPost"
-				th:object="${postEntryModel}"
-				enctype="multipart/form-data" >
+			<form method="post" th:action="@{/ddo/updatePosts}" id="renewPost"
+				name="renewPost" th:object="${postEntryModel}"
+				enctype="multipart/form-data">
 				<fieldset>
 					<div>
 						<table class="table bor-0 width-60">
 							<tbody>
 								<tr>
-									<td align="center" style="width: 30%"><b>Select GR No.
+									<td align="center" style="width: 80%"><b>Select GR No.
 											to be Renewed :</b></td>
 									<td align="left" style="width: 40%"><select
-										name="oldGrOrderId" id="oldGrOrderId"     th:field="*{oldGrOrderId}"
-										onchange="getSelectedOrderDate()">
+										name="oldGrOrderId" id="oldGrOrderId"
+										th:field="*{oldGrOrderId}" onchange="getSelectedOrderDate()">
 											<option value="-1">-- Select --</option>
 											<option th:each="order : ${postExpiryList}"
 												th:value="${order.orderId}" th:text="${order.orderName}"></option>
 									</select> <label class="mandatoryindicator">*</label></td>
-									
-									<td width="10%" align="left">
-									<input type="text" size="10" name ="oldGrOrderDate" id="oldGrOrderDate"  th:field="*{oldGrOrderDate}"  value="" readonly="readonly">
-				</td>
+
+									<td width="10%" align="left"><input type="text"
+										name="oldGrOrderDate" id="oldGrOrderDate"
+										th:field="*{oldGrOrderDate}" value="" readonly="readonly">
+										<input type="text" name="action" id="action"
+										th:field="*{action}"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<br>
 					<div align="center">
-						<input type="button" name="btnGo" id="btnGo" value="Go" size="3"
+						<input type="submit" name="btnGo" id="btnGo" value="Go" size="3"
 							maxlength="3" class="buttontag" onclick="getEmpInfo()"> <input
 							type="button" name="btnBackWithGo" id="btnBackWithGo"
 							value="Back" size="3" class="buttontag" onclick="history.back()">
@@ -80,20 +82,28 @@
 											</thead>
 											<tbody>
 												<tr>
-													<td style="text-align: center">
-													
-													<input type="checkbox"
-														name="GroupCheck" id="GroupCheck1" value="77201790741">
-													</td>
-													
-													<td style="text-align: left;">
-													<label id="postName1"><b>Senior
-																Clerk (41)</b><b>T</b></label>
-													</td>
-																
-																
+
+													<span
+														th:each="attachedPost, iterStat : ${attachedPostList}">
+														<tr>
+															<td class="tablecelltext" style="text-align: center">
+																<input th:id="'GroupCheck' + ${iterStat.index}"
+																type="checkbox"
+																th:value="${attachedPost.orgPostMst.postId}"
+																name="GroupCheck" />
+															</td>
+															<td class="tablecelltext" style="text-align: left">
+																<label th:id="'postId' + ${iterStat.index}">
+																	<b><span th:text="${attachedPost.postName}"></span></b>
+															</label>
+															</td>
+														</tr>
+													</span>
+
+
+
 												</tr>
-												
+
 											</tbody>
 										</table>
 									</div>
@@ -107,21 +117,22 @@
 													<td width="40%" valign="middle" align="left"><b>
 															Old GR :</b></td>
 													<td width="60%" align="left"><input type="text"
-														size="30" name="currentOrder" id="currentOrder"  th:field="*{currentOrder}"  value="">
-													</td>
+														size="30" name="currentOrder" id="currentOrder"
+														th:field="*{currentOrder}" value=""></td>
 												</tr>
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															Old GR Date :</b></td>
 													<td width="60%" align="left"><input type="date"
-														size="10" name="currentOrderDate" id="currentOrderDate" th:field="*{currentOrderDate}" 
-														value="28/03/2011"></td>
+														size="10" name="currentOrderDate" id="currentOrderDate"
+														th:field="*{currentOrderDate}" value="28/03/2011"></td>
 												</tr>
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															New GR No:</b></td>
 													<td width="60%" valign="middle" align="left"><select
-														name="cmbNewOrder" id="cmbNewOrder"  th:field="*{cmbNewOrder}"   >
+														name="cmbNewOrder" id="cmbNewOrder"
+														th:field="*{cmbNewOrder}">
 															<option value="-1" selected="selected">-- Select
 																--</option>
 															<option th:each="order : ${orderList}"
@@ -131,15 +142,17 @@
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															New GR Date :</b></td>
-													<td width="60%" align="left"><input type="date"   th:field="*{renewalStartDate}"
-														size="10" name="renewalStartDate" id="renewalStartDate"
-														value="" maxlength="10"></td>
+													<td width="60%" align="left"><input type="date"
+														th:field="*{renewalStartDate}" size="10"
+														name="renewalStartDate" id="renewalStartDate" value=""
+														maxlength="10"></td>
 												</tr>
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															Renewal Post Start Date :</b></td>
 													<td width="60%" align="left"><input type="date"
-														size="10" name="renewalPostStartDate"    th:field="*{renewalPostStartDate}"  
+														size="10" name="renewalPostStartDate"
+														th:field="*{renewalPostStartDate}"
 														id="renewalPostStartDate" maxlength="10"
 														value="01/03/2011"> &nbsp; <label
 														class="mandatoryindicator">*</label></td>
@@ -148,18 +161,17 @@
 													<td width="40%" valign="middle" align="left"><b>
 															Renewal Post End Date :</b></td>
 													<td width="60%" align="left"><input type="date"
-														size="10" name="renewalEndDate" id="renewalEndDate"  th:field="*{renewalEndDate}"    
-														maxlength="10" value=""> &nbsp; <label
-														class="mandatoryindicator">*</label>
-														
-															<input type="hidden" id="postIdsToBeAttached"  th:field="*{postIdsToBeAttached}" name="postIdsToBeAttached" value="" size="200" >
-															<input type="hidden" id="counterPost"  name="counterPost" value="" size="200" >
-		
-														
-														</td>
+														size="10" name="renewalEndDate" id="renewalEndDate"
+														th:field="*{renewalEndDate}" maxlength="10" value="">
+														&nbsp; <label class="mandatoryindicator">*</label> <input
+														type="hidden" id="postIdsToBeAttached"
+														th:field="*{postIdsToBeAttached}"
+														name="postIdsToBeAttached" value="" size="200"> <input
+														type="hidden" id="counterPost" name="counterPost" value=""
+														size="200"></td>
 												</tr>
 												<tr>
-													<td colspan="2"><input type="button" name="btnSave"
+													<td colspan="2"><input type="submit" name="btnSave"
 														id="btnSave" value="Save" class="buttontag"> <input
 														type="button" name="backButton" id="backButton"
 														value="Cancel" class="buttontag" onclick="history.back()">
@@ -183,6 +195,6 @@
 			$(".renewalPostmain").fadeIn(100);
 		}
 	</script>
-		<script th:src="@{/js/hte/entry-post.js}"></script>
+	<script th:src="@{/js/hte/entry-post.js}"></script>
 </body>
 </html>

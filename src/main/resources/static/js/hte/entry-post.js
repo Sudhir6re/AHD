@@ -421,3 +421,13 @@ $("form[name='postEntryModel']").validate({
 
 
 
+
+$("#btnGo").change(function(){
+	var context = $("#appRootPath").val();
+	var oldGrOrderId = $("#oldGrOrderId").val();
+	var oldGrOrderDate = $("#oldGrOrderDate").val();
+	$("#action").val("search");
+	$("#renewPost").submit();
+});
+
+
