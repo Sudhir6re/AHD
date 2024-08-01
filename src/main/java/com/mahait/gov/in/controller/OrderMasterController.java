@@ -31,7 +31,7 @@ import com.mahait.gov.in.service.OrderMasterService;
 
 @Controller
 @RequestMapping("/ddo")
-public class OrderMasterController {
+public class OrderMasterController  extends BaseController {
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -99,6 +99,7 @@ public class OrderMasterController {
 		///model.addAttribute("lstDDOOff", orderMasterService.getddoOff(locationcodeArray));
 	///	model.addAttribute("fetchGRDataList", mstGrOrderService.fetchGRDataList());
 		
+		addMenuAndSubMenu(model,messages);
 		return "/views/OrderMasterView";
 		
 		

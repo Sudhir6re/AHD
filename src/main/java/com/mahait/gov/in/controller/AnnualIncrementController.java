@@ -42,7 +42,7 @@ import com.mahait.gov.in.service.DdoBillGroupService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class AnnualIncrementController {
+public class AnnualIncrementController  extends BaseController {
 	// protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
 	DdoBillGroupService ddoBillGroupService;
@@ -89,6 +89,8 @@ public class AnnualIncrementController {
 				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
 			}
 		}
+		
+		addMenuAndSubMenu(model,messages);	
 		model.addAttribute("language", locale.getLanguage());
 		return "/views/annual-increment";
 	}
@@ -234,6 +236,8 @@ public class AnnualIncrementController {
 		model.addAttribute("lstEmp", annualIncrementService.lstEmpforMTR21(orderNo,incrementOrderDate,messages.getUserName()));
 		model.addAttribute("menuList", menuList);
 		model.addAttribute("subMenuList", subMenuList);
+		
+		addMenuAndSubMenu(model,messages);	
 		return "/views/report/MTR21Report";
 	}
 
@@ -281,6 +285,8 @@ public class AnnualIncrementController {
 		}
 		model.addAttribute("lstAnnualIncrementStatus", annualIncrementService.getEmpStatus(messages.getUserName()));
 		model.addAttribute("language", locale.getLanguage());
+		
+		addMenuAndSubMenu(model,messages);	
 		return "/views/annual-incrementStatus";
 	}
 

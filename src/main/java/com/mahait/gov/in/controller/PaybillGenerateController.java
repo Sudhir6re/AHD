@@ -37,7 +37,7 @@ import com.mahait.gov.in.service.PaybillGenerationTrnService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class PaybillGenerateController {
+public class PaybillGenerateController  extends BaseController {
 	// protected final Log logger = LogFactory.getLog(getClass());
 
 	/*
@@ -83,6 +83,7 @@ public class PaybillGenerateController {
 		model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
 		model.addAttribute("ddoCode", messages.getDdoCode());
+		addMenuAndSubMenu(model,messages);
 
 		model.addAttribute("lstSchemeBillGroup", mstSchemeService
 				.findAllMpgSchemeBillGroupByDDOCode(messages.getDdoCode(), messages.getMstRoleEntity().getRoleId()));

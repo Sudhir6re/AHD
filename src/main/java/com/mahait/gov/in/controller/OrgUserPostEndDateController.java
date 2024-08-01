@@ -10,11 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.OrgUserPostEndDateModel;
 import com.mahait.gov.in.service.OrgUserPostEndDateService;
 
 @Controller
-public class OrgUserPostEndDateController {
+public class OrgUserPostEndDateController  extends BaseController{
 
 	@Autowired
 	OrgUserPostEndDateService orgUserPostEndDateService;
@@ -28,6 +29,10 @@ public class OrgUserPostEndDateController {
 		model.addAttribute("orgUserPostEndDateModel", orgUserPostEndDateModel);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("language", locale.getLanguage());
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
+
 		return "/views/mst-OrgUserPostEndDate";
 	}
 }

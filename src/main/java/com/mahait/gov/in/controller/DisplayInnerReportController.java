@@ -32,7 +32,7 @@ import com.mahait.gov.in.service.DisplayInnerReportService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class DisplayInnerReportController {
+public class DisplayInnerReportController  extends BaseController{
 	@Autowired
 	PdfGenaratorUtil pdfGenaratorUtil;
 
@@ -104,6 +104,9 @@ public class DisplayInnerReportController {
 		model.addAttribute("ddoname", ddoCode);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		
+		
+		addMenuAndSubMenu(model,messages);	
 		return "views/reports/innerreportDesign";
 	}
 
@@ -167,6 +170,8 @@ public class DisplayInnerReportController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		addMenuAndSubMenu(model,messages);
 		return "views/report/innerreportDesign";
 	}
 
@@ -222,6 +227,8 @@ public class DisplayInnerReportController {
 		model.addAttribute("ddoname", messages.getUserName());
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		
+		addMenuAndSubMenu(model,messages);
 		return "views/report/innerreportDesignPrint";
 	}
 
@@ -315,6 +322,8 @@ public class DisplayInnerReportController {
 		model.addAttribute("ddoname", ddoCode);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		
+		addMenuAndSubMenu(model,messages);
 		
 		model.addAttribute("displayInnerReportModel", displayInnerReportModel);
 		return "views/report/inner-report-allpages";

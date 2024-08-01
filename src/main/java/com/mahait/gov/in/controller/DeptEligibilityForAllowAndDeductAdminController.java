@@ -34,7 +34,7 @@ import com.mahait.gov.in.service.OrderMasterService;
 
 @Controller
 @RequestMapping("/ddo")
-public class DeptEligibilityForAllowAndDeductAdminController {
+public class DeptEligibilityForAllowAndDeductAdminController  extends BaseController{
 
 	@Autowired
 	DeptEligibilityForAllowAndDeductService deptEligibilityForAllowAndDeductService;
@@ -82,6 +82,8 @@ public class DeptEligibilityForAllowAndDeductAdminController {
 		
 		model.addAttribute("lstAllDepartment", createAdminOfficeService.lstAllDepartment());
 		model.addAttribute("language", locale.getLanguage());
+		
+		addMenuAndSubMenu(model,messages);	
 		deptEligibilityForAllowAndDeductModel.setDepartmentAllowdeducCode(Integer.valueOf(commonHomeMethodsService.findCodeSeq("department_allowdeduc_code","department_allowdeduc_mst"))); 
 		model.addAttribute("deptEligibilityForAllowAndDeductModel",deptEligibilityForAllowAndDeductModel); 
 		return "/views/mst-allowance-deduction";
@@ -118,6 +120,7 @@ public class DeptEligibilityForAllowAndDeductAdminController {
 	///	model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());
 		LocalDate now = LocalDate.now();
 		model.addAttribute("now", now);
+		addMenuAndSubMenu(model,messages);	
 		return "/views/mst-dept-eligibility-for-allow-deduct-admin";
     }
 	

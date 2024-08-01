@@ -33,7 +33,7 @@ import com.mahait.gov.in.service.EmployeeIncrementService;
 
 @Controller
 @RequestMapping("/ddo")
-public class EmployeeIncrementController {
+public class EmployeeIncrementController  extends BaseController{
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -58,6 +58,9 @@ public class EmployeeIncrementController {
 		model.addAttribute("language", locale.getLanguage());
 		///model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
 		///model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
+		
+		addMenuAndSubMenu(model,messages);
+		
 		return "/views/approvalAnnual-increment";
 	}
 	
@@ -80,6 +83,8 @@ public class EmployeeIncrementController {
 		model.addAttribute("lstEmp", employeeIncrementService.lstEmpforMTR21(orderNo,levelRoleVal,messages.getUserName()));//,messages.getUpdatedByPost().getLocationCode()
 		///model.addAttribute("menuList", menuList);
 		///model.addAttribute("subMenuList", subMenuList);
+		
+		addMenuAndSubMenu(model,messages);
 		return "/views/report/MTR21Report";
 	}
 	

@@ -35,7 +35,7 @@ import com.mahait.gov.in.service.OrderMasterService;
 
 @Controller
 @RequestMapping("/ddo")
-public class DDOSchemeController {
+public class DDOSchemeController  extends BaseController{
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -117,6 +117,7 @@ public class DDOSchemeController {
 			
 		model.addAttribute("newRegDDOModel", newRegDDOModel);
 		model.addAttribute("message", message);
+		addMenuAndSubMenu(model,messages);	
 		
 		return "/views/DDOScheme";
 		

@@ -28,7 +28,7 @@ import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class GRPComponentController {
+public class GRPComponentController   extends BaseController{
 //	protected final Log logger = LogFactory.getLog(getClass());
 	
 	@Autowired
@@ -59,6 +59,8 @@ public class GRPComponentController {
 		}
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptAllowAndDeductList());
+		
+		addMenuAndSubMenu(model,messages);
 		return "/views/NonComputationalDuesAndDeduction";
     }
 	

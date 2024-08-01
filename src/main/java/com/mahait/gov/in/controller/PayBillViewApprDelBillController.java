@@ -70,7 +70,7 @@ import com.mahait.gov.in.service.PaybillGenerationTrnService;
 
 @Controller
 @RequestMapping(value= {"/ddoast","/ddo"})
-public class PayBillViewApprDelBillController {
+public class PayBillViewApprDelBillController   extends BaseController{
 //	protected final Log logger = LogFactory.getLog(getClass());
 	 PdfPTable table = new PdfPTable(7);
 	 private XSSFWorkbook workbook;
@@ -143,6 +143,7 @@ public class PayBillViewApprDelBillController {
 //		model.addAttribute("lstBillType", commonHomeMethodsService.findAllScheme());
 //		model.addAttribute("lstBillStatus", commonHomeMethodsService.findAllScheme());
 		model.addAttribute("language", locale.getLanguage());
+		addMenuAndSubMenu(model,messages);
 
 		if(messages.getMstRoleEntity().getRoleId() == 3) {
 			model.addAttribute("lstGenerateBillDetails", payBillViewApprDelBill.findAlllstGenerateBillDetailsAgainstDDO(messages.getDdoCode(),messages.getMstRoleEntity().getRoleId(),(now.get(Calendar.MONTH) + 1)) );
@@ -169,6 +170,8 @@ public class PayBillViewApprDelBillController {
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 
+		
+		addMenuAndSubMenu(model,messages);
 		return "/views/paybill/paybill-view-approve-delete-bill";
     } 
 	
@@ -3661,6 +3664,8 @@ public class PayBillViewApprDelBillController {
 		model.addAttribute("createddate", sdf.format(createdate));
 		model.addAttribute("systemdate", sdf.format(new Date()));
 		
+		addMenuAndSubMenu(model,messages);
+		
 		 Map<String,String> data = new HashMap<String,String>();
 		    data.put("ddoname",ddoname);
 		    try {
@@ -4357,7 +4362,7 @@ public class PayBillViewApprDelBillController {
 		model.addAttribute("premonth", premonname);
 		model.addAttribute("createddate", sdf.format(createdate));
 		model.addAttribute("systemdate", sdf.format(new Date()));
-		
+		addMenuAndSubMenu(model,messages);
          
 	        UserExcelExporter excelExporter = new UserExcelExporter(lstPayBillObj);
 	         
@@ -4771,6 +4776,8 @@ public class PayBillViewApprDelBillController {
 		{
 			model.addAttribute("message","SUCCESS");
 		}
+		
+		addMenuAndSubMenu(model,messages);
 		return "/views/paybill/paybill-view-approve-delete-bill";
 	}
 	

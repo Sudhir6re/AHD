@@ -30,7 +30,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 
 @RequestMapping("/ddoast")
 @Controller
-public class BrokenPeriodController {
+public class BrokenPeriodController  extends BaseController {
 	
 	/*@GetMapping("brokenPeriod")
 	public String brokenPeriod(Model model, Locale locale, HttpSession session) {
@@ -106,6 +106,7 @@ public class BrokenPeriodController {
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 
 		model.addAttribute("language", locale.getLanguage());
+		addMenuAndSubMenu(model,messages);	
 
 		// model=brokenPeriodService.brokenPeriod(mstEmployeeModel, model, sevaarthid);
 
