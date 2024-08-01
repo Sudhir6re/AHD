@@ -6,6 +6,15 @@ $(document).ready(function() {
 $("#btnedit").click(function(){
 	var contextPath = $("#appRootPath").val();
 	$('form *').prop('readonly', false); 
+	$("#txtIFSCCode").prop('readonly', true); 
+	$("#btnSave").removeClass("hide");
+	$('select').removeClass('readonly')
+	$("DDOInfo").attr("action",contextPath+"/ddoast/updateddoOfficeDetails");
+});
+$("#edit").click(function(){
+	var contextPath = $("#appRootPath").val();
+	$('form *').prop('readonly', false); 
+	$("#cmbOfficeCityClass").prop('readonly', true); 
 	$("#btnSave").removeClass("hide");
 	$('select').removeClass('readonly')
 	$("DDOInfo").attr("action",contextPath+"/ddoast/updateddoOfficeDetails");
@@ -84,6 +93,9 @@ $("#cmbBranchName").change(function()
 		 					$( "#loaderMainNew").hide();
 		 				},
 		 			      success: function(data){
+		 			    	  
+		 			    	  
+		 			    	  
 		 			    	 //console.log(data);
 		 			    	  //alert(data);
 		 			    	 var len=data.length;
@@ -93,7 +105,7 @@ $("#cmbBranchName").change(function()
 		 				    	 var temp = data;
 		 				   		  for(var i=0;i<len;i++)
 		 				   			  {
-		 				   			  $("#txtIFSCCode").val(data[i].ifscCode);
+		 				   			  $("#txtIFSCCode").val(data[i].ifscCode); 
 		 				   			  }
 		 				   		  
 		 			    		  }
@@ -108,6 +120,42 @@ $("#cmbBranchName").change(function()
 		     	
 		     		
 		 });
+
+
+
+$("#cmbcity").change(function() //cmbOfficeCityClass
+		 {
+		 	  var city = $("#cmbcity").val();
+		 //alert("bank  is "+bankId);
+		     	 if (city != '') 
+		     	 {
+		     		 $.ajax({
+		 			      type: "GET",
+		 			      url: context+"/ddoast/getCityClassByCity/"+city,
+		 			      async: true,
+		 			      contentType:'application/json',
+		 			      error: function(data){
+		 			    	 //console.log(data);
+		 			      },
+		 			     beforeSend : function(){
+		 					$( "#loaderMainNew").show();
+		 					},
+		 				complete : function(data){
+		 					$( "#loaderMainNew").hide();
+		 				},
+		 			      success: function(data){
+		 			    	 $.each(data, function(index, row) {
+		 			    		 $("#cmbOfficeCityClass").val(row[12]);
+		 			    	 });
+		 			    	
+		 			    	}
+		 			 });	
+		     	 }
+		     	 
+		     	
+		     		
+		 });
+
 
 
 $("#cmbDist").change(function(){

@@ -94,5 +94,7 @@ public interface CommonHomeMethodsRepo {
 			int parseInt2);
 
 	public String findCodeSeq(String deptAllowDedCode, String deptAllowDedMst);
+
+	public List<Object[]> getCityClassByCity(String city);
 	
 }
