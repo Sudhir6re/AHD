@@ -1,6 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnEntity;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnMpgEntity;
+import com.mahait.gov.in.model.ConsolidatePayBillModel;
 import com.mahait.gov.in.repository.ConsolidatePayBillRepo;
+import com.mahait.gov.in.common.StringHelperUtils;
 
 @Service
 @Transactional
@@ -64,6 +67,25 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 	public int saveConsolidatePaybillMpgDetails(Long paybillGenerationTransactionId, String ddoCode, int Id) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<ConsolidatePayBillModel> fetchDDOLst(String ddoCode) {
+
+		List<Object[]> lstprop = consolidatePayBillRepo.fetchDDOLst(ddoCode);
+		List<ConsolidatePayBillModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				ConsolidatePayBillModel obj = new ConsolidatePayBillModel();
+				// c.ddo_code,a.off_name
+				obj.setDdoCode(StringHelperUtils.isNullString(objLst[0]));
+				obj.setOfficeName(StringHelperUtils.isNullString(objLst[1]));
+
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+
 	}
 
 }

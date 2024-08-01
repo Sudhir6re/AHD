@@ -8179,12 +8179,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		for (MstEmployeeEntity mstEmployeeEntity2 : mstEmployeeEntity) {
 			
 			
-			grossAmount = 0d;
-			 totaldeduc = 0d;
-			 dedByOthr=0d;
-			 dedByTreasury=0d;
-			 dedByAG=0d;
-			 
+		
 			// To Check Broken Period Exist or not
 			Long payCommission = mstEmployeeEntity2.getPayCommissionCode();
 			int percentage = 0;
@@ -8222,6 +8217,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			cadre=paybillHeadMpgRepo.getEmpCadre(mstEmployeeEntity2.getSevaarthId(),mstEmployeeEntity2.getEmpClass());
 			
 			if (count > 0) {
+				
+				grossAmount = 0d;
+				 totaldeduc = 0d;
+				 dedByOthr=0d;
+				 dedByTreasury=0d;
+				 dedByAG=0d;
+				 
+				
 				Map hmAllowDeducCodeAndValues = new HashMap();
 				int basicpay = 0;
 				int netpay = 0;
@@ -8299,9 +8302,22 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 				netAmount = grossAmount - totaldeduc;
 
+				
+				
+				
+				
 				paybillGenerationTrnDetails.setGrossTotalAmt(grossAmount);
+				paybillGenerationTrnDetails.setDedAdjAg(dedByAG);
+				
+				
+				paybillGenerationTrnDetails.setDedAdjTry(dedByTreasury);
+				paybillGenerationTrnDetails.setOtherDeductByTreasury(dedByAG);
+				///deduct_adj_otr
+				paybillGenerationTrnDetails.setDedAdjOtr(dedByOthr);
+				
 				paybillGenerationTrnDetails.setTotalDeduction(totaldeduc);
 
+				
 				paybillGenerationTrnDetails.setTotalNetAmt(netAmt);
 				paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 				if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
@@ -8326,6 +8342,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				return (Long) id;
 			} else {
+				
+				
+				grossAmount = 0d;
+				 totaldeduc = 0d;
+				 dedByOthr=0d;
+				 dedByTreasury=0d;
+				 dedByAG=0d;
+				 
 
 				int gradePaynew = 0;
 				List<Object[]> object = mstEmployeeService.employeeAllowDeduction(mstEmployeeEntity2.getSevaarthId());
