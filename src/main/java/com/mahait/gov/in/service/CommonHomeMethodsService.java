@@ -96,6 +96,8 @@ public interface CommonHomeMethodsService {
 
 	public String findCodeSeq(String DeptAllowDedCode, String DeptAllowDedMst);
 
+	public List<Object[]> getCityClassByCity(String city);
+
 	
 	
 	

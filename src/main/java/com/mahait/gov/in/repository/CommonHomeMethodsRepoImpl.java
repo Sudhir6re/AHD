@@ -388,4 +388,12 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return strclmncodeseq;
 	}
 
+	@Override
+	public List<Object[]> getCityClassByCity(String city) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select * from cmn_city_mst where city_code  ='" + city + "' ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
+
 }
