@@ -36,7 +36,7 @@ import com.mahait.gov.in.service.OrganizationInstInfoService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class OrganizationInstInfoController {
+public class OrganizationInstInfoController  extends BaseController {
 	// protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
@@ -90,6 +90,8 @@ public class OrganizationInstInfoController {
 		model.addAttribute("lstInstituteType", lstInstituteType);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("orgDdoMstModel", orgDdoMstModel);
+		
+		addMenuAndSubMenu(model,messages);
 		return "views/org-detail-com-info";
 		//return "views/hte-organization-institution-info";
 	}
@@ -155,6 +157,10 @@ public class OrganizationInstInfoController {
 		model.addAttribute("lstInstituteType", lstInstituteType);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("orgDdoMstModel", orgDdoMstModel);
+		
+
+		addMenuAndSubMenu(model,messages);
+
 		return "views/edit-hte-organization-institution-info";
 	}
 	

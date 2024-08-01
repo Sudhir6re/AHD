@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.BulkAllowancesModel;
 import com.mahait.gov.in.service.BulkAllowancesService;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class BulkAllowancesController {
+public class BulkAllowancesController  extends BaseController{
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -33,6 +34,8 @@ public class BulkAllowancesController {
 		model.addAttribute("bulkAllowancesModel", bulkAllowancesModel);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("language", locale.getLanguage());
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);	
 		return "/views/mst-bulkAllowance";
 	}
 

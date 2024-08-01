@@ -25,7 +25,7 @@ import com.mahait.gov.in.service.WelcomeService;
 @RestController
 @EnableJdbcHttpSession
 @RequestMapping("/mdc")
-public class AdminLoginController {
+public class AdminLoginController   extends BaseController{
 
 	// private final Logger logger=LoggerFactory.getLogger(getClass());
 
@@ -62,6 +62,7 @@ public class AdminLoginController {
 		}
 		
 		
+		addMenuAndSubMenu(modelAndView,messages);
 	//	userSessionObject.setSession(messages.getUserId(),session);
 		
 		modelAndView.addObject("sessionMessages", messages.getUserId());

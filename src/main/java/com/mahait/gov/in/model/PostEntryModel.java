@@ -24,6 +24,7 @@ public class PostEntryModel {
 	private long orderCmb;
 	 private String purposeCmbBox;
 	private long oldGrOrderId;
+	private String action;
 
 	private String currentOrder;
 

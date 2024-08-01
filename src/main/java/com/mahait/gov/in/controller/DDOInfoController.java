@@ -20,7 +20,7 @@ import com.mahait.gov.in.service.DDOInfoService;
 
 @Controller
 @RequestMapping("/ddo")
-public class DDOInfoController {
+public class DDOInfoController  extends BaseController {
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -67,6 +67,7 @@ public class DDOInfoController {
 */
         /// }
 		model.addAttribute("language", locale.getLanguage());
+		addMenuAndSubMenu(model,messages);	
 	//	model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
 		//model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
 		return "/views/ApproveDDOHistory";

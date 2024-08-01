@@ -32,7 +32,7 @@ import com.mahait.gov.in.service.MstMenuRoleMappingService;
 
 @Controller
 @RequestMapping("/master")
-public class MstMenuRoleMappingController {
+public class MstMenuRoleMappingController  extends BaseController {
 
 	@Autowired
 	MstMenuRoleMappingService mstMenuRoleMappingService;
@@ -53,6 +53,8 @@ public class MstMenuRoleMappingController {
 		model.addAttribute("lstMenu", commonHomeMethodsService.findAllMenu(locale.getLanguage()));
 		model.addAttribute("lstRole", commonHomeMethodsService.findAllRole(locale.getLanguage()));
 		model.addAttribute("lstMenuRoleMapping", commonHomeMethodsService.findAllMenuRoleMapping(locale.getLanguage()));
+		
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-menu-role-mapping";
     }
 	
@@ -86,8 +88,8 @@ public class MstMenuRoleMappingController {
 		model.addAttribute("lstMenu", commonHomeMethodsService.findAllMenu(locale.getLanguage()));
 		model.addAttribute("lstRole", commonHomeMethodsService.findAllRole(locale.getLanguage()));
 		
-		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);		
 		return "/views/edit-menu-role-mapping";
     }
 	
@@ -95,6 +97,8 @@ public class MstMenuRoleMappingController {
 	public String editMenuRoleMappingSave(@ModelAttribute("mstMenuRoleMappingEntity") @Valid MstMenuRoleMappingEntity mstMenuRoleMappingEntity,
 									BindingResult bindingResult,RedirectAttributes redirectAttributes,Model model,Locale locale,HttpSession session) {
 		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		addMenuAndSubMenu(model,messages);
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("language", locale.getLanguage());
 			return "/views/edit-menu-role-mapping"; 
@@ -125,6 +129,8 @@ public class MstMenuRoleMappingController {
 			model.addAttribute("mstMenuRoleMappingModel", new MstMenuRoleMappingModel());
 			model.addAttribute("language", locale.getLanguage());
 		}
+		
+		addMenuAndSubMenu(model,messages);
 		return "views/mst-menu-role-mapping";
 	}
 }

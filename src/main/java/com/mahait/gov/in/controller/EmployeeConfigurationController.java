@@ -59,7 +59,7 @@ import com.mahait.gov.in.service.MstEmployeeService;
 //@RequestMapping("/ddoast")
 @RequestMapping(value= {"/ddoast","/ddo"})
 @PropertySource(value = { "classpath:application.properties" })
-public class EmployeeConfigurationController {
+public class EmployeeConfigurationController  extends BaseController {
 
 	@Autowired
 	CreateAdminOfficeService createAdminOfficeService;
@@ -286,6 +286,8 @@ public class EmployeeConfigurationController {
 		LocalDate date=LocalDate.now();
 		model.addAttribute("currentDate",date);
 
+		
+		addMenuAndSubMenu(model,messages);
 		return "/views/employee-configuration";
 	}
 
@@ -405,6 +407,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 			Model model, Locale locale) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
+		
 		String strAction = mstEmployeeModel.getAction();
 		if (strAction.equals("EditBack")) {
 			return "redirect:/ddoast/employeeDetails";
@@ -467,6 +470,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		// MstEmployeeEntity mm=employeeConfigurationService.get(0);
 		// logger.info("employeeConfigurationService="+mm);
 		model.addAttribute("employeedetails", employeeConfigurationService);
+		addMenuAndSubMenu(model,messages);
 		return "/views/approve-employee-details";
 	}
 	
@@ -704,7 +708,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 						.findEmployeeConfigurationGetsvnbasicpay(mstEmployeeModel.getPayscalelevelId());
 		if (mstEmployeeModel.getAccountmaintainby() != null)
 			if (!mstEmployeeModel.getAccountmaintainby().equals("")
-					&& !mstEmployeeModel.getAccountmaintainby().equals("0"))
+					&& !mstEmployeeModel.getAccountmaintainby().equals("0") && !(mstEmployeeModel.getAccountmaintainby()!=null))
 				lstpfSeries = mstEmployeeService.getPfSeries(mstEmployeeModel.getAccountmaintainby());
 
 		model.addAttribute("lstsvnbasicpay", lstsvnbasicpay);
@@ -713,6 +717,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		model.addAttribute("lstpfSeries", lstpfSeries);
 		model.addAttribute("language", locale.getLanguage());
 
+		addMenuAndSubMenu(model,messages);
 		return "/views/approve-employee-configuration";
 	}
 	
@@ -801,6 +806,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		// MstEmployeeEntity mm=employeeConfigurationService.get(0);
 		// logger.info("employeeConfigurationService="+mm);
 		model.addAttribute("employeedetails", employeeConfigurationService);
+		addMenuAndSubMenu(model,messages);
 		return "/views/dcps-employee-details";
 	}
 	
@@ -967,7 +973,6 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		model.addAttribute("lstNmnDtls", lstNmnDtls);
 		// Nominee Dtls Implementation end
 
-
 		
 		List<MstStateModel> listStatemdl = new ArrayList<MstStateModel>();
 		List<Object[]> listState = locationMasterService.findAllStates(1);
@@ -1000,7 +1005,6 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		}
 
 		try {
-
 			model.addAttribute("lstAllBankBranchList",
 					mstEmployeeService.getBankBranch(String.valueOf(mstEmployeeModel.getBankId().toString())));
 			model.addAttribute("lstCurrentPost", mstEmployeeService.GetCurrentPostByLvlTwo(
@@ -1041,6 +1045,8 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		model.addAttribute("lstsixpayscalelevel", lstsixpayscalelevel);
 		model.addAttribute("lstpfSeries", lstpfSeries);
 		model.addAttribute("language", locale.getLanguage());
+		
+		addMenuAndSubMenu(model,messages);
 
 		return "/views/approve-dcps-employee-configuration";
 	}
@@ -1063,8 +1069,6 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		model.addAttribute("mstReligionLst", mstReligionLst);
 	
 		dcpsnum = dcpsnum + incrementvalue;
-
-
 
 		List<Long> messages = mstEmployeeService.approveDcpsEmployeeConfiguration(empid, dcpsnum, lStrSevarthEmpCode,
 				dcpsgpfflg);

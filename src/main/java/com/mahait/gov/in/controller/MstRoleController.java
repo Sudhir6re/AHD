@@ -23,7 +23,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 
 @Controller
 @RequestMapping("/admin")
-public class MstRoleController {
+public class MstRoleController  extends BaseController {
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -38,6 +38,9 @@ public class MstRoleController {
 	
 		model.addAttribute("lstRoleTable", commonHomeMethodsService.findAllRole());
 		model.addAttribute("language", locale.getLanguage());
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-role";
     }
 	@PostMapping("/saveMstRole")
@@ -54,6 +57,8 @@ public class MstRoleController {
 		if(afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message","SUCCESS");
 		}
+		
+		
 		model.addAttribute("lstRoleTable", commonHomeMethodsService.findAllRole());
 		return "redirect:/admin/mstRole"; /*redirects to controller URL*/
 	}	
@@ -62,7 +67,8 @@ public class MstRoleController {
 		model.addAttribute("mstRoleEntity", commonHomeMethodsService.findRole(roleId));
 		model.addAttribute("language", locale.getLanguage());
 		
-	
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		
 		return "/views/edit-mst-role";
     }
@@ -89,6 +95,7 @@ public class MstRoleController {
 			model.addAttribute("lstRoleTable", commonHomeMethodsService.findAllRole());
 			model.addAttribute("language", locale.getLanguage());
 		}
+		
 		return "views/mst-role";
 	}
 }

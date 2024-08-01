@@ -27,7 +27,7 @@ import com.mahait.gov.in.service.ZpDDOOfficeService;
 
 @Controller
 @RequestMapping("/ddo")
-public class ZpDDOOfficeController {
+public class ZpDDOOfficeController   extends BaseController{
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -53,6 +53,9 @@ public class ZpDDOOfficeController {
 	///	model.addAttribute("message", message);
 	///	
 		model.addAttribute("zpDDOOfficelst", zpDDOOfficelst);
+		
+		addMenuAndSubMenu(model,messages);
+	
 		return "/views/approveDDOOfficeView";
 		
 	}
@@ -68,7 +71,8 @@ public class ZpDDOOfficeController {
 		model.addAttribute("newRegDDOModel", newRegDDOModel);
 		model.addAttribute("zpDdoCode", zpDdoCode);
 		model.addAttribute("officeName", officeName);
-		
+		addMenuAndSubMenu(model,messages);
+	
 		
 		
 		return "/views/approveRejectDDOOfficeView";
@@ -79,7 +83,11 @@ public class ZpDDOOfficeController {
 			@PathVariable int flag,Model model,Locale locale,HttpSession session,HttpServletRequest request, Object paybillHeadMpgRepo) {
 		
 			OrgUserMst orgUserMst  =  zpDDOOfficeService.approveddoDtls(zpDdoCode,flag);
+			OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+			addMenuAndSubMenu(model,messages);
 		
+			
+			
 		if(orgUserMst!=null)
 			model.addAttribute("message","Approved Successfully");
 			return "/views/approveDDOOfficeView";
@@ -93,6 +101,7 @@ public class ZpDDOOfficeController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
 		String message=(String) model.asMap().get("message");
+		addMenuAndSubMenu(model,messages);
 	
 		
 		return "/views/DDOOfficeStatusView";
@@ -105,7 +114,8 @@ public class ZpDDOOfficeController {
 		///UserInfo messages = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
+		addMenuAndSubMenu(model,messages);
+	
 		model.addAttribute("lstApprovedOffices", zpDDOOfficeService.lstApprovedOffices(messages.getUserName()));//,messages.getUpdatedByPost().getLocationCode()
 		return "/views/approvedDDOOffices";
 	}
@@ -115,6 +125,8 @@ public class ZpDDOOfficeController {
 		///UserInfo messages = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
+	
 		
 		model.addAttribute("lstRejectedOffices", zpDDOOfficeService.lstRejectedOffices(messages.getUserName()));//,messages.getUpdatedByPost().getLocationCode()
 		return "/views/rejectedDDOOffices";

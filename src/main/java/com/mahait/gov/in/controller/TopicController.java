@@ -29,7 +29,7 @@ import com.mahait.gov.in.service.WelcomeService;
 @RestController
 @EnableJdbcHttpSession
 @RequestMapping("/user")
-public class TopicController {
+public class TopicController  extends BaseController {
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -96,6 +96,8 @@ public class TopicController {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 			SimpleDateFormat sd = new SimpleDateFormat("MM");
 
+			addMenuAndSubMenu(modelAndView,messages);
+			
 			modelAndView.setViewName("homepageLevel");
 		}
 		return modelAndView;

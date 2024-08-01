@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.NonGovDeducMasterModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.NonGovDeducMasterService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class NonGovDeducMasterController {
+public class NonGovDeducMasterController  extends BaseController {
 	
 	
 	@Autowired
@@ -31,6 +32,8 @@ public class NonGovDeducMasterController {
 		model.addAttribute("nonGovDeducMasterModel", nonGovDeducMasterModel);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("language", locale.getLanguage());
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-NonGovDeduction";
 	}
 

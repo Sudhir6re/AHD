@@ -416,7 +416,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		return orderMstList;
 	}
 
-	@Override
+	/*@Override
 	public List getExpiryData(long locId, String ddoCode) {
 		List orderMstList = null;
 		Session hibSession = getSession();
@@ -425,7 +425,20 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Query query = hibSession.createQuery(strQuery);
 		orderMstList = query.list();
 		return orderMstList;
+	}*/
+	
+	@Override
+	public List getExpiryData(long locId, String ddoCode) {
+	    List orderMstList = null;
+	    Session hibSession = getSession();
+	    String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode = :locId or orderMst.ddoCode = :ddoCode) and endDate < CURRENT_DATE order by orderMst.orderName";
+	    Query query = hibSession.createQuery(strQuery);
+	    query.setParameter("locId", String.valueOf(locId));
+	    query.setParameter("ddoCode", ddoCode);
+	    orderMstList = query.list();
+	    return orderMstList;
 	}
+
 
 	@Override
 	public HrPayOrderMst find(Long orderId) {

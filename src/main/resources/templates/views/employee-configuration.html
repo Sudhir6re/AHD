@@ -34,8 +34,15 @@ input[type="Date"] {
 select.error, textarea.error, input.error {
 	border: 1px solid red !important;
 }
+<<<<<<< HEAD
+<<<<<<< HEAD
 input#uid1, input#uid2, input#uid3 {
     width: 28% !important;
+=======
+=======
+input#uid1, input#uid2, input#uid3 {
+    width: 28% !important;
+>>>>>>> e1ee23f0700a6138153ecb7dc7f11b44dcedccc1
 
 ul.nav.nav-tabs li.active a, .nav-tabs>li>a:hover {
 	background: #ffbb55 !important;
@@ -131,9 +138,7 @@ input#uid1, input#uid2, input#uid3 {
 					<li><a data-toggle="tab" href="#menu6"><b>Photo/Signature</b></a></li>
 				</ul>
 				<div class="tab-content">
-					<!-- <div id="menu6" class="tab-pane fade">
-						<div th:replace="views/employee-configuration-tabs :: "></div>
-					</div> -->
+																																	</div> -->
 					<div id="menu1" class="tab-pane fade in active">
 						<br />
 						<fieldset>
@@ -226,11 +231,19 @@ input#uid1, input#uid2, input#uid3 {
 						th:value="#{msg.thymeleaf.pagelabel.back}"
 						th:onclick="'backlvlEmpDtls();'" />
 					</span>
-					<input type="button" id="btnSave" class="btn btn-primary"
+					
+					
+                 <input type="button" id="btnSave" class="btn btn-primary"
 						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}"
-						th:onclick="'saveAsDraft();'" /> <input type="reset"
+						th:onclick="'saveAsDraft();'" /> 
+						
+					
+						
+						 <input type="reset"
 						id="btnReset" class="btn btn-primary"
-						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a
+						th:value="#{msg.thymeleaf.pagelabel.btnReset}" />
+						
+						 <a
 						th:href="@{/user/home}" class="btn"><span
 						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 

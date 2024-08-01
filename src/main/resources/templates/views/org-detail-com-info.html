@@ -29,25 +29,68 @@ input[type="button" i]:disabled {
 			<span th:utext="#{msg.thymeleaf.pageheading.OrganisationInfo}"></span>
 		</h3>
 		<div class="pageComtentNew container">
-			<ul class="nav nav-tabs">
-				<li class="active"><a data-toggle="tab" href="#home">Organisation
-						Info</a></li>
-				<li><a data-toggle="tab" href="#menu1">Organisation Details</a></li>
-			</ul>
-			<div class="tab-content">
-				<div id="home" class="tab-pane fade in active">
-					<div
-						th:replace="views/hte-organization-institution-info :: orgInfo"></div>
-				</div>
-				<div id="menu1" class="tab-pane fade">
-					<div th:replace="views/organization-details:: orgDetails"></div>
-				</div>
+			<form method="post" th:action="@{/ddoast/updateddoOfficeDetails}"
+				th:object="${organisationDtlsModel}" name="DDOInfo"
+				enctype="multipart/form-data" id="DDOInfo">
+				<ul class="nav nav-tabs">
+					<li class="active orginf"><a data-toggle="tab" href="#home">Organisation
+							Info</a></li>
+					<li><a data-toggle="tab" href="#menu1" class="orgdtl">Organisation
+							Details</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="home" class="tab-pane fade in active">
+						<br />
+						<div
+							th:replace="views/hte-organization-institution-info :: orgInfo"></div>
+					</div>
+					<div id="menu1" class="tab-pane fade">
+						<br />
+						<div th:replace="views/organization-details:: orgDetails"></div>
+					</div>
 
-			</div>
+				</div>
+			</form>
 		</div>
 	</div>
+
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<script th:src="@{/js/project/hte-organization-institution-info.js}"></script>
+	
+	
+	<script>
+		$(document).ready(function() {
+
+			/* var currentTab = 0;
+
+			$("#btnNext").click(function() {
+				var tabs = $('#tabs').tabs();
+				var c = $('#tabs').tabs("length");
+				currentTab = currentTab == (c - 1) ? currentTab : (currentTab + 1);
+
+				tabs.tabs('select', currentTab);
+
+				if (currentTab == (c - 1)) {
+					 $("#btnNext").hide(); 
+				} else {
+					$("#btnNext").show();
+				}
+				$(window).scrollTop(0);
+			}); */
+			
+
+
+			
+			
+			
+		 	$(".nxt").click(function() {
+				$(".orgdtl a").click();
+			});
+			$(".bk").click(function() {
+				$(".orginf a").click();
+			}); 
+		});
+	</script>
 </body>
 
 </html>

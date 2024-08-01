@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/level1")
-public class EmpChangeDetailsController {
+public class EmpChangeDetailsController   extends BaseController{
 	
 //	@Autowired
 //	CommonHomeMethodsService commonHomeMethodsService;

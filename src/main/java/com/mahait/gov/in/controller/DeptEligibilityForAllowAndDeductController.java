@@ -26,7 +26,7 @@ import com.mahait.gov.in.service.DdoBillGroupService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class DeptEligibilityForAllowAndDeductController {
+public class DeptEligibilityForAllowAndDeductController  extends BaseController{
 	@Autowired
 	CreateAdminOfficeService createAdminOfficeService;
 	@Autowired
@@ -61,6 +61,8 @@ public class DeptEligibilityForAllowAndDeductController {
 		model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);
 		LocalDate now = LocalDate.now();
 		model.addAttribute("now", now);
+		
+		addMenuAndSubMenu(model,messages);	
 		return "/views/mst-emp";
 		
 	}

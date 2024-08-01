@@ -26,7 +26,7 @@ import com.mahait.gov.in.service.WelcomeService;
 
 @RestController
 @EnableJdbcHttpSession
-public class LoginController {
+public class LoginController extends BaseController{
 
 	// private final Logger logger=LoggerFactory.getLogger(getClass());
 	// private static final Logger logger = (Logger)
@@ -74,6 +74,8 @@ public class LoginController {
 				session.setAttribute("loggedInPost", obj[2]);
 			}
 		}
+		
+		addMenuAndSubMenu(modelAndView,messages);
 		
 		
 		modelAndView.addObject("sessionMessages", messages.getMstRoleEntity().getRoleId());
@@ -135,6 +137,7 @@ public class LoginController {
 			}
 		}
 		
+		addMenuAndSubMenu(modelAndView,messages);
 		
 		//userSessionObject.setSession(messages.getUserId(),session);
 		if (messages.getUpdatedDate() == null) {
@@ -167,6 +170,7 @@ public class LoginController {
 //			}
 //		}
 		
+		addMenuAndSubMenu(modelAndView,messages);
 
 	//	userSessionObject.setSession(messages.getUserId(),session);
 		modelAndView.setViewName("topics");
