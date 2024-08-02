@@ -12,6 +12,7 @@ import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
@@ -125,6 +126,8 @@ public interface MstEmployeeService {
 			String dcpsgpfflg);
 
 	public String createNewUser(String sevaarthid, OrgUserMst message, MstEmployeeModel mstEmployeeModel);
+
+	MstEmployeeDetailEntity updateEmployeeDetails(Long empid);
 
 
 

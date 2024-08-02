@@ -52,6 +52,7 @@ import com.mahait.gov.in.entity.MstCadreGroupEntity;
 import com.mahait.gov.in.entity.MstDcpsDesignation;
 import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
@@ -494,7 +495,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			// Department Details Start
 //			objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
 			objEntity.setParentFieldDepartmentId(mstEmployeeModel.getParentFieldDepartmentId());
-			objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId());
 			objEntity.setIsChangeParentDepartment(mstEmployeeModel.getIsChangeParentDepartment());
 			objEntity.setReasonForChngParentFieldDept(mstEmployeeModel.getReasonForChngParentFieldDept());
 			objEntity.setCadreCode(mstEmployeeModel.getCadreId());
@@ -560,8 +560,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setGisgroup(mstEmployeeModel.getGisgroup());
 			objEntity.setMembership_date(mstEmployeeModel.getMembership_date());
 			objEntity.setGisRemark(mstEmployeeModel.getGisRemark());
-			objEntity.setGiscatagory(mstEmployeeModel.getGiscatagory());
-			objEntity.setBegisCatg(mstEmployeeModel.getBegisCatg());
 			// GIS Details End
 
 			// DCPS/NPS Nominee Details Start
@@ -1025,7 +1023,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 //		objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
 		objEntity.setParentFieldDepartmentId(mstEmployeeModel.getParentFieldDepartmentId());
 //		objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId().intValue());
-		objEntity.setSubCorporationId(mstEmployeeModel.getSubCorporationId());
 		objEntity.setAdminDepartmentCode(mstEmployeeModel.getParentAdminDepartmentId());
 		objEntity.setFieldDepartmentCode(mstEmployeeModel.getFieldDepartmentId());
 		objEntity.setIsChangeParentDepartment(mstEmployeeModel.getIsChangeParentDepartment());
@@ -1100,8 +1097,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setGisgroup(mstEmployeeModel.getGisgroup());
 		objEntity.setMembership_date(mstEmployeeModel.getMembership_date());
 		objEntity.setGisRemark(mstEmployeeModel.getGisRemark());
-		objEntity.setGiscatagory(mstEmployeeModel.getGiscatagory());
-		objEntity.setBegisCatg(mstEmployeeModel.getBegisCatg());
+
 
 		// GIS Details End
 
@@ -1174,34 +1170,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				(Long) reuslt.get(1));
 
 		Serializable id = (Long) reuslt.get(0);
-
-		// Annual Increment entry for employee Start
-//		EmployeeIncrementEntity employeeIncrementEntity = new EmployeeIncrementEntity();
-//		employeeIncrementEntity.setSevaarthId(objEntity.getSevaarthId());
-//		employeeIncrementEntity.setEmployeeId(objEntity.getEmployeeId());
-//		employeeIncrementEntity.setCurrentBasicPay(0);
-//		employeeIncrementEntity.setCurrentBasicLevelId(0);
-//		employeeIncrementEntity.setPreBasicPay(0);
-//		employeeIncrementEntity.setIncrementOrderNo("0");
-//		employeeIncrementEntity.setIncrementOrderDate(new Date());
-//		if (objEntity.getPayCommissionCode() == 8) {
-//			employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getSevenPcBasic().intValue());
-//		} else {
-//			employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getBasicPay().intValue());
-//		}
-//		employeeIncrementEntity.setIncrementBasicLevelId(mstEmployeeModel.getSvnthpaybasic());
-//		employeeIncrementEntity.setEffective_from_date(new Date());
-//		employeeIncrementEntity.setTo_increment_date(new Date());
-//		employeeIncrementEntity.setCreatedDate(new Date());
-//		employeeIncrementEntity.setUpdatedDate(new Date());
-//		employeeIncrementEntity.setRemark(null);
-//		employeeIncrementEntity.setIsActive('1');
-//		employeeIncrementEntity.setMonth(1);
-//		employeeIncrementEntity.setCreatedUserId(1);
-//		employeeIncrementEntity.setUpdatedUserId(1);
-//		employeeIncrementEntity.setDdoCode(objEntity.getDdoCode());
-//		// Annual Increment entry for employee End
-//		mstEmployeeRepo.saveEmployeeIncrement(employeeIncrementEntity);
 
 		return (long) id;
 	}
@@ -1584,6 +1552,12 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
       
 		
 	}
+	@Override
+	public MstEmployeeDetailEntity updateEmployeeDetails(Long empid) {
+		// TODO Auto-generated method stub
+		return mstEmployeeRepo.updateEmployeesDetails(empid);
+	}
+	
 	
 
 

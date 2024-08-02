@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pagelabel.approveemployeedetails}"></title>
+<title th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"></title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
 <script
@@ -15,19 +15,20 @@
 
 <script type="text/javascript">
 	//Edit method started
-	/* function editempconfig(empid) {
+	function editempconfig(empid) {
 		var employeeid = empid;
 		// 	alert("employeeid="+employeeid);
 		$('#employeeId').val(employeeid);
 		// 	var queryString = $('#myEForm').serialize();
 		// 	alert("queryString="+queryString);
-		document.getElementById("myAForm").submit();
-	} */
+		document.getElementById("myEForm").submit();
+	}
 
 	//Edit method ended
 </script>
 </head>
-<body class="approve-employee-details">
+<body 
+	class="employee-details">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
@@ -39,17 +40,20 @@
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pagelabel.approveemployeedetails}"></span></li>
+						th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"></span></li>
 				</ol>
 			</nav>
 		</div>
+		<h3 Class="PageHeading">
+			<span th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"></span>
+		</h3>
 		<fieldset class="container">
-			<legend th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"
-					th:style="${'color: orange;'}"></legend>
+			<!-- <b><legend th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"
+					th:style="${'color: orange;'}"></legend></b> -->
 
-			<form class="form-horizontal" name="myAForm" id="myAForm"
-				th:action="@{/ddo/approveEmployeeConfiguration}"
-				th:object="${mstEmployeeModel}" method="POST"
+			<form class="form-horizontal" name="myEForm" id="myEForm"
+				th:action="@{/ddoast/editEmployeeConfiguration}"
+				th:object="${empChangeDetailsModel}" method="POST"
 				enctype="multipart/form-data">
 
 				<input type="hidden" name="employeeId" id="employeeId"
@@ -69,20 +73,18 @@
 							<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"
 								style="text-align: center;" />
 
-							<th th:utext="#{msg.thymeleaf.datatablelabel.ddocode}"
+							<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
 								style="text-align: center;" />
 
 							<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
 								style="text-align: center;" />
-								
-									<th th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"
+
+							<th th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"
 								style="text-align: center;" />
+
 
 							<th th:utext="#{msg.thymeleaf.datatablelabel.action}"
 								style="text-align: center;"></th>
-								
-							<!-- <th th:utext="#{msg.thymeleaf.datatablelabel.subdepartmentName}"
-								style="text-align: center;"></th> -->
 						</tr>
 					</thead>
 
@@ -90,34 +92,35 @@
 
 
 
-						<tr th:each="varempdtls : ${employeedetails}">
+						<tr th:each="varempdtls : ${empLst}">
 							<td th:text="${varempdtlsStat.index+1}"></td>
 							<td th:text="${varempdtls.employeeFullName}"></td>
-							<td th:text="${varempdtls.ddoCode}"></td>
+							<td th:text="${varempdtls.departmentNameEn}"></td>
 							<td th:text="${varempdtls.designationName}"></td>
-							<td class="text-center" th:text="${varempdtls.sevaarthId}"></td>
+							<td th:text="${varempdtls.sevaarthId}"></td>
 
 							<td>
-								<div class="form-group text-center">
+								<div class="form-group">
+									<div class="col-sm-offset-1 col-sm-1">
 										<a data-toggle="tooltip" title="Edit"
 											th:onclick="|editempconfig(${varempdtls.employeeId})|">
 											<span class="glyphicon glyphicon-edit"></span>
 										</a>
-									<!-- 									<div class="col-sm-offset-1 col-sm-1"> -->
-									<!-- 									<a data-toggle="tooltip" title="Edit" -->
-									<!-- 											th:href="@{'/master/deleteEmployeeConfiguration/' + ${varempdtls.employeeId}}"><span -->
-									<!-- 											class="glyphicon glyphicon-edit"></span>Delete</a> -->
-									<!-- <a data-toggle="tooltip" title="Delete"
+									</div>
+								<!-- 	<div class="col-sm-offset-1 col-sm-1">
+										<a data-toggle="tooltip" title="Edit"
+											th:href="@{'/master/deleteEmployeeConfiguration/' + ${varempdtls.employeeId}}"><span
+											class="glyphicon glyphicon-trash"></span></a>
+										<a data-toggle="tooltip" title="Delete"
 											th:onclick="${'ConfirmDeleteRecord('+varSubMenu.subMenuKey+', '+varSubMenu.menuKey+', '+varSubMenu.roleKey+', '+varSubMenu.isActive+');'}">
 											<span class="glyphicon glyphicon-trash"></span>
-										</a> -->
-									<!-- <a data-toggle="tooltipDelete" title="Delete"
+										</a>
+										<a data-toggle="tooltipDelete" title="Delete"
 											th:onclick="'ConfirmDeleteRecord('+${varSubMenu.subMenuKey}+','+${varSubMenu.menuKey}+,'+${varSubMenu.roleKey}+','+${varSubMenu.isActive}+');'"><span
-											class="glyphicon glyphicon-trash"></span></a> -->
-									<!-- 									</div> -->
+											class="glyphicon glyphicon-trash"></span></a>
+									</div> -->
 								</div>
 							</td>
-							<!-- <td th:text="${varempdtls.subdeptNm}"></td> -->
 
 						</tr>
 					</tbody>
@@ -132,10 +135,7 @@
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-
-		<script th:src="@{/js/project/approve-employee-details.js}"></script>
 	<script th:src="@{/js/project/datatable-common.js}"></script>
 	<script th:src="@{/js/project/mst-sub-menu.js}"></script>
-
 </body>
 </html>

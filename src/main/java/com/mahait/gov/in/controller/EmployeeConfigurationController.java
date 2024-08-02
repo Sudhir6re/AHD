@@ -33,7 +33,9 @@ import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
+import com.mahait.gov.in.entity.MstGpfDetailsHistEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
@@ -689,13 +691,13 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		List<Object[]> lstsvnbasicpay = new ArrayList<Object[]>();
 		List<Object[]> lstpfSeries = new ArrayList<Object[]>();
 				
-		if (mstEmployeeModel.getPayCommissionCode() != null && !mstEmployeeModel.getPayCommissionCode().equals(8))
+		if (mstEmployeeModel.getPayCommissionCode() != null && !mstEmployeeModel.getPayCommissionCode().equals(2500347))
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
-		if(mstEmployeeModel.getPayCommissionCode().equals(8)) {
+		if(mstEmployeeModel.getPayCommissionCode().equals(2500347)) {
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
 		}
-		if(mstEmployeeModel.getPayCommissionCode().equals(8)) {
-			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(8);
+		if(mstEmployeeModel.getPayCommissionCode().equals(2500347)) {
+			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(2500347);
 		}
 
 		if (mstEmployeeModel.getPayscalelevelId() != null)
@@ -726,6 +728,8 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		long tempIdCount = curentIdCount + 01;
 		String tempCountVar = String.format("%2s", tempIdCount).replace(' ', '0');
 		MstEmployeeModel mstEmployeeModel = mstEmployeeService.getEmployeeinfo(Long.valueOf(empid));
+		
+
 		if (curentIdCount == 0) {
 			lStrSevarthEmpCode = lStrSevarthEmpCode + "01";
 		}
@@ -739,14 +743,17 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		
 		
 		int empcount = mstEmployeeService.getSevaarthid(sevaarthid);
-		
+		if(mstEmployeeModel != null)
+		{
+			MstEmployeeDetailEntity mstEmployeeDetailEntity = mstEmployeeService.updateEmployeeDetails(Long.valueOf(empid));
+		}
 		if(empcount!=0) {
 		}else {
 			mstEmployeeService.createNewUser(sevaarthid,messages,mstEmployeeModel);
 		}
 		//end new user creation
 		
-		
+	
 		//add entry into gpf mst details table
 	    int isSevaarthPresent = mstEmployeeService.checkSevaarthIdExistInGpfDetailMst(empid);
 		if(isSevaarthPresent==0  && dcpsgpfflg.equals("N")) {
@@ -758,6 +765,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 			mstGpfDetailsEntity.setIsactive("2");
 			mstGpfDetailsEntity.setEmployeeId(Long.valueOf(empid));
 			mstEmployeeService.saveGpfDetails(mstGpfDetailsEntity);
+			
 		}
 		//end entry into gpf mst details table
 		
@@ -814,7 +822,7 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 		String message = (String) model.asMap().get("message");
 		mstEmployeeModel = mstEmployeeService.getEmployeeinfo(mstEmployeeModel.getEmployeeId());
 		long locId = mstEmployeeService.getLocationCode(mstEmployeeModel.getDdoCode());
-		mstEmployeeModel.setDdoCode(messages.getUserName());
+		//mstEmployeeModel.setDdoCode(messages.getUserName());
 		// Get Image start
 		String key = "";
 		String rootPath = "";
@@ -1064,7 +1072,10 @@ return ResponseEntity.ok(commonHomeMethodsService.getIfscCodeByBranchId(branchId
 	
 		dcpsnum = dcpsnum + incrementvalue;
 
-
+		if(mstEmployeeModel != null)
+		{
+			MstEmployeeDetailEntity mstEmployeeDetailEntity = mstEmployeeService.updateEmployeeDetails(Long.valueOf(empid));
+		}
 
 		List<Long> messages = mstEmployeeService.approveDcpsEmployeeConfiguration(empid, dcpsnum, lStrSevarthEmpCode,
 				dcpsgpfflg);
