@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -67,13 +68,26 @@ public class AllowanceDeductionRuleMstEntity {
 	@Column(name = "max_basic")
 	private Double maxBasic;
 	
+	
+	@Column(name = "basic")
+	private Double basic;
+	
 	@Column(name = "city_class")
 	private Character cityClass;
+	
+	@Column(name = "city_group")
+	private Character cityGroup;
 	
 	@Column(name = "grade_pay_lower")
 	private Integer gradePayLower;
 	
 	@Column(name = "grade_pay_higher")
 	private Integer gradePayHigher;
+	
+	@Transient
+	private String departmentAllowdeducName;
+	
+	@Transient
+	private String PayCommisionName;
 
 }
