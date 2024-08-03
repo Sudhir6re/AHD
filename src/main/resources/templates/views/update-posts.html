@@ -82,12 +82,10 @@
 											</thead>
 											<tbody>
 												<tr>
-
-													<span
-														th:each="attachedPost, iterStat : ${attachedPostList}">
+													<span th:each="attachedPost, iterStat : ${attachedPostList}">
 														<tr>
 															<td class="tablecelltext" style="text-align: center">
-																<input th:id="'GroupCheck' + ${iterStat.index}"
+																<input  th:id="'GroupCheck' +${attachedPostStat.index+1}"
 																type="checkbox"
 																th:value="${attachedPost.orgPostMst.postId}"
 																name="GroupCheck" />
@@ -99,11 +97,7 @@
 															</td>
 														</tr>
 													</span>
-
-
-
 												</tr>
-
 											</tbody>
 										</table>
 									</div>
