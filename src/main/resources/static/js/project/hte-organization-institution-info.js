@@ -1,6 +1,9 @@
 	var context ="";
 $(document).ready(function() {
 	context = $("#appRootPath").val();
+	//cmbDist
+	$("#cmbDist").select2();
+	$("#cmbDesignation").select2();
 });
 
 $("#btnedit").click(function(){

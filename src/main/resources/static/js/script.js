@@ -490,7 +490,7 @@ $(document).ready(
 			if(roleId=='7'){
 				$(".HomepageLevel").hide();
 			}else{
-				$(dashBoardBlock.get(roleId)).hide(); 
+			//	$(dashBoardBlock.get(roleId)).hide(); 
 			}
 			
 			

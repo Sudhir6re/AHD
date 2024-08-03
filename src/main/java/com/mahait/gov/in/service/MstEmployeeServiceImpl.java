@@ -1557,7 +1557,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		lObjOrgUserpostRlt.setActivateFlag(1l);
 		lObjOrgUserpostRlt.setOrgPostMstByPostId(orgpostmst);
 		lObjOrgUserpostRlt.setCreatedByPost(message.getCreatedByPost());
-		lObjOrgUserpostRlt.setCreatedBy(message.getCreatedBy());
+		lObjOrgUserpostRlt.setCreatedBy(message);
 		lObjOrgUserpostRlt.setCreatedDate(new Timestamp(new Date().getTime()));
 		lObjOrgUserpostRlt.setCmnLookupUserPostType(lObjCmnLookupMst);
 	//	lObjOrgUserpostRlt.setCmnLocationMst(postId.getLookupId());

@@ -157,9 +157,11 @@ public class LoginController extends BaseController{
 		ModelAndView modelAndView = new ModelAndView();
 		/* modelAndView.addObject("usertopics", topicService.getAllTopics()); */
 		modelAndView.addObject("language", locale.getLanguage());
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
 		request.getSession().setAttribute("MY_SESSION_MESSAGES",
 				userDetailsServiceImpl.getUserIdbyUserName(request.getRemoteUser()));
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
 		
 //		List<Object[]> retriveUserdetails = commonHomeMethodsService.retriveUserdetails(messages.getUserId());
 //		if (retriveUserdetails.size() > 0) {

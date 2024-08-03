@@ -290,6 +290,7 @@ $("#cmbAdminOffice").change(function(){
 	    	  $( "#loaderMainNew").hide();
 	    	  $('#cmbDistrict').empty();
 	    	  $('#cmbTaluka').append($('<option  value="-1"></option>').text("Please Select")); 
+	    	  $('#cmbDistrict').append($('<option  value="-1"></option>').text("Please Select")); 
 	    		 var len = data.length;
 					if (len != 0) {
 						 $.each(data, function(index, row) {
