@@ -11,5 +11,6 @@ public interface ConsolidatePayBillRepo {
 	public int saveConsolidatePayBillTrnMpg(ConsolidatePayBillTrnMpgEntity objEntity);
 	//List<Object[]> addConsComponents(String ddoCode,int paybillGenerationTransId);
 	List<Object[]> addConsComponents(String ddoCode, List<Integer> payBillGenerationTransId);
+	public List<Object[]> fetchDDOLst(String ddoCode);
 
 }

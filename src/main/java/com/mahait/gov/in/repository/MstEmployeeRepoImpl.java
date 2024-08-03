@@ -1176,7 +1176,6 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Serializable userId =currentSession.save(objuserInfo);
 		OrgUserMst save = currentSession.get(OrgUserMst.class, userId);
-		
 		return save; 
 	}
 

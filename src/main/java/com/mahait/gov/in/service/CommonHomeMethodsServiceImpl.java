@@ -512,4 +512,10 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.findCodeSeq(DeptAllowDedCode,DeptAllowDedMst);
 	}
+
+	@Override
+	public List<Object[]> getCityClassByCity(String city) {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.getCityClassByCity(city);
+	}
 }

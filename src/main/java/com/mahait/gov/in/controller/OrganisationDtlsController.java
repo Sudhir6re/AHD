@@ -18,16 +18,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mahait.gov.in.entity.InstituteType;
+import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
-import com.mahait.gov.in.model.OrgDdoMstModel;
+import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.OrganisationDtlsModel;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.OrganisationDtlsService;
+import com.mahait.gov.in.service.OrganizationInstInfoService;
 
 @Controller
 @RequestMapping(value= {"/ddoast","/ddo"})
@@ -35,6 +37,9 @@ public class OrganisationDtlsController   extends BaseController {
 
 	@Autowired
 	OrganisationDtlsService organisationDtlsService;
+
+	@Autowired
+	OrganizationInstInfoService organizationInstInfoService;
 
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -50,31 +55,45 @@ public class OrganisationDtlsController   extends BaseController {
 		List<TopicModel> menuList = new ArrayList<>();
 		List<TopicModel> subMenuList = new ArrayList<>();
 
-		String[] ddo = messages.getUserName().split("_");
-
-		String ddoCode = ddo[0];
-
-		organisationDtlsModel = organisationDtlsService.lstOfficeDetails(ddoCode);
+		organisationDtlsModel = organisationDtlsService.lstOfficeDetails(messages.getDdoCode());
 
 		/*
 		 * 
 		 * officeMaster = commonHomeMethodsService.lstGetOfficeMaster();
 		 */
-		
+		List<MstBankEntity> bankName = new ArrayList<>();
+		List<MstDesnModel> lstdesgination = new ArrayList<>();
+
+		bankName = commonHomeMethodsService.findBankName();
+		lstdesgination = commonHomeMethodsService.findDesignation(messages.getUserName());
+
+		// orgDdoMstModel=organizationInstInfoService.findDDOInfo(ddoCode);
+
+		List<InstituteType> lstInstituteType = organizationInstInfoService.lstInstType();
+
+		if (organisationDtlsModel.getBankName() != null) {
+			model.addAttribute("lstAllBankBranchList",
+					commonHomeMethodsService.getBankBranch(organisationDtlsModel.getBankName()));
+		}
 		modelAndView.addObject("menuList", menuList);
 		modelAndView.addObject("subMenuList", subMenuList);
+		modelAndView.addObject("lstdesgination", lstdesgination);
 		modelAndView.addObject("lstDistrict", commonHomeMethodsService.lstGetAllDistrict());
 		// modelAndView.addObject("lstTaluka",
 		// commonHomeMethodsService.lstGetAllTaluka());
 		// modelAndView.addObject("lstcity", commonHomeMethodsService.lstGetAllCity());
-		Map<String, Object> response1 = organisationDtlsService.findDataByDistrict(organisationDtlsModel.getDistrictId());
-		if(response1.size()>0) {
+		Map<String, Object> response1 = organisationDtlsService
+				.findDataByDistrict(organisationDtlsModel.getDistrictId());
+		if (response1.size() > 0) {
 			modelAndView.addObject("lsttaluka", response1.get("talukaList"));
 			modelAndView.addObject("lstcity", response1.get("cityList"));
 		}
-		modelAndView.setViewName("/views/organization-details");
+		modelAndView.setViewName("/views/org-detail-com-info");
 		modelAndView.addObject("organisationDtlsModel", organisationDtlsModel);
 		modelAndView.addObject("language", locale.getLanguage());
+		model.addAttribute("bankName", bankName);
+		model.addAttribute("lstInstituteType", lstInstituteType);
+		model.addAttribute("language", locale.getLanguage());
 		// model.addAttribute("lstStates", commonHomeMethodsService.lstGetAllState());
 		
 		
@@ -87,21 +106,17 @@ public class OrganisationDtlsController   extends BaseController {
 			@ModelAttribute("organisationDtlsModel") @Valid OrganisationDtlsModel organisationDtlsModel,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
-		
-		
-		
+
 		if (bindingResult.hasErrors()) {
-			return "/views/DdoOffice";
+			return "/views/org-detail-com-info";
 		}
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		Long afterSaveId = organisationDtlsService.SaveorgInstituteInfo(organisationDtlsModel,messages);
+		Long afterSaveId = organisationDtlsService.SaveorgInstituteInfo(organisationDtlsModel, messages);
 		if (afterSaveId > 0) {
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
 		}
 		return "redirect:/ddoast/ddoOfficeDetails";
 	}
-	
-	
 
 	@RequestMapping(value = "/findDataByDistrict/{districtId}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,8 +124,15 @@ public class OrganisationDtlsController   extends BaseController {
 		Map<String, Object> response1 = organisationDtlsService.findDataByDistrict(districtId);
 		return ResponseEntity.ok(response1);
 	}
-	
-	//@{/ddoast/editddoOfficeDetails}
+
+
+	@RequestMapping(value = "/getCityClassByCity/{city}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getCityClassByCity(@PathVariable String city) {
+		return ResponseEntity.ok(commonHomeMethodsService.getCityClassByCity(city));
+	}
+
+	// @{/ddoast/editddoOfficeDetails}
 
 	@RequestMapping("/editddoOfficeDetails")
 	public ModelAndView editddoOfficeDetails(Locale locale, HttpSession session, Model model,
@@ -149,19 +171,20 @@ public class OrganisationDtlsController   extends BaseController {
 		// model.addAttribute("lstStates", commonHomeMethodsService.lstGetAllState());
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/updateddoOfficeDetails")
-	public String updateddoOfficeDetails(@ModelAttribute("organisationDtlsModel") OrganisationDtlsModel organisationDtlsModel, HttpSession session,
-									BindingResult bindingResult,RedirectAttributes redirectAttributes,Model model,Locale locale) {
-		
+	public String updateddoOfficeDetails(
+			@ModelAttribute("organisationDtlsModel") OrganisationDtlsModel organisationDtlsModel, HttpSession session,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, Locale locale) {
+
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		organisationDtlsModel.setDdoCode(messages.getUserName());
 		int message = organisationDtlsService.updateddoOfficeDetails(organisationDtlsModel, messages);
-		if(message>0) {
-				redirectAttributes.addFlashAttribute("message","Record Updated Successfully");
-			
+		if (message > 0) {
+			redirectAttributes.addFlashAttribute("message", "Record Updated Successfully");
+
 		}
-		
-		return "redirect:/ddoast/ddoOfficeDetails"; /*redirects to controller URL*/
+
+		return "redirect:/ddoast/ddoOfficeDetails"; /* redirects to controller URL */
 	}
 }

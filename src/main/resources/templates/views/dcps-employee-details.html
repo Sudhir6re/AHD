@@ -68,13 +68,14 @@
 						<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"
 							style="text-align: center;" />
 
-<<<<<<< HEAD
 							<th th:utext="#{msg.thymeleaf.datatablelabel.ddocode}"
 								style="text-align: center;" />
-=======
 						<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
 							style="text-align: center;" />
->>>>>>> 5d97f6518a30a6fc898e70f6dd6cbde17621cfe9
+							<th th:utext="#{msg.thymeleaf.datatablelabel.ddocode}"
+								style="text-align: center;" />
+						<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
+							style="text-align: center;" />
 
 						<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
 							style="text-align: center;" />
@@ -89,47 +90,36 @@
 				</thead>
 
 				<tbody>
+		
 
 
-
-<<<<<<< HEAD
 						<tr th:each="varempdtls : ${employeedetails}">
 							<td th:text="${varempdtlsStat.index+1}"></td>
 							<td th:text="${varempdtls.employeeFullName}"></td>
+							
 							<td th:text="${varempdtls.ddoCode}"></td>
+								<td th:text="${varempdtls.departmentNameEn}"></td>
 							<td th:text="${varempdtls.designationName}"></td>
 							<td th:text="${varempdtls.sevaarthId}"></td>
-=======
+						<td th:text="${varempdtls.sevaarthId}"></td>
 					<tr th:each="varempdtls : ${employeedetails}">
 						<td th:text="${varempdtlsStat.index+1}"></td>
 						<td th:text="${varempdtls.employeeFullName}"></td>
 						<td th:text="${varempdtls.departmentNameEn}"></td>
 						<td th:text="${varempdtls.designationName}"></td>
 						<td th:text="${varempdtls.sevaarthId}"></td>
->>>>>>> 5d97f6518a30a6fc898e70f6dd6cbde17621cfe9
 
 						<td>
+					
+					<td>
 							<div class="form-group text-center">
-								<!-- 									<div class="col-sm-offset-1 col-sm-1"> -->
-								<!-- 										<a data-toggle="tooltip" title="Edit" -->
-								<!-- 											th:onclick="|editempconfig(${varempdtls.employeeId})|"> -->
-								<!-- 											<span class="glyphicon glyphicon-edit"></span> -->
-								<!-- 										</a> -->
-								<!-- 									</div> -->
 								<a data-toggle="tooltip" title="Edit"
 									th:onclick="|editempconfig(${varempdtls.employeeId})|"> <span
 									class="glyphicon glyphicon-edit"></span>
 								</a>
-							</div> <!-- 									<div class="col-sm-offset-1 col-sm-1"> --> <!-- 										<a data-toggle="tooltip" title="Edit" -->
-							<!-- 											th:href="@{'/master/deleteEmployeeConfiguration/' + ${varempdtls.employeeId}}"><span -->
-							<!-- 											class="glyphicon glyphicon-trash"></span></a> -->
-							<!-- 										<a data-toggle="tooltip" title="Delete"
-<!-- 											th:onclick="${'ConfirmDeleteRecord('+varSubMenu.subMenuKey+', '+varSubMenu.menuKey+', '+varSubMenu.roleKey+', '+varSubMenu.isActive+');'}"> -->
-							<!-- 											<span class="glyphicon glyphicon-trash"></span> -->
-							<!-- 										</a> --> <!-- 										<a data-toggle="tooltipDelete" title="Delete"
-<!-- 											th:onclick="'ConfirmDeleteRecord('+${varSubMenu.subMenuKey}+','+${varSubMenu.menuKey}+,'+${varSubMenu.roleKey}+','+${varSubMenu.isActive}+');'"><span -->
-							<!-- 											class="glyphicon glyphicon-trash"></span></a> -->
-							<!-- 									</div> -->
+								</div>
+							</div>
+							
 						</td>
 
 					</tr>

@@ -95,7 +95,7 @@
 						<tr th:each="varempdtls : ${employeedetails}">
 							<td th:text="${varempdtlsStat.index+1}"></td>
 							<td th:text="${varempdtls.employeeFullName}"></td>
-							<td th:text="${varempdtls.ddocode}"></td>
+							<td th:text="${varempdtls.ddoCode}"></td>
 							<td th:text="${varempdtls.designationName}"></td>
 							<td class="text-center" th:text="${varempdtls.sevaarthId}"></td>
 
@@ -105,21 +105,9 @@
 										th:onclick="|editempconfig(${varempdtls.employeeId})|"> <span
 										class="glyphicon glyphicon-edit"></span>
 									</a>
-									<!-- 									<div class="col-sm-offset-1 col-sm-1"> -->
-									<!-- 									<a data-toggle="tooltip" title="Edit" -->
-									<!-- 											th:href="@{'/master/deleteEmployeeConfiguration/' + ${varempdtls.employeeId}}"><span -->
-									<!-- 											class="glyphicon glyphicon-edit"></span>Delete</a> -->
-									<!-- <a data-toggle="tooltip" title="Delete"
-											th:onclick="${'ConfirmDeleteRecord('+varSubMenu.subMenuKey+', '+varSubMenu.menuKey+', '+varSubMenu.roleKey+', '+varSubMenu.isActive+');'}">
-											<span class="glyphicon glyphicon-trash"></span>
-										</a> -->
-									<!-- <a data-toggle="tooltipDelete" title="Delete"
-											th:onclick="'ConfirmDeleteRecord('+${varSubMenu.subMenuKey}+','+${varSubMenu.menuKey}+,'+${varSubMenu.roleKey}+','+${varSubMenu.isActive}+');'"><span
-											class="glyphicon glyphicon-trash"></span></a> -->
-									<!-- 									</div> -->
+									
 								</div>
 							</td>
-							<!-- <td th:text="${varempdtls.subdeptNm}"></td> -->
 
 						</tr>
 					</tbody>

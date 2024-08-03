@@ -42,16 +42,25 @@ public class ConsolidatePayBillRepoImpl implements ConsolidatePayBillRepo {
 	@Override
 	public List<Object[]> addConsComponents(String ddoCode,List<Integer> payBillGenerationTransId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		/*String HQL = "select sum(c.it) as IT,sum(c.dcps_arr)as DCPS_ARR,sum(c.gis)as GIS,sum(c.pt)as PT,sum(c.group_acc_policy)as GROUP_ACC_POLICY,sum(c.hrr)as HRR,c.total_deduction as TotalDeduct\r\n" + 
-				"\r\n" + 
-				" from paybill_generation_trn_details c where paybill_generation_trn_id in ("+paybillGenerationTransId+") GROUP BY c.total_deduction";
-	*/	
-
 
 		String HQL="  select SUM(COALESCE(it,0)+ COALESCE(income_tax,0)) as IT,sum(dcps_arr)as DCPS_ARR,  sum(gis)as GIS,sum(pt)as PT,sum(group_acc_policy)as GROUP_ACC_POLICY,sum(hrr)as HRR, Sum(total_deduction)as TotalDeduct, SUM(COALESCE(gpf_grp_abc,0) + COALESCE(GPF_ADV_GRP_ABC,0)+COALESCE(GPF_ABC_ARR,0)+COALESCE(gpf_grp_d,0)+COALESCE(GPF_ADV_GRP_D,0)+COALESCE(GPF_D_ARR,0))as prov_fund,sum(COALESCE(dcps_da_arr,0)+COALESCE(dcps_delay,0)+COALESCE(dcps_employer,0)+COALESCE(dcps_pay_arr,0)+COALESCE(dcps_regular_recovery,0))as dcps\r\n" + 
 				" from paybill_generation_trn_details  where paybill_generation_trn_id in :payBillGenerationTransId ";
 		Query query = currentSession.createSQLQuery(HQL);
 		query.setParameter("payBillGenerationTransId", payBillGenerationTransId);
+		
+		System.out.println("raw query"+query.getQueryString());
+		return query.list();
+		}
+	@Override
+	public List<Object[]> fetchDDOLst(String ddoCode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		String HQL=" select c.ddo_code,a.off_name from mst_dcps_ddo_office a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code\r\n" + 
+				"inner join paybill_generation_trn c on a.ddo_code=c.ddo_code\r\n" + 
+				"where rept_ddo_code =:ddoCode and c.is_active = '6'";
+		
+		Query query = currentSession.createSQLQuery(HQL);
+		query.setParameter("ddoCode", ddoCode);
 		
 		System.out.println("raw query"+query.getQueryString());
 		return query.list();

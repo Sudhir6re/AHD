@@ -24,27 +24,6 @@ function SearchEmployee(e) {
 		return false;
 	}
 	var flag=true;
-		/*$.ajax({
-			type : "GET",
-			url : "../master/isEmpMappedWithBillGroup/"+searchName,
-			async : false,
-			contentType: "application/json",
-	        dataType: "json",
-			error : function(data) {
-			 console.log(data);
-			// alert("erro");
-			},
-			success : function(data) {
-//				alert("A="+data);
-				if(data=="0"){
-					flag=false;
-					 swal("Employee not mapped with  Bill Broup");
-					 return false;
-//					 $("#brokenSearchbtn").prop("disabled",true);
-				}
-//				dataFromServer=data;
-			}
-	    });*/
 		var sevaarthid=searchName;
 		$.ajax({
 			type : "GET",
@@ -56,13 +35,6 @@ function SearchEmployee(e) {
 			 console.log(data);
 			},
 			success : function(data) {
-				/*if(data==1){
-					flag=false;
-					 swal("Paybill is already generated for this sevaarth id");
-					 return false;
-//					 $("#brokenSearchbtn").prop("disabled",true);
-				}
-				else*/ 
 				if(data==2){
 					flag=false;
 					swal("Paybill is inprogress for this sevaarth id");
@@ -79,8 +51,6 @@ function SearchEmployee(e) {
 			
 			 
 			 $("#vo").dataTable();
-			 
-		//	e.preventDefault();
 			return true;
 		}
 	
@@ -102,10 +72,8 @@ function setNoOfDays(counter)
 			document.getElementById("txtToDate"+counter).value="";
 			document.getElementById("txtNoOfDays"+counter).value="";
 		}
-	//	var fromDay = fromDate.substring(0,2);
 		var frDate = new Date(fromDate);
 		var fromDay = frDate.getDate();
-	//	var toDay = toDate.substring(0,2);
 		var tDate = new Date(toDate);
 		var toDay = tDate.getDate();
 		var daysDiff = Number(toDay) - Number(fromDay) + 1 ;
@@ -333,14 +301,10 @@ $("#btnAddRow").on("click",function(){
 	var Cell1 = newRow.insertCell(-1);
 	Cell1.style.border ="1px solid rgb(255, 218, 178)";
 	Cell1.innerHTML = '<input type="date" size="10" name="txtFromDate"  class="form-control" id="txtFromDate'+nextRow+'" maxlength="10" onkeypress="digitFormat(this);dateFormat(this);" 	onBlur="checkDateForThisMonth(this,'+nextRow+');setNoOfDays('+nextRow+')" value="" />' ;
-//			+ '&nbsp;&nbsp;&nbsp;<img src="images/CalendarImages/ico-calendar.gif" onClick="window_open(\'txtFromDate'+nextRow+'\', 375, 570, \'\', \'\', '+nextRow+');"	style="cursor: pointer;"/>' ;
-	//Cell1.innerHTML = Cell1.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForFromDate'+ nextRow +'" >*</label>' ;
 	
 	var Cell2 = newRow.insertCell(-1);
 	Cell2.style.border ="1px solid rgb(255, 218, 178)";
 	Cell2.innerHTML = '<input type="date" size="10" name="txtToDate" class="form-control"  id="txtToDate'+nextRow+'" maxlength="10" onkeypress="digitFormat(this);dateFormat(this);" 	onBlur="checkDateForThisMonth(this,'+nextRow+');checkSameMonth(this,'+nextRow+');setNoOfDays('+nextRow+');loadSalaryFromRuleEngine('+nextRow+')" value="" />' ;
-	//+ '&nbsp;&nbsp;&nbsp;<img src="images/CalendarImages/ico-calendar.gif" onClick="window_open(\'txtToDate'+nextRow+'\', 375, 570, \'\', \'\', '+nextRow+');"	style="cursor: pointer;"/>' ;
-	//Cell2.innerHTML = Cell2.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForToDate'+ nextRow +'" >*</label>' ;
 	
 	
 	
@@ -357,12 +321,10 @@ $("#btnAddRow").on("click",function(){
 	var Cell3 = newRow.insertCell(-1);
 	Cell3.style.border ="1px solid rgb(255, 218, 178)";
 	Cell3.innerHTML = '<input type="text" size="8" name="txtNoOfDays" id="txtNoOfDays'+nextRow+'"  class="form-control"  value="" readonly="readonly" />';
-	//Cell3.innerHTML = Cell3.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForNoOfDays'+ nextRow +'" >*</label>';
 	
 	var Cell4 = newRow.insertCell(-1);
 	Cell4.style.border ="1px solid rgb(255, 218, 178)";
 	Cell4.innerHTML = '<input type="text" size="8" name="txtBasicPay" id="txtBasicPay'+nextRow+'" class="form-control"  value="" onkeypress="digitFormat(this);" onblur="calcGrossAmount('+nextRow+');calcNetPay('+nextRow+');" readonly  />';
-	//Cell4.innerHTML = Cell4.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForBasicPay'+ nextRow +'" >*</label>';
 	
 	var totalAllowances = document.getElementById("hidTotalAllowances").value;
 	var totalDeductions = document.getElementById("hidTotalDeductions").value; 
@@ -390,14 +352,12 @@ $("#btnAddRow").on("click",function(){
 										 '<input type="hidden" class="form-control" name="hidAllowanceName" id="hidAllowanceName'+ nextlInt + nextRow+'" value="'+ArrayAllowancesNamesFromJSP[lInt].value+'" />' ;
 			
 		}
-		//	CellForAllowance.innerHTML = CellForAllowance.innerHTML  + '&nbsp;&nbsp;&nbsp;<label class="mandatoryindicator" id="labelForAllowance'+ nextlInt + nextRow+'" >*</label>';
 		
 	}
 	
 	var Cell5 = newRow.insertCell(-1); 
 	Cell5.style.border ="1px solid rgb(255, 218, 178)";
 	Cell5.innerHTML = '<input type="text" class="form-control" size="8" name="txtGrossAmt" id="txtGrossAmt'+nextRow+'" value="" readonly="readonly" />' ;
-	//Cell5.innerHTML =  Cell5.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForGrossAmt'+ nextRow +'" >*</label>';
 	
 	var ArrayDeductionFromJSP = document.getElementsByName("dedectionscode");
 	var ArrayDeductionNamesFromJSP =  document.getElementsByName("hidDeductionName");
@@ -411,59 +371,33 @@ $("#btnAddRow").on("click",function(){
 		CellForDeduction.innerHTML = '<input type="text" class="form-control" id="dedections'+ nextlInt + "" + nextRow+'" size="5" onkeypress="digitFormat(this);" onblur="calcTotalDeduction('+nextRow+');calcNetPay('+nextRow+');" />' +
 									 '<input type="hidden" name="dedectionscode" id="dedectionscode'+ nextlInt + nextRow+'" value="'+ArrayDeductionFromJSP[lInt].value +'"/>' +
 									 '<input type="hidden" name="hidDeductionName" id="hidDeductionName'+ nextlInt + nextRow+'" value="'+ArrayDeductionNamesFromJSP[lInt].value+'" />' ;
-		//CellForDeduction.innerHTML = CellForDeduction.innerHTML + '&nbsp;&nbsp;&nbsp;<label class="mandatoryindicator" id="labelForDeduction'+ nextlInt + nextRow+'" >*</label>';
 		
 	}
 	var Cell6 = newRow.insertCell(-1); 
 	Cell6.style.border ="1px solid rgb(255, 218, 178)";
 	Cell6.innerHTML = '<input type="text" size="8" class="form-control" name="txtTotalDeduction" id="txtTotalDeduction'+nextRow+'" value="" readonly="readonly" />' ;
-	//Cell6.innerHTML =  Cell6.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForTotalDeduction'+ nextRow +'" >*</label>';
 	
 	var Cell7 = newRow.insertCell(-1); 
 	Cell7.style.border ="1px solid rgb(255, 218, 178)";
 	Cell7.innerHTML = '<input type="text" class="form-control" size="8" name="txtNetPay" id="txtNetPay'+nextRow+'" value="" readonly="readonly" />' ;
-	//Cell7.innerHTML =  Cell7.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForNetPay'+ nextRow +'" >*</label>';
 	
 	var Cell8 = newRow.insertCell(-1); 
 	Cell8.style.border ="1px solid rgb(255, 218, 178)";
 	Cell8.width="190px";
 	Cell8.innerHTML = '<select name="cmbReasonForBrokenPeriod" class="form-control" id="cmbReasonForBrokenPeriod'+nextRow+'"   >'
 				 	+ '<option value="0">--Select--</option>' + LISTREASONSFORBROKENPERIOD +'</select>';
-	//Cell8.innerHTML = Cell8.innerHTML + '&nbsp;<label class="mandatoryindicator" id="labelForReason'+nextRow+'" >*</label>';
 	
 	var Cell9 = newRow.insertCell(-1); 
 	Cell9.style.border ="1px solid rgb(255, 218, 178)";
 	Cell9.innerHTML = '<input type="text" name="txtRemarks" id="txtRemarks'+nextRow+'" class="form-control" />';
-	//Cell9.innerHTML = Cell9.innerHTML  + '&nbsp;<label class="mandatoryindicator" id="labelForRemarksForOtherReason'+nextRow+'" style="display:none" >*</label>';
 	
 	var Cell10 = newRow.insertCell(-1);
 	Cell10.style.border ="1px solid rgb(255, 218, 178)";
 	var tablerow="tr";
 	Cell10.innerHTML = '<a  onClick="deleteRow(this);"  style="CURSOR: pointer" ><LABEL id=DeleteRowBrokenPrd><span class="glyphicon glyphicon-trash"></span></LABEL></a>';
-	//Cell10.innerHTML = '<a href=# onclick="DeleteRowBrokenPrd('+nextRow+');"> <label id="DeleteRowBrokenPrd">Delete</label></a>';
-
-//	<A onClick="$(this).closest('tr').remove();" style="CURSOR: pointer" ><LABEL id=DeleteRowBrokenPrd><span class="glyphicon glyphicon-trash"></span></LABEL></A>
 	
 	document.getElementById("hidTotalRows").value = Number (document.getElementById("hidTotalRows").value) + 1 ;
 });
-
-//function DeleteRowBrokenPrd(counter)
-//{
-//	if(counter == 1)
-//	{
-//		alert('You cannot delete the first row.');
-//		return ;
-//	}
-//	var answer = confirm('Are you sure you want to delete the row?');
-//	if (answer)
-//	{
-//	var current = window.event.srcElement;
-//    while ( (current = current.parentElement)  && current.tagName !="TR");
-//         current.parentElement.removeChild(current);
-//    
-//    document.getElementById("hidTotalRows").value = Number(document.getElementById("hidTotalRows").value) - 1 ;
-//	}
-//}
 function removeRow(r)
 {
   var noOfRows = $('#vo tr').length;
@@ -483,8 +417,6 @@ function deleteRow(r) {
 	  var i = r.parentNode.parentNode.rowIndex;
 	  document.getElementById("vo").deleteRow(i);
 	}
-	//} command by mani
-//End :Add Broken  Period
 
 //Start:Save broken period value
 function saveBrokenPrdData()
@@ -563,27 +495,6 @@ function saveBrokenPrdData()
 			}
 		}
 	}
-	
-//	var uri = 'ifms.htm?actionFlag=saveBrokenPeriodPay';
-//	var url = 'year='+year+'&month='+ month +'&eisEmpId=' + eisEmpId 
-//		+ '&fromDates='+fromDates +'&toDates='+toDates+'&noOfDays='+noOfDays+'&basicPays='+basicPays
-//		+ '&netPays='+netPays + '&reasons=' + reasons + '&remarks=' + remarks 
-//		+ '&allowancesCodes=' + allowancesCodes + '&allowancesValues=' + allowancesValues 
-//		+ '&deductionCodes=' + deductionCodes + '&deductionValues=' + deductionValues ;
-//	
-//	//alert(url);
-//	
-//	var myAjax = new Ajax.Request(uri,
-//		       {
-//		        method: 'post',
-//		        asynchronous: false,
-//		        parameters:url,
-//		        onSuccess: function(myAjax) {
-//					getDataStateChangedForSaveBrokenPrds(myAjax);
-//				},
-//		        onFailure: function(){ alert('Something went wrong...');} 
-//		          } );
-	//saveBrokenPeriodPay/MJPRDMM6601/2/2024-01-01~/2024-01-31~/31~/1/25/156600~/7:14:17:207:~/0:0:42282:72036:~/270918~/Others~/testing~/newBasic~/06130900012
 	$
 	.ajax({
 		type : "GET",
@@ -594,10 +505,6 @@ function saveBrokenPrdData()
 			alert("Something went wrong...");
 		},
 		success : function(data) {
-//			var len = data.length;
-			//alert("data1=" + data[0].status); //data1=allowRuleList
-		//    alert("data2=" + data[1].status); //data2=dedRuleList
-		//    alert("data3=" + data[2].status); //data3=basicAmt
 		 swal("Broken Period Pays are saved for the employee.");    
 		 
 		 location.reload();
@@ -606,32 +513,11 @@ function saveBrokenPrdData()
 		});
 }
 
-//function getDataStateChangedForSaveBrokenPrds(myAjax)
-//{
-//	XMLDoc = myAjax.responseXML.documentElement;
-//	var XmlHiddenValues = XMLDoc.getElementsByTagName('XMLDOC');
-//	var lBlFlag = XmlHiddenValues[0].childNodes[0].firstChild.nodeValue;
-//	if(lBlFlag=='true')
-//	{
-//		alert('Broken Period Pays are saved for the employee.');
-//		var txtSearchName = document.getElementById("txtSearchName").value;
-//		var yearId = document.getElementById("cmbYear").value;
-//		var monthId = document.getElementById("cmbMonth").value;
-//		self.location.href = "ifms.htm?actionFlag=searchForBrokenPay&txtSearchName="+txtSearchName+"&yearId="+yearId+"&monthId="+monthId;
-//	}
-//}
-
 //End:Save broken period value
 
 
 function loadNetPay() {
 	var noOfRows = $("#BrokenPeriodPayListSize").val();
-//	alert("noOfRows="+noOfRows);
-//	var Genrtd = "${resValue.Generated}";
-//	if (Genrtd == "1") {
-//		document.getElementById("btnAddRow").disabled = "disabled";
-//		document.getElementById("btnSave").disabled = "disabled";
-//	}
 	if (noOfRows > 0) {
 		for ( var i = 1; i <= noOfRows; i++) {
 			calcGrossAmount(i);
@@ -641,11 +527,6 @@ function loadNetPay() {
 }
 function loadGrossAmount() {
 	var noOfRows = $("#BrokenPeriodPayListSize").val();
-//	var Genrtd = "${resValue.Generated}";
-//	if (Genrtd == "1") {
-//		document.getElementById("btnAddRow").disabled = "disabled";
-//		document.getElementById("btnSave").disabled = "disabled";
-//	}
 	if (noOfRows > 0) {
 		for ( var i = 1; i <= noOfRows; i++) {
 			calcTotalDeduction(i);
@@ -654,11 +535,6 @@ function loadGrossAmount() {
 }
 function loadTotalDeduction() {
 	var noOfRows = $("#BrokenPeriodPayListSize").val();
-//	var Genrtd = "${resValue.Generated}";
-//	if (Genrtd == "1") {
-//		document.getElementById("btnAddRow").disabled = "disabled";
-//		document.getElementById("btnSave").disabled = "disabled";
-//	}
 	if (noOfRows > 0) {
 		for ( var i = 1; i <= noOfRows; i++) {
 			calcNetPay(i);
@@ -730,13 +606,9 @@ function validateSaveForBrokenPeriodPay()
 function checkDateForThisMonth(dateField,counter)
 {
 	
-//	alert("checkDateForThisMonth date method Executed");
-	//alert('Inside checkDateForThisMonth');
 	var retFlag=checkFutureDate(dateField,counter);
 	
-	//return retFlag;
 	var dateValue = dateField.value.trim() ;
-//	var dateValue = dateField.value ;
 	if(dateValue == "")
 	{
 		return;
@@ -744,12 +616,10 @@ function checkDateForThisMonth(dateField,counter)
 	var year = document.getElementById('yearName').options[document.getElementById('yearName').selectedIndex].text.trim().substring(0,4);
 	var nextYear = Number(year) + 1;
 	var month = Number(document.getElementById("monthName").value.trim());
-	//alert('month'+month);
 	
 	var yearFromDate =  dateValue.substring(6,10);
 	var monthFromDate = Number(dateValue.substring(3,5));
 	
-	// Below code checks for overlapping period
 	var one_day = 1000*60*60*24;
 	str3 = document.getElementById("txtFromDate"+counter).value.trim(); 
 	str4 = document.getElementById("txtToDate"+counter).value.trim(); 
@@ -789,13 +659,6 @@ function checkDateForThisMonth(dateField,counter)
 		    var Diff3 = Math.floor((date4.getTime() - date1.getTime())/(one_day));
 		    var Diff4 = Math.floor((date2.getTime() - date4.getTime())/(one_day));
 	
-		   /* if(i!=counter && ((Diff1>=0 && Diff2>=0) || (Diff3>=0 && Diff4>=0))){
-				
-		    	swal('The broken period pay dates overlaps in the same month.');
-				document.getElementById("txtFromDate"+counter).value="";
-				document.getElementById("txtToDate"+counter).value="";
-				return false;
-			}*/
 		}
 	}
 	
@@ -813,8 +676,6 @@ function checkSameMonth(toDateObj,counter){
 	var d = new Date();
 	var currMonth = d.getMonth();
 	var currYear = d.getFullYear();
-	//alert('currDate 2 is---'+d);
-	//alert('toDateMonth is---'+toDateMonth);
 
 	
 	
@@ -835,16 +696,11 @@ return true;
 
 function checkFutureDate(dateField,counter){
 	var fromDate=dateField.value.trim() ;
-//	var fromDate=dateField.value ;
 	var selYear = document.getElementById('yearName').options[document.getElementById('yearName').selectedIndex].text.trim();
 	var month = Number(document.getElementById("monthName").value.trim());
 	var fromdateArray=fromDate.split("-");
 	var selYearArray=selYear.split("-");
 	var year="";
-//	if(month<4)
-//		year=selYearArray[1];
-//	if(month>3)
-//		year=selYearArray[0];
 	year=selYearArray[0];
 	
 	
