@@ -769,7 +769,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		sb.append("where bppay.sevaarth_id='" + sevaarthid + "' and bppay.month_id=" + monthid + " and bppay.year_id="
 				+ yearid + " and bppay.ddo_code='" + Username + "' ");
 		sb.append(
-				" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_type order by bppay.emp_id");
+				" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_allowdeduc_type_sum order by bppay.emp_id");
 		Query query = currentSession.createSQLQuery(sb.toString());
 		return query.list();
 	}
@@ -1113,10 +1113,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup,int allowDeducCode) {
 	    Session currentSession = entityManager.unwrap(Session.class);
-	    
-	    
-	       
-	    
 
 	    String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst " +
 	                 "WHERE department_allowdeduc_code=:allowDeducCode AND city_group = :citygroup " +
@@ -1202,6 +1198,16 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.addScalar("ta", StandardBasicTypes.DOUBLE);
 
 		return (Double) query.uniqueResult();
+	}
+
+	@Override
+	public String getEmpCadre(String sevaarthId, Long empClass) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = "select group_name_en from cadre_group_mst a inner join employee_mst b on a.id=b.emp_class where b.sevaarth_id='"+sevaarthId+"'";
+		System.out.println("---------------getEmpCadre-----------------" + HQL);
+		Query query = currentSession.createSQLQuery(HQL);
+		String result = (String) query.list().get(0);
+		return result;
 	}
 
 }

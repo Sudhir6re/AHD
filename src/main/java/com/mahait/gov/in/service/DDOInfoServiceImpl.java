@@ -1,7 +1,6 @@
 package com.mahait.gov.in.service;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +15,7 @@ import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.CmnStateMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
 import com.mahait.gov.in.entity.DdoOffice;
-import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
-import com.mahait.gov.in.entity.ZpRltDdoMap;
 import com.mahait.gov.in.model.ApproveDDOHstModel;
 import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.repository.DDOInfoRepo;

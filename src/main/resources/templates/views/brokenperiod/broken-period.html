@@ -655,15 +655,6 @@ ELSE
 	<script th:src="@{/js/project/broken-period.js}"></script>
 
 	<script type="text/javascript">
-/* <%-- try{
-	var Genrtd = "${resValue.PaysAddedBefore}";
-	if (Genrtd != 'Yes') 
-		loadSalaryFromRuleEngine("1");
-}catch(error){
-}--%> */
-
-// calcGrossAmount('1');
-// calcTotalDeduction('1');
 
 loadNetPay();
 loadGrossAmount();
@@ -671,46 +662,7 @@ loadTotalDeduction();
 
 
 </script>
-	<script>
-	/* $(document).ready(function(){ */ 
-// 		$(".BrokenPeriodHiddenData").hide(); 
-// 	 $("#brokenSearchbtn").click(function(e) {
-// 		 e.preventDefault();
-		 
-// /* 		 $("#txtSearchName").keypress(function (e) {
-// 		     //if the letter is not digit then display error and don't type anything
-// 		     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-// 		        //display error message
-// 		        $("#errmsg").html("Digits Only").show().fadeOut("slow");
-// 		               return false;
-// 		    }
-// 		   }); */
-		 
-// 	     var sId = $('#txtSearchName').val();
-// 	     var year = $('#yearName').val();
-// 	     var month = $('#monthName').val();
-	     
-// 	     if (sId == "") {
-// 	         swal(" Please Enter Sevaarth ID !!!");
-// 	     } else if (year  == "0" ) {
-// 	         swal("Please Select Year !!!");
-// 	     } else if ( month == "0") {
-// 	         swal(" Please Select Month!!!");
-// 	     } else {
-	      
-// 	    	 $(".BrokenPeriodHiddenData").show();
-	         
-// 	     }
-// 	 });
-// 		$(".brokPeri").DataTable();
-// 	 $("#btnAddRow").click(function() {
-// 		/*   swal("cliked");	 */
-// 	 });
-	 
-// 	 }); //ready Close
 	
-	
-	</script>
 </BODY>
 
 </html>
