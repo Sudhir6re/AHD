@@ -1,7 +1,7 @@
-jQuery(document).ready(function($) {
+/*jQuery(document).ready(function($) {
 	$('#tblConsolidatePayBill').hide();
 	$('#tblShowPayBill').hide();
-});
+});*/
 
 var paybillGenerationTransactionIdArr = []; 
 var grossAmtAr = []; 
@@ -16,13 +16,13 @@ $("#selectAll").change(function() {
 	var isChecked = $(this).prop("checked");
 	console.log(isChecked);
 	if (isChecked == true) {
-		$(".payBillId").prop("checked", true);
+		$(".ddoList").prop("checked", true);
 	} else if (isChecked == false) {
-		$(".payBillId").prop("checked", false);
+		$(".ddoList").prop("checked", false);
 	}
 });
 
-
+/*
 $("#tblShowPayBill").on(
 		'change',
 		'.payBillId',
@@ -31,10 +31,6 @@ $("#tblShowPayBill").on(
 			// get the current row
 			var currentRow = $(this).closest("tr");
 			var paybillgenId = currentRow.find("td:eq(1)").text(); // get
-//			var schemeNamev = currentRow.find("td:eq(4)").text();
-			// alert("schemeNamev"+schemeNamev);
-//			var schemeCodev = currentRow.find("td:eq(3)").text();
-			// alert("schemeCodev"+schemeCodev);
 			var statusv = $(this).attr("data-status");
 			
 			var ddoCode = currentRow.find("td:eq(6)").text();
@@ -47,8 +43,8 @@ $("#tblShowPayBill").on(
 				if(statusv=='6'){
 					paybillGenerationTransactionIdArr.push(paybillgenId);
 					ddoCodeArr.push(ddoCode);
-					/*schemeNameArr=schemeNamev;
-					schemeCodeArr=schemeCodev;*/
+					schemeNameArr=schemeNamev;
+					schemeCodeArr=schemeCodev;
 			        grossAmtAr.push(grossAmt);
 			        netAmtAr.push(netAmt);
 					statusArr=statusv;
@@ -83,13 +79,15 @@ $("#tblShowPayBill").on(
 				
 			}
 			
-		});
+		});*/
 
-$("#btnSearch")
+/*$("#btnSearch")
 		.click(
 				function(e) {
-					// e.preventDefault();
-//					var schemeCode = $("#schemeCode").val();
+					if ($(".ddoList").is(":checked")){
+						var ddoCode=$(this).val();
+						
+					}
 					var billStatus = $("#billStatus").val();
 					var yearName = $("#yearName").val();
 					var monthName = $("#monthName").val();
@@ -97,10 +95,10 @@ $("#btnSearch")
 					
 					$("#btnConsolidatePaybill").attr("disabled", true);
 
-					/*if (schemeCode == "" || schemeCode == "0") {
+					if (schemeCode == "" || schemeCode == "0") {
 						e.preventDefault();
 						swal("Please select scheme code");
-					} else*/ if (billStatus == "" || billStatus == "0") {
+					} else if (billStatus == "" || billStatus == "0") {
 						e.preventDefault();
 						swal("Please select billStatus");
 					} else if (yearName == "" || yearName == "0") {
@@ -211,7 +209,7 @@ $("#btnSearch")
 																		.fnAddData(
 																				[
 																						chk,
-																						/*++i,*/
+																						++i,
 																						paybillGenerationTrnId,
 																						billDescription,
 //																						schemeCode,
@@ -226,7 +224,7 @@ $("#btnSearch")
 					}
 				});
 
-
+*/
 
 
 //save data
