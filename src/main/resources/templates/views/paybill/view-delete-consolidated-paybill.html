@@ -27,7 +27,7 @@
 				th:style="${'color: orange;'}"></legend> -->
 
 			<form class="form-horizontal" th:action="@{/ddo/beams/frwdbilldatabeams}"
-				th:object="${consolidatePayBillTrnEntity}" method="POST"
+				th:object="${consolidatePayBillModel}" method="POST"
 				enctype="multipart/form-data">
 				<!-- th:action="@{/master/saveBillGrpMain}" -->
 
@@ -48,7 +48,7 @@
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.selectmonth}"></span></label>
 					<div class="col-sm-2">
-						<select class="form-control" th:field="*{paybillMonth}"
+						<select class="form-control" th:field="*{monthName}"
 							id="monthName">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -60,7 +60,7 @@
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.selectyear}"></span></label>
 					<div class="col-sm-2">
-						<select class="form-control" th:field="*{paybillYear}" id="yearName">
+						<select class="form-control" th:field="*{yearName}" id="yearName">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 							<option th:each="varYear : ${lstYears}"

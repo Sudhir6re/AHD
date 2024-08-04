@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
@@ -14,6 +15,7 @@ import com.mahait.gov.in.entity.AppoinmentEntity;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnEntity;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnMpgEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
+import com.mahait.gov.in.entity.ZpRltDdoMap;
 
 @Repository
 public class ConsolidatePayBillRepoImpl implements ConsolidatePayBillRepo {
@@ -119,6 +121,23 @@ public class ConsolidatePayBillRepoImpl implements ConsolidatePayBillRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Serializable saveId = currentSession.save(paybillGenerationTrnEntity);
 		return (Long) saveId;
+	}
+
+	@Override
+	public PaybillGenerationTrnEntity findPaybillDtls(String ddoCode, Long billNo) {
+		try {
+			String HQL = "FROM PaybillGenerationTrnEntity as  t  where t.ddoCode = '"+ddoCode+"' and t.paybillGenerationTrnId='"+billNo+"'";
+			return (PaybillGenerationTrnEntity) entityManager.createQuery(HQL).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void updaterejectConsolidateStatus(PaybillGenerationTrnEntity paybillGenerationTrnEntity) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.update(paybillGenerationTrnEntity);
 	}
 
 }

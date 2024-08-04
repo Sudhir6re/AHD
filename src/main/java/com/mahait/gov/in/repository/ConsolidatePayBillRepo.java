@@ -17,5 +17,7 @@ public interface ConsolidatePayBillRepo {
 	public List<Object[]> fetchbilldts(Long paybillGenerationTrnId);
 	Long getConsolidateTrnId();
 	public Serializable saveDtlsPaybillTrn(PaybillGenerationTrnEntity paybillGenerationTrnEntity);
+	public PaybillGenerationTrnEntity findPaybillDtls(String ddoCode, Long billNo);
+	public void updaterejectConsolidateStatus(PaybillGenerationTrnEntity paybillGenerationTrnEntity);
 
 }

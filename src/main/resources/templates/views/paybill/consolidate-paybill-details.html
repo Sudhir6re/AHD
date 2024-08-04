@@ -74,9 +74,12 @@
 								</td>
 									<td th:text="${att.billNetAmt}" >   
 									</td>
-									<!-- <td th:text="${att.officeName}"></td> -->
+									 <td style="text-align: left"><a th:href="@{'/ddo/rejectConsolidatePaybill/' + ${att.ddoCode} + '/' + ${att.billNo}}"><input type="button" value="Reject"></a></td>
 								</tr>
 							</tbody>
+							
+							
+							
 
 
 					</tbody>

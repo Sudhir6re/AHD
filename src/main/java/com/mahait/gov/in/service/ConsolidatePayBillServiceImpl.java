@@ -15,6 +15,7 @@ import com.mahait.gov.in.entity.ConsolidatePayBillTrnEntity;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnMpgEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
+import com.mahait.gov.in.entity.ZpRltDdoMap;
 import com.mahait.gov.in.model.ConsolidatePayBillModel;
 import com.mahait.gov.in.repository.ConsolidatePayBillRepo;
 
@@ -178,6 +179,23 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 		
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public PaybillGenerationTrnEntity rejectConsolidatePaybill(String ddoCode, Long billNo) {
+		// TODO Auto-generated method stub
+	
+		PaybillGenerationTrnEntity paybillGenerationTrnEntity = consolidatePayBillRepo.findPaybillDtls(ddoCode,billNo);
+		if (paybillGenerationTrnEntity != null) {
+			paybillGenerationTrnEntity.setIsActive(7);
+
+			consolidatePayBillRepo.updaterejectConsolidateStatus(paybillGenerationTrnEntity);
+			
+		}
+		return paybillGenerationTrnEntity;
+	
+		
+
 	}
 
 }

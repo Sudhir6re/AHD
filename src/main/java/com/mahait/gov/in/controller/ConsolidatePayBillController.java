@@ -5,6 +5,7 @@ package com.mahait.gov.in.controller;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.ConsolidatePayBillModel;
+import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.ConsolidatePayBillService;
 import com.mahait.gov.in.service.MstSchemeService;
@@ -102,6 +106,19 @@ public class ConsolidatePayBillController  extends BaseController{
 				
 				return "/views/paybill/view-delete-consolidated-paybill";
 			}
+	@RequestMapping("/rejectConsolidatePaybill/{ddoCode}/{billNo}")
+	public String updateApproveStatus(@ModelAttribute("consolidatePayBillModel") ConsolidatePayBillModel consolidatePayBillModel, @PathVariable String ddoCode,
+			@PathVariable Long billNo,Model model,Locale locale,HttpSession session,HttpServletRequest request) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+			PaybillGenerationTrnEntity status  =  consolidatePayBillService.rejectConsolidatePaybill(ddoCode,billNo);
+			
+			addMenuAndSubMenu(model,messages);
+		
+		if(status!=null)
+			model.addAttribute("message","Consolidate Paybill Rejected Successfully");
+		return "redirect:/ddo/consolidatePayBill";
+		///}
 	
-	
+}
 }
