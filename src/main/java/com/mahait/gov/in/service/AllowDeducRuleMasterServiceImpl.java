@@ -98,7 +98,7 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
 
 	@Override
 	public int updateAllowanceDeductionRulesMaster(AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity) {
-		AllowanceDeductionRuleMstEntity 	allowanceDeductionRuleMstEntity1=allowDeducRuleMasterRepo.findRuleByComponentCode(allowanceDeductionRuleMstEntity.getAllowanceDeductionWiseRuleId());
+		AllowanceDeductionRuleMstEntity 	allowanceDeductionRuleMstEntity1=allowDeducRuleMasterRepo.findRuleByRuleId(allowanceDeductionRuleMstEntity.getAllowanceDeductionWiseRuleId());
 		if(allowanceDeductionRuleMstEntity1!=null) {
 			allowanceDeductionRuleMstEntity1.setStartDate(allowanceDeductionRuleMstEntity.getStartDate());
 			allowanceDeductionRuleMstEntity1.setEndDate(allowanceDeductionRuleMstEntity.getEndDate());

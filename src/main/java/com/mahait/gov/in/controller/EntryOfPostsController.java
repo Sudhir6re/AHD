@@ -2,6 +2,7 @@ package com.mahait.gov.in.controller;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -224,16 +225,18 @@ public class EntryOfPostsController  extends BaseController{
 			model.addAttribute("DDOlist", DDOdtls);
 		}
 
-		if(postEntryModel.getAction()!=null) {
-			if(postEntryModel.getAction().equals("search")) {
-				
-				 List<OrgPostDetailsRlt> lst=entryOfPostsService.searchPostListByGrOrderId(locId,postEntryModel.getOldGrOrderId());
-				 model.addAttribute("attachedPostList", lst);
-			}
-		}
-		
-		
-		
+		  if (postEntryModel.getAction() != null && postEntryModel.getAction().equals("search")) {
+	            List<OrgPostDetailsRlt> lst = entryOfPostsService.searchPostListByGrOrderId(locId, postEntryModel.getOldGrOrderId());
+	            model.addAttribute("attachedPostList", lst);
+	            model.addAttribute("style", "display:block;");
+	            HrPayOrderMst hrPayOrderMst= entryOfPostsService.findOrderMasterById(postEntryModel.getOldGrOrderId());
+	            postEntryModel.setCurrentOrder(hrPayOrderMst.getOrderName());
+	            postEntryModel.setCurrentOrderDate(hrPayOrderMst.getOrderDate());
+	            
+	        } else {
+	            model.addAttribute("attachedPostList",null);
+	            model.addAttribute("style", "display:none;");
+	        }
 		
 		
 		Calendar cal = Calendar.getInstance();
@@ -241,14 +244,12 @@ public class EntryOfPostsController  extends BaseController{
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		String TodaysDate = fmt.format(today);
 
-
 		List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderDataByDate(locId, TodaysDate,ddoCode);
 		model.addAttribute("orderList", orderList);
 
 		List postExpiryList = entryOfPostsService.getExpiryData(locId,ddoCode);
 		model.addAttribute("postExpiryList", postExpiryList);
 		model.addAttribute("postEntryModel", postEntryModel);
-		
 
 		addMenuAndSubMenu(model,messages);
 		return "/views/update-posts";
@@ -289,11 +290,11 @@ public class EntryOfPostsController  extends BaseController{
 			loggedInPostId = (BigInteger) session.getAttribute("loggedInPost");
 			entryOfPostsService.renewPostEntry(postEntryModel, locId, loggedInPostId, messages);
 			MessageResponse messageResponse = new MessageResponse();
-			messageResponse.setResponse("Post Created Successfully");
+			messageResponse.setResponse("Post Renewed Successfully");
 			messageResponse.setStyle("alert alert-success");
 			messageResponse.setStatusCode(200);
 			redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
-			return "redirect:/ddo/entryOfPosts";
+			return "redirect:/ddo/updatePosts";
 
 		} else {
 			return "redirect:/user/login";

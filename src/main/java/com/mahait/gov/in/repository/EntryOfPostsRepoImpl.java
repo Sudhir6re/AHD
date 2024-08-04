@@ -351,7 +351,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Session hibSession = getSession();
 		StringBuffer sb = new StringBuffer();
 		sb.append(" select a.post_name, a.post_id,f.employee_full_name_en,c.designation_name,e.PSR_NO, ");
-		sb.append(" i.DESCRIPTION,b.post_type_lookup_id,d.lookup_name  from org_post_details_rlt a  ");
+		sb.append(" i.DESCRIPTION,b.post_type_lookup_id,d.lookup_name,g.ddo_code  from org_post_details_rlt a  ");
 		sb.append(" inner join org_post_mst b on a.post_id=b.post_id ");
 		sb.append(" inner join designation_mst c on a.dsgn_id = c.designation_id ");
 		sb.append(" inner join cmn_lookup_mst d on d.lookup_id=b.post_type_lookup_id  ");
@@ -398,7 +398,8 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		StringBuffer sb = new StringBuffer();
 		sb.append(
 				"select postRlt from OrgPostMst postMst, OrgPostDetailsRlt postRlt where");
-		sb.append("postMst.postTypeLookupId = 10001198130 and postMst.postId = postRlt.orgPostMst.postId and postMst.orderId =");
+		sb.append(" postMst.postTypeLookupId = 10001198130 and postMst.postId = postRlt.orgPostMst.postId and postMst.orderId =");  //and endDate < CURRENT_DATE
+
 		sb.append(orderId);
 		Query query = session.createQuery(sb.toString());
 		postList = query.list();
@@ -431,7 +432,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public List getExpiryData(long locId, String ddoCode) {
 	    List orderMstList = null;
 	    Session hibSession = getSession();
-	    String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode = :locId or orderMst.ddoCode = :ddoCode) and endDate < CURRENT_DATE order by orderMst.orderName";
+	    String strQuery = "from HrPayOrderMst orderMst where (orderMst.locationCode = :locId or orderMst.ddoCode = :ddoCode) order by orderMst.orderName"; // and endDate < CURRENT_DATE
 	    Query query = hibSession.createQuery(strQuery);
 	    query.setParameter("locId", String.valueOf(locId));
 	    query.setParameter("ddoCode", ddoCode);
@@ -456,6 +457,13 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 		Query query = hibSession.createSQLQuery(strQuery);
 		orderMstList = query.list();
 		return orderMstList;
+	}
+
+	@Override
+	public HrPayOrderMst findOrderMasterById(long oldGrOrderId) {
+		Session hibSession = getSession();
+		HrPayOrderMst hrPayOrderMst=hibSession.find(HrPayOrderMst.class,oldGrOrderId);
+		return hrPayOrderMst;
 	}
 
 }

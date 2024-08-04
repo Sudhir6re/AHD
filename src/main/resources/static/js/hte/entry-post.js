@@ -2,7 +2,7 @@
 $(document).ready(function() {
 	context = $("#appRootPath").val();
 	
-	var dataTable= $("#postDetails").dataTable();
+	var dataTable= $("#postDetails").DataTable();
 	
 	    if ($('#cmbAsstDDO').length) {
 	        $('#cmbAsstDDO').select2();
@@ -28,6 +28,16 @@ $(document).ready(function() {
 	    if ($('#cmbTaluka').length) {
 	    	$('#cmbTaluka').select2();
 	    }
+	    
+	    if ($('#oldGrOrderId').length) {
+	    	$('#oldGrOrderId').select2();
+	    }
+	    
+	    if ($('#cmbNewOrder').length) {
+	    	$('#cmbNewOrder').select2();
+	    }
+	    
+	    
 	    
 	    
 	    
@@ -193,7 +203,7 @@ $("#btnFilter").click(function(){
 						if(len>0){
 							 dataTable.fnClearTable();
 							for (var i = 0; i < data.length; i++) {
-								 dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].billNo]);
+								 dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].ddoCode,data[i].billNo]);
 								 j++;
 							}
 						}
@@ -417,17 +427,80 @@ $("form[name='postEntryModel']").validate({
 });
 
 
-});
 
-
-
-
-$("#btnGo").change(function(){
-	var context = $("#appRootPath").val();
+$("#btnGo").click(function(){
 	var oldGrOrderId = $("#oldGrOrderId").val();
 	var oldGrOrderDate = $("#oldGrOrderDate").val();
 	$("#action").val("search");
 	$("#renewPost").submit();
 });
+
+
+$("#btnSave").click(function(e){
+	
+	var attachedValues = '';
+    $('.postIdsChk:checked').each(function() {
+        attachedValues += $(this).val() + '~';
+    });
+    $('#postIdsToBeAttached').val(attachedValues.slice(0, -1));
+	
+	$("#renewPost").attr("action", context+"/ddo/renewPostEntry"); 
+
+	if(attachedValues==''){
+		e.preventDefault();
+	}
+	
+	//$("#renewPost").submit();
+	
+	
+});
+
+
+
+
+$('#cmbAsstDDO').on('change', function() {
+	var ddoCode=$(this).val();
+	if(ddoCode=="-1"){
+		dataTable.columns().search('').draw();
+	}else{
+		dataTable.column(5).search(ddoCode).draw(); 
+	}
+	
+});
+
+
+$('#designationCmb').on('change', function() {
+	var designation=$(this).val();
+	if(designation=="-1"){
+		dataTable.columns().search('').draw();
+	}else{
+		dataTable.column(4).search(designation).draw(); 
+	}
+});
+
+
+$('#BillNo').on('change', function() {
+	var BillNo=$(this).val();
+	if(BillNo=="-1"){
+		dataTable.columns().search('').draw();
+	}else{
+		dataTable.column(6).search(BillNo).draw();
+	}
+});
+
+
+
+
+$('#SelectAll').on('change', function() {
+    var isChecked = $(this).prop('checked');
+    $('.postIdsChk').prop('checked', isChecked);
+});
+});
+
+
+
+
+
+
 
 

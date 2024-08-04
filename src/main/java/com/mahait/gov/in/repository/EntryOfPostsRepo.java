@@ -95,4 +95,6 @@ public interface EntryOfPostsRepo {
 
 	List findLevel1DddoByDdoCode(String ddoCode);
 
+	HrPayOrderMst findOrderMasterById(long oldGrOrderId);
+
 }

@@ -50,8 +50,8 @@
 												>
 											</option>
 									</select></td>
-									<td><input id="btnFilter" class="buttontag" type="button"
-										value="Filter" name="btnFilter"></td>
+									<!-- <td><input id="btnFilter" class="buttontag" type="button"
+										value="Filter" name="btnFilter"></td> -->
 								</tr>
 							</tbody>
 						</table>
@@ -65,17 +65,17 @@
 										class="captionTag" id="admin.designation">Designation</label></b></td>
 								<td width="20%"><select name="designationCmb"
 									id="designationCmb" class="selecttag">
-										<option value="">------------ Select ------------</option>
+										<option value="-1">------------ Select ------------</option>
 										<option th:each="desi : ${Designation}"
-											th:value="${desi.desginationCode}" th:text="${desi.desgination}">
+											th:value="${desi.desgination}" th:text="${desi.desgination}">
 										</option>
 								</select></td>
 								<td width="20%" align="right"><b><label
-										class="captionTag" id="admin.bill">Bill Group</label></b></td>
+										class="captionTag" id="BillNo">Bill Group</label></b></td>
 								<td width="20%"><select name="billCmb" id="billCmb">
 										<option value="-1">--------------------Select-------------------</option>
 										<option th:each="bill : ${billList}"
-											th:value="${bill.dcpsDdoBillGroupId}"
+											th:value="${bill.escription}"
 											th:title="${bill.description}"
 											th:text="${bill.description}"></option>
 								</select></td>
@@ -97,6 +97,7 @@
 								<th class="datatableheader">Post Name</th>
 								<th class="datatableheader sortable">Post Type</th>
 								<th class="datatableheader sortable">Designation</th>
+								<th class="datatableheader sortable">DDO Code</th>
 								<th class="datatableheader sortable">Bill Group Name</th>
 							</tr>
 						</thead>
@@ -107,6 +108,7 @@
 								<td th:text="${userPostCustomVO.postname}"></td>
 								<td th:text="${userPostCustomVO.postType}"></td>
 								<td th:text="${userPostCustomVO.dsgnname}"></td>
+								<td th:text="${userPostCustomVO.ddoCode}"></td>
 								<td th:text="${userPostCustomVO.billNo}"></td>
 							</tr>
 						

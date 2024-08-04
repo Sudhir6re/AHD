@@ -350,16 +350,11 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		StringBuffer hql = new StringBuffer();
 
 		if (status.equals("Detach")) {
-			hql.append("update hr_pay_post_psr_mpg set billgroup_id = null");
+			hql.append("update hr_pay_post_psr_mpg set bill_no = null");
 		} else if (status.equals("Attach")) {
-			hql.append("update hr_pay_post_psr_mpg set billgroup_id = " + schemebillGroupId);
+			hql.append("update hr_pay_post_psr_mpg set bill_no = " + schemebillGroupId);
 		}
-		// hql.append(" where sevaarth_id = '" + sevaarthId+ "' and
-		// employee_id="+empid);
-		hql.append(" where  employee_id=" + empid);
-		// String hql = "update employee_mst set billgroup_id = " + billGroupId + "
-		// where sevaarth_id = '" + sevaarthId
-		// + "'";
+		hql.append(" where  post_id=" + empid);
 		Query query = currentSession.createSQLQuery(hql.toString());
 		long result = query.executeUpdate();
 		return "save";

@@ -29,12 +29,12 @@
 				enctype="multipart/form-data">
 				<fieldset>
 					<div>
-						<table class="table bor-0 width-60">
+						<table class="table bor-0 width-100">
 							<tbody>
 								<tr>
-									<td align="center" style="width: 80%"><b>Select GR No.
+									<td align="center" style="width: 40%"><b>Select GR No.
 											to be Renewed :</b></td>
-									<td align="left" style="width: 40%"><select
+									<td align="left" style="width: 60%"><select
 										name="oldGrOrderId" id="oldGrOrderId"
 										th:field="*{oldGrOrderId}" onchange="getSelectedOrderDate()">
 											<option value="-1">-- Select --</option>
@@ -42,10 +42,10 @@
 												th:value="${order.orderId}" th:text="${order.orderName}"></option>
 									</select> <label class="mandatoryindicator">*</label></td>
 
-									<td width="10%" align="left"><input type="text"
+									<td width="10%" align="left"><input type="date"
 										name="oldGrOrderDate" id="oldGrOrderDate"
 										th:field="*{oldGrOrderDate}" value="" readonly="readonly">
-										<input type="text" name="action" id="action"
+										<input type="hidden" name="action" id="action"
 										th:field="*{action}"></td>
 								</tr>
 							</tbody>
@@ -61,7 +61,7 @@
 					<br />
 				</fieldset>
 				<br>
-				<fieldset class="renewalPostmain">
+				<fieldset class="renewalPostmain"  th:if="${attachedPostList != null and !attachedPostList.isEmpty()}">
 					<legend>
 						<b>Renewal Of Post Details</b>
 					</legend>
@@ -76,29 +76,26 @@
 											<thead>
 												<tr>
 													<th class="datatableheader sorted order1"><input
-														type="checkbox" name="SelectAll"></th>
+														type="checkbox"   id="SelectAll" name="SelectAll"></th>
 													<th class="datatableheader sortable">Posts (All)</th>
 												</tr>
 											</thead>
-											<tbody>
-												<tr>
-													<span th:each="attachedPost, iterStat : ${attachedPostList}">
-														<tr>
-															<td class="tablecelltext" style="text-align: center">
-																<input  th:id="'GroupCheck' +${attachedPostStat.index+1}"
-																type="checkbox"
-																th:value="${attachedPost.orgPostMst.postId}"
-																name="GroupCheck" />
-															</td>
-															<td class="tablecelltext" style="text-align: left">
-																<label th:id="'postId' + ${iterStat.index}">
-																	<b><span th:text="${attachedPost.postName}"></span></b>
-															</label>
-															</td>
-														</tr>
-													</span>
-												</tr>
-											</tbody>
+												<tbody>
+																<tr
+																	th:each="attachedPost, iterStat : ${attachedPostList}">
+																	<td class="tablecelltext" style="text-align: center">
+																		<input th:id="'GroupCheck' + ${iterStat.index + 1}"
+																		type="checkbox"  class="postIdsChk"
+																		th:value="${attachedPost.orgPostMst != null ? attachedPost.orgPostMst.postId : ''}"
+																		name="GroupCheck" />
+																	</td>
+																	<td class="tablecelltext" style="text-align: left">
+																		<label th:id="'postId' + ${iterStat.index}"> <b><span
+																				th:text="${attachedPost.postName != null ? attachedPost.postName : 'N/A'}"></span></b>
+																	</label>
+																	</td>
+																</tr>
+															</tbody>
 										</table>
 									</div>
 								</td>
@@ -111,14 +108,14 @@
 													<td width="40%" valign="middle" align="left"><b>
 															Old GR :</b></td>
 													<td width="60%" align="left"><input type="text"
-														size="30" name="currentOrder" id="currentOrder"
+														size="30" name="currentOrder" id="currentOrder"   readonly="readonly"
 														th:field="*{currentOrder}" value=""></td>
 												</tr>
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															Old GR Date :</b></td>
 													<td width="60%" align="left"><input type="date"
-														size="10" name="currentOrderDate" id="currentOrderDate"
+														size="10" name="currentOrderDate" id="currentOrderDate"   readonly="readonly"
 														th:field="*{currentOrderDate}" value="28/03/2011"></td>
 												</tr>
 												<tr>
@@ -136,7 +133,7 @@
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															New GR Date :</b></td>
-													<td width="60%" align="left"><input type="date"
+													<td width="60%" align="left"><input type="date"  readonly="readonly"
 														th:field="*{renewalStartDate}" size="10"
 														name="renewalStartDate" id="renewalStartDate" value=""
 														maxlength="10"></td>
@@ -144,7 +141,7 @@
 												<tr>
 													<td width="40%" valign="middle" align="left"><b>
 															Renewal Post Start Date :</b></td>
-													<td width="60%" align="left"><input type="date"
+													<td width="60%" align="left"><input type="date"  
 														size="10" name="renewalPostStartDate"
 														th:field="*{renewalPostStartDate}"
 														id="renewalPostStartDate" maxlength="10"
@@ -184,7 +181,7 @@
 	</div>
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<script>
-		$(".renewalPostmain").hide();
+		//$(".renewalPostmain").hide();
 		function getEmpInfo() {
 			$(".renewalPostmain").fadeIn(100);
 		}

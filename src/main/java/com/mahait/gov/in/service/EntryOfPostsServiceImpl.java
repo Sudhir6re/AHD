@@ -683,6 +683,10 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 				} else {
 					postType = "VACANT";
 				}
+				
+								
+				customVO.setDdoCode(rowList[8].toString());
+				
 
 				customVO.setPostType(postType);
 
@@ -755,7 +759,7 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Override
 	public void renewPostEntry(PostEntryModel postEntryModel, long locId, BigInteger loggedInPostId,
 			OrgUserMst messages) {
-		if (postEntryModel.getPostIdsToBeAttached() != " ") {
+		if (postEntryModel.getPostIdsToBeAttached() != " ") {  //99100001001649
 			String[] lStrArrPostIdsToBeAttached = postEntryModel.getPostIdsToBeAttached().split("~");
 			Long[] lLongArrPostIdsToBeAttached = new Long[lStrArrPostIdsToBeAttached.length];
 			for (Integer lInt = 0; lInt < lStrArrPostIdsToBeAttached.length; lInt++) {
@@ -775,6 +779,11 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 	@Override
 	public List findLevel1DddoByDdoCode(String ddoCode) {
 		return entryOfPostsRepo.findLevel1DddoByDdoCode(ddoCode);
+	}
+
+	@Override
+	public HrPayOrderMst findOrderMasterById(long oldGrOrderId) {
+		return entryOfPostsRepo.findOrderMasterById(oldGrOrderId);
 	}
 
 }

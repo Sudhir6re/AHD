@@ -100,9 +100,9 @@ public class AllowDeducRuleMasterController extends BaseController {
 		
 			 isSave=allowDeducRuleMasterService.saveAllowanceDeductionRulesMaster(allowanceDeductionRuleMstEntity);
 		if(isSave>0) {
-			redirectAttributes.addFlashAttribute("message", "1");
+			redirectAttributes.addFlashAttribute("message", "Rule Save Successfully");
 		}else {
-			redirectAttributes.addFlashAttribute("message", "0");
+			redirectAttributes.addFlashAttribute("message", "Rule Save Successfully");
 		}
 		return new ModelAndView("redirect:/mdc/loadRuleMaster");
 	}
@@ -118,9 +118,9 @@ public class AllowDeducRuleMasterController extends BaseController {
 		
 			 isSave=allowDeducRuleMasterService.updateAllowanceDeductionRulesMaster(allowanceDeductionRuleMstEntity);
 		if(isSave>0) {
-			redirectAttributes.addFlashAttribute("message", "1");
+			redirectAttributes.addFlashAttribute("message", "Rule Updated Successfully");
 		}else {
-			redirectAttributes.addFlashAttribute("message", "0");
+			redirectAttributes.addFlashAttribute("message", "Rule Updated Successfully");
 		}
 		return new ModelAndView("redirect:/mdc/loadRuleMaster");
 	}

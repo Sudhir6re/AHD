@@ -113,7 +113,6 @@ public class DdoBillGroupAttachDetachController  extends BaseController{
 		if (search != null && search.equals("SEARCH")) {
 			String scmebillgroupid = (String) model.asMap().get("schemebillgroup");
 			String type = (String) model.asMap().get("type");
-			System.out.println("******************************Type" + type);
 			mpgSchemeBillGroupModel.setSchemebillGroupId(Long.valueOf(scmebillgroupid.trim()));
 			mpgSchemeBillGroupModel.setType(Long.valueOf(type.trim()));
 			lstAttachedEmployee = ddoBillGroupService.findAttachedEmployee(messages.getDdoCode(),
@@ -133,11 +132,16 @@ public class DdoBillGroupAttachDetachController  extends BaseController{
 			model.addAttribute("lstAttachedEmployee", lstAttachedEmployee);
 			model.addAttribute("lstDettachEmployee", ddoBillGroupService.findDettachEmployee(messages.getDdoCode(),
 					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
+			
 			model.addAttribute("lstattachpost", ddoBillGroupService.findattachpostlist(messages.getDdoCode(),
 					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
 			model.addAttribute("lstdetachpost", ddoBillGroupService.finddetachpostlist(messages.getDdoCode(),
 					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
 			model.addAttribute("mpgSchemeBillGroupModel", mpgSchemeBillGroupModel);
+			
+			
+			
+			
 		} else {
 			model.addAttribute("billDescription", "");
 		}
