@@ -16,9 +16,9 @@ $("#selectAll").change(function() {
 	var isChecked = $(this).prop("checked");
 	console.log(isChecked);
 	if (isChecked == true) {
-		$(".ddoList").prop("checked", true);
+		$(".checkbox").prop("checked", true);
 	} else if (isChecked == false) {
-		$(".ddoList").prop("checked", false);
+		$(".checkbox").prop("checked", false);
 	}
 });
 
@@ -228,7 +228,7 @@ $("#tblShowPayBill").on(
 
 
 //save data
-$("#btnConsolidatePaybill").click(
+/*$("#btnConsolidatePaybill").click(
 		function(e) {
 			// e.preventDefault();
 			var yearName = $("#yearName").val();
@@ -239,13 +239,13 @@ $("#btnConsolidatePaybill").click(
 					+ paybillGenerationTransactionIdArr + "grossAmtAr" + grossAmtAr + "netAmtAr" + netAmtAr);
 
 			
-			/*alert("statusArr--"+statusArr);
+			alert("statusArr--"+statusArr);
 			alert("monthName--"+monthName);
 			alert("yearName--"+yearName);
 			alert("paybillGenerationTransactionIdArr--"+paybillGenerationTransactionIdArr);
 			alert("grossAmtAr--"+grossAmtAr);
 			alert("netAmtAr--"+netAmtAr);
-			alert("ddoCodeArr--"+ddoCodeArr);*/
+			alert("ddoCodeArr--"+ddoCodeArr);
 			
 			
 			
@@ -288,4 +288,4 @@ $("#btnConsolidatePaybill").click(
 			
 			
 
-		});
+		});*/

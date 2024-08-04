@@ -8,8 +8,8 @@ import com.mahait.gov.in.entity.ConsolidatePayBillTrnMpgEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 
 public interface ConsolidatePayBillRepo {
-	public int saveConsolidatePayBill(ConsolidatePayBillTrnEntity objEntity);
-	public int saveConsolidatePayBillTrnMpg(ConsolidatePayBillTrnMpgEntity objEntity);
+	public Long saveConsolidatePayBill(ConsolidatePayBillTrnEntity objEntity);
+	public Long saveConsolidatePayBillTrnMpg(ConsolidatePayBillTrnMpgEntity objEntity);
 	List<Object[]> addConsComponents(String ddoCode, List<Integer> payBillGenerationTransId);
 	public List<Object[]> fetchDDOLst(String ddoCode);
 	public List<Object[]> fetchConsolidateDetails(String ddoCode, Integer monthId, Integer yearId, String schemeCode);

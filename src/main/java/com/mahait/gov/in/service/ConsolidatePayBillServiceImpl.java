@@ -14,7 +14,6 @@ import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnEntity;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnMpgEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
-import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.ConsolidatePayBillModel;
 import com.mahait.gov.in.repository.ConsolidatePayBillRepo;
@@ -85,16 +84,25 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 		Serializable id =0;
 		Double sumGrossAmount=0d;
 		Double sumNetAmount=0d;
-		Double sumItAmount=0d;
-		Double sumptAmount=0d;
-		Double sumgisAmount=0d;
-		Double sumhrrAmount=0d;
-		Double sumtotalDeducAmount=0d;
-		Double sumProvFundAmount=0d;
-		Double sumAccPolicyAmount=0d;
-		Double sumdcpsArrAmount=0d;
+		Double totalITamt=0d;
+		Double incomeTax=0d;
+		Double totaldcpsArr=0d;
+		Double totalgis=0d;
+		Double totalpt=0d;
+		Double totalaccPolicy=0d;
+		Double totalHrr=0d;
+		Double totalDeduc=0d;
+		Double totalpf=0d;
+		Double dcpsarr=0d;
+		Double gis=0d;
+		Double pt=0d;
+		Double accpolicy=0d;
+		Double hrr=0d;
+		Double deduc=0d;
+		Double pf=0d;
 		
-		ConsolidatePayBillTrnMpgEntity consolidateTrnMpg = new ConsolidatePayBillTrnMpgEntity();
+		
+		ConsolidatePayBillTrnEntity objEntity = new ConsolidatePayBillTrnEntity();
 		for (ConsolidatePayBillModel model : consolidatePayBillModel.getLstCons()) {
 			
 			sumGrossAmount +=model.getBillGrossAmt();
@@ -106,43 +114,67 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 				
 				List<Object[]> lstpaybilldtls = consolidatePayBillRepo.fetchbilldts(lst.get(0).getPaybillGenerationTrnId()); 
 				
+				ConsolidatePayBillTrnMpgEntity consolidateTrnMpg = new ConsolidatePayBillTrnMpgEntity();
 				for (Object[] obj : lstpaybilldtls) {
+								
 					
-					ConsolidatePayBillTrnEntity objEntity = new ConsolidatePayBillTrnEntity();
-///Sum(total_deduction)as TotalDeduct, SUM(COALESCE(gpf_grp_abc,0) + COALESCE(GPF_ADV_GRP_ABC,0)+COALESCE(GPF_ABC_ARR,0)+COALESCE(gpf_grp_d,0)+COALESCE(GPF_ADV_GRP_D,0)
-//+COALESCE(GPF_D_ARR,0))as prov_fund
-					consolidateTrnMpg.setConsolidatePaybillTrnId(consolidatePayBillRepo.getConsolidateTrnId());
-					consolidateTrnMpg.setDdoCode(model.getDdoCode());
-					consolidateTrnMpg.setPaybillGenerationTrnId(paybillGenerationTrnEntity.getPaybillGenerationTrnId());
-					if(obj[0]!=null)
-					objEntity.setIt(StringHelperUtils.isNullDouble(obj[0]));
-					if(obj[1]!=null)
-					objEntity.setDcpsArr(StringHelperUtils.isNullDouble(obj[1]));
-					if(obj[2]!=null)
-					objEntity.setGis(StringHelperUtils.isNullDouble(obj[2]));
-					if(obj[3]!=null)
-					objEntity.setPt(StringHelperUtils.isNullDouble(obj[3]));
-					if(obj[4]!=null)
-					objEntity.setAccPolicy(StringHelperUtils.isNullDouble(obj[4]));
-					if(obj[5]!=null)
-					objEntity.setHrr(StringHelperUtils.isNullDouble(obj[5]));
-					if(obj[6]!=null)
-					objEntity.setTotalDeduct(StringHelperUtils.isNullDouble(obj[6]));
-					if(obj[7]!=null)
-					objEntity.setPf(StringHelperUtils.isNullDouble(obj[7]));
-					objEntity.setCreatedDate(new Date());
-					objEntity.setCreatedUserId(messages.getUserId());
-					objEntity.setIsActive(9);
+						incomeTax = (StringHelperUtils.isNullDouble(obj[0]));
+						totalITamt+=incomeTax;
+										
+						dcpsarr=(StringHelperUtils.isNullDouble(obj[1]));
+						totaldcpsArr+=dcpsarr;
+												
+						 gis=(StringHelperUtils.isNullDouble(obj[2]));
+						totalgis+=gis;
+													
+						pt=(StringHelperUtils.isNullDouble(obj[3]));
+						totalpt+=pt;
+															
+						accpolicy=(StringHelperUtils.isNullDouble(obj[4]));
+						totalaccPolicy+=accpolicy;
 					
-					paybillGenerationTrnEntity.setIsActive(9);
-					id = consolidatePayBillRepo.saveConsolidatePayBill(objEntity);
-					id = consolidatePayBillRepo.saveConsolidatePayBillTrnMpg(consolidateTrnMpg);
-					id = consolidatePayBillRepo.saveDtlsPaybillTrn(paybillGenerationTrnEntity);
+						hrr=(StringHelperUtils.isNullDouble(obj[5]));
+						totalHrr+=hrr;
+									
+						deduc=(StringHelperUtils.isNullDouble(obj[6]));
+						totalDeduc+=deduc;
+					
+						pf=(StringHelperUtils.isNullDouble(obj[7]));
+						totalpf+=pf;
+										
+					
 				}
+				
+				System.out.println("consolidate trn id---"+consolidatePayBillRepo.getConsolidateTrnId());
+				consolidateTrnMpg.setConsolidatePaybillTrnId(consolidatePayBillRepo.getConsolidateTrnId());
+				consolidateTrnMpg.setDdoCode(model.getDdoCode());
+				consolidateTrnMpg.setPaybillGenerationTrnId(paybillGenerationTrnEntity.getPaybillGenerationTrnId());
+				paybillGenerationTrnEntity.setIsActive(9);
+				id = consolidatePayBillRepo.saveConsolidatePayBillTrnMpg(consolidateTrnMpg);
+				id = consolidatePayBillRepo.saveDtlsPaybillTrn(paybillGenerationTrnEntity);
+				
 			}
 			
+			
 		}
-		
+		objEntity.setIt(totalITamt);
+		objEntity.setDcpsArr(totaldcpsArr);
+		objEntity.setIt(totalITamt);
+		objEntity.setGis(totalgis);
+		objEntity.setPt(totalpt);
+		objEntity.setAccPolicy(totalaccPolicy);
+		objEntity.setHrr(totalHrr);
+		objEntity.setTotalDeduct(totalDeduc);
+		objEntity.setPf(totalpf);
+		objEntity.setCreatedDate(new Date());
+		objEntity.setCreatedUserId(messages.getUserId());
+		objEntity.setGrossAmt(sumGrossAmount);
+		objEntity.setNetAmt(sumNetAmount);
+		objEntity.setPaybillMonth(consolidatePayBillModel.getMonthName());
+		objEntity.setPaybillYear(consolidatePayBillModel.getYearName());
+		objEntity.setDdoCode(messages.getDdoCode());
+		objEntity.setIsActive(9);
+		id = consolidatePayBillRepo.saveConsolidatePayBill(objEntity);
 		
 		// TODO Auto-generated method stub
 		return 0;
