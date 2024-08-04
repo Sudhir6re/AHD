@@ -79,10 +79,10 @@
 					<label class="control-label col-sm-2" for="title"><span>Institution
 							Details</span></label>
 					<div class="col-sm-9">
-						<table class="table table-bordered">
+						<table class="table table-bordered"> 
 							<thead>
 								<tr>
-									<th class="datatableheader"><input type="checkbox" name='selectAll' id="selectAll"
+									<th class="datatableheader selectAll"><input type="checkbox" name='selectAll' id="selectAll"
 								data-pid="0"></th>
 									<th class="datatableheader">DDO Code</th>
 									<th class="datatableheader"><b>DDO Office Name</b></th>
@@ -95,7 +95,7 @@
 								th:value="${consolidatePayBillModel.lstCons[__${itemStat.index}__].checkboxid}"
 								th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].checkboxid}" />
 								<input type="hidden" name="checkboxid2" th:id="${'checkboxid2'+itemStat.index}" 
-								class="checkboxorg"
+								class="checkboxorg checkbox"
 								th:value="${consolidatePayBillModel.lstCons[__${itemStat.index}__].checkboxid}"
 								th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].checkboxid}" />
 								<input type="hidden" th:id="ddoCode" th:value="${att.ddoCode}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].ddoCode}">

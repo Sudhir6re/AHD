@@ -4,7 +4,7 @@
 <head>
 <title th:utext="#{menu.mapping.consolidatePayBill}"></title>
 </head>
-<body class="consolidate-paybill">
+<body class="consolidate-paybill-details">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
@@ -33,8 +33,18 @@
 
 				<input type="hidden" name="language" id="language"
 					th:value="${language}" /> <input type="hidden" name="message"
-					id="message" th:value="${message}" /> <input type="hidden"
+					id="message" th:value="${message}" /> 
+					
+					
+					<input type="hidden"
 					name="userId" id="userId" th:value="${userId}" />
+					
+					<input type="hidden"
+					name="monthName" id="monthName" th:field="*{monthName}" />
+					
+				
+				<input type="hidden"
+					name="yearName" id="yearName" th:field="*{yearName}" />
 
 
 				<table id="tblShowPayBill"
@@ -51,15 +61,25 @@
 					</thead>
 					<tbody>
 						<tr th:each="att, itemStat : ${consolidatePayBillModel.lstCons}">
-									<td th:text="${att.ddoCode}">
-									<input type="hidden" th:id="ddoCode" th:value="${att.ddoCode}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].ddoCode}"></td>
-									<td><a class="billNo" th:text=${att.billNo}></a></td>
-									<td th:text="${att.billDesc}"></td>
-									<td th:text="${att.billGrossAmt}"></td>
-									<td th:text="${att.billNetAmt}"></td>
-									<!-- <td th:text="${att.officeName}"></td> -->
+									<td>
+									<span  th:text="${att.ddoCode}"></span>
+									<input type="hidden" th:id="ddoCode" th:value="${att.ddoCode}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].ddoCode}">
+										<input type="hidden" th:id="billGrossAmt" th:value="${att.billGrossAmt}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billGrossAmt}">
+										<input type="hidden" th:id="billNetAmt" th:value="${att.billNetAmt}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billNetAmt}">
+									
+									</td>
+									<td><a class="billNo" th:text=${att.billNo} th:value="${att.billNo}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billNo}"></a></td>
+									<td th:text="${att.billDesc}" th:value="${att.billDesc}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billDesc}"></td>
+									<td th:text="${att.billGrossAmt}">
+								</td>
+									<td th:text="${att.billNetAmt}" >   
+									</td>
+									 <td style="text-align: left"><a th:href="@{'/ddo/rejectConsolidatePaybill/' + ${att.ddoCode} + '/' + ${att.billNo}}"><input type="button" value="Reject"></a></td>
 								</tr>
 							</tbody>
+							
+							
+							
 
 
 					</tbody>

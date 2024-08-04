@@ -19,7 +19,7 @@ public class ConsolidatePayBillTrnEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="CONSOLIDATE_PAYBILL_TRN_ID")
-    private Integer consolidatePaybillTrnId;
+    private Long consolidatePaybillTrnId;
 	
 	
 	@Column(name ="IS_ACTIVE")
