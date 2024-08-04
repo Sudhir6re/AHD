@@ -26,6 +26,13 @@ public class ViewConsolidatePayBillRepoImpl implements ViewConsolidatePayBillRep
 	@Override
 	public List<Object[]> findAllConsolidatedPaybillList(int monthName,int yearName,String schemeCodeArr,int afterSaveId) {
 		
+		
+		/*select * from consolidate_paybill_trn a 
+		inner join consolidate_paybill_trn_mpg b on a.consolidate_paybill_trn_id=b.consolidate_paybill_trn_id
+		inner join paybill_generation_trn c on c.paybill_generation_trn_id=b.paybill_generation_trn_id
+		inner join rlt_zp_ddo_map d on a.ddo_code=d.rept_ddo_code
+		inner join mst_dcps_bill_group e on e.bill_group_id=c.scheme_billgroup_id*/
+		
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = "select \r\n" + 
 				"  cpt.consolidate_paybill_trn_id, \r\n" + 
