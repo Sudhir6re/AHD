@@ -81,7 +81,7 @@ public class ConsolidatePayBillController  extends BaseController{
 			
 		
 			OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
+			addMenuAndSubMenu(model,messages);	
 			consolidatePayBillModel.setLstCons(consolidatePayBillService.searchConsolidatedPaybill(consolidatePayBillModel,messages));
 			model.addAttribute("consolidatePayBillModel", consolidatePayBillModel);
 				
@@ -94,6 +94,7 @@ public class ConsolidatePayBillController  extends BaseController{
 			BindingResult bindingResult,RedirectAttributes redirectAttributes,Model model,Locale locale,HttpSession session) {
 			
 		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);	
 				int afterSaveId = consolidatePayBillService.saveConsolidatePayBill(consolidatePayBillModel,messages);
 		
 				if(afterSaveId > 0) {
@@ -114,7 +115,8 @@ public class ConsolidatePayBillController  extends BaseController{
 			PaybillGenerationTrnEntity status  =  consolidatePayBillService.rejectConsolidatePaybill(ddoCode,billNo);
 			
 			addMenuAndSubMenu(model,messages);
-		
+			model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+			model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 		if(status!=null)
 			model.addAttribute("message","Consolidate Paybill Rejected Successfully");
 		return "redirect:/ddo/consolidatePayBill";

@@ -31,7 +31,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DisplayInnerReportService;
 
 @Controller
-@RequestMapping("/ddoast")
+@RequestMapping(value= {"/ddoast","/ddo"})
 public class DisplayInnerReportController  extends BaseController{
 	@Autowired
 	PdfGenaratorUtil pdfGenaratorUtil;
@@ -49,11 +49,20 @@ public class DisplayInnerReportController  extends BaseController{
 		int currentPage = page;
 		int pageSize = 1;
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		if (ddoCode.equals("1")) {
-			ddoCode = messages.getUserName();
-		} else {
-			ddoCode = ddoCode;
+		
+		int roleId=messages.getMstRoleEntity().getRoleId();
+		
+		if(roleId!=2) {
+			if (ddoCode.equals("1")) {
+				ddoCode = messages.getUserName();
+			} else {
+				ddoCode = ddoCode;
+			}
+		}else {
+			ddoCode=ddoCode;
 		}
+		
+		
 		
 		Page<DisplayInnerReportModel> innerrptPage = displayInnerReportService
 				.findPaginated(PageRequest.of(currentPage - 1, pageSize), billNumber, ddoCode.toString());
