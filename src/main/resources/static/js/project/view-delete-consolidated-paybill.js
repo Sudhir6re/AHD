@@ -91,7 +91,7 @@ $("#btnSearch")
 														if (status == "9") {
 															isActive = '<span class="label label-success text-center payBillTrnId" data="'
 																	+ paybillGenerationTrnId
-																	+ '"> Paybill Consolidated</span>';
+																	+ '"> Pending</span>';
 															/*+ '">Consolidated Paybill Forward to BEAMS</span>';
 */															paybillGenerationTrnId='<a class="consolidatePayBillTrnId" >'+paybillGenerationTrnId+'</a>';
 
@@ -103,8 +103,7 @@ $("#btnSearch")
 														}else if (status == "5" || status == "6" ) {
 															isActive = '<span class="label label-success text-center payBillTrnId" data="'
 																+ paybillGenerationTrnId
-																+ '"> Pending</span>';
-															////+ '"> Paybill Consolidated</span>';
+																+ '"> Paybill Consolidated</span>';
 														/*+ '">Consolidated Paybill Forward to BEAMS</span>';
 */															paybillGenerationTrnId='<a class="consolidatePayBillTrnId" >'+paybillGenerationTrnId+'</a>';
 
