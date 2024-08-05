@@ -24,8 +24,8 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
 	@Override
 	public List<AllowanceDeductionRuleMstEntity> findAllRules() {
 		List<AllowanceDeductionRuleMstEntity> lstAllowanceDeductionMstEntity=new ArrayList<>();
-		List<Object[]> lstObj=allowDeducRuleMasterRepo.findAllRules();
-		
+		List<Object[]> lstObj=allowDeducRuleMasterRepo.findAllRules(0);
+		  
  		for(Object object[]:lstObj) {
  			AllowanceDeductionRuleMstEntity allowanceDeductionMstEntity=new AllowanceDeductionRuleMstEntity(); 
  			allowanceDeductionMstEntity.setAllowanceDeductionWiseRuleId(StringHelperUtils.isNullInt(object[0]));
@@ -41,14 +41,13 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
  			allowanceDeductionMstEntity.setPayCommissionCode(StringHelperUtils.isNullInt(object[8]));
  			allowanceDeductionMstEntity.setPercentage(StringHelperUtils.isNullInt(object[9]));  //11 perc  
  			allowanceDeductionMstEntity.setStartDate(StringHelperUtils.isNullDate(object[10]));
- 			allowanceDeductionMstEntity.setBasic(StringHelperUtils.isNullDouble(object[13]));
+ 			allowanceDeductionMstEntity.setPremiumAmount(StringHelperUtils.isNullDouble(object[13]));
  			allowanceDeductionMstEntity.setCityClass(StringHelperUtils.isNullCharacter(object[14]));
  			allowanceDeductionMstEntity.setMaxBasic(StringHelperUtils.isNullDouble(object[15]));
  			allowanceDeductionMstEntity.setMinBasic(StringHelperUtils.isNullDouble(object[16]));
- 			allowanceDeductionMstEntity.setCityClass(StringHelperUtils.isNullCharacter(object[17]));
+ 			allowanceDeductionMstEntity.setCityGroup(StringHelperUtils.isNullString(object[17]));
  			allowanceDeductionMstEntity.setGradePayHigher(StringHelperUtils.isNullInt(object[18]));
  			allowanceDeductionMstEntity.setGradePayLower(StringHelperUtils.isNullInt(object[19]));
- 		
  			allowanceDeductionMstEntity.setDepartmentAllowdeducName(StringHelperUtils.isNullString(object[20]));     //12
  			allowanceDeductionMstEntity.setPayCommisionName(StringHelperUtils.isNullString(object[21]));
  			lstAllowanceDeductionMstEntity.add(allowanceDeductionMstEntity);
@@ -75,14 +74,13 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
  			allowanceDeductionMstEntity.setPayCommissionCode(StringHelperUtils.isNullInt(object[8]));
  			allowanceDeductionMstEntity.setPercentage(StringHelperUtils.isNullInt(object[9]));  //11 perc  
  			allowanceDeductionMstEntity.setStartDate(StringHelperUtils.isNullDate(object[10]));
- 			allowanceDeductionMstEntity.setBasic(StringHelperUtils.isNullDouble(object[13]));
+ 			allowanceDeductionMstEntity.setPremiumAmount(StringHelperUtils.isNullDouble(object[13]));
  			allowanceDeductionMstEntity.setCityClass(StringHelperUtils.isNullCharacter(object[14]));
  			allowanceDeductionMstEntity.setMaxBasic(StringHelperUtils.isNullDouble(object[15]));
  			allowanceDeductionMstEntity.setMinBasic(StringHelperUtils.isNullDouble(object[16]));
- 			allowanceDeductionMstEntity.setCityClass(StringHelperUtils.isNullCharacter(object[17]));
  			allowanceDeductionMstEntity.setGradePayHigher(StringHelperUtils.isNullInt(object[18]));
  			allowanceDeductionMstEntity.setGradePayLower(StringHelperUtils.isNullInt(object[19]));
- 		
+ 			allowanceDeductionMstEntity.setCityGroup(StringHelperUtils.isNullString(object[22]));
  			allowanceDeductionMstEntity.setDepartmentAllowdeducName(StringHelperUtils.isNullString(object[20]));     //12
  			allowanceDeductionMstEntity.setPayCommisionName(StringHelperUtils.isNullString(object[21]));
  			lstAllowanceDeductionMstEntity.add(allowanceDeductionMstEntity);
@@ -104,9 +102,11 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
 			allowanceDeductionRuleMstEntity1.setEndDate(allowanceDeductionRuleMstEntity.getEndDate());
 			allowanceDeductionRuleMstEntity1.setMinBasic(allowanceDeductionRuleMstEntity.getMinBasic());
 			allowanceDeductionRuleMstEntity1.setMaxBasic(allowanceDeductionRuleMstEntity.getMaxBasic());
+			allowanceDeductionRuleMstEntity1.setPremiumAmount(allowanceDeductionRuleMstEntity.getPremiumAmount());
 			allowanceDeductionRuleMstEntity1.setCityClass(allowanceDeductionRuleMstEntity.getCityClass());
 			allowanceDeductionRuleMstEntity1.setGradePayHigher(allowanceDeductionRuleMstEntity.getGradePayHigher());
 			allowanceDeductionRuleMstEntity1.setGradePayLower(allowanceDeductionRuleMstEntity.getGradePayLower());
+			allowanceDeductionRuleMstEntity1.setCityGroup(allowanceDeductionRuleMstEntity.getCityGroup());
 			allowanceDeductionRuleMstEntity1.setAmount(allowanceDeductionRuleMstEntity.getAmount());
 			allowanceDeductionRuleMstEntity1.setPercentage(allowanceDeductionRuleMstEntity.getPercentage());
 			allowanceDeductionRuleMstEntity1.setPayCommissionCode(allowanceDeductionRuleMstEntity.getPayCommissionCode());

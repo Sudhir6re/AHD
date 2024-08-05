@@ -8438,7 +8438,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 							List<CLAMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(
 									mstEmployeeEntity2.getSevenPcLevel(), basic, citygroup,
-									mstEmployeeEntity2.getPayCommissionCode());
+									mstEmployeeEntity2.getPayCommissionCode(),allowDeducCode);
 							if (lstCla.size() > 0)
 								cla = lstCla.get(0).getAmount();
 							paybillGenerationTrnDetails.setCla((double) claamt);

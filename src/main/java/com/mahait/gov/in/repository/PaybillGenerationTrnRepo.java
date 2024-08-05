@@ -61,7 +61,7 @@ public interface PaybillGenerationTrnRepo {
 	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity);
 	List<AllowanceDeductionRuleMstEntity> fetchComponentDtlsByCompoId(int CompoId);
 	public List<CLAMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
-			Long payCommissionCode);
+			Long payCommissionCode, int allowDeducCode);
 	public List<AllowanceDeductionRuleMstEntity> fetchhraDtls(int allowDeducCode, String startDate, String citygroup,
 			Double basic, int i);
 	public Double findGisComponentValue(String gisgroup, Date doj, String startDate);

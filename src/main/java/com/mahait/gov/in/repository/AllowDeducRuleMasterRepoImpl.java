@@ -17,26 +17,24 @@ public class AllowDeducRuleMasterRepoImpl implements AllowDeducRuleMasterRepo {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	@Override
-	public List<Object[]> findAllRules() {
-		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select a.*,c.DEPARTMENT_ALLOWDEDUC_NAME,b.commission_name_en,b.commission_name_mh "
-				+ " from ALLOWANCE_DEDUCTION_WISE_RULE_MST a inner join pay_commission_mst b "
-				+ " on a.pay_commission_code=b.pay_commission_code"
-				+ "  inner join department_allowdeduc_mst c on  c.DEPARTMENT_ALLOWDEDUC_CODE=a.DEPARTMENT_ALLOWDEDUC_CODE";
-		Query query = currentSession.createSQLQuery(HQL);
-		return query.list();
-	}
 
 	@Override
 	public List<Object[]> findAllRules(int departmentAllowdeducCode) {
+		
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select a.*,c.DEPARTMENT_ALLOWDEDUC_NAME,b.commission_name_en,b.commission_name_mh "
-				+ " from ALLOWANCE_DEDUCTION_WISE_RULE_MST a inner join pay_commission_mst b "
-				+ " on a.pay_commission_code=b.pay_commission_code"
-				+ "  inner join department_allowdeduc_mst c on  c.DEPARTMENT_ALLOWDEDUC_CODE=a.DEPARTMENT_ALLOWDEDUC_CODE where  a.DEPARTMENT_ALLOWDEDUC_CODE="
-				+ departmentAllowdeducCode;
-		Query query = currentSession.createSQLQuery(HQL);
+		StringBuffer sb = new StringBuffer();
+		sb.append(" select a.allowance_deduction_wise_rule_id,a.amount,a.created_date,a.created_user_id,a.department_allowdeduc_code,");
+		sb.append(" a.end_date,a.is_active,a.is_type,a.pay_commission_code, ");
+		sb.append("  a.percentage,a.start_date,a.premium_amount,a.city_class,a.max_basic,a.min_basic,a.city_group,a.grade_pay_higher,a.grade_pay_lower, ");
+		sb.append(" from ALLOWANCE_DEDUCTION_WISE_RULE_MST a left join pay_commission_mst b on a.pay_commission_code=b.pay_commission_code ");
+		sb.append(" inner join department_allowdeduc_mst c on  c.DEPARTMENT_ALLOWDEDUC_CODE=a.DEPARTMENT_ALLOWDEDUC_CODE ");
+		
+		if(departmentAllowdeducCode!=0) {
+			sb.append("where  a.DEPARTMENT_ALLOWDEDUC_CODE="+departmentAllowdeducCode);
+		}
+		
+		
+		Query query = currentSession.createSQLQuery(sb.toString());
 		return query.list();
 	}
 

@@ -69,14 +69,14 @@ public class AllowanceDeductionRuleMstEntity {
 	private Double maxBasic;
 	
 	
-	@Column(name = "basic")
-	private Double basic;
+	@Column(name = "premium_amount")
+	private Double premiumAmount;
 	
 	@Column(name = "city_class")
 	private Character cityClass;
 	
 	@Column(name = "city_group")
-	private Character cityGroup;
+	private String cityGroup;
 	
 	@Column(name = "grade_pay_lower")
 	private Integer gradePayLower;

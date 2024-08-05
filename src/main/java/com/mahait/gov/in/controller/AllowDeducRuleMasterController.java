@@ -65,7 +65,7 @@ public class AllowDeducRuleMasterController extends BaseController {
 
 		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
 
-		model.addAttribute("lstAllowanceDeductionMstEntity", allowDeducRuleMasterService.findAllRules());
+		model.addAttribute("lstAllowanceDeductionMstEntity", allowDeducRuleMasterService.findAllRules(0));  //0 for All Component 
 
 		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
 		modelAndView.addObject("message", message);

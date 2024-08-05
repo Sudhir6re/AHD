@@ -788,7 +788,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "FROM AllowanceDeductionMstEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
+		String HQL = "FROM AllowanceDeductionRuleMstEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
 				+ "   and to_char(t.startDate,'YY-MM-DD')<='" + startDate + "' "
 				+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
 				+ "')  ORDER BY t.startDate DESC";
@@ -1042,11 +1042,11 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 	@Override
 	public List<CLAMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
-			Long payCommissionCode) {
+			Long payCommissionCode,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM CLAMstEntity as t where t.minBasic<=" + basic + " and (maxBasic is null or maxBasic >= "
-				+ basic + ") and cityGrp='" + citygroup + "'";
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where t.minBasic<=" + basic + " and (maxBasic is null or maxBasic >= "
+				+ basic + ") and cityGrp='" + citygroup + "'  and t.departmentAllowdeducCode="+allowDeducCode;
 
 		List<CLAMstEntity> claMstLst = (List<CLAMstEntity>) entityManager.createQuery(HQL1).getResultList();
 
@@ -1062,9 +1062,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 				+ "' and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate + "'  and departmentAllowdeducCode ="+allowDeducCode
 				+ " and t.cityClass ='" + citygroup + "' and "+basic+">=22500 and t.payCommissionCode=" + payComm
 				+ " ORDER BY t.startDate DESC";
-
-		
-		
 
 		
 		List<AllowanceDeductionRuleMstEntity> hraLst = (List<AllowanceDeductionRuleMstEntity>) entityManager
@@ -1094,9 +1091,8 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public Double fetchHraDtls(Double basic, String startDate, String cityClass,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
-
-		String sql = "SELECT CASE WHEN :basic < min_amount THEN min_amount ELSE :basic * multiplier / 100 END AS amount "
-				+ "FROM hra_mst " + "WHERE city_type = :cityClass "
+		String sql = "SELECT CASE WHEN :basic < min_basic THEN min_basic ELSE :basic * percentage / 100 END AS amount "
+				+ "FROM allowance_deduction_wise_rule_mst " + "WHERE city_class = :cityClass "
 				+ "AND to_char(start_date, 'YY-MM-DD') <= :startDate "
 				+ "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)";
 
@@ -1106,7 +1102,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.setParameter("startDate", startDate);
 
 		query.addScalar("amount", StandardBasicTypes.DOUBLE);
-
 		return (Double) query.uniqueResult();
 	}
 
@@ -1209,5 +1204,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		String result = (String) query.list().get(0);
 		return result;
 	}
+
 
 }
