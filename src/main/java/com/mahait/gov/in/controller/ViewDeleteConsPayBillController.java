@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.ConsolidatePayBillModel;
 import com.mahait.gov.in.model.LstConsolidatedPayBillModel;
 import com.mahait.gov.in.repository.PaybillGenerationTrnRepo;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
@@ -36,7 +37,7 @@ import com.mahait.gov.in.service.ViewDelConsolidatePayBillService;
  */
 @Controller
 @RequestMapping("/ddo")
-public class ViewDeleteConsPayBillController {
+public class ViewDeleteConsPayBillController extends BaseController{
 //	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -56,12 +57,10 @@ public class ViewDeleteConsPayBillController {
 	PaybillGenerationTrnRepo paybillHeadMpgRepo;
 	
 	@GetMapping("/viewDelconsolidatePayBill")
-	public String consolidatePayBill(@ModelAttribute("consolidatePayBillTrnEntity") ConsolidatePayBillTrnEntity consolidatePayBillTrnEntity,
+	public String consolidatePayBill(@ModelAttribute("consolidatePayBillModel") ConsolidatePayBillModel consolidatePayBillModel,
 										Model model,Locale locale,HttpSession session) {
 		
 		String message = (String)model.asMap().get("message");
-		model.addAttribute("consolidatePayBillTrnEntity", consolidatePayBillTrnEntity);
-		
 		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		List<LstConsolidatedPayBillModel> lstConsolidatedPayBillModel = new ArrayList<>();
 		
@@ -76,14 +75,13 @@ public class ViewDeleteConsPayBillController {
 	     SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
 	     int currMonth=Integer.parseInt(sdf.format(date));
 	     //logger.info("Current Month in M format : " + currMonth);
-		
-		lstConsolidatedPayBillModel=viewDelConsolidatePayBillService.viewDelconsolidatePayBill(currMonth,currYear,"abc",messages.getMstRoleEntity().getRoleId());
+	     addMenuAndSubMenu(model,messages);	
+		lstConsolidatedPayBillModel=viewDelConsolidatePayBillService.viewDelconsolidatePayBill(currMonth,currYear,messages.getDdoCode());
 		model.addAttribute("LstConsolidatedPayBillModel", lstConsolidatedPayBillModel);
 		
 	
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
-//		model.addAttribute("lstDDOCode", commonHomeMethodsService.findAllScheme());
 		model.addAttribute("language", locale.getLanguage());
 		return "/views/paybill/view-delete-consolidated-paybill";
     }

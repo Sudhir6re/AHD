@@ -683,8 +683,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public List<Object[]> findDDOinfo(String userName) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select ddo_reg_id,ddo_name||' '||ddo_code as name,treasury_code from ddo_reg_mst where   ddo_code ='"
-				+ userName + "' ";
+		String HQL = "select ddo_name||' '||ddo_code,dept_loc_code  from org_ddo_mst where ddo_code= '"+userName+"'";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 

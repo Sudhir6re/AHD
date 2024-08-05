@@ -3,6 +3,39 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:utext="#{menu.mapping.consolidatePayBill}"></title>
+<script type="text/javascript">
+	//Inner report method started
+	function showinnerreport(billNumber,ddoCode) {
+		var billnm = billNumber;
+		var ddoCode=$("#ddoCode").val();
+		
+		$("#loaderMainNew").show();
+		
+		$
+				.ajax({
+					type : "GET",
+					url : "../ddo/getinnerreport/" + billNumber + "/"
+							+ 1 + "/" + 1+"/"+ddoCode,
+					async : true,
+					contentType : 'application/json',
+					error : function(data) {
+						alert("error");
+						console.log(data);
+					},
+					success : function(data) {
+						$("#loaderMainNew").hide();
+						var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
+						var win = window.open("", "", urlstyle);
+						win.document.write(data);
+						win.focus();
+
+						// self.close();
+
+					}
+				});
+	}
+	// inner report method ended
+</script>
 </head>
 <body class="consolidate-paybill-details">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
@@ -41,8 +74,8 @@
 					
 					<input type="hidden"
 					name="monthName" id="monthName" th:field="*{monthName}" />
-					
-				
+					<input type="hidden"
+					name="schemeCode" id="schemeCode" th:field="*{schemeCode}" />
 				<input type="hidden"
 					name="yearName" id="yearName" th:field="*{yearName}" />
 
@@ -68,7 +101,7 @@
 										<input type="hidden" th:id="billNetAmt" th:value="${att.billNetAmt}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billNetAmt}">
 									
 									</td>
-									<td><a class="billNo" th:text=${att.billNo} th:value="${att.billNo}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billNo}"></a></td>
+									<td><a th:onclick="|showinnerreport(${att.billNo})|" class="billNo" th:text=${att.billNo} th:value="${att.billNo}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billNo}"></a></td>
 									<td th:text="${att.billDesc}" th:value="${att.billDesc}" th:field="${consolidatePayBillModel.lstCons[__${itemStat.index}__].billDesc}"></td>
 									<td th:text="${att.billGrossAmt}">
 								</td>

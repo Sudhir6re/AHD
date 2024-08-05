@@ -24,62 +24,23 @@ public class ViewConsolidatePayBillRepoImpl implements ViewConsolidatePayBillRep
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> findAllConsolidatedPaybillList(int monthName,int yearName,String schemeCodeArr,int afterSaveId) {
+	public List<Object[]> findAllConsolidatedPaybillList(int monthName,int yearName,String ddoCode) {
 		
 		
-		/*select * from consolidate_paybill_trn a 
-		inner join consolidate_paybill_trn_mpg b on a.consolidate_paybill_trn_id=b.consolidate_paybill_trn_id
-		inner join paybill_generation_trn c on c.paybill_generation_trn_id=b.paybill_generation_trn_id
-		inner join rlt_zp_ddo_map d on a.ddo_code=d.rept_ddo_code
-		inner join mst_dcps_bill_group e on e.bill_group_id=c.scheme_billgroup_id*/
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select \r\n" + 
-				"  cpt.consolidate_paybill_trn_id, \r\n" + 
-				"  dd.scheme_code, \r\n" + 
-				"  dd.scheme_name, \r\n" + 
-				"  sum (a.bill_gross_amt) as bill_gross_amt, \r\n" + 
-				"  sum (a.bill_net_amount) as bill_net_amount, \r\n" + 
-				"  cpt.is_active \r\n" + 
-				"from \r\n" + 
-				"  consolidate_paybill_trn cpt \r\n" + 
-				"  inner join consolidate_paybill_trn_mpg cptm on cpt.consolidate_paybill_trn_id = cptm.consolidate_paybill_trn_id \r\n" + 
-				"  inner join paybill_generation_trn a on cptm.paybill_generation_trn_id = a.paybill_generation_trn_id \r\n" + 
-				"  inner join scheme_billgroup_mpg b on a.scheme_billgroup_id = b.bill_group_id \r\n" + 
-				"  inner join ddo_map_rlt c on b.ddo_map_id = c.ddo_map_id \r\n" + 
-				"  inner join scheme_mst dd on dd.scheme_id = b.scheme_id \r\n" + 
-				"  inner join bill_group_mst ddd on b.bill_group_id = ddd.bill_group_id \r\n" + 
-				"  inner join ddo_reg_mst cccc on a.ddo_code = cccc.ddo_code \r\n" + 
-				"  and cccc.ddo_reg_id = ddo_code_user_id1 \r\n" + 
-				"where \r\n" + 
-				"  a.ddo_code IN (\r\n" + 
-				"    select \r\n" + 
-				"      aa.ddo_code \r\n" + 
-				"    from \r\n" + 
-				"      ddo_reg_mst a \r\n" + 
-				"      inner join ddo_map_rlt b on a.ddo_reg_id = b.ddo_code_user_id2 \r\n" + 
-				"      inner join ddo_reg_mst aa on aa.ddo_reg_id = b.ddo_code_user_id1 \r\n" + 
-				"    where \r\n" + 
-				"      a.level_hierarchy = '2' \r\n" + 
-				"      and a.ddo_code = '"+afterSaveId+"'\r\n" + 
-				"  ) \r\n" + 
-				"  and a.is_active in (9, 10, 11, 12, 14) \r\n" + 
-				"  and cpt.is_active not in (13) \r\n" + 
-				//"  and dd.scheme_code = '20490109' \r\n" + 
-				"  and cpt.paybill_year ="+yearName+" \r\n" + 
-				"  and cpt.paybill_month ="+monthName+" \r\n" + 
-				"group by \r\n" + 
-				"  cpt.consolidate_paybill_trn_id, \r\n" + 
-				"  dd.scheme_code, \r\n" + 
-				"  dd.scheme_name, \r\n" + 
-				"  cpt.is_active \r\n" + 
-				"order by \r\n" + 
-				"  cpt.consolidate_paybill_trn_id desc\r\n" + 
-				"";
-//		logger.info("squery   "+HQL);
+		String HQL = "select cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,sum (a.bill_gross_amt) as bill_gross_amt,sum (a.bill_net_amount) as bill_net_amount,\r\n" + 
+				"cpt.is_active from consolidate_paybill_trn cpt inner join consolidate_paybill_trn_mpg cptm on cpt.consolidate_paybill_trn_id = cptm.consolidate_paybill_trn_id\r\n" + 
+				"inner join paybill_generation_trn a on cptm.paybill_generation_trn_id = a.paybill_generation_trn_id \r\n" + 
+				"inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id \r\n" + 
+				"inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code \r\n" + 
+				"inner join org_ddo_mst cccc on a.ddo_code = cccc.ddo_code where c.rept_ddo_code ='"+ddoCode+"'\r\n" + 
+				"and a.is_active in (9) and cpt.is_active not in (13) and cpt.paybill_year ="+yearName+"  and cpt.paybill_month ="+monthName+"  \r\n" + 
+				"group by cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,cpt.is_active \r\n" + 
+				"order by cpt.consolidate_paybill_trn_id desc" ;
+				
 		Query query = currentSession.createSQLQuery(HQL);
-		
-		/*String HQL11 = "FROM MpgSchemeBillGroupEntity as t where t.isActive = '1' and t.ddoMapId = "+query.uniqueResult()+" ORDER BY t.billDescription ";*/
+		System.out.println("-------findAllConsolidatedPaybillList--"+query);
 		return query.list();
 		
 	}
@@ -140,50 +101,18 @@ public class ViewConsolidatePayBillRepoImpl implements ViewConsolidatePayBillRep
 	//Searching Consolidate paybill without filter//
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> findAllConsolidatedPaybillListWithoutFilter(int monthName,int yearName,int afterSaveId,String ddoName) {
+	public List<Object[]> findAllConsolidatedPaybillListWithoutFilter(int monthName,int yearName,int afterSaveId,String ddoCode) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select \r\n" + 
-				"  cpt.consolidate_paybill_trn_id, \r\n" + 
-				"  dd.scheme_code, \r\n" + 
-				"  dd.scheme_name, \r\n" + 
-				"  sum (a.bill_gross_amt) as bill_gross_amt, \r\n" + 
-				"  sum (a.bill_net_amount) as bill_net_amount, \r\n" + 
-				"  cpt.is_active \r\n" + 
-				"from \r\n" + 
-				"  consolidate_paybill_trn cpt \r\n" + 
-				"  inner join consolidate_paybill_trn_mpg cptm on cpt.consolidate_paybill_trn_id = cptm.consolidate_paybill_trn_id \r\n" + 
-				"  inner join paybill_generation_trn a on cptm.paybill_generation_trn_id = a.paybill_generation_trn_id \r\n" + 
-				"  inner join scheme_billgroup_mpg b on a.scheme_billgroup_id = b.bill_group_id \r\n" + 
-				"  inner join ddo_map_rlt c on b.ddo_map_id = c.ddo_map_id \r\n" + 
-				"  inner join scheme_mst dd on dd.scheme_id = b.scheme_id \r\n" + 
-				"  inner join bill_group_mst ddd on b.bill_group_id = ddd.bill_group_id \r\n" + 
-				"  inner join ddo_reg_mst cccc on a.ddo_code = cccc.ddo_code \r\n" + 
-				"  and cccc.ddo_reg_id = ddo_code_user_id1 \r\n" + 
-				"where \r\n" + 
-				"  a.ddo_code IN (\r\n" + 
-				"    select \r\n" + 
-				"      aa.ddo_code \r\n" + 
-				"    from \r\n" + 
-				"      ddo_reg_mst a \r\n" + 
-				"      inner join ddo_map_rlt b on a.ddo_reg_id = b.ddo_code_user_id2 \r\n" + 
-				"      inner join ddo_reg_mst aa on aa.ddo_reg_id = b.ddo_code_user_id1 \r\n" + 
-				"    where \r\n" + 
-				"      a.level_hierarchy = '2' \r\n" + 
-				"      and a.ddo_code = '"+ddoName+"'\r\n" + 
-				"  ) \r\n" + 
-				"  and a.is_active in (9, 10, 11, 12,14) \r\n" + 
-				"  and cpt.is_active not in (13) \r\n" + 
-				"  and cpt.paybill_year ="+yearName+" \r\n" + 
-				"  and cpt.paybill_month ="+monthName+" \r\n" + 
-				"group by \r\n" + 
-				"  cpt.consolidate_paybill_trn_id, \r\n" + 
-				"  dd.scheme_code, \r\n" + 
-				"  dd.scheme_name, \r\n" + 
-				"  cpt.is_active \r\n" + 
-				"order by \r\n" + 
-				"  cpt.consolidate_paybill_trn_id desc\r\n" + 
-				"";
+		String HQL = "select cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,sum (a.bill_gross_amt) as bill_gross_amt,sum (a.bill_net_amount) as bill_net_amount," + 
+				" cpt.is_active from consolidate_paybill_trn cpt inner join consolidate_paybill_trn_mpg cptm on cpt.consolidate_paybill_trn_id = cptm.consolidate_paybill_trn_id" + 
+				" inner join paybill_generation_trn a on cptm.paybill_generation_trn_id = a.paybill_generation_trn_id " + 
+				" inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id " + 
+				" inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code " + 
+				" inner join org_ddo_mst cccc on a.ddo_code = cccc.ddo_code where c.rept_ddo_code ='"+ddoCode+"'" + 
+				" and a.is_active in (9) and cpt.is_active not in (13) and cpt.paybill_year ="+yearName+"  and cpt.paybill_month ="+monthName+"  " + 
+				" group by cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,cpt.is_active " + 
+				" order by cpt.consolidate_paybill_trn_id desc";
 		
 	System.out.println("squery   "+HQL);
 		Query query = currentSession.createSQLQuery(HQL);

@@ -174,6 +174,7 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 		objEntity.setPaybillMonth(consolidatePayBillModel.getMonthName());
 		objEntity.setPaybillYear(consolidatePayBillModel.getYearName());
 		objEntity.setDdoCode(messages.getDdoCode());
+		objEntity.setSchemeCode(consolidatePayBillModel.getSchemeCode());
 		objEntity.setIsActive(9);
 		id = consolidatePayBillRepo.saveConsolidatePayBill(objEntity);
 		

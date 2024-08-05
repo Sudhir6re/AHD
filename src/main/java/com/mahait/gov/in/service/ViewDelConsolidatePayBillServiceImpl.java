@@ -21,11 +21,12 @@ public class ViewDelConsolidatePayBillServiceImpl implements ViewDelConsolidateP
 	ViewConsolidatePayBillRepo viewConsolidatePayBillRepo;
 	
 		@Override
-	public List<LstConsolidatedPayBillModel> viewDelconsolidatePayBill(int monthName,int yearName,String schemeCodeArr,int afterSaveId) {
+	public List<LstConsolidatedPayBillModel> viewDelconsolidatePayBill(int monthName,int yearName,String ddoCode) {
 		List<LstConsolidatedPayBillModel> lstObj = new ArrayList<>();
-			List<Object[]> lstConsolidatedBillList = viewConsolidatePayBillRepo.findAllConsolidatedPaybillList(monthName,yearName,schemeCodeArr,afterSaveId);
+			List<Object[]> lstConsolidatedBillList = viewConsolidatePayBillRepo.findAllConsolidatedPaybillList(monthName,yearName,ddoCode);
 			lstObj = new ArrayList<>();
 			if (!lstConsolidatedBillList.isEmpty()) {
+				
 				for (Object[] objLst : lstConsolidatedBillList) {
 					LstConsolidatedPayBillModel obj = new LstConsolidatedPayBillModel();
 					obj.setConsolidatePayBillTrnId(StringHelperUtils.isNullInt(objLst[0]));
