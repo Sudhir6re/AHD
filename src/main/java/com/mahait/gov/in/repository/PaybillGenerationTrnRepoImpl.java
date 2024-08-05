@@ -787,13 +787,13 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "FROM AllowanceDeductionRuleMstEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
+		String HQL = "FROM AllowanceDeductionRuleMstEntity as t where  t.isActive='1' and  t.payCommissionCode=" + commoncodePaycommission7pc
 				+ "   and to_char(t.startDate,'YY-MM-DD')<='" + startDate + "' "
 				+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
 				+ "')  ORDER BY t.startDate DESC";
 		System.out.println("--------------------------------" + HQL);
 
-		List<AllowanceDeductionMstEntity> lstAllowanceDeductionMstEntity = (List<AllowanceDeductionMstEntity>) entityManager
+		List<AllowanceDeductionRuleMstEntity> lstAllowanceDeductionMstEntity = (List<AllowanceDeductionRuleMstEntity>) entityManager
 				.createQuery(HQL).getResultList();
 		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPercentage()).findFirst().orElse(0);
 		return percentage;
@@ -993,7 +993,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM CentralGovtDAMasterEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
+		String HQL1 = "FROM CentralGovtDAMasterEntity as t where  t.isActive='1' and t.payCommissionCode=" + commoncodePaycommission7pc
 				+ "   and to_char(t.startDate,'YY-MM-DD')>='" + startDate + "' " + "  ORDER BY t.startDate DESC";
 
 		List<CentralGovtDAMasterEntity> lstAllowanceDeductionMstEntity1 = (List<CentralGovtDAMasterEntity>) entityManager
@@ -1004,7 +1004,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 					.orElse(0);
 			return percentage;
 		} else {
-			String HQL = "FROM CentralGovtDAMasterEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
+			String HQL = "FROM CentralGovtDAMasterEntity as t where   t.isActive='1' and  t.payCommissionCode=" + commoncodePaycommission7pc
 					+ "   and to_char(t.startDate,'YY-MM-DD')<='" + startDate + "' "
 					+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
 					+ "')  ORDER BY t.startDate DESC";
@@ -1031,7 +1031,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	public List<AllowanceDeductionRuleMstEntity> fetchComponentDtlsByCompoId(int CompoId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where t.departmentAllowdeducCode=" + CompoId + " ";
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where  t.isActive='1' and t.departmentAllowdeducCode=" + CompoId + " ";
 
 		List<AllowanceDeductionRuleMstEntity> lstAllowanceDeductionMstEntity1 = (List<AllowanceDeductionRuleMstEntity>) entityManager
 				.createQuery(HQL1).getResultList();
@@ -1044,8 +1044,8 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 			Long payCommissionCode,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where t.minBasic<=" + basic + " and (maxBasic is null or maxBasic >= "
-				+ basic + ") and cityGrp='" + citygroup + "'  and t.departmentAllowdeducCode="+allowDeducCode;
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where  t.isActive='1' and t.minBasic<=" + basic + " and (maxBasic is null or maxBasic >= "
+				+ basic + ") and cityGroup='" + citygroup + "'  and t.departmentAllowdeducCode="+allowDeducCode;
 
 		List<CLAMstEntity> claMstLst = (List<CLAMstEntity>) entityManager.createQuery(HQL1).getResultList();
 
@@ -1057,7 +1057,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 			Double basic, int payComm) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t and to_char(t.startDate,'YY-MM-DD')<='" + startDate
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where   t.isActive='1' and to_char(t.startDate,'YY-MM-DD')<='" + startDate
 				+ "' and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate + "'  and departmentAllowdeducCode ="+allowDeducCode
 				+ " and t.cityClass ='" + citygroup + "' and "+basic+">=22500 and t.payCommissionCode=" + payComm
 				+ " ORDER BY t.startDate DESC";
@@ -1070,17 +1070,18 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public Double findGisComponentValue(String gisgroup, Date doj, String startDate) {
+	public Double findGisComponentValue(String gisgroup, Date doj, String startDate,int allowD) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String sql = "select  CASE WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.gis_amount "
-				+ "WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) <1 THEN p.premium_gis_amount  else p.gis_amount "
-				+ " END AS selected_amount from cadre_group_mst p WHERE group_name_en = :groupName";
+		String sql = "select  CASE WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.amount "
+				+ "WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) <1 THEN p.premium_amount  else p.amount "
+				+ " END AS selected_amount from allowance_deduction_wise_rule_mst p WHERE city_group = :groupName and   is_Active='1'  and department_allowdeduc_code=:allowD";
 
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("doj", doj);
 		query.setParameter("groupName", gisgroup);
 		query.setParameter("startDate", startDate);
+		query.setParameter("allowD", allowD);
 		
 		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
 
@@ -1091,14 +1092,15 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	public Double fetchHraDtls(Double basic, String startDate, String cityClass,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String sql = "SELECT CASE WHEN :basic < min_basic THEN min_basic ELSE :basic * percentage / 100 END AS amount "
-				+ "FROM allowance_deduction_wise_rule_mst " + "WHERE city_class = :cityClass "
+				+ "FROM allowance_deduction_wise_rule_mst " + "WHERE city_class = :cityClass   and  is_Active='1' "  
 				+ "AND to_char(start_date, 'YY-MM-DD') <= :startDate "
-				+ "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)";
+				+ "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)  and  department_allowdeduc_code=:allowDeducCode";
 
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("basic", basic);
 		query.setParameter("cityClass", cityClass);
 		query.setParameter("startDate", startDate);
+		query.setParameter("allowDeducCode", allowDeducCode);
 
 		query.addScalar("amount", StandardBasicTypes.DOUBLE);
 		return (Double) query.uniqueResult();
@@ -1109,7 +1111,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	    Session currentSession = entityManager.unwrap(Session.class);
 
 	    String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst " +
-	                 "WHERE department_allowdeduc_code=:allowDeducCode AND city_group = :citygroup " +
+	                 "WHERE   is_Active='1' and department_allowdeduc_code=:allowDeducCode AND city_group = :citygroup " +
 	                 "AND to_char(start_date, 'YY-MM-DD') <= :startDate " +
 	                 "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)";
 
@@ -1145,7 +1147,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	public Double calculateFamilyAllow(Long payCommission, Long sevenPcLevel, int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String sql = " select ALLOWANCE_DEDUCTION_WISE_RULE_ID,amount from allowance_deduction_wise_rule_mst where  department_allowdeduc_code = :allowDeducCode and "
+		String sql = " select ALLOWANCE_DEDUCTION_WISE_RULE_ID,amount from allowance_deduction_wise_rule_mst where   is_Active='1' and department_allowdeduc_code = :allowDeducCode and "
 				+ " :sevenPcLevel BETWEEN grade_pay_lower AND COALESCE(grade_pay_higher, :sevenPcLevel) and pay_commission_code = :payCommission ";
 
 		Query query = currentSession.createNativeQuery(sql);

@@ -257,8 +257,8 @@ table#tblNonGovDuesDeduct th:nth-child(2) {
 						th:text="${#dates.format(varlstAlloDeduMst.endDate, 'dd-MM-yyyy')} ?: '------'"></td>
 					<td class="text-right" th:text="${varlstAlloDeduMst.amount}"></td>
 					<td class="text-right" th:text="${varlstAlloDeduMst.percentage}"></td>
-					<td class="text-right" th:text="${varlstAlloDeduMst.minBasic}"></td>
-					<td class="text-right" th:text="${varlstAlloDeduMst.maxBasic}"></td>
+					<td class="text-right"    th:text="${#numbers.formatDecimal(varlstAlloDeduMst.minBasic, 0, 0)}"></td>
+					<td class="text-right"   th:text="${#numbers.formatDecimal(varlstAlloDeduMst.maxBasic, 0, 0)}"></td>
 					<td th:text="${varlstAlloDeduMst.cityClass}"></td>
 					<td class="text-right" th:text="${varlstAlloDeduMst.gradePayLower}"></td>
 					<td class="text-right" th:text="${varlstAlloDeduMst.gradePayHigher}"></td>
@@ -279,7 +279,7 @@ table#tblNonGovDuesDeduct th:nth-child(2) {
 								th:href="@{'/mdc/editAllowanceDeductionRulesMaster/' + ${varlstAlloDeduMst.allowanceDeductionWiseRuleId}}">
 								<span class="glyphicon glyphicon-edit"></span>
 							</a> <a data-toggle="tooltipDelete" title="Delete"
-								th:href="@{'/mdc/deleteAllowanceDeductionWiseMaster/' + ${varlstAlloDeduMst.allowanceDeductionWiseRuleId} + '/' + ${varlstAlloDeduMst.isActive}}"
+								th:href="@{'/mdc/deleteRule/' + ${varlstAlloDeduMst.allowanceDeductionWiseRuleId} + '/' + ${varlstAlloDeduMst.isActive}}"
 								class="delete"> <span class="glyphicon glyphicon-trash"></span>
 							</a>
 						</div>

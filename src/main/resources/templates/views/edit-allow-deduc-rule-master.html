@@ -154,7 +154,9 @@ table#tblNonGovDuesDeduct th:nth-child(2) {
 					th:utext="#{msg.thymeleaf.label.minBasic}"></span></label>
 				<div class="col-sm-3">
 					<input type="text" class="form-control" id="minBasic"
-						th:field="*{minBasic}" />
+						th:field="*{minBasic}"
+						 th:value="${#numbers.formatDecimal(minBasic, 0, 0)}"
+						 />
 				</div>
 			</div>
 
@@ -163,6 +165,7 @@ table#tblNonGovDuesDeduct th:nth-child(2) {
 					th:utext="#{msg.thymeleaf.label.maxBasic}"></span></label>
 				<div class="col-sm-3">
 					<input type="text" class="form-control" id="maxBasic"
+					 th:value="${#numbers.formatDecimal(maxBasic, 0, 0)}"
 						th:field="*{maxBasic}" />
 				</div>
 

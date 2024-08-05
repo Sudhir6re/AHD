@@ -8534,7 +8534,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS)
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 						gisAmount = paybillHeadMpgRepo.findGisComponentValue(gisgroup, mstEmployeeEntity2.getDoj(),
-								startDate);
+								"20"+startDate,allowDeducCode);
 						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
 						dedByAG+=gisAmount;
 					}

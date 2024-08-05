@@ -18,4 +18,7 @@ public interface AllowDeducRuleMasterRepo {
 	AllowanceDeductionRuleMstEntity findRuleByRuleId(int allowanceDeductionWiseRuleId);
 
 
+	AllowanceDeductionRuleMstEntity deleteRule(int id, char status);
+
+
 }

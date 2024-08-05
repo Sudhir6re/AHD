@@ -17,4 +17,7 @@ public interface AllowDeducRuleMasterService {
 
 	AllowanceDeductionRuleMstEntity findRuleByRuleId(int allowanceDeductionWiseRuleId);
 
+
+	AllowanceDeductionRuleMstEntity deleteRule(int id, char status);
+
 }
