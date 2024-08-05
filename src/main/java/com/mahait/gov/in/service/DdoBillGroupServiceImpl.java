@@ -317,7 +317,7 @@ public String saveAttachDettachPost(MpgSchemeBillGroupModel mpgSchemeBillGroupMo
 		if (lStrArrDcpsEmpIdstoBeDetached[lInt] != "" && !lStrArrDcpsEmpIdstoBeDetached[lInt].equals("")) {
 			lLongArrDcpsEmpIdstoBeDetached[lInt] = Long.valueOf(lStrArrDcpsEmpIdstoBeDetached[lInt]);
 			result = ddoBillGroupRepo.saveAttachDettachPostToBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
-					lLongArrDcpsEmpIdstoBeDetached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					lLongArrDcpsEmpIdstoBeDetached[lInt], mpgSchemeBillGroupModel.getSchemebillGroupId(),
 					"Detach");
 		}
 	}
@@ -330,7 +330,7 @@ public String saveAttachDettachPost(MpgSchemeBillGroupModel mpgSchemeBillGroupMo
 		if (lStrArrPostIdstoBeAttached[lInt] != "" && !lStrArrPostIdstoBeAttached[lInt].equals("")) {
 			lLongArrPostIdstoBeAttached[lInt] = Long.valueOf(lStrArrPostIdstoBeAttached[lInt]);
 			result = ddoBillGroupRepo.saveAttachDettachPostToBillGroup(mpgSchemeBillGroupModel.getSevaarthId(),
-					lLongArrPostIdstoBeAttached[lInt].intValue(), mpgSchemeBillGroupModel.getSchemebillGroupId(),
+					lLongArrPostIdstoBeAttached[lInt], mpgSchemeBillGroupModel.getSchemebillGroupId(),
 					"Attach");
 		}
 	}

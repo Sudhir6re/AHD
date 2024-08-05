@@ -344,7 +344,7 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		return query.list();
 	}
 	@Override
-	public String saveAttachDettachPostToBillGroup(String sevaarthId, int empid, Long schemebillGroupId,
+	public String saveAttachDettachPostToBillGroup(String sevaarthId, Long postId, Long schemebillGroupId,
 			String status) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuffer hql = new StringBuffer();
@@ -354,7 +354,7 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		} else if (status.equals("Attach")) {
 			hql.append("update hr_pay_post_psr_mpg set bill_no = " + schemebillGroupId);
 		}
-		hql.append(" where  post_id=" + empid);
+		hql.append(" where  post_id=" + postId);
 		Query query = currentSession.createSQLQuery(hql.toString());
 		long result = query.executeUpdate();
 		return "save";

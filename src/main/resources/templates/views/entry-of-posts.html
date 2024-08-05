@@ -75,7 +75,7 @@
 								<td width="20%"><select name="billCmb" id="billCmb">
 										<option value="-1">--------------------Select-------------------</option>
 										<option th:each="bill : ${billList}"
-											th:value="${bill.escription}"
+											th:value="${bill.description}"
 											th:title="${bill.description}"
 											th:text="${bill.description}"></option>
 								</select></td>
