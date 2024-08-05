@@ -180,6 +180,9 @@ public class EmployeeConfigurationController  extends BaseController {
 //		
 		
 		
+		List<Object[]> districtListAgainstStateId =  locationMasterService.findAllDistricts(15);
+		model.addAttribute("districtListAgainstStateId", districtListAgainstStateId);
+		mstEmployeeModel.setStateCode(15l);  //Default state maharashtra 
 		model.addAttribute("mstEmployeeModel", mstEmployeeModel);
 //		List<TopicModel> menuList = new ArrayList<>();
 //		List<TopicModel> subMenuList = new ArrayList<>();
