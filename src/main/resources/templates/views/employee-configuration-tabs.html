@@ -215,8 +215,10 @@
 					name="districtCode" th:field="*{districtCode}">
 						<option th:value="0"
 							th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-						<option th:each="varCommon : ${lstAllDistrict}"
-							th:value="${varCommon.state}" th:text="${varCommon.stateName}"></option>
+						<option th:each="district : ${districtListAgainstStateId}"
+							th:value="${district[0]}" th:text="${district[1]}"></option>
+							
+							
 				</select></td>
 			</tr>
 			<tr>
