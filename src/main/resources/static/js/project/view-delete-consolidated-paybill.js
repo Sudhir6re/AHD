@@ -194,7 +194,7 @@ $('#btnAbstractReport').click(function() {
 		    if (consolidatedId != '') {   
 				$.ajax({
 				      type: "GET",
-				      url: "../paybill/viewabstractReport/"+consolidatedId,
+				      url: "../ddo/viewabstractReport/"+consolidatedId,
 				      async: true,
 				      success: function(data){
 				    		$("#loaderMainNew").hide();
