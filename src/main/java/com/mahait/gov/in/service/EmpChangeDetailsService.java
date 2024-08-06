@@ -6,7 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
+import com.mahait.gov.in.entity.MstNomineeDetailsHistEntity;
 import com.mahait.gov.in.model.EmpChangeDetailsModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
 
@@ -42,7 +45,7 @@ public interface EmpChangeDetailsService {
 	public List<Object[]> GetCurrentPostDesigation(Integer postdetailid);
 
 
-	List<EmpChangeDetailsModel> getEmployeeDetails(String ddoCode, String language);
+	List<MstEmployeeEntity> getEmployeeDetails(String ddoCode, String language);
 
 
 	EmpChangeDetailsModel getEmployeeinfo(Long employeeId);
@@ -53,6 +56,18 @@ public interface EmpChangeDetailsService {
 
 	String[] savePhotoSignature(MultipartFile[] files, String DeptNm, Long long1, String existphotpath,
 			String existsignpath);
+
+
+	List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls();
+
+
+	EmpChangeDetailsModel getEmployeeinfofordetails(long empId);
+
+
+	List<MstNomineeDetailsHistEntity> getNominees(String string);
+
+
+	long updateChangeEmpDtls(@Valid EmpChangeDetailsModel empChangeDetailsModel, MultipartFile[] files);
 
 
 }

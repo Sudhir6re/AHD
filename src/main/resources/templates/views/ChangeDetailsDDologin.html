@@ -80,8 +80,8 @@ table#test td:nth-child(5) {
 		<h3 Class="PageHeading">
 			<span th:utext="#{msg.thymeleaf.pageheading.changeDetails}"></span>
 		</h3>
-		<form class="form-horizontal" th:action="@{/ddoast/saveEmpRelieve}"
-			th:object="${empChangeDetailsModel}" method="POST"
+		<form class="form-horizontal" th:action="@{/ddo/saveEmpRelieve}"
+			th:object="${mstEmployeeEntity}" method="POST"
 			enctype="multipart/form-data">
 
 			<input type="hidden" name="language" id="language"
@@ -98,23 +98,16 @@ table#test td:nth-child(5) {
 							<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"></th>
 							<th th:utext="#{msg.thymeleaf.pagelabel.DOJ}"></th>
 							<th th:utext="#{msg.thymeleaf.pagelabel.retirementDate}"></th>
-							<th><span th:if="${roleId==3}"
-								th:utext="#{msg.thymeleaf.pagelabel.remarkrejected}"></span> <span
-								th:if="${roleId==2}"
-								th:utext="#{msg.thymeleaf.pagelabel.reasonForChngDtls}"></span></th>
+							<th:utext="#{msg.thymeleaf.pagelabel.reasonForChngDtls}"></th>
 
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="varEmp : ${empLst}">
-							<td class="text-center"><span th:if="${roleId==3}"> <a
+							<td class="text-center"> <a
 									style="font-size: 12px;" id="sevaarthId"
 									th:text="${empLst[__${varEmpStat.index}__].sevaarthId}"
-									th:href="@{${'/ddoast/changeEmpDtls/'+empLst[__${varEmpStat.index}__].employeeId}}"></a></span>
-									<span th:if="${roleId==2}"> <a
-									style="font-size: 12px;" id="sevaarthId"
-									th:text="${empLst[__${varEmpStat.index}__].sevaarthId}"
-									th:href="@{${'/ddo/changeEmpDtlsLvl2/'+empLst[__${varEmpStat.index}__].employeeId}}"></a></span>
+									th:href="@{${'/ddo/changeEmpDtlsLvl2/'+empLst[__${varEmpStat.index}__].employeeId}}"></a>
 							</td>
 							<td class=""><span style="font-size: 12px;" id="empName"
 								th:text="${empLst[__${varEmpStat.index}__].employeeFullNameEn}"></span>
@@ -127,10 +120,7 @@ table#test td:nth-child(5) {
 								id="gender"
 								th:text="${#calendars.format(empLst[__${varEmpStat.index}__].superAnnDate,'yyyy-MM-dd ')}"
 								class=""></span></td>
-							<td class=""><span th:if="${roleId==3}"
-								style="font-size: 12px;" id="remark"
-								th:text="${empLst[__${varEmpStat.index}__].reasonForRejOrApprv}"
-								class=""></span> <span th:if="${roleId==2}"
+							<td class="text-center"><span 
 								style="font-size: 12px;" id="remark"
 								th:text="${empLst[__${varEmpStat.index}__].reasonForChangedtls}"
 								class=""></span></td>

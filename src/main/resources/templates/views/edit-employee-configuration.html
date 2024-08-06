@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pageheading.employeeConfiguration}"></title>
+<title th:utext="#{msg.thymeleaf.pageheading.employeeDetails}"></title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet"
@@ -50,12 +50,12 @@ input#uid1, input#uid2, input#uid3 {
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pageheading.employeeConfiguration}"></span></li>
+						th:utext="#{msg.thymeleaf.pageheading.employeeDetails}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<h3 Class="PageHeading">
-			<span th:utext="#{msg.thymeleaf.pageheading.employeeConfiguration}"></span>
+			<span th:utext="#{msg.thymeleaf.pageheading.employeeDetails}"></span>
 		</h3>
 		<!-- <div align="center" class="success">
 			<span th:utext="${message}"></span>
@@ -70,7 +70,7 @@ input#uid1, input#uid2, input#uid3 {
 			<!-- 		<h1 th:utext="#{common.label.title}"></h1> -->
 
 			<form class="form-horizontal" name="myForm" id="myForm"
-				th:action="@{/ddoast/saveEmployeeConfiguration}"
+				th:action="@{/ddoast/saveEmployeeChangeDetails}"
 				th:object="${empChangeDetailsModel}" method="POST"
 				enctype="multipart/form-data">
 				<input type="hidden" name="deptNm" id="deptNm" th:field="*{deptNm}"
@@ -135,7 +135,7 @@ input#uid1, input#uid2, input#uid3 {
 										<td width="25%">
 											<div class="sevaarthIdBlock">
 												<input type="text" size="40%" id="sevaarthId"
-													name="sevaarthId" maxlength="11"
+													name="sevaarthId" maxlength="15"
 													style="text-transform: uppercase" th:field="*{sevaarthId}" readonly="readonly" 
 													class="form-control" />
 											</div>
@@ -566,14 +566,14 @@ input#uid1, input#uid2, input#uid3 {
 										<!-- <td width="25%"><select disabled="disabled" class="form-control" id="sel1">
 												<option th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 										</select> </td> -->
-										<td width="25%"><select disabled="disabled"
+										<td width="25%"><select 
 											class="form-control" ng-change="getCadre();" id="cadre"
 											ng-model="cadreValue" th:field="*{cadreId}">
 												<option selected="selected" th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varCadreGrp : ${lstCadreMst}"
 													th:value="${varCadreGrp.cadreId}"
-													th:text="${language=='mh' ? varCadreGrp.cadreDescription : varCadreGrp.cadreDescription}"></option>
+													th:text="${language=='mh' ? varCadreGrp.cadreId : varCadreGrp.cadreDescription}"></option>
 										</select></td>
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.group}"></span>&nbsp;&nbsp;<b><font
@@ -635,7 +635,7 @@ input#uid1, input#uid2, input#uid3 {
 									<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.designation}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
-										<td width="30%"><select disabled="disabled"
+										<td width="30%"><select 
 											class="form-control" id="designation"
 											th:field="*{designationId}">
 												<option th:value="0"
@@ -820,7 +820,7 @@ input#uid1, input#uid2, input#uid3 {
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="30%"><input Type="text" size="40%"
 											id="cityClass" ng-model="cityClass"
-											th:field="*{cityClass}" disabled="disabled"
+											th:field="*{cityClass}" 
 											class="form-control" /></td>
 											<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.dtofJoinCurrentPost}"></span>
@@ -1317,6 +1317,24 @@ input#uid1, input#uid2, input#uid3 {
 						
 								
 					<!-- 							ng-click="saveAsDraft();" /> -->
+					
+					<div th:if="${roleId==3}">
+						<label class="control-label col-sm-1">Remark </label>
+						<div class="col-sm-3">
+							<input type="text" id="reasonforchange"
+								th:field="*{reasonForChangedtls}" class="form-control" />
+						</div>
+					</div>
+					<div th:if="${roleId==2}">
+						<label class="control-label col-sm-2">Remark For
+							Approve/Reject </label>
+						<div class="col-sm-3">
+							<input type="text" id="approvOrRejct"
+								th:field="*{reasonForRejOrApprv}" class="form-control" />
+						</div>
+					</div>
+				</div>
+					
 					<input type="submit" class="btn btn-primary" id="forward"
 						th:value="#{msg.thymeleaf.pagelabel.forwardToDDO}" />
 

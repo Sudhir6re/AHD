@@ -1227,7 +1227,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				// Employee Details Start
 				mstEmployeeDetailEntity.setUidNo3(mstEmployeeEntity.getUidNo());
 				mstEmployeeDetailEntity.setSevaarthId(mstEmployeeEntity.getSevaarthId());
-				mstEmployeeDetailEntity.setEmployeeId(empid);
+				mstEmployeeDetailEntity.setEmployeeId(mstEmployeeEntity.getEmployeeId());
 				mstEmployeeDetailEntity.setEidNo(mstEmployeeEntity.getEidNo());
 				mstEmployeeDetailEntity.setSalutation(mstEmployeeEntity.getSalutation());
 				mstEmployeeDetailEntity.setEmployeeFullNameEn(mstEmployeeEntity.getEmployeeFullNameEn());

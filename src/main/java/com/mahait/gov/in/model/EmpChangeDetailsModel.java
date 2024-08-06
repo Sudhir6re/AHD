@@ -209,7 +209,8 @@ public class EmpChangeDetailsModel {
 	private String appointment;
 	private String qualification;
 	private String teaching;
-	
+	private String reasonForRejOrApprv;
+	private String reasonForChangedtls;
 	private List<MstNomineeDetailsModel> lstMstNomineeDetails;
 	
 	public List<MstEmployeeModel> mstEmployeeModelList=new ArrayList<>();

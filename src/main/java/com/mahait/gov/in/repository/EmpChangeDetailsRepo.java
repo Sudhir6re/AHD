@@ -8,8 +8,11 @@ import javax.validation.Valid;
 import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGisdetailsEntity;
+import com.mahait.gov.in.entity.MstGisdetailsHistEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
+import com.mahait.gov.in.entity.MstGpfDetailsHistEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
+import com.mahait.gov.in.entity.MstNomineeDetailsHistEntity;
 import com.mahait.gov.in.model.EmpChangeDetailsModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
 
@@ -37,7 +40,7 @@ public interface EmpChangeDetailsRepo {
 */
 	List<Object[]> GetCurrentPostDesigation(Integer postdetailid);
 
-	List<MstEmployeeDetailEntity> getEmployeeDetails(String ddoCode);
+	List<MstEmployeeEntity> getEmployeeDetails(String ddoCode);
 
 	public String getDesignationName(String strDesgId);
 
@@ -48,9 +51,31 @@ public interface EmpChangeDetailsRepo {
 	public long updateChangeEmployeeDetails(MstEmployeeDetailEntity objEntity,
 			@Valid EmpChangeDetailsModel empChangeDetailsModel, MstNomineeDetailsEntity[] lArrNomineeDtls);
 
-	MstGpfDetailsEntity findbyGPFid(Long gpf_id);
+	MstGpfDetailsHistEntity findbyGPFid(Long gpf_id);
 
-	MstGisdetailsEntity findbyGisid(Long gisid);
+	MstGisdetailsHistEntity findbyGisid(Long gisid);
+
+		public long updateEmployeeConfiguration(MstEmployeeDetailEntity objEntity,
+			@Valid EmpChangeDetailsModel empChangeDetailsModel, MstNomineeDetailsHistEntity[] lArrNomineeDtls);
+
+		List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls();
+
+		EmpChangeDetailsModel getEmployeeinfofordetails(long empId);
+
+		List<MstNomineeDetailsHistEntity> getNominees(String empId);
+
+		MstEmployeeEntity findempid(Long employeeId);
+
+		MstGpfDetailsEntity findbyGPFiddeatils(Long gpf_id);
+
+		MstGisdetailsEntity findbyGisiddetails(Long gisid);
+
+		
+
+		public long updateChangeDetails(MstEmployeeEntity objEntity,
+				@Valid EmpChangeDetailsModel empChangeDetailsModel, MstNomineeDetailsEntity[] lArrNomineeDtls);
+
+		
 	
 	/*void updateChangeEmpHstDtls(ChangeDtlsHst changeDtlsHst);
 */
