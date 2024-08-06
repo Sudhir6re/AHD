@@ -167,11 +167,6 @@ input#uid1, input#uid2, input#uid3 {
 						<hr />
 						<div class="text-=center">
 						
-								<input type="button" id="btnPrevious" name="btnPrevious"
-							value="Previous" class="btn" /> 
-							<input type="button"
-							id="btnNext" name="btnNext" value="Next" class="btn" />
-						
 							<span th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}"> <input
 								type="button" id="btnSave" class="btn btn-primary"
 								th:value="#{msg.thymeleaf.pagelabel.forwardtolevelthree}"
@@ -193,6 +188,12 @@ input#uid1, input#uid2, input#uid3 {
 					</div>
 					<br />
 					<div class="form-group text-center">
+					
+						<input type="button" id="btnPrevious" name="btnPrevious"
+							value="Previous" class="btn" /> 
+							<input type="button"
+							id="btnNext" name="btnNext" value="Next" class="btn" />
+					
 						<input type="button" class="btn btn-primary rejectbtnn"
 							th:value="#{msg.thymeleaf.pagelabel.back}"
 							th:onclick="'backEmpDtls();'" />
