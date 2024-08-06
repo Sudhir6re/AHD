@@ -622,7 +622,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				} else {
 					brokenPeriodModel = allEdpList.get(i);
 
-					List<CLAMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
+					List<AllowanceDeductionRuleMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
 							basic, citygroup, mstEmployeeModel.getPayCommissionCode(),allEdpList.get(i).getDeptallowdeducid());
 					if (lstCla.size() > 0)
 						cla = lstCla.get(0).getAmount();
@@ -1607,7 +1607,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else {
 						brokenPeriodModel = allEdpList.get(i);
 
-						List<CLAMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
+						List<AllowanceDeductionRuleMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
 								basic, citygroup, mstEmployeeModel.getPayCommissionCode(),allEdpList.get(i).getDeptallowdeducid());
 						if (lstCla.size() > 0)
 							cla = lstCla.get(0).getAmount();

@@ -60,7 +60,7 @@ public interface PaybillGenerationTrnRepo {
 	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
 	public int savePaybillStatus(PaybillStatusEntity paybillStatusEntity);
 	List<AllowanceDeductionRuleMstEntity> fetchComponentDtlsByCompoId(int CompoId);
-	public List<CLAMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
+	public List<AllowanceDeductionRuleMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
 			Long payCommissionCode, int allowDeducCode);
 	public List<AllowanceDeductionRuleMstEntity> fetchhraDtls(int allowDeducCode, String startDate, String citygroup,
 			Double basic, int i);

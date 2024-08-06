@@ -1040,14 +1040,14 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public List<CLAMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
+	public List<AllowanceDeductionRuleMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
 			Long payCommissionCode,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where  t.isActive='1' and t.minBasic<=" + basic + " and (maxBasic is null or maxBasic >= "
-				+ basic + ") and cityGroup='" + citygroup + "'  and t.departmentAllowdeducCode="+allowDeducCode;
+				+ basic + ") and cityGroup='" + citygroup.trim() + "'  and t.departmentAllowdeducCode="+allowDeducCode;
 
-		List<CLAMstEntity> claMstLst = (List<CLAMstEntity>) entityManager.createQuery(HQL1).getResultList();
+		List<AllowanceDeductionRuleMstEntity> claMstLst = (List<AllowanceDeductionRuleMstEntity>) entityManager.createQuery(HQL1).getResultList();
 
 		return claMstLst;
 	}
@@ -1180,7 +1180,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		String sql = "SELECT calculate_ta(" + basic + "," + payCommission + "," + allowDeducCode + "," + gradelevel
-				+ ",'" + cityClass + "','" + physicallyHandicapped + "') AS ta";
+				+ ",'" + cityClass.trim() + "','" + physicallyHandicapped + "') AS ta";
 
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		/*
