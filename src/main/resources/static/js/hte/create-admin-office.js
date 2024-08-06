@@ -17,7 +17,7 @@ $(document).ready(function() {
 				+ DDOCode
 				+ ', system generated unique institute Id: '
 				+ instituteId
-				+ '. Please note the details for future use.');
+				+ '. Please note the details for future use. Additionally, the default password is: ifms123.');
 	}
 	
 

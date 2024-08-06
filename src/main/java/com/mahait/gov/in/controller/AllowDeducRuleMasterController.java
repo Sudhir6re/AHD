@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mahait.gov.in.entity.AllowanceDeductionMstEntity;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.service.AllowDeducRuleMasterService;
 import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
 import com.mahait.gov.in.service.MstDesignationService;
@@ -65,7 +67,7 @@ public class AllowDeducRuleMasterController extends BaseController {
 
 		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
 
-		model.addAttribute("lstAllowanceDeductionMstEntity", allowDeducRuleMasterService.findAllRules());
+		model.addAttribute("lstAllowanceDeductionMstEntity", allowDeducRuleMasterService.findAllRules(0));  //0 for All Component 
 
 		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
 		modelAndView.addObject("message", message);
@@ -126,8 +128,6 @@ public class AllowDeducRuleMasterController extends BaseController {
 	}
 	
 	
-	
-	
 	@RequestMapping("/editAllowanceDeductionRulesMaster/{allowanceDeductionWiseRuleId}")
 	public ModelAndView editAllowanceDeductionRulesMaster(HttpServletRequest request, Model model,@ModelAttribute("allowanceDeductionRuleMstEntity") AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity,
 			HttpServletResponse response, Locale locale, HttpSession session,
@@ -165,5 +165,16 @@ public class AllowDeducRuleMasterController extends BaseController {
 		modelAndView.setViewName("/views/edit-allow-deduc-rule-master");
 		return modelAndView;
 	}
+	
+	@RequestMapping("/deleteRule/{id}/{status}")
+	public ModelAndView deleteRule(@PathVariable int id,@PathVariable char status,Model model,Locale locale) {
+		AllowanceDeductionRuleMstEntity allowanceDeductionMstEntity=allowDeducRuleMasterService.deleteRule(id,status);
+		if (allowanceDeductionMstEntity != null) {
+			model.addAttribute("ddoScreenModel", new DDOScreenModel());
+			model.addAttribute("language", locale.getLanguage());
+		}
+		return new ModelAndView("redirect:/mdc/AllowanceDeductionWiseMaster");
+	}
+	
 
 }

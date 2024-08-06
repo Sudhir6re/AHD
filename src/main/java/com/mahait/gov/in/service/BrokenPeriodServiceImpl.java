@@ -30,7 +30,6 @@ import com.mahait.gov.in.entity.BrokenPeriodEntity;
 import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
-import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.model.BrokenPeriodModel;
 import com.mahait.gov.in.model.BrokenPeriodPayCustomModel;
 import com.mahait.gov.in.model.BrokenPeriodResponseModel;
@@ -623,8 +622,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				} else {
 					brokenPeriodModel = allEdpList.get(i);
 
-					List<CLAMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
-							basic, citygroup, mstEmployeeModel.getPayCommissionCode());
+					List<AllowanceDeductionRuleMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
+							basic, citygroup, mstEmployeeModel.getPayCommissionCode(),allEdpList.get(i).getDeptallowdeducid());
 					if (lstCla.size() > 0)
 						cla = lstCla.get(0).getAmount();
 
@@ -735,7 +734,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 				BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 				
-				gisAmount = paybillHeadMpgRepo.findGisComponentValue(allEdpList.get(i).getGroupNm(), mstEmployeeModel.getDoj(),startDate);
+				gisAmount = paybillHeadMpgRepo.findGisComponentValue(allEdpList.get(i).getGroupNm(), mstEmployeeModel.getDoj(),startDate,allEdpList.get(i).getDeptallowdeducid());
 				brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(gisAmount)));
 				deducTyEdpList.add(brokenPeriodModel);
 				dedRuleList.add(brokenPeriodModel);
@@ -1608,8 +1607,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					} else {
 						brokenPeriodModel = allEdpList.get(i);
 
-						List<CLAMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
-								basic, citygroup, mstEmployeeModel.getPayCommissionCode());
+						List<AllowanceDeductionRuleMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(mstEmployeeModel.getSevenPCLevel(),
+								basic, citygroup, mstEmployeeModel.getPayCommissionCode(),allEdpList.get(i).getDeptallowdeducid());
 						if (lstCla.size() > 0)
 							cla = lstCla.get(0).getAmount();
 
@@ -1720,7 +1719,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						&& allEdpList.get(i).getDeptalldetNm() != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 					BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 					
-					gisAmount = paybillHeadMpgRepo.findGisComponentValue(allEdpList.get(i).getGroupNm(), mstEmployeeModel.getDoj(),startDate);
+					gisAmount = paybillHeadMpgRepo.findGisComponentValue(allEdpList.get(i).getGroupNm(), mstEmployeeModel.getDoj(),startDate,allEdpList.get(i).getDeptallowdeducid());
 					brokenPeriodModel.setDeptalldetValue(String.valueOf((double) Math.round(gisAmount)));
 					deducTyEdpList.add(brokenPeriodModel);
 					dedRuleList.add(brokenPeriodModel);

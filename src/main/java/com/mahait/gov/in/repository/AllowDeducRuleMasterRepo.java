@@ -6,7 +6,6 @@ import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 
 public interface AllowDeducRuleMasterRepo {
 
-	List<Object[]> findAllRules();
 
 	List<Object[]> findAllRules(int departmentAllowdeducCode);
 
@@ -17,6 +16,9 @@ public interface AllowDeducRuleMasterRepo {
 	AllowanceDeductionRuleMstEntity findRuleByComponentCode(Integer allowanceDeductionWiseRuleId);
 
 	AllowanceDeductionRuleMstEntity findRuleByRuleId(int allowanceDeductionWiseRuleId);
+
+
+	AllowanceDeductionRuleMstEntity deleteRule(int id, char status);
 
 
 }

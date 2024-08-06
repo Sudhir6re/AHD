@@ -8122,6 +8122,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		String spilt[] = ddoScreenEntity.getDcpsDdoOfficeCityClass().split("-");
 
 		citygroup = spilt[1];
+		if(citygroup!=null) {
+			citygroup=citygroup.trim();
+		}
 		
 		String cadre=null;
 
@@ -8189,8 +8192,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			
 			Double basic = 0d;
 			String cityClass = split1[0];
-			
-		
+			if(cityClass!=null) {
+				cityClass=cityClass.trim();
+			}
 			
 
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
@@ -8436,12 +8440,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							Long gradelevel = mstEmployeeEntity2.getSevenPcLevel();
 							int claamt = 0;
 
-							List<CLAMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(
+							List<AllowanceDeductionRuleMstEntity> lstCla = paybillHeadMpgRepo.getClaAmaountDtls(
 									mstEmployeeEntity2.getSevenPcLevel(), basic, citygroup,
-									mstEmployeeEntity2.getPayCommissionCode());
+									mstEmployeeEntity2.getPayCommissionCode(),allowDeducCode);
 							if (lstCla.size() > 0)
 								cla = lstCla.get(0).getAmount();
-							paybillGenerationTrnDetails.setCla((double) claamt);
+							paybillGenerationTrnDetails.setCla((double) cla);
 							grossAmount+=cla;
 						}
 					}
@@ -8534,7 +8538,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS)
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 						gisAmount = paybillHeadMpgRepo.findGisComponentValue(gisgroup, mstEmployeeEntity2.getDoj(),
-								startDate);
+								"20"+startDate,allowDeducCode);
 						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
 						dedByAG+=gisAmount;
 					}
