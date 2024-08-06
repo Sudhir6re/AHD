@@ -390,6 +390,21 @@ public class PaybillGenerationTrnDetails {
 	@Column(name = "Motor_Veh_Adv_Inst_Amt")
 	private Double motorVehAdvInstAmt;
 	
+	@Column(name = "DCPS_REGULAR")
+	private Double dcpsRegular;
+	
+	@Column(name = "DCPS_DELAYED")
+	private Double dcpsDelayed;
+	
+	@Column(name = "DCPS_PAY")
+	private Double dcpsPay;
+	
+	@Column(name = "DCPS_DA")
+	private Double dcpsDa;
+	
+	@Column(name = "PLI")
+	private Double pli;
+	
 	
 	@Column(name = "HRA_Percentage")
 	private Integer hraPercent;

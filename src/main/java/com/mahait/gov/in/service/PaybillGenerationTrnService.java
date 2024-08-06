@@ -79,6 +79,7 @@ import javax.validation.Valid;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 /*import com.mahait.gov.in.entity.MstEmployeeEntity;*/
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
+import com.mahait.gov.in.model.AbstractReportModel;
 import com.mahait.gov.in.model.PaybillHeadMpgModel;
 
 public interface PaybillGenerationTrnService {
@@ -120,7 +121,7 @@ public interface PaybillGenerationTrnService {
 
 	public List<Object[]> findofcIdinfo(Long ofcid);
 
-	public List<Object[]> getAbstractReport(String paybillGenerationTrnId);
+	public List<AbstractReportModel> getAbstractReport(String paybillGenerationTrnId);
 
 	public List<Object[]> findyearinfo(BigInteger yearcurr);
 

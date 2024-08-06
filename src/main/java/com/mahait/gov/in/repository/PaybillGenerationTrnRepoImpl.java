@@ -16,9 +16,7 @@ import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.StringHelperUtils;
-import com.mahait.gov.in.entity.AllowanceDeductionMstEntity;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
-import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.CentralGovtDAMasterEntity;
 import com.mahait.gov.in.entity.EmployeeIncrementEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -716,20 +714,20 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public List<Object[]> getAbstractReport(String paybillGenerationTrnId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = " select off.off_name,ddo.account_no,month_english||' '||year_english as monyear,bill.bill_gross_amt as TOTAL_SALARY,sum(billdtl.fa) as FA," + 
-				" 0 as Recovery,sum(billdtl.gross_total_amt) as Gross_salary,sum(billdtl.GPF_Advance_II)+sum(billdtl.GPF_ADVANCE)+sum(billdtl.GPF_ADV_GRP_ABC)+sum(billdtl.GPF_ADV_GRP_D)+sum(billdtl.GPF_GRP_D)+sum(billdtl.GPF_GRP_ABC) as GPF," + 
-				" sum (billdtl.revenue_stamp)as Revenue_stamp,sum(billdtl.dcps) as dcps_reg,sum(billdtl.INCOME_TAX) as IT,sum(billdtl.pt) as PT,sum (billdtl.COMP_ADV)as ComputerAdv," + 
-				" sum(billdtl.other_deduct) as OTHER_DEDUCTION,SUM(billdtl.gis) AS GIS,sum(billdtl.total_deduction) as TOTAL_DED,bill.bill_net_amount as NET_PAY," + 
-				" 0 as rd,sum(billdtl.lic)as lic, sum(billdtl.misc)as MISC,0 as GSLIS,0 as othergpf,0 as othergis,0 as quarterrent,sum(billdtl.cop_bank)as cop_bank," + 
-				" sum(billdtl.credit_soc)as credit_soc,sum(billdtl.recurring_dep)as recurring_dep,sum(billdtl.total_net_amt) as salpay " + 
-				" from paybill_generation_trn  bill inner join paybill_generation_trn_details billdtl ON billdtl.paybill_generation_trn_id=bill.paybill_generation_trn_id " + 
-				" inner join consolidate_paybill_trn_mpg conbillmpg ON  conbillmpg.paybill_generation_trn_id=bill.paybill_generation_trn_id  " + 
-				" inner join consolidate_paybill_trn conbill ON conbillmpg.consolidate_paybill_trn_id =conbill.consolidate_paybill_trn_id " + 
-				" inner join mst_dcps_bill_group billgroup ON billgroup.bill_group_id =bill.scheme_billgroup_id   " + 
-				" inner join org_ddo_mst ddo ON ddo.ddo_code =bill.ddo_code and conbill.consolidate_paybill_trn_id  ='"+paybillGenerationTrnId+"' " + 
-				" inner join mst_dcps_ddo_office off ON off.ddo_code =ddo.ddo_code inner join month_mst month ON month.month_id =bill.paybill_month  " + 
-				" inner join year_mst year ON year.year_id =bill.paybill_year  " + 
-				" GROUP BY billgroup.bill_group_id,billgroup.description,month_english,year_english,ddo.ddo_code,ddo.account_no,off.off_name,bill.bill_gross_amt,bill.bill_net_amount "; // conbill.consolidate_paybill_trn_id
+		String HQL = "select bill.ddo_code||' ('|| off.off_name || ')' as office,billgroup.description as billName,bill.bill_gross_amt as TOTAL_SALARY," + 
+				" sum(billdtl.fa) as FA,sum(billdtl.Excess_Pay_Rec) as Recovery,sum(billdtl.GPF_Advance_II)+sum(billdtl.GPF_ADVANCE)+sum(billdtl.GPF_ADV_GRP_ABC)+sum(billdtl.GPF_ADV_GRP_D)+sum(billdtl.GPF_GRP_D)+sum(billdtl.GPF_GRP_ABC) as GPF," + 
+				" sum(billdtl.DCPS_REGULAR) as dcpsReg,sum(billdtl.DCPS_DELAYED) as dcpsDelay,sum(billdtl.DCPS_PAY) as dcpsPay,sum(billdtl.DCPS_DA) as dcpsDa,sum(billdtl.NPS_EMPR_DEDUCT) as npsEmprDeduc," + 
+				" sum(billdtl.INCOME_TAX) as IT,sum(billdtl.pt) as PT,sum (billdtl.COMP_ADV)as ComputerAdv,sum(billdtl.other_deduct) as OTHER_DEDUCTION,sum(billdtl.PLI) as pli," + 
+				" SUM(billdtl.gis) AS GIS,sum(billdtl.Accidential_Policy) as accPolicy,sum (billdtl.revenue_stamp)as Revenue_stamp,sum(billdtl.total_deduction) as TOTAL_DED," + 
+				" bill.bill_net_amount as NET_PAY,sum(billdtl.recurring_dep)as recurring_dep,sum(billdtl.lic)as lic,sum(billdtl.misc)as MISC,0 as bankLoan,0 as societyLoan,sum(billdtl.TOTAL_DEDUCTION) as ngrtotaldeduc," + 
+				" sum(billdtl.total_net_amt) as salpay from   paybill_generation_trn  bill inner join paybill_generation_trn_details billdtl ON billdtl.paybill_generation_trn_id=bill.paybill_generation_trn_id  " + 
+				" inner join consolidate_paybill_trn_mpg conbillmpg ON  conbillmpg.paybill_generation_trn_id=bill.paybill_generation_trn_id   " + 
+				" inner join consolidate_paybill_trn conbill ON conbillmpg.consolidate_paybill_trn_id =conbill.consolidate_paybill_trn_id  " + 
+				" inner join mst_dcps_bill_group billgroup ON billgroup.bill_group_id =bill.scheme_billgroup_id    " + 
+				" inner join org_ddo_mst ddo ON ddo.ddo_code =bill.ddo_code and conbill.consolidate_paybill_trn_id  ='"+paybillGenerationTrnId+"'  " + 
+				" inner join  mst_dcps_ddo_office off ON off.ddo_code =ddo.ddo_code " + 
+				" inner join month_mst month ON month.month_id =bill.paybill_month inner join  year_mst year ON year.year_id =bill.paybill_year   " + 
+				" GROUP BY billgroup.bill_group_id,billgroup.description,month_english,year_english,ddo.ddo_code,ddo.account_no,off.off_name,bill.bill_gross_amt,bill.bill_net_amount,bill.ddo_code "; // conbill.consolidate_paybill_trn_id
 		// =3
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("------HQL---" + HQL);
