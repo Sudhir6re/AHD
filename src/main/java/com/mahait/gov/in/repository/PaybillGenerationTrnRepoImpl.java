@@ -1072,10 +1072,14 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public Double findGisComponentValue(String gisgroup, Date doj, String startDate,int allowD) {
 		Session currentSession = entityManager.unwrap(Session.class);
-
-		String sql = "select  CASE  "  //WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.amount
+		
+		String sql = "select  CASE  WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN "
+				+"  CASE WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) >1 THEN p.premium_amount else  p.amount end else p.premium_amount  "
+				+ "  END AS selected_amount from allowance_deduction_wise_rule_mst p WHERE city_group = :groupName and   is_Active='1'  and department_allowdeduc_code=:allowD";
+		
+		/*String sql = "select  CASE  "  //WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.amount
 				+ " WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) <1 THEN p.premium_amount  else p.amount "
-				+ " END AS selected_amount from allowance_deduction_wise_rule_mst p WHERE city_group = :groupName and   is_Active='1'  and department_allowdeduc_code=:allowD";
+				+ " END AS selected_amount from allowance_deduction_wise_rule_mst p WHERE city_group = :groupName and   is_Active='1'  and department_allowdeduc_code=:allowD";*/
 
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("doj", doj);

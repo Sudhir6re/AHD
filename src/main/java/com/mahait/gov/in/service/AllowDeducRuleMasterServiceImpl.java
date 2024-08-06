@@ -32,7 +32,11 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
  			allowanceDeductionMstEntity.setAllowanceDeductionWiseRuleId(StringHelperUtils.isNullInt(object[0]));
  			allowanceDeductionMstEntity.setAmount(StringHelperUtils.isNullDouble(object[1]));  //10 amt
  			allowanceDeductionMstEntity.setDepartmentAllowdeducCode(StringHelperUtils.isNullInt(object[4]));
- 	 		allowanceDeductionMstEntity.setEndDate(StringHelperUtils.isNullDate(object[5]));
+ 	 		
+ 	 		if(object[5]!=null) {
+ 				allowanceDeductionMstEntity.setEndDate(StringHelperUtils.isNullDate(object[5]));
+ 			}
+ 	 		
  			allowanceDeductionMstEntity.setIsActive(StringHelperUtils.isNullChar(object[6]));
  			allowanceDeductionMstEntity.setIsType(StringHelperUtils.isNullInt(object[7]));
  			allowanceDeductionMstEntity.setPayCommissionCode(StringHelperUtils.isNullInt(object[8]));
@@ -62,7 +66,12 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
  			allowanceDeductionMstEntity.setAllowanceDeductionWiseRuleId(StringHelperUtils.isNullInt(object[0]));
  			allowanceDeductionMstEntity.setAmount(StringHelperUtils.isNullDouble(object[1]));  //10 amt
  			allowanceDeductionMstEntity.setDepartmentAllowdeducCode(StringHelperUtils.isNullInt(object[4]));
- 	 		allowanceDeductionMstEntity.setEndDate(StringHelperUtils.isNullDate(object[5]));
+ 			
+ 			if(object[5]!=null) {
+ 				allowanceDeductionMstEntity.setEndDate(StringHelperUtils.isNullDate(object[5]));
+ 			}
+ 	 	
+ 	 		
  			allowanceDeductionMstEntity.setIsActive(StringHelperUtils.isNullChar(object[6]));
  			allowanceDeductionMstEntity.setIsType(StringHelperUtils.isNullInt(object[7]));
  			allowanceDeductionMstEntity.setPayCommissionCode(StringHelperUtils.isNullInt(object[8]));
