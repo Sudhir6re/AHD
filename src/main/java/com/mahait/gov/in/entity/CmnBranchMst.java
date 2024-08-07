@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -86,4 +87,7 @@ public class CmnBranchMst {
 
     @Column(name = "DISPLAY_NAME", nullable = false)
     private String displayName;
+    
+    @Transient
+	String bankName;
 }
