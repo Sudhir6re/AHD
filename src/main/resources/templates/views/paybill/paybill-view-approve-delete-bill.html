@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-<head>  
+<head>
 <title th:utext="#{menu.mapping.payBillViewApprDelBill}"></title>
 <style>
 table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_desc,
@@ -10,20 +10,26 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 	{
 	padding-right: inherit !important;
 }
+
+@media print {
+	@page {
+		size: landscape;
+	}
+}
 </style>
 <script type="text/javascript">
 	//Inner report method started
 	function showinnerreport(billNumber) {
 		var billnm = billNumber;
-		var ddoCode="1";
-		
+		var ddoCode = "1";
+
 		$("#loaderMainNew").show();
-		
+
 		$
 				.ajax({
 					type : "GET",
-					url : "../ddoast/getinnerreport/" + billNumber + "/"
-							+ 1 + "/" + 1+"/"+ddoCode,
+					url : "../ddoast/getinnerreport/" + billNumber + "/" + 1
+							+ "/" + 1 + "/" + ddoCode,
 					async : true,
 					contentType : 'application/json',
 					error : function(data) {
@@ -78,9 +84,10 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 					id="message" th:value="${message}" /> <input type="hidden"
 					name="radioval" id="radioval" /> <input type="hidden"
 					name="gotMonthName" id="gotMonthName" th:value="${gotMonthName}" />
-					<input type="hidden"	name="roleId" id="roleId" th:value="${roleId}" />
-					<input type="hidden"	name="ddoCode" id="ddoCode" th:value="${ddoCode}" />
-					<input type="hidden"	name="userId" id="userId" th:value="${userId}" />
+				<input type="hidden" name="roleId" id="roleId" th:value="${roleId}" />
+				<input type="hidden" name="ddoCode" id="ddoCode"
+					th:value="${ddoCode}" /> <input type="hidden" name="userId"
+					id="userId" th:value="${userId}" />
 
 
 
@@ -113,20 +120,20 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.billNumber}"></span></label>
 					<div class="col-sm-2">
-					<select class="form-control" th:field="*{billNumber}"
+						<select class="form-control" th:field="*{billNumber}"
 							id="billNumber">
-								<option selected="selected" th:value="0" th:data="0"
-									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-								<option th:each="varSchemeBillGroup : ${lstSchemeBillGroup}"
-									th:value="${varSchemeBillGroup.dcpsDdoBillGroupId}"
-									th:data="${varSchemeBillGroup.dcpsDdoBillGroupId}"
-									th:text="${language=='mh' ? varSchemeBillGroup.description : varSchemeBillGroup.description}"></option>
-							</select>
-					
-					
+							<option selected="selected" th:value="0" th:data="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option th:each="varSchemeBillGroup : ${lstSchemeBillGroup}"
+								th:value="${varSchemeBillGroup.dcpsDdoBillGroupId}"
+								th:data="${varSchemeBillGroup.dcpsDdoBillGroupId}"
+								th:text="${language=='mh' ? varSchemeBillGroup.description : varSchemeBillGroup.description}"></option>
+						</select>
+
+
 					</div>
 				</div>
-			
+
 				<div class="form-group text-center">
 					<input type="button" id="btnSearch" class="btn btn-primary"
 						th:value="#{msg.thymeleaf.pagelabel.btnSearch}" />
@@ -218,20 +225,8 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 								th:href="@{'/level1/paybillGenerationTrnId/'+${varBillGrp.paybillGenerationTrnId}}"><span
 									th:text="${varBillGrp.paybillGenerationTrnId}"></span></a></td>
 
-							<td class="text-cenetr"><!--<span
-								th:if="${varBillGrp.isActive} == 1"> <span
-									class="label label-success text-center"
-									th:utext="#{msg.thymeleaf.changeStatementGenerated}"></span>
-							</span> <span th:if="${varBillGrp.isActive} ==2"> <span
-									class="label label-success text-center"
-									th:utext="#{msg.thymeleaf.changeStatementForwarded}"></span>
-							</span> <span th:if="${varBillGrp.isActive} == 3"> <span
-									class="label label-success text-center"
-									th:utext="#{msg.thymeleaf.changeStatementApproved}"></span>
-							</span> <span th:if="${varBillGrp.isActive} ==4"> <span
-									class="label label-success text-center"
-									th:utext="#{msg.thymeleaf.changeStatementRejected}"></span>
-							</span> --> <span th:if="${varBillGrp.isActive} == 5"> <span
+							<td class="text-cenetr"><span
+								th:if="${varBillGrp.isActive} == 5"> <span
 									class="label label-success text-center"
 									th:utext="#{msg.thymeleaf.generatePaybill}"></span>
 							</span> <span th:if="${varBillGrp.isActive} ==6"> <span
@@ -244,23 +239,24 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 									class="label label-success text-center"
 									th:utext="#{msg.thymeleaf.billDeleted}"></span>
 							</span> <span th:if="${varBillGrp.isActive} ==9"> <span
-									class="label label-success text-center"
-									>Consolidated Paybill</span>
+									class="label label-success text-center">Consolidated
+										Paybill</span>
 							</span> <span th:if="${varBillGrp.isActive} ==10"> <span
-									class="label label-success text-center"
-									>Paybill Forward</span>
+									class="label label-success text-center">Paybill
+										Forward</span>
 							</span> <span th:if="${varBillGrp.isActive} ==11"> <span
-									class="label label-success text-center"
-									>Consolidate Paybill Approved</span>
+									class="label label-success text-center">Consolidate
+										Paybill Approved</span>
 							</span> <span th:if="${varBillGrp.isActive} ==12"> <span
-									class="label label-danger text-center"
-									>Paybill Rejected</span>
+									class="label label-danger text-center">Paybill
+										Rejected</span>
 							</span> <span th:if="${varBillGrp.isActive} ==13"> <span
 									class="label label-success text-center"
 									th:utext="#{msg.thymeleaf.pagelabel.consolatedDelete}"></span>
 							</span> <span th:if="${varBillGrp.isActive} ==14"> <span
 									class="label label-success text-center"
-									th:utext="#{msg.thymeleaf.pagelabel.consolatedApproved}">Voucher Entry Done</span>
+									th:utext="#{msg.thymeleaf.pagelabel.consolatedApproved}">Voucher
+										Entry Done</span>
 							</span></td>
 
 
@@ -284,15 +280,19 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 					</tbody>
 				</table>
 				<div class="text-center">
-				<!-- 	<input type="button" value="Forward Change Statement" class="btn btn-primary" id="btnForwardChangeStatment" /> --> 
+					<!-- 	<input type="button" value="Forward Change Statement" class="btn btn-primary" id="btnForwardChangeStatment" /> -->
 					<!-- <input type="button" value="Generate Paybill" class="btn btn-primary" id="btnForwardBill" />  -->
-					<input type="button" th:if="${roleId=='2'}" value="Forward PayBill To Beams" class="btn btn-primary" id="btnForwardBillToBeams" />
-					<input type="button" value="Forward PayBill To DDO" class="btn btn-primary" id="btnForwardBillToLevel2" />
-					<input type="button" value="Delete Bill" class="btn btn-primary" id="btnDeleteBill" />
-					<input type="button" value="Voucher Entry" class="btn btn-primary" id="btnVoucherEntry" data-toggle="modal" data-target="#myModal" />
+					<input type="button" th:if="${roleId=='2'}"
+						value="Forward PayBill To Beams" class="btn btn-primary"
+						id="btnForwardBillToBeams" /> <input type="button"
+						value="Forward PayBill To DDO" class="btn btn-primary"
+						id="btnForwardBillToLevel2" /> <input type="button"
+						value="Delete Bill" class="btn btn-primary" id="btnDeleteBill" />
+					<input type="button" value="Voucher Entry" class="btn btn-primary"
+						id="btnVoucherEntry" data-toggle="modal" data-target="#myModal" />
 					<!-- <input type="reset" id="btnReset" class="btn btn-primary"
-						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> --> <a
-						th:href="@{/user/home}" class="btn"><span
+						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> -->
+					<a th:href="@{/user/home}" class="btn"><span
 						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 
 				</div>
@@ -321,30 +321,31 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 									<td width="15%"><label><span>Voucher Date</span>&nbsp;&nbsp;</label></td>
 									<td width="30%"><input type="date" size="40%"
 										id="voucherDate" name="voucherDate" class="form-control" /></td>
-										</tr>
-										<tr>
+								</tr>
+								<tr>
 									<td width="15%"><label><span>Cheque No</span>&nbsp;&nbsp;</label></td>
-									<td width="30%"><input type="text" size="40%"
-										id="chqNo" name="chqNo" class="form-control" /></td>
+									<td width="30%"><input type="text" size="40%" id="chqNo"
+										name="chqNo" class="form-control" /></td>
 									<td width="15%"><label><span>Cheque Date</span>&nbsp;&nbsp;</label></td>
-									<td width="30%"><input type="date" size="40%"
-										id="chqDate" name="chqDate" class="form-control" /></td>
-										</tr>
-										<tr>
-										<td width="15%"><label><span>Account No</span>&nbsp;&nbsp;</label></td>
-									<td width="30%"><input type="text" size="40%"
-										id="accNo" name="accNo" class="form-control number" /></td>
-										<td width="15%"><label><span>IFSC Code</span>&nbsp;&nbsp;</label></td>
+									<td width="30%"><input type="date" size="40%" id="chqDate"
+										name="chqDate" class="form-control" /></td>
+								</tr>
+								<tr>
+									<td width="15%"><label><span>Account No</span>&nbsp;&nbsp;</label></td>
+									<td width="30%"><input type="text" size="40%" id="accNo"
+										name="accNo" class="form-control number" /></td>
+									<td width="15%"><label><span>IFSC Code</span>&nbsp;&nbsp;</label></td>
 									<td width="30%"><input type="text" size="40%"
 										id="ifscCode" name="ifscCode" class="form-control" /></td>
 								</tr>
 							</table>
-							
+
 						</div>
 						<div class="modal-footer">
 							<input type="button" value="Close" class="btn btn-default"
 								data-dismiss="modal" id="btnClose" /> <input type="button"
-								value="Save" class="btn btn-primary" data-dismiss="modal" id="btnUpdate" />
+								value="Save" class="btn btn-primary" data-dismiss="modal"
+								id="btnUpdate" />
 						</div>
 					</div>
 
@@ -357,11 +358,11 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 	<script th:src="@{/js/project/datatable-common.js}"></script>
 	<script th:src="@{/js/project/paybill-view-approve-delete-bill.js}"></script>
 	<script>
-		 /*  $(document).ready(function() {
-			$('#btnUpdate').click(function () {
-				alert("clicked br")
-				  $("#btnUpdate").attr("disabled", true); 
-				});
+		/*  $(document).ready(function() {
+		$('#btnUpdate').click(function () {
+			alert("clicked br")
+			  $("#btnUpdate").attr("disabled", true); 
+			});
 		}); */
 	</script>
 	<!-- <script>

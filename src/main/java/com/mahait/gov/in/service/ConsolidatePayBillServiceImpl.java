@@ -199,4 +199,33 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 
 	}
 
+	@Override
+	public List<ConsolidatePayBillModel> fetchDDOLstForConsolidateApproval(String ddoCode) {
+
+		List<Object[]> lstprop = consolidatePayBillRepo.fetchDDOLstForConsolidateApproval(ddoCode);
+		List<ConsolidatePayBillModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				ConsolidatePayBillModel obj = new ConsolidatePayBillModel();
+				BigInteger consolidateId = (BigInteger) objLst[0];
+				obj.setConsolidateId(consolidateId.longValue());
+				obj.setSchemeCode(StringHelperUtils.isNullString(objLst[1]));
+				obj.setSubSchemeName(StringHelperUtils.isNullString(objLst[2]));
+				obj.setBillGrossAmt(StringHelperUtils.isNullDouble(objLst[3]));
+				obj.setBillNetAmt(StringHelperUtils.isNullDouble(objLst[4]));
+
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+
+	}
+
+	@Override
+	public int approveConsolidateBill(Long consolidateId) {
+		
+		Serializable	id = consolidatePayBillRepo.updateConsolidateapproveStatus(consolidateId);
+		return (int) id;
+	}
+
 }

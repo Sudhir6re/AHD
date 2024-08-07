@@ -6,6 +6,7 @@ import java.util.List;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnEntity;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnMpgEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
+import com.mahait.gov.in.model.ConsolidatePayBillModel;
 
 public interface ConsolidatePayBillRepo {
 	public Long saveConsolidatePayBill(ConsolidatePayBillTrnEntity objEntity);
@@ -19,5 +20,7 @@ public interface ConsolidatePayBillRepo {
 	public Serializable saveDtlsPaybillTrn(PaybillGenerationTrnEntity paybillGenerationTrnEntity);
 	public PaybillGenerationTrnEntity findPaybillDtls(String ddoCode, Long billNo);
 	public void updaterejectConsolidateStatus(PaybillGenerationTrnEntity paybillGenerationTrnEntity);
+	public List<Object[]> fetchDDOLstForConsolidateApproval(String ddoCode);
+	public Serializable updateConsolidateapproveStatus(Long consolidateId);
 
 }

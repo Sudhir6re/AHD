@@ -26,6 +26,7 @@ public class ConsolidatePayBillModel implements Serializable {
 	private double  billNetAmt;
 	private Boolean istrue;
 	private Boolean checkboxid;
+	private Long consolidateId;
 	
 	List<ConsolidatePayBillModel> lstCons ;
 	

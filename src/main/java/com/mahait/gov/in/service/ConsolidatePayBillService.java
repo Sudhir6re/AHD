@@ -19,4 +19,8 @@ public interface ConsolidatePayBillService {
 
 	public PaybillGenerationTrnEntity rejectConsolidatePaybill(String ddoCode, Long billNo);
 
+	public List<ConsolidatePayBillModel> fetchDDOLstForConsolidateApproval(String ddoCode);
+
+	public int approveConsolidateBill(Long consolidateId);
+
 }

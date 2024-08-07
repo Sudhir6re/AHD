@@ -926,13 +926,6 @@ $("#btnUpdate")
 			var ifscCode=$("#ifscCode").val();
 			var userId=$("#userId").val();
 			
-			/*chqNo=chqNo==''?"0":chqNo;
-			chqDate=chqDate==''?"0":chqDate;
-			accNo=accNo==''?"0":accNo;
-			ifscCode=ifscCode==''?"0":ifscCode;*/
-			
-		
-			
 			
 			if (voucherNo == "" || voucherNo == "0") {
 				e.preventDefault();
@@ -956,7 +949,7 @@ $("#btnUpdate")
 					},
 					 success: function(data){
 				    	  console.log(data);
-				    	  $("#loaderMainNew").hide();
+				    	  $("#loaderMainNew").show();
 
 							 swal("Record Updated Successfully");
 							 setTimeout(
