@@ -35,32 +35,9 @@ select.error, textarea.error, input.error {
 	border: 1px solid red !important;
 }
 
-input#uid1, input#uid2, input#uid3 {
-	width: 28% !important;
-	input
-	#uid1,
-	input#uid2,
-	input#uid3
-	{
-	width
-	:
-	28%
-	!important;
-	ul
-	.nav.nav-tabs
-	li.active
-	a,
-	.nav-tabs>li>a
-	:
-	hover
-	{
-	
-	
-	background
-	:
-	 
-	#ffbb55
-	!important;
+
+ul.nav.nav-tabs li.active a, .nav-tabs>li>a:hover {
+	background: #ffbb55 !important;
 }
 
 ul.nav.nav-tabs {
@@ -212,9 +189,8 @@ input#uid1, input#uid2, input#uid3 {
 								<input type="submit" class="btn btn-primary" id="forward"
 									th:value="#{msg.thymeleaf.pagelabel.forwardToDDO}" /> <span
 									th:if="${mstEmployeeModel.employeeFNameEn != null}"> <input
-									type="button" class="btn btn-primary rejectbtnn"
-									th:value="#{msg.thymeleaf.pagelabel.back}"
-									th:onclick="'backlvlEmpDtls();'" />
+									type="button" name="btnCancel" onclick="history.back()"
+									id="btnCancel" value="Cancel" class="buttontag">
 								</span>
 
 							</div>

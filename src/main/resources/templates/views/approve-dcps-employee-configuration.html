@@ -102,7 +102,7 @@ input#uid1, input#uid2, input#uid3 {
 					type="hidden" name="message" id="message" th:value="${message}" />
 				<input type="hidden" name="dcpsgpfflg" id="dcpsgpfflg"
 					th:field="*{dcpsgpfflag}" disabled="disabled" class="form-control" />
-				<div id="tabContainer">
+				<div id="tabContainer" class="container">
 					<ul class="nav nav-tabs">
 						<!-- <li ><a data-toggle="tab" href="#home">Sevaarth Id Detail</a></li> -->
 						<li class="active"><a data-toggle="tab" href="#menu1"><b>Employee
@@ -180,9 +180,8 @@ input#uid1, input#uid2, input#uid3 {
 								type="button" class="btn btn-primary"
 								th:value="#{msg.thymeleaf.pagelabel.printformone}"
 								th:onclick="'empDtlsReport();'" />
-							</span> <input type="button" class="btn btn-primary rejectbtnn"
-								th:value="#{msg.thymeleaf.pagelabel.back}"
-								th:onclick="'backEmpDtls();'" />
+							</span> <input type="button" name="btnCancel" onclick="history.back()"
+								id="btnCancel" value="Cancel" class="buttontag">
 
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
