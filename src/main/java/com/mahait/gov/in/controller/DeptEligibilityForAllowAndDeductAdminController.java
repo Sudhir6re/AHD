@@ -33,7 +33,7 @@ import com.mahait.gov.in.service.MstEmployeeService;
 import com.mahait.gov.in.service.OrderMasterService;
 
 @Controller
-@RequestMapping("/ddo")
+@RequestMapping(value= {"/mdc","/ddo"})
 public class DeptEligibilityForAllowAndDeductAdminController  extends BaseController{
 
 	@Autowired
@@ -100,7 +100,7 @@ public class DeptEligibilityForAllowAndDeductAdminController  extends BaseContro
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
 		}
 
-		return "redirect:/ddo/mstAllowAndDeduct";
+		return "redirect:/mdc/mstAllowAndDeduct";
 	}
 	
 	@GetMapping("/deptEligibilityForAllowAndDeductAdmin")

@@ -83,155 +83,8 @@ public class AbstractReportController extends BaseController{
 		 addMenuAndSubMenu(model,messages);	
 		SimpleDateFormat sdf =new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		lstabsBillObj.clear();
-		Long billgroupid=0l;
-				String instName="";
-				String BillAccountNo="";
-				String BillName="";
-				Double TotalSalary=0d;
-				Double fa=0d;
-				Double ExcPayRecovery=0d;
-				Double GrossSalary=0d;
-				Double gpf=0d;
-				Double gpfAdvII=0d;
-				Double gpfAdvGrpABC = 0d; 
-				Double gpfAdvGrD=0d;
-				Double gpfGrpD=0d; 
-				Double gpfGrpABC=0d;
-				Double RevenueStamp=0d;
-				Double renstamp=0d;
-				Double dcpsdel=0d;
-				Double dcpsrel=0d;
-				Double it=0d;
-				Double dcpsda=0d;
-				Double pt=0d;
-				Double compadv=0d;
-				Double otherded=0d;
-				Double totdedction=0d;
-				Double pli=0d;
-				Double gis=0d;
-				Double netpay=0d;
-				Double ngrrd=0d;
-				Double ngrlic=0d;
-				Double ngrmisc=0d;
-				Double ngrgslic=0d;
-				Double ngrosgpf=0d;
-				Double ngrosgis=0d;
-				Double ngrqurrent=0d;
-				Double ngrbankloan=0d;
-				Double ngrsocloan=0d;
-				Double ngrtotded=0d;
-				Double netpayamt=0d;
-				Double grosstotsalary=0d;
-				Date createddate = null;
-		List<Object[]> listA = paybillGenerationTrnService.getAbstractReport(paybillGenerationTrnId);
-		for (Object[] objLst : listA) {
-			
-		/*	select off.off_name,ddo.account_no,month_english||' '||year_english as monyear,bill.bill_gross_amt as TOTAL_SALARY,sum(billdtl.fa) as FA," + 
-			" 0 as Recovery,sum(billdtl.gross_total_amt) as Gross_salary,sum(billdtl.GPF_Advance_II)+sum(billdtl.GPF_ADVANCE)+sum(billdtl.GPF_ADV_GRP_ABC)+sum
-			(billdtl.GPF_ADV_GRP_D)+sum(billdtl.GPF_GRP_D)+sum(billdtl.GPF_GRP_ABC) as GPF," + 
-			" sum (billdtl.revenue_stamp)as Revenue_stamp,sum(billdtl.dcps) as dcps_reg,sum(billdtl.INCOME_TAX) as IT,sum(billdtl.pt) as PT,sum (billdtl.COMP_ADV)as ComputerAdv," + 
-			" sum(billdtl.other_deduct) as OTHER_DEDUCTION,SUM(billdtl.gis) AS GIS,sum(billdtl.total_deduction) as TOTAL_DED,bill.bill_net_amount as NET_PAY," + 
-			" 0 as rd,sum(billdtl.lic)as lic, sum(billdtl.misc)as MISC,0 as GSLIS,0 as othergpf,0 as othergis,0 as quarterrent,sum(billdtl.cop_bank)as cop_bank," + 
-			" sum(billdtl.credit_soc)as credit_soc,sum(billdtl.recurring_dep)as recurring_dep,sum(billdtl.total_net_amt) as salpay
-*/			
-			
-			if (objLst[0] != null) {
-				instName=objLst[0].toString();
-			}
-			if (objLst[1] != null) {
-				BillAccountNo=objLst[1].toString();
-			}
-			if (objLst[2] != null) {
-				BillName=objLst[2].toString();
-			}
-			if (objLst[3] != null) {
-				TotalSalary=Double.parseDouble(objLst[3].toString());
-			}
-			if (objLst[4] != null) {
-				fa=Double.parseDouble(objLst[4].toString());
-			}
-			if (objLst[5] != null) {
-				ExcPayRecovery=Double.parseDouble(objLst[5].toString());
-			}
-			if (objLst[6] != null) {
-				GrossSalary=Double.parseDouble(objLst[6].toString());
-			}
-			if (objLst[7] != null) {
-				gpfAdvII=Double.parseDouble(objLst[7].toString());
-			}
-			if (objLst[8] != null) {
-				gpf=Double.parseDouble(objLst[8].toString());
-			}
-			if (objLst[9] != null) {
-				gpfAdvGrpABC=Double.parseDouble(objLst[9].toString());
-			}
-			if (objLst[10] != null) {
-				gpfAdvGrD=Double.parseDouble(objLst[10].toString());
-			} 
-			if (objLst[11] != null) {
-				gpfGrpD=Double.parseDouble(objLst[11].toString());
-			}
-			if (objLst[12] != null) {
-				gpfGrpABC=Double.parseDouble(objLst[12].toString());
-			}
-			if (objLst[13] != null) {
-				pt=Double.parseDouble(objLst[13].toString());
-			}
-			if (objLst[14] != null) {
-				compadv=Double.parseDouble(objLst[14].toString());
-			}
-			if (objLst[15] != null) {
-				otherded=Double.parseDouble(objLst[15].toString());
-			}
-			if (objLst[16] != null) {
-				pli=Double.parseDouble(objLst[16].toString());
-			}
-			if (objLst[17] != null) {
-				totdedction=Double.parseDouble(objLst[17].toString());
-			}
-			if (objLst[18] != null) {
-				gis=Double.parseDouble(objLst[18].toString());
-			}
-			if (objLst[19] != null) {
-				netpay=Double.parseDouble(objLst[19].toString());
-			}
-			if (objLst[20] != null) {
-				ngrrd=Double.parseDouble(objLst[20].toString());
-			}
-			if (objLst[21] != null) {
-				ngrlic=Double.parseDouble(objLst[21].toString());
-			}
-			if (objLst[22] != null) {
-				ngrmisc=Double.parseDouble(objLst[22].toString());
-			}
-			if (objLst[22] != null) {
-				ngrgslic=Double.parseDouble(objLst[22].toString());
-			}
-			if (objLst[23] != null) {
-				ngrosgpf=Double.parseDouble(objLst[23].toString());
-			}
-			if (objLst[24] != null) {
-				ngrosgis=Double.parseDouble(objLst[24].toString());
-				
-			}
-			if (objLst[25] != null) {
-				ngrqurrent=Double.parseDouble(objLst[25].toString());
-			}
-			if (objLst[26] != null) {
-				ngrbankloan=Double.parseDouble(objLst[26].toString());
-			}
-			if (objLst[27] != null) {
-				ngrsocloan=Double.parseDouble(objLst[27].toString());
-			}
-			if (objLst[28] != null) {
-				ngrtotded=Double.parseDouble(objLst[28].toString());
-			}
-			if (objLst[30] != null) {
-				grosstotsalary=Double.parseDouble(objLst[30].toString());
-			}
-			abstractReportModel(instName, BillAccountNo, BillName, TotalSalary,fa, ExcPayRecovery, GrossSalary,gpf,RevenueStamp,dcpsdel,dcpsrel,it,dcpsda,pt,
-					compadv,otherded,pli,totdedction,gis,netpay,ngrrd,ngrlic,ngrmisc,ngrgslic,ngrosgpf,ngrosgis,ngrqurrent,ngrbankloan,ngrsocloan,ngrtotded,grosstotsalary);
-		}
+		Date createddate = null;
+		model.addAttribute("listA",paybillGenerationTrnService.getAbstractReport(paybillGenerationTrnId));
 		Date createdate = consolidatedReportService.findbillCreateConsolidateDate(Long.valueOf(paybillGenerationTrnId));
 		model.addAttribute("createddate", sdf.format(createdate));
 		model.addAttribute("systemdate", sdf.format(new Date()));
@@ -241,54 +94,10 @@ public class AbstractReportController extends BaseController{
 		  model.addAttribute("hideLoader",true);
 		  
 		  
-		  return "/views/report/abstractreport";
+		  return "/views/reports/abstractreport";
 		
 	}
 	
-	
-	private void abstractReportModel(String instName, String billAccountNo, String billName, Double totalSalary,
-			Double fa, Double excPayRecovery, Double grossSalary, Double gPF, Double revenueStamp, Double dcpsdel,
-			Double dcpsrel, Double it, Double dcpsda, Double pt, Double compadv, Double otherded, Double pli,
-			Double totdedction, Double gis, Double netpay, Double ngrrd, Double ngrlic, Double ngrmisc, Double ngrgslic,
-			Double ngrosgpf, Double ngrosgis, Double ngrqurrent, Double ngrbankloan, Double ngrsocloan,
-			Double ngrtotded, Double grosstotsalary) {
-		AbstractReportModel abModel = new AbstractReportModel();
-		
-		abModel.setInstName(instName);
-		abModel.setBillAccountNo(billAccountNo);
-		abModel.setBillName(billName);
-		abModel.setTotalSalary(totalSalary.doubleValue());
-		abModel.setFa(fa);
-		abModel.setExcPayRecovery(excPayRecovery);
-		abModel.setGrossSalary(Double.valueOf(grossSalary));
-		abModel.setGPF(gPF);
-		abModel.setRevenueStamp(revenueStamp);
-		abModel.setDcpsdel(dcpsdel);
-		abModel.setDcpsrel(dcpsrel);
-		abModel.setIt(it);
-		abModel.setDcpsda(dcpsda);
-		abModel.setPt(pt);
-		abModel.setCompadv(compadv);
-		abModel.setOtherded(otherded);
-		abModel.setPli(pli);
-		abModel.setTotdedction(totdedction);
-		abModel.setGis(gis);
-		abModel.setNetpay(netpay);
-		abModel.setNgrrd(ngrrd);
-		abModel.setNgrlic(ngrlic);
-		abModel.setNgrmisc(ngrmisc);
-		abModel.setNgrgslic(ngrgslic);
-		abModel.setNgrosgpf(ngrosgpf);
-		abModel.setNgrosgis(ngrosgis);
-		abModel.setNgrqurrent(ngrqurrent);
-		abModel.setNgrbankloan(ngrbankloan);
-		abModel.setNgrsocloan(ngrsocloan);
-		abModel.setNgrtotded(ngrtotded);
-		abModel.setGrosstotsalary(grosstotsalary);
-		
-		lstabsBillObj.add(abModel);		
-	}
-
 
 	@GetMapping("/viewabstractReportExecl/{paybillGenerationTrnId}")
 	public String viewabstractReportExecl(
@@ -308,7 +117,7 @@ public class AbstractReportController extends BaseController{
 		
 				XSSFWorkbook workbook = new XSSFWorkbook();
 				XSSFSheet sheet = workbook.createSheet("Data");
-		List<Object[]> listA = paybillGenerationTrnService.getAbstractReport(paybillGenerationTrnId);
+		List<AbstractReportModel> listA = paybillGenerationTrnService.getAbstractReport(paybillGenerationTrnId);
 		if(listA!=null && listA.size()>0){
 			 Row headerRow = sheet.createRow(0);
 			 Cell headerCell = headerRow.createCell(0);

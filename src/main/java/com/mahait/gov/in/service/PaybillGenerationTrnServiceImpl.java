@@ -26,6 +26,8 @@ import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
+import com.mahait.gov.in.model.AbstractReportModel;
+import com.mahait.gov.in.model.ApproveDDOHstModel;
 import com.mahait.gov.in.model.PaybillHeadMpgModel;
 import com.mahait.gov.in.repository.PaybillGenerationTrnRepo;
 
@@ -6082,9 +6084,56 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	@Override
-	public List<Object[]> getAbstractReport(String paybillGenerationTrnId) {
+	public List<AbstractReportModel> getAbstractReport(String paybillGenerationTrnId) {
+		
+		List<Object[]> lstprop = paybillHeadMpgRepo.getAbstractReport(paybillGenerationTrnId);
+		List<AbstractReportModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				AbstractReportModel obj = new AbstractReportModel();
+				
+				obj.setInstName(StringHelperUtils.isNullString(objLst[0]));
+			    obj.setBillName(StringHelperUtils.isNullString(objLst[1]));
+			    obj.setGrossSalary(StringHelperUtils.isNullDouble(objLst[2]));
+			    obj.setFa(StringHelperUtils.isNullDouble(objLst[3]));
+			    obj.setRecovery(StringHelperUtils.isNullDouble(objLst[4]));
+			    obj.setGPF(StringHelperUtils.isNullDouble(objLst[5]));
+			    obj.setDcpsreg(StringHelperUtils.isNullDouble(objLst[6]));
+			    obj.setDcpsdel(StringHelperUtils.isNullDouble(objLst[7]));
+			    obj.setDcpsPay(StringHelperUtils.isNullDouble(objLst[8]));
+			    obj.setDcpsda(StringHelperUtils.isNullDouble(objLst[9]));
+			    obj.setNpsEmprDeduc(StringHelperUtils.isNullDouble(objLst[10]));
+			    obj.setIt(StringHelperUtils.isNullDouble(objLst[11]));
+			    obj.setPt(StringHelperUtils.isNullDouble(objLst[12]));
+			    obj.setCompadv(StringHelperUtils.isNullDouble(objLst[13]));
+			    obj.setOtherded(StringHelperUtils.isNullDouble(objLst[14]));
+			    obj.setPli(StringHelperUtils.isNullDouble(objLst[15]));
+			    obj.setGis(StringHelperUtils.isNullDouble(objLst[16]));
+			    obj.setAccPolicy(StringHelperUtils.isNullDouble(objLst[17]));
+			    obj.setRevenueStamp(StringHelperUtils.isNullDouble(objLst[18]));
+			    obj.setTotdedction(StringHelperUtils.isNullDouble(objLst[19]));
+			    obj.setNetpay(StringHelperUtils.isNullDouble(objLst[20]));
+			    obj.setRecurringDeposit(StringHelperUtils.isNullDouble(objLst[21]));
+			    obj.setNgrlic(StringHelperUtils.isNullDouble(objLst[22]));
+			    obj.setNgrmisc(StringHelperUtils.isNullDouble(objLst[23]));
+			    obj.setNgrbankloan(0d);///StringHelperUtils.isNullDouble(objLst[24])
+			    obj.setNgrsocloan(0d);//StringHelperUtils.isNullDouble(objLst[25])
+			    obj.setNgrtotded(StringHelperUtils.isNullDouble(objLst[26]));
+			    obj.setTotalSalary(StringHelperUtils.isNullDouble(objLst[27]));
+			    
+
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	
+		/*// TODO Auto-generated method stub
+		///return ddoInfoRepo.getLevel1DDOList(lStrDdoCode);
+	
+		
+		
 		List<Object[]> obj = paybillHeadMpgRepo.getAbstractReport(paybillGenerationTrnId);
-		return obj;
+		return obj;*/
 	}
 
 	@Override
