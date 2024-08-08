@@ -9,9 +9,9 @@ public interface RegularReportRepo {
 
 	List<OrgDdoMst> getDDOName(String userName);
 
-	List<Object[]> findentry(Integer yearId, Integer monthId, Long billGroup, String ddoCode);
+	List<Object[]> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup, String ddoCode);
 
-	List<Object[]> findbillgrp(String billno);
+	List<Object[]> findbillgrp(Long billno);
 
 	List<Object[]> findpaybill(int billNumber, int monthName, int yearName, String ddo);
 

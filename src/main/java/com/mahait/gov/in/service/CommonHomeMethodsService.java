@@ -81,7 +81,7 @@ public interface CommonHomeMethodsService {
 	
 	public Date findbillCreateDate(int billNumber);
 	
-	public List<Object[]> findDetailsBillNumber(int billNumber);
+	public List<Object[]> findDetailsBillNumber(Long billNumber);
 	
 	public List<Object[]> findyearinfo(BigInteger yearcurr);
 	

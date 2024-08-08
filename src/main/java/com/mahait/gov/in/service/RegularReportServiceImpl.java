@@ -1,6 +1,12 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,11 +14,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mahait.gov.in.CashWordConverter;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.OrgDdoMst;
-import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.model.RegularReportModel;
+import com.mahait.gov.in.repository.CommonHomeMethodsRepo;
 import com.mahait.gov.in.repository.RegularReportRepo;
 
 @Service
@@ -21,6 +28,9 @@ public class RegularReportServiceImpl implements RegularReportService{
 	
 	@Autowired
 	RegularReportRepo regularReportRepo;
+	
+	@Autowired
+	CommonHomeMethodsRepo commonHomeMethodsRepo;
 
 	@Override
 	public List<OrgDdoMst> getDDOName(String userName) {
@@ -29,32 +39,28 @@ public class RegularReportServiceImpl implements RegularReportService{
 	}
 
 	@Override
-	public List<RegularReportModel> findentry(Integer yearId, Integer monthId, Long billGroup,String ddoCode) {
+	public List<RegularReportModel> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode) {
 
 		
 
-		List<Object[]> lstprop = regularReportRepo.findentry(yearId,monthId,billGroup,ddoCode);
+		List<Object[]> lstprop = regularReportRepo.findDCPSRegularEmpLst(yearId,monthId,billGroup,ddoCode);
 		List<RegularReportModel> lstObj = new ArrayList<>();
+		
+		Double sum=0d;
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				RegularReportModel obj = new RegularReportModel();
-				///a.employee_full_name_en as name,c.basic_pay,c.svn_pc_da,b.pf_ac_no,d.paybill_generation_trn_id,c.nps_emp_contri,
-				///c.nps_empr_deduct,c.nps_empr_allow,a.dcps_no
-				
+				/*a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
+						"b.svn_pc_da else da end as DA, b.dcps_regular,nps_empr_deduct,c.created_date
+*/				
 				obj.setName(StringHelperUtils.isNullString(objLst[0]));
-				obj.setBasicpay(StringHelperUtils.isNullDouble(objLst[1]));
-				obj.setSvnpcda(StringHelperUtils.isNullDouble(objLst[2]));
-				obj.setPfacc(StringHelperUtils.isNullString(objLst[3]));
-				obj.setPaybillId(StringHelperUtils.isNullLong(objLst[4]));
-				if(objLst[5]!=null) {
-					obj.setNpsEmpContri(StringHelperUtils.isNullDouble(objLst[5]));
-				}else {
-					obj.setNpsEmpContri(0d);
-				}
+				obj.setPran(StringHelperUtils.isNullString(objLst[1]));
+				obj.setBasicpay(StringHelperUtils.isNullDouble(objLst[2]));
+				obj.setDp(StringHelperUtils.isNullDouble(objLst[3]));
+				obj.setSvnpcda(StringHelperUtils.isNullDouble(objLst[4]));
+				obj.setDcpsReg(StringHelperUtils.isNullDouble(objLst[5]));
 				obj.setNpsEmployerDedu(StringHelperUtils.isNullDouble(objLst[6]));
-				obj.setNpsEmprAllow(StringHelperUtils.isNullDouble(objLst[7]));
-				obj.setDcpsNo(StringHelperUtils.isNullString(objLst[8]));
-
+				
 				lstObj.add(obj);
 			}
 		}
@@ -63,7 +69,7 @@ public class RegularReportServiceImpl implements RegularReportService{
 	}
 
 	@Override
-	public List<Object[]> findbillgrp(String billno) {
+	public List<Object[]> findbillgrp(Long billno) {
 		// TODO Auto-generated method stub
 		return regularReportRepo.findbillgrp(billno);
 	}

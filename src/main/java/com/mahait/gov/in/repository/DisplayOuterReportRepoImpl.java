@@ -112,7 +112,7 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> getAllDataForOuternew(String ddocode,int billNumber)
+	public List<Object[]> getAllDataForOuternew(String ddocode,Long billNumber)
 	{
 		Session currentSession = manager.unwrap(Session.class);
 		/*String HQL="select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,d.head_account_code,department_allowdeduc_seqno from  "
@@ -121,7 +121,7 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 				+ " and  d.department_allowdeduc_col_nm <> 'COP_BANK' and  d.department_allowdeduc_col_nm <> 'COP_Bank' and  d.department_allowdeduc_col_nm <> 'CREDIT_SOC' and  d.department_allowdeduc_col_nm <> 'RECURRING_DEP' and  d.department_allowdeduc_col_nm <> 'RD'  order by department_allowdeduc_seqno ";*/
 		String HQL="select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,d.head_account_code,department_allowdeduc_seqno from  "
 				+ " employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id  inner join department_allowdeduc_mst d ON  "
-				+ " b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+ddocode+"' and paybill_generation_trn_id  = "+billNumber+" and b.is_active = '1'   order by department_allowdeduc_seqno ";
+				+ " b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+ddocode+"' and paybill_generation_trn_id  = '"+billNumber+"' and b.is_active = '1'   order by department_allowdeduc_seqno ";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
@@ -187,13 +187,13 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	}
 
 	@Override
-	public String getbillDetails(int billDetails) {
+	public String getbillDetails(Long billDetails) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
 		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn \r\n" + 
-				" where paybill_generation_trn_id="+billDetails+") ");
+				" where paybill_generation_trn_id='"+billDetails+"') ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 

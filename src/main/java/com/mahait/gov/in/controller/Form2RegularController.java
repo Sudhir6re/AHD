@@ -61,8 +61,11 @@ public class Form2RegularController  extends BaseController{
 		SimpleDateFormat sdf1 =new SimpleDateFormat("dd/MM/yyyy");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
 		String curryear=null;
+		String currFinancialYr=null;
 		
 		List<OrgDdoMst> ddoDtls=regularReportService.getDDOName(messages.getDdoCode());
+		
+	
 		String ddoName=null;
 		String ddoCode=null;
 		String offcName=null;
@@ -78,6 +81,8 @@ public class Form2RegularController  extends BaseController{
 		List<Object[]>  yearinfo = commonHomeMethodsService.findyearinfo(BigInteger.valueOf(year));
 		for (Object[] yearLst : yearinfo) {
 			curryear = yearLst[9].toString();
+			currFinancialYr = yearLst[3].toString();
+			
 		}
 		
 		
@@ -101,66 +106,20 @@ public class Form2RegularController  extends BaseController{
 		
 
 		
-		String Name = null;
-		Double basicpay = null;
-		Double svnpcda = null;
-		String pfacc = null;
-		Integer billnumber = 0;
-		Double totalNpsEmpContri=0d;
-		Double totalNpsEmprContri=0d;
-		Double npsEmpContri=0d;
-		Double npsEmployerDedu=0d;
-		Double totalContri=0d;
-		Double grandtotalContri=0d;
-		String dcpsNo=null;
-		
-		List<RegularReportModel>  entryinfo = regularReportService.findentry(regularReportModel.getYearId(),regularReportModel.getMonthId(),regularReportModel.getBillGroup(),messages.getUserName());
-	/*	for (Object[] entryLst : entryinfo) {
-			 
-			
-			
-			if(entryLst[0]!=null)
-			Name = entryLst[0].toString();
-			if(entryLst[1]!=null)
-			basicpay = Double.parseDouble(entryLst[1].toString());
-			if(entryLst[2]!=null)
-			svnpcda = Double.parseDouble(entryLst[2].toString());
-			if(entryLst[3]!=null)
-			pfacc = entryLst[3].toString();
-			billnumber=(int) entryLst[4];
-			if(entryLst[5]!=null)
-			npsEmpContri= Double.parseDouble(entryLst[5].toString());
-			if(entryLst[6]!=null)
-			npsEmployerDedu=Double.parseDouble(entryLst[6].toString());
-			if(entryLst[8]!=null) {
-				dcpsNo=entryLst[8].toString();
-			}else {
-				dcpsNo="";
-			}
-			
-			
-			totalContri= npsEmpContri + npsEmployerDedu;
-			grandtotalContri = grandtotalContri+totalContri;
-			
-			
-			
-			totalNpsEmpContri = totalNpsEmpContri + npsEmpContri ;
-			totalNpsEmprContri=totalNpsEmprContri+npsEmployerDedu;
-			
-			RegularReportModel(Name,basicpay,svnpcda,pfacc,billnumber,fromDate,toDate,npsEmpContri,npsEmployerDedu,totalContri,dcpsNo);
-		}*/
-		
-		
-	/*	String empContrinword=CashWordConverter.doubleConvert(totalNpsEmpContri);
-		String emprContrinword=CashWordConverter.doubleConvert(totalNpsEmprContri);
-		String totalContrinword=CashWordConverter.doubleConvert(grandtotalContri);*/
+		List<RegularReportModel> entryinfo = regularReportService.findDCPSRegularEmpLst(regularReportModel.getYearId(),regularReportModel.getMonthId(),regularReportModel.getBillGroup(),messages.getDdoCode());
         BigInteger bigInteger = BigInteger.valueOf(regularReportModel.getMonthId());
-		
+        
+        
+        double dcpsReg = entryinfo.stream().mapToDouble(RegularReportModel::getDcpsReg).sum();
+        double npsEmprdeduc = entryinfo.stream().mapToDouble(RegularReportModel::getNpsEmployerDedu).sum();
+        double totalSum = dcpsReg + npsEmprdeduc;
+        String totalContrinword=CashWordConverter.doubleConvert(totalSum);
+        
+        
 		String monname="";
 		List<Object[]>  monthinfo = paybillGenerationTrnService.findmonthinfo(bigInteger);
 		for (Object[] monthLst : monthinfo) {
-			// String empName;
-			monname = monthLst[1].toString();
+			monname = monthLst[4].toString();
 			
 		}
 		BigInteger yearcurr = BigInteger.valueOf(regularReportModel.getYearId());
@@ -183,33 +142,33 @@ public class Form2RegularController  extends BaseController{
 		List<Object[]>  nextmonthinfo = paybillGenerationTrnService.findmonthinfo(nextMonth);
 		for (Object[] monthLst : nextmonthinfo) {
 			// String empName;
-			NextMon = monthLst[1].toString();
+			NextMon = monthLst[4].toString();
 			
 		}
 		
 		List<Object[]>  nextyearinfo = paybillGenerationTrnService.findyearinfo(neyer);
 		for (Object[] yearLst : nextyearinfo) {
-			// String empName;
-			NextYear = yearLst[1].toString();
+			NextYear = yearLst[9].toString();
 			
 		}
 
-		String billno = "";
-		///billno = regularReportModel.getBillGroup();
+		Long billno = 0l;
+		billno = regularReportModel.getBillGroup();
 		String billgrpname="";
 		List<Object[]>  billinfo = regularReportService.findbillgrp(billno);
 		
 		for (Object[] billst :  billinfo) {
-			// String empName;
-			billgrpname = billst[10].toString();
+			billgrpname = billst[2].toString();
 			
 		}
 		
 		String monthString = new DateFormatSymbols().getMonths()[month-1];
     	model.addAttribute("systemdate", sdf.format(new Date()));
     	model.addAttribute("date", sdf1.format(new Date()));
-    	String billGroup=regularReportService.getbillGroup(billnumber);
-		String officename =commonHomeMethodsService.getOffice(messages.getUserName());
+    	model.addAttribute("fromDate",sdf1.format(fromDate));
+		model.addAttribute("toDate",sdf1.format(toDate));
+		model.addAttribute("entryinfo",entryinfo);
+		String officename =commonHomeMethodsService.getOffice(messages.getDdoCode());
 		/*String treasury =commonHomeMethodsService.getTreasury(messages.getUserName());
 		String treasuryCode =commonHomeMethodsService.getTreasuryCode(messages.getUserName());*/
 		
@@ -218,30 +177,21 @@ public class Form2RegularController  extends BaseController{
 		model.addAttribute("officename",officename);
         model.addAttribute("createddate", sdf.format(new Date()));
         model.addAttribute("systemdate", sdf.format(new Date()));
-		//String word=CashWordConverter.doubleConvert(Totalamt);
-	/*model.addAttribute("empContrinword", empContrinword);
-		model.addAttribute("emprContrinword", emprContrinword);
-		model.addAttribute("totalContrinword", totalContrinword);*/
-		
-		model.addAttribute("totalNpsEmpContri", totalNpsEmpContri);
-		model.addAttribute("totalNpsEmprContri", totalNpsEmprContri);
-		model.addAttribute("grandtotalContri", grandtotalContri);
+		model.addAttribute("totalContrinword", totalContrinword);
 		
 		model.addAttribute("currmonyer", monname+" "+curryear);
-	///	String officeName = commonHomeMethodsService.getOfficeName(messages.getUserName());
 		model.addAttribute("offcName", offcName);
-		model.addAttribute("billGroup", billGroup);
-		model.addAttribute("ddoname", messages.getUserName());
-		//model.addAttribute("word", word);
+		model.addAttribute("billGroup", billgrpname);
 		model.addAttribute("yearName",curryear);
 		model.addAttribute("monthName",monname);
-		model.addAttribute("ddoCode",ddoCode);
+		model.addAttribute("currFinancialYr",currFinancialYr);
+		
+		model.addAttribute("ddoCode",messages.getDdoCode());
 		model.addAttribute("regularReportModel", regularReportModel);
-	///	model.addAttribute("modellstObj",modellstObj);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("systemdate", sdf.format(new Date()));
     	model.addAttribute("date", sdf1.format(new Date()));
-		model.addAttribute("ddoName", ddoName);
+		model.addAttribute("ddoName",ddoName);
 		model.addAttribute("monthString", monthString);
 		/*model.addAttribute("treasury", treasury);
 		model.addAttribute("treasuryCode",treasuryCode);*/
@@ -253,10 +203,5 @@ public class Form2RegularController  extends BaseController{
 		return "/views/reports/form2-regular-report";
 	}
 	
-	/*@GetMapping("/form2RegularReport")
-	public String form2RegularReport( Model model, Locale locale,
-			HttpSession session) {
-		return "/views/reports/form2-regular-report";
-	}*/
 
 }

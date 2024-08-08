@@ -34,7 +34,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
     CommonHomeMethodsService commonHomeMethodsService;
  
 	
-	 public Page<DisplayInnerReportModel> findPaginated(Pageable pageable,int billNumber,String strddo) {
+	 public Page<DisplayInnerReportModel> findPaginated(Pageable pageable,Long billNumber,String strddo) {
 	        int pageSize = pageable.getPageSize();
 	        int currentPage = pageable.getPageNumber();
 	        int startItem = currentPage * pageSize;
@@ -53,7 +53,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 	 
 	        return innerPage;
 	    }
-	public List<DisplayInnerReportModel> getAllDataForinnernew(int billNumber,String strddo,int currentPage){
+	public List<DisplayInnerReportModel> getAllDataForinnernew(Long billNumber,String strddo,int currentPage){
 		
 		
 		List<DisplayInnerReportModel> allowEdpList = new ArrayList<DisplayInnerReportModel>();// edpDao.getAllowCompoMpgData(locId);
@@ -1159,13 +1159,12 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 		return displayInnerReportRepo.getempDetails(bill_no);
 	}
 	@Override
-	public Date findbillCreateDate(int billNumber) {
+	public Date findbillCreateDate(Long billNumber) {
 		return displayInnerReportRepo.findbillCreateDate(billNumber);
 	}
 	@Override
-	public String getbillDetails(int billNumber) {
+	public String getbillDetails(Long billNumber) {
 		return displayInnerReportRepo.getbillDetails(billNumber);
 	}
-	
 	
 }

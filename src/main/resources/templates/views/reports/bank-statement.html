@@ -40,23 +40,25 @@
 										UNIVERSITY,THANE,NORTH MAHARASHTRA UNIVERSITY</option>
 							</select></td>
 
-							<td class="captionTag" width="20%">Month <font color="RED">*</font>
-							</td>
-							<td width="30%"><select name="Month" id="Month">
-									<option value="-1">-- Select --</option>
-									<option value="1">January</option>
-									<option value="2">February</option>
+							<td width="20%"><b>Month</b> <font color="RED">*</font></td>
+							<td width="30%"><select name="monthId" th:field="*{monthId}"
+								id="monthId" class="form-control removeErrorFromDropdown">
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varGetAllMonths : ${lstMonths}"
+										th:value="${varGetAllMonths.monthId}"
+										th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
 							</select></td>
 						</tr>
 						<tr>
-							<td class="captionTag">Year <font color="RED">*</font>
-							</td>
-							<td><select name="Year" id="Year">
-									<option value="-1">-- Select --</option>
-									<option value="2021">2021</option>
-									<option value="2022">2022</option>
-									<option value="2023">2023</option>
-									<option value="2024">2024</option>
+							<td><b>Year</b> <font color="RED">*</font></td>
+							<td><select name="yearId" th:field="*{yearId}" id="yearId"
+								class="form-control removeErrorFromDropdown">
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varGetAllYear : ${lstYears}"
+										th:value="${varGetAllYear.yearId}"
+										th:text="${language=='mh' ? varGetAllYear.yearMarathi : varGetAllYear.yearEnglish}"></option>
 							</select></td>
 							<td class="captionTag">Designation</td>
 							<td><select name="Designation" id="Designation">
@@ -66,14 +68,16 @@
 							</select></td>
 						</tr>
 						<tr>
-							<td class="captionTag">Bill No <font color="RED">*</font>
+							<td width="20%"><b>Bill Group </b><font color="RED">*</font>
 							</td>
-							<td><select name="Bill No" id="Bill No">
-									<option value="-1">-- Select --</option>
-									<option value="20541200001~1~22020872~22020872~9910000443">1</option>
-									<option value="20541200001~2~22020872~22020872~9910000442">2</option>
-									<option value="20541200001~3~22020872~22020872~9910000436">3</option>
-									<option value="20541200001~4~22020872~22020872~9910000434">4</option>
+							<td width="30%"><select name="billGroup"
+								th:field="*{billGroup}" id="billGroup"
+								class="form-control removeErrorFromDropdown">
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varGetAllBillGrp : ${lstBillDesc}"
+										th:value="${varGetAllBillGrp.dcpsDdoBillGroupId}"
+										th:text="${language=='mh' ? varGetAllBillGrp.description : varGetAllBillGrp.description}"></option>
 							</select></td>
 							<td class="captionTag">Grade</td>
 							<td><select name="Grade" id="Grade">
