@@ -41,79 +41,109 @@ jQuery(document).ready(function($) {
   			}
   		});
        });
+    
+    
+        $('form').on('submit', function (event) {
+           
+
+            var isType = $('#isType').val();
+            var departmentAllowdeducCode = $('#departmentAllowdeducCode').val();
+            var payCommissionCode = $('#payCommissionCode').val();
+            var amount = $('#amount').val().trim();
+            var startDate = $('#startDate').val().trim();
+            var endDate = $('#endDate').val().trim();
+            var percentage = $('#percentage').val().trim();
+            var minBasic = $('#minBasic').val().trim();
+            var maxBasic = $('#maxBasic').val().trim();
+            var cityClass = $('#cityClass').val();
+            var gradePayLower = $('#gradePayLower').val().trim();
+            var gradePayHigher = $('#gradePayHigher').val().trim();
+            var premiumAmount = $('#premiumAmount').val().trim();
+            var cityGroup = $('#cityGroup').val().trim();
+            
+            var errors = [];
+
+            var payCommissionMandatoryCodes = ["11", "2", "6", "12", "10", "208", "135", "18", "19", "8", "207", "4"];
+            if (payCommissionMandatoryCodes.includes(departmentAllowdeducCode) && payCommissionCode == "0") {
+                errors.push('Pay Commission is required for the selected Type Of Component.');
+            }
+
+            var mandatoryPercentageAllowDeducCode = ["4", "18", "11", "12", "19", "6", "8", "207", "10", "17", "208"];
+            if (mandatoryPercentageAllowDeducCode.includes(departmentAllowdeducCode) && !percentage) {
+                errors.push('Percentage is required for the selected Type Of Component.');
+            }
+
+            var amountMandatoryCodes = ["2", "17", "134", "37", "10", "208", "14"];
+            if (amountMandatoryCodes.includes(departmentAllowdeducCode) && !amount) {
+                errors.push('Amount is required for the selected Type Of Component.');
+            }
+
+            var maxBasicMandatoryCodes = ["208", "2"];
+            if (maxBasicMandatoryCodes.includes(departmentAllowdeducCode) && !maxBasic) {
+                errors.push('Maximum Basic is required for the selected Type Of Component.');
+            }
+
+            var minBasicMandatoryCodes = ["17", "208", "2"];
+            if (minBasicMandatoryCodes.includes(departmentAllowdeducCode) && !minBasic) {
+                errors.push('Minimum Basic is required for the selected Type Of Component.');
+            }
+
+            var startDateMandatoryCodes = ["10", "208", "18", "19", "11", "17", "8", "6", "134", "12", "207"];
+            if (startDateMandatoryCodes.includes(departmentAllowdeducCode) && !startDate) {
+                errors.push('Start Date is required for the selected Type Of Component.');
+            }
+
+            var cityGroupMandatoryCodes = ["208", "2", "134", "37"];
+            if (cityGroupMandatoryCodes.includes(departmentAllowdeducCode) && !cityGroup) {
+                errors.push('City Group is required for the selected Type Of Component.');
+            }
+
+            if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+                errors.push('End Date should be after Start Date.');
+            }
+
+            if (departmentAllowdeducCode == "17" && !cityClass) {
+                errors.push('City Class is required for the selected Type Of Component.');
+            }
+
+            if (departmentAllowdeducCode == "10" && (!gradePayLower || !gradePayHigher)) {
+                errors.push('Grade Pay/Pay Scale is required for the selected Type Of Component.');
+            }
+
+            if (errors.length > 0) {
+            	 event.preventDefault(); 
+            	swal({
+            	    title: 'Validation Error',
+            	    text: errors.join('\n'),  
+            	    icon: 'error',
+            	    button: 'Ok',
+            	});
+            } else {
+            	
+            	swal({
+            		 title: 'Success',
+                     icon: 'success',
+                      text: 'Form submitted successfully!',
+            		  buttons: true,
+            		  dangerMode: true,
+            		})
+            		.then((willDelete) => {
+            		  if (willDelete && parseInt(departmentAllowdeducCode)>0) {
+            			  $(this).off('submit').submit();
+            		  }else{
+            			  event.preventDefault(); 
+            		  }
+            		});	
+            	
+      
+            }
+        });
+
+    
+   
+    
 });
 
-	$('#tblNonGovDuesDeduct').hide();
-    
-	$("#departmentAllowdeducCode").click(function(e){
-    	e.preventDefault();
-	  var departmentAllowdeducCode=$("#departmentAllowdeducCode").val();
-	  var ddoCodeLevel1=$('#logUser').text();
-	  
-	  var parts = ddoCodeLevel1.split('_'); 
-	  var ddoCode = parts[0]; 
-	  
-	  
-	  var sevaarthId=$("#searchSevaarthId").val();
-	  var res = componentVal.split(")");    //split two data from single string
-	  var allowDeducComponentId=res[1];
-	  $.ajax({
-		  url: contextPath+"/ddoast/getEmployeeAgainstId/"+departmentAllowdeducCode,
-		  cache: false,
-		  	beforeSend : function(){
-				$( "#loaderMainNew").show();
-				},
-			complete : function(data){
-				$( "#loaderMainNew").hide();
-			},	
-		  success: function(data){
-			  
-			  
-			  $('#tblNonGovDuesDeduct').dataTable().fnClearTable();
-			  $('#tblNonGovDuesDeduct').show();
-			//  $('#tblNonComputationDeduction').dataTable().fnAddData(data);		
-			  
-			 
-
-			  //$('#tblNonGovDuesDeduct').dataTable().column(6).visible( false );
-			  var s="<input type='text' disabled='disabled' class='existingAmount'>";
-			  var NetAmount="<input type='text' class='netAmount number' >";
-			  var difference="<input type='text' disabled='disabled' class='difference' >";
-			  
-
-			  $.each(data,function(index,value) 
-					  { 
-				  
-				 console.log(value);
-//				  
-				 var employeeId="<input type='text'   id='employeeId'  style='display:none' value='"+value[4]+"' th:field = '*{employeeId[__${"+index+"}__]}'/>";
-				 var empName1="<input type='hidden'  name='empName'  id='empName' style='border:none;width:100%;background-color:white;' value='"+value[0]+"'  th:field = '*{empName[__${"+index+"}__]}'/>";
-				  var empName=value[0];
-				  var sevaarthId1="<input type='hidden' name='sevaarthId'  style='border:none;width:100%;background-color:white;text-align:center;'  size='35' value='"+value[1]+"'  th:field = '*{sevaarthId[__${"+index+"}__]}' />";
-				  var sevaarthId=value[1];
-				  var existingAmount="<input type='text' disabled='disabled'  th:name='existingAmt' value='"+value[8]+"' class='existingAmount' />";//value='"+value[3]+"'
-				  var NetAmount="<input type='text' class='netAmount number' name='netAmt' value='"+value[7]+"' th:field = '*{netAmt[__${"+index+"}__]}' />";
-				  if(value[8]!=0)
-					  {
-				  var difference=value[7]-value[8];
-					  }
-				  else
-					  {
-					  var difference=0;
-					  }
-				  
-				  difference="<input type='text' class='difference' value="+difference+" style='border:none;'/>";
-				  difference=difference+empName1+sevaarthId1;
-				  var basic=value[3];
-				  var deptallowcode="<input type='text' style='display:none'  name='deptallowcode' id='deptallowcode' value='"+value[5]+"'  th:field = '*{deptallowcode[__${"+index+"}__]}' />";
-				  var deptcode="<input type='text' style='display:none' name='deptcode' id='deptcode'  size='35' value='"+value[6]+"'  th:field = '*{deptcode[__${"+index+"}__]}' />";
-				  $('#tblNonGovDuesDeduct').dataTable().fnAddData([empName,sevaarthId,existingAmount,NetAmount,difference,basic,employeeId,deptallowcode,deptcode]);
-					  });
-
-		  }
-		});
-  });
-	
 	
 	 
    

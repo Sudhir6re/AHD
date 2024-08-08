@@ -46,6 +46,9 @@ public class AllowDeducRuleMasterController extends BaseController {
 
 	@Autowired
 	WelcomeService welcomeService;
+	
+	
+
 
 	@RequestMapping("/loadRuleMaster")
 	public ModelAndView loadRuleMaster(HttpServletRequest request, Model model, HttpServletResponse response,
@@ -173,8 +176,5 @@ public class AllowDeducRuleMasterController extends BaseController {
 			model.addAttribute("ddoScreenModel", new DDOScreenModel());
 			model.addAttribute("language", locale.getLanguage());
 		}
-		return new ModelAndView("redirect:/mdc/AllowanceDeductionWiseMaster");
-	}
-	
-
-}
+		return new ModelAndView("redirect:/mdc/loadRuleMaster");
+	}}
