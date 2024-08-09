@@ -16,6 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -469,15 +470,20 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 		return mstEmployeeModel;
 	}
 
+//	@Override
+//	public MstEmployeeDetailEntity findbyemplidForChangeDetails(Long employeeId) {
+//		// TODO Auto-generated method stub
+//		MstEmployeeDetailEntity objDept = null;
+//		Session currentSession = manager.unwrap(Session.class);
+//		objDept = currentSession.get(MstEmployeeDetailEntity.class, employeeId);
+//		return objDept;
+//	}
 	@Override
 	public MstEmployeeDetailEntity findbyemplidForChangeDetails(Long employeeId) {
-		// TODO Auto-generated method stub
-		MstEmployeeDetailEntity objDept = null;
 		Session currentSession = manager.unwrap(Session.class);
-		objDept = currentSession.get(MstEmployeeDetailEntity.class, employeeId);
-		return objDept;
+		String HQL = "FROM MstEmployeeDetailEntity as  t  where  t.employeeId = '" + employeeId + "'";
+		return (MstEmployeeDetailEntity) manager.createQuery(HQL).getSingleResult();
 	}
-
 
 	@Override
 	public long updateChangeEmployeeDetails(MstEmployeeDetailEntity objEntity,
@@ -554,12 +560,63 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 	}
 
 	@Override
-	public List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls() {
+	public List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls( String ddocode) {
 		// TODO Auto-generated method stub
+//		Session currentSession = manager.unwrap(Session.class);
+//		String  HQL = "SELECT a FROM MstEmployeeDetailEntity a where a.isActive='3' and a.ddoCode is not null ";
+//		return (List<MstEmployeeDetailEntity>) manager.createQuery(HQL).getResultList();
+		
 		Session currentSession = manager.unwrap(Session.class);
-		String  HQL = "SELECT a FROM MstEmployeeDetailEntity a where a.isActive='3' and a.ddoCode is not null ";
-		return (List<MstEmployeeDetailEntity>) manager.createQuery(HQL).getResultList();
+		
+		List<Object[]> result = null;
+		List<MstEmployeeDetailEntity> result1 = new ArrayList<MstEmployeeDetailEntity>();
+		StringBuffer strQuery = new StringBuffer();
+
+		try {
+			strQuery.append(
+					"select employee_id,employee_full_name_en,sevaarth_id,designation_code,ddo_code,DOJ,SUPER_ANN_DATE from employee_mst_details  where form_status=5 and ddo_code in (");
+			strQuery.append(
+					"select ddo_code from org_ddo_mst where ddo_code in (select dmr.zp_ddo_code from rlt_zp_ddo_map dmr ");
+			strQuery.append(
+					"inner join org_ddo_mst drm  on drm.ddo_code = dmr.rept_ddo_code  where drm.ddo_code='"
+							+ ddocode + "'))");
+			Query query = currentSession.createSQLQuery(strQuery.toString());
+			System.out.println("query---" + query);
+			System.out.println("strQuery---" + strQuery);
+			// result = entityManager.createQuery( strQuery.toString(),
+			// MstEmployeeEntity.class ).getResultList();
+
+			result = query.list();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			// e.printStackTrace();
+			// logger.info("stack trace exceptionend");
+		}
+		
+		for (Iterator iterator = result.iterator(); iterator.hasNext();) {
+			Object[] object = (Object[]) iterator.next();
+			MstEmployeeDetailEntity mstEmployeeEntity = new MstEmployeeDetailEntity();
+//			mstEmployeeEntity.setEmployeeId((Long) object[0]);
+			mstEmployeeEntity.setEmployeeId(Long.valueOf(object[0].toString()));
+			mstEmployeeEntity.setEmployeeFullNameEn(object[1].toString().toUpperCase());
+			if (object[2] != null)
+				mstEmployeeEntity.setSevaarthId(object[2].toString());
+			mstEmployeeEntity.setDesignationCode(Long.valueOf(object[3].toString()));
+			mstEmployeeEntity.setDdoCode(object[4].toString());
+			mstEmployeeEntity.setDoj(StringHelperUtils.isNullDate(object[5]));
+			if((object[6]) != null)
+{
+			mstEmployeeEntity.setSuperAnnDate(StringHelperUtils.isNullDate(object[6]));
+}
+			result1.add(mstEmployeeEntity);
+			// logger.info("mstEmployeeEntity="+mstEmployeeEntity);
+		}
+		return result1;
 	}
+	
+	
+	
 
 	@Override
 	public EmpChangeDetailsModel getEmployeeinfofordetails(long empId) {
@@ -863,6 +920,26 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public List<Object[]> GetCurrentPostByLvlTwoDetails(long designationId, String ddocode, long locId) {
+		// TODO Auto-generated method stub
+		Session currentSession = manager.unwrap(Session.class);
+		StringBuffer hql = new StringBuffer();
+		hql.append(
+				"Select p.POST_ID,r.post_name from org_post_mst p inner join org_post_details_rlt r on r.post_id = p.post_id and p.activate_flag = 1 inner join MST_DCPS_DDO_OFFICE off on off.DCPS_DDO_OFFICE_MST_ID =p.office_id ");
+		hql.append("where r.LOC_ID = '"+locId+"' and (p.END_DATE > now() or p.END_DATE is null)" );
+		hql.append("and p.post_Id in (select RL.post_detail_Id ");
+		hql.append("from employee_mst_details RL where RL.post_detail_Id is not null and rl.ddo_Code =(select ddo_code ");
+		hql.append("from org_ddo_mst where location_code= '"+locId+"')) ");
+		hql.append("and r.DSGN_ID = '"+designationId+"' ");
+		hql.append("and p.ACTIVATE_FLAG = 1 ");
+		hql.append("and p.POST_TYPE_LOOKUP_ID in (10001198130,10001198129,10001198155) ");
+		System.out.println("\n " + hql);
+		
+		Query query = currentSession.createSQLQuery(hql.toString());
+		return query.list();
 	}
 	
 }

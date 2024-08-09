@@ -37,7 +37,7 @@ import com.mahait.gov.in.service.UserDetailsServiceImpl;
 
 @Controller
 @RequestMapping("/master")
-public class HRAAllowanceMstController {
+public class HRAAllowanceMstController   extends BaseController{
 	
 	
 	@Autowired
@@ -75,6 +75,7 @@ public class HRAAllowanceMstController {
 		
 		model.addAttribute("menuList", menuList);
 		model.addAttribute("subMenuList", subMenuList);
+		addMenuAndSubMenu(model,messages);
 		return "/views/HRAAllowanceMst";
 		
 	}
@@ -134,7 +135,7 @@ public class HRAAllowanceMstController {
 		
 		model.addAttribute("lstddcPayCommission", hraAllowanceMstService.getlstddcPayCommission());
 		
-		
+		addMenuAndSubMenu(model,messages);
 		return "/views/HRAAllowanceMstEdit";
     }
 	

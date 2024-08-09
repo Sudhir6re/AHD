@@ -492,7 +492,7 @@ public class EmpChangeDetailsController {
 		model.addAttribute("language", locale.getLanguage());
 		SimpleDateFormat sdf =new SimpleDateFormat("dd/MM/yyyy");
 		
-		List<MstEmployeeDetailEntity> empLst =empChangeDetailsService.findEmpLstforApprovChngDtls();
+		List<MstEmployeeDetailEntity> empLst =empChangeDetailsService.findEmpLstforApprovChngDtls(messages.getDdoCode());
 		
 		model.addAttribute("empLst", empLst);
 		model.addAttribute("readonly","readonly");
@@ -694,7 +694,7 @@ public class EmpChangeDetailsController {
 
 				model.addAttribute("lstAllBankBranchList",
 						mstEmployeeService.getBankBranch(String.valueOf(empChangeDetailsModel.getBankId().toString())));
-				model.addAttribute("lstCurrentPost", mstEmployeeService.GetCurrentPostByLvlTwo(
+				model.addAttribute("lstCurrentPost", empChangeDetailsService.GetCurrentPostByLvlTwoDetails(
 						empChangeDetailsModel.getDesignationId(), empChangeDetailsModel.getDdoCode(),locId));
 				
 
@@ -748,8 +748,9 @@ public class EmpChangeDetailsController {
 		
 			if(mstEmployeeEntityResponse > 0) {
 			redirectAttributes.addFlashAttribute("message","SUCCESS");
+			redirectAttributes.addFlashAttribute("message", "Change detail approved");
 		}
-		return "redirect:/moderator/ApprovOrRejectChngdtls"; /*redirects to controller URL*/
+		return "redirect:/ddo/Approve-Emp-Change-Dtls"; /*redirects to controller URL*/
 	}
 	
 }

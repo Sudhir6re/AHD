@@ -132,6 +132,7 @@ public class EmpChangeDetailsModel {
 	private Long updatedUserId;
 	private String payCommissionName;
 	private Long giscatagory;
+	private Long formstatus;
 	
 	//Extra
 	private String employeeFullName;

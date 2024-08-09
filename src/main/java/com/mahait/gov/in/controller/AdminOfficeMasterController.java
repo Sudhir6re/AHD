@@ -27,7 +27,7 @@ import com.mahait.gov.in.service.AdminOfficeMasterService;
 
 @RequestMapping("/mdc")
 @Controller
-public class AdminOfficeMasterController {
+public class AdminOfficeMasterController  extends BaseController{
 
 	@Autowired
 	AdminOfficeMasterService adminOfficeMasterService;
@@ -49,6 +49,9 @@ public class AdminOfficeMasterController {
 		List<ZpAdminOfficeMstModel> lstZpAdminOfficeMstModel = adminOfficeMasterService.findAllZpAdminOfficeMstModel();
 
 		model.addAttribute("lstZpAdminOfficeMstModel", lstZpAdminOfficeMstModel);
+		
+		
+		addMenuAndSubMenu(model,messages);
 
 		return "/views/admin-office-master";
 	}
@@ -67,6 +70,8 @@ public class AdminOfficeMasterController {
 		zpAdminOfficeMstModel.setCreatedBy(messages.getUserId());
 		zpAdminOfficeMstModel.setCreatedByPost(messages.getUserId());
 		zpAdminOfficeMstModel.setIsActive(1);
+		
+		
 
 		ZpAdminOfficeMst zpAdminOfficeMst = adminOfficeMasterService.createOffice(zpAdminOfficeMstModel);
 

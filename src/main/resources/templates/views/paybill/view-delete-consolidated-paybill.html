@@ -27,7 +27,7 @@
 				th:style="${'color: orange;'}"></legend> -->
 
 			<form class="form-horizontal" th:action="@{/ddo/beams/frwdbilldatabeams}"
-				th:object="${consolidatePayBillTrnEntity}" method="POST"
+				th:object="${consolidatePayBillModel}" method="POST"
 				enctype="multipart/form-data">
 				<!-- th:action="@{/master/saveBillGrpMain}" -->
 
@@ -48,7 +48,7 @@
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.selectmonth}"></span></label>
 					<div class="col-sm-2">
-						<select class="form-control" th:field="*{paybillMonth}"
+						<select class="form-control" th:field="*{monthName}"
 							id="monthName">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -60,7 +60,7 @@
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.selectyear}"></span></label>
 					<div class="col-sm-2">
-						<select class="form-control" th:field="*{paybillYear}" id="yearName">
+						<select class="form-control" th:field="*{yearName}" id="yearName">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 							<option th:each="varYear : ${lstYears}"
@@ -99,8 +99,8 @@
 						<tr>
 							<th th:utext="#{msg.thymeleaf.pagelabel.select}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.consolitedBillIdLabel}" />
-<!-- 							<th th:utext="#{msg.thymeleaf.pagelabel.schemeCode}" /> -->
-<!-- 							<th th:utext="#{msg.thymeleaf.pagelabel.subSchemeCode}" /> -->
+ 							<th th:utext="#{msg.thymeleaf.pagelabel.schemeCode}" />
+							<th th:utext="#{msg.thymeleaf.pagelabel.subSchemeCode}" /> 
 							<th th:utext="#{msg.thymeleaf.pagelabel.grossAmount}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.netAmount}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.authNumber}" />
@@ -113,15 +113,15 @@
 								th:value="${varBillGrp.consolidatePayBillTrnId}"   th:data="${varBillGrp.isActive}"  /></td>
 							<td><a class="consolidatePayBillTrnId"  
                                           th:text=${varBillGrp.consolidatePayBillTrnId}></a></td>
-<!-- 							<td th:text="${varBillGrp.schemeCode}"></td> -->
-<!-- 							<td th:text="${varBillGrp.schemeName}"></td> -->
+							<td th:text="${varBillGrp.schemeCode}"></td> 
+							<td th:text="${varBillGrp.schemeName}"></td> 
 							<td th:text="${varBillGrp.billGrossAmt}"></td>
 							<td th:text="${varBillGrp.billNetAmount}"></td>
 							<td>--</td>
 							<!-- 	<td th:text="${varBillGrp.isActive}"></td> -->
 						 <td><span th:if="${varBillGrp.isActive} =='9'"> <span
 									class="label label-info text-center"
-									th:utext="#{msg.thymeleaf.pagelabel.consolatedPaybill}">Consolidated Paybill</span>
+									th:utext="#{msg.thymeleaf.pagelabel.consolatedPaybill}">Pending</span>
 							</span> <span th:if="${varBillGrp.isActive} =='10'"> <span
 									class="label label-warning text-center"
 								th:utext="#{msg.thymeleaf.pagelabel.forwardToBeams}">Consolidated
@@ -170,15 +170,6 @@
 						<input
 						type="hidden" value="Forward Bills to BEAMS"
 						class="btn btn-primary" id="btnForwardToBeams"   style="display:none;" /></span>
-						
-						
-						<span>
-						
-						<input type="button" value="Approve Bill"
-						class="btn btn-primary" id="ApproveBill"    />   </span>
-						
-						
-						
 					&nbsp;&nbsp;
 					<a th:href="@{/user/home}" class="btn"><span th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 				</div>

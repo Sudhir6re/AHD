@@ -4,6 +4,27 @@
 <body class="employee-configuration-tabs">
 	<div class="panel-body1" th:fragment="EmployeeDetails">
 
+		<!-- <table class="table table-bordered ">
+			<tr>
+				<td width="25%">
+					<div class="sevaarthIdBlock">
+						<label><span
+							th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"></span>&nbsp;&nbsp;<b><font
+								color="red" size="4px;">*</font></b></label>
+					</div>
+				</td>
+				<td width="25%">
+					<div class="sevaarthIdBlock">
+						<input type="text" size="40%" id="sevaarthId" name="sevaarthId"
+							maxlength="11" style="text-transform: uppercase"
+							th:field="*{sevaarthId}"
+							th:attr="readonly=${mstEmployeeModel.sevaarthId==null} ? 'true' : 'false'"
+							class="form-control" />
+					</div>
+				</td>
+				<td colspan="2"></td>
+			</tr>
+		</table> -->
 		<table class="table table-bordered ">
 			<tr>
 				<td width="25%"><label><span
@@ -195,8 +216,10 @@
 					name="districtCode" th:field="*{districtCode}">
 						<option th:value="0"
 							th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-						<option th:each="varCommon : ${lstAllDistrict}"
-							th:value="${varCommon.state}" th:text="${varCommon.stateName}"></option>
+						<option th:each="district : ${districtListAgainstStateId}"
+							th:value="${district[0]}" th:text="${district[1]}"></option>
+							
+							
 				</select></td>
 			</tr>
 			<tr>
@@ -246,8 +269,6 @@
 							th:value="${varPay.qId}"
 							th:text="${language=='mh' ? varPay.qualification : varPay.qualification}"></option>
 				</select></td>
-			</tr>
-			<tr>
 				<td width="25%"><label>Secondary Qualification
 						&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b>
 				</label></td>

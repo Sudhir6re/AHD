@@ -116,24 +116,24 @@ input#uid1, input#uid2, input#uid3 {
 					th:field="*{strArrPercentShare}" class="form-control" /> <input
 					type="hidden" name="strArrRelationship" id="strArrRelationship"
 					th:field="*{strArrRelationship}" class="form-control" />
-
+				
+				<div id="tabContainer">
 				<ul class="nav nav-tabs">
 					<!-- <li ><a data-toggle="tab" href="#home">Sevaarth Id Detail</a></li> -->
-					<li class="active"><a data-toggle="tab" href="#menu1"><b>Employee
+					<li class="active"><a data-toggle="tab" data-prev="0" data-next="1"  href="#menu1"  class="tabClass" ><b>Employee
 								Details</b></a></li>
-					<li><a data-toggle="tab" href="#menu2"><b>Department
+					<li><a data-toggle="tab" href="#menu2" data-prev="1" data-next="1" class="tabClass" ><b>Department
 								Details</b></a></li>
-					<li><a data-toggle="tab" href="#menu3"><b>Bank/DCPS/NPS/GPF
+					<li><a data-toggle="tab" href="#menu3"  data-prev="1" data-next="1" class="tabClass" ><b>Bank/DCPS/NPS/GPF
 								Details</b></a></li>
-					<li><a data-toggle="tab" href="#menu4"><b>GIS Details</b></a></li>
-					<li><a data-toggle="tab" href="#menu5"><b>DCPS/NPS
+					<li><a data-toggle="tab" href="#menu4" data-prev="1" data-next="1" class="tabClass" ><b>GIS Details</b></a></li>
+					<li><a data-toggle="tab" href="#menu5"  data-prev="1" data-next="1" class="tabClass" ><b>DCPS/NPS
 								Nominee Details</b></a></li>
-					<li><a data-toggle="tab" href="#menu6"><b>Photo/Signature</b></a></li>
+					<li><a data-toggle="tab" href="#menu6"  data-prev="1" data-next="0" class="tabClass" ><b>Photo/Signature</b></a></li>
 				</ul>
-				<div class="tab-content">
-					<!-- <div id="menu6" class="tab-pane fade">
-						<div th:replace="views/employee-configuration-tabs :: "></div>
-					</div> -->
+				
+				
+				<div class="tab-content" >
 					<div id="menu1" class="tab-pane fade in active">
 						<br />
 						<fieldset>
@@ -192,8 +192,11 @@ input#uid1, input#uid2, input#uid3 {
 						</div>
 					</div>
 				</div>
+				
+			</div>
 				<div class="form-group text-center">
 					<hr />
+
 					<!-- <input type="button" id="printpfA" th:onclick="'openPerformaA();'"
 							class="btn btn-primary"
 							th:value="#{msg.thymeleaf.pagelabel.printPerformaA}" /> -->
@@ -217,20 +220,40 @@ input#uid1, input#uid2, input#uid3 {
 
 
 					<!-- 							ng-click="saveAsDraft();" /> -->
-					<input type="submit" class="btn btn-primary" id="forward"
+						<input type="submit" class="btn btn-primary" id="forward"
 						th:value="#{msg.thymeleaf.pagelabel.forwardToDDO}" />
+					
+					
+<!-- 						<input type="button" id="btnPrevious" name="btnPrevious" -->
+<!-- 							value="Previous" class="btn" />  -->
+<!-- 							<input type="button" -->
+<!-- 							id="btnNext" name="btnNext" value="Next" class="btn" /> -->
+					
 
-					<!-- th:onclick="'forwardToDDo();'  "  -->
-					<span th:if="${mstEmployeeModel.employeeFNameEn != null}"> <input
-						type="button" class="btn btn-primary rejectbtnn"
-						th:value="#{msg.thymeleaf.pagelabel.back}"
-						th:onclick="'backlvlEmpDtls();'" />
-					</span> 
-					<input type="button" id="btnSave" class="btn btn-primary"
+<!-- 					<span th:if="${mstEmployeeModel.employeeFNameEn != null}"> <input -->
+<!-- 						type="button" class="btn btn-primary rejectbtnn" -->
+<!-- 						th:value="#{msg.thymeleaf.pagelabel.back}" -->
+<!-- 						th:onclick="'backlvlEmpDtls();'" /> -->
+<!-- 					</span>  -->
+<!-- 					<input type="button" id="btnSave" class="btn btn-primary" -->
+<!-- 						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}" -->
+<!-- 						th:onclick="'saveAsDraft();'" /> <input type="reset" -->
+<!-- 						id="btnReset" class="btn btn-primary" -->
+<!-- 						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a -->
+<!-- 					</span> -->
+					
+					
+                 <input type="button" id="btnSave" class="btn btn-primary"
 						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}"
-						th:onclick="'saveAsDraft();'" /> <input type="reset"
+						th:onclick="'saveAsDraft();'" /> 
+						
+					
+						
+						 <input type="reset"
 						id="btnReset" class="btn btn-primary"
-						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a
+						th:value="#{msg.thymeleaf.pagelabel.btnReset}" />
+						
+						 <a
 						th:href="@{/user/home}" class="btn"><span
 						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 

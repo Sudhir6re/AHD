@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.HTEEmpLoanModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.HTEEmpLoanService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class HTEEmpLoanController {
+public class HTEEmpLoanController   extends BaseController{
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -33,6 +34,9 @@ public class HTEEmpLoanController {
 		model.addAttribute("hTEEmpLoanModel", hTEEmpLoanModel);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("language", locale.getLanguage());
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-EmpLoan";
 	}
 	@GetMapping("/hTEupdateLoan")
@@ -43,6 +47,8 @@ public class HTEEmpLoanController {
 		model.addAttribute("hTEEmpLoanModel", hTEEmpLoanModel);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("language", locale.getLanguage());
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-EmpwiseLoanDtls";
 	}
 	@GetMapping("/hTEnewEmpLoan")
@@ -53,6 +59,8 @@ public class HTEEmpLoanController {
 		model.addAttribute("hTEEmpLoanModel", hTEEmpLoanModel);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("language", locale.getLanguage());
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-NewEmpLoan";
 	}
 

@@ -74,8 +74,8 @@ $("#btnSearch")
 														paybillGenerationTrnId = result[0],
 														//billDescription = result.billDescription;
 														console.log(result[0]);
-//														schemeCode = result[1];
-//														schemeName = result[2];
+														schemeCode = result[1];
+														schemeName = result[2];
 														billGrossAmt = result[3];
 														billNetAmt = result[4];
 														//ddoCode = result[5];
@@ -91,7 +91,7 @@ $("#btnSearch")
 														if (status == "9") {
 															isActive = '<span class="label label-success text-center payBillTrnId" data="'
 																	+ paybillGenerationTrnId
-																	+ '"> Paybill Consolidated</span>';
+																	+ '"> Pending</span>';
 															/*+ '">Consolidated Paybill Forward to BEAMS</span>';
 */															paybillGenerationTrnId='<a class="consolidatePayBillTrnId" >'+paybillGenerationTrnId+'</a>';
 
@@ -172,8 +172,8 @@ $("#btnSearch")
 																		[
 																				chk,
 																				paybillGenerationTrnId,
-//																				schemeCode,
-//																				schemeName,
+																				schemeCode,
+																				schemeName,
 																				billGrossAmt,
 																				billNetAmt,
 																				b ,
@@ -194,7 +194,7 @@ $('#btnAbstractReport').click(function() {
 		    if (consolidatedId != '') {   
 				$.ajax({
 				      type: "GET",
-				      url: "../paybill/viewabstractReport/"+consolidatedId,
+				      url: "../ddo/viewabstractReport/"+consolidatedId,
 				      async: true,
 				      success: function(data){
 				    		$("#loaderMainNew").hide();

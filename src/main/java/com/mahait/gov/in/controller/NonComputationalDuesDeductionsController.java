@@ -25,7 +25,7 @@ import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
 
 @RequestMapping("/ddoast")
 @Controller
-public class NonComputationalDuesDeductionsController {
+public class NonComputationalDuesDeductionsController extends BaseController {
 	
 	
 	@Autowired
@@ -36,6 +36,8 @@ public class NonComputationalDuesDeductionsController {
 	
 	@GetMapping("nonComputationalDuesDeductions")
 	public String nonComputationalDuesDeductions(Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/non-computational-dues-deductions";
 	}
 	
@@ -58,7 +60,7 @@ public class NonComputationalDuesDeductionsController {
 		model.addAttribute("language", locale.getLanguage());
 		
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
-		
+		addMenuAndSubMenu(model,messages);
 		
 		return "/views/NonGovernmentDuesAndDeduction";
     }

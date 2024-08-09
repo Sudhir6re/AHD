@@ -58,7 +58,7 @@ public interface EmpChangeDetailsService {
 			String existsignpath);
 
 
-	List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls();
+	List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls(String string);
 
 
 	EmpChangeDetailsModel getEmployeeinfofordetails(long empId);
@@ -68,6 +68,10 @@ public interface EmpChangeDetailsService {
 
 
 	long updateChangeEmpDtls(@Valid EmpChangeDetailsModel empChangeDetailsModel, MultipartFile[] files);
+
+
+	
+	public List<Object[]> GetCurrentPostByLvlTwoDetails(long designationId, String ddocode, long locId);
 
 
 }

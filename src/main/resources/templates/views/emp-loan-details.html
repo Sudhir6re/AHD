@@ -27,9 +27,11 @@
 			<div id="tcontent1">
 				<br> &nbsp;&nbsp; <a th:href="@{/ddoast/addLoan}" id="inserLink" class="btn">
 					Add new Entry </a> <br> &nbsp;&nbsp; <br>
-				<form method="POST" action="" name="LoanEmp"
-					enctype="text/form-data">
-					<p id="">
+					<form class="form-horizontal" id="form1"
+				th:action="@{/ddoast/saveEmployeeLoanDtls}" name="form1"
+				th:object="${empLoanModel}" method="POST"
+				enctype="multipart/form-data">
+				<p id="">
 						<legend>Search Employee </legend>
 					</p>
 					<table class="table bor-0">
@@ -38,7 +40,7 @@
 								<td><b>Search With Name/HTESevaarthId</b></td>
 								<td><input type="text"
 									name="Employee_srchNameText_EmpLoanSearch" id="txtSearchName"
-									class="texttag" value="" autocomplete="off">
+									class="texttag" value="" autocomplete="off" >
 									<div id="ajaxAuto_txtSearchName" class="autocomplete"></div></td>
 								<td width="50%" align="left" colspan="3"><input
 									type="button" name="search_EmpLoanSearch"
@@ -50,19 +52,19 @@
 									id="Employee_Name_EmpLoanSearch"
 									class="texttag disabledcontrol" value=""></td>
 								<td class="fieldLabel" width="25%"><b>HTESevaarth Id</b></td>
-								<td><input type="text" name="Emp_Sevarth_Id_EmpLoanSearch"
-									id="Emp_Sevarth_Id_EmpLoanSearch"
+								<td><input type="text" name="Emp_Sevarth_Id_EmpLoanSearch" 
+									id="Emp_Sevarth_Id_EmpLoanSearch" th:field="*{sevaarthId}"
 									class="texttag disabledcontrol" value=""></td>
 							</tr>
 							<tr>
 								<td class="fieldLabel" width="25%"><b>Office Name</b></td>
 								<td><input type="text" name="Police_ST_NM_EmpLoanSearch"
-									id="Police_ST_NM_EmpLoanSearch" class="texttag disabledcontrol"
+									id="Police_ST_NM_EmpLoanSearch" class="texttag disabledcontrol" th:field="*{orgInstName}"
 									value=""></td>
 								<td class="fieldLabel" width="25%"><label
 									class="captionTag" id="Dsgn_NM">Designation </label></td>
 								<td><input type="text" name="Dsgn_NM_EmpLoanSearch"
-									id="Dsgn_NM_EmpLoanSearch" class="texttag disabledcontrol"
+									id="Dsgn_NM_EmpLoanSearch" th:field="*{designName}" class="texttag disabledcontrol"
 									value=""></td>
 							</tr>
 							<tr>
@@ -73,7 +75,7 @@
 									value=""></td>
 								<td class="fieldLabel" width="25%"><label
 									class="captionTag" id="GPF_NM">GPF No.</label></td>
-								<td><input type="text" name="GPF_NM_EmpLoanSearch"
+								<td><input type="text" name="GPF_NM_EmpLoanSearch" th:field="*{gpfNo}"
 									id="GPF_NM_EmpLoanSearch" class="texttag disabledcontrol"
 									value=""></td>
 							</tr>

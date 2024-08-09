@@ -58,7 +58,7 @@ public interface EmpChangeDetailsRepo {
 		public long updateEmployeeConfiguration(MstEmployeeDetailEntity objEntity,
 			@Valid EmpChangeDetailsModel empChangeDetailsModel, MstNomineeDetailsHistEntity[] lArrNomineeDtls);
 
-		List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls();
+		List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls(String ddoCode);
 
 		EmpChangeDetailsModel getEmployeeinfofordetails(long empId);
 
@@ -74,6 +74,8 @@ public interface EmpChangeDetailsRepo {
 
 		public long updateChangeDetails(MstEmployeeEntity objEntity,
 				@Valid EmpChangeDetailsModel empChangeDetailsModel, MstNomineeDetailsEntity[] lArrNomineeDtls);
+
+		List<Object[]> GetCurrentPostByLvlTwoDetails(long designationId, String ddocode, long locId);
 
 		
 	

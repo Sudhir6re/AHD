@@ -765,6 +765,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setMobileNo1(empChangeDetailsModel.getMobileNo1());
 			objEntity.setEmailId(empChangeDetailsModel.getEmailId());
 			objEntity.setPanNo(empChangeDetailsModel.getPanNo().toUpperCase());
+			objEntity.setAppointment(empChangeDetailsModel.getAppointment());
 
 			objEntity.setParentFieldDepartmentId(empChangeDetailsModel.getParentFieldDepartmentId());
 			objEntity.setIsChangeParentDepartment(empChangeDetailsModel.getIsChangeParentDepartment());
@@ -893,7 +894,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setIsMappedWithNps('0');
 			// objEntity.setDdoCode(mstEmployeeModel.getDdoCode());
 			objEntity.setBillGroupId(empChangeDetailsModel.getBillgroupId());
-			objEntity.setIsActive(5l);
+			objEntity.setFormstatus(5l);
 			empChangeDetailsModel.setIsActive(5l);
 			objEntity.setSignatureAttachmentId(empChangeDetailsModel.getSignatureAttachmentId());
 			objEntity.setCreatedUserId(empChangeDetailsModel.getCreatedUserId());
@@ -1121,9 +1122,9 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 
 	@Override
-	public List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls() {
+	public List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls(String ddoCode) {
 		// TODO Auto-generated method stub
-		return empChangeDetailsRepo.findEmpLstforApprovChngDtls();
+		return empChangeDetailsRepo.findEmpLstforApprovChngDtls(ddoCode);
 	}
 
 
@@ -1338,6 +1339,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setIsChangeParentDepartment(empChangeDetailsModel.getIsChangeParentDepartment());
 				objEntity.setReasonForChngParentFieldDept(empChangeDetailsModel.getReasonForChngParentFieldDept());
 				objEntity.setCadreCode(empChangeDetailsModel.getCadreId());
+				System.out.println("aaa"+empChangeDetailsModel.getCadreId());
 				objEntity.setEmpClass(empChangeDetailsModel.getEmpClass());
 				objEntity.setSuperAnnAge(empChangeDetailsModel.getSuperannuationage());
 				objEntity.setEmpServiceEndDate(empChangeDetailsModel.getSuperAnnDate()); // by default set to retirement date
@@ -1346,6 +1348,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setPayCommissionCode(empChangeDetailsModel.getPayCommissionCode());
 				objEntity.setFirstDesignationCode(empChangeDetailsModel.getFirstDesignationId());
 				objEntity.setDesignationCode(empChangeDetailsModel.getDesignationId());
+				System.out.println("setDesignationCode"+empChangeDetailsModel.getDesignationId());
 				objEntity.setPayscalelevelId(empChangeDetailsModel.getPayscalelevelId());
 				if (empChangeDetailsModel.getPayscalelevelId() != null)
 					objEntity.setSevenPcLevel(Long.valueOf(empChangeDetailsModel.getPayscalelevelId()));
@@ -1374,6 +1377,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setDtJoinCurrentPost(empChangeDetailsModel.getDtJoinCurrentPost());
 				objEntity.setRemark(empChangeDetailsModel.getRemark());
 				objEntity.setCityClass(empChangeDetailsModel.getCityClass());
+				
 				objEntity.setIndiApproveOrderNo(empChangeDetailsModel.getIndiApproveOrderNo());
 				objEntity.setApprovalByDdoDate(empChangeDetailsModel.getApprovalByDdoDate());
 				objEntity.setHraBasic(empChangeDetailsModel.getHraBasic());
@@ -1393,7 +1397,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setPfacno(empChangeDetailsModel.getPfacno());
 				System.out.println("pfdescription---------"+empChangeDetailsModel.getPfdescription());
 				objEntity.setPfdescription(empChangeDetailsModel.getPfdescription());
-
+				System.out.println("setDesignationCode"+empChangeDetailsModel.getCityClass());
 				// Bank/DCPS/NPS/GPF Details End
 
 				// GIS Details Start
@@ -1460,9 +1464,6 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setEmpType("1");
 				objEntity.setIsMappedWithNps('0');
 				// objEntity.setDdoCode(mstEmployeeModel.getDdoCode());
-				objEntity.setBillGroupId(empChangeDetailsModel.getBillgroupId());
-				objEntity.setIsActive(5l);
-				empChangeDetailsModel.setIsActive(5l);
 				objEntity.setSignatureAttachmentId(empChangeDetailsModel.getSignatureAttachmentId());
 				objEntity.setCreatedUserId(empChangeDetailsModel.getCreatedUserId());
 				objEntity.setCreatedDate(new Date());
@@ -1694,6 +1695,15 @@ if(empChangeDetailsModel.getPhotoAttachmentId() != null)
 		}
 		// signature code ended
 		return res;
+	}
+
+
+
+	@Override
+	public List<Object[]> GetCurrentPostByLvlTwoDetails(long designationId, String ddocode, long locId) {
+		// TODO Auto-generated method stub
+		List<Object[]> result = empChangeDetailsRepo.GetCurrentPostByLvlTwoDetails(designationId, ddocode,locId);
+		return result;
 	}
 
 

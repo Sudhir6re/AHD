@@ -38,7 +38,7 @@ import com.mahait.gov.in.service.MstSubMenuService;
 
 @Controller
 @RequestMapping("/master")
-public class MstMenuController {
+public class MstMenuController   extends BaseController{
 
 	@Autowired
 	MstMenuService mstMenuService;
@@ -61,6 +61,9 @@ public class MstMenuController {
 	
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("lstMenu", commonHomeMethodsService.findAllMenu(locale.getLanguage()));
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "/views/mst-menu";
     }
 	
@@ -87,7 +90,8 @@ public class MstMenuController {
 		model.addAttribute("language", locale.getLanguage());
 		
 		
-		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		
 		return "/views/edit-mst-menu";
     }
@@ -105,6 +109,8 @@ public class MstMenuController {
 		if(message.equals("UPDATED")) {
 			redirectAttributes.addFlashAttribute("message","UPDATED");
 		}
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "redirect:/master/mstMenu"; /*redirects to controller URL*/
 	}
 	
@@ -133,6 +139,9 @@ public class MstMenuController {
 			model.addAttribute("mstMenuModel", new MstMenuModel());
 			model.addAttribute("language", locale.getLanguage());
 		}
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 		return "views/mst-menu";
 	}
 }

@@ -18,7 +18,7 @@ import com.mahait.gov.in.service.WelcomeService;
 
 @RequestMapping("/")
 @Controller
-public class IndexController {
+public class IndexController   extends BaseController{
 	
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -46,6 +46,8 @@ public class IndexController {
 		String hostName = InetAddress.getLocalHost().getHostName();
 		InetAddress.getLoopbackAddress().getHostAddress();
 		InetAddress.getLoopbackAddress().getHostName();
+		
+		
 
 		return modelAndView;
 	}

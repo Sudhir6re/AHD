@@ -35,7 +35,7 @@ import com.mahait.gov.in.service.UserDetailsServiceImpl;
 @Controller
 @RequestMapping("/ddoast")
 
-public class BillgroupMaintainanceController {
+public class BillgroupMaintainanceController  extends BaseController {
 
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -63,6 +63,8 @@ public class BillgroupMaintainanceController {
 		model.addAttribute("lstAllScheme", mstSchemeService.findAllScheme(messages.getUserName()));
 		model.addAttribute("lstBillName", ddoBillGroupService.lstBillName(messages.getUserName()));
 
+		addMenuAndSubMenu(model,messages);	
+		
 		return "/views/billgroupMaintainance";
 	}
 

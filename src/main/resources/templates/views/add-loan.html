@@ -2,303 +2,553 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pageheading.addLoan}"></title>
-<style type="text/css">
+<title>Employee Loan Details</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi">
+	
+</script>
+<style>
+.PageSubHeading {
+	font-size: 17px;
+	color: orange;
+	font-weight: 600;
+	padding-left: 15px;
+	border-bottom: 1px solid;
+	margin-bottom: 20px;
+}
+
+.loanTableMain table {
+	min-width: 2000px !important;
+}
+
+.buttonsdiv {
+	margin-top: 30px;
+}
 </style>
 </head>
-<body class="add-loan">
+<body class="addEmployeeLoanDetails">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
+
 	<div class="container min-height-600">
 		<div class="breadcrumbMain">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
-							th:utext="#{msg.thymeleaf.pagelabel.payrollBD}"></span></a></li>
-					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pageheading.addLoan}"></span></li>
+							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span>Employee
+							Loan Details</span></li>
 				</ol>
 			</nav>
 		</div>
 		<h3 Class="PageHeading">
-			<span th:utext="#{msg.thymeleaf.pageheading.addLoan}"></span>
+			<span>Employee Loan Details</span>
 		</h3>
+		<div align="center" class="alert alert-success"
+			th:if="${message!=null}">
+			<strong><span th:utext="${message}"></span></strong>
+		</div>
+		<fieldset class="container">
+			<!-- <legend th:utext="#{msg.thymeleaf.pageheading.departmentmaster}"
+				th:style="${'color: orange;'}"></legend> -->
+			<h3 Class="PageSubHeading">
+				<span>Search Employee</span>
+			</h3>
+			<form class="form-horizontal" id="form1"
+				th:action="@{/level1/saveEmployeeLoanDtls}" name="form1"
+				th:object="${empLoanModel}" method="POST"
+				enctype="multipart/form-data">
 
-		<div class="formMainwithNoborTb container">
-			<div id="tcontent1">
+				<!-- <form class="form-horizontal"  id="form2"
+				th:action="@{/master/saveEmployeeLoanDtls}"
+				th:object="${empLoanModel}" method="POST"
+				enctype="multipart/form-data"> -->
+				<!-- 			<form class="form-horizontal"> -->
+				<input type="hidden" name="ddocode" id="ddocode"
+					th:value="${ddocode}" class="form-control" /> 
+					<input type="hidden"
+					name="employeeid" id="employeeid" th:field="*{employeeid}"
+					class="form-control" /> 
+					<input type="hidden" name="message"
+					id="message" th:value="${message}" />
+				<div class="form-group">
 
-				<fieldset id="Search Employee" class="fieldGroupTag">
-					<p id="">
-						<legend>Search Employee </legend>
-					</p>
-					<div id="">
-						<table class="table bor-0 tbBold">
-							<tbody>
-								<tr>
-									<td>Search With Name/HTESevaarthId</td>
-									<td><input type="text"
-										name="Employee_srchNameText_EmpSearch" id="txtSearchName"
-										class="texttag" autocomplete="off">
-										<div id="ajaxAuto_txtSearchName" class="autocomplete"></div></td>
-									<td width="50%" align="left" colspan="3"><input
-										type="button" name="search_EmpSearch" id="search_EmpSearch"
-										value="Search" class="btn"></td>
-								</tr>
-								<tr>
-									<td class="fieldLabel" width="25%">Employee Id</td>
-									<td><input type="text" name="Employee_Name_EmpSearch"
-										id="Employee_Name_EmpSearch" class="texttag disabledcontrol"></td>
-									<td class="fieldLabel" width="25%">HTESevaarth Id</td>
-									<td><input type="text" name="Emp_Sevarth_Id_EmpSearch"
-										id="Emp_Sevarth_Id_EmpSearch" class="texttag disabledcontrol"></td>
-								</tr>
-								<tr>
-									<td class="fieldLabel" width="25%">Office Name</td>
-									<td><input type="text" name="Police_ST_NM_EmpSearch"
-										id="Police_ST_NM_EmpSearch" class="texttag disabledcontrol"></td>
-									<td class="fieldLabel" width="25%"><label
-										class="captionTag" id="Dsgn_NM">Designation </label></td>
-									<td><input type="text" name="Dsgn_NM_EmpSearch"
-										id="Dsgn_NM_EmpSearch" class="texttag disabledcontrol"></td>
-								</tr>
-								<tr>
-									<td class="fieldLabel" width="25%"><label
-										class="captionTag" id="DISTRICT_NM">District </label></td>
-									<td><input type="text" name="DISTRICT_NM_EmpSearch"
-										id="DISTRICT_NM_EmpSearch" class="texttag disabledcontrol"></td>
-									<td class="fieldLabel" width="25%"><label
-										class="captionTag" id="GPF_NM">GPF No.</label></td>
-									<td><input type="text" name="GPF_NM_EmpSearch"
-										id="GPF_NM_EmpSearch" class="texttag disabledcontrol"></td>
-								</tr>
-							</tbody>
-						</table>
+					<label class="control-label col-sm-3" for="title"><span>Search
+							with Name/Sevaarth ID Name</span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control " id="sevaarth"></input>
+
+						<!-- <div id="empName empName"></div> -->
+						<ul id="searchDiv">
+
+						</ul>
 					</div>
-				</fieldset>
-				<br> Note: Only those loans and advances which are mapped with
-				Organization/Institution will come in <b>Loan Name</b> combo given
-				below.
-				<table class="table bor-0 tbBold">
-					<tbody>
-						<tr>
-							<td>Loan Name</td>
-							<td><select id="loanName" class="selecttag mandatorycontrol">
-									<option>--Select--</option>
-									<option value="54">GPF_ADV_GRP_ABC</option>
-									<option value="55">GPF_ADV_GRP_D</option>
-							</select>&nbsp;&nbsp; <label class="mandatoryindicator">*</label></td>
-							<td id="principalTD1.1"><b><label class="captionTag"
-									id="EL.lpAmt">Principal Amount</label></b> <font size="3"
-								face="Rupee Foradian"> (<font size="3"
-									face="Rupee Foradian">`</font>)
-							</font></td>
-							<td id="principalTD1"><input type="text" name="principalAmt"
-								id="principalAmt" style="text-align: right"></td>
-						</tr>
-						<tr>
-							<td id="interestTD1.1"><b><label class="captionTag"
-									id="EL.liAmt">Interest Amount</label></b> <font size="3"
-								face="Rupee Foradian"> (<font size="3"
-									face="Rupee Foradian">`</font>)
-							</font></td>
-							<td id="interestTD1"><input type="text" name="interestAmt"
-								id="interestAmt" style="text-align: right" class="numbertag"></td>
-							<td id="loanTypeCaptionTD"><label class="captionTag"
-								id="VN.LoanType">Loan Type</label></td>
-							<td id="loanTypeFieldTD"><input type="text"
-								name="LoanTypeDesc" id="LoanTypeDesc"
-								class="texttag disabledcontrol" value="Select Loan Name"></td>
-						</tr>
-						<tr>
-							<td><label class="captionTag" id="EL.loanStartDate">Loan
-									Start Date</label></td>
-							<td><input type="date" name="loanDate" id="loanDate"
-								maxlength="10">&nbsp;&nbsp;<label
-								class="mandatoryindicator">*</label></td>
-							<td id="principalTD2.2"><b><label class="captionTag"
-									id="EL.lpiNo">Principal Installment No</label></b></td>
-							<td id="principalTD2"><input type="text"
-								name="principalInstNo" id="principalInstNo"
-								style="text-align: right" class="numbertag"
-								onkeypress="return checkforNumbersOnly(false,principalInstNo,event)"
-								maxlength="3"></td>
-						</tr>
-						<tr>
-							<td id="interestTD2.2"><b><label class="captionTag"
-									id="EL.liiNo">Interest Installment No</label></b></td>
-							<td id="interestTD2"><input type="text"
-								name="interestInstNo" id="interestInstNo"
-								style="text-align: right" tabindex="9" class="numbertag"
-								maxlength="3"></td>
-						</tr>
-						<tr>
-							<td><label class="captionTag" id="EL.loanACNo">Account
-									No</label></td>
-							<td><input type="text" name="loanACNo" id="loanACNo"
-								tabindex="3" class="texttag" maxlength="16"></td>
-							<td id="principalTD3.3"><b><label class="captionTag"
-									id="EL.loanPrincipalEmiAmt">Principal EMI Amount</label></b> <font
-								size="3" face="Rupee Foradian"> (<font size="3"
-									face="Rupee Foradian">`</font>)
-							</font></td>
-							<td id="principalTD3"><input type="text"
-								name="loanPrinEmiAmt" id="loanPrinEmiAmt"
-								style="text-align: right" class="numbertag" /></td>
-						</tr>
-						<tr>
-							<td id="interestTD3.3"><b><label class="captionTag"
-									id="EL.loanInterestEmiAmt">Interest EMI Amount</label></b> <font
-								size="3" face="Rupee Foradian"> (<font size="3"
-									face="Rupee Foradian">`</font>)
-							</font></td>
-							<td id="interestTD3"><input type="text" name="loanIntEmiAmt"
-								id="loanIntEmiAmt" style="text-align: right" class="numbertag" /></td>
-						</tr>
-						<tr>
-							<td><label class="captionTag" id="EL.loanSancOrderNo">Sanction
-									Order No</label></td>
-							<td><input type="text" name="loanSancOrderNo"
-								id="loanSancOrderNo" tabindex="4" class="texttag" maxlength="25"></td>
-
-						</tr>
-						<tr>
-							<td id="principalTD4.4"><label class="captionTag"
-								id="EL.loanPrinRecovAmt">Principal Recovered Amount</label> <font
-								size="3" face="Rupee Foradian"> (<font size="3"
-									face="Rupee Foradian">`</font>)
-							</font></td>
-							<td id="principalTD4"><input type="text"
-								name="loanPrinRecovAmt" id="loanPrinRecovAmt"
-								style="text-align: right" class="numbertag" /></td>
-							<td id="interestTD4.4"><label class="captionTag"
-								id="EL.loanIntRecovAmt">Interest Recovered Amount</label> <font
-								size="3" face="Rupee Foradian"> (<font size="3"
-									face="Rupee Foradian">`</font>)
-							</font></td>
-							<td id="interestTD4"><input type="text"
-								name="loanIntRecovAmt" id="loanIntRecovAmt"
-								style="text-align: right"></td>
-						</tr>
-						<tr>
-							<td><label class="captionTag" id="EL.loanSancOrderDate">Sanction
-									Order Date</label></td>
-							<td><input type="text" name="loanSancOrderDate"
-								id="loanSancOrderDate" tabindex="5" class="texttag" />&nbsp;&nbsp;<label
-								class="mandatoryindicator">*</label></td>
-							<td id="principalTD5.5"><label class="captionTag"
-								id="EL.loanPrinRecovInt">Principal Recovered
-									Installments</label></td>
-							<td id="principalTD5"><input type="text"
-								name="loanPrinRecovInt" id="loanPrinRecovInt"
-								style="text-align: right" class="numbertag" maxlength="8"></td>
-						</tr>
-						<tr>
-							<td id="interestTD5.5"><label class="captionTag"
-								id="EL.loanIntRecovInt">Interest Recovered Installments</label></td>
-							<td id="interestTD5"><input type="text"
-								name="loanIntRecovInt" id="loanIntRecovInt"
-								style="text-align: right" class="numbertag" maxlength="8"></td>
-						</tr>
-						<tr>
-							<td><label class="captionTag" id="VN.VoucherNo">Voucher
-									No</label></td>
-							<td><input type="text" name="loanVoucherNo"
-								id="loanVoucherNo" class="texttag mandatorycontrol">&nbsp;&nbsp;<label
-								class="mandatoryindicator">*</label></td>
-							<td><label class="captionTag" id="EL.addintno">Odd
-									Installment No.</label></td>
-							<td><input type="text" name="loanOddinstno"
-								id="loanOddinstno" style="text-align: right" class="numbertag"></td>
-						</tr>
-						<tr>
-							<td><label class="captionTag" id="VN.VoucherDate">Voucher
-									Date</label></td>
-							<td><input type="date" name="loanVoucherDate"
-								id="loanVoucherDate" maxlength="10">&nbsp;&nbsp;<label
-								class="mandatoryindicator">*</label></td>
-							<td><label class="captionTag" id="EL.addintamt">Odd
-									Installment Amount</label> <font size="3" face="Rupee Foradian">
-									(<font size="3" face="Rupee Foradian">`</font>)
-							</font></td>
-							<td><input type="text" name="loanOddinstAmt"
-								id="loanOddinstAmt" style="text-align: right" class="numbertag"
-								maxlength="8"></td>
-						</tr>
-					</tbody>
-				</table>
-				<br> <br>
-				<div align="center">
-					<input type="button" name="add" id="add" value="Add" class="btn">
-					<br> <br>
+					<div class="col-sm-3">
+						<!-- <input type="button" class="btn btn-info" value="Search"
+							onclick="SearchEmployee();" />  -->
+						<input type="reset" id="btnReset" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.btnReset}" />
+					</div>
 				</div>
-				<div class="table-responsive">
-					<table id="tblempLoan" class="table table-bordered table-striped ">
-						<tbody>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>Sevaarth
+							ID</span></label>
+					<div class="col-sm-3">
+						<!-- 						<input type="text" id="sevaarthId" th:field="*{sevaarthId}"  readonly class="form-control"></input> -->
+						<input type="text" class="form-control" th:field="*{sevaarthId}"
+							id="sevaarthId" readonly="readonly"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Organization/institution
+							Name</span> </label>
+					<div class="col-sm-3">
+						<input type="text"  readonly class="form-control" id="orgInstName"
+							th:field="*{orgInstName}"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>GPF
+							Number</span></label>
+					<div class="col-sm-3">
+						<input type="text" id="gpfNo" th:field="*{gpfNo}" readonly class="form-control"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Designation</span>
+					</label>
+					<div class="col-sm-3">
+						<input type="text" id="designName" th:field="*{designName}"
+							readonly class="form-control"></input>
+					</div>
+				</div>
+				<hr />
+				<p class="text text-danger">
+					Note: Only those loans and advances which are mapped with
+					Organization/institution Name will come in <b>Loan Name</b> combo
+					given below
+				</p>
+				
+				
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="t+itle"><span>Application Number</span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<!-- <input type="text" id="loanAdvName" th:field="*{loanAdvName}" readonly class="form-control"></input> -->
+						<select class="form-control" name="appNo" id="appNo"  th:field="*{appNo}"
+							>
+						<option value="0">Please select</option>
+						</select>
+					</div>
+				</div>
+				
+				
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="t+itle"><span>Loan
+							Name</span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<!-- <input type="text" id="loanAdvName" th:field="*{loanAdvName}" readonly class="form-control"></input> -->
+						<select class="form-control" name="loanAdvName" id="loanAdvName"
+							th:field="*{loanAdvName}">
+							<option th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option th:each="varCommon : ${lstCommonMstLoanAndAdvance}"
+								th:value="${varCommon.commonValue+'-'+varCommon.commonValue}"
+								th:text="${language=='mh' ? varCommon.commonValMarathi : varCommon.commonValEnglish}"></option>
+						</select>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Principal
+							Amount() </span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control amount" id="PriAmount"
+							th:field="*{loanprinamt}"></input>
+							
+							
+							<input type="hidden" class="form-control" id="loanEmpAdvId"
+							th:field="*{loanEmpAdvId}"></input>
+					</div>
+
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>Interest
+							Amount() </span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control amount" id="intAmount"
+							th:field="*{loaninterestamt}"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Loan
+							Start Date </span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<input type="date" class="form-control" id="loanstartdate"
+							th:field="*{loanDate}"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>Principal
+							Installment No. </span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control number" id="preInstNo"
+							th:field="*{loanprininstno}"></input>
+					</div>
+					<label class="control-label col-sm-3 numeric" for="title"><span>Interest
+							Installment No. </span></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control number" id="intInstNo"
+							th:field="*{loanintinstno}"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>Account
+							No. </span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control number" id="accNo"
+							th:field="*{loanaccountno}"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Principal
+							EMI Amount() </span></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control amount" id="preEMIAmount"
+							th:field="*{loanprinemiamt}"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>Interest
+							EMI Amount()</span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control amount" id="intEMIAmount"
+							th:field="*{loanintemiamt}"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Section
+							Order No. </span></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="sectionOrderNo"
+							th:field="*{loansancorderno}"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>Principal
+							Recovered Amount()</span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control amount" id="preRecovAmount"
+							th:field="*{RecoveredAmount}"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Interest
+							Recovered Amount() </span></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control amount" id="intRecovAmount"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"><span>Section
+							Order Date </span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<input type="date" class="form-control" id="sectionOrderDate"
+							th:field="*{loansancorderdate}"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Principal
+							Recovered Installments</span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control number" id="priRecovInsta"></input>
+					</div>
+
+				</div>
+				<div class="form-group">
+
+					<label class="control-label col-sm-3" for="title"><span>Interest
+							Recovered Installments</span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control number" id="intrecovInsta"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Voucher
+							No. </span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="voucherNo"
+							th:field="*{voucherno}"></input>
+					</div>
+
+				</div>
+				<div class="form-group">
+
+					<label class="control-label col-sm-3" for="title"><span>Odd
+							Installment No.</span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control number" id="oddIstaNo"
+							th:field="*{oddinstno}"></input>
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Voucher
+							Date </span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<input type="date" class="form-control" id="voucherdate"
+							th:field="*{voucherdate}"></input>
+					</div>
+
+				</div>
+				<div class="form-group">
+
+					<label class="control-label col-sm-3" for="title"><span>Odd
+							Installment Amount()</span>&nbsp;&nbsp;</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control amount" id="oddIstaAmount"
+							th:field="*{oddinstamt}" /> 
+					</div>
+					<label class="control-label col-sm-3" for="title"><span>Loan
+							Status </span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
+					<div class="col-sm-3">
+						<select class="form-control" id="loanStatus"
+							th:field="*{loanStatus}">
+							<option selected="selected" th:value="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option value="1">Active</option>
+							<option value="0">InActive</option>
+							<option value="2">Paused</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="text-center">
+						<input type="submit" class="btn btn-primary" value="Add"
+							id="addloaddetailsbtn" />
+					</div>
+				</div>
+				<div class="table-responsive loanTableMain">
+					<table class="table table-bordered table-strapped">
+						<thead>
 							<tr>
-								<th align="center">Loan Name</th>
-								<th align="center">Loan Amt <font size="3"
-									face="Rupee Foradian"> (<font size="3"
-										face="Rupee Foradian">`</font>)
-								</font>
-								<thd>
-								<th align="center">Loan Inst. No</th>
-								<th align="center">Loan EMI Amt <font size="3"
-									face="Rupee Foradian"> (<font size="3"
-										face="Rupee Foradian">`</font>)
-								</font>
-								</th>
-								<th align="center">Int. Amt <font size="3"
-									face="Rupee Foradian"> (<font size="3"
-										face="Rupee Foradian">`</font>)
-								</font>
-								</th>
-								<th align="center">Int. Inst. No</th>
-								<th align="center">Int. EMI Amt <font size="3"
-									face="Rupee Foradian"> (<font size="3"
-										face="Rupee Foradian">`</font>)
-								</font>
-								</th>
-								<th align="center">Account No</th>
-								<th align="center">Sanction Order No</th>
-								<th align="center">Sanction Order Date</th>
-								<th align="center">Loan Start Date</th>
-								<th align="center">Principal Rcvrd <font size="3"
-									face="Rupee Foradian"> (<font size="3"
-										face="Rupee Foradian">`</font>)
-								</font>
-								</th>
-								<th align="center">Principal Rcvrd Inst.</th>
-								<th align="center">Interest Rcvrd <font size="3"
-									face="Rupee Foradian"> (<font size="3"
-										face="Rupee Foradian">`</font>)
-								</font>
-								</th>
-								<th align="center">Interest Rcvrd Inst.</th>
-								<th align="center">Odd Installment No.</th>
-								<th align="center">Odd Installment Amount <font size="3"
-									face="Rupee Foradian"> (<font size="3"
-										face="Rupee Foradian">`</font>)
-								</font>
-								</th>
-								<th align="center">Loan Voucher No.</th>
-								<th align="center">Loan Voucher Date</th>
+							    <th>Sr No.</th>
+								<th>Employee Name</th>
+								<th>SevaarthId</th>
+								<th>Loan Amt()</th>
+								<th>Loan Inst. No</th>
+								<th>Loan EMI Amt()</th>
+							<!-- 	<th>Int. Amt()</th>
+								<th>Int. Inst. No</th>
+								<th>Int EMI Amt()</th> -->
+								<th>GPF No</th>
+							<!-- 	<th>Section Order No</th> -->
+								<th>Section Order Date</th>
+								<th>Loan Strat Date</th>
+								<th>Principal Rcvrd()</th>
+								<th>Principal Rcvrd inst.</th>
+								<th>Interest Rcvrd()</th>
+								<th>interest Rcvrd inst.</th>
+								<th>Odd Installment No</th>
+								<th>Odd Installment Amount()</th>
+								<th>Loan Voucher No</th>
+								<th>Loan Voucher Date</th>
+							<!-- 	<th>Action</th> -->
 							</tr>
+						</thead>
+						<tbody class="tbodyloaddetailtbl">
+
+							<tr th:each="varLstEmp : ${lstEmpLoanModel}">
+								<td th:text="${varLstEmpStat.index+1}"></td>
+								<td th:text="${varLstEmp.employeeName}"></td>
+								<td th:text="${varLstEmp.sevaarthId}"></td>
+								<td th:text="${varLstEmp.loanprinamt}"></td>
+								<td th:text="${varLstEmp.loanprininstno}"></td>
+								<td th:text="${varLstEmp.loanemiamt}"></td>
+								
+								<!-- <td th:text="${varLstEmp.loaninterestamt}"></td>
+								<td th:text="${varLstEmp.Loanintinstno}"></td>
+								<td th:text="${varLstEmp.loanintemiamt}"></td> -->
+								<td th:text="${varLstEmp.pfDesc}"></td>
+								<!-- <td th:text="${varLstEmp.loansancorderno}"></td> -->
+								<td th:text="${varLstEmp.loansancorderdate}" ></td>
+								
+							<!-- 	<td th:if="${varLstEmp.loanDate!=null}" th:text="${#dates.format(varLstEmp.loanDate, 'dd-MM-yyyy')}" ></td>
+								
+								<td th:if="${varLstEmp.loanDate==null}" th:text="${#dates.format(standardDate, 'dd-MM-yyyy')}" ></td> -->
+									<td th:text="${varLstEmp.loanDate}"></td>
+								
+								<td th:text="${varLstEmp.loanprinemiamt}"></td>
+								<td th:text="${varLstEmp.loanintemiamt}"></td>
+								<td th:text="${varLstEmp.loanintemiamt}"></td>
+								<td th:text="${varLstEmp.totalRecoveredAmount}"></td>
+								<td th:text="${varLstEmp.oddinstno}"></td>
+								<td th:text="${varLstEmp.Oddinstamt}"></td>
+								
+								<td th:text="${varLstEmp.voucherno}"></td>
+							<!-- 	<td th:text="${#dates.format(varLstEmp.voucherdate, 'dd-MM-yyyy')}" ></td> -->
+								
+									<td th:text="${varLstEmp.voucherdate}"></td>
+							
+								
+							
+								<!-- <td>
+									<div class="form-group flex text-center">
+										<a data-toggle="tooltipEdit" title="Edit" id="editState"
+											th:href="@{'/user/underConstruction/'}"><span
+											class="glyphicon glyphicon-edit"></span></a>
+										th:href="@{'/master/editState/' + ${VarState.Id}}"><span
+										<a data-toggle="tooltipDelete" title="Delete"
+											th:href="@{'/admin/master/deleteState/'+${varLstEmp.loanEmpAdvId}}"
+											class="delete"> <span class="glyphicon glyphicon-trash "></span></a>
+
+									</div>
+								</td> -->
+							</tr>
+
+
+
 						</tbody>
 					</table>
 				</div>
-				<br>
-			</div>
-		</div>
-		<div align="center">
-			<input type="button" name="Save" onclick="submitForm()" id="Save"
-				value="Save" style="text-align: center;" size="3" maxlength="3"
-				class="btn"> <input type="button" name="btnClose1"
-				onclick="history.back()" id="btnClose1" value="Close"
-				style="text-align: center;" size="3" maxlength="3" class="btn">
-		</div>
-		<br />
+				<!-- <div class="form-group text-center">
+				<br/>
+						<input type="submit" id="btnSave" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.btnSave}" />
+						<input type="button" class="btn btn-info" value="Reset"
+							onclick="reset();" />
+						<input type="button" class="btn btn-info" value="Close" />
+				</div> -->
+			</form>
+
+		</fieldset>
 	</div>
+
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
+	<!-- <script>
+		$(document)
+				.ready(
+						function() {
+							$("#addloaddetailsbtn")
+									.click(
+											function(e) {
+												/*  alert("ok3");  */
+												e.preventDefault();
+												var loanName = $("#loanName")
+														.val();
+												var PriAmount = $("#PriAmount")
+														.val();
+												var intAmount = $("#intAmount")
+														.val();
+												var loanstartdate = $(
+														"#loanstartdate").val();
+												var preInstNo = $("#preInstNo")
+														.val();
+												var intInstNo = $("#intInstNo")
+														.val();
+												var accNo = $("#accNo").val();
+												var preEMIAmount = $(
+														"#preEMIAmount").val();
+												var intEMIAmount = $(
+														"#intEMIAmount").val();
+												var sectionOrderNo = $(
+														"#sectionOrderNo")
+														.val();
+												var preRecovAmount = $(
+														"#preRecovAmount")
+														.val();
+												var intRecovAmount = $(
+														"#intRecovAmount")
+														.val();
+												var sectionOrderDate = $(
+														"#sectionOrderDate")
+														.val();
+												var priRecovInsta = $(
+														"#priRecovInsta").val();
+												var intrecovInsta = $(
+														"#intrecovInsta").val();
+												var voucherNo = $("#voucherNo")
+														.val();
+												var oddIstaNo = $("#oddIstaNo")
+														.val();
+												var voucherDate = $(
+														"#voucherDate").val();
+												var oddIstaAmount = $(
+														"#oddIstaAmount").val();
+
+$(".tbodyloaddetailtbl")
+.append(
+		"<tr><td>"
+				+ loanName
+				+ "<input type='hidden' name='loantypeid' value='"+loanName+"' id='loantypeid' th:field='*{loantypeid}' class='form-control' /></td><td>"
+				+ PriAmount
+				+ "<input type='hidden' name='loanprinamt' value='"+PriAmount+"' id='loanprinamt' th:field='*{loanprinamt}' class='form-control' /></td><td>"
+				+ preInstNo
+				+ "<input type='hidden' name='loanprininstno' value='"+preInstNo+"' id='loanprininstno' th:field='*{loanprininstno}' class='form-control' /></td><td>"
+				+ preEMIAmount
+				+ "<input type='hidden' name='loanprinemiamt' value='"+preEMIAmount+"' id='loanprinemiamt' th:field='*{loanprinemiamt}' class='form-control' /></td><td>"
+				+ intAmount
+				+ "<input type='hidden' name='loaninterestamt' value='"+intAmount+"' id='loaninterestamt' th:field='*{loaninterestamt}' class='form-control' /></td><td>"
+				+ intInstNo
+				+ "<input type='hidden' name='loanintinstno' value='"+intInstNo+"' id='loanintinstno' th:field='*{loanintinstno}' class='form-control' /></td> <td>"
+				+ intEMIAmount
+				+ "<input type='hidden' name='loanintemiamt' value='"+intEMIAmount+"' id='loanintemiamt' th:field='*{loanintemiamt}' class='form-control' /></td> <td>"
+				+ accNo
+				+ "<input type='hidden' name='loanaccountno' value='"+accNo+"' id='loanaccountno' th:field='*{loanaccountno}' class='form-control' /></td><td>"
+				+ sectionOrderNo
+				+ "<input type='hidden' name='loansancorderno' value='"+sectionOrderNo+"' id='loansancorderno' th:field='*{loansancorderno}' class='form-control' /></td><td>"
+				+ sectionOrderDate
+				+ "<input type='hidden' name='loansancorderdate' value='"+sectionOrderDate+"' id='loansancorderdate' th:field='*{loansancorderdate}' class='form-control' /></td><td>"
+				+ loanstartdate
+				+ "<input type='hidden' name='startdate' value='"+loanstartdate+"' id='startdate' th:field='*{startdate}' class='form-control' /><input type='hidden' name='loandate' value='"+loanstartdate+"' id='loandate' th:field='*{loandate}' class='form-control' /></td><td>"
+				+ preRecovAmount
+				+ "<input type='hidden' name='multiamtrecvd' value='"+preRecovAmount+"' id='multiamtrecvd' th:field='*{multiamtrecvd}' class='form-control' /></td> <td>"
+				+ priRecovInsta
+				+ "<input type='hidden' name='multiinstrecvd' value='"+priRecovInsta+"' id='multiinstrecvd' th:field='*{multiinstrecvd}' class='form-control' /></td> <td>"
+				+ intRecovAmount
+				+ "<input type='hidden' name='trncounter' value='"+intRecovAmount+"' id='trncounter' th:field='*{trncounter}' class='form-control' /></td><td>"
+				+ intrecovInsta
+				+ "<input type='hidden' name='loanrectype' value='"+intrecovInsta+"' id='loanrectype' th:field='*{loanrectype}' class='form-control' /></td><td>"
+				+ oddIstaNo
+				+ "<input type='hidden' name='oddinstno' value='"+oddIstaNo+"' id='oddinstno' th:field='*{oddinstno}' class='form-control' /></td><td>"
+				+ oddIstaAmount
+				+ "<input type='hidden' name='oddinstamt' value='"+oddIstaAmount+"' id='oddinstamt' th:field='*{oddinstamt}' class='form-control' /></td><td>"
+				+ voucherNo
+				+ "<input type='hidden' name='voucherno' value='"+voucherNo+"' id='voucherno1' th:field='*{voucherno}' class='form-control' /></td><td>"
+				+ voucherDate
+				+ "<input type='hidden' name='voucherdate' value='"+voucherDate+"' id='voucherdate' th:field='*{voucherdate}' class='form-control' /></td></tr>"
+
+														);
+												/* swal("Record Added Successfully..); */
+												var inputs = $(
+														'input, textarea, select, option')
+														.not(
+																':input[type=button], :input[type=submit], :input[type=reset], :input[type=hidden]');
+												$(this).closest('form').find(
+														inputs).val("");
+											});
+
+						});
+	</script>
+	 -->
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function($) {
+							//alert("qwe");
+							var varMessage = $("#message").val();
+							///alert("varMessage"+varMessage);
+
+							if (varMessage != "" && varMessage != undefined) {
+								swal("Record updated Successfully..");
+							}
+
+							$("#btnSave")
+									.click(
+											function(e) {
+												if ($("#loanStatus").val == "0") {
+													e.preventDefault();
+													if ($("#PriAmount").val() == $(
+															"#preRecovAmount")
+															.val()) {
+														$("#form1").submit();
+													} else {
+														swal("Loan can't be Inactive as the total amount is not paid....!!")
+													}
+												}
+											});
+
+						});
+	</script>
+	<script th:src="@{/js/project/emp_loan_details.js}"></script>
+	<script th:src="@{/js/project/datatable-common.js}"></script>
+	<script th:src="@{/js/emp-loan-details.js}"></script>
+	<script th:src="@{/js/validated.js}"></script>
 </body>
 </html>

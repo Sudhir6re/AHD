@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -47,10 +48,10 @@ public class AllowanceDeductionRuleMstEntity {
 	private Integer payCommissionCode;
 
 	@Column(name = "created_user_id")
-	private int createdUserId;
+	private Long createdUserId;
 
 	@Column(name = "updated_user_id")
-	private int updatedUserId;
+	private Long updatedUserId;
 
 	@Column(name = "created_date")
 	private Date createdDate;
@@ -59,7 +60,7 @@ public class AllowanceDeductionRuleMstEntity {
 	private Date updatedDate;
 
 	@Column(name = "is_active")
-	private char isActive;
+	private Character isActive;
 
 	@Column(name = "min_basic")
 	private Double minBasic;
@@ -67,10 +68,26 @@ public class AllowanceDeductionRuleMstEntity {
 	@Column(name = "max_basic")
 	private Double maxBasic;
 	
+	
+	@Column(name = "premium_amount")
+	private Double premiumAmount;
+	
 	@Column(name = "city_class")
-	private char cityClass;
-
-	private transient String commisionName;
-	private transient String departmentAlloDeducName;
+	private Character cityClass;
+	
+	@Column(name = "city_group")
+	private String cityGroup;
+	
+	@Column(name = "grade_pay_lower")
+	private Integer gradePayLower;
+	
+	@Column(name = "grade_pay_higher")
+	private Integer gradePayHigher;
+	
+	@Transient
+	private String departmentAllowdeducName;
+	
+	@Transient
+	private String PayCommisionName;
 
 }

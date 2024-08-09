@@ -40,7 +40,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.EmployeeStatisticsService;
 @Controller
 @RequestMapping("/ddoast")
-public class EmployeeStatisticsController {
+public class EmployeeStatisticsController  extends BaseController{
 	
 //	protected final Log logger = LogFactory.getLog(getClass());
 	List<EmployeeStatisticsModel> lstempstcBillObj = new ArrayList<>();
@@ -80,6 +80,7 @@ public class EmployeeStatisticsController {
 		model.addAttribute("createddate", sdf.format(new Date()));
 		model.addAttribute("systemdate", sdf.format(new Date()));
 		  model.addAttribute("empList",employeeStatisticsService.findEmployeeStatistics(messages.getDdoCode()));
+			addMenuAndSubMenu(model,messages);
 		  return "/views/reports/employeeStatistics";
 		
 	}

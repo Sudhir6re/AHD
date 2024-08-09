@@ -5,17 +5,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mahait.gov.in.entity.OrgUserMst;
 @RequestMapping("/ddoast")
 @Controller
-public class BankStatementReportController {
+public class BankStatementReportController  extends BaseController {
 	@GetMapping("/bankStatementReport")
 	public String bankStatementReport( Model model, Locale locale,
 			HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);	
 		return "/views/reports/bank-statement-report";
 	}
 	@GetMapping("/bankStatement")
 	public String bankStatement( Model model, Locale locale,
 			HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);	
 		return "/views/reports/bank-statement";
 	}
 

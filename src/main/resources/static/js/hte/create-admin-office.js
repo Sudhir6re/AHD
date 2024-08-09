@@ -17,7 +17,7 @@ $(document).ready(function() {
 				+ DDOCode
 				+ ', system generated unique institute Id: '
 				+ instituteId
-				+ '. Please note the details for future use.');
+				+ '. Please note the details for future use. Additionally, the default password is: ifms123.');
 	}
 	
 
@@ -290,6 +290,7 @@ $("#cmbAdminOffice").change(function(){
 	    	  $( "#loaderMainNew").hide();
 	    	  $('#cmbDistrict').empty();
 	    	  $('#cmbTaluka').append($('<option  value="-1"></option>').text("Please Select")); 
+	    	  $('#cmbDistrict').append($('<option  value="-1"></option>').text("Please Select")); 
 	    		 var len = data.length;
 					if (len != 0) {
 						 $.each(data, function(index, row) {

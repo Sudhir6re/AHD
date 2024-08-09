@@ -31,25 +31,13 @@ public class MstSchemeRepoImpl implements MstSchemeRepo {
 	}
 
 	@Override
-	public List<MstSchemeModel> findAllSchemename(String username) {
+	public List<Object[]> findAllSchemename(String username) {
 		// TODO Auto-generated method stub
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "SELECT mst.SCHEME_CODE,mst.SCHEME_NAME FROM MST_SCHEME mst  "
-				+ " inner join  RLT_DCPS_DDO_SCHEMES rlt on rlt.SCHEME_CODE = mst.SCHEME_CODE  ";
-
-Query query = currentSession.createSQLQuery(HQL);
-
-List<Object[]> lstprop = query.list();
-List<MstSchemeModel> lstObj = new ArrayList<>();
-if (!lstprop.isEmpty()) {
-    for (Object[] objLst : lstprop) {
-    	MstSchemeModel obj = new MstSchemeModel();
-    	obj.setDcpsDdoSchemeCode(StringHelperUtils.isNullString(objLst[0]));
-        obj.setSchemeName(StringHelperUtils.isNullString(objLst[1]));
-        lstObj.add(obj);
-    }
-}
-return lstObj;
+		String HQL = "select scheme_code,scheme_name from mst_dcps_bill_group a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code where b.rept_ddo_code = '"+username+"'";
+		System.out.println("findAllSchemename------" + HQL);
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
 }
 
 	@Override

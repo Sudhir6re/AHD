@@ -30,7 +30,7 @@ import com.mahait.gov.in.service.UserDetailsServiceImpl;
 
 @Controller
 @RequestMapping(value= {"/ddoast","/ddo","/user","/super"})
-public class ChangePasswordController {
+public class ChangePasswordController  extends BaseController{
 
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;

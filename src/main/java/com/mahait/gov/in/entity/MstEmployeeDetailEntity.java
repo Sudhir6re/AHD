@@ -39,9 +39,12 @@ public class MstEmployeeDetailEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Long id;
+
 	@Column(name = "EMPLOYEE_ID")
 	private Long employeeId;
-
+	
 	@Column(name = "SEVAARTH_ID")
 	private String sevaarthId;
 
@@ -555,6 +558,9 @@ public class MstEmployeeDetailEntity {
 	
 	@Column(name = "MORE_QUALIFICATION")
 	private String morequalification;
+	
+	@Column(name = "FORM_STATUS")
+	private Long formstatus;
 	}
 
 

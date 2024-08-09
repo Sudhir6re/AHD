@@ -683,8 +683,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public List<Object[]> findDDOinfo(String userName) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select ddo_reg_id,ddo_name||' '||ddo_code as name,treasury_code from ddo_reg_mst where   ddo_code ='"
-				+ userName + "' ";
+		String HQL = "select ddo_name||' '||ddo_code,dept_loc_code  from org_ddo_mst where ddo_code= '"+userName+"'";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 
@@ -717,13 +716,20 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public List<Object[]> getAbstractReport(String paybillGenerationTrnId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select ddo.office_name,ddo.account_no,month_english||' '||year_english as monyear,bill.bill_gross_amt as TOTAL_SALARY, sum(billdtl.festival_advance) as FA, 0 as Recovery,sum(billdtl.gross_total_amt) as Gross_salary,sum(billdtl.gpf_adv)+sum(billdtl.gpf_iv_adv)+sum(billdtl.gpf_grp_abc)+sum(billdtl.gpf_grp_d)+sum(billdtl.gpf_adv_grp_abc)+sum(billdtl.gpf_adv_grp_d) as GPF, sum (billdtl.revenue_stamp)as Revenue_stamp,"
-				+ " sum(billdtl.dcps_delay) as DCPS_Delay,sum(billdtl.dcps) as dcps_reg, sum(billdtl.it) as IT,sum(billdtl.dcps_da) as DCPS_DA,  sum(billdtl.pt) as PT,sum (billdtl.computer_adv)as ComputerAdv,  sum(billdtl.other_deduct) as OTHER_DEDUCTION, SUM(billdtl.pli) AS PLI,SUM(billdtl.gis) AS GIS,sum(billdtl.total_deduction) as TOTAL_DED,  bill.bill_net_amount as NET_PAY,0 as rd,sum(billdtl.lic)as lic,0 as MISC,0 as GSLIS,"
-				+ "  0 as othergpf,0 as othergis,0 as quarterrent, sum(billdtl.cop_bank)as cop_bank,sum(billdtl.credit_soc)as credit_soc,sum(billdtl.recurring_dep)as recurring_dep,sum(billdtl.total_net_amt) as salpay from paybill_generation_trn  bill   inner join paybill_generation_trn_details billdtl ON billdtl.paybill_generation_trn_id=bill.paybill_generation_trn_id inner join consolidate_paybill_trn_mpg conbillmpg ON "
-				+ " conbillmpg.paybill_generation_trn_id=bill.paybill_generation_trn_id  inner join consolidate_paybill_trn conbill ON conbillmpg.consolidate_paybill_trn_id =conbill.consolidate_paybill_trn_id inner join bill_group_mst billgroup ON billgroup.bill_group_id =bill.scheme_billgroup_id  \r\n"
-				+ " inner join ddo_reg_mst ddo ON ddo.ddo_code =bill.ddo_code  and conbill.consolidate_paybill_trn_id  ="
-				+ paybillGenerationTrnId
-				+ " inner join month_mst month ON month.month_id =bill.paybill_month  inner join year_mst year ON year.year_id =bill.paybill_year  GROUP BY billgroup.bill_group_id,billgroup.bill_description,month_english,year_english,ddo.ddo_code,ddo.account_no,ddo.office_name,bill.bill_gross_amt,bill.bill_net_amount     "; // conbill.consolidate_paybill_trn_id
+		String HQL = " select off.off_name,ddo.account_no,month_english||' '||year_english as monyear,bill.bill_gross_amt as TOTAL_SALARY,sum(billdtl.fa) as FA," + 
+				" 0 as Recovery,sum(billdtl.gross_total_amt) as Gross_salary,sum(billdtl.GPF_Advance_II)+sum(billdtl.GPF_ADVANCE)+sum(billdtl.GPF_ADV_GRP_ABC)+sum(billdtl.GPF_ADV_GRP_D)+sum(billdtl.GPF_GRP_D)+sum(billdtl.GPF_GRP_ABC) as GPF," + 
+				" sum (billdtl.revenue_stamp)as Revenue_stamp,sum(billdtl.dcps) as dcps_reg,sum(billdtl.INCOME_TAX) as IT,sum(billdtl.pt) as PT,sum (billdtl.COMP_ADV)as ComputerAdv," + 
+				" sum(billdtl.other_deduct) as OTHER_DEDUCTION,SUM(billdtl.gis) AS GIS,sum(billdtl.total_deduction) as TOTAL_DED,bill.bill_net_amount as NET_PAY," + 
+				" 0 as rd,sum(billdtl.lic)as lic, sum(billdtl.misc)as MISC,0 as GSLIS,0 as othergpf,0 as othergis,0 as quarterrent,sum(billdtl.cop_bank)as cop_bank," + 
+				" sum(billdtl.credit_soc)as credit_soc,sum(billdtl.recurring_dep)as recurring_dep,sum(billdtl.total_net_amt) as salpay " + 
+				" from paybill_generation_trn  bill inner join paybill_generation_trn_details billdtl ON billdtl.paybill_generation_trn_id=bill.paybill_generation_trn_id " + 
+				" inner join consolidate_paybill_trn_mpg conbillmpg ON  conbillmpg.paybill_generation_trn_id=bill.paybill_generation_trn_id  " + 
+				" inner join consolidate_paybill_trn conbill ON conbillmpg.consolidate_paybill_trn_id =conbill.consolidate_paybill_trn_id " + 
+				" inner join mst_dcps_bill_group billgroup ON billgroup.bill_group_id =bill.scheme_billgroup_id   " + 
+				" inner join org_ddo_mst ddo ON ddo.ddo_code =bill.ddo_code and conbill.consolidate_paybill_trn_id  ='"+paybillGenerationTrnId+"' " + 
+				" inner join mst_dcps_ddo_office off ON off.ddo_code =ddo.ddo_code inner join month_mst month ON month.month_id =bill.paybill_month  " + 
+				" inner join year_mst year ON year.year_id =bill.paybill_year  " + 
+				" GROUP BY billgroup.bill_group_id,billgroup.description,month_english,year_english,ddo.ddo_code,ddo.account_no,off.off_name,bill.bill_gross_amt,bill.bill_net_amount "; // conbill.consolidate_paybill_trn_id
 		// =3
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("------HQL---" + HQL);
@@ -769,7 +775,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		sb.append("where bppay.sevaarth_id='" + sevaarthid + "' and bppay.month_id=" + monthid + " and bppay.year_id="
 				+ yearid + " and bppay.ddo_code='" + Username + "' ");
 		sb.append(
-				" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_type order by bppay.emp_id");
+				" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_allowdeduc_type_sum order by bppay.emp_id");
 		Query query = currentSession.createSQLQuery(sb.toString());
 		return query.list();
 	}
@@ -788,13 +794,13 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "FROM AllowanceDeductionMstEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
+		String HQL = "FROM AllowanceDeductionRuleMstEntity as t where  t.isActive='1' and  t.payCommissionCode=" + commoncodePaycommission7pc
 				+ "   and to_char(t.startDate,'YY-MM-DD')<='" + startDate + "' "
 				+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
 				+ "')  ORDER BY t.startDate DESC";
 		System.out.println("--------------------------------" + HQL);
 
-		List<AllowanceDeductionMstEntity> lstAllowanceDeductionMstEntity = (List<AllowanceDeductionMstEntity>) entityManager
+		List<AllowanceDeductionRuleMstEntity> lstAllowanceDeductionMstEntity = (List<AllowanceDeductionRuleMstEntity>) entityManager
 				.createQuery(HQL).getResultList();
 		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPercentage()).findFirst().orElse(0);
 		return percentage;
@@ -994,7 +1000,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	public int getDaCentralPercentageByMonthYear(String startDate, int commoncodePaycommission7pc) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM CentralGovtDAMasterEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
+		String HQL1 = "FROM CentralGovtDAMasterEntity as t where  t.isActive='1' and t.payCommissionCode=" + commoncodePaycommission7pc
 				+ "   and to_char(t.startDate,'YY-MM-DD')>='" + startDate + "' " + "  ORDER BY t.startDate DESC";
 
 		List<CentralGovtDAMasterEntity> lstAllowanceDeductionMstEntity1 = (List<CentralGovtDAMasterEntity>) entityManager
@@ -1005,7 +1011,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 					.orElse(0);
 			return percentage;
 		} else {
-			String HQL = "FROM CentralGovtDAMasterEntity as t where t.payCommissionCode=" + commoncodePaycommission7pc
+			String HQL = "FROM CentralGovtDAMasterEntity as t where   t.isActive='1' and  t.payCommissionCode=" + commoncodePaycommission7pc
 					+ "   and to_char(t.startDate,'YY-MM-DD')<='" + startDate + "' "
 					+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
 					+ "')  ORDER BY t.startDate DESC";
@@ -1032,7 +1038,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	public List<AllowanceDeductionRuleMstEntity> fetchComponentDtlsByCompoId(int CompoId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where t.departmentAllowdeducCode=" + CompoId + " ";
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where  t.isActive='1' and t.departmentAllowdeducCode=" + CompoId + " ";
 
 		List<AllowanceDeductionRuleMstEntity> lstAllowanceDeductionMstEntity1 = (List<AllowanceDeductionRuleMstEntity>) entityManager
 				.createQuery(HQL1).getResultList();
@@ -1041,14 +1047,14 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public List<CLAMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
-			Long payCommissionCode) {
+	public List<AllowanceDeductionRuleMstEntity> getClaAmaountDtls(Long sevenPcLevel, Double basic, String citygroup,
+			Long payCommissionCode,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM CLAMstEntity as t where t.minBasic<=" + basic + " and (maxBasic is null or maxBasic >= "
-				+ basic + ") and cityGrp='" + citygroup + "'";
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where  t.isActive='1' and t.minBasic<=" + basic + " and (maxBasic is null or maxBasic >= "
+				+ basic + ") and cityGroup='" + citygroup.trim() + "'  and t.departmentAllowdeducCode="+allowDeducCode;
 
-		List<CLAMstEntity> claMstLst = (List<CLAMstEntity>) entityManager.createQuery(HQL1).getResultList();
+		List<AllowanceDeductionRuleMstEntity> claMstLst = (List<AllowanceDeductionRuleMstEntity>) entityManager.createQuery(HQL1).getResultList();
 
 		return claMstLst;
 	}
@@ -1058,11 +1064,12 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 			Double basic, int payComm) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t and to_char(t.startDate,'YY-MM-DD')<='" + startDate
-				+ "' and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate + "'  "
-				+ "and t.cityClass ='" + citygroup + "' and basic>=22500 and t.payCommissionCode=" + payComm
+		String HQL1 = "FROM AllowanceDeductionRuleMstEntity as t where   t.isActive='1' and to_char(t.startDate,'YY-MM-DD')<='" + startDate
+				+ "' and t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate + "'  and departmentAllowdeducCode ="+allowDeducCode
+				+ " and t.cityClass ='" + citygroup + "' and "+basic+">=22500 and t.payCommissionCode=" + payComm
 				+ " ORDER BY t.startDate DESC";
 
+		
 		List<AllowanceDeductionRuleMstEntity> hraLst = (List<AllowanceDeductionRuleMstEntity>) entityManager
 				.createQuery(HQL1).getResultList();
 
@@ -1070,91 +1077,62 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public Double findGisComponentValue(String gisgroup, Date doj, String startDate) {
+	public Double findGisComponentValue(String gisgroup, Date doj, String startDate,int allowD) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String sql = "select  CASE WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.gis_amount "
-				+ "WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) <1 THEN p.premium_gis_amount  else p.gis_amount "
-				+ " END AS selected_amount from cadre_group_mst p WHERE group_name_en = :groupName";
+		String sql = "select  CASE  "  //WHEN DATE_PART('month',cast(:doj as date)) = 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.amount
+				+ " WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) <1 THEN p.premium_amount  else p.amount "
+				+ " END AS selected_amount from allowance_deduction_wise_rule_mst p WHERE city_group = :groupName and   is_Active='1'  and department_allowdeduc_code=:allowD";
 
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("doj", doj);
 		query.setParameter("groupName", gisgroup);
 		query.setParameter("startDate", startDate);
-
+		query.setParameter("allowD", allowD);
+		
 		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
 
 		return (Double) query.uniqueResult();
 	}
 
 	@Override
-	public Double fetchHraDtls(Double basic, String startDate, String cityClass) {
+	public Double fetchHraDtls(Double basic, String startDate, String cityClass,int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
-
-		String sql = "select case when :basic<min_amount then min_amount else :basic *multiplier/100 end as amount from hra_mst "
-				+ " where city_type=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null \r\n"
-				+ "or to_char(end_date,'YY-MM-DD')>=:startDate)";
+		String sql = "SELECT CASE WHEN :basic < min_basic THEN min_basic ELSE :basic * percentage / 100 END AS amount "
+				+ "FROM allowance_deduction_wise_rule_mst " + "WHERE city_class = :cityClass   and  is_Active='1' "  
+				+ "AND to_char(start_date, 'YY-MM-DD') <= :startDate "
+				+ "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)  and  department_allowdeduc_code=:allowDeducCode";
 
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("basic", basic);
 		query.setParameter("cityClass", cityClass);
 		query.setParameter("startDate", startDate);
+		query.setParameter("allowDeducCode", allowDeducCode);
 
-		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
-
+		query.addScalar("amount", StandardBasicTypes.DOUBLE);
 		return (Double) query.uniqueResult();
 	}
 
 	@Override
-	public Double fetchtaDtls(Double basic, String startDate, Long payCommission, Long gradePay, String cityClass,
-			String physicallyHandicapped) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		String sql = null;
-		NativeQuery<Double> query;
-		if (payCommission == 700005) {
-			sql = "SELECT amount FROM ta_mst where  city_class=:cityClass and to_char(start_date,'YY-MM-DD')<=:startDate and (end_date is null "
-					+ " or to_char(end_date,'YY-MM-DD')>=:startDate) and physical_hand = :physicallyHandicapped and lower_grade_pay_or_svn_pc_level <=:gradePay\r\n"
-					+ "and higher_grade_pay_or_svn_pc_level>=:gradePay and :basic>=min_basic";
+	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup,int allowDeducCode) {
+	    Session currentSession = entityManager.unwrap(Session.class);
 
-			query = currentSession.createNativeQuery(sql);
-			query.setParameter("basic", basic);
-			query.setParameter("cityClass", cityClass);
-			query.setParameter("startDate", startDate);
-			query.setParameter("payCommission", payCommission);
-			query.setParameter("gradePay", gradePay);
-			query.setParameter("physicallyHandicapped", physicallyHandicapped);
+	    String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst " +
+	                 "WHERE   is_Active='1' and department_allowdeduc_code=:allowDeducCode AND city_group = :citygroup " +
+	                 "AND to_char(start_date, 'YY-MM-DD') <= :startDate " +
+	                 "AND (end_date IS NULL OR to_char(end_date, 'YY-MM-DD') >= :startDate)";
 
-			query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
+	    NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 
-		} else {
+	    query.setParameter("citygroup", citygroup);
+	    query.setParameter("startDate", startDate);
+	    query.setParameter("allowDeducCode", allowDeducCode);
 
-			sql = "SELECT amount FROM ta_mst where pay_commission_code=:payCommission";
+	    query.addScalar("amount", StandardBasicTypes.DOUBLE);
 
-			query = currentSession.createNativeQuery(sql);
-			query.setParameter("payCommission", payCommission);
-
-			query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
-		}
-
-		return (Double) query.uniqueResult();
-		// TODO Auto-generated method stub
+	    return (Double) query.uniqueResult();
 	}
 
-	@Override
-	public Double fetchAccidentialPilocyDtls(String startDate, String citygroup) {
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		String sql = "SELECT amount FROM allowance_deduction_wise_rule_mst where  city_group=:citygroup and to_char(start_date,'YY-MM-DD')<=:startDate "
-				+ "and (end_date is null or to_char(end_date,'YY-MM-DD')>=:startDate)";
-
-		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
-		query.setParameter("citygroup", citygroup);
-		query.setParameter("startDate", startDate);
-
-		query.addScalar("selected_amount", StandardBasicTypes.DOUBLE);
-
-		return (Double) query.uniqueResult();
-	}
 
 	@Override
 	public Double calculatePt(Double basic, int paybillMonth) {
@@ -1171,5 +1149,69 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 		return (Double) query.uniqueResult();
 	}
+
+	@Override
+	public Double calculateFamilyAllow(Long payCommission, Long sevenPcLevel, int allowDeducCode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		String sql = " select ALLOWANCE_DEDUCTION_WISE_RULE_ID,amount from allowance_deduction_wise_rule_mst where   is_Active='1' and department_allowdeduc_code = :allowDeducCode and "
+				+ " :sevenPcLevel BETWEEN grade_pay_lower AND COALESCE(grade_pay_higher, :sevenPcLevel) and pay_commission_code = :payCommission ";
+
+		Query query = currentSession.createNativeQuery(sql);
+		query.setParameter("payCommission", payCommission);
+		query.setParameter("sevenPcLevel", sevenPcLevel);
+		query.setParameter("allowDeducCode", allowDeducCode);
+
+		query.list();
+
+		List<Object[]> lstemp = query.list();
+		if (lstemp.size() > 1) {
+			for (Object[] objects : lstemp) {
+				if (sevenPcLevel >= StringHelperUtils.isNullDouble(objects[1])) {
+					return StringHelperUtils.isNullDouble(objects[1]);
+				}
+			}
+		} else if (lstemp.size() == 1) {
+			for (Object[] objects : lstemp) {
+				return StringHelperUtils.isNullDouble(objects[1]);
+			}
+
+		}
+
+		return 0d;
+	}
+
+	@Override
+	public Double fetchtaDtls(Double basic, Long payCommission, int allowDeducCode, Long gradelevel, String cityClass,
+			String physicallyHandicapped) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		String sql = "SELECT calculate_ta(" + basic + "," + payCommission + "," + allowDeducCode + "," + gradelevel
+				+ ",'" + cityClass.trim() + "','" + physicallyHandicapped + "') AS ta";
+
+		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
+		/*
+		 * query.setParameter("basic", basic); query.setParameter("payCommission",
+		 * payCommission); query.setParameter("allowDeducCode", allowDeducCode);
+		 * query.setParameter("gradelevel", gradelevel); query.setParameter("cityClass",
+		 * cityClass); query.setParameter("physicallyHandicapped",
+		 * physicallyHandicapped);
+		 */
+
+		query.addScalar("ta", StandardBasicTypes.DOUBLE);
+
+		return (Double) query.uniqueResult();
+	}
+
+	@Override
+	public String getEmpCadre(String sevaarthId, Long empClass) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = "select group_name_en from cadre_group_mst a inner join employee_mst b on a.id=b.emp_class where b.sevaarth_id='"+sevaarthId+"'";
+		System.out.println("---------------getEmpCadre-----------------" + HQL);
+		Query query = currentSession.createSQLQuery(HQL);
+		String result = (String) query.list().get(0);
+		return result;
+	}
+
 
 }

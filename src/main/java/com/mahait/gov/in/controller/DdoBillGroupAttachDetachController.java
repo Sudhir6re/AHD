@@ -30,7 +30,7 @@ import com.mahait.gov.in.service.DdoBillGroupService;
 @Controller
 @RequestMapping("/ddoast")
 
-public class DdoBillGroupAttachDetachController {
+public class DdoBillGroupAttachDetachController  extends BaseController{
 
 	@Autowired
 	DdoBillGroupService ddoBillGroupService;
@@ -113,31 +113,42 @@ public class DdoBillGroupAttachDetachController {
 		if (search != null && search.equals("SEARCH")) {
 			String scmebillgroupid = (String) model.asMap().get("schemebillgroup");
 			String type = (String) model.asMap().get("type");
-			System.out.println("******************************Type" + type);
 			mpgSchemeBillGroupModel.setSchemebillGroupId(Long.valueOf(scmebillgroupid.trim()));
 			mpgSchemeBillGroupModel.setType(Long.valueOf(type.trim()));
-			lstAttachedEmployee = ddoBillGroupService.findAttachedEmployee(messages.getDdoCode(),
-					mpgSchemeBillGroupModel.getSchemebillGroupId().toString());
-			if (lstAttachedEmployee != null && lstAttachedEmployee.size() != 0) {
-				Object[] object = lstAttachedEmployee.get(0);
-				model.addAttribute("billDescription", object[5]);
-				mpgSchemeBillGroupModel.setBillGroupId(Long.valueOf(object[3].toString()));
-			} else {
-				// model.addAttribute("billDescription","");
-				MstDcpsBillGroup mpgSchemeBillGroupEntity = ddoBillGroupService
-						.findAllMpgSchemeBillGroupbyParameter(Long.valueOf(scmebillgroupid));
-				mpgSchemeBillGroupModel.setBillGroupId(mpgSchemeBillGroupModel.getSchemebillGroupId());
-				// model.addAttribute("billDescription",mpgSchemeBillGroupEntity.getBillDescription());
+			mpgSchemeBillGroupModel.setBillGroupId(Long.valueOf(scmebillgroupid.trim()));
+			
+			if(type.equals("1")) {
+				lstAttachedEmployee = ddoBillGroupService.findAttachedEmployee(messages.getDdoCode(),
+						mpgSchemeBillGroupModel.getSchemebillGroupId().toString());
+				if (lstAttachedEmployee != null && lstAttachedEmployee.size() != 0) {
+					Object[] object = lstAttachedEmployee.get(0);
+					model.addAttribute("billDescription", object[5]);
+					mpgSchemeBillGroupModel.setBillGroupId(Long.valueOf(object[3].toString()));
+				} else {
+					// model.addAttribute("billDescription","");
+					MstDcpsBillGroup mpgSchemeBillGroupEntity = ddoBillGroupService
+							.findAllMpgSchemeBillGroupbyParameter(Long.valueOf(scmebillgroupid));
+					mpgSchemeBillGroupModel.setBillGroupId(mpgSchemeBillGroupModel.getSchemebillGroupId());
+				}
+				model.addAttribute("lstAttachedEmployee", lstAttachedEmployee);
+				model.addAttribute("lstDettachEmployee", ddoBillGroupService.findDettachEmployee(messages.getDdoCode(),
+						mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
+				
+			}else if(type.equals("2")) {
+				model.addAttribute("lstattachpost", ddoBillGroupService.findattachpostlist(messages.getDdoCode(),
+						mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
+				model.addAttribute("lstdetachpost", ddoBillGroupService.finddetachpostlist(messages.getDdoCode(),
+						mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
 			}
+			
 			model.addAttribute("type", type);
-			model.addAttribute("lstAttachedEmployee", lstAttachedEmployee);
-			model.addAttribute("lstDettachEmployee", ddoBillGroupService.findDettachEmployee(messages.getDdoCode(),
-					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
-			model.addAttribute("lstattachpost", ddoBillGroupService.findattachpostlist(messages.getDdoCode(),
-					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
-			model.addAttribute("lstdetachpost", ddoBillGroupService.finddetachpostlist(messages.getDdoCode(),
-					mpgSchemeBillGroupModel.getSchemebillGroupId().toString()));
+			
+			
 			model.addAttribute("mpgSchemeBillGroupModel", mpgSchemeBillGroupModel);
+			
+			
+			
+			
 		} else {
 			model.addAttribute("billDescription", "");
 		}
@@ -146,6 +157,7 @@ public class DdoBillGroupAttachDetachController {
 		 * model.addAttribute("lstMpgSchemeBillGroupDataTable",
 		 * mpgSchemeBillGroupService.findAllMpgSchemeBillGroup());
 		 */
+		addMenuAndSubMenu(model,messages);	
 		model.addAttribute("language", locale.getLanguage());
 		return "/views/attach_dettach_employee";
 	}

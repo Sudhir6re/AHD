@@ -31,8 +31,8 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DisplayInnerReportService;
 
 @Controller
-@RequestMapping("/ddoast")
-public class DisplayInnerReportController {
+@RequestMapping(value= {"/ddoast","/ddo"})
+public class DisplayInnerReportController  extends BaseController{
 	@Autowired
 	PdfGenaratorUtil pdfGenaratorUtil;
 
@@ -49,11 +49,20 @@ public class DisplayInnerReportController {
 		int currentPage = page;
 		int pageSize = 1;
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		if (ddoCode.equals("1")) {
-			ddoCode = messages.getUserName();
-		} else {
-			ddoCode = ddoCode;
+		
+		int roleId=messages.getMstRoleEntity().getRoleId();
+		
+		if(roleId!=2) {
+			if (ddoCode.equals("1")) {
+				ddoCode = messages.getUserName();
+			} else {
+				ddoCode = ddoCode;
+			}
+		}else {
+			ddoCode=ddoCode;
 		}
+		
+		
 		
 		Page<DisplayInnerReportModel> innerrptPage = displayInnerReportService
 				.findPaginated(PageRequest.of(currentPage - 1, pageSize), billNumber, ddoCode.toString());
@@ -104,6 +113,9 @@ public class DisplayInnerReportController {
 		model.addAttribute("ddoname", ddoCode);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		
+		
+		addMenuAndSubMenu(model,messages);	
 		return "views/reports/innerreportDesign";
 	}
 
@@ -167,6 +179,8 @@ public class DisplayInnerReportController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		addMenuAndSubMenu(model,messages);
 		return "views/report/innerreportDesign";
 	}
 
@@ -222,6 +236,8 @@ public class DisplayInnerReportController {
 		model.addAttribute("ddoname", messages.getUserName());
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		
+		addMenuAndSubMenu(model,messages);
 		return "views/report/innerreportDesignPrint";
 	}
 
@@ -315,6 +331,8 @@ public class DisplayInnerReportController {
 		model.addAttribute("ddoname", ddoCode);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		
+		addMenuAndSubMenu(model,messages);
 		
 		model.addAttribute("displayInnerReportModel", displayInnerReportModel);
 		return "views/report/inner-report-allpages";

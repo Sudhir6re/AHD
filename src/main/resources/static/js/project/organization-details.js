@@ -42,7 +42,7 @@ contentType : 'application/json',
 $("#btnedit").click(function(){
 	var contextPath = $("#appRootPath").val();
 	$('form *').prop('readonly', false); 
-	$("#save").removeClass("hide");
+	$("#btnSave").removeClass("hide");
 	$('select').removeClass('readonly')
 	$("DDOInfo").attr("action",contextPath+"/ddoast/updateddoOfficeDetails");
 });

@@ -162,7 +162,7 @@ public class OrgUserMst implements Serializable {
 */
 
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private MstRoleEntity mstRoleEntity;
     

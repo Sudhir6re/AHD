@@ -32,7 +32,7 @@
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
 	<div class="container min-height-600">
-<div class="breadcrumbMain">
+		<div class="breadcrumbMain">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
@@ -43,15 +43,17 @@
 				</ol>
 			</nav>
 		</div>
-		<fieldset class="container">
-			<legend th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"
-					th:style="${'color: orange;'}"></legend>
+		<fieldset class="">
 
-			<form class="form-horizontal" name="myAForm" id="myAForm"
+
+			<form class="form-horizontal container" name="myAForm" id="myAForm"
 				th:action="@{/ddo/approveEmployeeConfiguration}"
 				th:object="${mstEmployeeModel}" method="POST"
 				enctype="multipart/form-data">
-
+				<fieldset>
+					<legend th:utext="#{msg.thymeleaf.pagelabel.employeedetails}"
+						th:style="${'color: orange;'}"></legend>
+				</fieldset>
 				<input type="hidden" name="employeeId" id="employeeId"
 					th:field="*{employeeId}" class="form-control" /> <input
 					type="hidden" name="language" id="language" th:value="${language}" />
@@ -74,13 +76,13 @@
 
 							<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
 								style="text-align: center;" />
-								
-									<th th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"
+
+							<th th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"
 								style="text-align: center;" />
 
 							<th th:utext="#{msg.thymeleaf.datatablelabel.action}"
 								style="text-align: center;"></th>
-								
+
 							<!-- <th th:utext="#{msg.thymeleaf.datatablelabel.subdepartmentName}"
 								style="text-align: center;"></th> -->
 						</tr>
@@ -99,25 +101,13 @@
 
 							<td>
 								<div class="form-group text-center">
-										<a data-toggle="tooltip" title="Edit"
-											th:onclick="|editempconfig(${varempdtls.employeeId})|">
-											<span class="glyphicon glyphicon-edit"></span>
-										</a>
-									<!-- 									<div class="col-sm-offset-1 col-sm-1"> -->
-									<!-- 									<a data-toggle="tooltip" title="Edit" -->
-									<!-- 											th:href="@{'/master/deleteEmployeeConfiguration/' + ${varempdtls.employeeId}}"><span -->
-									<!-- 											class="glyphicon glyphicon-edit"></span>Delete</a> -->
-									<!-- <a data-toggle="tooltip" title="Delete"
-											th:onclick="${'ConfirmDeleteRecord('+varSubMenu.subMenuKey+', '+varSubMenu.menuKey+', '+varSubMenu.roleKey+', '+varSubMenu.isActive+');'}">
-											<span class="glyphicon glyphicon-trash"></span>
-										</a> -->
-									<!-- <a data-toggle="tooltipDelete" title="Delete"
-											th:onclick="'ConfirmDeleteRecord('+${varSubMenu.subMenuKey}+','+${varSubMenu.menuKey}+,'+${varSubMenu.roleKey}+','+${varSubMenu.isActive}+');'"><span
-											class="glyphicon glyphicon-trash"></span></a> -->
-									<!-- 									</div> -->
+									<a data-toggle="tooltip" title="Edit"
+										th:onclick="|editempconfig(${varempdtls.employeeId})|"> <span
+										class="glyphicon glyphicon-edit"></span>
+									</a>
+									
 								</div>
 							</td>
-							<!-- <td th:text="${varempdtls.subdeptNm}"></td> -->
 
 						</tr>
 					</tbody>
@@ -133,7 +123,7 @@
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 
-		<script th:src="@{/js/project/approve-employee-details.js}"></script>
+	<script th:src="@{/js/project/approve-employee-details.js}"></script>
 	<script th:src="@{/js/project/datatable-common.js}"></script>
 	<script th:src="@{/js/project/mst-sub-menu.js}"></script>
 

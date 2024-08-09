@@ -56,7 +56,7 @@ public interface DdoBillGroupRepo {
 
 	public List<Object[]> finddetachpostlist(String userName, String billgrpId);
 
-	public String saveAttachDettachPostToBillGroup(String sevaarthId, int empid, Long schemebillGroupId,
+	public String saveAttachDettachPostToBillGroup(String sevaarthId, Long lLongArrDcpsEmpIdstoBeDetached, Long schemebillGroupId,
 			String status);
 
 }

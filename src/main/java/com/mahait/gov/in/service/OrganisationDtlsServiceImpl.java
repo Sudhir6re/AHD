@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.OrgDdoMstModel;
 import com.mahait.gov.in.model.OrganisationDtlsModel;
 import com.mahait.gov.in.repository.OrganisationDtlsRepo;
 import com.mahait.gov.in.repository.OrganizationInstInfoRepo;
@@ -49,8 +50,27 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
                 obj.setTel2(lstprop.getDcpsDdoOfficeTelNo2());
                 obj.setFax(lstprop.getDcpsDdoOfficeFax());
                 obj.setEmail(lstprop.getDcpsDdoOfficeEmail());
-                
 	}
+       // return obj;
+        
+        
+        OrgDdoMst OrgInfo = organizationInstInfoRepo.findDDOInfo(ddoCode);
+		//OrgDdoMstModel orgDdoMstModel = new OrgDdoMstModel();
+       if(OrgInfo!=null) {
+    	   obj.setDdoOffice(OrgInfo.getDdoOffice());
+    	   obj.setDesignationId(OrgInfo.getDsgnCode());
+    	   obj.setStartDate(OrgInfo.getStartDate());
+    	   obj.setTanNo(OrgInfo.getTanNo());
+    	   obj.setItaWardNo(OrgInfo.getItawardcircle());
+    	   obj.setBankName(OrgInfo.getBankName());
+    	   obj.setBranchName(OrgInfo.getBranchName());
+    	   obj.setIfscCode(OrgInfo.getIfsCode());
+    	   obj.setAccountNo(OrgInfo.getAccountNo());
+    	   obj.setRemarks(OrgInfo.getRemarks());
+    	   obj.setInstituteType(OrgInfo.getInstituteTypeId());
+       }   
+            
+        
         return obj;
 
 	}
@@ -87,8 +107,8 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
         objForSave.setDbId(99l);
 		
 		
-		
-		OrgDdoMst OrgInfo = organizationInstInfoRepo.findDDOInfo(organisationDtlsModel.getDdoCode());
+        OrgDdoMst OrgInfo = new OrgDdoMst();
+		//OrgDdoMst OrgInfo = organizationInstInfoRepo.findDDOInfo(organisationDtlsModel.getDdoCode());
 		OrgInfo.setDdoOffice(organisationDtlsModel.getDdoOffice());
 		OrgInfo.setDsgnCode(organisationDtlsModel.getDesignationId());
 		OrgInfo.setStartDate(organisationDtlsModel.getStartDate());
@@ -144,11 +164,8 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
 
 	@Override
 	public int updateddoOfficeDetails(OrganisationDtlsModel organisationDtlsModel,OrgUserMst messages) {
-	String[] ddo = organisationDtlsModel.getDdoCode().split("_");
 		
-		String ddoCode = ddo[0]; 
-		
-		DdoOffice lstprop = organisationDtlsRepo.lstGetOfficeDtls(ddoCode);
+		DdoOffice lstprop = organisationDtlsRepo.lstGetOfficeDtls(messages.getDdoCode());
 
 		
 		lstprop.setDcpsDdoOfficeName(organisationDtlsModel.getOfficeName());
@@ -174,8 +191,24 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
         lstprop.setUpdatedPostId(messages.getCreatedByPost().getPostId());
         lstprop.setUserId(messages.getUserId());
         lstprop.setDbId(99l);
+       
 		
         organisationDtlsRepo.updateddoOfficeDetails(lstprop);
+        
+        
+        OrgDdoMst findDDOInfo = organizationInstInfoRepo.findDDOInfo(messages.getDdoCode());
+		findDDOInfo.setDdoOffice(organisationDtlsModel.getDdoOffice());
+		findDDOInfo.setDsgnCode(organisationDtlsModel.getDesignationId());
+		findDDOInfo.setStartDate(organisationDtlsModel.getStartDate());
+		findDDOInfo.setTanNo(organisationDtlsModel.getTanNo());
+		findDDOInfo.setItawardcircle(organisationDtlsModel.getItaWardNo());
+		findDDOInfo.setBankName(organisationDtlsModel.getBankName());
+		findDDOInfo.setBranchName(organisationDtlsModel.getBranchName());
+		findDDOInfo.setIfsCode(organisationDtlsModel.getIfscCode());
+		findDDOInfo.setAccountNo(organisationDtlsModel.getAccountNo());
+	  	 findDDOInfo.setRemarks(organisationDtlsModel.getRemarks());
+	  	 findDDOInfo.setInstituteTypeId(organisationDtlsModel.getInstituteType());
+		organizationInstInfoRepo.updateorgInstituteInfo(findDDOInfo);
 	
 		
 		return 10;

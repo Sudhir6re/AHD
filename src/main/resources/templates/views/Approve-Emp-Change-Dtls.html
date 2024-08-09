@@ -531,7 +531,7 @@ input#uid1, input#uid2, input#uid3 {
 										<td width="15%" colspan="1"><label>Parent field department / HOD
 										</label>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></td>
 										<td width="30%"><select class="form-control"
-											id="parentFieldDepartmentId" disabled="disabled"
+											id="parentFieldDepartmentId" 
 											th:field="*{parentFieldDepartmentId}">
 <!-- 												<option selected="selected" th:value="0" -->
 <!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
@@ -566,19 +566,19 @@ input#uid1, input#uid2, input#uid3 {
 										<!-- <td width="25%"><select disabled="disabled" class="form-control" id="sel1">
 												<option th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 										</select> </td> -->
-										<td width="25%"><select disabled="disabled"
+										<td width="25%"><select
 											class="form-control" ng-change="getCadre();" id="cadre"
 											ng-model="cadreValue" th:field="*{cadreId}">
 												<option selected="selected" th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varCadreGrp : ${lstCadreMst}"
 													th:value="${varCadreGrp.cadreId}"
-													th:text="${language=='mh' ? varCadreGrp.cadreDescription : varCadreGrp.cadreDescription}"></option>
+													th:text="${language=='mh' ? varCadreGrp.cadreId : varCadreGrp.cadreDescription}"></option>
 										</select></td>
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.group}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
-										<td width="30%"><select disabled="disabled"
+										<td width="30%"><select 
 											class="form-control" id="empClass" readonly
 											th:field="*{empClass}">
 												<option th:value="0"
@@ -635,7 +635,7 @@ input#uid1, input#uid2, input#uid3 {
 									<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.designation}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
-										<td width="30%"><select disabled="disabled"
+										<td width="30%"><select 
 											class="form-control" id="designation"
 											th:field="*{designationId}">
 												<option th:value="0"
@@ -820,14 +820,14 @@ input#uid1, input#uid2, input#uid3 {
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="30%"><input Type="text" size="40%"
 											id="cityClass" ng-model="cityClass"
-											th:field="*{cityClass}" disabled="disabled"
+											th:field="*{cityClass}"
 											class="form-control" /></td>
 											<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.dtofJoinCurrentPost}"></span>
 												&nbsp;&nbsp;</label></td>
 										<td width="25%"><input Type="date" size="40%"
 											ng-model="dtJoinCurrentPost" id="dtJoinCurrentPost"
-											th:field="*{dtJoinCurrentPost}" disabled="disabled"
+											th:field="*{dtJoinCurrentPost}"
 											class="form-control" /></td>
 									</tr>
 									<tr>

@@ -8,12 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mahait.gov.in.entity.OrgUserMst;
 @RequestMapping("/mdc")
 @Controller
-public class DdoOutsideSevaarthController {
+public class DdoOutsideSevaarthController  extends BaseController{
 
 	@GetMapping("/ddoOutsideSevaarth")
 	public String ddoOutsideSevaarth(Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);	
 		return "/views/ddo-outside-sevaarth";
 	}
 }

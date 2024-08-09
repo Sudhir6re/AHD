@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DeptCompMPGService;
 
 @Controller
 @RequestMapping("/ddo")
-public class DeptCompMPGController {
+public class DeptCompMPGController  extends BaseController{
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -50,6 +51,9 @@ public class DeptCompMPGController {
     	///model.addAttribute("lstTalukaLst",empWiseCityClassService.findCityClasssLst());		
 */		model.addAttribute("newRegDDOModel", newRegDDOModel);
 		model.addAttribute("message", message);
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);	
 		
 		
 		return "/views/DeptCompMpg";

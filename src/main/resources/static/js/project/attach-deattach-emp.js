@@ -308,5 +308,68 @@ function AttachAndDetachEmp()
 	$("#myForm").submit();
 }
 
+//attach dettach Post logic start here 
+
+$('#SelectAttachAll').on('change', function() {
+    var isChecked = $(this).prop('checked');
+    $('.dettachPostIdChk').prop('checked', isChecked);
+});
+
+
+$('#SelectDettachchAll').on('change', function() {
+    var isChecked = $(this).prop('checked');
+    $('.attachPostIdChk').prop('checked', isChecked);
+});
+
+$('#btnAttach').click(function() {
+    $('#tableEmp .dettachPostIdChk:checked').each(function() {
+    	 var row = $(this).closest('tr');
+         var newRow = row.clone();
+         newRow.find('input').attr('class', 'attachPostIdChk'); 
+        $('#tableEmpBG tbody').append(newRow);
+        row.remove();
+    });
+});
+
+
+$('#btnDetach').click(function() {
+    $('#tableEmpBG .attachPostIdChk:checked').each(function() {
+    	 var row = $(this).closest('tr');
+         var newRow = row.clone();
+         newRow.find('input').attr('class', 'dettachPostIdChk'); 
+        $('#tableEmp tbody').append(newRow);
+        row.remove();
+    });
+});
+
+$("#btnAttachPost").click(function(e){
+	var attachedValues = '';
+    $('.attachPostIdChk').each(function() {
+        attachedValues += $(this).val() + '~';
+    });
+    $('#postIdstoBeAttached').val(attachedValues.slice(0, -1));
+    
+    
+    
+    var dettachedValues = '';
+    $('.dettachPostIdChk').each(function() {
+    	dettachedValues += $(this).val() + '~';
+    });
+    $('#postIdstoBeDetached').val(dettachedValues.slice(0, -1));
+
+	if(attachedValues==''){
+		e.preventDefault();
+	}else{
+		document.getElementById("status").value="SAVE";
+		$("#myForm").submit();
+	}
+	
+});
+
+
+
+
+
+
 
 

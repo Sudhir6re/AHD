@@ -531,7 +531,7 @@ input#uid1, input#uid2, input#uid3 {
 										<td width="15%" colspan="1"><label>Parent field department / HOD
 										</label>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></td>
 										<td width="30%"><select class="form-control"
-											id="parentFieldDepartmentId" disabled="disabled"
+											id="parentFieldDepartmentId" readonly="readonly"
 											th:field="*{parentFieldDepartmentId}">
 <!-- 												<option selected="selected" th:value="0" -->
 <!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
@@ -578,8 +578,8 @@ input#uid1, input#uid2, input#uid3 {
 										<td width="15%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.group}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
-										<td width="30%"><select disabled="disabled"
-											class="form-control" id="empClass" readonly
+										<td width="30%"><select readonly="readonly"
+											class="form-control" id="empClass" 
 											th:field="*{empClass}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -636,7 +636,7 @@ input#uid1, input#uid2, input#uid3 {
 												th:utext="#{msg.thymeleaf.pagelabel.designation}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="30%"><select 
-											class="form-control" id="designation"
+											class="form-control" id="designationId"
 											th:field="*{designationId}">
 												<option th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -827,7 +827,7 @@ input#uid1, input#uid2, input#uid3 {
 												&nbsp;&nbsp;</label></td>
 										<td width="25%"><input Type="date" size="40%"
 											ng-model="dtJoinCurrentPost" id="dtJoinCurrentPost"
-											th:field="*{dtJoinCurrentPost}" disabled="disabled"
+											th:field="*{dtJoinCurrentPost}" readonly="readonly"
 											class="form-control" /></td>
 									</tr>
 									<tr>
