@@ -28,7 +28,6 @@ import com.mahait.gov.in.configuration.PdfGenaratorUtil;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DisplayGroupAbstractReportModel;
 import com.mahait.gov.in.model.RegularReportModel;
-import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
 import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
@@ -76,10 +75,10 @@ public class DisplayGroupAbstractReportController extends BaseController{
 		if(ddoCode.equals("1")) {
 			ddoCode=messages.getUserName();
 		}else {
-			ddoCode=ddoCode;
+			ddoCode=messages.getDdoCode();
 		}
 				long billNo = (long) billNumber;
-		String officeDetails = displayGroupAbstractReportService.getGroupAbstractOffice(ddoCode);
+		String officeDetails = commonHomeMethodsService.getOffice(ddoCode);
 		String ddocode = "";
 		String schemecode = "";
 		BigDecimal grossamount =null;
@@ -661,7 +660,7 @@ public class DisplayGroupAbstractReportController extends BaseController{
 
 		//  end
 
-		return "views/report/groupAbstractreport";
+		return "views/reports/groupAbstractreport";
 	}
 
 	
@@ -676,7 +675,7 @@ public class DisplayGroupAbstractReportController extends BaseController{
 
 				long billNo = (long) billNumber;
 		String month = "";
-		String officeDetails = displayGroupAbstractReportService.getGroupAbstractOffice(messages.getUserName());
+		String officeDetails = commonHomeMethodsService.getOffice(messages.getUserName());
 		int year = 2020;
 		String ddocode = "";
 		String schemename = "";

@@ -23,19 +23,6 @@ public class DisplayGroupAbstractReportRepoImpl implements DisplayGroupAbstractR
 //	protected final Log logger = LogFactory.getLog(getClass());
 	@PersistenceContext
 	EntityManager manager;
-	public String getGroupAbstractOffice(String locId) {
-		Session currentSession = manager.unwrap(Session.class);
-		List list = new ArrayList();
-		String rtnStr = null;
-		StringBuffer query = new StringBuffer();
-		query.append("SELECT office_name FROM ddo_reg_mst where ddo_code  ='"+locId+"' ");
-		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
-		list = hsqlQuery.list();
-
-		if (list != null && list.size() > 0)
-			rtnStr = list.get(0).toString();
-		return rtnStr;
-	}
 	
 	public List getReportHeaderDetails(String bill_no) {
 		List list = new ArrayList();

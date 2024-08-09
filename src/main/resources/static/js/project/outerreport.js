@@ -386,7 +386,7 @@ $("#yearName").on('change', function(){
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/groupAbstractReport/"
+			 url : context+"/ddoast/groupAbstractReport/"
 			 + billNumber+"/"+ddoCode+"/"+month+"/"+year,
 				 async : true,
 				 contentType : 'application/json',

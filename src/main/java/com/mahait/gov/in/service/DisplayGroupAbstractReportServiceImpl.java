@@ -17,10 +17,7 @@ import com.mahait.gov.in.repository.DisplayGroupAbstractReportRepo;
 public class DisplayGroupAbstractReportServiceImpl implements DisplayGroupAbstractReportService {
 	@Autowired
 	DisplayGroupAbstractReportRepo 	displayGroupAbstractReportRepo;
-	public String getGroupAbstractOffice(String locId) {
-		return displayGroupAbstractReportRepo.getGroupAbstractOffice(locId);
-	}
-	
+
 	public List getReportHeaderDetails(String bill_no) {
 		return displayGroupAbstractReportRepo.getReportHeaderDetails(bill_no);
 	}

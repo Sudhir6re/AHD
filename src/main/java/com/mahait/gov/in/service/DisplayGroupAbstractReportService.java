@@ -6,7 +6,6 @@ import java.util.Map;
 import com.mahait.gov.in.model.DisplayGroupAbstractReportModel;
 
 public interface DisplayGroupAbstractReportService {
-	public String getGroupAbstractOffice(String locId);
 	public List getReportHeaderDetails(String bill_no) ;
 	public List<DisplayGroupAbstractReportModel> findBillDescription(String ddoCode,int month,int year);
 	public int getTotalDeductionGroupAbstract(double billno);
