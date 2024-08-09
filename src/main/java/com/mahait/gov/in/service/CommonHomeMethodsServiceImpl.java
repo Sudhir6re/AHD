@@ -310,7 +310,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	 * lstObj.add(obj); } } return lstObj; }
 	 */
 	@Override
-	public Date findbillCreateDate(int billNumber) {
+	public Date findbillCreateDate(Long billNumber) {
 		return commonHomeMethodsRepo.findbillCreateDate(billNumber);
 	}
 	/*

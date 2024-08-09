@@ -269,13 +269,12 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 
 	}
 	@Override
-	public Date findbillCreateDate(int billNumber) {
+	public Date findbillCreateDate(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		Date rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ="
-				+ billNumber + " limit 1 ");
+		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ='"+billNumber+"' limit 1 ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)

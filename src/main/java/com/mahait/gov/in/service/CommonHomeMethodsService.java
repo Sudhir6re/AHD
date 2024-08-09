@@ -79,7 +79,7 @@ public interface CommonHomeMethodsService {
 
 	public List<MstYearEntity> lstGetAllYears();
 	
-	public Date findbillCreateDate(int billNumber);
+	public Date findbillCreateDate(Long billNumber);
 	
 	public List<Object[]> findDetailsBillNumber(Long billNumber);
 	

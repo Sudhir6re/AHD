@@ -35,6 +35,8 @@
 
 $('#btnouterreport').click(function() {
 	 var billNumber=$('#billno').val();
+	 var month=$('#monthName').val();
+	 var year=$('#yearName').val();
 	
 	 ddoCode=$("#logUser").text().trim();
 	var isContainAST=ddoCode.includes("_AST");
@@ -54,7 +56,7 @@ $('#btnouterreport').click(function() {
 		 .ajax({
 			 type : "GET",
 			 url : context+"/ddoast/outerreport/"
-			 + billNumber +"/"+ ddoCode,
+			 + billNumber +"/"+ ddoCode +"/"+ month +"/"+year,
 				 async : true,
 				 contentType : 'application/json',
 				 error : function(data) {
