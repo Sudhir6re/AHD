@@ -82,12 +82,8 @@ public class ZpRltDdoMap implements Serializable {
     private Long status;
     
     /*
-    
     @ManyToMany(mappedBy = "zpRltDdoMap",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<DdoOffice> setDdoOffice;
-
-    
-    
     */
     
     
