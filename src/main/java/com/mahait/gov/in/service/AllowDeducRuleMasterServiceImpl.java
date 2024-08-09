@@ -134,4 +134,9 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
 		return allowDeducRuleMasterRepo.deleteRule(id,status);
 		}
 
+	@Override
+	public AllowanceDeductionRuleMstEntity permanentDeleteRule(int id) {
+		return allowDeducRuleMasterRepo.permanentDeleteRule(id);
+	}
+
 }
