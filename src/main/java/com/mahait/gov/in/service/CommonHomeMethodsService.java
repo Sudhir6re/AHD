@@ -98,6 +98,8 @@ public interface CommonHomeMethodsService {
 
 	public List<Object[]> getCityClassByCity(String city);
 
+	public String findbillGrpname(Long billNumber);
+
 	
 	
 	

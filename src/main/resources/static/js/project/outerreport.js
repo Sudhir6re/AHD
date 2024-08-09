@@ -113,7 +113,7 @@ $('#btninnerreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/innerreport/getinnerreport/"
+			 url : context+"/ddoast/getinnerreport/"
 			 + billNumber +"/"+1+"/"+1+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -366,7 +366,9 @@ $("#yearName").on('change', function(){
 // year code started
 */$('#btngroupAbstractreport').click(function() {
 	 var billNumber=$('#billno').val();
-	
+	 var month=$('#monthName').val();
+	 var year=$('#yearName').val();
+	 
 	 ddoCode=$("#logUser").text().trim();
 	 var isContainAST=ddoCode.includes("_AST");
 	 if(!isContainAST){
@@ -385,7 +387,7 @@ $("#yearName").on('change', function(){
 		 .ajax({
 			 type : "GET",
 			 url : context+"/paybill/groupAbstractReport/"
-			 + billNumber+"/"+ddoCode,
+			 + billNumber+"/"+ddoCode+"/"+month+"/"+year,
 				 async : true,
 				 contentType : 'application/json',
 				 error : function(data) {

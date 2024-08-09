@@ -148,7 +148,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 		
 		
 		ArrayList DataList = new ArrayList();
-		String billDetails = displayOuterReportService.getbillDetails(billNumber);
+		String billDetails = commonHomeMethodsService.findbillGrpname(billNumber);
 		String officeDetails = displayOuterReportService.getOffice(strddo);
 		List<Object[]> cardecode = displayOuterReportService.getcardecode(strddo);
 		String carde="";

@@ -105,11 +105,6 @@ public class DisplayOuterReportServiceImpl implements DisplayOuterReportService 
 	}
 
 	@Override
-	public String getbillDetails(Long billDetails) {
-		return displayOuterReportRepo.getbillDetails(billDetails);
-	}
-
-	@Override
 	public Double gettotalNetAmount(String billNumber) {
 		// TODO Auto-generated method stub
 		return displayOuterReportRepo.gettotalNetAmount(billNumber);

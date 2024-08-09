@@ -46,7 +46,7 @@ import com.mahait.gov.in.service.RegularReportService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class DisplayOuterReportContorller
+public class DisplayOuterReportContorller extends BaseController
 {
 //	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
@@ -75,7 +75,7 @@ public class DisplayOuterReportContorller
 		model.addAttribute("payBillViewApprDelBillModel", payBillViewApprDelBillModel);
 
 
-	 
+		addMenuAndSubMenu(model,messages);
 
 		if (message != null && message.equals("SUCCESS")) {
 			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
@@ -99,11 +99,11 @@ public class DisplayOuterReportContorller
 	public String searchOuterReport(
 			@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,
 			@PathVariable int month,@PathVariable int year,Model model, Locale locale, HttpSession session,HttpServletRequest request) {
-
 		String message = (String) model.asMap().get("message");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		model.addAttribute("payBillViewApprDelBillModel", payBillViewApprDelBillModel);
 		
+		addMenuAndSubMenu(model,messages);
 		if(month!=0 && year!=0)
 
 		if (message != null && message.equals("SUCCESS")) {
@@ -127,6 +127,7 @@ public class DisplayOuterReportContorller
 	public @ResponseBody List<DisplayOuterReportModel> billDetails(@PathVariable int month,@PathVariable int year, Model model, Locale locale, HttpSession session) {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
 		List<DisplayOuterReportModel>  lstbilldtls=null;;
 		if(month!=0 && year!=0)
 	    lstbilldtls =displayOuterReportService.findBillDescription(messages.getUserName(),month,year);
@@ -156,7 +157,7 @@ public class DisplayOuterReportContorller
 		}
 		Long billNo =  billNumber;
 		String officeDetails = displayOuterReportService.getOffice(ddoCode);
-		String billDetails = displayOuterReportService.getbillDetails(billNumber);
+		String billDetails = commonHomeMethodsService.findbillGrpname(billNumber);
 		String ddocode = "";
 		BigDecimal grossamount = null;
 		BigDecimal netamount= null;

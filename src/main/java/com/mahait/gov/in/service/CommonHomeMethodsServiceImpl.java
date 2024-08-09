@@ -518,4 +518,10 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.getCityClassByCity(city);
 	}
+
+	@Override
+	public String findbillGrpname(Long billNumber) {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.findbillGrpname(billNumber);
+	}
 }
