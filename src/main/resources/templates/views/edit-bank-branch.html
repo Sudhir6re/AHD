@@ -24,12 +24,12 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-			<form method="POST" name="addBranch" th:object="${mstBankBranchEntity}" th:action="@{/mdc/saveBankBranch}">
+			<form method="POST" name="addBranch" th:object="${mstBankBranchEntity}" th:action="@{/mdc/updateBankBranch}">
 				<table class="table bor-0">
 					<tbody>
 						<tr>
 							<td align="right" width="15%"><b>Bank Name </b></td>
-							<td width="20%"><select name="cmbBankName" size="1" th:field="*{bankid}"
+							<td width="20%"><select name="cmbBankName" size="1"  th:field="*{bankid}"
 								id="bankID" class="selecttag mandatorycontrol">
 									<option value="-1">-- Select --</option>
 											<option th:each="varAllBankList : ${bankName}"
@@ -54,7 +54,7 @@
 						</tr>
 						<tr>
 							<td align="right"><b>IFSC Code</b></td>
-							<td width="20%"><input type="text" name="txtBranchCode" th:field="*{ifscCode}"
+							<td width="20%"><input type="text" name="txtBranchCode"  th:field="*{ifscCode}"
 								id="txtBranchCode" maxlength="20"></td>
 						</tr>
 					</tbody>
@@ -64,7 +64,7 @@
 					<input type="submit" name="btnSave"
 						id="btnSave" value="Save" size="3" maxlength="3"
 						class="buttontag"> <input type="button" name="Close"
-						id="Close" value="Close" size="3" maxlength="3" class="buttontag"  >
+						id="Close" value="Close" size="3" maxlength="3" class="buttontag" onclick="history.back()" >
 					<input type="reset" name="Reset" id="Reset" value="Reset" size="3"
 						maxlength="3" class="buttontag">
 				</div>

@@ -28,7 +28,7 @@
 				<table class='table table-striped table-bor-self'>
 					<tbody>
 						<tr>
-							<td align="center">>
+							<td align="center">
 								<h3 Class="PageHeading">
 									<span th:utext="#{msg.thymeleaf.pageheading.form2Regularr}"></span>
 								</h3>
@@ -39,13 +39,11 @@
 								<table class="table bor-0">
 									<tbody>
 										<tr>
-											<td width="80%">Bill Group: Bill Group For Scheme
-												IA.1-GRANT TO NON-GOVT. ARTS , SCIENCE, COMMERCE ,LAW AND
-												B.ED COLLEGES</td>
-											<td align="right">Month: July</td>
+											<td width="80%">Bill Group: <span th:text="${billGroup}"></span></td>
+											<td align="center">Month: <span th:text="${monthName}"></span></td>
 										</tr>
 										<tr>
-											<td>Year: 2023-2024</td>
+											<td>Year: <span th:text="${currFinancialYr}"></span></td>
 											<td>&nbsp;</td>
 										</tr>
 									</tbody>
@@ -70,25 +68,69 @@
 													Pension Scheme</b></td>
 										</tr>
 										<tr>
-											<td valign="middle"><b>Name of Office: Swami
-													Ramanand Teerth Marathwada University Nanded</b></td>
+											<td valign="middle"><b>Name of Office: <span th:text="${officename}"></span></b></td>
 										</tr>
 										<tr>
-											<td valign="middle"><b>Name of DDO/Code No.:Swami
-													Ramanand Teerth Marathwada University
-													Nanded&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>06340100116</span>
+											<td valign="middle"><b>Name of DDO: <span th:text="${ddoName}"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${ddoCode}"></span>
 											</b></td>
 										</tr>
 										<tr>
-											<td valign="middle" align="right">For the Month of
-												July&nbsp;&nbsp;2023</td>
+											<td valign="middle" align="left">For the Month of&nbsp;<span th:text="${currmonyer}"></span>
+												&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
-											<td valign="middle" align="right">
+											<td valign="middle" align="left">
 												Region/Treasury/Sub-Treasury Code:3401</td>
 										</tr>
 										<tr>
 											<td>
+												<table class="table table-bordered">
+													<thead>
+														<tr>
+															<th rowspan="2"
+																th:utext="#{msg.thymeleaf.pagelabel.srno}" />
+															<th rowspan="2" th:utext="#{msg.pagelabel.employeeName}" />
+															<th rowspan="2"
+																th:utext="#{menu.mapping.pensAccOrpranNo}" />
+															<th colspan="2" th:utext="#{menu.mapping.period}" />
+															<th rowspan="2"
+																th:utext="#{msg.thymeleaf.pagelabel.basicpay}" />
+															<th rowspan="2" th:utext="#{menu.mapping.dp}" />
+															<th rowspan="2" th:utext="#{menu.mapping.regreportda}" />
+															<th rowspan="2"
+																th:utext="#{menu.mapping.contriundertierTenper}" />
+															<th rowspan="2"
+																th:utext="#{menu.mapping.contriundertierFourteenper}"></th>
+															<th rowspan="2"
+																th:utext="#{msg.thymeleaf.pagelabel.remarks}"></th>
+														</tr>
+														<tr>
+															<th>From</th>
+															<th>To</th>
+														</tr>
+
+
+													</thead>
+													<tbody>
+														<tr th:each="varEmp : ${entryinfo}">
+															<td class="text-center" th:text="${varEmpStat.index+1}">
+															</td>
+															<td class="text-center" th:text="${varEmp.name}"></td>
+															<td class="text-center" th:text="${varEmp.pran}"></td>
+															<td class="text-center" th:text="${fromDate}"></td>
+															<td class="text-center" th:text="${toDate}"></td>
+															<td class="text-center" th:text="${varEmp.basicpay}">
+															</td>
+															<td class="text-center" th:text="${varEmp.dp}"></td>
+															<td class="text-center" th:text="${varEmp.svnpcda}">
+															</td>
+															<td class="text-center" th:text="${varEmp.dcpsReg}">
+															</td>
+															<td class="text-center"
+																th:text="${varEmp.npsEmployerDedu}"></td>
+															<td class="text-center"></td>
+													</tbody>
+												</table>
 												<table class="table table-bordered">
 													<tbody>
 
@@ -99,7 +141,7 @@
 																Defined Contribution Pension Scheme,Government
 																Employee's Contribution
 																Tier-1(8432-508-1),32-Contributions</td>
-															<td align="center">0.00</td>
+															<td align="center" th:text="${#aggregates.sum(entryinfo.![dcpsReg])}"></td>
 															<td align="center">&nbsp;</td>
 															<td align="center">&nbsp;</td>
 														</tr>
@@ -108,13 +150,14 @@
 																case of Government Employees)Head of Account 8432-Other
 																Deposits,117-Government Employees Defined Contribution
 																Pension scheme</td>
-															<td align="center">0.00</td>
+															<td align="center" th:text="${#aggregates.sum(entryinfo.![npsEmployerDedu])}"></td>
 															<td align="center">&nbsp;</td>
 															<td align="center">&nbsp;</td>
 														</tr>
 														<tr>
 															<td>Grand Total</td>
-															<td align="center">0.00</td>
+															<td align="center" th:text="${#aggregates.sum(entryinfo.![dcpsReg]) + #aggregates.sum(entryinfo.![npsEmployerDedu])}">
+															</td>
 															<td align="center">&nbsp;</td>
 															<td align="center">&nbsp;</td>
 														</tr>
@@ -123,10 +166,10 @@
 											</td>
 										</tr>
 										<tr>
-											<td>Total Amount Ruppes: 0.0/-</td>
+											<td>Total Amount Ruppes: <span th:text="${#aggregates.sum(entryinfo.![dcpsReg]) + #aggregates.sum(entryinfo.![npsEmployerDedu])}"></span>/-</td>
 										</tr>
 										<tr>
-											<td>In words</td>
+											<td>In words : <span th:text="${totalContrinword}"></span></td>
 										</tr>
 										<tr>
 											<td>Under the Major Head Of Account 22020872</td>
@@ -165,12 +208,10 @@
 											<td align="right">Signature</td>
 										</tr>
 										<tr>
-											<td align="right">Swami Ramanand Teerth Marathwada
-												University Nanded</td>
+											<td align="right"><span th:text="${officename}"></span></td>
 										</tr>
 										<tr>
-											<td align="right">SWAMI RAMANAND TEERTH MARATHWADA
-												UNIVERSITY,"DNYANTEERTH" VISHNUPURI,NANDED 431606</td>
+											<td align="right"><span th:text="${officename}"></span></td>
 										</tr>
 										<tr>
 											<td>For Use of Audit Officer:</td>
@@ -203,7 +244,7 @@
 						</tr>
 
 						<tr>
-							<td><b>Verification Time:-</b>16-07-2024 11:33:20.905 <font
+							<td><b>Verification Time:-</b><span th:text="${systemdate}"></span> <font
 								class="Label2">
 									<div>
 										* Generated By <span

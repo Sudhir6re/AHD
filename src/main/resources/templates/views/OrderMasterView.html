@@ -89,8 +89,9 @@ div#checkboxes, #checkboxes1 {
 select.error, textarea.error, input.error {
 	border: 1px solid red !important;
 }
+
 body.mst-grorder table#oldData tr td:nth-child(6) {
-    text-align: center;
+	text-align: center;
 }
 </style>
 <script>
@@ -121,7 +122,7 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 	}
 </script>
 </head>
-<body class="mst-grOrder">
+<body class="OrderMasterView">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
@@ -170,27 +171,27 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 								th:text="${varDeptDataTable.officeName + ' ( '+ varDeptDataTable.ddoCode + ' ) '}"></option>
 						</select>
 					</div>
-					<label class="control-label col-sm-2" for="title"><span
+					<label class="control-label col-sm-3" for="title"><span
 						th:utext="#{menu.master.sub.sancatioOrderNo}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<input type="text" class="form-control alphanumer"
 							th:field="*{sanctionOrderNo}" id="sanctionOrderNo"></input>
 					</div>
-					
+
 				</div>
-				<div class="row sixFields">
-				<label class="control-label col-sm-1" for="title"> <span
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="title"> <span
 						th:utext="#{menu.master.sub.sancationDate}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<input type="date" class="form-control" th:field="*{orderDate}"
-							name="sanctionDate" id="sanctionDate"   th:attr="max=${maxDate}" ></input>
+							name="sanctionDate" id="sanctionDate" th:attr="max=${maxDate}"></input>
 					</div>
 					<label class="control-label col-sm-3" for="title" id="mylbl"><span
 						th:utext="#{menu.master.sub.orderType}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label>
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<select class="form-control" th:field="*{orderType}"
 							id="orderType">
 							<option selected="selected" th:value="0"
@@ -199,8 +200,8 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 						</select>
 					</div>
 
-					
-					
+
+
 				</div>
 
 				<input type="hidden" name="${_csrf.parameterName}"
@@ -216,26 +217,25 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 								<tr>
 									<td><label><span
 											th:utext="#{msg.thymeleaf.pageheading.grDesc}"></span></label></td>
-									<td><input type="text" class="form-control checkFirstChar" width="100"
-										id="fileDescription"   th:field="*{grDescription}"></input></td>
+									<td><input type="text" class="form-control checkFirstChar"
+										width="100" id="fileDescription" th:field="*{grDescription}"></input></td>
 
 									<td><label><span
-											th:utext="#{menu.master.sub.attachFile}"></span> 	&nbsp;&nbsp;<b><font
-								color="red" size="4px;">*</font></b></label></td>
+											th:utext="#{menu.master.sub.attachFile}"></span> &nbsp;&nbsp;<b><font
+												color="red" size="4px;">*</font></b></label></td>
 
-									<td><span> <input type="file" id="fileUploads" name="documentPath" th:field="*{documentPath}"
-											    accept="application/pdf" data-rule-required="true" data-msg-accept="Only .pdf files are allowed"></input></span>
-											
-										
-											</td>
+									<td><span> <input type="file" id="fileUploads"
+											name="documentPath" th:field="*{documentPath}"
+											accept="application/pdf" data-rule-required="true"
+											data-msg-accept="Only .pdf files are allowed"></input></span></td>
 								</tr>
 
 								<tr>
 									<td colspan="4">
 										<div class="text-center">
-											<span> <input type="button"
+											<br /> <span> <input type="button"
 												class="btn btn-primary btn-md" value="Add Attachment"
-												id="addAttachment" /></span>
+												id="addAttachment" /></span><br /><br />
 										</div>
 									</td>
 								</tr>
@@ -278,12 +278,14 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 
 					<div class="form-group text-center">
 						<hr />
-							<input type="submit" id="btnSave" class="btn btn-primary"
-								th:value="#{msg.thymeleaf.pagelabel.btnSave}" />
-							<!-- <input type="button" class="btn btn-info"
+						<input type="submit" id="btnSave" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.btnSave}" />
+						<!-- <input type="button" class="btn btn-info"
 								th:value="#{msg.thymeleaf.pagelabel.btnCancel}" /> -->
-								<input type="reset" id="btnReset" class="btn btn-primary" th:value="#{msg.thymeleaf.pagelabel.btnReset}"/>
-								<a th:href="@{/user/home}" class="btn"><span th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
+						<input type="reset" id="btnReset" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a
+							th:href="@{/user/home}" class="btn"><span
+							th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 					</div>
 
 				</div>
@@ -298,14 +300,15 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 							<th th:utext="#{menu.master.sub.sancationDate}"></th>
 						</tr>
 					</thead>
-				 		<tbody>
+					<tbody>
 						<tr th:each="varDept : ${lstSancOrder}">
 							<td th:text="${varDept.sanctionOrderNo}"></td>
-							
-							<td  th:text="${#dates.format(varDept.orderDate, 'dd-MMM-yyyy')}" ></td><!-- th:text="${varDept.orderDate}" -->
-							
+
+							<td th:text="${#dates.format(varDept.orderDate, 'dd-MMM-yyyy')}"></td>
+							<!-- th:text="${varDept.orderDate}" -->
+
 						</tr>
-					</tbody> 
+					</tbody>
 
 				</table>
 			</form>
@@ -316,8 +319,9 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script th:src="@{/js/project/datatable-common.js}"></script>
-		<script th:src="@{/js/jquery.validate.min.js}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+	<script th:src="@{/js/jquery.validate.min.js}"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
 	<script th:src="@{/js/project/mst-grorder.js}"></script>
 	<script th:src="@{/js/validated.js}"></script>
 

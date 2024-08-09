@@ -4,7 +4,7 @@
 <head>
 <title th:utext="#{msg.thymeleaf.pagelabel.apprddooff}"></title>
 </head>
-<body class="organization-institution-details">
+<body class="ApproveDDOOffice">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
@@ -25,177 +25,165 @@
 			<span th:utext="#{msg.thymeleaf.pagelabel.apprddooff}"></span>
 		</h3>
 		<div class="newpagecontent container">
-				<fieldset class="tabstyle">
-					<input type="hidden" id="dcpsDdoOffId" th:value="${dcpsDdoOffId}">
-					<form class="form-horizontal" th:action="@{/ddo/AddOrderData}"
-						th:object="${newRegDDOModel}" name="approveDDOOffice"
-						method="POST" enctype="multipart/form-data">
-						<legend>
-							<b>Filter Institute</b>
-						</legend>
-						<table align="center" class="bor-0 table">
-							<tbody>
-								<tr>
-									<td>Taluka</td>
-									<td><select class="form-control" id="cmbTaluka"
-										name="cmbTaluka" style="width: 70%">
-											<!-- th:field="*{talukaId}" -->
-											<option selected="selected" th:value="0"
-												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-											<option th:each="vartaluka : ${lstTaluka}"
-												th:value="${vartaluka.talukaId}"
-												th:text="${language=='mh' ? vartaluka.talukaName : vartaluka.talukaName}"></option>
-									</select></td>
-									<td>DDO Code/Office Name</td>
-									<td><input type="text" id="ddoCode" name="ddoCode"
-										maxlength="200" size="30"> <!-- th:field="*{ddoCode}" --></td>
-								</tr>
-								<tr>
-									<td colspan="4" align="center"><input id="btnFilter"
-										class="buttontag" type="button" size="5" maxlength="5"
-										value="Filter" onclick="filterInstituteForApprove();"
-										name="btnFilter" style="width: 120px;"></td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
-				</fieldset>
-				<input type="hidden" name="txtDdoCode" id="txtDdoCode"
-					style="text-align: left" value="">
-				<fieldset class="tabstyle">
-					<legend>Organization/Institution Added </legend>
-					<table align="center" style="width: 100%" class="table table-bordered">
-						<thead>
-							<tr>
-								<th th:text="#{msg.thymeleaf.pagelabel.nameoforginstt}"></th>
-								<th th:text="#{msg.thymeleaf.pagelabel.ddoCode}"></th>
-								<th th:text="#{msg.thymeleaf.pagelabel.officename}"></th>
-								<th>Organization/Institution Address</th>
-								<th th:text="#{msg.thymeleaf.pagelabel.status}"></th>
-							</tr>
-						</thead>
+			<fieldset class="tabstyle">
+				<input type="hidden" id="dcpsDdoOffId" th:value="${dcpsDdoOffId}">
+				<form class="form-horizontal" th:action="@{/ddo/AddOrderData}"
+					th:object="${newRegDDOModel}" name="approveDDOOffice" method="POST"
+					enctype="multipart/form-data">
+					<legend>
+						<b>Filter Institute</b>
+					</legend>
+					<table class="bor-0 table">
 						<tbody>
-							<tr th:each="VarDDO : ${lstApprDdoOffice}">
-								<!-- <td><a th:href="@{'/moderator/ApproveDDOOficeStatus/'+${VarDDO.ddoregid}}"><span
-												th:text="${VarDDO.orginstname}"></span></a></td> -->
-								<!-- 	<td style="text-align: left"><a th:href="@{/master/ApproveDDOOficeStatus}" th:text="${VarDDO.orginstname}"></a></td> -->
-								<td><a style="text-align: left" class="officeName"
-									id="officeName" th:value="${VarDDO.ddoCode}"
-									th:text="${VarDDO.officeName}"></a></td>
-								<td style="text-align: left" th:text="${VarDDO.ddoCode}"></td>
-								<td style="text-align: left">Sub Office</td>
-								<td style="text-align: left" th:text="${VarDDO.address}"></td>
-								<td style="text-align: left">Pending</td>
+							<tr>
+								<td width="20%">Taluka</td>
+								<td  width="30%"><select class="form-control" id="cmbTaluka"
+									name="cmbTaluka">
+										<!-- th:field="*{talukaId}" -->
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="vartaluka : ${lstTaluka}"
+											th:value="${vartaluka.talukaId}"
+											th:text="${language=='mh' ? vartaluka.talukaName : vartaluka.talukaName}"></option>
+								</select></td>
+								<td  width="20%">DDO Code/Office Name</td>
+								<td  width="30%"><input type="text" id="ddoCode" name="ddoCode"
+									maxlength="200" size="30"> <!-- th:field="*{ddoCode}" --></td>
+							</tr>
+							<tr>
+								<td colspan="4" align="center"><input id="btnFilter"
+									class="buttontag" type="button" size="5" maxlength="5"
+									value="Filter" onclick="filterInstituteForApprove();"
+									name="btnFilter" style="width: 120px;"></td>
 							</tr>
 						</tbody>
 					</table>
-				</fieldset>
-				<br>
-				<table id="tbl1" width="100%" align="center">
+				</form>
+			</fieldset>
+			<input type="hidden" name="txtDdoCode" id="txtDdoCode"
+				style="text-align: left" value="">
+			<fieldset class="tabstyle">
+				<legend>Organization/Institution Added </legend>
+				<table id="datatableNew" class="table table-bordered">
+					<thead>
+						<tr>
+							<th th:text="#{msg.thymeleaf.pagelabel.nameoforginstt}"></th>
+							<th th:text="#{msg.thymeleaf.pagelabel.ddoCode}"></th>
+							<th th:text="#{msg.thymeleaf.pagelabel.officename}"></th>
+							<th>Organization/Institution Address</th>
+							<th th:text="#{msg.thymeleaf.pagelabel.status}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="VarDDO : ${lstApprDdoOffice}">
+							<!-- <td><a th:href="@{'/moderator/ApproveDDOOficeStatus/'+${VarDDO.ddoregid}}"><span
+												th:text="${VarDDO.orginstname}"></span></a></td> -->
+							<!-- 	<td style="text-align: left"><a th:href="@{/master/ApproveDDOOficeStatus}" th:text="${VarDDO.orginstname}"></a></td> -->
+							<td><a style="text-align: left" class="officeName"
+								id="officeName" th:value="${VarDDO.ddoCode}"
+								th:text="${VarDDO.officeName}"></a></td>
+							<td style="text-align: left" th:text="${VarDDO.ddoCode}"></td>
+							<td style="text-align: left">Sub Office</td>
+							<td style="text-align: left" th:text="${VarDDO.address}"></td>
+							<td style="text-align: left">Pending</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			<br>
+
+			<fieldset class="tabstyle">
+				<legend>Organization/Institution Details</legend>
+				<table class="bor-0 table width-70">
 					<tbody>
 						<tr>
-							<td>
-								<fieldset class="tabstyle">
-									<legend>Organization/Institution Details</legend>
-									<table width="100%" align="center" cellpadding="4"
-										cellspacing="4" class="bor-0 table">
-										<tbody>
-											<tr>
-												<td width="10%" align="left">Name of the
-													Organization/Institution</td>
-												<td width="30%" align="left"><input type="text"
-													size="60%" name="txtNameOfOffice" id="txtNameOfOffice"
-													style="text-align: left" value=""> <!-- th:field="*{officeName}" --></td>
-											</tr>
-										</tbody>
-									</table>
-								</fieldset>
-							</td>
+							<td width="10%" align="left">Name of the
+								Organization/Institution</td>
+							<td width="30%" align="left"><input type="text" size="60%"
+								name="txtNameOfOffice" id="txtNameOfOffice"
+								style="text-align: left" value=""> <!-- th:field="*{officeName}" --></td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+
+			<fieldset class="tabstyle">
+				<legend> Address Details </legend>
+				<table class="bor-0 table">
+					<tbody>
+						<tr>
+							<td width="10%" align="left">State</td>
+							<td width="30%" align="left"><select class="form-control"
+								id="stateId">
+									<!-- th:field="*{stateId}" -->
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varState : ${lstState}"
+										th:value="${varState.stateId}"
+										th:text="${language=='mh' ? varState.stateName : varState.stateName}"></option>
+							</select></td>
+							<td width="10%" align="left">District  <label
+								class="mandatoryindicator">*</label></td>
+							<td width="30%" align="left"><select class="form-control"
+								id="districtId" name="districtId" style="width: 70%">
+									<!-- th:field="*{districtId}" -->
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varDist : ${lstDistrict}"
+										th:value="${varDist.districtId}"
+										th:text="${language=='mh' ? varDist.districtName : varDist.districtName}"></option>
+							</select></td>
 						</tr>
 						<tr>
-							<td>
-								<fieldset class="tabstyle">
-									<legend> Address Details </legend>
-									<table width="100%" align="center" cellspacing="4"
-										cellpadding="4" class="bor-0 table">
-										<tbody>
-											<tr>
-												<td width="10%" align="left">State</td>
-												<td width="30%" align="left"><select
-													class="form-control" id="stateId">
-														<!-- th:field="*{stateId}" -->
-														<option selected="selected" th:value="0"
-															th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-														<option th:each="varState : ${lstState}"
-															th:value="${varState.stateId}"
-															th:text="${language=='mh' ? varState.stateName : varState.stateName}"></option>
-												</select></td>
-												<td width="10%" align="left">District</td>
-												<td width="30%" align="left"><select
-													class="form-control" id="districtId" name="districtId"
-													style="width: 70%">
-														<!-- th:field="*{districtId}" -->
-														<option selected="selected" th:value="0"
-															th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-														<option th:each="varDist : ${lstDistrict}"
-															th:value="${varDist.districtId}"
-															th:text="${language=='mh' ? varDist.districtName : varDist.districtName}"></option>
-												</select> <label class="mandatoryindicator">*</label></td>
-											</tr>
-											<tr>
-												<td width="10%" align="left">Taluka</td>
-												<td width="30%" align="left"><select name="talukaId"
-													id="talukaId" style="width: 70%">
-														<option selected="selected" th:value="0"
-															th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-														<option th:each="vartaluka : ${lstTaluka}"
-															th:value="${vartaluka.talukaId}"
-												th:text="${language=='mh' ? vartaluka.talukaName : vartaluka.talukaName}"></option>
-												</select></td>
-												<td width="10%" align="left">Town</td>
-												<td width="30%" align="left"><select name="txtTown"
-													id="txtTown" style="width: 70%">
-														<option selected="selected" th:value="0"
-															th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-														<option th:each="varCity : ${lstTown}"
-															th:value="${varCity.cityId}"
-												th:text="${language=='mh' ? varCity.cityName : varCity.cityName}"></option>
-												</select></td>
-											</tr>
-											<tr>
-												<td width="10%" align="left">Village</td>
-												<td width="30%"><input type="text" size="40%"
-													name="village" id="village" maxlength="50"
-													style="text-align: left"
-													onblur="isName(txtVillage,'This field should not contain any special characters or digits.')">
-													<!-- th:field="*{village}" --></td>
-												<td width="10%" align="left">Address</td>
-												<td width="30%" rowspan="2"><textarea
-														name="txtAddress1" id="txtAddress1" rows="5" cols="30"></textarea>
-													<!--  th:field="*{address}"--> <label
-													class="mandatoryindicator">*</label></td>
-											</tr>
-											<tr>
-												<td width="10%" align="left">PIN</td>
-												<td width="30%"><input type="text" size="30%"
-													name="txtPin" id="txtPin" maxlength="6"
-													style="text-align: left" onkeypress="digitFormat(this);"
-													onblur="chckPin(this)"> <label
-													class="mandatoryindicator">*</label> <!-- th:field="*{pincode}"  --></td>
-											</tr>
-											<tr>
-												<td width="10%" align="left">Organization/Institution
-													City Class</td>
-												<td width="30%" align="left"><select
-													class="form-control" id="ddoOffClass" name="ddoOffClass"
-													style="width: 70%">
-														<!-- th:field="*{districtId}" -->
-														<option selected="selected" th:value="0"
-															th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-														<option th:each="varClass : ${ddoOffClass}"
-															th:value="${varClass.lookupDesc}"
-															th:text="${language=='mh' ? varClass.lookupName : varClass.lookupName}"></option>
-												</select> <!-- 	
+							<td width="10%" align="left">Taluka</td>
+							<td width="30%" align="left"><select name="talukaId"
+								id="talukaId" style="width: 70%">
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="vartaluka : ${lstTaluka}"
+										th:value="${vartaluka.talukaId}"
+										th:text="${language=='mh' ? vartaluka.talukaName : vartaluka.talukaName}"></option>
+							</select></td>
+							<td width="10%" align="left">Town</td>
+							<td width="30%" align="left"><select name="txtTown"
+								id="txtTown" style="width: 70%">
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varCity : ${lstTown}"
+										th:value="${varCity.cityId}"
+										th:text="${language=='mh' ? varCity.cityName : varCity.cityName}"></option>
+							</select></td>
+						</tr>
+						<tr>
+							<td width="10%" align="left">Village</td>
+							<td width="30%"><input type="text" size="40%" name="village"
+								id="village" maxlength="50" style="text-align: left"
+								onblur="isName(txtVillage,'This field should not contain any special characters or digits.')">
+								<!-- th:field="*{village}" --></td>
+							<td width="10%" align="left">Address <label class="mandatoryindicator">*</label></td>
+							<td width="30%" rowspan="2"><textarea name="txtAddress1"
+									id="txtAddress1" rows="5" cols="30"></textarea> <!--  th:field="*{address}"-->
+								</td>
+						</tr>
+						<tr>
+							<td width="10%" align="left">PIN <label class="mandatoryindicator">*</label></td>
+							<td width="30%"><input type="text" size="30%" name="txtPin"
+								id="txtPin" maxlength="6" style="text-align: left"
+								onkeypress="digitFormat(this);" onblur="chckPin(this)">
+								 <!-- th:field="*{pincode}"  --></td>
+						</tr>
+						<tr>
+							<td width="10%" align="left">Organization/Institution City
+								Class  <label class="mandatoryindicator">*</label></td>
+							<td width="30%" align="left"><select class="form-control"
+								id="ddoOffClass" name="ddoOffClass" style="width: 70%">
+									<!-- th:field="*{districtId}" -->
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varClass : ${ddoOffClass}"
+										th:value="${varClass.lookupDesc}"
+										th:text="${language=='mh' ? varClass.lookupName : varClass.lookupName}"></option>
+							</select> <!-- 	
 												
 												
 												<select
@@ -209,139 +197,121 @@
 														<option value="Y - Class B">Y - Class B</option>
 														<option value="X - Class A1">X - Class A1</option>
 														<option value="Y - Class A">Y - Class A</option>
-												</select> --> <label class="mandatoryindicator">*</label></td>
-												<!-- th:field="*{cityClass}" -->
-											</tr>
-											<tr>
-												<td width="10%" align="left">Institution Number</td>
-												<td width="30%"><input type="text" size="30%"
-													readonly="readonly" name="txtdiceCode" id="txtdiceCode"
-													maxlength="11" style="text-align: left" value=""
-													onkeypress="digitFormat(this);"> <label
-													class="mandatoryindicator">*</label></td>
-												<!-- th:field="*{instNo}" -->
-												<td width="10%" align="left">Percentage Of Grant
-													Applicable</td>
-												<td width="30%" align="left"><input type="text"
-													size="40%" name="txtGrant" id="txtGrant" maxlength="50"
-													style="text-align: left"> <!--   th:field="*{perofGrant}"--></td>
-											</tr>
-										</tbody>
-									</table>
-								</fieldset>
-							</td>
+												</select> --></td>
+							<!-- th:field="*{cityClass}" -->
 						</tr>
 						<tr>
-							<td width="100%" valign="top">
-								<fieldset class="tabstyle">
-									<legend> Contact Details </legend>
-									<table width="100%" align="center" cellpadding="4"
-										cellspacing="4" class="bor-0 table">
-										<tbody>
-											<tr>
-												<td width="10%" align="left">Tel No(1)</td>
-												<td width="30%"><input type="text" size="30%"
-													name="txtTelNo1" id="txtTelNo1" maxlength="15"
-													style="text-align: left" onkeypress="digitFormat(this);"></td>
-												<!-- th:field="*{telNo}" -->
-												<td width="10%" align="left">Tel No(2) Mobile</td>
-												<td width="30%"><input type="text" size="30%"
-													name="txtTelNo2" id="txtTelNo2" maxlength="15"
-													readonly="readonly" style="text-align: left"
-													onkeypress="digitFormat(this);"> <!--   th:field="*{mobNo}"--></td>
-											</tr>
-											<tr>
-												<td colspan="4"
-													style="font-size: smaller; font-style: italic">(Use
-													only numbers. Do not provide space between STD Code and
-													Phone number.eg. 02227485961 and not 022 27485961)</td>
-											</tr>
-											<tr>
-												<td width="10%" align="left">Fax</td>
-												<td width="30%"><input type="text" size="30%"
-													name="txtfax" id="txtfax" maxlength="15"
-													style="text-align: left" onkeypress="digitFormat(this);"></td>
-												<!-- th:field="*{fax}" -->
-												<td width="10%" align="left">Email</td>
-												<td width="30%"><input type="text" size="30%"
-													name="txtEmail" id="txtEmail" maxlength="254"
-													style="text-align: left"
-													onblur="validateEmailID(txtEmail,'Please Enter Valid Email');"></td>
-												<!-- th:field="*{email}" -->
-											</tr>
-										</tbody>
-									</table>
-								</fieldset>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" align="center">
-								<fieldset class="tabstyle">
-									<legend> Whether organization/Institution in </legend>
-									<table width="100%" cellpadding="4" cellspacing="4"
-										class="bor-0 table">
-										<tbody>
-											<tr>
-												<td align="left" width="12%">Tribal Area?</td>
-												<td width="12%" align="left"><input type="radio"
-													readonly="readonly" id="RadioButtonTriableAreaYes"
-													name="RadioButtonTriableAreaYes" value="Yes"> Yes <input
-													type="radio" id="RadioButtonTriableAreaNo"
-													name="RadioButtonTriableAreaNo" value="No" checked="">
-													No <label class="mandatoryindicator">*</label></td>
-												<td width="6%"></td>
-												<td width="10%" align="left">Hilly Area?</td>
-												<td width="12%" align="left"><input type="radio"
-													readonly="readonly" id="RadioButtonHillyAreaYes"
-													name="RadioButtonHillyAreaYes" value="Yes"> Yes <input
-													type="radio" readonly="readonly"
-													id="RadioButtonHillyAreaNo" name="RadioButtonHillyAreaNo"
-													value="No" checked=""> No <label
-													class="mandatoryindicator">*</label></td>
-												<td width="6%"></td>
-												<td width="10%" align="left">Naxalite Area?</td>
-												<td width="12%" align="left"><input type="radio"
-													readonly="readonly" id="RadioButtonNaxaliteAreaYes"
-													name="RadioButtonNaxaliteAreaYes" value="Yes"> Yes
-													<input type="radio" readonly="readonly"
-													id="RadioButtonNaxaliteAreaNo"
-													name="RadioButtonNaxaliteAreaNo" value="No" checked="">
-													No <label class="mandatoryindicator">*</label>
-													<input type="hidden" id="hiddenddoCode"></td>
-											</tr>
-										</tbody>
-									</table>
-									<br>
-								</fieldset> <br>
-								<table class="bor-0 table">
-									<tbody>
-										<tr id="reasonForRejection" style="display: none;">
-											<td>Reason For Rejection:</td>
-											<td><input type="text" id="txtReasonForRejection"
-												name="txtReasonForRejection" maxlength="200" value=""
-												size="30"></td>
-										</tr>
-										<tr></tr>
-										<tr>
-											<td  align="center" colspan="2">
-												<div class="text-center">
-													<input type="button" name="approve" id="approve"
-														value="Approve" size="3" maxlength="3" class="buttontag">
-													<input type="button" name="btnRjct" id="btnRjct"
-														value="Reject" size="3" maxlength="3" class="buttontag">
-													<input type="button" name="btnClose"
-														onclick="history.back()" id="btnClose" value="Back"
-														size="3" maxlength="3" class="buttontag">
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
+							<td width="10%" align="left">Institution Number  <label
+								class="mandatoryindicator">*</label></td>
+							<td width="30%"><input type="text" size="30%"
+								readonly="readonly" name="txtdiceCode" id="txtdiceCode"
+								maxlength="11" style="text-align: left" value=""
+								onkeypress="digitFormat(this);"></td>
+							<!-- th:field="*{instNo}" -->
+							<td width="10%" align="left">Percentage Of Grant Applicable</td>
+							<td width="30%" align="left"><input type="text" size="40%"
+								name="txtGrant" id="txtGrant" maxlength="50"
+								style="text-align: left"> <!--   th:field="*{perofGrant}"--></td>
 						</tr>
 					</tbody>
 				</table>
+			</fieldset>
 
+			<fieldset class="tabstyle">
+				<legend> Contact Details </legend>
+				<table class="bor-0 table">
+					<tbody>
+						<tr>
+							<td width="10%" align="left">Tel No(1)</td>
+							<td width="30%"><input type="text" size="30%"
+								name="txtTelNo1" id="txtTelNo1" maxlength="15"
+								style="text-align: left" onkeypress="digitFormat(this);"></td>
+							<!-- th:field="*{telNo}" -->
+							<td width="10%" align="left">Tel No(2) Mobile</td>
+							<td width="30%"><input type="text" size="30%"
+								name="txtTelNo2" id="txtTelNo2" maxlength="15"
+								readonly="readonly" style="text-align: left"
+								onkeypress="digitFormat(this);"> <!--   th:field="*{mobNo}"--></td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: smaller; font-style: italic">(Use
+								only numbers. Do not provide space between STD Code and Phone
+								number.eg. 02227485961 and not 022 27485961)</td>
+						</tr>
+						<tr>
+							<td width="10%" align="left">Fax</td>
+							<td width="30%"><input type="text" size="30%" name="txtfax"
+								id="txtfax" maxlength="15" style="text-align: left"
+								onkeypress="digitFormat(this);"></td>
+							<!-- th:field="*{fax}" -->
+							<td width="10%" align="left">Email</td>
+							<td width="30%"><input type="text" size="30%"
+								name="txtEmail" id="txtEmail" maxlength="254"
+								style="text-align: left"
+								onblur="validateEmailID(txtEmail,'Please Enter Valid Email');"></td>
+							<!-- th:field="*{email}" -->
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+
+			<fieldset class="tabstyle">
+				<legend> Whether organization/Institution in </legend>
+				<table class="bor-0 table">
+					<tbody>
+						<tr>
+							<td align="left" width="12%">Tribal Area?  <label class="mandatoryindicator">*</label></td>
+							<td width="12%" align="left"><input type="radio"
+								readonly="readonly" id="RadioButtonTriableAreaYes"
+								name="RadioButtonTriableAreaYes" value="Yes"> Yes <input
+								type="radio" id="RadioButtonTriableAreaNo"
+								name="RadioButtonTriableAreaNo" value="No" >
+								No</td>
+							<td width="6%"></td>
+							<td width="10%" align="left">Hilly Area? <label class="mandatoryindicator">*</label></td>
+							<td width="12%" align="left"><input type="radio"
+								readonly="readonly" id="RadioButtonHillyAreaYes"
+								name="RadioButtonHillyAreaYes" value="Yes"> Yes <input
+								type="radio" readonly="readonly" id="RadioButtonHillyAreaNo"
+								name="RadioButtonHillyAreaNo" value="No" > No
+								</td>
+							<td width="6%"></td>
+							<td width="10%" align="left">Naxalite Area?  <label class="mandatoryindicator">*</label> </td>
+							<td width="12%" align="left"><input type="radio"
+								readonly="readonly" id="RadioButtonNaxaliteAreaYes"
+								name="RadioButtonNaxaliteAreaYes" value="Yes"> Yes <input
+								type="radio" readonly="readonly" id="RadioButtonNaxaliteAreaNo"
+								name="RadioButtonNaxaliteAreaNo" value="No" >
+								No<input
+								type="hidden" id="hiddenddoCode"></td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+			</fieldset>
+			<br>
+			<table class="bor-0 table">
+				<tbody>
+					<tr id="reasonForRejection" style="display: none;">
+						<td>Reason For Rejection:</td>
+						<td><input type="text" id="txtReasonForRejection"
+							name="txtReasonForRejection" maxlength="200" value="" size="30"></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">
+							<div class="text-center">
+								<input type="button" name="approve" id="approve" value="Approve"
+									size="3" maxlength="3" class="buttontag"> <input
+									type="button" name="btnRjct" id="btnRjct" value="Reject"
+									size="3" maxlength="3" class="buttontag"> <input
+									type="button" name="btnClose" onclick="history.back()"
+									id="btnClose" value="Back" size="3" maxlength="3"
+									class="buttontag">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 
 	</div>

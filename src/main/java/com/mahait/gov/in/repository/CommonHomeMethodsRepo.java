@@ -82,7 +82,7 @@ public interface CommonHomeMethodsRepo {
 
 	public List<Object[]> findyearinfo(BigInteger yearcurr);
 
-	public List<Object[]> findDetailsBillNumber(int billNumber);
+	public List<Object[]> findDetailsBillNumber(Long billNumber);
 
 	public List<Object[]> findmonthinfo(BigInteger month);
 

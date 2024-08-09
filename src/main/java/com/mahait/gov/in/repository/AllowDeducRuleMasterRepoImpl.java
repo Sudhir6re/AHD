@@ -89,4 +89,19 @@ public class AllowDeducRuleMasterRepoImpl implements AllowDeducRuleMasterRepo {
 		}
 	}
 
+	@Override
+	public AllowanceDeductionRuleMstEntity permanentDeleteRule(int id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = "delete from allowance_deducduction_wise_mst  where allowance_deducduction_wise_id=" + id;
+		Query query = currentSession.createSQLQuery(HQL);
+		query.executeUpdate();
+		int updatedCount = query.executeUpdate();
+		// query.list();
+		if (updatedCount > 0) {
+			return new AllowanceDeductionRuleMstEntity();
+		} else {
+			return new AllowanceDeductionRuleMstEntity();
+		}
+	}
+
 }

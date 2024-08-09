@@ -5,7 +5,7 @@
 <head>
 <title th:utext="#{msg.thymeleaf.pagelabel.sysappr}"></title>
 </head>
-<body class="organization-institution-details">
+<body class="approveDDOOfficeView">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 	<div class="container min-height-600 ">
@@ -14,7 +14,7 @@
 				<ol class="breadcrumb">
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
-							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+							th:utext="#{msg.thymeleaf.pagelabel.reportBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
 						th:utext="#{msg.thymeleaf.pagelabel.sysappr}"></span></li>
 				</ol>
@@ -25,19 +25,16 @@
 		</h3>
 		<div class="newpagecontent container">
 
-			<form method="POST" name="DDOOfficeView" th:action="@{/ddo/getReport}">
+			<form method="POST" name="DDOOfficeView"
+				th:action="@{/ddo/getReport}">
 				<input type="hidden" value="" name="hierarchy" id="hierarchy">
-				<div id="tabmenu">
-					<ul id="maintab" class="shadetabs">
-						<li class="selected"><a href="#" rel="tcontent1"
-							class="selected"><b>DDO OFFICE</b></a></li>
-					</ul>
-				</div>
-				<div id="tcontent1"
-					style="background-color: rgb(232, 227, 227); border-style: inset; border-color: rgb(178, 71, 0); border-width: thin; display: block;">
+				<legend>
+					<b>DDO OFFICE</b>
+				</legend>
+				<div>
 					<br>
 					<!--  <span class="pagebanner">One Record found.</span><span class="pagelinks"><strong>1</strong></span> -->
-					<table class="datatable bor-0 table" style="width: 100%" id="row">
+					<table class="table table-bordered">
 						<thead>
 							<tr>
 								<th th:text="#{msg.thymeleaf.pagelabel.ddoCode}"></th>
@@ -52,16 +49,17 @@
 								<td style="text-align: left" th:text="${VarDDO.reptDdoCode}"></td>
 								<td style="text-align: left">2</td>
 								<td style="text-align: left"><a
-									th:href="@{'/ddo/approveRejectDtls/'+${VarDDO.zpDdoCode}}">Click Hear To Approve/Reject</a></td><!--  -->
+									th:href="@{'/ddo/approveRejectDtls/'+${VarDDO.zpDdoCode}}">Click
+										Hear To Approve/Reject</a></td>
+								<!--  -->
 							</tr>
 						</tbody>
 					</table>
-					<br>&nbsp; <input type="submit" name="ViewReports" value="View Reports"
-						size="3" maxlength="3" class="buttontag"> <br>
-					<br>
-					<script type="text/javascript">
-						initializetabcontent("maintab")
-					</script>
+					<div class="text-center">
+						<br>&nbsp; <input type="submit" name="ViewReports"
+							value="View Reports" size="3" maxlength="3" class="buttontag">
+						<br> <br>
+					</div>
 				</div>
 			</form>
 		</div>

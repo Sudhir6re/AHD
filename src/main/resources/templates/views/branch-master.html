@@ -27,7 +27,7 @@
 		<div class="formMainwithNoborTb container">
 			<div id="content">
 
-				<form method="POST" name="">
+				<form method="POST" th:object="${mstBankBranchEntity}" name="mstbankBranch">
 
 					<a th:href="@{/mdc/addBranch}" class="btn">Add new Entry</a> <br />
 					<table class="datatable table table-bordered" id="datatableNew">
@@ -39,42 +39,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td style="text-align: center;"><a
-									th:href="@{/mdc/addBranch}">S C SATARA</a></td>
-								<td style="text-align: center;">SATARA DISTRICT CENTRAL
-									CO.OP. BANK LTD</td>
-								<td style="text-align: center;">IBKL0485SDC</td>
-							</tr>
-							<tr class="even">
-								<td style="text-align: center;"><a
-									th:href="@{/mdc/addBranch}">KIROLI</a></td>
-								<td style="text-align: center;">SATARA DISTRICT CENTRAL
-									CO.OP. BANK LTD</td>
-								<td style="text-align: center;">IBKL0485SDC</td>
-							</tr>
-							<tr>
-								<td style="text-align: center;"><a
-									th:href="@{/mdc/addBranch}">RANAND</a></td>
-								<td style="text-align: center;">SATARA DISTRICT CENTRAL
-									CO.OP. BANK LTD</td>
-								<td style="text-align: center;">IBKL0485SDC</td>
-							</tr>
-							<tr class="even">
-								<td style="text-align: center;"><a
-									th:href="@{/mdc/addBranch}">NANDVAL</a></td>
-								<td style="text-align: center;">SATARA DISTRICT CENTRAL
-									CO.OP. BANK LTD</td>
-								<td style="text-align: center;">IBKL0485SDC</td>
+							<tr th:each="varBank : ${branchName}">
+
+								<td><a th:href="@{'/mdc/editBankBranch/' + ${varBank.bankBranchId}}"><span
+										th:text="${varBank.bankBranchName}"></span></a></td>
+								<td th:text="${varBank.bankName}"></td>
+								<td th:text="${varBank.ifscCode}"></td>
+
 							</tr>
 						</tbody>
 					</table>
 				</form>
 				<br />
 				<div class="text-center">
-					<input type="button" name="btnCancel" onclick="history.back()" 
-						id="btnCancel" value="Cancel" size="3" maxlength="3"
-						class="buttontag">
+					<input type="button" name="btnCancel" id="btnCancel" value="Cancel"
+						size="3" maxlength="3" class="buttontag">
 				</div>
 			</div>
 		</div>

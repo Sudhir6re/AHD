@@ -4,7 +4,7 @@
 <head>
 <title th:utext="#{msg.thymeleaf.pagelabel.orgInstScheme}"></title>
 </head>
-<body class="organization-institution-details">
+<body class="DDOScheme">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
@@ -25,147 +25,126 @@
 			<span th:utext="#{msg.thymeleaf.pagelabel.orgInstScheme}"></span>
 		</h3>
 		<div class="newpagecontent container">
-			<form method="post" name="frmScheme" enctype="multipart/form-data" th:action="@{/ddo/addSchemesAndBillGroupsToDdo}"
-			th:object="${newRegDDOModel}" >
-    <fieldset class="tabstyle">
-        <legend> <b>Schemes Operated by DDO</b> </legend>
-        <div align="center">
-            <table style="width:50%" id="vo" class="datatable table table-bordered" cellpadding="4">
-                <thead>
-                    <tr>
-                        <th class="datatableheader sortable">
-                            <a>Scheme Code</a></th>
-                        <th class="datatableheader sortable">
-                            <a>Scheme Name</a></th>
-                        <th class="datatableheader sortable">
-                            <a>Sub Scheme Code</a></th>
-                        <th class="datatableheader sortable">
-                            <a>DDO Code</a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="odd" th:each="varLst : ${schemelist}">
-                        <td style="text-align: left;" th:text="${varLst.schemeCode}"></td>
-                        <td style="text-align: left;" th:text="${varLst.schemeName}"></td>
-                        <td style="text-align: left;" th:text="${varLst.subSchemeCode}"></td>
-                        <td style="text-align: left;" th:text="${varLst.ddoCode}"></td>
-                        
-                   
-                </tbody>
-            </table>
-        </div>
-    </fieldset>
-  <!--   <fieldset class="tabstyle">
-        <legend> <b>Filter Institute</b> </legend>
-        <table align="center">
-            <tbody>
-                <tr>
-                    <td>Taluka</td>
-                    <td>
-                    <select class="form-control" style="width: 85%,display: inline;"
-							id="cmbTaluka" name="cmbTaluka">
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<option th:each="varLst : ${talukaList}"
-								th:value="${varLst.talukaId}"
-								th:text="${language=='mh' ? varLst.talukaName : varLst.talukaName}"></option>
-						</select>
-                    </td>
-                    <td> DDO Code/Office Name</td>
-                    <td>
-                        <input type="text" id="ddoCode" name="ddoCode" maxlength="200" size="30">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" align="center"><input id="btnFilter" class="buttontag" type="button" size="5" maxlength="5" value="Filter" onclick="filterInstitute()" name="btnFilter" style="width: 120px;"></td>
-                </tr>
-            </tbody>
-        </table>
-    </fieldset> -->
-    <fieldset class="tabstyle">
-        <legend> <b>Add Schemes to DDO</b> </legend>
-        <table id="tblMaster" width="70%" align="center" border="0">
-            <tbody>
-                <tr>
-                    <td width="10%" align="left">DDO Institution Name
-                    </td>
-                    <td width="100%" align="left">
-						<select class="form-control" id="department_id"
-							th:field="*{instDdoCode}">
-							<option selected="selected" th:value="0"
-								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-							<!--<option value="1">Latur</option> -->
-							<option th:each="varDeptDataTable : ${lstInstitute}"
-								th:value="${varDeptDataTable.ddoCode}"
-								th:text="${varDeptDataTable.officeName + ' ( '+ varDeptDataTable.ddoCode + ' ) '}"></option>
-						</select>
-                        <label class="mandatoryindicator">*</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="10%" align="left">Scheme Code
-                    </td>
-                    <td width="100%" align="left">
-                        <input type="text" name="txtSchemeCode" id="txtSchemeCode" maxlength="10" style="text-align: left" > <label class="mandatoryindicator">*</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="10%" align="left">Scheme Name</td>
-                    <td width="100%" align="left">
-                        <select name="cmbSchemeName" id="cmbSchemeName" style="width:100%" th:field="*{instSchemeCode}">
-                        </select>
-                        <label class="mandatoryindicator">*</label>
-                    </td>
-                </tr>
-                <tr></tr>
-                <tr></tr>
-            </tbody>
-        </table>
-        <table width="90%" id="Added2" align="center">
-            <tbody>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr bgcolor="#BD6C03">
-                    <td class="fieldLabel" width="100%" colspan="2" align="center">
-                        <font color="#ffffff" size="2"> <strong>Add sub
-                                scheme code details </strong></font>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table id="searchTable" align="center" width="90%" bordercolor="black">
-            <tbody>
-                <tr>
-                    <td align="center" style="background-color: #F7E7D7;  color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold">
-                        Sub Scheme Code:</td>
-                    <td align="center" style="background-color: #F7E7D7;    color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold">
-                        Discription:</td>
-                </tr>
-                <tr>
-                    <!--  <td></td>
-	<td width="20%" align="left">SubScheme Code</td>-->
-                    <td>
-                        <input type="text" name="txtSubSchemeCode" size="30" id="txtSubSchemeCode1" maxlength="10" style="text-align: left;" onblur="CheckSubSchemeExist(1);popUpSubSchemeName(1);">
-                    </td>
-                    <!-- <td width="15%" align="left">SubScheme </td>-->
-                    <td>
-                        <select name="cmbSubSchemeName" id="cmbSubSchemeName1" style="width:100%" onchange="setSubSchemeCode(1);">
-                            <option value="-1">
-                                <!---- Select ----> -------------Select--------------</option>
-                        </select></td>
-                    <td><a href="#" onclick="addRow()">ADD</a>
-                        <a href="#" onclick="DeleteRowBrokenPrd('1')">Delete</a></td>
-                </tr>
-            </tbody>
-        </table>
-       
-        <div align="center"><input type="submit" name="btnSave" id="btnSave" value="Add Schemes" size="3" maxlength="3" class="buttontag"> <input type="button" name="btnBack" onclick="ReturnLoginPage();" id="btnBack" value="Back" size="3" maxlength="3" class="buttontag"></div>
-    </fieldset>
-</form>
-			
+			<form method="post" name="frmScheme" enctype="multipart/form-data"
+				th:action="@{/ddo/addSchemesAndBillGroupsToDdo}"
+				th:object="${newRegDDOModel}">
+				<fieldset class="tabstyle">
+					<legend>
+						<b>Schemes Operated by DDO</b>
+					</legend>
+					<div >
+						<table id="datatableNew" class="datatable table table-bordered">
+							<thead>
+								<tr>
+									<th class="datatableheader sortable"><a>Scheme Code</a></th>
+									<th class="datatableheader sortable"><a>Scheme Name</a></th>
+									<th class="datatableheader sortable"><a>Sub Scheme
+											Code</a></th>
+									<th class="datatableheader sortable"><a>DDO Code</a></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="odd" th:each="varLst : ${schemelist}">
+									<td style="text-align: left;" th:text="${varLst.schemeCode}"></td>
+									<td style="text-align: left;" th:text="${varLst.schemeName}"></td>
+									<td style="text-align: left;" th:text="${varLst.subSchemeCode}"></td>
+									<td style="text-align: left;" th:text="${varLst.ddoCode}"></td>
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+
+				<fieldset class="tabstyle">
+					<legend>
+						<b>Add Schemes to DDO</b>
+					</legend>
+					<table id="tblMaster" class="table width-50 bor-0">
+						<tbody>
+							<tr>
+								<td width="40%" align="left">DDO Institution Name <label
+									class="mandatoryindicator">*</label></td>
+								<td width="60%" align="left"><select class="form-control"
+									id="department_id" th:field="*{instDdoCode}">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<!--<option value="1">Latur</option> -->
+										<option th:each="varDeptDataTable : ${lstInstitute}"
+											th:value="${varDeptDataTable.ddoCode}"
+											th:text="${varDeptDataTable.officeName + ' ( '+ varDeptDataTable.ddoCode + ' ) '}"></option>
+								</select></td>
+							</tr>
+							<tr>
+								<td width="10%" align="left">Scheme Code <label
+									class="mandatoryindicator">*</label></td>
+								<td width="100%" align="left"><input type="text"
+									name="txtSchemeCode" id="txtSchemeCode" maxlength="10"
+									style="text-align: left"></td>
+							</tr>
+							<tr>
+								<td width="10%" align="left">Scheme Name <label
+									class="mandatoryindicator">*</label></td>
+								<td width="100%" align="left"><select name="cmbSchemeName"
+									id="cmbSchemeName" style="width: 100%"
+									th:field="*{instSchemeCode}">
+								</select></td>
+							</tr>
+							<tr></tr>
+							<tr></tr>
+						</tbody>
+					</table>
+					<table class="table bor-0">
+						<tbody>
+							<tr bgcolor="#BD6C03">
+								<td class="fieldLabel" width="100%" colspan="2" align="center">
+									<font color="#ffffff" size="2"> <strong>Add sub
+											scheme code details </strong></font>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<td align="center"
+									style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold">
+									Sub Scheme Code:</td>
+								<td align="center"
+									style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold">
+									Discription:</td>
+								<td align="center"
+									style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold">
+									Action:</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="txtSubSchemeCode" size="30"
+									id="txtSubSchemeCode1" maxlength="10" style="text-align: left;"
+									onblur="CheckSubSchemeExist(1);popUpSubSchemeName(1);">
+								</td>
+								<td><select name="cmbSubSchemeName" id="cmbSubSchemeName1"
+									style="width: 100%" onchange="setSubSchemeCode(1);">
+										<option value="-1">
+											<!---- Select ----> Select
+										</option>
+								</select></td>
+								<td align="center"><a href="#" onclick="addRow()" class="btn">ADD</a>
+									&nbsp; <a href="#" onclick="DeleteRowBrokenPrd('1')"
+									class="btn">Delete</a></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div align="center">
+						<input type="submit" name="btnSave" id="btnSave"
+							value="Add Schemes" size="3" maxlength="3" class="buttontag">
+						<input type="button" name="btnBack" onclick="ReturnLoginPage();"
+							id="btnBack" value="Back" size="3" maxlength="3"
+							class="buttontag">
+					</div>
+				</fieldset>
+			</form>
+
 		</div>
-		
+
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>

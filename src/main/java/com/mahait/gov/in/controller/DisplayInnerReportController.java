@@ -43,7 +43,7 @@ public class DisplayInnerReportController  extends BaseController{
 	CommonHomeMethodsService commonHomeMethodsService;
 
 	@GetMapping("/getinnerreport/{billNumber}/{size}/{page}/{ddoCode}")
-	public String getInnerReport(@PathVariable int billNumber, @PathVariable int size, @PathVariable int page,
+	public String getInnerReport(@PathVariable Long billNumber, @PathVariable int size, @PathVariable int page,
 			Model model, Locale locale, HttpSession session, @PathVariable String ddoCode) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		int currentPage = page;
@@ -120,7 +120,7 @@ public class DisplayInnerReportController  extends BaseController{
 	}
 
 	@GetMapping("/getinnerreportPDF/{billNumber}/{size}/{page}")
-	public String getinnerreportPDF(@PathVariable int billNumber, @PathVariable int size, @PathVariable int page,
+	public String getinnerreportPDF(@PathVariable Long billNumber, @PathVariable int size, @PathVariable int page,
 			Model model, Locale locale, HttpSession session, HttpServletResponse response) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		int currentPage = page;
@@ -185,7 +185,7 @@ public class DisplayInnerReportController  extends BaseController{
 	}
 
 	@GetMapping("/getinnerPrintreport/{billNumber}/{size}/{page}")
-	public String getInnerPrintReport(@PathVariable int billNumber, @PathVariable int size, @PathVariable int page,
+	public String getInnerPrintReport(@PathVariable Long billNumber, @PathVariable int size, @PathVariable int page,
 			Model model, Locale locale, HttpSession session) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		int currentPage = page;
@@ -244,7 +244,7 @@ public class DisplayInnerReportController  extends BaseController{
 	
     //all pages 
 	@GetMapping("/getinnerreportAllPages/{billNumber}/{size}/{page}/{ddoCode}")
-	public String getinnerreportAllPages(@PathVariable int billNumber, @PathVariable int size, @PathVariable int page,
+	public String getinnerreportAllPages(@PathVariable Long billNumber, @PathVariable int size, @PathVariable int page,
 			Model model, Locale locale, HttpSession session, @PathVariable String ddoCode,@ModelAttribute("displayInnerReportModel") DisplayInnerReportModel displayInnerReportModel) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		int currentPage = page;

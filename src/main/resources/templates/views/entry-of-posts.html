@@ -14,7 +14,7 @@
 				<ol class="breadcrumb">
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
-							th:utext="#{msg.thymeleaf.pagelabel.dcpsBD}"></span></a></li>
+							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
 						th:utext="#{msg.thymeleaf.pageheading.entryofposts}"></span></li>
 				</ol>
@@ -25,41 +25,32 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-		
-			<div align="center" 
-				th:if="${messageResponse!=null}"  th:class="${messageResponse.style}">
+
+			<div th:if="${messageResponse!=null}"
+				th:class="${messageResponse.style}">
 				<strong><span th:utext="${messageResponse.response}"></span></strong>
 			</div>
-		
+
 			<form method="post" action="" name="frmAdminCrtPost"
 				enctype="multipart/form-data">
 				<fieldset>
 					<legend>View Post Details </legend>
 				</fieldset>
 				<div id="tcontent1">
-					<div align="center">
-						<table class="table bor-0 width-70">
-							<tbody>
-								<tr>
-									<td>DDO Code</td>
-									<td><select name="cmbAsstDDO" id="cmbAsstDDO">
-											<option title="Select" value="-1">Select</option>
-											<option th:each="filterDdoCode : ${filterDdoCode}"
-												th:value="${filterDdoCode[0]}" 
-												th:text="${filterDdoCode[1]} + ' (' + ${filterDdoCode[0]} + ')'"
-												>
-											</option>
-									</select></td>
-									<!-- <td><input id="btnFilter" class="buttontag" type="button"
-										value="Filter" name="btnFilter"></td> -->
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<br>
+
 					<table class="table bor-0">
 
 						<tbody>
+							<tr>
+								<td width="20%" align="right"><b>DDO Code</b></td>
+								<td width="20%"><select name="cmbAsstDDO" id="cmbAsstDDO">
+										<option title="Select" value="-1">Select</option>
+										<option th:each="filterDdoCode : ${filterDdoCode}"
+											th:value="${filterDdoCode[0]}"
+											th:text="${filterDdoCode[1]} + ' (' + ${filterDdoCode[0]} + ')'">
+										</option>
+								</select></td>
+							</tr>
 							<tr>
 								<td width="20%" align="right"><b><label
 										class="captionTag" id="admin.designation">Designation</label></b></td>
@@ -75,17 +66,16 @@
 								<td width="20%"><select name="billCmb" id="billCmb">
 										<option value="-1">--------------------Select-------------------</option>
 										<option th:each="bill : ${billList}"
-											th:value="${bill.description}"
-											th:title="${bill.description}"
+											th:value="${bill.description}" th:title="${bill.description}"
 											th:text="${bill.description}"></option>
 								</select></td>
 								<td><input name="Search" class="btn" value="Search"
 									type="button" id="Search"></td>
 							</tr>
 							<tr>
-
-								<td colspan="5"><a th:href="@{/ddo/addPosts}" class="btn"> Add New Entry </a>
-									<a th:href="@{/ddo/updatePosts}"  class="btn">Renewal Of Post</a></td>
+								<td colspan="5" align="center"><br />
+								<a th:href="@{/ddo/addPosts}" class="btn"> Add New Entry </a> <a
+									th:href="@{/ddo/updatePosts}" class="btn">Renewal Of Post</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -102,7 +92,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr   th:each="userPostCustomVO,rowStat : ${getPostNameForDisplay}" >
+							<tr th:each="userPostCustomVO,rowStat : ${getPostNameForDisplay}">
 								<td th:text="${rowStat.index+1}">1</td>
 								<td th:text="${userPostCustomVO.empFullName}"></td>
 								<td th:text="${userPostCustomVO.postname}"></td>
@@ -111,7 +101,7 @@
 								<td th:text="${userPostCustomVO.ddoCode}"></td>
 								<td th:text="${userPostCustomVO.billNo}"></td>
 							</tr>
-						
+
 						</tbody>
 					</table>
 				</div>
@@ -121,7 +111,7 @@
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-	
+
 	<script th:src="@{/js/hte/entry-post.js}"></script>
 	<script th:src="@{/js/jquery.validate.min.js}"></script>
 

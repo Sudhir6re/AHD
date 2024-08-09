@@ -20,4 +20,6 @@ public interface AllowDeducRuleMasterService {
 
 	AllowanceDeductionRuleMstEntity deleteRule(int id, char status);
 
+	AllowanceDeductionRuleMstEntity permanentDeleteRule(int id);
+
 }

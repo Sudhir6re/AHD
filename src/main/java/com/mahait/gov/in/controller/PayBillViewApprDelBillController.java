@@ -203,10 +203,7 @@ public class PayBillViewApprDelBillController   extends BaseController{
 		model.addAttribute("is_changed","0");
 		return "/views/paybill/paybill-view-approve-delete-bill";
 	}
-		
-		
-		//return "/views/paybill/paybill-view-approve-delete-bill";
-		//return "/views/paybill/paybill-view-approve-delete-bill";
+	
     } 
 	
 	
@@ -292,9 +289,6 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			return "/views/paybill/paybill-view-approve-delete-bill";
 		}
 		
-		
-		//return "/views/paybill/paybill-view-approve-delete-bill";
-		//return "/views/paybill/paybill-view-approve-delete-bill";
 	}
 	
 	@GetMapping("/btnForwardBill/{paybillGenerationTrnId}/{userId}")
@@ -323,9 +317,6 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			return "/views/paybill/paybill-view-approve-delete-bill";
 		}
 		
-		
-		//return "/views/paybill/paybill-view-approve-delete-bill";
-		//return "/views/paybill/paybill-view-approve-delete-bill";
 	}
 	
 	

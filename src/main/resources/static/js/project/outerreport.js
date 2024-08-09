@@ -37,7 +37,7 @@ $('#btnouterreport').click(function() {
 	 var billNumber=$('#billno').val();
 	
 	 ddoCode=$("#logUser").text().trim();
-	 var isContainAST=ddoCode.includes("_AST");
+	var isContainAST=ddoCode.includes("_AST");
 	 if(!isContainAST){
 		 ddoCode=1;
 	 }
@@ -53,7 +53,7 @@ $('#btnouterreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/outerreport/"
+			 url : context+"/ddoast/outerreport/"
 			 + billNumber +"/"+ ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -791,7 +791,7 @@ $('#btnaccidentalInsuranceSchemeReport').click(function() {
 $('#btnshowreport').click(function() {
 	 var yearName=$('#yearName').val();
 	 var monthName=$('#monthName').val();
-	 var billNumber=$('#billNumber').val();
+	 var billNumber=$('#billGroup').val();
 	 if(yearName == '0' || yearName==""){
 		 swal("Please select Year");
 		 return false ;
@@ -807,7 +807,7 @@ $('#btnshowreport').click(function() {
 	 if (billNumber != '') {
 		 $.ajax({
 				type : "GET",
-				url : context+"/paybill/btnShowReport/"+yearName+"/"+monthName+"/"+ billNumber,
+				url : context+"/ddoast/btnShowReport/"+yearName+"/"+monthName+"/"+ billNumber,
 				async : false,
 				contentType : 'application/json',
 				error : function(data) {
@@ -904,7 +904,7 @@ $('#btnsvnpcbasicreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/sevenPCBasicReport/"+yearName+"/"+monthName+"/"
+			 url : context+"/d/sevenPCBasicReport/"+yearName+"/"+monthName+"/"
 			 + billNumber+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',

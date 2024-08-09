@@ -476,7 +476,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	}
 
 	@Override
-	public List<Object[]> findDetailsBillNumber(int billNumber) {
+	public List<Object[]> findDetailsBillNumber(Long billNumber) {
 		return commonHomeMethodsRepo.findDetailsBillNumber(billNumber);
 	}
 

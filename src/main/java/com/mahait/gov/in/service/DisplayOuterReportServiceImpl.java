@@ -30,7 +30,7 @@ public class DisplayOuterReportServiceImpl implements DisplayOuterReportService 
 	public int getTotalDeduction(double billno) {
 		return displayOuterReportRepo.getTotalDeduction(billno);
 	}
-	public List<DisplayOuterReportModel> getAllDataForOuternew(String ddocode,int billNumber){
+	public List<DisplayOuterReportModel> getAllDataForOuternew(String ddocode,Long billNumber){
 		
 		List<Object[]> lstprop = displayOuterReportRepo.getAllDataForOuternew(ddocode,billNumber);
 		
@@ -71,7 +71,7 @@ public class DisplayOuterReportServiceImpl implements DisplayOuterReportService 
 	}
 
 	@Override
-	public String getbillDetails(int billDetails) {
+	public String getbillDetails(Long billDetails) {
 		return displayOuterReportRepo.getbillDetails(billDetails);
 	}
 }

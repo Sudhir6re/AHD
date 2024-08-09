@@ -96,5 +96,8 @@ a {
     border-right: none !important;
 }
 select:disabled, input:disabled {
-    background: #ddd;
+    background: #ddd !important;
+}
+span.select2 {
+    max-width: 90% !important;
 }

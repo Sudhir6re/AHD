@@ -11,10 +11,10 @@ public interface DisplayOuterReportRepo {
 	public List<DisplayOuterReportModel> findBillDescription(String ddoCode,int month,int year);
 	public int getTotalDeduction(double billno);
 	/*public List<DisplayOuterReportModel> getAllDataForOuternew(String ddocode);*/
-	public List<Object[]> getAllDataForOuternew(String ddocode,int billNumber);
+	public List<Object[]> getAllDataForOuternew(String ddocode,Long billNumber);
 	public List<Map<String,Object>> getempDetails(String bill_no);
 	public List<Object[]> getempDetails(int monthName, int yearName, String ddocode, String billnumber);
 	public List<DisplayOuterReportModel> findAllSchemeBillGroupByDDOCode(String dDOCode, int roleid);
 	public List<Object[]> getcardecode(String strddo);
-	public String getbillDetails(int billDetails);
+	public String getbillDetails(Long billDetails);
 }

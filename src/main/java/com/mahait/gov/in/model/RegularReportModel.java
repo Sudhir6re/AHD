@@ -19,6 +19,7 @@ public class RegularReportModel {
 	private String recordcount;
 	private Double basicpay;
 	private String name;
+	private String pran;
 	private Double svnpcda;
 	private String pfacc;
 	private String dcpsNo;
@@ -32,5 +33,8 @@ public class RegularReportModel {
 	private Date toDate;
 	private Double totalNpsEmpContri;
 	private Double totalNpsEmprContri;
+	private Double dp;
+	private Double dcpsReg;
+	private String amtInWords;
 
 }

@@ -24,7 +24,7 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	EntityManager manager;
 	
 	@Override
-	public List<DisplayInnerReportModel> getAllDataForinnernew(String strddo,int billNumber)
+	public List<DisplayInnerReportModel> getAllDataForinnernew(String strddo,Long billNumber)
 	{
 		Session currentSession = manager.unwrap(Session.class);
 		
@@ -33,7 +33,7 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 		
 		String HQL = "select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,'0' tempvalue,' ' tempempty,department_allowdeduc_col_nm "
 				+ " from employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id "
-				+ " inner join department_allowdeduc_mst d ON b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+strddo+"' and paybill_generation_trn_id  = "+billNumber+"  " //and  d.department_allowdeduc_col_nm <> 'LIC'
+				+ " inner join department_allowdeduc_mst d ON b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+strddo+"' and paybill_generation_trn_id  = '"+billNumber+"'  " //and  d.department_allowdeduc_col_nm <> 'LIC'
 						+ "   and d.is_active='1' order by department_allowdeduc_col_nm  ";//and  d.department_allowdeduc_col_nm <> 'COP_BANK' and  d.department_allowdeduc_col_nm <> 'COP_Bank' and  d.department_allowdeduc_col_nm <> 'CREDIT_SOC' and  d.department_allowdeduc_col_nm <> 'RECURRING_DEP' and  d.department_allowdeduc_col_nm <> 'RD' and  d.department_allowdeduc_col_nm <> 'MISC'
 			Query query = currentSession.createSQLQuery(HQL);
 
@@ -73,12 +73,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public Date findbillCreateDate(int billNumber) {
+	public Date findbillCreateDate(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		Date rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ="+billNumber+" limit 1 ");
+		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ='"+billNumber+"' limit 1 ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)
@@ -136,12 +136,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public String getfaLoanDtls(String sevaarthid,int billNumber) {
+	public String getfaLoanDtls(String sevaarthid,Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select fa_inst ||' '||fa from paybill_generation_trn_details  where sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ="+billNumber);
+		query.append("select fa_inst ||' '||fa from paybill_generation_trn_details  where sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ='"+billNumber+"'");
 /*		query.append("select no_of_installments_paid+1  ||'/'|| sanctioned_no_of_installment  ||'        '|| installment_amount from lna_fa_employee_request_mst "
 				+ " where sevaarth_id = '"+sevaarthid+"' and no_of_installments_paid <= sanctioned_no_of_installment  ");
 */		
@@ -154,12 +154,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 	
 	@Override
-	public String getcaLoanDtls(String sevaarthid,int billNumber) {
+	public String getcaLoanDtls(String sevaarthid,Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select comp_adv_inst ||' '||comp_adv from paybill_generation_trn_details  where sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ="+billNumber);
+		query.append("select comp_adv_inst ||' '||comp_adv from paybill_generation_trn_details  where sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ='"+billNumber+"'");
 		
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
@@ -170,16 +170,13 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 	
 	@Override
-	public String getvaLoanDtls(String sevaarthid,int billNumber) {
+	public String getvaLoanDtls(String sevaarthid,Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
 		query.append("select other_veh_adv_inst ||' '||other_rec from paybill_generation_trn_details  where      sevaarth_id= '"+sevaarthid+"' "
-				+ "and paybill_generation_trn_id ="+billNumber);
-/*		query.append("select no_of_installments_paid+1  ||'/'|| sanc_principal_installmca  ||'        '|| odd_Prin_Amt_Plus_Prin_Amt from lna_va_employee_request_mst "
-				+ " where sevaarth_id = '"+sevaarthid+"' and no_of_installments_paid <= sanc_principal_installmca and is_active='1' limit 1 ");
-*/		
+				+ "and paybill_generation_trn_id ='"+billNumber+"'");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)
@@ -189,15 +186,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public String gethbaLoanDtls(String sevaarthid, int billNumber) {
+	public String gethbaLoanDtls(String sevaarthid, Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select hba_house_inst ||' '||hba_house from paybill_generation_trn_details  where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ="+billNumber);
-/*		query.append("select no_of_installments_paid+1  ||'/'|| sanctioned_no_of_installment  ||'        '|| installment_amount from lna_hba_employee_request_mst "
-				+ " where sevaarth_id = '"+sevaarthid+"' and no_of_installments_paid <= sanctioned_no_of_installment and is_active='1' limit 1 ");
-*/		
+		query.append("select hba_house_inst ||' '||hba_house from paybill_generation_trn_details  where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ='"+billNumber+"'");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)
@@ -207,12 +201,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public String getgpfLoanDtls(String sevaarthid, int billNumber) {
+	public String getgpfLoanDtls(String sevaarthid, Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select gpf_advance_inst ||' '||gpf_advance from paybill_generation_trn_details  where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ="+billNumber);
+		query.append("select gpf_advance_inst ||' '||gpf_advance from paybill_generation_trn_details  where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ='"+billNumber+"'");
 		
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
@@ -222,12 +216,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 		
 	}
 	@Override
-	public String getgpfIILoanDtls(String sevaarthid, int billNumber) {
+	public String getgpfIILoanDtls(String sevaarthid, Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select gpf_advance_ii_inst ||' '||gpf_advance_ii from paybill_generation_trn_details  where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ="+billNumber);
+		query.append("select gpf_advance_ii_inst ||' '||gpf_advance_ii from paybill_generation_trn_details  where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ='"+billNumber+"'");
 		
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
@@ -238,13 +232,13 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public String getbillDetails(int billNumber) {
+	public String getbillDetails(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
 		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn \r\n" + 
-				" where paybill_generation_trn_id="+billNumber+") ");
+				" where paybill_generation_trn_id='"+billNumber+"') ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 
@@ -254,12 +248,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public String getPayFixDiffLoanDtls(String sevaarthid, int billNumber) {
+	public String getPayFixDiffLoanDtls(String sevaarthid, Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select pay_fixadv_diff_inst ||' '||pay_fix_diff from paybill_generation_trn_details where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ="+billNumber);
+		query.append("select pay_fixadv_diff_inst ||' '||pay_fix_diff from paybill_generation_trn_details where  sevaarth_id= '"+sevaarthid+"' and paybill_generation_trn_id ='"+billNumber+"'");
 		
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
@@ -270,12 +264,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public String gethbaLoanIntsDtls(String string, int billNumber) {
+	public String gethbaLoanIntsDtls(String string, Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select hba_house_inst ||' '||hba_house_int_amt from paybill_generation_trn_details  where  sevaarth_id= '"+string+"' and paybill_generation_trn_id ="+billNumber);
+		query.append("select hba_house_inst ||' '||hba_house_int_amt from paybill_generation_trn_details  where  sevaarth_id= '"+string+"' and paybill_generation_trn_id ='"+billNumber+"'");
 /*		query.append("select no_of_installments_paid+1  ||'/'|| sanctioned_no_of_installment  ||'        '|| installment_amount from lna_hba_employee_request_mst "
 				+ " where sevaarth_id = '"+sevaarthid+"' and no_of_installments_paid <= sanctioned_no_of_installment and is_active='1' limit 1 ");
 */		
@@ -288,12 +282,12 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 	}
 
 	@Override
-	public String getexPayRecDtls(String string, int billNumber) {
+	public String getexPayRecDtls(String string, Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select excess_pay_rec_int ||' '||excess_pay_rec from paybill_generation_trn_details  where  sevaarth_id= '"+string+"' and paybill_generation_trn_id ="+billNumber);
+		query.append("select excess_pay_rec_int ||' '||excess_pay_rec from paybill_generation_trn_details  where  sevaarth_id= '"+string+"' and paybill_generation_trn_id ='"+billNumber+"'");
 /*		query.append("select no_of_installments_paid+1  ||'/'|| sanctioned_no_of_installment  ||'        '|| installment_amount from lna_hba_employee_request_mst "
 				+ " where sevaarth_id = '"+sevaarthid+"' and no_of_installments_paid <= sanctioned_no_of_installment and is_active='1' limit 1 ");
 */		
