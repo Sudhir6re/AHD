@@ -52,7 +52,7 @@ public class ConsolidatedreportController  extends BaseController{
 	List<ConsolidatedReportModel> lstsvnpcbasicObj = new ArrayList<>();
 	
 		@GetMapping("/consolidatedreport/{yearName}/{monthName}/{billNumber}")
-	public String getconsolidatedreport(@ModelAttribute("consolidatedReportModel") ConsolidatedReportModel consolidatedReportModel,@PathVariable int monthName,@PathVariable int yearName,@PathVariable int billNumber, Model model, Locale locale, HttpSession session) {
+	public String getconsolidatedreport(@ModelAttribute("consolidatedReportModel") ConsolidatedReportModel consolidatedReportModel,@PathVariable int monthName,@PathVariable int yearName,@PathVariable Long billNumber, Model model, Locale locale, HttpSession session) {
 			lstsvnpcbasicObj.clear();
 		String message = (String) model.asMap().get("message");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
@@ -228,7 +228,7 @@ public class ConsolidatedreportController  extends BaseController{
 
 		@GetMapping("/consolidatedreportPDF/{yearName}/{monthName}/{billNumber}")
 	public String getconsolidatedreportPDF(@ModelAttribute("consolidatedReportModel") ConsolidatedReportModel consolidatedReportModel,@PathVariable int monthName,
-			@PathVariable int yearName,@PathVariable int billNumber, Model model, Locale locale, HttpSession session,HttpServletResponse response) {
+			@PathVariable int yearName,@PathVariable Long billNumber, Model model, Locale locale, HttpSession session,HttpServletResponse response) {
 			lstsvnpcbasicObj.clear();
 		String message = (String) model.asMap().get("message");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
@@ -623,7 +623,7 @@ public class ConsolidatedreportController  extends BaseController{
 	}
 
 		@GetMapping("/consolidatePayBillTrnReportPDF/{consolidatePayBillTrnId}")
-	public String getconsolidatedreportNewPDF(@ModelAttribute("consolidatedReportModel") ConsolidatedReportModel consolidatedReportModel,@PathVariable int consolidatePayBillTrnId,
+	public String getconsolidatedreportNewPDF(@ModelAttribute("consolidatedReportModel") ConsolidatedReportModel consolidatedReportModel,@PathVariable Long consolidatePayBillTrnId,
 			Model model, Locale locale, HttpSession session,HttpServletResponse response) {
 			lstsvnpcbasicObj.clear();
 		String message = (String) model.asMap().get("message");

@@ -7,7 +7,7 @@ import com.mahait.gov.in.model.DisplayOuterReportModel;
 
 public interface DisplayOuterReportRepo {
 	public String getOffice(String locId);
-	public List getReportHeaderDetails(String bill_no) ;
+	public List<Object[]> getReportHeaderDetails(String bill_no) ;
 	public List<DisplayOuterReportModel> findBillDescription(String ddoCode,int month,int year);
 	public int getTotalDeduction(double billno);
 	/*public List<DisplayOuterReportModel> getAllDataForOuternew(String ddocode);*/
@@ -17,4 +17,5 @@ public interface DisplayOuterReportRepo {
 	public List<DisplayOuterReportModel> findAllSchemeBillGroupByDDOCode(String dDOCode, int roleid);
 	public List<Object[]> getcardecode(String strddo);
 	public String getbillDetails(Long billDetails);
+	public Double gettotalNetAmount(String billNumber);
 }

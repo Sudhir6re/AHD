@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.model.DisplayOuterReportModel;
+import com.mahait.gov.in.model.RegularReportModel;
 import com.mahait.gov.in.repository.DisplayOuterReportRepo;
 
 @Service
@@ -21,8 +22,41 @@ public class DisplayOuterReportServiceImpl implements DisplayOuterReportService 
 		return displayOuterReportRepo.getOffice(locId);
 	}
 	
-	public List getReportHeaderDetails(String bill_no) {
-		return displayOuterReportRepo.getReportHeaderDetails(bill_no);
+	public List<RegularReportModel> getReportHeaderDetails(String bill_no) {
+		
+
+		
+		List<Object[]> lstprop = displayOuterReportRepo.getReportHeaderDetails(bill_no);
+		
+		List<RegularReportModel> lstObj = new ArrayList<>();
+        if (!lstprop.isEmpty()) {
+        	int i=1;
+            for (Object[] objLst : lstprop) {
+            	RegularReportModel obj = new RegularReportModel();
+            	
+            	obj.setDdoCode(StringHelperUtils.isNullString(objLst[0]));
+                obj.setSchemeName(StringHelperUtils.isNullString(objLst[1]));
+                obj.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
+                obj.setGrossAmount(StringHelperUtils.isNullDouble(objLst[3]));
+                obj.setMonthId(StringHelperUtils.isNullInt(objLst[4]));
+                obj.setBillCreatedDate(StringHelperUtils.isNullDate(objLst[5]));
+                obj.setDemandCode(StringHelperUtils.isNullString(objLst[6]));
+                obj.setMajorHead(StringHelperUtils.isNullString(objLst[7]));
+                obj.setSubMajorHead(StringHelperUtils.isNullString(objLst[8]));
+                obj.setMinorHead(StringHelperUtils.isNullString(objLst[9]));
+                obj.setSubMinorHead(StringHelperUtils.isNullString(objLst[10]));
+                obj.setSubHead(StringHelperUtils.isNullString(objLst[11]));
+                obj.setNetAmount(StringHelperUtils.isNullDouble(objLst[12]));
+                obj.setYearId(StringHelperUtils.isNullInt(objLst[13]));
+                obj.setDesgName(StringHelperUtils.isNullString(objLst[14]));
+                lstObj.add(obj);
+                i++;
+            }
+        }
+		
+		return lstObj;
+	
+		
 	}
 	public List<DisplayOuterReportModel> findBillDescription(String ddoCode,int month,int year){
 		return displayOuterReportRepo.findBillDescription(ddoCode,month,year);
@@ -73,6 +107,12 @@ public class DisplayOuterReportServiceImpl implements DisplayOuterReportService 
 	@Override
 	public String getbillDetails(Long billDetails) {
 		return displayOuterReportRepo.getbillDetails(billDetails);
+	}
+
+	@Override
+	public Double gettotalNetAmount(String billNumber) {
+		// TODO Auto-generated method stub
+		return displayOuterReportRepo.gettotalNetAmount(billNumber);
 	}
 }
 
