@@ -59,10 +59,10 @@ public class DisplayGroupAbstractReportRepoImpl implements DisplayGroupAbstractR
 		Session currentSession = manager.unwrap(Session.class);
 		String HQL = "select sum(total_deduction) from paybill_generation_trn_details where paybill_generation_trn_id = "+billno;
 		Query query = currentSession.createSQLQuery(HQL);
-		List<BigDecimal> lstprop = query.list();
+		List<Double> lstprop = query.list();
 		int totalded=0;
 		if (!lstprop.isEmpty()) {
-            for (BigDecimal objLst : lstprop) {
+            for (Double objLst : lstprop) {
             	totalded=(int)objLst.intValue();
             }
 		}
@@ -100,9 +100,9 @@ public class DisplayGroupAbstractReportRepoImpl implements DisplayGroupAbstractR
 	public List<Object[]> getAllDataForAbstractnew(String ddocode,Long billNumber)
 	{
 		Session currentSession = manager.unwrap(Session.class);
-			String HQL="select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,b.head_account_code,department_allowdeduc_seqno from "
+			String HQL="select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,b.head_account_code,department_allowdeduc_seq from "
 		+ " employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id  inner join department_allowdeduc_mst d ON  "
-		+ " b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+ddocode+"' and paybill_generation_trn_id  = '"+billNumber+"' and b.is_active = '1' order by department_allowdeduc_seqno ";
+		+ " b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+ddocode+"' and paybill_generation_trn_id  = '"+billNumber+"' and b.is_active = '1' order by department_allowdeduc_seq ";
 Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
@@ -129,8 +129,8 @@ Query query = currentSession.createSQLQuery(HQL);
 		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,f.id,b.* from paybill_generation_trn a\r\n" + 
 				"inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id\r\n" + 
 				"inner join employee_mst c on b.sevaarth_id = c.sevaarth_id\r\n" + 
-				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_code inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
-				"where  f.id=1 and a.paybill_generation_trn_id ="+bill_no;
+				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_id inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
+				"where  f.id='700057' and a.paybill_generation_trn_id ="+bill_no;
 		 org.hibernate.Query hibernateQuery =  currentSession.createNativeQuery(HQL);
 	      hibernateQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 	        List<Map<String,Object>> resvalue = hibernateQuery.list();
@@ -143,8 +143,8 @@ Query query = currentSession.createSQLQuery(HQL);
 		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,f.id,b.* from paybill_generation_trn a\r\n" + 
 				"inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id\r\n" + 
 				"inner join employee_mst c on b.sevaarth_id = c.sevaarth_id\r\n" + 
-				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_code inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
-				"where f.id=2 and a.paybill_generation_trn_id ="+bill_no;
+				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_id inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
+				"where f.id='700058' and a.paybill_generation_trn_id ="+bill_no;
 		 org.hibernate.Query hibernateQuery =  currentSession.createNativeQuery(HQL);
 	      hibernateQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 	        List<Map<String,Object>> resvalue = hibernateQuery.list();
@@ -157,8 +157,8 @@ Query query = currentSession.createSQLQuery(HQL);
 		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,f.id,b.* from paybill_generation_trn a\r\n" + 
 				"inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id\r\n" + 
 				"inner join employee_mst c on b.sevaarth_id = c.sevaarth_id\r\n" + 
-				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_code inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
-				"where f.id=3 and a.paybill_generation_trn_id ="+bill_no;
+				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_id inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
+				"where f.id='700059' and a.paybill_generation_trn_id ="+bill_no;
 		 org.hibernate.Query hibernateQuery =  currentSession.createNativeQuery(HQL);
 	      hibernateQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 	        List<Map<String,Object>> resvalue = hibernateQuery.list();
@@ -171,8 +171,8 @@ Query query = currentSession.createSQLQuery(HQL);
 		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,f.id,b.* from paybill_generation_trn a\r\n" + 
 				"inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id\r\n" + 
 				"inner join employee_mst c on b.sevaarth_id = c.sevaarth_id\r\n" + 
-				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_code inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
-				"where f.id=4 and a.paybill_generation_trn_id ="+bill_no;
+				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_id inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
+				"where f.id='700060' and a.paybill_generation_trn_id ="+bill_no;
 		 org.hibernate.Query hibernateQuery =  currentSession.createNativeQuery(HQL);
 	      hibernateQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 	        List<Map<String,Object>> resvalue = hibernateQuery.list();
@@ -185,8 +185,8 @@ Query query = currentSession.createSQLQuery(HQL);
 		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,f.id,b.* from paybill_generation_trn a\r\n" + 
 				"inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id\r\n" + 
 				"inner join employee_mst c on b.sevaarth_id = c.sevaarth_id\r\n" + 
-				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_code inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
-				"where f.id=5 and a.paybill_generation_trn_id ="+bill_no;
+				"inner join designation_mst d on d.designation_code = c.designation_code inner join cadre_mst e on c.cadre_code = e.cadre_id inner join cadre_group_mst f on e.group_id = f.id\r\n" + 
+				"where f.id='700061' and a.paybill_generation_trn_id ="+bill_no;
 		 org.hibernate.Query hibernateQuery =  currentSession.createNativeQuery(HQL);
 	      hibernateQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 	        List<Map<String,Object>> resvalue = hibernateQuery.list();

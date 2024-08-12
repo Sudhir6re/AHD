@@ -100,15 +100,15 @@ public class DisplayGroupAbstractReportController extends BaseController{
 		List<Object[]>  monthinfo = paybillGenerationTrnService.findmonthinfo(currmonth);
 		for (Object[] monthLst : monthinfo) {
 			// String empName;
-			monname = monthLst[1].toString();
+			monname = monthLst[4].toString();
 			
 		}
 		
 		List<Object[]>  yearinfo = paybillGenerationTrnService.findyearinfo(yearcurr);
 		for (Object[] yearLst : yearinfo) {
 			// String empName;
-			curryear = yearLst[1].toString();
-			finyear = yearLst[10].toString();
+			curryear = yearLst[4].toString();
+			finyear = yearLst[3].toString();
 			
 		}
 		SimpleDateFormat sdf =new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -122,23 +122,9 @@ public class DisplayGroupAbstractReportController extends BaseController{
 
 		for (Object[] objddoLst : ddoinfo) {
 			// String empName;
-			regid = Long.parseLong(objddoLst[0].toString());
-			 ddoname = objddoLst[1].toString();
-			 if(objddoLst[2]!=null)
-			 ofcid = Long.parseLong(objddoLst[2].toString());
-			
-		}
-		List<Object[]>  regIdinfo = paybillGenerationTrnService.findregIdinfo(regid);
-		for (Object[] objorgLst : regIdinfo) {
-			// String empName;
-			orgname = objorgLst[2].toString();
-			
-		}
-		
-		List<Object[]>  ofcIdinfo = paybillGenerationTrnService.findofcIdinfo(ofcid);
-		for (Object[] ofcLst : ofcIdinfo) {
-			// String empName;
-			ofcname = ofcLst[2].toString();
+			 ddoname = objddoLst[0].toString();
+			 if(objddoLst[1]!=null)
+			 ofcid = Long.parseLong(objddoLst[1].toString());
 			
 		}
 		model.addAttribute("paybillNo", billNo);
@@ -653,7 +639,7 @@ public class DisplayGroupAbstractReportController extends BaseController{
 		model.addAttribute("billGrpname", billGrpname);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("word", word);
-		model.addAttribute("ofcname", ofcname);
+		model.addAttribute("ofcname", officeDetails);
 		model.addAttribute("systemdate", sdf.format(new Date()));
 		model.addAttribute("year",monname+" "+curryear);
 		////model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());

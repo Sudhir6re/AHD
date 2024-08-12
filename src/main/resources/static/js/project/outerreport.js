@@ -455,7 +455,7 @@ $('#btnbankstatementreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/bankStatementreport/"+yearName+"/"+monthName+"/"
+			 url : context+"/ddoast/bankStatementreport/"+yearName+"/"+monthName+"/"
 			 + billNumber+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -515,7 +515,7 @@ $('#btnaquittancerollreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/aquittancereport/"+yearName+"/"+monthName+"/"
+			 url : context+"/ddoast/aquittancereport/"+yearName+"/"+monthName+"/"
 			 + billNumber+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -938,7 +938,7 @@ $('#btnbrokenPeriodreport').click(function() {
 	var yearName=$('#yearName').val();
 	var monthName=$('#monthName').val();
 	var billno=$('#billno').val();
-	 var billNumber=$('#billNumber').val();
+	 var billNumber=$('#billGroup').val();
 	if(yearName == '0' || yearName==""){
 		swal("Please select Year");
 		return false ;
@@ -954,7 +954,7 @@ $('#btnbrokenPeriodreport').click(function() {
 	else{
 		$.ajax({
 			type : "GET",
-			url : context+"/paybill/monthyearBill/"+monthName+"/"+yearName+"/"+billNumber,
+			url : context+"/ddoast/monthyearBill/"+monthName+"/"+yearName+"/"+billNumber,
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {
@@ -967,7 +967,7 @@ $('#btnbrokenPeriodreport').click(function() {
 				$
 				.ajax({
 					type : "GET",
-					url : context+"/paybill/brokenPeriodReport/"+billNumber+"/"+1+"/"+1+"/"+billno,
+					url : context+"/ddoast/brokenPeriodReport/"+billNumber+"/"+1+"/"+1+"/"+billno,
 					async : true,
 					contentType : 'application/json',
 					error : function(data) {
