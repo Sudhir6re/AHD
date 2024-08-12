@@ -5,7 +5,7 @@
 <title th:utext="#{msg.thymeleaf.pageheading.postmaster}"></title>
 
 </head>
-<body class="post-master">
+<body class="add-post-master-entry">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 	<div class="container min-height-600">
@@ -43,11 +43,7 @@
 									style="width: 85%, display: inline;">
 										<option title="Select" value="-1">Select</option>
 
-
-
-
 								</select></td>
-
 
 								<td>DDO Code/Office Name</td>
 								<td><input type="text" id="ddoCodeforFilter"
@@ -142,45 +138,6 @@
 
 
 							</tr>
-							<!-- added by shailesh -->
-							<!--<tr id="tempSubPost" style="display:none">		
-		<td > 
-		<label class=captionTag  id="admin.SelectSubTypePost" >Select Sub Type of Post</label>
-			&nbsp;</td>
-			<td>
-			<select name="postSubTypeCmbBoxTemp" mandatory="true" id="postSubTypeCmbBoxTemp" >
-			 	<option value="-1">-- Select -- </option>
-				<option value="10001198155" > Statutory </option>
-				<option value="10001198157"> Adhoc </option>			
-				<option value="10001198153" > Contract </option>
-				<option value="10001198175" > Clock Hour Basis </option>
-				<option value="10001198154" > Honorary </option>
-				
-				
-			</select>
-			</td>
-			<td></td>
-		<td></td>
-		</tr>
-		<tr id="permSubPost" style="display:none">
-		<td> 
-		<label class=captionTag  id="admin.SelectSubTypePost" >Select Sub Type of Post</label>
-			&nbsp;</td>
-			<td>
-			<select name="postSubTypeCmbBoxPerm"  id="postSubTypeCmbBoxPerm"  class="selecttag mandatorycontrol" >
-
-			 	<option value="-1" >-- Select -- 
-				<option value="10001198174" > Regular 
-				<option value="10001198159" > Protected 	 
-				<option value="10001198156" > Surplus 			
-			</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label>
-		</td>
-			
-		<td></td>
-		<td></td>
-		</tr>
-					-->
-							<!-- added by shailesh:end -->
 							<tr>
 
 							</tr>
