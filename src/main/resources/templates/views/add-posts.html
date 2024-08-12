@@ -3,6 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:utext="#{msg.thymeleaf.pageheading.addPosts}"></title>
+<style type="text/css">
+table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
+	padding-left: 50px;
+}
+</style>
 </head>
 <body class="add-posts">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
