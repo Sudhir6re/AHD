@@ -1,4 +1,22 @@
-  
+var context = "";
+$(document).ready(function() {
+	context = $("#appRootPath").val();
+	if ($('#department_id').length) {
+		$('#department_id').select2();
+	}
+
+	var varMessage = $("#message").val();
+
+	if (varMessage != undefined) {
+		swal('' + varFinal, {
+			icon : "success",
+		});
+	}
+
+});
+
+
+
   $("#txtSchemeCode").blur(function(){
 	  var schemeCode=$("#txtSchemeCode").val();
 	  $.ajax({

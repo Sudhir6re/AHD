@@ -1032,6 +1032,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
 		objEntity.setDesignationCode(mstEmployeeModel.getDesignationId());
 		objEntity.setPayscalelevelId(mstEmployeeModel.getPayscalelevelId());
+		objEntity.setPercentageOfBasic(100l);
 		if (mstEmployeeModel.getPayscalelevelId() != null)
 			objEntity.setSevenPcLevel(Long.valueOf(mstEmployeeModel.getPayscalelevelId()));
 		else

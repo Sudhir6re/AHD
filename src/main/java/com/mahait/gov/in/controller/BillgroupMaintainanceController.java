@@ -60,8 +60,8 @@ public class BillgroupMaintainanceController  extends BaseController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		Long Postid = messages.getCreatedByPost().getPostId();
 		model.addAttribute("language", locale.getLanguage());
-		model.addAttribute("lstAllScheme", mstSchemeService.findAllScheme(messages.getUserName()));
-		model.addAttribute("lstBillName", ddoBillGroupService.lstBillName(messages.getUserName()));
+		model.addAttribute("lstAllScheme", mstSchemeService.findAllScheme(messages.getDdoCode()));
+		model.addAttribute("lstBillName", ddoBillGroupService.lstBillName(messages.getDdoCode()));
 
 		addMenuAndSubMenu(model,messages);	
 		
