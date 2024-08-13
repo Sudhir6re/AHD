@@ -113,7 +113,7 @@ $('#btninnerreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/innerreport/getinnerreport/"
+			 url : context+"/ddoast/getinnerreport/"
 			 + billNumber +"/"+1+"/"+1+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -366,7 +366,9 @@ $("#yearName").on('change', function(){
 // year code started
 */$('#btngroupAbstractreport').click(function() {
 	 var billNumber=$('#billno').val();
-	
+	 var month=$('#monthName').val();
+	 var year=$('#yearName').val();
+	 
 	 ddoCode=$("#logUser").text().trim();
 	 var isContainAST=ddoCode.includes("_AST");
 	 if(!isContainAST){
@@ -384,8 +386,8 @@ $("#yearName").on('change', function(){
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/groupAbstractReport/"
-			 + billNumber+"/"+ddoCode,
+			 url : context+"/ddoast/groupAbstractReport/"
+			 + billNumber+"/"+ddoCode+"/"+month+"/"+year,
 				 async : true,
 				 contentType : 'application/json',
 				 error : function(data) {
@@ -453,7 +455,7 @@ $('#btnbankstatementreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/bankStatementreport/"+yearName+"/"+monthName+"/"
+			 url : context+"/ddoast/bankStatementreport/"+yearName+"/"+monthName+"/"
 			 + billNumber+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -513,7 +515,7 @@ $('#btnaquittancerollreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/aquittancereport/"+yearName+"/"+monthName+"/"
+			 url : context+"/ddoast/aquittancereport/"+yearName+"/"+monthName+"/"
 			 + billNumber+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -852,7 +854,7 @@ $('#btnpageWiseAbstractreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/getpageWiseAbstractreport/"
+			 url : context+"/ddoast/getpageWiseAbstractreport/"
 			 + billNumber +"/"+1+"/"+1+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
@@ -936,7 +938,7 @@ $('#btnbrokenPeriodreport').click(function() {
 	var yearName=$('#yearName').val();
 	var monthName=$('#monthName').val();
 	var billno=$('#billno').val();
-	 var billNumber=$('#billNumber').val();
+	 var billNumber=$('#billGroup').val();
 	if(yearName == '0' || yearName==""){
 		swal("Please select Year");
 		return false ;
@@ -952,7 +954,7 @@ $('#btnbrokenPeriodreport').click(function() {
 	else{
 		$.ajax({
 			type : "GET",
-			url : context+"/paybill/monthyearBill/"+monthName+"/"+yearName+"/"+billNumber,
+			url : context+"/ddoast/monthyearBill/"+monthName+"/"+yearName+"/"+billNumber,
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {
@@ -965,7 +967,7 @@ $('#btnbrokenPeriodreport').click(function() {
 				$
 				.ajax({
 					type : "GET",
-					url : context+"/paybill/brokenPeriodReport/"+billNumber+"/"+1+"/"+1+"/"+billno,
+					url : context+"/ddoast/brokenPeriodReport/"+billNumber+"/"+1+"/"+1+"/"+billno,
 					async : true,
 					contentType : 'application/json',
 					error : function(data) {

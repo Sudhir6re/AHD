@@ -16,6 +16,5 @@ public interface DisplayOuterReportRepo {
 	public List<Object[]> getempDetails(int monthName, int yearName, String ddocode, String billnumber);
 	public List<DisplayOuterReportModel> findAllSchemeBillGroupByDDOCode(String dDOCode, int roleid);
 	public List<Object[]> getcardecode(String strddo);
-	public String getbillDetails(Long billDetails);
 	public Double gettotalNetAmount(String billNumber);
 }

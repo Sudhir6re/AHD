@@ -6,8 +6,9 @@
 <link rel="stylesheet" th:href="@{/css/print.css}" />
 <link rel="stylesheet" th:href="@{/css/styles.css}" />
 <style>
-table.table.table-bordered table.bor-0, table.table.table-bordered table.bor-0 * {
-    border: none !important;
+table.table.table-bordered table.bor-0, table.table.table-bordered table.bor-0 *
+	{
+	border: none !important;
 }
 </style>
 </head>
@@ -27,14 +28,15 @@ table.table.table-bordered table.bor-0, table.table.table-bordered table.bor-0 *
 						</tr>
 						<tr>
 							<td style="font-weight: bold; text-align: left;">For the
-								Month of July 2024</td>
+								Month of <span th:text="${currmonyer}"></span>July 2024
+							</td>
 							<td style="font-weight: bold; text-align: right;">Section
 								:All Employees</td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; text-align: left;">Name of the
-								Office : MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA
-								UNIVERSITY</td>
+								Office : <span th:text="${officename}"></span>
+							</td>
 							<td style="font-weight: bold; text-align: right;">Treasury :
 								2222 DDO:20541200001</td>
 						</tr>
@@ -42,83 +44,55 @@ table.table.table-bordered table.bor-0, table.table.table-bordered table.bor-0 *
 				</table>
 				<br />
 				<table class="table table-bordered table-striped">
+
+					<thead>
+						<tr>
+							<th th:utext="#{msg.thymeleaf.pagelabel.srno}" />
+							<th th:utext="#{msg.thymeleaf.label.nameofGovServ}" />
+							<th th:utext="#{msg.thymeleaf.pagelabel.aqunetpayamt}" />
+							<th th:utext="#{msg.thymeleaf.pagelabel.aqudatedsign}" />
+							<th th:utext="#{msg.thymeleaf.pagelabel.aqutotalngded}" />
+							<th th:utext="#{msg.thymeleaf.pagelabel.aqunetamt}" />
+						</tr>
+					</thead>
+
 					<tbody>
-						<tr>
-							<th align="center" valign="bottom" width="0%">Sr. No.</th>
-							<th align="center" valign="bottom" width="25%">Name of Govt.
-								servants</th>
-							<th align="center" valign="bottom" width="0%">Net Payable
-								Amount(Rs.)</th>
-							<th align="center" valign="bottom" width="15%">Dated Sign
-								with stamp</th>
-							<th align="center" valign="bottom" width="0%">L.I.C</th>
-							<th align="center" valign="bottom" width="0%">Total NG.Ded.
-							</th>
-							<th align="center" valign="bottom" width="0%">Net Amount</th>
+
+						<tr th:each="varData : ${aquittanceinfo}">
+							<td class="text-center" th:text="${varDataStat.index+1}"></td>
+							<td class="text-center" th:text="${varData.empName}"></td>
+							<td class="text-center" th:text="${varData.netamt}"></td>
+							<td class="text-center"></td>
+							<td class="text-center" th:text="${varData.Totaldedamt}"></td>
+							<td class="text-center" th:text="${varData.netamt}"></td>
 						</tr>
+
 						<tr>
-							<td align="center" valign="middle" style="font-weight: bold;">
-								1</td>
-							<td align="left" valign="middle">
-								<table class="bor-0">
-									<tbody>
-										<tr>
-											<td style="font-weight: bold;">JOSHI KULDEEP JAYANT</td>
-										</tr>
-										<tr>
-											<td style="font-weight: bold;">(20DHEKJJM8501)</td>
-										</tr>
-										<tr>
-											<td style="font-weight: bold;">(Attendant)</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								70,990</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-							</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								1,000</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								1,000</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								69,990</td>
-						</tr>
-						<tr class="TablerowBG2">
-							<td align="center" valign="middle"></td>
-							<td align="left" valign="middle" style="font-weight: bold;">
-								Total (`):</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								70,990</td>
-							<td align="right" valign="middle"></td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								1,000</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								1,000</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								69,990</td>
+
+							<td></td>
+							<td style="font-weight: bold;">Total (`):</td>
+							<td th:text="${totalnetamt}"></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
-							<td align="center" valign="middle"></td>
-							<td align="left" valign="middle" style="font-weight: bold;">
-								Grand Total (`):</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								70,990</td>
-							<td align="right" valign="middle"></td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								1,000</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								1,000</td>
-							<td align="right" valign="middle" style="font-weight: bold;">
-								69,990</td>
+
+							<td></td>
+							<td style="font-weight: bold;">Grand Total (`):</td>
+							<td th:text="${totalnetamt}"></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
-						<tr class="TablerowBG2">
-							<td align="center" valign="middle" style="font-weight: bold;">
-							</td>
-							<td colspan="6" align="left" valign="middle"
-								style="font-weight: bold;">Grand Total in Words (`):Sixty
-								Nine Thousand Nine Hundred and Ninty Only.</td>
+						<tr>
+
+							<td></td>
+							<td style="font-weight: bold;">Grand Total in Words (`):</td>
+							<td th:text="${word}"></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
@@ -127,8 +101,9 @@ table.table.table-bordered table.bor-0, table.table.table-bordered table.bor-0 *
 					<tbody>
 						<tr>
 							<td valign="middle" style="font-weight: bold;"><br /> <b>Verification
-									Time:-</b>19-07-2024 11:55:29.372<br /> <span>* Generated
-									By <span th:text="#{msg.thymeleaf.pagelabel.hteCustSevaarth}"></span>
+									Time:-</b><span th:text="${systemdate}"></span><br /> <span>*
+									Generated By <span
+									th:text="#{msg.thymeleaf.pagelabel.hteCustSevaarth}"></span>
 							</span></td>
 						</tr>
 					</tbody>

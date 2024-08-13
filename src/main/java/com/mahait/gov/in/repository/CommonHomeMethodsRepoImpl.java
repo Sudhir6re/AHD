@@ -395,4 +395,20 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return query.list();
 	}
 
+	@Override
+	public String findbillGrpname(Long billNumber) {
+		Session currentSession = manager.unwrap(Session.class);
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn " + 
+				" where paybill_generation_trn_id='"+billNumber+"') ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+
+		if (list != null && list.size() > 0)
+			rtnStr = list.get(0).toString();
+		return rtnStr;
+	}
+
 }

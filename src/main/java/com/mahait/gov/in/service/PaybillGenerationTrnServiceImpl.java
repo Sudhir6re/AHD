@@ -8538,7 +8538,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
 
 						ta = paybillHeadMpgRepo.fetchtaDtls(basic, payCommission, allowDeducCode,mstEmployeeEntity2.getGradePay(),cityClass,mstEmployeeEntity2.getPhysicallyHandicapped());
-						Long percentBasic = mstEmployeeEntity2.getPercentageOfBasic();
+						Long percentBasic = mstEmployeeEntity2.getPercentageOfBasic()==null?100:mstEmployeeEntity2.getPercentageOfBasic();
 						Double ratio = (double) (percentBasic / 100);
 						ta = ratio * ta;
 						paybillGenerationTrnDetails.setTa(ta);
