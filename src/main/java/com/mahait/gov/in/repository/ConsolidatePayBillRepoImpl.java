@@ -112,7 +112,7 @@ public class ConsolidatePayBillRepoImpl implements ConsolidatePayBillRepo {
 	@Override
 	public Long getConsolidateTrnId() {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = " SELECT coalesce(max(ch.consolidatePaybillTrnId), 0) FROM ConsolidatePayBillTrnEntity ch";
+		String hql = " SELECT coalesce(max(ch.consolidatePaybillTrnId), 0)+1 FROM ConsolidatePayBillTrnEntity ch";
 		Query query = currentSession.createQuery(hql);
 		return (Long) query.list().get(0);
 	}

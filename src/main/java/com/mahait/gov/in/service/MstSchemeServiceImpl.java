@@ -42,12 +42,6 @@ public class MstSchemeServiceImpl implements MstSchemeService {
 	}
 
 	@Override
-	public List<MstScheme> findAllSchemeDetails(String data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<MstSchemeModel> findAllScheme(String username) {
 		return mstSchemeRepo.findAllSchemename(username);
 	}
@@ -58,4 +52,16 @@ public class MstSchemeServiceImpl implements MstSchemeService {
 		return mstSchemeRepo.findAllMpgSchemeBillGroupBylvl2DDOCode(userName);
 	}
 
-}
+	@Override
+	public List<MstSchemeModel> findAllSchemeforConsolidate(String ddoCode) {
+		// TODO Auto-generated method stub
+		return mstSchemeRepo.findAllSchemeforConsolidate(ddoCode);
+		}
+
+	@Override
+	public List<MstScheme> findAllSchemeDetails(String data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	}
+

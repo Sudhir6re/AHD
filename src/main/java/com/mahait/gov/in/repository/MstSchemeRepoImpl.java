@@ -110,4 +110,23 @@ public class MstSchemeRepoImpl implements MstSchemeRepo {
 		return lstObj;
 	}
 
+	@Override
+	public List<MstSchemeModel> findAllSchemeforConsolidate(String ddoCode) {
+		Session currentSession = manager.unwrap(Session.class);
+	String HQL = "select scheme_code,scheme_name from mst_dcps_bill_group a inner join rlt_zp_ddo_map b on a.ddo_code=b.zp_ddo_code where b.rept_ddo_code = '"+ddoCode+"'";
+
+Query query = currentSession.createSQLQuery(HQL);
+
+List<Object[]> lstprop = query.list();
+List<MstSchemeModel> lstObj = new ArrayList<>();
+if (!lstprop.isEmpty()) {
+for (Object[] objLst : lstprop) {
+	MstSchemeModel obj = new MstSchemeModel();
+	obj.setSchemeCode(StringHelperUtils.isNullString(objLst[0]));
+    obj.setSchemeName(StringHelperUtils.isNullString(objLst[1]));
+    lstObj.add(obj);
+}
+}
+return lstObj;}
+
 }

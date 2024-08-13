@@ -21,5 +21,7 @@ public interface MstSchemeRepo {
 
 	List<MstSchemeModel> findAllMpgSchemeBillGroupBylvl2DDOCode(String userName);
 
+	List<MstSchemeModel> findAllSchemeforConsolidate(String ddoCode);
+
 
 }

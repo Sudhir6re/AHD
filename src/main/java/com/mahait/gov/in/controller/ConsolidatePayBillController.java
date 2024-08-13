@@ -63,7 +63,7 @@ public class ConsolidatePayBillController  extends BaseController{
 		
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
-		model.addAttribute("lstSchemeCode", mstSchemeService.findAllScheme(messages.getDdoCode()));
+		model.addAttribute("lstSchemeCode", mstSchemeService.findAllSchemeforConsolidate(messages.getDdoCode()));
 		model.addAttribute("lstBillStatus", commonHomeMethodsService.lstGetAllBillStatusForConsolidatePaybill());
 		
 		consolidatePayBillModel.setLstCons(consolidatePayBillService.fetchDDOLst(messages.getDdoCode()));
