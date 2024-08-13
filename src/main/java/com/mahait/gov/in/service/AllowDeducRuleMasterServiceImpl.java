@@ -38,6 +38,7 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
  			}
  	 		
  			allowanceDeductionMstEntity.setIsActive(StringHelperUtils.isNullChar(object[6]));
+ 			
  			allowanceDeductionMstEntity.setIsType(StringHelperUtils.isNullInt(object[7]));
  			allowanceDeductionMstEntity.setPayCommissionCode(StringHelperUtils.isNullInt(object[8]));
  			allowanceDeductionMstEntity.setPercentage(StringHelperUtils.isNullInt(object[9]));  //11 perc  
@@ -95,6 +96,7 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
 
 	@Override
 	public int saveAllowanceDeductionRulesMaster(AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity) {
+		allowanceDeductionRuleMstEntity.setIsActive('1');
 		return allowDeducRuleMasterRepo.saveAllowanceDeductionRulesMaster(allowanceDeductionRuleMstEntity);
 		}
 
@@ -131,5 +133,10 @@ public class AllowDeducRuleMasterServiceImpl implements AllowDeducRuleMasterServ
 	public AllowanceDeductionRuleMstEntity deleteRule(int id, char status) {
 		return allowDeducRuleMasterRepo.deleteRule(id,status);
 		}
+
+	@Override
+	public AllowanceDeductionRuleMstEntity permanentDeleteRule(int id) {
+		return allowDeducRuleMasterRepo.permanentDeleteRule(id);
+	}
 
 }

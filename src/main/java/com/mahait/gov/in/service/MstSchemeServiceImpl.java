@@ -49,20 +49,7 @@ public class MstSchemeServiceImpl implements MstSchemeService {
 
 	@Override
 	public List<MstSchemeModel> findAllScheme(String username) {
-
-		List<Object[]> lst = mstSchemeRepo.findAllSchemename(username);
-		List<MstSchemeModel> lstObj = new ArrayList<>();
-		if (!lst.isEmpty()) {
-			for (Object[] objLst : lst) {
-				MstSchemeModel obj = new MstSchemeModel();
-				obj.setSchemeCode(StringHelperUtils.isNullString(objLst[0]));
-				obj.setSchemeName(StringHelperUtils.isNullString(objLst[1]));
-
-				lstObj.add(obj);
-			}
-		}
-		return lstObj;
-
+		return mstSchemeRepo.findAllSchemename(username);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.mahait.gov.in.service;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,7 +58,7 @@ public long saveBillGroupMaintainance(BillgroupMaintainanceModel billgroupMainta
 				mstBillGroupEntity.setDcpsDdoBillSchemeName(billgroupMaintainanceModel.getSchemeName());
 				mstBillGroupEntity.setDcpsDdoSubSchemeCode(billgroupMaintainanceModel.getDcpsDdoSubSchemeCode());
 				mstBillGroupEntity.setDcpsDdoBillTypeOfPost(billgroupMaintainanceModel.getDcpsDdoBillTypeOfPost());
-				mstBillGroupEntity.setDcpsDdoCode(messages.getUserName().substring(0,11));
+				mstBillGroupEntity.setDcpsDdoCode(messages.getDdoCode());
 				mstBillGroupEntity.setLocId(locId);
 				mstBillGroupEntity.setLangId(1l);
 				mstBillGroupEntity.setDbId(99l);

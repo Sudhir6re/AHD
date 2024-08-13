@@ -33,8 +33,6 @@ import com.mahait.gov.in.service.WelcomeService;
 @Controller
 public class AllowDeducRuleMasterController extends BaseController {
 
-	
-
 	@Autowired
 	MstDesignationService mstDesignationService;
 
@@ -67,7 +65,8 @@ public class AllowDeducRuleMasterController extends BaseController {
 
 		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
 
-		model.addAttribute("lstAllowanceDeductionMstEntity", allowDeducRuleMasterService.findAllRules(0));  //0 for All Component 
+		model.addAttribute("lstAllowanceDeductionMstEntity", allowDeducRuleMasterService.findAllRules(0)); // 0 for All
+																											// Component
 
 		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
 		modelAndView.addObject("message", message);
@@ -80,63 +79,62 @@ public class AllowDeducRuleMasterController extends BaseController {
 		modelAndView.setViewName("/views/allow-deduc-rule-master");
 		return modelAndView;
 	}
-	
-	
+
 	@RequestMapping(value = "/findRuleByComponentCode/{departmentAllowdeducCode}", consumes = {
-	"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AllowanceDeductionRuleMstEntity>> findRuleByComponentCode(
 			@PathVariable int departmentAllowdeducCode) throws ParseException {
-		List<AllowanceDeductionRuleMstEntity> lst=allowDeducRuleMasterService.findAllRules(departmentAllowdeducCode);
+		List<AllowanceDeductionRuleMstEntity> lst = allowDeducRuleMasterService.findAllRules(departmentAllowdeducCode);
 		return ResponseEntity.ok(lst);
 	}
-	
 
 	@RequestMapping("/saveAllowanceDeductionRulesMaster")
 	public ModelAndView saveAllowanceDeductionRulesMaster(HttpServletRequest request, Model model,
 			HttpServletResponse response, Locale locale, HttpSession session,
-			@ModelAttribute("allowanceDeductionRuleMstEntity") AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity,RedirectAttributes redirectAttributes) throws ParseException {
-		ModelAndView modelAndView=new ModelAndView();
+			@ModelAttribute("allowanceDeductionRuleMstEntity") AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity,
+			RedirectAttributes redirectAttributes) throws ParseException {
+		ModelAndView modelAndView = new ModelAndView();
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		allowanceDeductionRuleMstEntity.setCreatedUserId( messages.getUserId());
-		int isSave=0;
-		
-			 isSave=allowDeducRuleMasterService.saveAllowanceDeductionRulesMaster(allowanceDeductionRuleMstEntity);
-		if(isSave>0) {
+		allowanceDeductionRuleMstEntity.setCreatedUserId(messages.getUserId());
+		int isSave = 0;
+
+		isSave = allowDeducRuleMasterService.saveAllowanceDeductionRulesMaster(allowanceDeductionRuleMstEntity);
+		if (isSave > 0) {
 			redirectAttributes.addFlashAttribute("message", "Rule Save Successfully");
-		}else {
+		} else {
 			redirectAttributes.addFlashAttribute("message", "Rule Save Successfully");
 		}
 		return new ModelAndView("redirect:/mdc/loadRuleMaster");
 	}
-	
+
 	@RequestMapping("/updateAllowanceDeductionRulesMaster")
 	public ModelAndView updateAllowanceDeductionRulesMaster(HttpServletRequest request, Model model,
 			HttpServletResponse response, Locale locale, HttpSession session,
-			@ModelAttribute("allowanceDeductionRuleMstEntity") AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity,RedirectAttributes redirectAttributes) throws ParseException {
-		ModelAndView modelAndView=new ModelAndView();
+			@ModelAttribute("allowanceDeductionRuleMstEntity") AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity,
+			RedirectAttributes redirectAttributes) throws ParseException {
+		ModelAndView modelAndView = new ModelAndView();
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		allowanceDeductionRuleMstEntity.setCreatedUserId( messages.getUserId());
-		int isSave=0;
-		
-			 isSave=allowDeducRuleMasterService.updateAllowanceDeductionRulesMaster(allowanceDeductionRuleMstEntity);
-		if(isSave>0) {
+		allowanceDeductionRuleMstEntity.setCreatedUserId(messages.getUserId());
+		int isSave = 0;
+
+		isSave = allowDeducRuleMasterService.updateAllowanceDeductionRulesMaster(allowanceDeductionRuleMstEntity);
+		if (isSave > 0) {
 			redirectAttributes.addFlashAttribute("message", "Rule Updated Successfully");
-		}else {
+		} else {
 			redirectAttributes.addFlashAttribute("message", "Rule Updated Successfully");
 		}
 		return new ModelAndView("redirect:/mdc/loadRuleMaster");
 	}
-	
-	
+
 	@RequestMapping("/editAllowanceDeductionRulesMaster/{allowanceDeductionWiseRuleId}")
-	public ModelAndView editAllowanceDeductionRulesMaster(HttpServletRequest request, Model model,@ModelAttribute("allowanceDeductionRuleMstEntity") AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity,
+	public ModelAndView editAllowanceDeductionRulesMaster(HttpServletRequest request, Model model,
+			@ModelAttribute("allowanceDeductionRuleMstEntity") AllowanceDeductionRuleMstEntity allowanceDeductionRuleMstEntity,
 			HttpServletResponse response, Locale locale, HttpSession session,
-			@PathVariable int allowanceDeductionWiseRuleId,RedirectAttributes redirectAttributes) throws ParseException {
+			@PathVariable int allowanceDeductionWiseRuleId, RedirectAttributes redirectAttributes)
+			throws ParseException {
 		String message = (String) model.asMap().get("message");
 
-		
-		
-		allowanceDeductionRuleMstEntity=allowDeducRuleMasterService.findRuleByRuleId(allowanceDeductionWiseRuleId);
+		allowanceDeductionRuleMstEntity = allowDeducRuleMasterService.findRuleByRuleId(allowanceDeductionWiseRuleId);
 
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -158,23 +156,33 @@ public class AllowDeducRuleMasterController extends BaseController {
 		modelAndView.addObject("message", message);
 		modelAndView.addObject("allowanceDeductionRuleMstEntity", allowanceDeductionRuleMstEntity);
 
-		modelAndView.addObject("lstdeptEligibilityForAllowAndDeduct",deptEligibilityForAllowAndDeductService.findDeptEligibilityForAllowAndDeductList());
+		modelAndView.addObject("lstdeptEligibilityForAllowAndDeduct",
+				deptEligibilityForAllowAndDeductService.findDeptEligibilityForAllowAndDeductList());
 
 		addMenuAndSubMenu(modelAndView, messages);
-	
+
 		modelAndView.setViewName("/views/edit-allow-deduc-rule-master");
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/deleteRule/{id}/{status}")
-	public ModelAndView deleteRule(@PathVariable int id,@PathVariable char status,Model model,Locale locale) {
-		AllowanceDeductionRuleMstEntity allowanceDeductionMstEntity=allowDeducRuleMasterService.deleteRule(id,status);
+	public ModelAndView deleteRule(@PathVariable int id, @PathVariable char status, Model model, Locale locale) {
+		AllowanceDeductionRuleMstEntity allowanceDeductionMstEntity = allowDeducRuleMasterService.deleteRule(id,
+				status);
 		if (allowanceDeductionMstEntity != null) {
 			model.addAttribute("ddoScreenModel", new DDOScreenModel());
 			model.addAttribute("language", locale.getLanguage());
 		}
-		return new ModelAndView("redirect:/mdc/AllowanceDeductionWiseMaster");
+		return new ModelAndView("redirect:/mdc/loadRuleMaster");
 	}
-	
 
+	@RequestMapping("/permanentDeleteRule/{id}")
+	public ModelAndView permanentDeleteRule(@PathVariable int id,Model model, Locale locale) {
+		AllowanceDeductionRuleMstEntity allowanceDeductionMstEntity = allowDeducRuleMasterService.permanentDeleteRule(id);
+		if (allowanceDeductionMstEntity != null) {
+			model.addAttribute("ddoScreenModel", new DDOScreenModel());
+			model.addAttribute("language", locale.getLanguage());
+		}
+		return new ModelAndView("redirect:/mdc/loadRuleMaster");
+	}
 }

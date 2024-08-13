@@ -28,6 +28,10 @@
 			<form method="post" name="frmScheme" enctype="multipart/form-data"
 				th:action="@{/ddo/addSchemesAndBillGroupsToDdo}"
 				th:object="${newRegDDOModel}">
+				
+				 <input type="hidden" name="message"
+					id="message" th:value="${message}" />
+				
 				<fieldset class="tabstyle">
 					<legend>
 						<b>Schemes Operated by DDO</b>

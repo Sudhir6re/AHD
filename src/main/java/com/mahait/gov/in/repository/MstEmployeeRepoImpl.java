@@ -172,6 +172,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		result = entityManager.createQuery("from MstCadreGroupEntity", MstCadreGroupEntity.class).getResultList();
 		return result;
 	}
+	
 	@Override
 	public List<MstRoleEntity> findAll() {
 		// TODO Auto-generated method stub
