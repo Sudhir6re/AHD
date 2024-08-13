@@ -491,7 +491,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setEmpClass(mstEmployeeModel.getEmpClass());
 			objEntity.setSuperAnnAge(mstEmployeeModel.getSuperannuationage());
 			objEntity.setEmpServiceEndDate(mstEmployeeModel.getSuperAnnDate()); // by default set to retirement date
-																				// added by sudhir
+			objEntity.setPercentageOfBasic(100l);														// added by sudhir
 			objEntity.setSuperAnnDate(mstEmployeeModel.getSuperAnnDate());
 			objEntity.setPayCommissionCode(mstEmployeeModel.getPayCommissionCode());
 			objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
@@ -976,6 +976,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setEmployeeLNameMr(mstEmployeeModel.getEmployeeLNameMr());
 		objEntity.setEmployeeMotherName(mstEmployeeModel.getEmployeeMotherName());
 		objEntity.setGender(mstEmployeeModel.getGender());
+		objEntity.setPercentageOfBasic(100l);
 		
 		objEntity.setBuckleNo(mstEmployeeModel.getBuckleNo());
 //		if (mstEmployeeModel.getGender() == '1') {
