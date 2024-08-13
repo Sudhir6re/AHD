@@ -566,7 +566,7 @@ $('#btnrevenueStampreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/revenueStampreport/"+yearName+"/"+monthName+"/"
+			 url : context+"/ddoast/revenueStampreport/"+yearName+"/"+monthName+"/"
 			 + billNumber+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',

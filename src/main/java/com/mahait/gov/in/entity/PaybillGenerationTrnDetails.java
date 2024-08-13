@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+
 @Data
 @Entity
 @Table(name = "PAYBILL_GENERATION_TRN_DETAILS", schema = "public")
@@ -58,10 +59,10 @@ public class PaybillGenerationTrnDetails {
 
 	@Column(name = "HRA")
 	private Double hra;
-	
+
 	@Column(name = "HRA5th")
 	private Double hra5th;
-	
+
 	@Column(name = "HRA6th")
 	private Double hra6th;
 
@@ -76,14 +77,12 @@ public class PaybillGenerationTrnDetails {
 
 	@Column(name = "NPS_EMP_CONTRI")
 	private Double npsEmployeeContri;
-	
+
 	@Column(name = "DCPS")
 	private Double dcps;
 
-
 	@Column(name = "TOTAL_DEDUCTION")
 	private Double totalDeduction;
-
 
 	@Column(name = "GIS")
 	private Double gis;
@@ -96,10 +95,10 @@ public class PaybillGenerationTrnDetails {
 
 	@Column(name = "TA")
 	private Double ta;
-	
+
 	@Column(name = "TA5th")
 	private Double ta5th;
-	
+
 	@Column(name = "TA6th")
 	private Double ta6th;
 
@@ -186,11 +185,11 @@ public class PaybillGenerationTrnDetails {
 
 	@Column(name = "PAY_COMMISSION_CODE")
 	private Long payCommissionCode;
-	
+
 	@Column(name = "seven_pc_level")
 	private Long sevenPcLevel;
-	
-	@Column(name = "PAY_BAND" )
+
+	@Column(name = "PAY_BAND")
 	private Long pay_band;
 
 	@Column(name = "DA_ARR")
@@ -246,7 +245,7 @@ public class PaybillGenerationTrnDetails {
 
 	@Column(name = "GPF_ADV_GRP_D")
 	private Double gpfAdvGrpD;
-	
+
 	@Column(name = "GPF_ADVANCE")
 	private Double gpfAdvance;
 
@@ -257,160 +256,166 @@ public class PaybillGenerationTrnDetails {
 	private Double excessPayment;
 	@Column(name = "OTHER_VEH_ADV")
 	private Double otherVehAdv;
-	
+
 	@Column(name = "FA")
 	private Double festivalAdv;
-	
+
 	@Column(name = "Arrears")
 	private Double arrears;
-	
+
 	@Column(name = "Deputation_Allow")
 	private Double deputationAllow;
-	
+
 	@Column(name = "HBA")
 	private Double hba;
-	
+
 	@Column(name = "GPF_Arrears")
 	private Double gpfArrears;
-	
+
 	@Column(name = "Mantralaya_Bank")
 	private Double mantralayaBank;
-	
+
 	@Column(name = "NPS")
 	private Double nps;
 	@Column(name = "Excess_Pay_Rec")
 	private Double excessPayrec;
-	
+
 	@Column(name = "excess_pay_rec_int")
 	private String excessPayrecint;
-	
+
 	@Column(name = "Flag_Day")
 	private Double flagDay;
 
 	@Column(name = "GPF_INST")
 	private Double gpfInst;
-	
+
 	@Column(name = "FA_INST")
 	private String faInst;
-	
+
 	@Column(name = "OTHER_VEH_ADV_INST")
 	private String othrVehAdvInst;
-	
+
 	@Column(name = "HBA_HOUSE_INST")
 	private String hbaHouseInst;
-	
+
 	@Column(name = "COMP_ADV_INST")
 	private String compAdvInst;
-	
+
 	@Column(name = "GPF_ADVANCE_INST")
 	private String gpfAdvInst;
-	
+
 	@Column(name = "PAY_FIXADV_Diff_INST")
 	private String payFixAdvDiffInst;
-	
+
 	@Column(name = "GPF_Loan_REC")
 	private Double gpfLoanRec;
-	
+
 	@Column(name = "Accidential_Policy")
 	private Double accidentPolicy;
 
 	@Column(name = "Recovery")
 	private Double recovery;
-	
+
 	@Column(name = "sub_department_id")
 	private Integer subDeptId;
-	
+
 	@Column(name = "desg_code")
 	private Long desgCode;
 
 	@Column(name = "GPF_Advance_II")
 	private Double gpfAdvII;
-	
+
 	@Column(name = "GPF_Advance_II_Inst")
 	private Double gpfAdvIIInst;
 
 	@Column(name = "CON_STORE")
 	private Double conStore;
-	
+
 	@Column(name = "MTR_CO_OP_SOC")
 	private Double mtrCoOpSoc;
-	
+
 	@Column(name = "MIS")
 	private Double mis;
-	
+
 	@Column(name = "ATS_Incentive_50")
 	private Double atsInc50;
-	
+
 	@Column(name = "ATS_Incentive_30")
 	private Double atsInc30;
-	
+
 	@Column(name = "Force1_Incentive_25")
 	private Double force1Inc25;
-	
+
 	@Column(name = "Force1_Incentive_100")
 	private Double force1Inc100;
-	
+
 	@Column(name = "PG_Allow")
 	private Double pgAllow;
-	
+
 	@Column(name = "CPF_Contri")
 	private Double cpfContri;
-	
+
 	@Column(name = "ta_Arrear")
 	private Double taArr;
-	
+
 	@Column(name = "GPF_Arrears_deduc")
 	private Double gpfArrDeduc;
-	
+
 	@Column(name = "HBA_For_Land")
 	private Double hbaforLand;
-	
+
 	@Column(name = "Pay_adv")
 	private Double payAdv;
-	
+
 	@Column(name = "TA_ADV")
 	private Double taAdv;
-	
+
 	@Column(name = "MCA")
 	private Double mca;
-	
+
 	@Column(name = "svn_pc_ta")
 	private Double svnPcTa;
-	
+
 	@Column(name = "GPF_Rec")
 	private Double gpfRec;
-	
+
 	@Column(name = "DCPS_Rec")
 	private Double dcpsRec;
-	
+
 	@Column(name = "OTHER_VEH_ADV_INT")
 	private Double othrVehAdvInt;
-	
-	
+
 	@Column(name = "Motor_Veh_Adv_Inst_Amt")
 	private Double motorVehAdvInstAmt;
-	
+
 	@Column(name = "DCPS_REGULAR")
 	private Double dcpsRegular;
-	
+
 	@Column(name = "DCPS_DELAYED")
 	private Double dcpsDelayed;
-	
+
 	@Column(name = "DCPS_PAY")
 	private Double dcpsPay;
-	
+
 	@Column(name = "DCPS_DA")
 	private Double dcpsDa;
-	
+
 	@Column(name = "PLI")
 	private Double pli;
-	
-	
+
 	@Column(name = "HRA_Percentage")
 	private Integer hraPercent;
-	
-	
+
 	@Column(name = "DA_Percentage")
 	private Integer daPercent;
-	
+
+	@Column(name = "bank_id")
+	private Long bankId;
+
+	@Column(name = "bank_branch_id")
+	private Long bankBranchId;
+
+	@Column(name = "bank_account_no")
+	private Long bankAccNo;
+
 }

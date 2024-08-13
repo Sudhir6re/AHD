@@ -8264,6 +8264,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			paybillGenerationTrnDetails.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
 			paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
 			paybillGenerationTrnDetails.setSevaarthId(mstEmployeeEntity2.getSevaarthId().trim());
+			paybillGenerationTrnDetails.setBankAccNo(mstEmployeeEntity2.getBankAcntNo());
+			paybillGenerationTrnDetails.setBankId(mstEmployeeEntity2.getBankCode());
+			paybillGenerationTrnDetails.setBankBranchId(mstEmployeeEntity2.getBankBranchCode());
 
 			
 			
@@ -8327,17 +8330,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							try {
 								fieldName.set(paybillGenerationTrnDetails, temp);
 							} catch (IllegalArgumentException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (IllegalAccessException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						} catch (NoSuchFieldException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (SecurityException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
@@ -8586,7 +8585,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Start GIS Component
 					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_GIS)
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL) {
-						gisAmount = paybillHeadMpgRepo.findGisComponentValue(gisgroup, mstEmployeeEntity2.getDoj(),
+						gisAmount = paybillHeadMpgRepo.findGisComponentValue(groupname, mstEmployeeEntity2.getDoj(),
 								"20"+startDate,allowDeducCode);
 						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
 						dedByAG+=gisAmount;
@@ -8760,24 +8759,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 				objEntity.setBillNetAmount((double) Math.round(netAmt));
 				objEntity.setPaybillGenerationTrnId(val);
-/*
-				
-				grossAmt = grossAmt +grossAmount;
-				netAmount = netAmount+netAmt;
-
-				
-				
-				Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
-				Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);*/
-				
 				
 			}
 
-	
-			/*objEntity.setBillGrossAmt(grossAmt);
-			objEntity.setBillNetAmount(netAmount);
-			paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
-			Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);*/
 		}
 
 		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
