@@ -8,6 +8,6 @@ public interface EmpBasicDtlsReportRepo {
 
 	List<MstEmployeeEntity> lstDDOWiseEmp(String ddoCode);
 
-	List<Object[]> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode);
+	List<Object[]> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode, String sevaarthId);
 
 }

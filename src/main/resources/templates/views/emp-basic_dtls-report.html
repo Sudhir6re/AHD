@@ -25,7 +25,7 @@
 			<span th:utext="#{msg.thymeleaf.pageheading.empchangebasicrpt}"></span>
 		</h3>
 		<form class="form-horizontal" name="myForm" id="myForm"
-			th:action="@{/ddoast/form2RegularReport}"
+			th:action="@{/ddoast/empBasicDtlsReport}"
 			th:object="${regularReportModel}" method="POST"
 			enctype="multipart/form-data">
 			<div class="formMainwithNoborTb container">
@@ -72,7 +72,7 @@
 							<td>	<label class="control-label col-sm-2 " for="title"><span
 							th:utext="#{msg.thymeleaf.pagelabel.employeeName}"></span>&nbsp;&nbsp;<b><font
 								color="red" size="4px;">*</font></b></label></td>
-							<td><select name="name" th:field="*{name}" id="name"
+							<td><select name="sevaarthId" th:field="*{sevaarthId}" id="sevaarthId"
 								class="form-control removeErrorFromDropdown">
 									<option selected="selected" th:value="0"
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>

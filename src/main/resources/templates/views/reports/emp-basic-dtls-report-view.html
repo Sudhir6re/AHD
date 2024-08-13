@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Revenue Stamp</title>
+<title>Employee Basic Details Report</title>
 <link rel="stylesheet" th:href="@{/css/print.css}" />
 <link rel="stylesheet" th:href="@{/css/styles.css}" />
 <style>
@@ -58,24 +58,15 @@ table.table.table-striped.table-bordered a {
 					</thead>
 
 					<tbody>
-						<tr th:each="varEmp : ${revenueStampReport}">
+						<tr th:each="varEmp : ${empDtls}">
 							<td class="text-center" th:text="${varEmpStat.index+1}"></td>
-							<td class="text-center" th:text="${varEmp.empName}"></td>
-							<td class="text-center" th:text="${varEmp.gross}"></td>
-							<td class="text-center" th:text="${varEmp.revenueStamp}"></td>
+							<td class="text-center" th:text="${varEmp.name}"></td>
+							<td class="text-center" th:text="${varEmp.desgName}"></td>
+							<td class="text-center" th:text="${varEmp.dcpsNo}"></td>
+							<td class="text-center" th:text="${varEmp.panNo}"></td>
+							<td class="text-center" th:text="${varEmp.bankAccNo}"></td>
+							<td class="text-center" th:text="${varEmp.branchName}"></td>
 							</tr>
-							<tr>
-							<td></td>
-							<td>Total Deduction (`): </td>
-							<td></td>
-							<td th:text="${totalDeduc}">/-</td>
-						</tr>
-							<tr>
-							<td></td>
-							<td>Total Deduction In Words (`): </td>
-							<td></td>
-							<td th:text="${word}"></td>
-						</tr>
 					</tbody>
 
 				</table>

@@ -11,7 +11,7 @@ public interface EmpBasicDtlsReportService {
 
 	List<MstEmployeeEntity> lstDDOWiseEmp(String ddoCode);
 
-	List<RegularReportModel> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode);
+	List<RegularReportModel> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode, String sevaarthId);
 
 	
 	

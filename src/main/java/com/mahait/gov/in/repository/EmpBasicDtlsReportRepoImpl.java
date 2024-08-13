@@ -24,16 +24,16 @@ public class EmpBasicDtlsReportRepoImpl implements EmpBasicDtlsReportRepo{
 	}
 
 	@Override
-	public List<Object[]> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode) {
+	public List<Object[]> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode, String sevaarthId) {
 		// TODO Auto-generated method stub
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-				"b.svn_pc_da else da end as DA, b.dcps_regular,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
-				" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
-				" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
-				" where c.scheme_billgroup_id = '"+billGroup+"' " + 
-				" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
-				" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+		String HQL = " select a.employee_full_name_en,d.designation_name, case when a.dcps_gpf_flag = 'Y' then a.dcps_no else a.pfdescription " + 
+				" end as gpfdcpsno,a.pan_no,B.bank_account_no,f.bank_branch_name from employee_mst a inner join paybill_generation_trn_details b on a.sevaarth_id=b.sevaarth_id " + 
+				" inner join paybill_generation_trn c on c.paybill_generation_trn_id=b.paybill_generation_trn_id " + 
+				" inner join designation_mst d on d.designation_code=b.desg_code " + 
+				" inner join bank_mst e on b.bank_id=e.bank_code " + 
+				" inner join bank_branch_mst f on f.bank_branch_code = b.bank_branch_id where " + 
+				" c.paybill_month = "+monthId+" and c.paybill_year = "+yearId+" and c.scheme_billgroup_id = '"+billGroup+"' and c.ddo_code='"+ddoCode+"' and b.sevaarth_id ='"+sevaarthId+"' ";
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("HQL:"+HQL);
 		return query.list();

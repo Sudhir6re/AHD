@@ -48,5 +48,9 @@ public class RegularReportModel {
 	private  String subMinorHead;
 	private  String subHead;
 	private  String desgName;
+	private  String panNo;
 	private  Date billCreatedDate;
+	private  String bankAccNo;
+	private  String branchName;
+	private  String sevaarthId;
 }

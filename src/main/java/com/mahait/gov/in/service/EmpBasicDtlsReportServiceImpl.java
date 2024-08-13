@@ -28,22 +28,22 @@ public class EmpBasicDtlsReportServiceImpl implements EmpBasicDtlsReportService{
 	}
 
 	@Override
-	public List<RegularReportModel> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode) {
+	public List<RegularReportModel> findEmpBasicDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode,String sevaarthId) {
 		
-		List<Object[]> lstprop = empBasicDtlsReportRepo.findEmpBasicDtls(yearId,monthId,billGroup,ddoCode);
+		List<Object[]> lstprop = empBasicDtlsReportRepo.findEmpBasicDtls(yearId,monthId,billGroup,ddoCode,sevaarthId);
 		List<RegularReportModel> lstObj = new ArrayList<>();
 		
-		Double sum=0d;
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				RegularReportModel obj = new RegularReportModel();
+			/*	a.employee_full_name_en,d.designation_name, case when a.dcps_gpf_flag = 'Y' then a.dcps_no else a.pfdescription
+						end as gpfdcpsno,a.pan_no,B.bank_account_no,f.bank_branch_name*/
 				obj.setName(StringHelperUtils.isNullString(objLst[0]));
-				obj.setPran(StringHelperUtils.isNullString(objLst[1]));
-				obj.setBasicpay(StringHelperUtils.isNullDouble(objLst[2]));
-				obj.setDp(StringHelperUtils.isNullDouble(objLst[3]));
-				obj.setSvnpcda(StringHelperUtils.isNullDouble(objLst[4]));
-				obj.setDcpsReg(StringHelperUtils.isNullDouble(objLst[5]));
-				obj.setNpsEmployerDedu(StringHelperUtils.isNullDouble(objLst[6]));
+				obj.setDesgName(StringHelperUtils.isNullString(objLst[1]));
+				obj.setDcpsNo(StringHelperUtils.isNullString(objLst[2]));
+				obj.setPanNo(StringHelperUtils.isNullString(objLst[3]));
+				obj.setBankAccNo(StringHelperUtils.isNullString(objLst[4]));
+				obj.setBranchName(StringHelperUtils.isNullString(objLst[5]));
 				
 				lstObj.add(obj);
 			}

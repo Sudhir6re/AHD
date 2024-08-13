@@ -66,6 +66,7 @@ public class EmpBasicDtlsReportController  extends BaseController{
 		SimpleDateFormat sdf =new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		SimpleDateFormat sdf1 =new SimpleDateFormat("dd/MM/yyyy");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
+		addMenuAndSubMenu(model,messages);
 		String curryear=null;
 		String currFinancialYr=null;
 		
@@ -112,18 +113,15 @@ public class EmpBasicDtlsReportController  extends BaseController{
 		
 
 		
-		List<RegularReportModel> entryinfo = empBasicDtlsReportService.findEmpBasicDtls(regularReportModel.getYearId(),regularReportModel.getMonthId(),regularReportModel.getBillGroup(),messages.getDdoCode());
-        BigInteger bigInteger = BigInteger.valueOf(regularReportModel.getMonthId());
+		List<RegularReportModel> empDtls = empBasicDtlsReportService.findEmpBasicDtls(regularReportModel.getYearId(),regularReportModel.getMonthId(),
+				regularReportModel.getBillGroup(),messages.getDdoCode(),regularReportModel.getSevaarthId());
         
-        
-        double dcpsReg = entryinfo.stream().mapToDouble(RegularReportModel::getDcpsReg).sum();
-        double npsEmprdeduc = entryinfo.stream().mapToDouble(RegularReportModel::getNpsEmployerDedu).sum();
-        double totalSum = dcpsReg + npsEmprdeduc;
-        String totalContrinword=CashWordConverter.doubleConvert(totalSum);
+		
+		BigInteger monthId = BigInteger.valueOf(regularReportModel.getMonthId());
         
         
 		String monname="";
-		List<Object[]>  monthinfo = paybillGenerationTrnService.findmonthinfo(bigInteger);
+		List<Object[]>  monthinfo = paybillGenerationTrnService.findmonthinfo(monthId);
 		for (Object[] monthLst : monthinfo) {
 			monname = monthLst[4].toString();
 			
@@ -135,7 +133,7 @@ public class EmpBasicDtlsReportController  extends BaseController{
 		BigInteger neyer = null;
 		BigInteger nemon;
 		
-		if(bigInteger.equals(new BigInteger("12"))) {
+		if(monthId.equals(new BigInteger("12"))) {
 			nextMonth=new BigInteger("1");
 			BigInteger nextyer =new BigInteger("1");
 			neyer=yearcurr.add(nextyer);
@@ -173,33 +171,23 @@ public class EmpBasicDtlsReportController  extends BaseController{
     	model.addAttribute("date", sdf1.format(new Date()));
     	model.addAttribute("fromDate",sdf1.format(fromDate));
 		model.addAttribute("toDate",sdf1.format(toDate));
-		model.addAttribute("entryinfo",entryinfo);
+		model.addAttribute("empDtls",empDtls);
 		String officename =commonHomeMethodsService.getOffice(messages.getDdoCode());
 		
     	model.addAttribute("systemdate", sdf.format(new Date()));
     	model.addAttribute("date", sdf1.format(new Date()));
 		model.addAttribute("officename",officename);
-        model.addAttribute("createddate", sdf.format(new Date()));
         model.addAttribute("systemdate", sdf.format(new Date()));
-		model.addAttribute("totalContrinword", totalContrinword);
-		
 		model.addAttribute("currmonyer", monname+" "+curryear);
-		model.addAttribute("offcName", offcName);
 		model.addAttribute("billGroup", billgrpname);
 		model.addAttribute("yearName",curryear);
 		model.addAttribute("monthName",monname);
-		model.addAttribute("currFinancialYr",currFinancialYr);
 		
-		model.addAttribute("ddoCode",messages.getDdoCode());
 		model.addAttribute("regularReportModel", regularReportModel);
-		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("systemdate", sdf.format(new Date()));
-    	model.addAttribute("date", sdf1.format(new Date()));
 		model.addAttribute("ddoName",ddoName);
 		model.addAttribute("monthString", monthString);
 		model.addAttribute("nextMonth",nextMonth);
-		NextYear="Paybill of Month "+monname+" - " +curryear+" Paid In Month "+NextMon+"-"+NextYear;
-		model.addAttribute("NextYear",NextYear);
 		addMenuAndSubMenu(model,messages);
 	
 		return "/views/reports/emp-basic-dtls-report-view";
