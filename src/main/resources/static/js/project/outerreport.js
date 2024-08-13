@@ -854,7 +854,7 @@ $('#btnpageWiseAbstractreport').click(function() {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : context+"/paybill/getpageWiseAbstractreport/"
+			 url : context+"/ddoast/getpageWiseAbstractreport/"
 			 + billNumber +"/"+1+"/"+1+"/"+ddoCode,
 				 async : true,
 				 contentType : 'application/json',
