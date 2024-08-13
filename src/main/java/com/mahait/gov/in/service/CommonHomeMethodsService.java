@@ -79,7 +79,7 @@ public interface CommonHomeMethodsService {
 
 	public List<MstYearEntity> lstGetAllYears();
 	
-	public Date findbillCreateDate(int billNumber);
+	public Date findbillCreateDate(Long billNumber);
 	
 	public List<Object[]> findDetailsBillNumber(Long billNumber);
 	
@@ -97,6 +97,8 @@ public interface CommonHomeMethodsService {
 	public String findCodeSeq(String DeptAllowDedCode, String DeptAllowDedMst);
 
 	public List<Object[]> getCityClassByCity(String city);
+
+	public String findbillGrpname(Long billNumber);
 
 	
 	

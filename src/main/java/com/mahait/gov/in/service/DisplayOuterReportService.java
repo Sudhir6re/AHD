@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.mahait.gov.in.model.DisplayOuterReportModel;
+import com.mahait.gov.in.model.PayBillViewApprDelBillModel;
+import com.mahait.gov.in.model.RegularReportModel;
 
 public interface DisplayOuterReportService {
 	public String getOffice(String locId);
-	public List getReportHeaderDetails(String bill_no) ;
+	public List<RegularReportModel> getReportHeaderDetails(String bill_no) ;
 	public List<DisplayOuterReportModel> findBillDescription(String ddoCode,int month,int year);
 	public int getTotalDeduction(double billno);
 	public List<DisplayOuterReportModel> getAllDataForOuternew(String ddocode,Long billNumber);
@@ -15,5 +17,5 @@ public interface DisplayOuterReportService {
 	public List<Object[]> findbillcrateornot(int monthName, int yearName, String ddocode, String billnumber);
 	public List<DisplayOuterReportModel> findAllSchemeBillGroupByDDOCode(String DDOCode,int roleid);
 	public List<Object[]> getcardecode(String strddo);
-	public String getbillDetails(Long billNumber);
+	public Double gettotalNetAmount(String valueOf);
 }

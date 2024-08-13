@@ -34,6 +34,7 @@ import com.mahait.gov.in.model.DisplayOuterReportModel;
 //import com.mahait.gov.in.entity.HrPayEdpCompoMpg;
 //import com.mahait.gov.in.entity.MstSchemeEntity;
 import com.mahait.gov.in.model.PayBillViewApprDelBillModel;
+import com.mahait.gov.in.model.RegularReportModel;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
@@ -45,7 +46,7 @@ import com.mahait.gov.in.service.RegularReportService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class DisplayOuterReportContorller
+public class DisplayOuterReportContorller extends BaseController
 {
 //	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
@@ -74,7 +75,7 @@ public class DisplayOuterReportContorller
 		model.addAttribute("payBillViewApprDelBillModel", payBillViewApprDelBillModel);
 
 
-	 
+		addMenuAndSubMenu(model,messages);
 
 		if (message != null && message.equals("SUCCESS")) {
 			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
@@ -98,11 +99,11 @@ public class DisplayOuterReportContorller
 	public String searchOuterReport(
 			@ModelAttribute("payBillViewApprDelBillModel") PayBillViewApprDelBillModel payBillViewApprDelBillModel,
 			@PathVariable int month,@PathVariable int year,Model model, Locale locale, HttpSession session,HttpServletRequest request) {
-
 		String message = (String) model.asMap().get("message");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		model.addAttribute("payBillViewApprDelBillModel", payBillViewApprDelBillModel);
 		
+		addMenuAndSubMenu(model,messages);
 		if(month!=0 && year!=0)
 
 		if (message != null && message.equals("SUCCESS")) {
@@ -126,6 +127,7 @@ public class DisplayOuterReportContorller
 	public @ResponseBody List<DisplayOuterReportModel> billDetails(@PathVariable int month,@PathVariable int year, Model model, Locale locale, HttpSession session) {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
 		List<DisplayOuterReportModel>  lstbilldtls=null;;
 		if(month!=0 && year!=0)
 	    lstbilldtls =displayOuterReportService.findBillDescription(messages.getUserName(),month,year);
@@ -134,8 +136,8 @@ public class DisplayOuterReportContorller
 		return lstbilldtls;
 	}
 //[/ddoast/outerreport/52/06130900121_AST]
-	@GetMapping("/outerreport/{billNumber}/{ddoCode}")
-	public String getOuterReport(@PathVariable Long billNumber, Model model, Locale locale, HttpSession session,@PathVariable String ddoCode,HttpServletRequest request) {
+	@GetMapping("/outerreport/{billNumber}/{ddoCode}/{month}/{year}")
+	public String getOuterReport(@PathVariable Long billNumber,@PathVariable int month,@PathVariable int year, Model model, Locale locale, HttpSession session,@PathVariable String ddoCode,HttpServletRequest request) {
 
 		String message = (String) model.asMap().get("message");
 		// model.addAttribute("payBillViewApprDelBillModel",
@@ -154,98 +156,56 @@ public class DisplayOuterReportContorller
 			ddoCode=messages.getDdoCode();
 		}
 		Long billNo =  billNumber;
-		String month = "April";
 		String officeDetails = displayOuterReportService.getOffice(ddoCode);
-		String billDetails = displayOuterReportService.getbillDetails(billNumber);
-		int year = 2020;
+		String billDetails = commonHomeMethodsService.findbillGrpname(billNumber);
 		String ddocode = "";
-		String schemename = "";
-		String schemecode = "";
 		BigDecimal grossamount = null;
 		BigDecimal netamount= null;
-		int paymonth = 0;
-		int payyear = 0;
 		Date billcreationdate = null;
-		String demandcode = "";
-		String majorhead = "";
-		String submajorhead = "";
-		String minorhead = "";
-		String subminorhead = "";
-		String subhead = "";
-		String teasurycode = "";
-		String teasuryname = "";
 		String monname = "";
 		String curryear = "";
 		String finyear = "";
-		String designation = "";
 		Map objectArgs = new HashMap();
 		objectArgs.put("paybillNo", billNo);// paramerter
 		objectArgs.put("month", month); // parameter
 		objectArgs.put("year", year); // parameter
-	System.out.println("paybillNo= " + billNo);
-		List lsouterrepheaddtls = displayOuterReportService.getReportHeaderDetails(String.valueOf(billNo));
-		for (Iterator iterator = lsouterrepheaddtls.iterator(); iterator.hasNext();) {
-			Object[] objects = (Object[]) iterator.next();
-			ddocode = (String) objects[0];
-			schemename = (String) objects[1];
-			schemecode = (String) objects[2];
-			 Double d = new Double(objects[3].toString());
-			 BigDecimal b = BigDecimal.valueOf(d); 
-			grossamount = b;
-			paymonth = (int) objects[4];
-			billcreationdate = (Date) objects[5];
-			demandcode = (String) objects[6];
-			majorhead = (String) ((objects[7] != null) ? objects[7] : 1);
-			submajorhead = (String) objects[8];
-			minorhead = (String) objects[9];
-			subminorhead = (String) objects[10];
-			subhead = (String) objects[11];
-			teasurycode = (String) objects[12];
-			teasuryname = (String) objects[13];
-			Double netamt = new Double(objects[14].toString());
-			 BigDecimal namt = BigDecimal.valueOf(netamt);
-			netamount= namt;
-			payyear=(int) objects[15];
-			designation=(String) objects[16];
-		}
-		
-		////int totalNetAmount = displayOuterReportService.gettotalNetAmount(String.valueOf(billNo));
+	List<RegularReportModel> lsouterrepheaddtls = displayOuterReportService.getReportHeaderDetails(String.valueOf(billNo));
+
+		Double totalNetAmount = displayOuterReportService.gettotalNetAmount(String.valueOf(billNo));
 		
 		
+		BigInteger currmonth = BigInteger.valueOf(month);
+		BigInteger yearcurr = BigInteger.valueOf(year);
 		
-		
-		BigInteger currmonth = BigInteger.valueOf(paymonth);
-		BigInteger yearcurr = BigInteger.valueOf(payyear);
 		
 		List<Object[]>  monthinfo = paybillGenerationTrnService.findmonthinfo(currmonth);
 		for (Object[] monthLst : monthinfo) {
-			// String empName;
-			monname = monthLst[1].toString();
+			monname = monthLst[4].toString();
+		}
+			
+
+		List<Object[]>  yearinfo = commonHomeMethodsService.findyearinfo(BigInteger.valueOf(year));
+		for (Object[] yearLst : yearinfo) {
+			curryear = yearLst[9].toString();
+			finyear = yearLst[3].toString();
 			
 		}
 		
-		List<Object[]>  yearinfo = paybillGenerationTrnService.findyearinfo(yearcurr);
-		for (Object[] yearLst : yearinfo) {
-			// String empName;
-			curryear = yearLst[1].toString();
-			finyear = yearLst[10].toString();
-			
-		}
+		
 		
 		List<Object[]> cardecode = displayOuterReportService.getcardecode(ddoCode);
 		String carde="";
 		for (Object[] objects : cardecode) {
 			if(carde != "") {
-				carde+=","+objects[1].toString();;
+				carde+=","+objects[3].toString();;
 			}else {
-				carde=objects[1].toString();
+				carde=objects[3].toString();
 			}
 		}
-		
 	
 		SimpleDateFormat sdf =new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		/*Date createdate = commonHomeMethodsService.findbillCreateDate(billNumber);
-        model.addAttribute("createddate", sdf.format(createdate));*/
+		Date createdate = commonHomeMethodsService.findbillCreateDate(billNumber);
+        model.addAttribute("createddate", sdf.format(createdate));
 //		logger.info("officeDetails=" + officeDetails);
 		model.addAttribute("paybillNo", billNo);
 		model.addAttribute("month", monname);
@@ -255,22 +215,8 @@ public class DisplayOuterReportContorller
 		model.addAttribute("carde", carde);
 		model.addAttribute("officeDetails", officeDetails);// f
 		model.addAttribute("ddocode", messages.getUserName());
-		model.addAttribute("schemename", schemename);
-		model.addAttribute("schemecode", schemecode);
-		model.addAttribute("grossamount", grossamount);
-		model.addAttribute("netamount", netamount);
-		model.addAttribute("paymonth", paymonth);
-		model.addAttribute("billcreationdate", billcreationdate);
-		model.addAttribute("demandcode", demandcode);
-		model.addAttribute("majorhead", majorhead);
-		model.addAttribute("submajorhead", submajorhead);
-		model.addAttribute("minorhead", minorhead);
-		model.addAttribute("subminorhead", subminorhead);
-		model.addAttribute("subhead", subhead);
-		model.addAttribute("teasurycode", teasurycode);
-		model.addAttribute("teasuryname", teasuryname);
-		model.addAttribute("designation", designation);
-	///	model.addAttribute("totalNetAmount", totalNetAmount);
+		model.addAttribute("lsouterrepheaddtls", lsouterrepheaddtls);
+		model.addAttribute("totalNetAmount", totalNetAmount);
 		model.addAttribute("totaldeduction", displayOuterReportService.getTotalDeduction((double)billNo));
 
 		//  start
@@ -278,33 +224,6 @@ public class DisplayOuterReportContorller
 		List<DisplayOuterReportModel> deducAgEdpList = new ArrayList<DisplayOuterReportModel>();// edpDao.getAGDeducCompoMpgData(locId);
 		List<DisplayOuterReportModel> deducTyEdpList = new ArrayList<DisplayOuterReportModel>();// edpDao.getTRDeducCompoMpgData(locId);
 		List<DisplayOuterReportModel> deducOthEdpList = new ArrayList<DisplayOuterReportModel>();// changes for other (nps)
-		// logger.info("deducOthEdpList"+deducOthEdpList);
-//		List<HrPayEdpCompoMpg> advGrossEdpList = new ArrayList<HrPayEdpCompoMpg>();
-
-//		List<HrPayEdpCompoMpg> allEdpList = displayOuterReportService.getAllDataForOuter();
-//		List<DeptEligibilityForAllowAndDeductEntity> dptallDeduc = deptEligibilityForAllowAndDeductService.findDeptEligibilityForAllowAndDeductList();
-//		for (int i = 0; i < allEdpList.size(); i++) {
-//			if (allEdpList.get(i).getLOOKUP_ID() != null) {
-//
-//				if (allEdpList.get(i).getLOOKUP_ID().equals("2500134")) { // allowance
-//					allowEdpList.add(allEdpList.get(i));
-//				}
-//				if (allEdpList.get(i).getLOOKUP_ID().equals("2500382")) { //Deductions Adj. By CAFO/Supri./Admin.
-//					deducAgEdpList.add(allEdpList.get(i));
-//				}
-//				if (allEdpList.get(i).getLOOKUP_ID().equals("2500383")) { //Deduction like fax
-//					deducOthEdpList.add(allEdpList.get(i));
-//				}
-//				if (allEdpList.get(i).getLOOKUP_ID().equals("2500381")) { //Adjust by Treasury
-//					deducTyEdpList.add(allEdpList.get(i));
-//				}
-//			}
-//		}
-//		for (int i = 0; i < dptallDeduc.size(); i++) {
-//			if(dptallDeduc.get(i).getIsType()==1) {
-//				
-//			}
-//		}
 		
 		//Dynamic process start
 		List<DisplayOuterReportModel> allEdpList = displayOuterReportService.getAllDataForOuternew(ddoCode,billNumber);
@@ -480,13 +399,9 @@ public class DisplayOuterReportContorller
 			deducOthEdpList1.add(obj);
 		}
 		System.out.println("deduction2value---"+deduction2value);
-	///	String officeName=commonHomeMethodsService.getOfficeName(ddoCode);
+		String officeName=commonHomeMethodsService.getOffice(ddoCode);
 		//dynamic amount end
-//		logger.info("allowEdpList="+allowEdpList);
-//		logger.info("deducAgEdpList="+deducAgEdpList);
-//		logger.info("deducOthEdpList="+deducOthEdpList);
-//		logger.info("deducTyEdpList="+deducTyEdpList);
-		
+
 		int count=1;
 		String word=CashWordConverter.doubleConvert(basicvalue-(deductionvalue+deduction1value+deduction2value));
 	/*	String treasury =commonHomeMethodsService.getTreasury(ddoCode);
@@ -498,6 +413,7 @@ public class DisplayOuterReportContorller
 		model.addAttribute("otherdedectioncount", deducOthEdpList.size());
 		model.addAttribute("dedecagcount", deducAgEdpList.size());
 		model.addAttribute("allowEdpList", allowEdpList1);
+		model.addAttribute("officeName", officeName);
 		model.addAttribute("deducAgEdpList", deducAgEdpList1);
 		model.addAttribute("deducOthEdpList", deducOthEdpList1);
 		model.addAttribute("deducTyEdpList", deducTyEdpList1);
@@ -517,7 +433,7 @@ public class DisplayOuterReportContorller
 
 		//  end
 
-		return "views/report/OuterReportDesign";
+		return "views/reports/OuterReportDesign";
 	}
 	
 	@GetMapping(value = "/btnShowReport/{yearName}/{monthName}/{billNumber}")
