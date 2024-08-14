@@ -180,6 +180,7 @@ public class EmpBasicDtlsReportController  extends BaseController{
         model.addAttribute("systemdate", sdf.format(new Date()));
 		model.addAttribute("currmonyer", monname+" "+curryear);
 		model.addAttribute("billGroup", billgrpname);
+		model.addAttribute("billno", billno);
 		model.addAttribute("yearName",curryear);
 		model.addAttribute("monthName",monname);
 		

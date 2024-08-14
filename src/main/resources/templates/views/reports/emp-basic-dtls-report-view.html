@@ -12,9 +12,22 @@ table.table.table-striped.table-bordered a {
 </style>
 </head>
 <body class="revenue-stamp-report">
-	<div class="container-fluid">
-		<div th:replace="header/menuHeader :: var-script-header"></div>
-		<div id="print-content">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.reportBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.empchangebasicrpt}"></span></li>
+				</ol>
+			</nav>
+		</div>
+		
+		<div id="print-content"  class="container">
 			<fieldset>
 
 				<div class="text-center">
@@ -33,7 +46,7 @@ table.table.table-striped.table-bordered a {
 						</tr>
 						<tr>
 							<td class="Label2" style="font-weight: bold;">Bill No:<span
-								th:text="${tanNo}"></span></td>
+								th:text="${billno}"></span></td>
 							<td class="Label2" style="font-weight: bold; text-align: right;">
 							</td>
 						</tr>
@@ -87,9 +100,8 @@ table.table.table-striped.table-bordered a {
 			<button id="print" onclick="printContent('print-content');"
 				class="btn">Print</button>
 			<input type="button" name="btnBackAgain" id="btnBackAgain"
-				onclick="window.close();" value="Back" class="buttontag">
+				onclick="history.back()" value="Back" class="buttontag">
 		</div>
-	</div>
-
+	</div><div th:replace="header/menuHeader :: varmenufooter"></div>
 </body>
 </html>
