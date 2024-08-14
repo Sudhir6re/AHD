@@ -2,15 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Income Tax</title>
+<title>Income Tax Report</title>
 <link rel="stylesheet" th:href="@{/css/print.css}" />
 <link rel="stylesheet" th:href="@{/css/styles.css}" />
 <style>
 </style>
 </head>
-<body class="income-tax-report">
-	<div class="container-fluid">
-		<div th:replace="header/menuHeader :: var-script-header"></div>
+<body class="income_tax-report">
+	<div th:replace="header/menuHeader :: var-script-header"></div>
+	<div th:replace="header/menuHeader :: varmenuheader"></div>
+	<div class="container min-height-600">
+		<div class="breadcrumbMain">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
+					<li class="breadcrumb-item"><a href="#"><span
+							th:utext="#{msg.thymeleaf.pagelabel.reportBD}"></span></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:utext="#{msg.thymeleaf.pageheading.empchangebasicrpt}"></span></li>
+				</ol>
+			</nav>
+		</div>
 		<div id="print-content">
 			<fieldset>
 
@@ -27,56 +39,61 @@
 						</tr>
 						<tr>
 							<td style="font-weight: bold; text-align: left;">For the
-								Month of July 2024</td>
-							<td style="font-weight: bold; text-align: right;">Treasury :
-								DEMO LVL2(2222)</td>
+								Month of <span th:text="${currmonyer}"></span></td>
+							<td style="font-weight: bold; text-align: right;">Treasury : <span th:text="${lvl2ddoname}"></span>( <span th:text="${lvl2ddoCode}"></span> )
+								</td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; text-align: left;">Name of the
-								Office : MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA
-								UNIVERSITY(20541200001)</td>
+								Office : <span th:text="${officename}"></span>(<span th:text="${ddoCode}"></span>)</td>
 							<td style="font-weight: bold; text-align: right;"></td>
 						</tr>
 						<tr>
-							<td style="font-weight: bold; text-align: left;">TAN NO. :
-								PDES03028F</td>
+							<td style="font-weight: bold; text-align: left;">TAN NO. :<span th:text="${tanNo}"></span></td>
 							<td style="font-weight: bold; text-align: right;"></td>
 						</tr>
 					</tbody>
 				</table>
 				<br />
-				<table class="table table-bordered table-striped">
+				<table class="table table-striped">
+
+					<thead>
+						<tr>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.srno}" /></th>
+							<th rowspan="2" th:utext="#{msg.pagelabel.employeeName}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.panno}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.grossAmount}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.label.amtofdeduc}" /></th>
+
+						</tr>
+
+
+					</thead>
+
 					<tbody>
-						<tr class="TableHeaderBG">
-							<th valign="bottom" width="5%">Sr. No.</th>
-							<th valign="bottom" width="25%">(Employee Code),Name and
-								Designation of Govt. Servent</th>
-							<th valign="bottom" width="25%">Pan number</th>
-							<th valign="bottom" width="20%">Gross</th>
-							<th valign="bottom" width="20%">Amount of Deduction</th>
+						<tr th:each="varEmp : ${empDtls}">
+							<td class="text-center" th:text="${varEmpStat.index+1}"></td>
+							<td class="text-center" th:text="${varEmp.name}"></td>
+							<td class="text-center" th:text="${varEmp.panNo}"></td>
+							<td class="text-center" th:text="${varEmp.grossAmount}"></td>
+							<td class="text-center" th:text="${varEmp.incometax}"></td>
+							</tr>
+							<tr>
+							<td></td>
+							<td>Total Deduction (`): </td>
+							<td></td>
+							<td></td>
+							<td th:text="${totalDeduc}">/-</td>
 						</tr>
-						<tr>
-							<td align="center" valign="middle">1</td>
-							<td valign="middle">(20DHENEWM8901)- NEWTON (Head Clerk)</td>
-							<td align="center" valign="middle">-</td>
-							<td align="right" valign="middle">1,16,891</td>
-							<td align="right" valign="middle">1,500</td>
-						</tr>
-						<tr>
-							<td align="center" valign="middle"></td>
-							<td valign="middle"></td>
-							<td align="center" valign="middle"></td>
-							<td align="right" valign="middle" style="font-weight: bold;">TOTAL
-								(`)</td>
-							<td align="right" valign="middle" style="font-weight: bold;">1,500</td>
-						</tr>
-						<tr>
-							<td colspan="4" align="center" valign="middle"
-								style="font-weight: bold; text-align: Left;">Total
-								Deduction In Words (`): One Thousand Five Hundred only.</td>
-							<td align="right" valign="middle"></td>
+							<tr>
+							<td></td>
+							<td>Total Deduction In Words (`): </td>
+							<td></td>
+							<td></td>
+							<td th:text="${word}"></td>
 						</tr>
 					</tbody>
+
 				</table>
 				<br />
 				<table class="bor-0">

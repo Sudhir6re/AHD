@@ -57,7 +57,7 @@ public class EmpBasicDtlsReportController  extends BaseController{
 		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
 		model.addAttribute("empLst", empBasicDtlsReportService.lstDDOWiseEmp(messages.getDdoCode()));
 		addMenuAndSubMenu(model,messages);
-		return "/views/emp-basic_dtls-report";
+		return "/views/emp-basic-dtls-report";
 	}
 	
 	@RequestMapping("/empBasicDtlsReport")
