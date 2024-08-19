@@ -96,7 +96,8 @@ public class ConsolidatePayBillController  extends BaseController{
 		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model,messages);	
 				int afterSaveId = consolidatePayBillService.saveConsolidatePayBill(consolidatePayBillModel,messages);
-		
+				model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+				model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 				if(afterSaveId > 0) {
 					redirectAttributes.addFlashAttribute("message","SUCCESS");
 				}
