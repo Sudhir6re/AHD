@@ -8163,6 +8163,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double force1Inct25 = 0d;
 		Double pgAllow = 0d;
 		Double groupAccPolicy = 0d;
+		
+		
+		Double DaArr=0d;
+		Double npsEmprAllow=0d;
+		Double npsEmpContri=0d;
+		Double npsEmprContri=0d;
 
 		ddoCode = paybillHeadMpgModel.getDdoCode();
 
@@ -8272,6 +8278,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			
 			cadre=paybillHeadMpgRepo.getEmpCadre(mstEmployeeEntity2.getSevaarthId(),mstEmployeeEntity2.getEmpClass());
 			
+			 npsEmprAllow=0d;
+				npsEmpContri=0d;
+				npsEmprContri=0d;
 			if (count > 0) {
 				
 				grossAmount = 0d;
@@ -8279,6 +8288,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 dedByOthr=0d;
 				 dedByTreasury=0d;
 				 dedByAG=0d;
+				 
+				 
+				
 				 
 				
 				Map hmAllowDeducCodeAndValues = new HashMap();
@@ -8401,6 +8413,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 dedByOthr=0d;
 				 dedByTreasury=0d;
 				 dedByAG=0d;
+				 
 				 
 
 				int gradePaynew = 0;
@@ -8590,6 +8603,58 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						paybillGenerationTrnDetails.setGis((double) Math.round(gisAmount));
 						dedByAG+=gisAmount;
 					}
+					
+					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW)) {
+						if (paybillHeadMpgModel.getPaybillYear() == 24 && paybillHeadMpgModel.getPaybillMonth() >= 8 || paybillHeadMpgModel.getPaybillYear() >= 25 && paybillHeadMpgModel.getPaybillMonth() >= 1) {
+							
+							npsEmprAllow = (double) (Math.round((basic + svnDA + DaArr) * 14
+									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							
+						/*	if (month2 == 11 && year2 == 24) {
+								npsEmprAllow = (double) (Math.round((((basic + svnDA) * 14) / 100) + DaArr));
+							} else if (month2 == 12 && year2 == 24) {
+								npsEmprAllow = (double) (Math.round((((basic + svnDA) * 14) / 100) + DaArr));
+							} else {
+								npsEmprAllow = (double) (Math.round((basic + svnDA + DaArr) * 14
+										/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							}*/
+
+						} else {
+							npsEmprAllow = (double) (Math.round(
+									(basic + svnDA + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						}
+						
+						grossAmount+= npsEmprAllow;
+						
+						paybillGenerationTrnDetails.setNpsEmployerAllow(npsEmprAllow);
+
+					}
+					
+					
+					// NPS Emp Contri
+					else if (str.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMP_CONTRI)) {
+							npsEmpContri = (double) (Math.ceil(
+									(basic + svnDA + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							paybillGenerationTrnDetails.setNpsEmployeeContri(npsEmpContri);
+							dedByTreasury+=npsEmpContri;
+					}
+
+					// NPS Employer Contri
+					else if (str
+							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT)) {
+
+						if (year2 == 24 && month2 >= 8 || year2 >= 25 && month2 >= 1) {
+							npsEmprContri = (double) (Math.round(
+									(basic + svnDA + DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						} else {
+							npsEmprContri = (double) (Math.round(
+									(basic + svnDA + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						}
+						paybillGenerationTrnDetails.setNpsEmployerDeduct(npsEmprContri);
+						
+						dedByTreasury+=npsEmprContri;
+					}
+					
 					// End GIS Component
 					if (methodName != null) {
 						EmployeeAllowDeducComponentAmtEntity employeeAllowDeducComponentAmtEntity = mstEmployeeService
@@ -8612,7 +8677,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							case 4:
 								dedByOthr+= temp;
 								break;
-
 							}
 							
 

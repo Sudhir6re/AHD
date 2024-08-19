@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.mahait.gov.in.model.DisplayOuterReportModel;
-import com.mahait.gov.in.model.PayBillViewApprDelBillModel;
 import com.mahait.gov.in.model.RegularReportModel;
 
 public interface DisplayOuterReportService {

@@ -1,5 +1,10 @@
 package com.mahait.gov.in.controller;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -130,7 +135,8 @@ public class ChangePasswordController  extends BaseController{
 				if (bCryptPasswordEncoder.matches(oldPass, messages.getPassword())) {
 
 					messages.setPassword((bCryptPasswordEncoder.encode(changePasswordModel.getNewPasswordConfirm())));
-					messages.setUpdatedDate(new Date());
+					
+					messages.setUpdatedDate(new Timestamp(new Date().getTime()));
 					String message = changePasswordServiceImpl.updateUser(messages);
 					if (message.equals("UPDATED")) {
 						redirectAttributes.addFlashAttribute("message", "UPDATED");

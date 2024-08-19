@@ -72,10 +72,6 @@
 								style="text-align: center;" />
 						<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
 							style="text-align: center;" />
-							<th th:utext="#{msg.thymeleaf.datatablelabel.ddocode}"
-								style="text-align: center;" />
-						<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
-							style="text-align: center;" />
 
 						<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
 							style="text-align: center;" />
@@ -101,24 +97,15 @@
 								<td th:text="${varempdtls.departmentNameEn}"></td>
 							<td th:text="${varempdtls.designationName}"></td>
 							<td th:text="${varempdtls.sevaarthId}"></td>
-						<td th:text="${varempdtls.sevaarthId}"></td>
-					<tr th:each="varempdtls : ${employeedetails}">
-						<td th:text="${varempdtlsStat.index+1}"></td>
-						<td th:text="${varempdtls.employeeFullName}"></td>
-						<td th:text="${varempdtls.departmentNameEn}"></td>
-						<td th:text="${varempdtls.designationName}"></td>
-						<td th:text="${varempdtls.sevaarthId}"></td>
 
-						<td>
 					
-					<td>
+				     	<td>
 							<div class="form-group text-center">
 								<a data-toggle="tooltip" title="Edit"
 									th:onclick="|editempconfig(${varempdtls.employeeId})|"> <span
 									class="glyphicon glyphicon-edit"></span>
 								</a>
 								</div>
-							</div>
 							
 						</td>
 

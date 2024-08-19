@@ -11,6 +11,8 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -1536,10 +1538,15 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				Optional<MstRoleEntity> findById = mstRoleRepo.findById(4);
 				lObjUserMst.setMstRoleEntity(findById.get());
 				lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
-				lObjUserMst.setStartDate(new Date());
+
+				
+				lObjUserMst.setStartDate(new Timestamp(new Date().getTime()));
 				lObjUserMst.setActivateFlag(0l);
 				lObjUserMst.setAppCode(1);
-				lObjUserMst.setCreatedDate(new Date());
+				
+				lObjUserMst.setCreatedDate(new Timestamp(new Date().getTime()));
+				
+				
 				lObjUserMst.setCreatedBy(message.getCreatedBy());
 				lObjUserMst.setCreatedByPost(message.getCreatedByPost());
 				lObjUserMst.setSecretQueCode("Secret_Other");
