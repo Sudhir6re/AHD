@@ -55,4 +55,5 @@ public class RegularReportModel {
 	private  String sevaarthId;
 	private  Double incometax;
 	private  Double HRR;
+	private  Double professionalTax;
 }

@@ -43,30 +43,55 @@
 									do not submit this report to Treasury.</td>
 							</tr>
 							<tr>
-								<td style="font-weight: bold;">For the Month of July 2024</td>
+								<td style="font-weight: bold;">For the Month of <span th:text="${currmonyer}"></span></td>
 								<td style="font-weight: bold; text-align: right;">Treasury
-									: DEMO LVL2(2222)</td>
+									: <span th:text="${lvl2ddoname}"></span> ( <span th:text="${lvl2ddoCode}"></span> ) </td>
 							</tr>
 							<tr>
-								<td style="font-weight: bold;">Name of the Office :
-									MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA
-									UNIVERSITY(20541200001)</td>
+								<td style="font-weight: bold;">Name of the Office : <span th:text="${officename}"></span> ( <span th:text="${ddoCode}"></span> )
+									</td>
 							</tr>
 						</tbody>
 					</table>
 					<br />
 					<table class="table table-bordered">
+					
+					<thead>
+						<tr>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.srno}" /></th>
+							<th rowspan="2" th:utext="#{msg.pagelabel.employeeName}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.panno}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.grossAmount}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.label.amtofdeduc}" /></th>
+
+						</tr>
+
+
+					</thead>
+					
 						<tbody>
-							<tr>
-								<td width="5%"></td>
-								<td width="25%"></td>
-								<td width="25%"></td>
-								<td width="25%"></td>
+						<tr th:each="varEmp : ${empDtls}">
+							<td class="text-center" th:text="${varEmpStat.index+1}"></td>
+							<td class="text-center" th:text="${varEmp.name}"></td>
+							<td class="text-center" th:text="${varEmp.panNo}"></td>
+							<td class="text-center" th:text="${varEmp.grossAmount}"></td>
+							<td class="text-center" th:text="${varEmp.professionalTax}"></td>
 							</tr>
 							<tr>
-								<td colspan="4">No data available</td>
-							</tr>
-						</tbody>
+							<td></td>
+							<td>Total Deduction (`): </td>
+							<td></td>
+							<td></td>
+							<td th:text="${totalDeduc}">/-</td>
+						</tr>
+							<tr>
+							<td></td>
+							<td>Total Deduction In Words (`): </td>
+							<td></td>
+							<td></td>
+							<td th:text="${word}"></td>
+						</tr>
+					</tbody>
 					</table>
 					<hr />
 					<table class="table bor-0">
@@ -112,7 +137,7 @@
 							</tr>
 							<tr>
 								<td colspan="2" style="font-weight: bolder;">VERIFICATION
-									TIME :23-07-2024 16:11:08.718</td>
+									TIME :<span th:text="${systemdate}"></span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -121,7 +146,7 @@
 						<tbody>
 							<tr>
 								<td valign="middle" style="font-weight: bold;"><br /> <b>Verification
-										Time:-</b>19-07-2024 11:55:29.372<br /> <span>* Generated
+										Time:-</b><span th:text="${systemdate}"></span><br /> <span>* Generated
 										By <span th:text="#{msg.thymeleaf.pagelabel.hteCustSevaarth}"></span>
 								</span></td>
 							</tr>
