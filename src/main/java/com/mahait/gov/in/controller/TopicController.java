@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,15 +22,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.UserLoginHistryEntity;
 import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UserDetailsServiceImpl;
+import com.mahait.gov.in.service.UserLoginHistryService;
 import com.mahait.gov.in.service.WelcomeService;
 
 @RestController
 @EnableJdbcHttpSession
 @RequestMapping("/user")
-public class TopicController  extends BaseController {
+public class TopicController extends BaseController {
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -42,6 +45,9 @@ public class TopicController  extends BaseController {
 
 	@Autowired
 	private Environment environment;
+
+	@Autowired
+	UserLoginHistryService userLoginHistryService;
 
 	@RequestMapping("/login")
 	public ModelAndView login(Locale locale, HttpServletRequest request) throws UnknownHostException {
@@ -96,8 +102,8 @@ public class TopicController  extends BaseController {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 			SimpleDateFormat sd = new SimpleDateFormat("MM");
 
-			addMenuAndSubMenu(modelAndView,messages);
-			
+			addMenuAndSubMenu(modelAndView, messages);
+
 			modelAndView.setViewName("homepageLevel");
 		}
 		return modelAndView;
@@ -108,9 +114,28 @@ public class TopicController  extends BaseController {
 	public RedirectView logOut(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession(false);
+		String ip = null;
+		try {
+			ip = InetAddress.getLocalHost().getHostAddress();
+			OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+			UserLoginHistryEntity userLoginHistry = new UserLoginHistryEntity();
+			userLoginHistry.setUsername(messages.getUserName());
+			userLoginHistry.setLoginIp(ip);
+			userLoginHistry.setCreatedDate(new Date());
+			userLoginHistry.setLoginDate(new Date());
+			userLoginHistry.setCreatedUserId(1);
+			userLoginHistry.setIsActive(3);
+			userLoginHistry.setStatus("Logout Successful");
+			userLoginHistryService.saveLoginDtls(userLoginHistry);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		if (session != null) {
 			session.invalidate();
 		}
+
 		return new RedirectView("redirect:/user/login?logout");
 
 	}

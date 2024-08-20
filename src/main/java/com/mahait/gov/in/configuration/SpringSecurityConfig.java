@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -64,7 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManagerBean());
         filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler());
-        filter.setAuthenticationFailureHandler(failureHandler());
+        filter.setAuthenticationFailureHandler(authenticationFailureHandler());
         return filter;
     }
 	
@@ -87,6 +88,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
     public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
         return new CustomSimpleUrlAuthenticationSuccessHandler();
+    }
+	
+	@Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 	
 	
