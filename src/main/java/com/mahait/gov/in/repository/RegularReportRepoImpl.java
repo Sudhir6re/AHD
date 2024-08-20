@@ -51,22 +51,15 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	}
 
 	@Override
-	public List<Object[]> findpaybill(int billNumber, int monthName, int yearName, String ddo) {
+	public List<Object[]> findpaybill(Long billNumber, int monthName, int yearName, String ddo) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select a.paybill_generation_trn_id,a.scheme_billgroup_id,b.bill_group_id from paybill_generation_trn  a" + 
-		"inner join bill_group_mst bb on a.scheme_billgroup_id = bb.bill_group_id" + 
-		"inner join  ddo_reg_mst dd on dd.ddo_code = a.ddo_code  and a.ddo_code='"+ddo+"'" + 
-		"inner join ddo_map_rlt ddd on dd.ddo_reg_id = ddd.ddo_code_user_id1" + 
-		"inner join scheme_billgroup_mpg b on a.scheme_billgroup_id=b.bill_group_id and b.ddo_map_id = ddd.ddo_map_id where "
-		+ "a.paybill_month='"+monthName+"'   and a.paybill_year='"+yearName+"'  and a.is_Active in ('1','2','5','6','9','10','11','14') "
-				+ "and   b.bill_group_id='"+billNumber+"'";
-		
-		/*String HQL = "select a.paybill_generation_trn_id,a.scheme_billgroup_id,b.bill_group_id from paybill_generation_trn  a" + 
-				"inner join bill_group_mst bb on a.scheme_billgroup_id = bb.bill_group_id" + 
-				"inner join  ddo_reg_mst dd on dd.ddo_code = a.ddo_code  and a.ddo_code='"+ddo+"'" + 
-				"inner join ddo_map_rlt ddd on dd.ddo_reg_id = ddd.ddo_code_user_id1" + 
-				"inner join scheme_billgroup_mpg b on a.scheme_billgroup_id=b.bill_group_id and b.ddo_map_id = ddd.ddo_map_id where a.is_Active not in (14,8) and b.scheme_billgroup_id='"+billNumber+"'";*/
+		String HQL = " select a.paybill_generation_trn_id,a.scheme_billgroup_id,bb.bill_group_id from paybill_generation_trn  a" + 
+				" inner join mst_dcps_bill_group bb on a.scheme_billgroup_id = bb.bill_group_id" + 
+				" inner join  org_ddo_mst dd on dd.ddo_code = a.ddo_code  and a.ddo_code='"+ddo+"'" + 
+				" inner join rlt_zp_ddo_map ddd on dd.ddo_code = ddd.zp_ddo_code" + 
+				" where a.paybill_month="+monthName+"   and a.paybill_year="+yearName+"  and a.is_Active in ('1','2','5','6','9','10','11','14')" + 
+				" and   bb.bill_group_id='"+billNumber+"'";
 		System.out.println("Findpaybill Quer +++++"+HQL);
 		
 		Query query = currentSession.createSQLQuery(HQL);

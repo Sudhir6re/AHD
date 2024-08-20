@@ -68,7 +68,7 @@ public class RegularReportServiceImpl implements RegularReportService{
 	}
 
 	@Override
-	public List<Object[]> findpaybill(int billNumber, int monthName, int yearName, String ddo) {
+	public List<Object[]> findpaybill(Long billNumber, int monthName, int yearName, String ddo) {
 		// TODO Auto-generated method stub
 		return regularReportRepo.findpaybill(billNumber,monthName,yearName,ddo);
 	}

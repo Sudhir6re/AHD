@@ -13,7 +13,7 @@ public interface RegularReportRepo {
 
 	List<Object[]> findbillgrp(Long billno);
 
-	List<Object[]> findpaybill(int billNumber, int monthName, int yearName, String ddo);
+	List<Object[]> findpaybill(Long billNumber, int monthName, int yearName, String ddo);
 
 	String getbillGroup(int billnumber);
 
