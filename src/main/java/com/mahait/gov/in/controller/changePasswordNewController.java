@@ -24,7 +24,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UserDetailsServiceImpl;
 @Controller
 @RequestMapping("/mdc")
-public class changePasswordNewController {
+public class changePasswordNewController  extends BaseController {
 	
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -45,9 +45,10 @@ public class changePasswordNewController {
 	
 	List<TopicModel> menuList = new ArrayList<>();
 	List<TopicModel> subMenuList = new ArrayList<>();
-	
+		
 	
 	OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+	addMenuAndSubMenu(model,messages);
 	model.addAttribute("orgUserMst", orgUserMst);
 		return "/views/change-password-new";
 	}
@@ -60,6 +61,7 @@ public class changePasswordNewController {
 		 
     	
     //	UserInfo messages  = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
+    	
     	OrgUserMst orgUserMst1=userInfoDAO.getUserIdbyUserName(orgUserMst.getUserName());
     	//update password code start here
     	BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
