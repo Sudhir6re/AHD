@@ -21,4 +21,6 @@ public interface RegularReportRepo {
 
 	List<MstDcpsBillGroup> lstBillDesc(String ddoCode);
 
+	List<Object[]> findTrsyDtls(String ddoCode);
+
 }

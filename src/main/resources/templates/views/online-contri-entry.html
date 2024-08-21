@@ -24,7 +24,7 @@
 		<h3 Class="PageHeading">
 			<span th:utext="#{msg.thymeleaf.pageheading.onlineContriEntry}"></span>
 		</h3>
-	<form class="form-horizontal" name="myForm" id="myForm"
+	<form class="form-horizontal" name="onlineEntryForm" id="onlineEntryForm"
 			th:action="@{/ddoast/form2RegularReport}"
 			th:object="${regularReportModel}" method="POST"
 			enctype="multipart/form-data">
@@ -105,7 +105,7 @@
 										th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
 							</select></td>
 							<td width="15%"><b>Pay year</b></td>
-							<td width="30%"><select name="monthId" th:field="*{monthId}"
+							<td width="30%"><select name="monthId" th:field="*{yearId}"
 								id="monthId" class="form-control removeErrorFromDropdown">
 									<option selected="selected" th:value="0"
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -145,13 +145,14 @@
 										th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
 							</select></td>
 								<td width="15%"><b>Delayed Year</b></td>
-								<td width="35%"><select name="cmbDelayedYear"
-									id="cmbDelayedYear">
-										<option value="-1">-- Select --</option>
-
-										<option value="36">2023-2024</option>
-										<option value="37">2024-2025</option>
-								</select> <label class="mandatoryindicator">*</label></td>
+								<td width="30%"><select name="cmbDelayedYear" th:field="*{yearId}"
+								id="cmbDelayedYear" class="form-control removeErrorFromDropdown">
+									<option selected="selected" th:value="0"
+										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+									<option th:each="varGetAllYears : ${lstYears}"
+										th:value="${varGetAllYears.yearId}"
+										th:text="${language=='mh' ? varGetAllYears.financialYear : varGetAllYears.financialYear}"></option>
+							</select></td>
 							</tr>
 						</tbody>
 					</table>

@@ -102,6 +102,17 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 		String HQL = "FROM MstDcpsBillGroup as t  where dcpsDdoCode='"+ddoCode+"' ORDER BY t.dcpsDdoBillGroupId";
 		return (List<MstDcpsBillGroup>) entityManager.createQuery(HQL).getResultList();
 	}
+
+	@Override
+	public List<Object[]> findTrsyDtls(String ddoCode) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = " select  loc_id,loc_name from CMN_LOCATION_MST a inner join org_ddo_mst b on b.location_code = cast(a.loc_id as varchar) where b.ddo_code ='"+ddoCode+"'";
+		System.out.println("findTrsyDtls---"+HQL);
+		
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
+	}
 	
 	
 

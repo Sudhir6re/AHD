@@ -99,6 +99,19 @@ public class IncomeTaxReportController  extends BaseController {
 			lvl2ddoname = (String) objects[1];
 			tanNo = (String) objects[2];
 		}
+		
+		BigInteger trsyCode =null;
+		String trsyName=null;
+		List<Object[]>  treasuryDtls = regularReportService.findTrsyDtls(messages.getDdoCode());
+		
+		for (Object[] objects : treasuryDtls) {
+			
+			trsyCode = (BigInteger) objects[0];
+			trsyName = (String) objects[1];
+			
+		}
+		model.addAttribute("trsyCode",trsyCode);
+		model.addAttribute("trsyName",trsyName);
 		String officename =commonHomeMethodsService.getOffice(messages.getDdoCode());
 		model.addAttribute("totalDeduc", totalDeduc);
 		model.addAttribute("empDtls", empDtls);

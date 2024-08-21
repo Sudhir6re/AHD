@@ -21,6 +21,7 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.AquittanceRollReportModel;
 import com.mahait.gov.in.service.AquittanceRollReportService;
 import com.mahait.gov.in.service.PaybillGenerationTrnService;
+import com.mahait.gov.in.service.RegularReportService;
 
 @RequestMapping("/ddoast")
 @Controller
@@ -33,6 +34,8 @@ public class AquittanceRollReportController  extends BaseController {
 	
 	PaybillGenerationTrnService paybillGenerationTrnService;
 	
+	@Autowired
+	RegularReportService regularReportService;
 	
 	@GetMapping("/aquittancereport/{yearName}/{monthName}/{billNumber}/{ddoCode}")
 	public String getAquittancereport(@ModelAttribute("aquittanceRollReportModel") AquittanceRollReportModel aquittanceRollReportModel,@PathVariable int monthName,@PathVariable int yearName, 
@@ -84,8 +87,23 @@ public class AquittanceRollReportController  extends BaseController {
 		String billGrpname = commonHomeMethodsService.findbillGrpname(billNumber);
 		Date createdate = commonHomeMethodsService.findbillCreateDate(billNumber);
 		String officename =commonHomeMethodsService.getOffice(ddoCode);
+		
+		BigInteger trsyCode =null;
+		String trsyName=null;
+		List<Object[]>  treasuryDtls = regularReportService.findTrsyDtls(messages.getDdoCode());
+		
+		for (Object[] objects : treasuryDtls) {
+			
+			trsyCode = (BigInteger) objects[0];
+			trsyName = (String) objects[1];
+			
+		}
+		
+		
 		/*String treasury =commonHomeMethodsService.getTreasuryCode(ddoCode);
 		model.addAttribute("treasury",treasury);*/
+		model.addAttribute("trsyCode",trsyCode);
+		model.addAttribute("trsyName",trsyName);
 		model.addAttribute("aquittanceinfo", aquittanceinfo);
 		model.addAttribute("officename",officename);
 		model.addAttribute("totalnetamt",totalnetamt);
@@ -99,7 +117,7 @@ public class AquittanceRollReportController  extends BaseController {
 		String word=CashWordConverter.doubleConvert(totalnetamt);
 		model.addAttribute("currmonyer", monname+" "+curryear);
 		model.addAttribute("orgname", orgname);
-		model.addAttribute("ddoname", messages.getUserName());
+		model.addAttribute("ddoname", messages.getDdoCode());
 		model.addAttribute("word", word);
 		model.addAttribute("aquittanceRollReportModel", aquittanceRollReportModel);
 		

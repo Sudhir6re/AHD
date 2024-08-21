@@ -98,6 +98,19 @@ public class HouseRentRecoveryReportController  extends BaseController {
 			tanNo = (String) objects[2];
 		}
 		String officename =commonHomeMethodsService.getOffice(messages.getDdoCode());
+		
+		BigInteger trsyCode =null;
+		String trsyName=null;
+		List<Object[]>  treasuryDtls = regularReportService.findTrsyDtls(messages.getDdoCode());
+		
+		for (Object[] objects : treasuryDtls) {
+			
+			trsyCode = (BigInteger) objects[0];
+			trsyName = (String) objects[1];
+			
+		}
+		model.addAttribute("trsyCode",trsyCode);
+		model.addAttribute("trsyName",trsyName);
 		model.addAttribute("totalDeduc", totalDeduc);
 		model.addAttribute("empDtls", empDtls);
 		model.addAttribute("lvl2ddoCode", lvl2ddoCode);

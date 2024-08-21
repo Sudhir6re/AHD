@@ -19,6 +19,7 @@ import com.mahait.gov.in.CashWordConverter;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.RevenueStampReportModel;
 import com.mahait.gov.in.service.PaybillGenerationTrnService;
+import com.mahait.gov.in.service.RegularReportService;
 import com.mahait.gov.in.service.RevenueStampReportService;
 
 @RequestMapping("/ddoast")
@@ -31,6 +32,9 @@ public class RevenueStampReportController  extends BaseController {
 	
 	@Autowired
 	PaybillGenerationTrnService paybillGenerationTrnService;
+	
+	@Autowired
+	RegularReportService regularReportService;
 	
 	@GetMapping("/revenueStampreport/{yearName}/{monthName}/{billNumber}/{ddoCode}")
 	public String getrevenueStamp(@ModelAttribute("revenueStampReportModel") RevenueStampReportModel revenueStampReportModel,@PathVariable int monthName,@PathVariable int yearName,@PathVariable Long billNumber,
@@ -85,6 +89,21 @@ public class RevenueStampReportController  extends BaseController {
 		}
 		/*String treasury =commonHomeMethodsService.getTreasuryCode(ddoCode);
 		model.addAttribute("treasury",treasury);*/
+		
+		
+		BigInteger trsyCode =null;
+		String trsyName=null;
+		List<Object[]>  treasuryDtls = regularReportService.findTrsyDtls(messages.getDdoCode());
+		
+		for (Object[] objects : treasuryDtls) {
+			
+			trsyCode = (BigInteger) objects[0];
+			trsyName = (String) objects[1];
+			
+		}
+		
+		model.addAttribute("trsyCode",trsyCode);
+		model.addAttribute("trsyName",trsyName);
 		SimpleDateFormat sdf =new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		SimpleDateFormat sdf1 =new SimpleDateFormat("dd-MM-yyyy");
 		model.addAttribute("officename",officename);

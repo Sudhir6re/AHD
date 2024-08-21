@@ -91,4 +91,10 @@ public class RegularReportServiceImpl implements RegularReportService{
 		return regularReportRepo.lstBillDesc(ddoCode);
 	}
 
+	@Override
+	public List<Object[]> findTrsyDtls(String ddoCode) {
+		// TODO Auto-generated method stub
+		return regularReportRepo.findTrsyDtls(ddoCode);
+	}
+
 }

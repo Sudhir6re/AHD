@@ -86,6 +86,8 @@ public class Form2RegularController  extends BaseController{
 		}
 		
 		
+		
+		
 		String startDate=null;
 		Date fromDate=null;
 		Date toDate=null;
@@ -162,12 +164,25 @@ public class Form2RegularController  extends BaseController{
 			
 		}
 		
+		BigInteger trsyCode =null;
+		String trsyName=null;
+		List<Object[]>  treasuryDtls = regularReportService.findTrsyDtls(messages.getDdoCode());
+		
+		for (Object[] objects : treasuryDtls) {
+			
+			trsyCode = (BigInteger) objects[0];
+			trsyName = (String) objects[1];
+			
+		}
+		
 		String monthString = new DateFormatSymbols().getMonths()[month-1];
     	model.addAttribute("systemdate", sdf.format(new Date()));
     	model.addAttribute("date", sdf1.format(new Date()));
     	model.addAttribute("fromDate",sdf1.format(fromDate));
 		model.addAttribute("toDate",sdf1.format(toDate));
 		model.addAttribute("entryinfo",entryinfo);
+		model.addAttribute("trsyCode",trsyCode);
+		model.addAttribute("trsyName",trsyName);
 		String officename =commonHomeMethodsService.getOffice(messages.getDdoCode());
 		/*String treasury =commonHomeMethodsService.getTreasury(messages.getUserName());
 		String treasuryCode =commonHomeMethodsService.getTreasuryCode(messages.getUserName());*/
