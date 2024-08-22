@@ -29,6 +29,7 @@ import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnTalukaMstRepository;
 import com.mahait.gov.in.repository.CreateAdminOfficeRepo;
 import com.mahait.gov.in.repository.OrgDdoMstRepository;
+import com.mahait.gov.in.repository.OrgPostMstRepository;
 import com.mahait.gov.in.repository.UserInfoRepo;
 import com.mahait.gov.in.repository.ZpAdminNameMstRepository;
 import com.mahait.gov.in.repository.ZpRltDdoMapRepository;
@@ -71,6 +72,14 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	
 	@Autowired 
 	AddNewDDOConfigRepository objZpDDOOfficeMstDAOImpl;
+	
+	
+	@Autowired 
+	OrgPostMstRepository orgPostMstRepository;
+	
+	
+	
+	
 	
 	
 	
@@ -170,7 +179,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		
 		
 		Long lLngUserId =orgUserMst.getUserId();
-		Long lLngPostId = new Long(lLngUserId);
+		Long lLngPostId =orgPostMstRepository.findMaxPostId()+1;
 
 	//	objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages,mobNo,email);
 

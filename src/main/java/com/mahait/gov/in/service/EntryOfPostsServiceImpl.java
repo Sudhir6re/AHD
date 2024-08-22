@@ -565,6 +565,9 @@ public class EntryOfPostsServiceImpl implements EntryOfPostsService {
 			newOrgPostMst.setLocationCode(String.valueOf(orgDdoMst.getLocationCode()));
 			newOrgPostMst.setParentPostId(-1l);
 			newOrgPostMst.setPostLevelId(1l);
+			newOrgPostMst.setStatusLookupId(13l);
+			
+			newOrgPostMst.setPostId(orgPostMstRepository.findMaxPostId()+1);
 
 			newOrgPostMst.setOfficeId(postEntryModel.getOfficeCmb());
 
