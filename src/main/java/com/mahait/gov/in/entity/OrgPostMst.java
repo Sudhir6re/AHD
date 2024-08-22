@@ -35,10 +35,12 @@ import lombok.NoArgsConstructor;
 public class OrgPostMst implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	
 	@Id
 	@Column(name = "post_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long postId;
+	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CREATED_BY_POST", referencedColumnName = "POST_ID", nullable = false)
@@ -168,6 +170,13 @@ public class OrgPostMst implements Serializable {
 
     @Column(name = "OFFICE_ID")
     private Long officeId;
+    
+    
+    @Column(name = "status_lookup_id")
+    private Long statusLookupId;
+    
+    
+    
     
 
 	/*

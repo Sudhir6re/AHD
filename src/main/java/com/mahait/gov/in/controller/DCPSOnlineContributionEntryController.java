@@ -1,20 +1,27 @@
 package com.mahait.gov.in.controller;
+
 import java.util.Locale;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.DcpContributionModel;
+
 @RequestMapping("/master")
 @Controller
-public class DCPSOnlineContributionEntryController  extends BaseController {
+public class DCPSOnlineContributionEntryController extends BaseController {
 	@GetMapping("/onlineContributionEntry")
-	public String onlineContributionEntry( Model model, Locale locale,
-			HttpSession session) {
+	public String onlineContributionEntry(Model model, Locale locale,
+			@ModelAttribute("dcpContributionModel") DcpContributionModel dcpContributionModel, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		addMenuAndSubMenu(model,messages);	
+		model.addAttribute("dcpContributionModel", dcpContributionModel);
+		addMenuAndSubMenu(model, messages);
 		return "/views/DCPS-Online-Contribution-Entry";
 	}
 

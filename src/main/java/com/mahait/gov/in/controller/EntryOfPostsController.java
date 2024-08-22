@@ -50,8 +50,6 @@ public class EntryOfPostsController  extends BaseController{
 	@Autowired
 	EntryOfPostsService entryOfPostsService;
 
-
-
 	
 	
 	@GetMapping("/entryOfPosts")

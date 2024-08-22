@@ -403,6 +403,8 @@ public class PaybillGenerationTrnDetails {
 	@Column(name = "PLI")
 	private Double pli;
 
+
+
 	@Column(name = "HRA_Percentage")
 	private Integer hraPercent;
 
