@@ -9,7 +9,7 @@ public interface RegularReportRepo {
 
 	List<OrgDdoMst> getDDOName(String userName);
 
-	List<Object[]> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup, String ddoCode);
+	List<Object[]> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup, String ddoCode,Long allowdeducId);
 
 	List<Object[]> findbillgrp(Long billno);
 

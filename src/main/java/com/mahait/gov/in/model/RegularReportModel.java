@@ -56,4 +56,5 @@ public class RegularReportModel {
 	private  Double incometax;
 	private  Double HRR;
 	private  Double professionalTax;
+	private  Long allowdedCode;
 }

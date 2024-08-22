@@ -379,7 +379,7 @@ public class PaybillGenerationTrnDetails {
 	@Column(name = "GPF_Rec")
 	private Double gpfRec;
 
-	@Column(name = "DCPS_Rec")
+	@Column(name = "DCPS_SVNPC_Recovery")
 	private Double dcpsRec;
 
 	@Column(name = "OTHER_VEH_ADV_INT")
@@ -394,11 +394,11 @@ public class PaybillGenerationTrnDetails {
 	@Column(name = "DCPS_DELAYED")
 	private Double dcpsDelayed;
 
-	@Column(name = "DCPS_PAY")
-	private Double dcpsPay;
+	@Column(name = "DCPS_PAY_ARR")
+	private Double dcpsPayArr;
 
-	@Column(name = "DCPS_DA")
-	private Double dcpsDa;
+	@Column(name = "DCPS_DA_ARR")
+	private Double dcpsDaArr;
 
 	@Column(name = "PLI")
 	private Double pli;

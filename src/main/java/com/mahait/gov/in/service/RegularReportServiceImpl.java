@@ -32,11 +32,11 @@ public class RegularReportServiceImpl implements RegularReportService{
 	}
 
 	@Override
-	public List<RegularReportModel> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode) {
+	public List<RegularReportModel> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode,Long allowdeducId) {
 
 		
 
-		List<Object[]> lstprop = regularReportRepo.findDCPSRegularEmpLst(yearId,monthId,billGroup,ddoCode);
+		List<Object[]> lstprop = regularReportRepo.findDCPSRegularEmpLst(yearId,monthId,billGroup,ddoCode,allowdeducId);
 		List<RegularReportModel> lstObj = new ArrayList<>();
 		
 		Double sum=0d;
