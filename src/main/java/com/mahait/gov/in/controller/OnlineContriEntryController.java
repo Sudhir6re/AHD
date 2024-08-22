@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.OnlineContributionModel;
 import com.mahait.gov.in.model.RegularReportModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.OnlineContributionService;
@@ -28,11 +29,11 @@ public class OnlineContriEntryController   extends BaseController{
 	OnlineContributionService onlineContributionService;
 	
 	@GetMapping("/onlineContriEntry")
-	public String onlineContriEntry( @ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
+	public String onlineContriEntry( @ModelAttribute("onlineContributionModel") OnlineContributionModel onlineContributionModel,
 			Model model, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model,messages);
-		model.addAttribute("regularReportModel", regularReportModel);
+		model.addAttribute("onlineContributionModel", onlineContributionModel);
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
@@ -42,6 +43,7 @@ public class OnlineContriEntryController   extends BaseController{
 		
 		return "/views/online-contri-entry";
 	}
+
 	@GetMapping("/viewRejectedContri")
 	public String viewRejectedContri( Model model, Locale locale,
 			HttpSession session) {

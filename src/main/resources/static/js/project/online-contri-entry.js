@@ -69,6 +69,43 @@ function funDdo1() {
 	}
 
 }
+
+
+
+var status = false;
+function SearchEmployee(e) {
+	
+	$('#action').val('SEARCH_EMP');
+	
+	var paymentType = document.getElementById("paymentType").value;
+	var yearId = document.getElementById("paybillYear").value;
+	var monthId = document.getElementById("paybillMonth").value;
+	
+	if(paymentType == "" || paymentType=='0')
+	{
+		swal('Please Select Payment Type');
+		return false;
+	}
+	if(yearId == 0)
+	{
+		swal('Please enter pay year');
+		return false;
+	}
+	if(monthId == 0)
+	{
+		swal('Please enter pay month');
+		return false;
+	}
+	var flag=true;
+		if(flag){
+			$(".tblEmpDtlsBody").empty();
+			$("#onlineEntryForm").submit();   
+			return true;
+		}
+	
+}
+
+
 $(document).ready(function() {
 	$("form[name='onlineEntryForm']").validate({
 		ignore : "",

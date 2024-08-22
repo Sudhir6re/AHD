@@ -24,216 +24,274 @@
 		<h3 Class="PageHeading">
 			<span th:utext="#{msg.thymeleaf.pageheading.onlineContriEntry}"></span>
 		</h3>
-	<form class="form-horizontal" name="onlineEntryForm" id="onlineEntryForm"
-			th:action="@{/ddoast/form2RegularReport}"
+		<form class="form-horizontal" name="onlineEntryForm"
+			id="onlineEntryForm" th:action="@{/ddoast/form2RegularReport}"
 			th:object="${regularReportModel}" method="POST"
 			enctype="multipart/form-data">
-		<div class="formMainwithNoborTb container">
-			<fieldset class="tabstyle">
-				<legend>
-					<b>Input Details For Contribution</b>
-				</legend>
-				<table class=" bor-0">
-					<tbody>
-						<tr>
-							<td style="font-style: italic; color: red; padding-left: 1%"
-								colspan="5">DCPS Delayed, DCPS DA Arrear, DCPS Pay arrear
-								need to be given from this screen if applicable. Monthly DCPS
-								Regular contributions will be automatically calculated in
-								Paybill.</td>
-						</tr>
-						<tr>
-							<td style="font-style: italic; color: red; padding-left: 1%"
-								colspan="5">Save the contributions carefully. Saved
-								contributions will reflect in Paybill on generation.</td>
-						</tr>
-					</tbody>
-				</table>
-				<table class="table bor-0">
-					<tbody>
-						<tr>
-							<td width="15%"><b>Treasury Name</b></td>
-							<td width="35%"><select name="cmbTreasuryCode"
-								id="cmbTreasuryCode">
-									<option value="3401" title="NANDED ,DISTRICT TREASURY OFFICE">NANDED
-										,DISTRICT TREASURY OFFICE</option>
-							</select> <label class="mandatoryindicator">*</label></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>DDO Name</b></td>
-							
-							<td width="30%"><select name="ddoCode" 
-								th:field="*{ddoCode}" id="ddoCode"
-								class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllddoNameLst : ${ddoNameLst}"
-										th:value="${varGetAllddoNameLst.ddoCode}"
-										th:text="${language=='mh' ? varGetAllddoNameLst.ddoName : varGetAllddoNameLst.ddoName}"></option>
-							</select></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>Bill Group</b></td>
-							<td width="30%"><select name="billGroup"
-								th:field="*{billGroup}" id="billGroup" onchange="funDdo1(this)"
-								class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllBillGrp : ${lstBillDesc}"
-										th:value="${varGetAllBillGrp.dcpsDdoSchemeCode}"
-										th:text="${language=='mh' ? varGetAllBillGrp.description : varGetAllBillGrp.description}"></option>
-							</select></td>
-							<td width="15%"><b>Scheme</b></td>
-							<td width="35%"><input type="text" name="txtSchemeName"
-								id="txtSchemeName">
-								<label class="mandatoryindicator">*</label></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>Sub Scheme</b></td>
-							<td width="35%"><input type="text" name="txtSubSchemeName"
-								id="txtSubSchemeName" value=""> <label
-								class="mandatoryindicator">*</label></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>Pay Month</b></td>
-							<td width="30%"><select name="monthId" th:field="*{monthId}"
-								id="monthId" class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllMonths : ${lstMonths}"
-										th:value="${varGetAllMonths.monthId}"
-										th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
-							</select></td>
-							<td width="15%"><b>Pay year</b></td>
-							<td width="30%"><select name="monthId" th:field="*{yearId}"
-								id="monthId" class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllYears : ${lstYears}"
-										th:value="${varGetAllYears.yearId}"
-										th:text="${language=='mh' ? varGetAllYears.financialYear : varGetAllYears.financialYear}"></option>
-							</select></td>
-						</tr>
-					</tbody>
-				</table>
-				<div id="paymentMasterDivDisplay">
-					<table class="table bor-0">
-						<tbody>
-							<tr id="typeOfPaymentMasterRow">
-								<td width="15%"><b>Payment Type</b></td>
-								
-								<td width="30%"><select name="cmbTypeOfPaymentMaster" onchange="addMonthYearComboForDelayed();" 
-								id="cmbTypeOfPaymentMaster" class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varType : ${paymentTypeLst}"
-										th:value="${varType.lookupId}"
-										th:text="${language=='mh' ? varType.lookupName : varType.lookupName}"></option>
-							</select></td>
-								
-								<td width="15%"></td>
-								<td width="35%"></td>
-							</tr>
-							<tr id="delayedMonthAndYearCombos">
-								<td width="15%"><b>Delayed Month</b></td>
-								<td width="30%"><select name="cmbDelayedMonth" th:field="*{monthId}"
-								id="cmbDelayedMonth" class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllMonths : ${lstMonths}"
-										th:value="${varGetAllMonths.monthId}"
-										th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
-							</select></td>
-								<td width="15%"><b>Delayed Year</b></td>
-								<td width="30%"><select name="cmbDelayedYear" th:field="*{yearId}"
-								id="cmbDelayedYear" class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllYears : ${lstYears}"
-										th:value="${varGetAllYears.yearId}"
-										th:text="${language=='mh' ? varGetAllYears.financialYear : varGetAllYears.financialYear}"></option>
-							</select></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<br>
-				<div id="DAArrearsDatesDivDisplay">
-					<table class="table bor-0">
+			<div class="formMainwithNoborTb container">
+				<fieldset class="tabstyle">
+					<legend>
+						<b>Input Details For Contribution</b>
+					</legend>
+					<table class=" bor-0">
 						<tbody>
 							<tr>
-								<td width="20%"><b>DA Arrear Start Date</b></td>
-								<td width="20%"><input type="date"
-									name="txtDAArrearStartDate" id="txtDAArrearStartDate" value="">
-								</td>
-								<td width="20%"><b>DA Arrear End Date</b></td>
-								<td width="20%"><input type="date"
-									name="txtDAArrearEndDate" id="txtDAArrearEndDate" value="">
-								</td>
-								<td width="15%"><input type="button"
-									name="btnDAArrearSetDates" id="btnDAArrearSetDates"
-									value="Set DA Arrear Dates For All" class="btn"></td>
+								<td style="font-style: italic; color: red; padding-left: 1%"
+									colspan="5">DCPS Delayed, DCPS DA Arrear, DCPS Pay arrear
+									need to be given from this screen if applicable. Monthly DCPS
+									Regular contributions will be automatically calculated in
+									Paybill.</td>
 							</tr>
 							<tr>
 								<td style="font-style: italic; color: red; padding-left: 1%"
-									colspan="5">Note :- DA Arrear Start Date must be greater
-									than employee's joining date else delete DA arrear of those
-									employees. Save contributions carefully with correct dates.
-									Please press Go button first then set dates.</td>
+									colspan="5">Save the contributions carefully. Saved
+									contributions will reflect in Paybill on generation.</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
-				<div id="PayArrearsDatesDivDisplay">
 					<table class="table bor-0">
 						<tbody>
 							<tr>
-								<td width="20%"><b>Pay Arrear Start Date</b></td>
-								<td width="20%"><input type="date"
-									name="txtPayArrearStartDate" id="txtPayArrearStartDate"
-									value="" maxlength="10"></td>
-								<td width="20%"><b>Pay Arrear End Date</b></td>
-								<td width="20%"><input type="date"
-									name="txtPayArrearEndDate" id="txtPayArrearEndDate" value=""
-									maxlength="10"></td>
-								<td width="15%"><input type="button"
-									name="btnPayArrearSetDates" id="btnPayArrearSetDates"
-									value="Set Pay Arrear Dates For All" size="3" maxlength="3"
-									class="bigbutton btn"></td>
+								<td width="15%"><b>Treasury Name</b></td>
+								<td width="35%"><select name="cmbTreasuryCode"
+									id="cmbTreasuryCode">
+										<option value="3401" title="NANDED ,DISTRICT TREASURY OFFICE">NANDED
+											,DISTRICT TREASURY OFFICE</option>
+								</select> <label class="mandatoryindicator">*</label></td>
 							</tr>
 							<tr>
-								<td style="font-style: italic; color: red; padding-left: 1%"
-									colspan="5">Note :- Pay Arrear Start Date must be greater
-									than employee's joining date else delete Pay arrear of those
-									employees. Save contributions carefully with correct dates.
-									Please press Go button first then set dates.</td>
+								<td width="15%"><b>DDO Name</b></td>
+
+								<td width="30%"><select name="ddoCode"
+									th:field="*{ddoCode}" id="ddoCode"
+									class="form-control removeErrorFromDropdown">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="varGetAllddoNameLst : ${ddoNameLst}"
+											th:value="${varGetAllddoNameLst.ddoCode}"
+											th:text="${language=='mh' ? varGetAllddoNameLst.ddoName : varGetAllddoNameLst.ddoName}"></option>
+								</select></td>
+							</tr>
+							<tr>
+								<td width="15%"><b>Bill Group</b></td>
+								<td width="30%"><select name="billGroup"
+									th:field="*{billGroup}" id="billGroup" onchange="funDdo1(this)"
+									class="form-control removeErrorFromDropdown">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="varGetAllBillGrp : ${lstBillDesc}"
+											th:value="${varGetAllBillGrp.dcpsDdoSchemeCode}"
+											th:text="${language=='mh' ? varGetAllBillGrp.description : varGetAllBillGrp.description}"></option>
+								</select></td>
+								<td width="15%"><b>Scheme</b></td>
+								<td width="35%"><input type="text" name="txtSchemeName"
+									id="txtSchemeName"> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td width="15%"><b>Sub Scheme</b></td>
+								<td width="35%"><input type="text" name="txtSubSchemeName"
+									id="txtSubSchemeName" value=""> <label
+									class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td width="15%"><b>Pay Month</b></td>
+								<td width="30%"><select name="monthId"
+									th:field="*{monthId}" id="monthId"
+									class="form-control removeErrorFromDropdown">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="varGetAllMonths : ${lstMonths}"
+											th:value="${varGetAllMonths.monthId}"
+											th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
+								</select></td>
+								<td width="15%"><b>Pay year</b></td>
+								<td width="30%"><select name="monthId" th:field="*{yearId}"
+									id="monthId" class="form-control removeErrorFromDropdown">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="varGetAllYears : ${lstYears}"
+											th:value="${varGetAllYears.yearId}"
+											th:text="${language=='mh' ? varGetAllYears.financialYear : varGetAllYears.financialYear}"></option>
+								</select></td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
-				<br>
+					<div id="paymentMasterDivDisplay">
+						<table class="table bor-0">
+							<tbody>
+								<tr id="typeOfPaymentMasterRow">
+									<td width="15%"><b>Payment Type</b></td>
 
-				<table class="table bor-0">
-					<tbody>
-						<tr>
-							<td id="go" align="center"><input type="button" name="btnGo"
-								id="btnGo" value="GO" class="buttontag btn"> <input
-								type="button" name="btnCancel" onclick="history.back()"
-								id="btnCancel" value="Cancel" size="3" maxlength="3"
-								class="buttontag btn"></td>
-						</tr>
-						<tr>
-							<td
-								style="color: red; font-family: bold; font-weight: bold;">NOTE
-								: If you don't need NPS employer contribution in paybill then
-								make this value as '0' in DCPS Delayed, DCPS DA Arrear and DCPS
-								PAY Arrear.</td>
-						</tr>
-					</tbody>
-				</table>
-			</fieldset>
-		</div>
+									<td width="30%"><select name="cmbTypeOfPaymentMaster"
+										onchange="addMonthYearComboForDelayed();"
+										id="cmbTypeOfPaymentMaster"
+										class="form-control removeErrorFromDropdown"
+										th:field="${paymentType}">
+											<option selected="selected" th:value="0"
+												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+											<option th:each="varType : ${paymentTypeLst}"
+												th:value="${varType.lookupId}"
+												th:text="${language=='mh' ? varType.lookupName : varType.lookupName}"></option>
+									</select></td>
+
+									<td width="15%"></td>
+									<td width="35%"></td>
+								</tr>
+								<tr id="delayedMonthAndYearCombos">
+									<td width="15%"><b>Delayed Month</b></td>
+									<td width="30%"><select name="cmbDelayedMonth"
+										th:field="*{monthId}" id="cmbDelayedMonth"
+										class="form-control removeErrorFromDropdown">
+											<option selected="selected" th:value="0"
+												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+											<option th:each="varGetAllMonths : ${lstMonths}"
+												th:value="${varGetAllMonths.monthId}"
+												th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
+									</select></td>
+									<td width="15%"><b>Delayed Year</b></td>
+									<td width="30%"><select name="cmbDelayedYear"
+										th:field="*{yearId}" id="cmbDelayedYear"
+										class="form-control removeErrorFromDropdown">
+											<option selected="selected" th:value="0"
+												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+											<option th:each="varGetAllYears : ${lstYears}"
+												th:value="${varGetAllYears.yearId}"
+												th:text="${language=='mh' ? varGetAllYears.financialYear : varGetAllYears.financialYear}"></option>
+									</select></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<br>
+					<div id="DAArrearsDatesDivDisplay">
+						<table class="table bor-0">
+							<tbody>
+								<tr>
+									<td width="20%"><b>DA Arrear Start Date</b></td>
+									<td width="20%"><input type="date"
+										name="txtDAArrearStartDate" id="txtDAArrearStartDate" value="">
+									</td>
+									<td width="20%"><b>DA Arrear End Date</b></td>
+									<td width="20%"><input type="date"
+										name="txtDAArrearEndDate" id="txtDAArrearEndDate" value="">
+									</td>
+									<td width="15%"><input type="button"
+										name="btnDAArrearSetDates" id="btnDAArrearSetDates"
+										value="Set DA Arrear Dates For All" class="btn"></td>
+								</tr>
+								<tr>
+									<td style="font-style: italic; color: red; padding-left: 1%"
+										colspan="5">Note :- DA Arrear Start Date must be greater
+										than employee's joining date else delete DA arrear of those
+										employees. Save contributions carefully with correct dates.
+										Please press Go button first then set dates.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id="PayArrearsDatesDivDisplay">
+						<table class="table bor-0">
+							<tbody>
+								<tr>
+									<td width="20%"><b>Pay Arrear Start Date</b></td>
+									<td width="20%"><input type="date"
+										name="txtPayArrearStartDate" id="txtPayArrearStartDate"
+										value="" maxlength="10"></td>
+									<td width="20%"><b>Pay Arrear End Date</b></td>
+									<td width="20%"><input type="date"
+										name="txtPayArrearEndDate" id="txtPayArrearEndDate" value=""
+										maxlength="10"></td>
+									<td width="15%"><input type="button"
+										name="btnPayArrearSetDates" id="btnPayArrearSetDates"
+										value="Set Pay Arrear Dates For All" size="3" maxlength="3"
+										class="bigbutton btn"></td>
+								</tr>
+								<tr>
+									<td style="font-style: italic; color: red; padding-left: 1%"
+										colspan="5">Note :- Pay Arrear Start Date must be greater
+										than employee's joining date else delete Pay arrear of those
+										employees. Save contributions carefully with correct dates.
+										Please press Go button first then set dates.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<br>
+
+					<table class="table bor-0">
+						<tbody>
+							<tr>
+								<td id="go" align="center"><input type="button"
+									name="btnGo" id="btnGo" value="GO" class="buttontag btn"
+									onclick="SearchEmployee();"> <input type="button"
+									name="btnCancel" onclick="history.back()" id="btnCancel"
+									value="Cancel" size="3" maxlength="3" class="buttontag btn"></td>
+							</tr>
+							<tr>
+								<td style="color: red; font-family: bold; font-weight: bold;">NOTE
+									: If you don't need NPS employer contribution in paybill then
+									make this value as '0' in DCPS Delayed, DCPS DA Arrear and DCPS
+									PAY Arrear.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div id="tblEmpDtlsBody">
+						<table class="table bor-0">
+							<THEAD>
+								<TR>
+									<th width="20%"><b>Name</b></th>
+									<th width="20%"><b>DCPS ID</b></th>
+									<th width="20%"><b>Contribution Start Date</b></th>
+									<th width="20%"><b>Contribution End Date</b></th>
+									<th width="20%"><b>Pay Commission</b></th>
+									<th width="20%"><b>Payment Type</b></th>
+									<th width="20%"><b>Basic</b></th>
+									<th width="20%"><b>DP</b></th>
+									<th width="20%"><b>DA</b></th>
+									<th width="20%"><b>Contribution </b></th>
+									<th width="20%"><b>Employer Contribution</b></th>
+									<th width="20%"><b>Add Row</b></th>
+									<th width="20%"><b>Delete Row</b></th>
+									<th width="20%"><b>Status </b></th>
+								</TR>
+							</THEAD>
+
+
+
+
+							<tbody>
+								<tr>
+									<td width="20%"><b>Name</b></td>
+									<td width="20%"><b>DCPS ID</b></td>
+									<td width="20%"><b>Contribution Start Date</b></td>
+									<td width="20%"><b>Contribution End Date</b></td>
+									<td width="20%"><b>Pay Commission</b></td>
+									<td width="20%"><b>Payment Type</b></td>
+									<td width="20%"><b>Basic</b></td>
+									<td width="20%"><b>DP</b></td>
+									<td width="20%"><b>DA</b></td>
+									<td width="20%"><b>Contribution </b></td>
+									<td width="20%"><b>Employer Contribution</b></td>
+									<td width="20%"><b>Add Row</b></td>
+									<td width="20%"><b>Delete Row</b></td>
+									<td width="20%"><b>Status </b></td>
+								</tr>
+								<tr>
+									<td style="font-style: italic; color: red; padding-left: 1%"
+										colspan="5">Note :- Pay Arrear Start Date must be greater
+										than employee's joining date else delete Pay arrear of those
+										employees. Save contributions carefully with correct dates.
+										Please press Go button first then set dates.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+				</fieldset>
+			</div>
 		</form>
 	</div>
 	<script th:src="@{/js/project/online-contri-entry.js}"></script>
