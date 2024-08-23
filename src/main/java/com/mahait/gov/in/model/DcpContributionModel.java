@@ -2,6 +2,7 @@ package com.mahait.gov.in.model;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -72,6 +73,10 @@ public class DcpContributionModel {
     private Date voucherDate;
 
     private String voucherNo;
+    
+    List<DcpContributionModel> lstDcpContributionModel;
+    
+    
 
 
 }

@@ -26,8 +26,6 @@ public class DCPSOnlineContributionEntryController extends BaseController {
 	DCPSOnlineContributionEntryService dCPSOnlineContributionEntryService;
 	
 	
-	
-	
 	@GetMapping("/onlineContributionEntry")
 	public String onlineContributionEntry(Model model, Locale locale,
 			@ModelAttribute("dcpContributionModel") DcpContributionModel dcpContributionModel, HttpSession session) {
@@ -36,12 +34,11 @@ public class DCPSOnlineContributionEntryController extends BaseController {
 		List<MstDcpsBillGroup> lstMstDcpsBillGroup=dCPSOnlineContributionEntryService.findAllBillGroup(messages);
 		List<CmnLocationMst> lstTreasury=dCPSOnlineContributionEntryService.findTreasuryByDdoCode(messages);
 		
-		//findAllMpgSchemeBillGroupByDDOCode
-		
 		model.addAttribute("dcpContributionModel", dcpContributionModel);
 		model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
-		
+		model.addAttribute("lstMstDcpsBillGroup", lstMstDcpsBillGroup);
+		model.addAttribute("lstTreasury", lstTreasury);
 		
 		addMenuAndSubMenu(model, messages);
 		

@@ -116,6 +116,8 @@ public class DcpContributionEntity  {
     @Column(name = "VOUCHER_NO", length = 40)
     private String voucherNo;
     
+    @Column(name = "NPS_EMPLR_CONTRI_DED")
+    private Float npsEmplrContriDed;
     
     @Column(name = "sevaarth_id")
     private String sevaarthId;

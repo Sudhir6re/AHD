@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.CmnLocationMst;
@@ -19,7 +21,7 @@ public class DCPSOnlineContributionEntryRepoImpl implements DCPSOnlineContributi
 
 	@Override
 	public List<MstDcpsBillGroup> findAllBillGroup(OrgUserMst messages) {
-		String HQL = "FROM MstDcpsBillGroup as t ORDER BY t.dcpsDdoBillGroupId DESC"; //dcpsDdoCode ='" + dDOCode
+		String HQL = "FROM MstDcpsBillGroup as t where dcpsDdoCode ='" + messages.getDdoCode()+"' ORDER BY t.dcpsDdoBillGroupId DESC "; 
 		return (List<MstDcpsBillGroup>) manager.createQuery(HQL).getResultList();
 	}
 
@@ -28,7 +30,12 @@ public class DCPSOnlineContributionEntryRepoImpl implements DCPSOnlineContributi
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT LM.locationCode, LM.locName FROM RltDdoOrg RO, CmnLocationMst LM ");
 		sb.append("WHERE RO.ddoCode = :ddoCode AND	LM.locationCode = RO.locationCode");
-		return (List<CmnLocationMst>) manager.createQuery(sb.toString()).getResultList();
+        Session session=manager.unwrap(Session.class);
+		List<CmnLocationMst> lstCmnLocationMst = null;
+	    Query query = session.createQuery(sb.toString());
+	    query.setParameter("ddoCode", messages.getDdoCode());
+	    lstCmnLocationMst = query.getResultList();
+	    return lstCmnLocationMst;
 	}
 
 }
