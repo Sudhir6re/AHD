@@ -22,5 +22,6 @@ public class OnlineContributionModel {
 	private Date contriStartDate;
 	private Date contriEndDate;
 	private Date contribution;
+	private String ddoCode;
 }
 

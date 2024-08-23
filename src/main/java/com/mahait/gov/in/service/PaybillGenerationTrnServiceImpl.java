@@ -8671,9 +8671,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							case 2:
 								dedByAG+=  temp;
 								break;
-							case 3:
+						/*	case 3:
 								dedByTreasury+= temp;
-								break;
+								break;*/
 							case 4:
 								dedByOthr+= temp;
 								break;
@@ -8717,9 +8717,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								case 2:
 									dedByAG+= + tempVal;
 									break;
-								case 3:
+								/*case 3:
 									dedByTreasury+= tempVal;
-									break;
+									break;*/
 								case 4:
 									dedByOthr+= tempVal;
 									break;
@@ -8753,9 +8753,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								case 2:
 									dedByAG+= tempVal;
 									break;
-								case 3:
+								/*case 3:
 									dedByTreasury+= tempVal;
-									break;
+									break;*/
 								case 4:
 									dedByOthr+= tempVal;
 									break;
