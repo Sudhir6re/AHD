@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "TRN_DCPS_CONTRIBUTION",schema="public")
-public class DcpContributionEntity  {
+public class DcpsContributionEntity  {
 
     @Id
     @Column(name = "DCPS_CONTRIBUTION_ID", nullable = false)
@@ -45,19 +45,22 @@ public class DcpContributionEntity  {
     private String typeOfPayment;
 
     @Column(name = "FIN_YEAR_ID", nullable = false)
-    private Long finYearId;
+    private Integer finYearId;
 
     @Column(name = "MONTH_ID", nullable = false)
-    private Long monthId;
+    private Integer monthId;
 
     @Column(name = "BASIC_PAY")
-    private Float basicPay;
+    private Double basicPay;
 
     @Column(name = "DA")
-    private Float da;
+    private Double da;
+    
+    @Column(name = "DP")
+    private Double dp;
 
     @Column(name = "CONTRIBUTION")
-    private Float contribution;
+    private Double contribution;
 
     @Column(name = "REG_STATUS")
     private Integer regStatus;
@@ -99,10 +102,10 @@ public class DcpContributionEntity  {
     private Long rltContriVoucherId;
 
     @Column(name = "DELAYED_FIN_YEAR_ID")
-    private Long delayedFinYearId;
+    private Integer delayedFinYearId;
 
     @Column(name = "DELAYED_MONTH_ID")
-    private Long delayedMonthId;
+    private Integer delayedMonthId;
 
     @Column(name = "EMPLOYER_CONTRI_FLAG", length = 1)
     private String employerContriFlag;
@@ -117,7 +120,7 @@ public class DcpContributionEntity  {
     private String voucherNo;
     
     @Column(name = "NPS_EMPLR_CONTRI_DED")
-    private Float npsEmplrContriDed;
+    private Double npsEmplrContriDed;
     
     @Column(name = "sevaarth_id")
     private String sevaarthId;

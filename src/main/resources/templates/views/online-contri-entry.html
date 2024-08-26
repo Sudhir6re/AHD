@@ -25,9 +25,12 @@
 			<span th:utext="#{msg.thymeleaf.pageheading.onlineContriEntry}"></span>
 		</h3>
 		<form class="form-horizontal" name="onlineEntryForm"
-			id="onlineEntryForm" th:action="@{/ddoast/form2RegularReport}"
-			th:object="${regularReportModel}" method="POST"
+			id="onlineEntryForm" th:action="@{/ddoast/onlineContriEntry}"
+			th:object="${dcpContributionModel}" method="POST"
 			enctype="multipart/form-data">
+			
+			<input type="hidden" th:field="*{useType}"  id="Use"  value="ViewAll"/>
+			
 			<div class="formMainwithNoborTb container">
 				<fieldset class="tabstyle">
 					<legend>
@@ -75,7 +78,7 @@
 							<tr>
 								<td width="15%"><b>Bill Group</b></td>
 								<td width="30%"><select name="billGroup"
-									th:field="*{billGroup}" id="billGroup" onchange="funDdo1(this)"
+									th:field="*{billGroupId}" id="billGroupId" onchange="funDdo1(this)"
 									class="form-control removeErrorFromDropdown">
 										<option selected="selected" th:value="0"
 											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -84,15 +87,22 @@
 											th:text="${language=='mh' ? varGetAllBillGrp.description : varGetAllBillGrp.description}"></option>
 								</select></td>
 								<td width="15%"><b>Scheme</b></td>
-								<td width="35%"><input type="text" name="txtSchemeName"
-									id="txtSchemeName"> <label class="mandatoryindicator">*</label></td>
+								<td width="35%">
+								<input type="hidden" name="schemeCode" th:field="*{schemeCode}"
+									id="schemeCode"> 
+									
+									<input type="text" name="txtSchemeName" id="txtSchemeName"> 
+									
+									<label class="mandatoryindicator">*</label>
+									
+									</td>
 							</tr>
-							<tr>
+						<!-- 	<tr>
 								<td width="15%"><b>Sub Scheme</b></td>
-								<td width="35%"><input type="text" name="txtSubSchemeName"
-									id="txtSubSchemeName" value=""> <label
+								<td width="35%"><input type="text" name="subSchemeCode"
+									id="subSchemeCode" value=""> <label
 									class="mandatoryindicator">*</label></td>
-							</tr>
+							</tr> -->
 							<tr>
 								<td width="15%"><b>Pay Month</b></td>
 								<td width="30%"><select name="monthId"
@@ -105,8 +115,8 @@
 											th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
 								</select></td>
 								<td width="15%"><b>Pay year</b></td>
-								<td width="30%"><select name="monthId" th:field="*{yearId}"
-									id="monthId" class="form-control removeErrorFromDropdown">
+								<td width="30%"><select name="finYearId" th:field="*{finYearId}"
+									id="finYearId" class="form-control removeErrorFromDropdown">
 										<option selected="selected" th:value="0"
 											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 										<option th:each="varGetAllYears : ${lstYears}"
@@ -122,11 +132,11 @@
 								<tr id="typeOfPaymentMasterRow">
 									<td width="15%"><b>Payment Type</b></td>
 
-									<td width="30%"><select name="cmbTypeOfPaymentMaster"
+									<td width="30%"><select name="typeOfPayment"
 										onchange="addMonthYearComboForDelayed();"
-										id="cmbTypeOfPaymentMaster"
+										id="typeOfPayment"
 										class="form-control removeErrorFromDropdown"
-										th:field="${paymentType}">
+										th:field="*{typeOfPayment}">
 											<option selected="selected" th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 											<option th:each="varType : ${paymentTypeLst}"
@@ -139,8 +149,8 @@
 								</tr>
 								<tr id="delayedMonthAndYearCombos">
 									<td width="15%"><b>Delayed Month</b></td>
-									<td width="30%"><select name="cmbDelayedMonth"
-										th:field="*{monthId}" id="cmbDelayedMonth"
+									<td width="30%"><select name="delayedMonthId"
+										th:field="*{delayedMonthId}" id="delayedMonthId"
 										class="form-control removeErrorFromDropdown">
 											<option selected="selected" th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -149,8 +159,8 @@
 												th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
 									</select></td>
 									<td width="15%"><b>Delayed Year</b></td>
-									<td width="30%"><select name="cmbDelayedYear"
-										th:field="*{yearId}" id="cmbDelayedYear"
+									<td width="30%"><select name="delayedFinYearId"
+										th:field="*{delayedFinYearId}" id="delayedFinYearId"
 										class="form-control removeErrorFromDropdown">
 											<option selected="selected" th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -222,11 +232,11 @@
 					<table class="table bor-0">
 						<tbody>
 							<tr>
-								<td id="go" align="center"><input type="button"
+								<td id="go" align="center"><input type="submit"
 									name="btnGo" id="btnGo" value="GO" class="buttontag btn"
 									onclick="SearchEmployee();"> <input type="button"
 									name="btnCancel" onclick="history.back()" id="btnCancel"
-									value="Cancel" size="3" maxlength="3" class="buttontag btn"></td>
+									value="Cancel"  class="buttontag btn"></td>
 							</tr>
 							<tr>
 								<td style="color: red; font-family: bold; font-weight: bold;">NOTE
@@ -257,9 +267,6 @@
 									<th width="20%"><b>Status </b></th>
 								</TR>
 							</THEAD>
-
-
-
 
 							<tbody>
 								<tr>
