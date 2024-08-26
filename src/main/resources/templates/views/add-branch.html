@@ -54,8 +54,8 @@
 						</tr>
 						<tr>
 							<td align="right"><b>IFSC Code</b></td>
-							<td width="20%"><input type="text" name="txtBranchCode" th:field="*{ifscCode}"
-								id="txtBranchCode" maxlength="20"></td>
+							<td width="20%"><input type="text" name="txtifsc" th:field="*{ifscCode}" onblur="validateIFSCCode(this);"
+								id="txtifsc" maxlength="20"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -73,5 +73,6 @@
 		</div>
 	</div>
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
+	<script th:src="@{/js/project/mst-bankBranch.js}"></script>
 </body>
 </html>
