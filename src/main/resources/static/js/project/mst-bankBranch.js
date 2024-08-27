@@ -84,7 +84,7 @@ jQuery(document).ready(function($) {
 	}
 });
 
-$("form[name='mstBankBranch']").validate({
+$("form[name='addBranch']").validate({
     // Specify validation rules
     rules: {
     	bankCode:
