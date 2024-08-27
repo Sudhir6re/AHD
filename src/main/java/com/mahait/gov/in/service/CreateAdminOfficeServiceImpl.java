@@ -179,7 +179,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		
 		
 		Long lLngUserId =orgUserMst.getUserId();
-		Long lLngPostId =orgPostMstRepository.findMaxPostId()+1;
+		Long lLngPostId =orgUserMst.getUserId();//orgPostMstRepository.findMaxPostId()+1;
 
 	//	objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages,mobNo,email);
 
