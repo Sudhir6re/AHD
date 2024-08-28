@@ -132,11 +132,13 @@
 						<tbody class="tbodyloaddetailtbl">
 
 							<tr th:each="varLstEmp : ${lstEmp}">
-								<td th:text="${varLstEmp.employeeName}"></td>
+								<td ><a class="collapse-item"
+											th:href="@{'/ddoast/findSavedEmpLoanDtls/'+${varLstEmp.sevaarthId}}"><span th:text="${varLstEmp.employeeName}"></span></a></td>
 								<td th:text="${varLstEmp.loanAdvName}"></td>
 								<td th:text="${varLstEmp.loanprinamt}"></td>
 								<td th:text="${varLstEmp.loaninterestamt}"></td>
-								<td th:text="${varLstEmp.loanemiamt}"></td>
+								<td th:text="${varLstEmp.loanemiamt}">
+								<input type="hidden" id="sevaarthId" th:value ="${varLstEmp.sevaarthId}"></td>
 								
 							</tr>
 

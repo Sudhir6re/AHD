@@ -1,5 +1,6 @@
 package com.mahait.gov.in.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.AnnualIncrementModel;
 import com.mahait.gov.in.model.EmpLoanModel;
+import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.service.EmployeeLoanDetailsService;
 
 @RequestMapping("/ddoast")
@@ -53,6 +56,7 @@ public class EmployeeLoanDetailsController  extends BaseController{
 		
 		model.addAttribute("lstCommonMstLoanAndAdvance",employeeLoanDetailsService.findLoanNames());
 		model.addAttribute("empLoanModel", empLoanModel);
+		model.addAttribute("status","1");
 		return "/views/add-loan";
 	}
 	
@@ -74,5 +78,22 @@ public class EmployeeLoanDetailsController  extends BaseController{
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
 		}
 		return "redirect:/ddoast/employeeLoanDetails";
+	}
+	
+	@GetMapping("/findSavedEmpLoanDtls/{sevaarthId}")
+	public String findSavedEmpLoanDtls(@ModelAttribute("empLoanModel") EmpLoanModel empLoanModel, Model model,
+			Locale locale, HttpSession session, @PathVariable String sevaarthId) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+		model.addAttribute("systemdate", sdf.format(new Date()));
+		
+		empLoanModel = employeeLoanDetailsService.findSavedEmpLoanDtls(sevaarthId);
+		model.addAttribute("lstCommonMstLoanAndAdvance",employeeLoanDetailsService.findLoanNames());
+		model.addAttribute("status","2");
+		model.addAttribute("empLoanModel", empLoanModel);
+		
+		addMenuAndSubMenu(model,messages);	
+		return "/views/add-loan";
 	}
 }

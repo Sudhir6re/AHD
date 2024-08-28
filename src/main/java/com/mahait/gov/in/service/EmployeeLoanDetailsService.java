@@ -26,4 +26,6 @@ public interface EmployeeLoanDetailsService {
 
 	List<DeptEligibilityForAllowAndDeductEntity> findLoanNames();
 
+	EmpLoanModel findSavedEmpLoanDtls(String sevaarthId);
+
 }

@@ -1,7 +1,8 @@
 package com.mahait.gov.in.model;
 
-import java.math.BigInteger;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -25,14 +26,18 @@ public class EmpLoanModel {
 	private String loansancorderno ;
 	private Double oddinstno;
 	private String voucherno;
-	private String voucherdate;
-	private String loansancorderdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date voucherdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date loansancorderdate;
 	private String startdate ;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date enddate ;
 	private String loanAdvName;
 	private Double oddinstamt;
 	private String officeName;
-	private String loanDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date loanDate;
 	private Integer loanStatus;
 	private Integer loanEmpAdvId;
 	private Double RecoveredAmount;
@@ -42,7 +47,9 @@ public class EmpLoanModel {
 	private Integer totalRecoveredInstallment;
 	
 	private String dcpsNo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date doj;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date serviceEndDate;
 	private Integer dcpsId;
 	private String orgInstName;

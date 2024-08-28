@@ -34,7 +34,6 @@ public class EmployeeLoanDetailsServiceimpl implements EmployeeLoanDetailsServic
 		loanEmployeeDtlsEntity.setDepartmentallowdeduccode(empLoanModel.getDeptAllowdeducCode());
 		loanEmployeeDtlsEntity.setCreateddate(new Date());
 		loanEmployeeDtlsEntity.setLoanactivateflag(empLoanModel.getLoanStatus());
-	/////	loanEmployeeDtlsEntity.setEmployeeid(empLoanModel.getEmployeeid().longValue());
 		loanEmployeeDtlsEntity.setLoanprinamt(empLoanModel.getLoanprinamt());
 		loanEmployeeDtlsEntity.setLoantypeid(empLoanModel.getLoantypeid());
 		loanEmployeeDtlsEntity.setLoaninterestamt(empLoanModel.getLoaninterestamt());
@@ -43,7 +42,9 @@ public class EmployeeLoanDetailsServiceimpl implements EmployeeLoanDetailsServic
 		loanEmployeeDtlsEntity.setLoanintinstno(empLoanModel.getLoanintinstno());
 		loanEmployeeDtlsEntity.setLoanemiamt(empLoanModel.getLoanemiamt());
 		loanEmployeeDtlsEntity.setLoansancorderno(empLoanModel.getLoansancorderno());
+		loanEmployeeDtlsEntity.setLoansancorderdate(empLoanModel.getLoansancorderdate());
 		loanEmployeeDtlsEntity.setVoucherno(empLoanModel.getVoucherno());
+		loanEmployeeDtlsEntity.setVoucherdate(empLoanModel.getVoucherdate());
 		loanEmployeeDtlsEntity.setOddinstamt(empLoanModel.getOddinstamt());
 		loanEmployeeDtlsEntity.setLoanintemiamt(empLoanModel.getLoanintemiamt());
 		loanEmployeeDtlsEntity.setLoanprinemiamt(empLoanModel.getLoanprinemiamt());
@@ -51,11 +52,8 @@ public class EmployeeLoanDetailsServiceimpl implements EmployeeLoanDetailsServic
 		loanEmployeeDtlsEntity.setCreatedbypost(BigInteger.valueOf(1l));
 		loanEmployeeDtlsEntity.setSevaarthid(empLoanModel.getSevaarthId());
 		loanEmployeeDtlsEntity.setLoanaccountno(empLoanModel.getAppNo());
+		loanEmployeeDtlsEntity.setStartdate(empLoanModel.getLoanDate());
 		// loanEmployeeDtlsEntity.setLoanactivateflag(loanactivateflag);
-
-		String sDate1 = empLoanModel.getLoanDate();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");///yyyy-MM-dd
-		Date loanDate = null;
 
 		Long saveId = 0l;
 
@@ -105,6 +103,7 @@ public class EmployeeLoanDetailsServiceimpl implements EmployeeLoanDetailsServic
 			empLoanModel.setLoaninterestamt(loanInstAmt.doubleValue());
 			BigDecimal loanEmiAmt = (BigDecimal) object[4];
 			empLoanModel.setLoanemiamt(loanEmiAmt.doubleValue());
+			empLoanModel.setSevaarthId(StringHelperUtils.isNullString(object[5]));
 			
 			listEmpLoanModel.add(empLoanModel);
 		}
@@ -139,6 +138,12 @@ public class EmployeeLoanDetailsServiceimpl implements EmployeeLoanDetailsServic
 	public List<DeptEligibilityForAllowAndDeductEntity> findLoanNames() {
 		// TODO Auto-generated method stub
 		return employeeLoanDetailsRepo.findLoanNames();
+	}
+
+	@Override
+	public EmpLoanModel findSavedEmpLoanDtls(String sevaarthId) {
+		// TODO Auto-generated method stub
+		return employeeLoanDetailsRepo.findSavedEmpLoanDtls(sevaarthId);
 	}
 
 }

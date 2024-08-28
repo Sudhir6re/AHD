@@ -6,6 +6,7 @@ import java.util.List;
 import com.mahait.gov.in.entity.DeptEligibilityForAllowAndDeductEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.EmpLoanModel;
 
 public interface EmployeeLoanDetailsRepo {
 
@@ -28,5 +29,7 @@ public interface EmployeeLoanDetailsRepo {
 	List<LoanEmployeeDtlsEntity> mergeMultipleGpfApp(String sevaarthId, OrgUserMst messages);
 
 	List<DeptEligibilityForAllowAndDeductEntity> findLoanNames();
+
+	EmpLoanModel findSavedEmpLoanDtls(String sevaarthId);
 
 }

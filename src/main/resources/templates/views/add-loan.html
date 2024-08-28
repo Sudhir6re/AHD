@@ -249,8 +249,8 @@
 					</div>
 					<br>
 					
-					<div class="form-group">
-					<div class="text-center">
+					<div class="form-group" th:switch="${status}">
+					<div class="text-center"  th:case="1">
 						<input type="submit" class="btn btn-primary" value="Add"
 							id="addloaddetailsbtn" />
 					</div>
@@ -258,12 +258,18 @@
 				</form>
 			</div>
 		</div>
-		<div align="center">
+		<div align="center" >
+		
+		<div th:switch="${status}">
+		<div th:case="1">
 			<input type="button" name="Save" onclick="submitForm()" id="Save"
 				value="Save" style="text-align: center;" size="3" maxlength="3"
-				class="btn"> <input type="button" name="btnClose1"
+				class="btn"> 
+				</div>
+				<input type="button" name="btnClose1"
 				onclick="history.back()" id="btnClose1" value="Close"
 				style="text-align: center;" size="3" maxlength="3" class="btn">
+		</div>
 		</div>
 		<br />
 	</div>
