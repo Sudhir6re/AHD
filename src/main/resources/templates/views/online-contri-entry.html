@@ -24,10 +24,9 @@
 		<h3 Class="PageHeading">
 			<span th:utext="#{msg.thymeleaf.pageheading.onlineContriEntry}"></span>
 		</h3>
-		<form class="form-horizontal" name="onlineEntryForm"
+		<form class="form-horizontal" method="POST"
 			id="onlineEntryForm" th:action="@{/ddoast/onlineContriEntry}"
-			th:object="${dcpContributionModel}" method="POST"
-			enctype="multipart/form-data">
+			th:object="${dcpContributionModel}" 	enctype="multipart/form-data">
 			
 			<input type="hidden" th:field="*{useType}"  id="Use"  value="ViewAll"/>
 			

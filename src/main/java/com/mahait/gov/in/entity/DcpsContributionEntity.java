@@ -13,8 +13,8 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Data
 @Entity
+@Data
 @Table(name = "TRN_DCPS_CONTRIBUTION",schema="public")
 public class DcpsContributionEntity  {
 
@@ -124,5 +124,9 @@ public class DcpsContributionEntity  {
     
     @Column(name = "sevaarth_id")
     private String sevaarthId;
+    
+    @Column(name = "CONTRIBUTION_EMPR")
+    private Float contributionEmpr;
+
 }
 
