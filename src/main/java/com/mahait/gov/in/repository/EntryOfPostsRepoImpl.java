@@ -73,7 +73,7 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	public List getAllBranchList(long langId) {
 		Session session = getSession();
 		Criteria crit = session.createCriteria(CmnBranchMst.class);
-		crit.add(Restrictions.eq("cmnLanguageMst.langId", Long.valueOf(langId)));
+		//crit.add(Restrictions.eq("cmnLanguageMst.langId", Long.valueOf(langId)));
 		return crit.list();
 	}
 

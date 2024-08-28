@@ -16,7 +16,9 @@ public class OnlineContributionModel {
 	private Double basicpay;
 	private Double svnpcda;
 	private Double dp;
+	
 	private Double emprContribution;
+	
 	private String action;
 	private Long paymentType;
 	private Date contriStartDate;

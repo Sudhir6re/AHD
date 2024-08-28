@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.type.LongType;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.StringHelperUtils;
@@ -70,6 +71,18 @@ public class BranchMasterRepoImpl implements BranchMasterRepo{
 		Serializable saveId=1;
 		currentSession.update(brachobject);
 		return (Integer) saveId;
+	}
+
+	@Override
+	public List<Long> validateIFSCCode(Integer bankcode, String ifscCode) {
+		Session currentSession =  entityManager.unwrap(Session.class);
+
+		String hql = "select count(*) as count from bank_branch_mst  where  ifsc_code ='"+ifscCode+"'";
+		
+		Query query = currentSession.createSQLQuery(hql).addScalar("count", LongType.INSTANCE);
+		
+		List<Long> lstresult = query.list();
+		return lstresult;	
 	}
 
 }

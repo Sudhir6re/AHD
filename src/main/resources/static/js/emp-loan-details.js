@@ -13,7 +13,7 @@ $("#sevaarth")
 								$("#loaderMainNew").show();
 								$.ajax({
 											type : "POST",
-											url : "../level1/getEmpInfoBySevaarthId/"
+											url : "../ddoast/getEmpInfoBySevaarthId/"
 													+ sevaarthId,
 											async : false,
 											contentType : 'application/json',
@@ -35,8 +35,8 @@ $("#sevaarth")
 													//$("#searchDiv").css("border:1px solid #A5ACB2;");
 													$("#searchDiv")
 															.append(
-																	"<li class='empdata' empid='"+data[i].employeeid+"' empname='"+data[i].employeeName+"' empsevaathid='"+data[i].sevaarthId+"' gpfNo='"+data[i].gpfNo+"'  " +
-																			" empdesgn='"+data[i].designName+"' orgInstName='"+data[i].orgInstName+"'>"
+																	"<li class='empdata' empsevaathid='"+data[i].sevaarthId+"' gpfNo='"+data[i].gpfNo+"'  " +
+																			" empdesgn='"+data[i].designName+"' orgInstName='"+data[i].officeName+"'>"
 																			+ data[i].employeeName
 																			+ "-"
 																			+ data[i].sevaarthId
@@ -45,7 +45,7 @@ $("#sevaarth")
 															.css(
 																	"border:1px solid #A5ACB2;");
 													
-													
+													///a.sevaarth_id,b.designation_name,c.ddo_office,a.pfacno	///a.sevaarth_id,b.designation_name,c.ddo_office,a.pfacno
 													
 													
 												}
@@ -254,9 +254,6 @@ $("#sevaarth")
 			
 		});
 		
-		
-		$("#PriAmount").prop("readonly",true);
-		$("#preEMIAmount").prop("readonly",true);
 		
 		$("#preInstNo").change(function(e){
 			var sevaarthId=$("#sevaarthId").val();

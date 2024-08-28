@@ -62,4 +62,10 @@ public class BranchMasterServiceImpl implements BranchMasterService {
 		return "UPDATED";
 	}
 
+	@Override
+	public List<Long> validateIFSCCode(Integer bankcode, String ifscCode) {
+		// TODO Auto-generated method stub
+		return branchMasterRepo.validateIFSCCode(bankcode,ifscCode);
+	}
+
 }

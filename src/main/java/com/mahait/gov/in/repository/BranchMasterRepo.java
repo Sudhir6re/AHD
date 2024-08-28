@@ -17,4 +17,6 @@ public interface BranchMasterRepo {
 
 	Serializable updateBankBranch(MstBankBranchEntity brachobject);
 
+	List<Long> validateIFSCCode(Integer bankcode, String ifscCode);
+
 }

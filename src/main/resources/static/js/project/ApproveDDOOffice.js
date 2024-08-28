@@ -109,6 +109,19 @@ $(".officeName")
 												 else
 													 $('#RadioButtonNaxaliteAreaNo').prop("checked",true);
 												 
+												 
+												 $('#ddoOffice').val(value[17]);
+												 $('#designationId').val(value[18]);
+												 $('#startDate').val(value[19]);
+												 $('#tanNo').val(value[20]);
+												 $('#itaWardNo').val(value[21]);
+												 $('#bankName').val(value[22]);
+												 $('#branchName').val(value[23]);
+												 $('#ifscCode').val(value[24]);
+												 $('#accountNo').val(value[25]);
+												 $('#remarks').val(value[26]);
+												 $('#instituteType').val(value[27]);
+												 
 												
 												
 											});

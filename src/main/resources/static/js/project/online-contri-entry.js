@@ -16,33 +16,45 @@ jQuery(document).ready(function($) {
 $("#delayedMonthAndYearCombos").hide()
 $("#DAArrearsDatesDivDisplay").hide()
 $("#PayArrearsDatesDivDisplay").hide()
+
 function addMonthYearComboForDelayed() {
-	var typeOfPaymentMaster = $("#cmbTypeOfPaymentMaster").val();
-	if (typeOfPaymentMaster == '700047') {
-		$("#delayedMonthAndYearCombos").fadeIn(100);
-	} else {
-		$("#delayedMonthAndYearCombos").hide()
-	}
-
-	if (typeOfPaymentMaster == '700048') {
-		$("#DAArrearsDatesDivDisplay").fadeIn(100);
-	} else {
-		$("#DAArrearsDatesDivDisplay").hide();
-	}
-
-	if (typeOfPaymentMaster == '700049') {
-		$("#PayArrearsDatesDivDisplay").fadeIn(100);
-	} else {
-		$("#PayArrearsDatesDivDisplay").hide();
-	}
+    var user = $("#levelRoleVal").val().trim();
+     var use = $("#Use").val().trim();
+    
+    if (user == 3  && use=="ViewAll") { 
+        var typeOfPaymentMaster = $("#typeOfPayment").val().trim();
+        
+        // Handle delayed month and year combo visibility
+        if (typeOfPaymentMaster == '700047') {
+            $("#delayedMonthAndYearCombos").show();
+        } else {
+            $("#delayedMonthAndYearCombos").hide();
+        }
+        
+        // Handle DA Arrears Dates visibility
+        if (typeOfPaymentMaster == '700048') {
+            $("#DAArrearsDatesDivDisplay").show();
+        } else {
+            $("#DAArrearsDatesDivDisplay").hide();
+        }
+        
+        // Handle Pay Arrears Dates visibility
+        if (typeOfPaymentMaster == '700049') {
+            $("#PayArrearsDatesDivDisplay").css("display", "inline");
+        } else {
+            $("#PayArrearsDatesDivDisplay").hide();
+        }
+    }
 }
+
+
 
 function funDdo1() {
 
-	var schemeId = $('#billGroup').val();
+	var schemeId = $('#billGroupId').val();
 	
 	if(schemeId != "0"){
-		removeErrorClass($("#schemeName"));
+		removeErrorClass($("#txtSchemeName"));
 	}
 
 	if (schemeId != '') {
@@ -53,6 +65,7 @@ function funDdo1() {
 			contentType : 'application/json',
 			error : function(data) {
 				console.log(data);
+				$( "#loaderMainNew").hide();
 			},
 			beforeSend : function(){
 				$( "#loaderMainNew").show();
@@ -63,7 +76,8 @@ function funDdo1() {
 			success : function(data) {
 				console.log(data);
 				$("#txtSchemeName").val(data[0].schemeName);
-				$("#txtSubSchemeName").val("-");
+				$("#schemeCode").val(data[0].schemeCode);
+				//$("#txtSubSchemeName").val("-");
 			}
 		});
 	}
@@ -105,7 +119,7 @@ function SearchEmployee(e) {
 	
 }
 
-
+/*
 $(document).ready(function() {
 	$("form[name='onlineEntryForm']").validate({
 		ignore : "",
@@ -161,5 +175,6 @@ $(document).ready(function() {
 			form.submit();
 		}
 	});
-	
+
 });
+*/

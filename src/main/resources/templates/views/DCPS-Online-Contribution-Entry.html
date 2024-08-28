@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
@@ -26,10 +27,9 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-			<form method="post" action="" name="DCPSOfflineEntryForm"
+			<form method="post" action="" name="DCPSOfflineEntryForm" th:object="${dcpContributionModel}"
 				enctype="multipart/form-data" id="DCPSOfflineEntryForm">
-				<input type="hidden" name="csrfToken"
-					value="pBw8fD/dnTPZB1UKYHesbQ==">
+				
 				<fieldset class="tabstyle">
 					<legend>
 						<b>Input Details For Contribution</b>
@@ -51,7 +51,7 @@
 					<table class="table bor-0">
 						<tbody>
 							<tr>
-								<td width="15%" style="padding-left: 5%;">Treasury Name</td>
+								<td width="15%" style="padding-left: 5%;" th:utext="#{msg.thymeleaf.pagelabel.tresuryname}">Treasury Name</td>
 								<td width="35%"><select name="cmbTreasuryCode"
 									id="cmbTreasuryCode" style="width: 95%;" onchange=""
 									disabled="disabled">
@@ -60,8 +60,9 @@
 								</select> <label class="mandatoryindicator">*</label></td>
 							</tr>
 							<tr>
-								<td width="15%" style="padding-left: 5%">DDO Name</td>
-								<td width="35%"><select name="cmbDDOCode" id="cmbDDOCode"
+								<td width="15%" style="padding-left: 5%"  >DDO Name</td>
+								<td width="35%">
+								<select name="cmbDDOCode" id="cmbDDOCode"
 									style="width: 95%;" onchange="" disabled="disabled">
 										<option value="06340100116"
 											title="Swami Ramanand Teerth Marathwada University Nanded">Swami
