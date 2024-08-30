@@ -117,12 +117,6 @@ public class CommonConstants {
 		Double COMMONCODE_GROUP_C = (double) 360;
 		Double COMMONCODE_GROUP_D = (double) 240;
 		
-		// All PT Values
-				Double COMMONCODE_PT_AMOUNT_LESS_THAN_4999 = (double) 4999;
-				Double COMMONCODE_PT_AMOUNT_LESS_THAN_9999 = (double) 9999;
-				Double COMMONCODE_PT_AMOUNT_GREATER_THAN_9999 = (double) 9999;
-				
-		
 		// Group A B BnGz C D
 		String COMMONCODE_GROUP_GROUP_A = "A";
 		String COMMONCODE_GROUP_GROUP_B = "B";
@@ -159,19 +153,6 @@ public class CommonConstants {
 		String COMMONCODE_COMPONENT_NPS_EMP_CONTRI = "NPS_EMPLR";
 		String COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT = "NPS_EMPLR_CONTRI_DED";
 		String COMMONCODE_COMPONENT_SVN_DA = "SVNPC_DA";
-		
-		
-		
-		
-		// All PT Values
-		Double COMMONCODE_PT_AMOUNT_LESS_THAN_4500 = (double) 4500;
-		Double COMMONCODE_PT_AMOUNT_LESS_THAN_5500 = (double) 5500;
-		Double COMMONCODE_PT_AMOUNT_GREATER_THAN_5500 = (double) 5500;
-		Double COMMONCODE_PT_AMOUNT_200 = (double) 200;
-		Double COMMONCODE_PT_AMOUNT_175 = (double) 175;
-		Double COMMONCODE_PT_AMOUNT_275 = (double) 275;
-		Double COMMONCODE_PT_AMOUNT_0 = (double) 0;
-		Double COMMONCODE_PT_AMOUNT_300 = (double) 300;
 		
 		// Set Null Vaule
 		String COMMONCODE_VALUE_NULL = "Null";
@@ -228,9 +209,6 @@ public class CommonConstants {
 		int COMMONCODE_COMPONENT_SVN_DA_CODE =124;
 		int COMMONCODE_COMPONENT_CLA_CODE =34;
 		int COMMONCODE_COMPONENT_DP_CODE =76;
-		
-		///int COMMONCODE_COMPONENT_Bhandara_Zilla_Parishad_Wa_Panchayat_Samiti_Karamachari_Sahakari_Sanstha_Bhandara_Code = 163;
-
 		
 		
 		//pension allowdeduct com ponent code
