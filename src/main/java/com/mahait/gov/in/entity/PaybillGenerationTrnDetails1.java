@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "PAYBILL_GENERATION_TRN_DETAILS1", schema = "public")
-public class PaybillGenerationTrnDetails1 implements Serializable{
+public class PaybillGenerationTrnDetails1 implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,67 +35,67 @@ public class PaybillGenerationTrnDetails1 implements Serializable{
 	private Long empId;
 
 	@Column(name = "SPL_PAY")
-	private Long splPay;
+	private Double splPay;
 
 	@Column(name = "PO")
-	private Long po;
+	private Double po;
 
 	@Column(name = "D_PAY")
-	private Long dPay;
+	private Double dPay;
 
 	@Column(name = "DA")
-	private Long da;
+	private Double da;
 
 	@Column(name = "HRA")
-	private Long hra;
+	private Double hra;
 
 	@Column(name = "CLA")
-	private Long cla;
+	private Double cla;
 
 	@Column(name = "MA")
-	private Long ma;
+	private Double ma;
 
 	@Column(name = "WA")
-	private Long wa;
+	private Double wa;
 
 	@Column(name = "TRANS_ALL")
-	private Long transAll;
+	private Double transAll;
 
 	@Column(name = "PAY_RECOVER")
-	private Long payRecover;
+	private Double payRecover;
 
 	@Column(name = "GROSS_AMT")
-	private Long grossAmt;
+	private Double grossAmt;
 
 	@Column(name = "IT")
-	private Long it;
+	private Double it;
 
 	@Column(name = "HRR")
-	private Long hrr;
+	private Double hrr;
 
 	@Column(name = "PLI")
-	private Long pli;
+	private Double pli;
 
 	@Column(name = "PT")
-	private Long pt;
+	private Double pt;
 
 	@Column(name = "HBA")
-	private Long hba;
+	private Double hba;
 
 	@Column(name = "FAN_ADV")
-	private Long fanAdv;
+	private Double fanAdv;
 
 	@Column(name = "JEEP_R")
-	private Long jeepR;
+	private Double jeepR;
 
 	@Column(name = "GPF_IV")
-	private Long gpfIv;
+	private Double gpfIv;
 
 	@Column(name = "TOTAL_DED")
-	private Long totalDed;
+	private Double totalDed;
 
 	@Column(name = "NET_TOTAL")
-	private Long netTotal;
+	private Double netTotal;
 
 	@Column(name = "CREATED_BY")
 	private Long createdBy;
@@ -113,40 +113,40 @@ public class PaybillGenerationTrnDetails1 implements Serializable{
 	private Long locId;
 
 	@Column(name = "PER_PAY")
-	private Long perPay;
+	private Double perPay;
 
 	@Column(name = "PE")
-	private Long pe;
+	private Double pe;
 
 	@Column(name = "OTHER_ALLOW")
-	private Long otherAllow;
+	private Double otherAllow;
 
 	@Column(name = "BONUS")
-	private Long bonus;
+	private Double bonus;
 
 	@Column(name = "SURCHARGE")
-	private Long surcharge;
+	private Double surcharge;
 
 	@Column(name = "RENT_B")
-	private Long rentB;
+	private Double rentB;
 
 	@Column(name = "GPF_ADV")
-	private Long gpfAdv;
+	private Double gpfAdv;
 
 	@Column(name = "MISC_RECOV")
-	private Long miscRecov;
+	private Double miscRecov;
 
 	@Column(name = "TRN_COUNTER")
-	private Long trnCounter;
+	private Double trnCounter;
 
 	@Column(name = "DP_GAZZETED")
-	private Long dpGazzeted;
+	private Double dpGazzeted;
 
 	@Column(name = "PAYBILL_GRP_ID", nullable = false)
 	private Long paybillGrpId;
 
 	@Column(name = "GPF_IV_ADV")
-	private Long gpfIvAdv;
+	private Double gpfIvAdv;
 
 	@Column(name = "POST_ID")
 	private Long postId;
@@ -158,139 +158,139 @@ public class PaybillGenerationTrnDetails1 implements Serializable{
 	private Integer dcps;
 
 	@Column(name = "PSR_NO")
-	private Long psrNo;
+	private Double psrNo;
 
 	@Column(name = "DA_GPF")
-	private Long daGpf;
+	private Double daGpf;
 
 	@Column(name = "DA_GPFIV")
-	private Long daGpfiv;
+	private Double daGpfiv;
 
 	@Column(name = "PAYBILL_MONTH")
-	private Long paybillMonth;
+	private Integer paybillMonth;
 
 	@Column(name = "PAYBILL_YEAR")
-	private Long paybillYear;
+	private Integer paybillYear;
 
 	@Column(name = "OTHER_ID")
-	private Long otherId;
+	private Double otherId;
 
 	@Column(name = "OTHER_TRN_CNTR")
-	private Long otherTrnCntr;
+	private Double otherTrnCntr;
 
 	@Column(name = "GPAY", columnDefinition = "bigint default 0")
-	private Long gpay;
+	private Double gpay;
 
 	@Column(name = "TECH_ALLOW")
-	private Long techAllow;
+	private Double techAllow;
 
 	@Column(name = "HILLY_ALLOWANCE")
-	private Long hillyAllowance;
+	private Double hillyAllowance;
 
 	@Column(name = "ATS_INCENTIVE_30")
-	private Long atsIncentive30;
+	private Double atsIncentive30;
 
 	@Column(name = "ATS_INCENTIVE_50")
-	private Long atsIncentive50;
+	private Double atsIncentive50;
 
 	@Column(name = "PG_ALLOWANCE")
-	private Long pgAllowance;
+	private Double pgAllowance;
 
 	@Column(name = "TAA")
-	private Long taa;
+	private Double taa;
 
 	@Column(name = "FORCE_1_100")
-	private Long force1100;
+	private Double force1100;
 
 	@Column(name = "FORCE_1_25")
-	private Long force125;
+	private Double force125;
 
 	@Column(name = "ARM_ALLOWANCE")
-	private Long armAllowance;
+	private Double armAllowance;
 
 	@Column(name = "ARMOURER")
-	private Long armourer;
+	private Double armourer;
 
 	@Column(name = "BMI")
-	private Long bmi;
+	private Double bmi;
 
 	@Column(name = "CASH_ALLOWANCE")
-	private Long cashAllowance;
+	private Double cashAllowance;
 
 	@Column(name = "CID")
-	private Long cid;
+	private Double cid;
 
 	@Column(name = "CONVEYANCE")
-	private Long conveyance;
+	private Double conveyance;
 
 	@Column(name = "EMERGENCY_ALLOW")
-	private Long emergencyAllow;
+	private Double emergencyAllow;
 
 	@Column(name = "ESIS")
-	private Long esis;
+	private Double esis;
 
 	@Column(name = "ELA")
-	private Long ela;
+	private Double ela;
 
 	@Column(name = "FITNESS_ALLOW")
-	private Long fitnessAllow;
+	private Double fitnessAllow;
 
 	@Column(name = "GALLANTRY_AWARDS")
-	private Long gallantryAwards;
+	private Double gallantryAwards;
 
 	@Column(name = "KIT_MAINTENANCE")
-	private Long kitMaintenance;
+	private Double kitMaintenance;
 
 	@Column(name = "LISENCE_FEE")
-	private Long lisenceFee;
+	private Double lisenceFee;
 
 	@Column(name = "MECHANICAL_ALLOW")
-	private Long mechanicalAllow;
+	private Double mechanicalAllow;
 
 	@Column(name = "MEDICAL_EDUCATION_ALLOW")
-	private Long medicalEducationAllow;
+	private Double medicalEducationAllow;
 
 	@Column(name = "MESS_ALLOW")
-	private Long messAllow;
+	private Double messAllow;
 
 	@Column(name = "NAXEL_AREA_ALLOW")
-	private Long naxelAreaAllow;
+	private Double naxalAreaAllow;
 
 	@Column(name = "NON_PRAC_ALLOW")
-	private Long nonPracAllow;
+	private Double nonPracAllow;
 
 	@Column(name = "SUMPTUARY")
-	private Long sumptuary;
+	private Double sumptuary;
 
 	@Column(name = "PROJECT_ALLOW")
-	private Long projectAllow;
+	private Double projectAllow;
 
 	@Column(name = "SDA")
-	private Long sda;
+	private Double sda;
 
 	@Column(name = "ADD_PAY")
-	private Long addPay;
+	private Double addPay;
 
 	@Column(name = "UNIFORM_ALLOW")
-	private Long uniformAllow;
+	private Double uniformAllow;
 
 	@Column(name = "FAMILY_PALNNING")
-	private Long familyPalnning;
+	private Double familyPalnning;
 
 	@Column(name = "GIS")
-	private Long gis;
+	private Double gis;
 
 	@Column(name = "CENTRAL_GIS")
-	private Long centralGis;
+	private Double centralGis;
 
 	@Column(name = "GIS_IFS")
-	private Long gisIfs;
+	private Double gisIfs;
 
 	@Column(name = "GIS_IAS")
-	private Long gisIas;
+	private Double gisIas;
 
 	@Column(name = "GIS_IPS")
-	private Long gisIps;
+	private Double gisIps;
 
 	@Column(name = "GPF_IAS_OTHER", columnDefinition = "int default 0")
 	private Integer gpfIasOther;
@@ -320,7 +320,7 @@ public class PaybillGenerationTrnDetails1 implements Serializable{
 	private Integer mahaStateLifeInsurance;
 
 	@Column(name = "LTC")
-	private Long ltc;
+	private Double ltc;
 
 	@Column(name = "HBA_CONSTRUCTION", columnDefinition = "int default 0")
 	private Integer hbaConstruction;
@@ -410,16 +410,16 @@ public class PaybillGenerationTrnDetails1 implements Serializable{
 	private Integer ptArr;
 
 	@Column(name = "OTHER_DED_TRY")
-	private Integer otherDedTry;
+	private Double otherDedTry;
 
 	@Column(name = "OTHER_ADV_INT")
-	private Long otherAdvInt;
+	private Double otherAdvInt;
 
 	@Column(name = "MCA_LAND_INT")
-	private Long mcaLandInt;
+	private Double mcaLandInt;
 
 	@Column(name = "MCA_LAND")
-	private Long mcaLand;
+	private Double mcaLand;
 
 	@Column(name = "ADD_DA")
 	private Integer addDa;
@@ -458,7 +458,7 @@ public class PaybillGenerationTrnDetails1 implements Serializable{
 	private Integer washAllow;
 
 	@Column(name = "WRITER_PAY_ALLOW")
-	private Long writerPayAllow;
+	private Double writerPayAllow;
 
 	@Column(name = "TRIBAL_ALLOW")
 	private Integer tribalAllow;
@@ -506,138 +506,183 @@ public class PaybillGenerationTrnDetails1 implements Serializable{
 	private Integer gpfIasLoan;
 
 	@Column(name = "DCPS_DELAY")
-	private Long dcpsDelay;
+	private Double dcpsDelay;
 
 	@Column(name = "DCPS_PAY")
-	private Long dcpsPay;
+	private Double dcpsPay;
 
 	@Column(name = "DCPS_DA")
-	private Long dcpsDa;
+	private Double dcpsDa;
 
 	@Column(name = "REFRESHMENT_ALLOW")
-	private Long refreshmentAllow;
+	private Double refreshmentAllow;
 
 	@Column(name = "JANJULGIS")
-	private Long janjulgis;
+	private Double janjulgis;
 
 	@Column(name = "CDA")
-	private Long cda;
+	private Double cda;
 
 	@Column(name = "CTA")
-	private Long cta;
+	private Double cta;
 
 	@Column(name = "PEON_ALLOWANCE")
-	private Long peonAllowance;
+	private Double peonAllowance;
 
 	@Column(name = "INCENTIVE_BDDS")
-	private Long incentiveBdds;
+	private Double incentiveBdds;
 
 	@Column(name = "RT_PILOT")
-	private Long rtPilot;
+	private Double rtPilot;
 
 	@Column(name = "CHPL_PILOT")
-	private Long chplPilot;
+	private Double chplPilot;
 
 	@Column(name = "KIT_PILOT")
-	private Long kitPilot;
+	private Double kitPilot;
 
 	@Column(name = "FLYING_PAY_PILOT")
-	private Long flyingPayPilot;
+	private Double flyingPayPilot;
 
 	@Column(name = "INSTRUCTIONAL_PILOT")
-	private Long instructionalPilot;
+	private Double instructionalPilot;
 
 	@Column(name = "QUALIFICATION_PILOT")
-	private Long qualificationPilot;
+	private Double qualificationPilot;
 
 	@Column(name = "INSPECTION_PILOT")
-	private Long inspectionPilot;
+	private Double inspectionPilot;
 
 	@Column(name = "FLYING_ALLOW_PILOT")
-	private Long flyingAllowPilot;
+	private Double flyingAllowPilot;
 
 	@Column(name = "OUTFIT_PILOT")
-	private Long outfitPilot;
+	private Double outfitPilot;
 
 	@Column(name = "MILITERY_PILOT")
-	private Long militeryPilot;
+	private Double militeryPilot;
 
 	@Column(name = "SPECIAL_PAY_PILOT")
-	private Long specialPayPilot;
+	private Double specialPayPilot;
 
 	@Column(name = "CPF")
-	private Long cpf;
+	private Double cpf;
 
 	@Column(name = "EMP_LNAME", length = 25)
 	private String empLname;
 
 	@Column(name = "BASIC_ARR")
-	private Long basicArr;
+	private Double basicArr;
 
 	@Column(name = "DA_ON_TA", columnDefinition = "bigint default 0")
-	private Long daOnTa;
+	private Double daOnTa;
 
 	@Column(name = "SCALE_ID", columnDefinition = "bigint default 0")
 	private Long scaleId;
 
 	@Column(name = "TRANS_ARREAR", columnDefinition = "bigint default 0")
-	private Long transArrear;
+	private Double transArrear;
 
 	@Column(name = "OVERTIME_ALLOW", columnDefinition = "bigint default 0")
-	private Long overtimeAllow;
+	private Double overtimeAllow;
 
 	@Column(name = "CPF_CONTRIBUTION", columnDefinition = "bigint default 0")
-	private Long cpfContribution;
+	private Double cpfContribution;
 
 	@Column(name = "CPF_EMPLOYEE", columnDefinition = "bigint default 0")
-	private Long cpfEmployee;
+	private Double cpfEmployee;
 
 	@Column(name = "CPF_EMPLOYER", columnDefinition = "bigint default 0")
-	private Long cpfEmployer;
+	private Double cpfEmployer;
 
 	@Column(name = "ACC_POLICY", columnDefinition = "bigint default 0")
-	private Long accPolicy;
+	private Double accPolicy;
 
 	@Column(name = "SVNPC_DA", columnDefinition = "bigint default 0")
-	private Long svnpcDa;
+	private Double svnpcDa;
 
 	@Column(name = "GROSS_NEW", columnDefinition = "bigint default 0")
-	private Long grossNew;
+	private Double grossNew;
 
 	@Column(name = "TOTAL_DED_NEW", columnDefinition = "bigint default 0")
-	private Long totalDedNew;
+	private Double totalDedNew;
 
 	@Column(name = "GROSS_SAL", columnDefinition = "bigint default 0")
-	private Long grossSal;
+	private Double grossSal;
 
 	@Column(name = "SVNPC_TA", columnDefinition = "bigint default 0")
-	private Long svnpcTa;
+	private Double svnpcTa;
 
 	@Column(name = "SVNPC_GPF_ARR", columnDefinition = "bigint default 0")
-	private Long svnpcGpfArr;
+	private Double svnpcGpfArr;
 
 	@Column(name = "SVNPC_DCPS_ARR", columnDefinition = "bigint default 0")
-	private Long svnpcDcpsArr;
+	private Double svnpcDcpsArr;
 
 	@Column(name = "SVNPC_TA_ARR", columnDefinition = "bigint default 0")
-	private Long svnpcTaArr;
+	private Double svnpcTaArr;
 
 	@Column(name = "SVNPC_GPF_ARR_DEDU", columnDefinition = "bigint default 0")
-	private Long svnpcGpfArrDedu;
+	private Double svnpcGpfArrDedu;
 
 	@Column(name = "SVNPC_GPF_RECO", columnDefinition = "bigint default 0")
-	private Long svnpcGpfReco;
+	private Double svnpcGpfReco;
 
 	@Column(name = "SVNPC_DCPS_RECO", columnDefinition = "bigint default 0")
-	private Long svnpcDcpsReco;
+	private Double svnpcDcpsReco;
 
 	@Column(name = "NPS_EMPLR", columnDefinition = "bigint default 0")
-	private Long npsEmplr;
+	private Double npsEmplr;
 
 	@Column(name = "NPS_EMPLR_CONTRI_DED", columnDefinition = "bigint default 0")
-	private Long npsEmplrContriDed;
+	private Double npsEmplrContriDed;
 
 	@Column(name = "REVENUE_STAMP", columnDefinition = "bigint default 0")
-	private Long revenueStamp;
+	private Double revenueStamp;
+	
+	@Column(name = "desg_code")
+	private Long desgCode;
+	
+	@Column(name = "sevaarth_id")
+	private String sevaarthId;
+	
+	@Column(name = "bank_account_no")
+	private Long bankAccNo;
+	
+	@Column(name = "bank_id")
+	private Long bankId;
+	
+	@Column(name = "bank_branch_id")
+	private Long bankBranchId;
+	
+	@Column(name = "basic_pay")
+	private Double basicPay;
+	
+	@Column(name = "pay_commission_code")
+	private Long payCommissionCode;
+	
+	@Column(name = "seven_pc_lvl")
+	private Long SevenPcLevel;
+	
+	@Column(name = "pay_band")
+	private Long payBand;
+	
+	@Column(name = "deduc_adj_ag")
+	private Double dedAdjAg;
+	
+	@Column(name = "DEDUCT_ADJ_OTR")
+	private Double dedAdjOtr;
+	
+	@Column(name = "lic")
+	private Double lic;
+	
+	@Column(name = "COP_Bank")
+	private Double copBank;
+	
+	@Column(name = "Recurring_deposite")
+	private Double reccDeposit;
+	
+	@Column(name = "credit_soc")
+	private Double creditSoc;
 
 }

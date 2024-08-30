@@ -120,13 +120,12 @@ public class PaybillGenerateController  extends BaseController {
 				paybillHeadMpgModel.getPaybillMonth(), paybillHeadMpgModel.getPaybillYear());
 		Long afterSaveId = 0L;
 		if (saveid == 0) {
-			if (paybillHeadMpgModel.getBillTypeId() == 3) { // 1-->Regular,2-->Supplimentory
+			/*if (paybillHeadMpgModel.getBillTypeId() == 3) { // 1-->Regular,2-->Supplimentory
 				afterSaveId = paybillHeadMpgService.saveSupPaybillHeadMpg(paybillHeadMpgModel);
 			} else { // regular
-			///	afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
-				afterSaveId = paybillHeadMpgService.savePaybillHeadMpgNew(paybillHeadMpgModel);
-			} /*
-				 * else if(paybillHeadMpgModel.getBillTypeId()==3){ // suspension bill
+*/				afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
+			///}
+/* * else if(paybillHeadMpgModel.getBillTypeId()==3){ // suspension bill
 				 * afterSaveId =
 				 * suspensionPaybillGenerationTrnService.saveSuspensionBill(paybillHeadMpgModel)
 				 * ; }else if(paybillHeadMpgModel.getBillTypeId()==4){ //Nil Bill afterSaveId =

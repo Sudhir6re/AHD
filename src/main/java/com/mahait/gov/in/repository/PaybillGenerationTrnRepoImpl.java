@@ -20,7 +20,7 @@ import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.CentralGovtDAMasterEntity;
 import com.mahait.gov.in.entity.EmployeeIncrementEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
-import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
+import com.mahait.gov.in.entity.PaybillGenerationTrnDetails1;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
 
@@ -46,7 +46,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public Long saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails) {
+	public Long saveHrPayPaybill(PaybillGenerationTrnDetails1 paybillGenerationTrnDetails) {
 
 		// logger.info(" inside the saved saveHrPayPaybill- ");
 		Session currentSession = entityManager.unwrap(Session.class);

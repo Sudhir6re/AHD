@@ -5,9 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
-import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
-import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
+import com.mahait.gov.in.entity.PaybillGenerationTrnDetails1;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
 
@@ -15,7 +14,7 @@ import com.mahait.gov.in.entity.PaybillStatusEntity;
 public interface PaybillGenerationTrnRepo {
 
 	public Long savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity);
-	public Long saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails);
+	public Long saveHrPayPaybill(PaybillGenerationTrnDetails1 paybillGenerationTrnDetails);
 	
 	public Long getPaybillGenerationTrnId();
 	
