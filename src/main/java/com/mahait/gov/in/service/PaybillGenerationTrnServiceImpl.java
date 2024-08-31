@@ -322,6 +322,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
 				Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+				
+				
+				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);	
+				
+				
 				grossAmt += grossAmount;
 
 				netAmt += grossAmount - totaldeduc;
@@ -741,7 +746,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				
 				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);
 				
-			Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+		//	Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
 				grossAmt += grossAmount;
 
 				netAmt += grossAmount - totaldeduc;
