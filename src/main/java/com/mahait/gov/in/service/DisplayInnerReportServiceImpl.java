@@ -888,8 +888,8 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 					if(i<=empsize) {
 						Map<String, Object> map = (Map<String, Object>) iteratorgrossamt.next();
-						algrossamt.add(map.get("gross_total_amt").toString());
-						grossTotalSum += Double.parseDouble(map.get("gross_total_amt").toString());
+						algrossamt.add(map.get("gross_amt").toString());
+						grossTotalSum += Double.parseDouble(map.get("gross_amt").toString());
 					}else {
 						algrossamt.add(" ");
 					}
@@ -910,8 +910,8 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratorgrossale.next();
-								algrosssale.add(map.get("gross_total_amt").toString());
-								algrosssaleSum += Double.parseDouble(map.get("gross_total_amt").toString());
+								algrosssale.add(map.get("gross_amt").toString());
+								algrosssaleSum += Double.parseDouble(map.get("gross_amt").toString());
 						}else {
 							algrosssale.add("");
 						}
@@ -931,8 +931,8 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratorgrosstotal.next();
-								algrosstotal.add(map.get("gross_total_amt").toString());
-								algrosstotalSum += Double.parseDouble(map.get("gross_total_amt").toString());
+								algrosstotal.add(map.get("gross_amt").toString());
+								algrosstotalSum += Double.parseDouble(map.get("gross_amt").toString());
 						}else {
 							algrosstotal.add("");
 						}
@@ -952,8 +952,8 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratornetamt.next();
-								alnetamt.add(map.get("total_net_amt").toString());
-								alnetamtSum += Double.parseDouble(map.get("total_net_amt").toString());
+								alnetamt.add(map.get("net_total").toString());
+								alnetamtSum += Double.parseDouble(map.get("net_total").toString());
 						}else {
 							alnetamt.add(" ");
 						}
@@ -973,9 +973,9 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratortotal_deduction.next();
-								if(map.get("deduct_adj_ag")!=null) {
-									altotal_deduction.add(map.get("deduct_adj_ag").toString());
-									altotal_deductionSum += Double.parseDouble(map.get("deduct_adj_ag").toString());
+								if(map.get("deduc_adj_ag")!=null) {
+									altotal_deduction.add(map.get("deduc_adj_ag").toString());
+									altotal_deductionSum += Double.parseDouble(map.get("deduc_adj_ag").toString());
 								}
 						}else {
 							altotal_deduction.add(" ");
@@ -996,9 +996,9 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 					if(i<=empsize) {
 						Map<String, Object> map = (Map<String, Object>) iteratoraldeduct_adj_try.next();
-						if(map.get("deduct_adj_try")!=null) {
-							aldeduct_adj_try.add(map.get("deduct_adj_try").toString());
-							aldeduct_adj_trySum += Double.parseDouble(map.get("deduct_adj_try").toString());
+						if(map.get("OTHER_DED_TRY")!=null) {
+							aldeduct_adj_try.add(map.get("OTHER_DED_TRY").toString());
+							aldeduct_adj_trySum += Double.parseDouble(map.get("OTHER_DED_TRY").toString());
 						}
 					}else {
 						aldeduct_adj_try.add(" ");
@@ -1019,9 +1019,9 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 					if(i<=empsize) {
 						Map<String, Object> map = (Map<String, Object>) iteratoraldeduct_adj_otr.next();
-						if(map.get("deduct_adj_otr")!=null) {
-							aldeduct_adj_otr.add(map.get("deduct_adj_otr").toString());
-							aldeduct_adj_otrSum += Double.parseDouble(map.get("deduct_adj_otr").toString());
+						if(map.get("DEDUCT_ADJ_OTR")!=null) {
+							aldeduct_adj_otr.add(map.get("DEDUCT_ADJ_OTR").toString());
+							aldeduct_adj_otrSum += Double.parseDouble(map.get("DEDUCT_ADJ_OTR").toString());
 						}
 					}else {
 						aldeduct_adj_otr.add(" ");

@@ -226,6 +226,10 @@ public class CommonConstants {
 		int COMPONENT_PENSION_CVP3=11;
 		
 		
+		Integer SIXPC_ALLOW_DEDUC_CODE = 10;
+		Integer SVNPC_ALLOW_DEDUC_CODE = 161;
+		
+		
 		
 	}
 	

@@ -419,14 +419,14 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				if (payCommission == 700005) {
 					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
+							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,
 							mstEmployeeModel.getCityClass());
 				}
 			} else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
 				percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE);
 				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC, mstEmployeeModel.getCityClass());
 			}
@@ -1340,7 +1340,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				if (payCommission == 8 && !mstEmployeeModel.getGiscatagory().equals(3)) {
 					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
+							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE);
 					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,
 							mstEmployeeModel.getCityClass());
@@ -1353,7 +1353,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				}
 			} else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
 				percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE);
 				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC, mstEmployeeModel.getCityClass());
 			}

@@ -22,7 +22,7 @@ import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
-import com.mahait.gov.in.entity.PaybillGenerationTrnDetails1;
+import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
 import com.mahait.gov.in.model.AbstractReportModel;
@@ -47,7 +47,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	@Override
 	public Long savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel) {
 		PaybillGenerationTrnEntity objEntity = new PaybillGenerationTrnEntity();
-		PaybillGenerationTrnDetails1 hr = new PaybillGenerationTrnDetails1();
+		List<PaybillGenerationTrnDetails> lstPaybillGenerationTrnDetails=new ArrayList<>();
+		PaybillGenerationTrnDetails hr = new PaybillGenerationTrnDetails();
 		PaybillStatusEntity paybillStatusEntity = new PaybillStatusEntity();
 
 		String citygroup = null;
@@ -145,12 +146,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		}
 
 		int percentageRate[] = new int[3];
+		
 		percentageRate[0] = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE);
 		percentageRate[1] = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE);
 		percentageRate[2] = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC);
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC,0);
 
 		int centralpercentageRate[] = new int[3];
 		centralpercentageRate[0] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
@@ -191,7 +193,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId().trim(),
 					String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
 					String.valueOf(paybillHeadMpgModel.getPaybillYear()));
-			PaybillGenerationTrnDetails1 paybillGenerationTrnDetails = new PaybillGenerationTrnDetails1();
+			PaybillGenerationTrnDetails paybillGenerationTrnDetails = new PaybillGenerationTrnDetails();
 			paybillGenerationTrnDetails.setPaybillMonth(paybillHeadMpgModel.getPaybillMonth());
 			paybillGenerationTrnDetails.setPaybillYear(paybillHeadMpgModel.getPaybillYear());
 			paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
@@ -214,9 +216,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				 dedByOthr=0d;
 				 dedByTreasury=0d;
 				 dedByAG=0d;
-				 
-				 
-				
 				 
 				
 				Map hmAllowDeducCodeAndValues = new HashMap();
@@ -739,7 +738,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				}
 
 				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
-				Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+				
+				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);
+				
+			Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
 				grossAmt += grossAmount;
 
 				netAmt += grossAmount - totaldeduc;
@@ -752,6 +754,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 		}
 
+		Long saveId=paybillHeadMpgRepo.saveBulkPaybillDetail(lstPaybillGenerationTrnDetails);
+		
 		Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
 		Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
 		return val;

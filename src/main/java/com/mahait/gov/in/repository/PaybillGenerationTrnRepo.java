@@ -1,12 +1,13 @@
 package com.mahait.gov.in.repository;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
-import com.mahait.gov.in.entity.PaybillGenerationTrnDetails1;
+import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
 
@@ -14,7 +15,7 @@ import com.mahait.gov.in.entity.PaybillStatusEntity;
 public interface PaybillGenerationTrnRepo {
 
 	public Long savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity);
-	public Long saveHrPayPaybill(PaybillGenerationTrnDetails1 paybillGenerationTrnDetails);
+	public Long saveHrPayPaybill(PaybillGenerationTrnDetails paybillGenerationTrnDetails);
 	
 	public Long getPaybillGenerationTrnId();
 	
@@ -43,7 +44,7 @@ public interface PaybillGenerationTrnRepo {
 	public int isBrokenPeriodEmpty(String sevaarthid,String monthid,String yearid );
 	public List<Object[]> getBrokenPeriodData(String sevaarthid,String monthid,String yearid,String Username ) ;
 	public  List<Object[]> getViewDetialsReport(Integer monthName);
-	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc);
+	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, int componentCode);
 	public String getHRAPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, String cityClass);
 	public Integer isPaybillExistsForCurrentMonth(Long schemeBillgroupId, int paybillMonth, int paybillYear);
 	public int getCheckIsBillInProcess(int monthName, int yearName, BigInteger schemeBillGroupId, int paybillType);
@@ -71,6 +72,7 @@ public interface PaybillGenerationTrnRepo {
 			String physicallyHandicapped);
 	Double fetchAccidentialPilocyDtls(String startDate, String citygroup, int allowDeducCode);
 	public String getEmpCadre(String sevaarthId, Long empClass);
+	public Long saveBulkPaybillDetail(List<PaybillGenerationTrnDetails> lstPaybillGenerationTrnDetails);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);
