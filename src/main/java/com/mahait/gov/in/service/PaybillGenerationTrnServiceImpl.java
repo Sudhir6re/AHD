@@ -265,15 +265,20 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(brokenMethodName);
 							fieldName.setAccessible(true);
 							try {
-								fieldName.set(paybillGenerationTrnDetails, temp);
+								
+								fieldName.set(paybillGenerationTrnDetails,  temp==null?0:temp);
 							} catch (IllegalArgumentException e) {
+								System.out.println("field name"+fieldName);
 								e.printStackTrace();
 							} catch (IllegalAccessException e) {
+								System.out.println("field name"+fieldName);
 								e.printStackTrace();
 							}
 						} catch (NoSuchFieldException e) {
+							System.out.println("field name"+fieldName);
 							e.printStackTrace();
 						} catch (SecurityException e) {
+							System.out.println("field name"+fieldName);
 							e.printStackTrace();
 						}
 
@@ -335,10 +340,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				objEntity.setBillNetAmount((double) Math.round(netAmt));
 				objEntity.setPaybillGenerationTrnId(val);
 
-				Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
-				Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
+				//Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
+				//Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
 
-				return (Long) id;
+				//return (Long) id;
 			} else {
 				
 				
@@ -611,15 +616,19 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
 								fieldName.setAccessible(true);
 								try {
-									fieldName.set(paybillGenerationTrnDetails, temp);
+									fieldName.set(paybillGenerationTrnDetails,  temp==null?0:temp);
 								} catch (IllegalArgumentException e) {
+									System.out.println("fieldName"+fieldName);
 									e.printStackTrace();
 								} catch (IllegalAccessException e) {
+									System.out.println("fieldName"+fieldName);
 									e.printStackTrace();
 								}
 							} catch (NoSuchFieldException e) {
+								System.out.println("fieldName"+fieldName);
 								e.printStackTrace();
 							} catch (SecurityException e) {
+								System.out.println("fieldName"+fieldName);
 								e.printStackTrace();
 							}
 
@@ -657,15 +666,19 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
 									fieldName.setAccessible(true);
 									try {
-										fieldName.set(paybillGenerationTrnDetails, tempVal);
+										fieldName.set(paybillGenerationTrnDetails, tempVal==null?0:tempVal);
 									} catch (IllegalArgumentException e) {
+										System.out.println("fieldName"+fieldName);
 										e.printStackTrace();
 									} catch (IllegalAccessException e) {
+										System.out.println("fieldName"+fieldName);
 										e.printStackTrace();
 									}
 								} catch (NoSuchFieldException e) {
+									System.out.println("fieldName"+fieldName);
 									e.printStackTrace();
 								} catch (SecurityException e) {
+									System.out.println("fieldName"+fieldName);
 									e.printStackTrace();
 								}
 
@@ -693,15 +706,19 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
 									fieldName.setAccessible(true);
 									try {
-										fieldName.set(paybillGenerationTrnDetails, tempVal);
+										fieldName.set(paybillGenerationTrnDetails,  tempVal==null?0:tempVal);
 									} catch (IllegalArgumentException e) {
+										System.out.println("fieldName"+fieldName);
 										e.printStackTrace();
 									} catch (IllegalAccessException e) {
+										System.out.println("fieldName"+fieldName);
 										e.printStackTrace();
 									}
 								} catch (NoSuchFieldException e) {
+									System.out.println("fieldName"+fieldName);
 									e.printStackTrace();
 								} catch (SecurityException e) {
+									System.out.println("fieldName"+fieldName);
 									e.printStackTrace();
 								}
 							}
