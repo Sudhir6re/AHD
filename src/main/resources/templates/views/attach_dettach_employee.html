@@ -231,7 +231,7 @@
 
 			<!-- 	For attach post to bill group -->
 
-		- 	<FIELDSET class="tabstyle attachdetachempmain attachdettachposts" id="attachdettachPost"
+		<FIELDSET class="tabstyle attachdetachempmain attachdettachposts" id="attachdettachPost"
 				th:if="${lstdetachpost}!=null">
 				<LEGEND>
 					<B>Attach Detach Vacant Post</B>
@@ -345,8 +345,8 @@
 				<TABLE>
 					<TBODY>
 						<TR>
-							<input type="hidden" name="billGroupId" id="billGroupId" th:field="*{billGroupId}" />
-							<TD width="50%">
+							
+							<TD width="50%"><input type="hidden" name="billGroupId" id="billGroupId" th:field="*{billGroupId}" />
 							<INPUT id=postIdstoBeAttached size=100
 								type=hidden name=postIdstoBeAttached
 								th:field="*{postIdstoBeAttached}">
@@ -363,19 +363,15 @@
 				<BR>
 				<DIV align=center>
 					<INPUT  id=btnAttachPost
-						class="buttontag btn" maxLength=3 size=3 type=button value=Save
+						class="buttontag btn" type=button value=Save
 						name=btnSaveData>
 					<INPUT onclick=ReturnLoginPage();
-						id=btnBack class="buttontag btn" maxLength=3 size=3 type=button
+						id=btnBack class="buttontag btn"  type=button
 						value=Back name=btnBack>
 					<a th:href="@{/user/home}" class="btn"><span
 						th:text="#{msg.thymeleaf.pagelabel.btnCancel}"></span></a>
 				</DIV>
 			</FIELDSET> 
-
-
-
-
 
 			<INPUT id=actionFlag type=hidden name=actionFlag> <INPUT
 				id=elementId type=hidden name=elementId> <INPUT

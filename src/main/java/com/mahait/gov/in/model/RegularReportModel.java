@@ -36,5 +36,25 @@ public class RegularReportModel {
 	private Double dp;
 	private Double dcpsReg;
 	private String amtInWords;
-
+	private String ddoCode;
+	private String schemeName;
+	private String schemeCode;
+	private Double grossAmount;
+	private Double netAmount;
+	private  String demandCode;
+	private  String majorHead;
+	private  String subMajorHead;
+	private  String minorHead;
+	private  String subMinorHead;
+	private  String subHead;
+	private  String desgName;
+	private  String panNo;
+	private  Date billCreatedDate;
+	private  String bankAccNo;
+	private  String branchName;
+	private  String sevaarthId;
+	private  Double incometax;
+	private  Double HRR;
+	private  Double professionalTax;
+	private  Long allowdedCode;
 }

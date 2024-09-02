@@ -60,7 +60,8 @@ import com.sun.el.parser.ParseException;
 
 @Controller
 @RequestMapping(value= {"/ddoast","/ddo"})
-public class EmpChangeDetailsController {
+
+public class EmpChangeDetailsController  extends BaseController{
 	
 //	@Autowired
 //	CommonHomeMethodsService commonHomeMethodsService;

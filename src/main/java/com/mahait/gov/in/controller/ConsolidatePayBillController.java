@@ -63,7 +63,7 @@ public class ConsolidatePayBillController  extends BaseController{
 		
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
-		model.addAttribute("lstSchemeCode", mstSchemeService.findAllScheme(messages.getDdoCode()));
+		model.addAttribute("lstSchemeCode", mstSchemeService.findAllSchemeforConsolidate(messages.getDdoCode()));
 		model.addAttribute("lstBillStatus", commonHomeMethodsService.lstGetAllBillStatusForConsolidatePaybill());
 		
 		consolidatePayBillModel.setLstCons(consolidatePayBillService.fetchDDOLst(messages.getDdoCode()));
@@ -96,7 +96,8 @@ public class ConsolidatePayBillController  extends BaseController{
 		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model,messages);	
 				int afterSaveId = consolidatePayBillService.saveConsolidatePayBill(consolidatePayBillModel,messages);
-		
+				model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+				model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 				if(afterSaveId > 0) {
 					redirectAttributes.addFlashAttribute("message","SUCCESS");
 				}

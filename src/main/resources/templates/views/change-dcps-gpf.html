@@ -25,7 +25,7 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-			<form method="post" action="" name="FrmSetDCPSorGPF"
+			<form method="post" th:action="@{/mdc/savechangeDcpsGpf}" name="FrmSetDCPSorGPF" th:object="${mstEmployeeModel}"
 				enctype="multipart/form-data">
 				<fieldset class="tabstyle">
 					<legend>Employee Details</legend>
@@ -75,5 +75,6 @@
 			$(".empdetails").fadeIn(100);
 		}
 	</script>
+	<script th:src="@{/js/project/change-dcps-gpf.js}"></script>
 </body>
 </html>

@@ -27,16 +27,60 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	}
 
 	@Override
-	public List<Object[]> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode) {
+	public List<Object[]> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode,Long allowdeducId) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-				"b.svn_pc_da else da end as DA, b.dcps_regular,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
-				" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
-				" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
-				" where c.scheme_billgroup_id = '"+billGroup+"' " + 
-				" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
-				" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+		String HQL = null;
+		if(allowdeducId==59) {
+			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
+					"b.svn_pc_da else da end as DA, b.dcps_regular,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
+					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
+					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
+					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
+					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
+					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+			
+		}
+		if(allowdeducId==120) {
+			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
+					"b.svn_pc_da else da end as DA, b.DCPS_DELAYED,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
+					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
+					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
+					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
+					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
+					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+			
+		}
+		if(allowdeducId==121) {
+			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
+					"b.svn_pc_da else da end as DA, b.DCPS_PAY_ARR,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
+					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
+					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
+					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
+					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
+					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+			
+		}
+		if(allowdeducId==122) {
+			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
+					"b.svn_pc_da else da end as DA, b.DCPS_DA_ARR,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
+					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
+					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
+					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
+					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
+					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+			
+		}
+		if(allowdeducId==218) {
+			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
+					"b.svn_pc_da else da end as DA, b.DCPS_SVNPC_Recovery,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
+					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
+					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
+					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
+					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
+					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+			
+		}
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("HQL:"+HQL);
 		return query.list();
@@ -51,22 +95,15 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	}
 
 	@Override
-	public List<Object[]> findpaybill(int billNumber, int monthName, int yearName, String ddo) {
+	public List<Object[]> findpaybill(Long billNumber, int monthName, int yearName, String ddo) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select a.paybill_generation_trn_id,a.scheme_billgroup_id,b.bill_group_id from paybill_generation_trn  a" + 
-		"inner join bill_group_mst bb on a.scheme_billgroup_id = bb.bill_group_id" + 
-		"inner join  ddo_reg_mst dd on dd.ddo_code = a.ddo_code  and a.ddo_code='"+ddo+"'" + 
-		"inner join ddo_map_rlt ddd on dd.ddo_reg_id = ddd.ddo_code_user_id1" + 
-		"inner join scheme_billgroup_mpg b on a.scheme_billgroup_id=b.bill_group_id and b.ddo_map_id = ddd.ddo_map_id where "
-		+ "a.paybill_month='"+monthName+"'   and a.paybill_year='"+yearName+"'  and a.is_Active in ('1','2','5','6','9','10','11','14') "
-				+ "and   b.bill_group_id='"+billNumber+"'";
-		
-		/*String HQL = "select a.paybill_generation_trn_id,a.scheme_billgroup_id,b.bill_group_id from paybill_generation_trn  a" + 
-				"inner join bill_group_mst bb on a.scheme_billgroup_id = bb.bill_group_id" + 
-				"inner join  ddo_reg_mst dd on dd.ddo_code = a.ddo_code  and a.ddo_code='"+ddo+"'" + 
-				"inner join ddo_map_rlt ddd on dd.ddo_reg_id = ddd.ddo_code_user_id1" + 
-				"inner join scheme_billgroup_mpg b on a.scheme_billgroup_id=b.bill_group_id and b.ddo_map_id = ddd.ddo_map_id where a.is_Active not in (14,8) and b.scheme_billgroup_id='"+billNumber+"'";*/
+		String HQL = " select a.paybill_generation_trn_id,a.scheme_billgroup_id,bb.bill_group_id from paybill_generation_trn  a" + 
+				" inner join mst_dcps_bill_group bb on a.scheme_billgroup_id = bb.bill_group_id" + 
+				" inner join  org_ddo_mst dd on dd.ddo_code = a.ddo_code  and a.ddo_code='"+ddo+"'" + 
+				" inner join rlt_zp_ddo_map ddd on dd.ddo_code = ddd.zp_ddo_code" + 
+				" where a.paybill_month="+monthName+"   and a.paybill_year="+yearName+"  and a.is_Active in ('1','2','5','6','9','10','11','14')" + 
+				" and   bb.bill_group_id='"+billNumber+"'";
 		System.out.println("Findpaybill Quer +++++"+HQL);
 		
 		Query query = currentSession.createSQLQuery(HQL);
@@ -108,6 +145,17 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	public List<MstDcpsBillGroup> lstBillDesc(String ddoCode) {
 		String HQL = "FROM MstDcpsBillGroup as t  where dcpsDdoCode='"+ddoCode+"' ORDER BY t.dcpsDdoBillGroupId";
 		return (List<MstDcpsBillGroup>) entityManager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<Object[]> findTrsyDtls(String ddoCode) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		String HQL = " select  loc_id,loc_name from CMN_LOCATION_MST a inner join org_ddo_mst b on b.location_code = cast(a.loc_id as varchar) where b.ddo_code ='"+ddoCode+"'";
+		System.out.println("findTrsyDtls---"+HQL);
+		
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
 	}
 	
 	

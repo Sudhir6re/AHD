@@ -2823,7 +2823,7 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			
 		}
 		
-		Date createdate = commonHomeMethodsService.findbillCreateDate(Integer.parseInt(paybillGenerationTrnId));
+		Date createdate = commonHomeMethodsService.findbillCreateDate(Long.valueOf(paybillGenerationTrnId));
 		
 		model.addAttribute("currentMonthAmountAll", curAll);
 		model.addAttribute("previousMonthAmountAll", preAll);
@@ -3629,7 +3629,7 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			premonname = monthLst[1].toString();
 			
 		}
-		Date createdate = commonHomeMethodsService.findbillCreateDate(Integer.parseInt(paybillGenerationTrnId));
+		Date createdate = commonHomeMethodsService.findbillCreateDate(Long.valueOf(paybillGenerationTrnId));
 		model.addAttribute("currentMonthAmountAll", curAll);
 		model.addAttribute("previousMonthAmountAll", preAll);
 		Double alltotal =curAll-preAll;
@@ -4328,7 +4328,7 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			premonname = monthLst[1].toString();
 			
 		}
-		Date createdate = commonHomeMethodsService.findbillCreateDate(Integer.parseInt(paybillGenerationTrnId));
+		Date createdate = commonHomeMethodsService.findbillCreateDate(Long.valueOf(paybillGenerationTrnId));
 		model.addAttribute("currentMonthAmountAll", curAll);
 		model.addAttribute("previousMonthAmountAll", preAll);
 		Double alltotal =curAll-preAll;

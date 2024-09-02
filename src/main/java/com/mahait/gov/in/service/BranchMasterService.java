@@ -16,4 +16,6 @@ public interface BranchMasterService {
 
 	String updateBankBranch(@Valid MstBankBranchEntity mstBankBranchEntity);
 
+	List<Long> validateIFSCCode(Integer bankcode, String ifscCode);
+
 }

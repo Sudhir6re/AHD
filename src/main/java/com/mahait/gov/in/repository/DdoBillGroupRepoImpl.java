@@ -24,9 +24,8 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 	
 	@PersistenceContext
 	EntityManager entityManager;
-	public List<MstDcpsBillGroup> lstBillName(String username) {
+	public List<MstDcpsBillGroup> lstBillName(String ddocode) {
 		// TODO Auto-generated method stub
-		String ddocode = username.substring(0,11);
 		String HQL = "FROM MstDcpsBillGroup as t where dcpsDdoCode ='"+ddocode+"' and (billDeleted is null or billDeleted <> 'Y') and (billDcps is null or billDcps <> 'Y') ORDER BY t.dcpsDdoBillGroupId DESC";
 		return (List<MstDcpsBillGroup>) entityManager.createQuery(HQL).getResultList();
 	}
@@ -327,7 +326,7 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 				"    left join\r\n" + 
 				"        mst_dcps_bill_group  i \r\n" + 
 				"            on i.BILL_GROUP_ID=e.bill_no     \r\n" + 
-				"    where b.end_date > CURRENT_DATE and  f.employee_full_name_en isnull and DESCRIPTION isnull and "+
+				"    where b.end_date > CURRENT_DATE and  f.employee_full_name_en isnull and DESCRIPTION is null and "+
 				"        a.loc_id in (\r\n" + 
 				"            SELECT\r\n" + 
 				"                cast(location_code as bigint) \r\n" + 

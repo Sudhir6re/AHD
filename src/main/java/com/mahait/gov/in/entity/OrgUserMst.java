@@ -1,6 +1,7 @@
 package com.mahait.gov.in.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -90,31 +91,25 @@ public class OrgUserMst implements Serializable {
     private String passwordSha;
 
     @Column(name = "start_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
+    private Timestamp startDate;
 
     @Column(name = "end_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endDate;
+    private Timestamp endDate;
 
     @Column(name = "activate_flag", nullable = false)
     private Long activateFlag;
 
     @Column(name = "created_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private Timestamp createdDate;
 
     @Column(name = "updated_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedDate;
+    private Timestamp updatedDate;
 
     @Column(name = "pwdchanged_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date pwdchangedDate;
+    private Timestamp pwdchangedDate;
 
     @Column(name = "unlock_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date unlockTime;
+    private Timestamp unlockTime;
 
     @Column(name = "invalid_login_cnt")
     private Integer invalidLoginCnt;

@@ -30,20 +30,24 @@ table.table.table-striped.table-bordered a {
 						</tr>
 						<tr>
 							<td class="Label2" style="font-weight: bold;">For the Month
-								of July 2024</td>
+								of <span th:text="${currmonyer}"></span>
+							</td>
 							<td class="Label2" style="font-weight: bold; text-align: right;">Treasury
-								: DEMO LVL2(2222)</td>
+								: <span th:text="${trsyCode}"></span> ( <span
+								th:text="${trsyName}"></span> )
+							</td>
 						</tr>
 						<tr>
 							<td class="Label2" style="font-weight: bold;">Name of the
-								Office : MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA
-								UNIVERSITY(20541200001)</td>
+								Office : <span th:text="${officename}"></span>( <span
+								th:text="${ddoCode}"></span> )
+							</td>
 							<td class="Label2" style="font-weight: bold; text-align: right;">Head
 								Of Account Code :30046401</td>
 						</tr>
 						<tr>
-							<td class="Label2" style="font-weight: bold;">TAN NO. :
-								PDES03028F</td>
+							<td class="Label2" style="font-weight: bold;">TAN NO. : <span
+								th:text="${tanNo}"></span></td>
 							<td class="Label2" style="font-weight: bold; text-align: right;">
 							</td>
 						</tr>
@@ -51,62 +55,47 @@ table.table.table-striped.table-bordered a {
 				</table>
 				<br />
 				<table class="table table-striped">
+
+					<thead>
+						<tr>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.srno}" /></th>
+							<th rowspan="2" th:utext="#{msg.pagelabel.employeeName}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.grossAmount}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.label.amtofdeduc}" /></th>
+
+						</tr>
+
+
+					</thead>
+
 					<tbody>
-						<tr>
-							<th align="center" valign="bottom" width="5%">Sr. No.</th>
-							<th align="center" valign="bottom" width="25%">(Employee
-								Code),Name and Designation of Govt. Servent</th>
-							<th align="center" valign="bottom" width="20%">Gross</th>
-							<th align="center" valign="bottom" width="20%">Amount of
-								Deduction</th>
+						<tr th:each="varEmp : ${revenueStampReport}">
+							<td class="text-center" th:text="${varEmpStat.index+1}"></td>
+							<td class="text-center" th:text="${varEmp.empName}"></td>
+							<td class="text-center" th:text="${varEmp.gross}"></td>
+							<td class="text-center" th:text="${varEmp.revenueStamp}"></td>
+							</tr>
+							<tr>
+							<td></td>
+							<td>Total Deduction (`): </td>
+							<td></td>
+							<td th:text="${totalDeduc}">/-</td>
 						</tr>
-						<tr>
-							<td align="center" valign="middle">1</td>
-							<td align="left" valign="middle">(20DHEGPFM7801)- GPF (Head
-								Clerk)</td>
-							<td valign="middle">90,200</td>
-							<td valign="middle">1</td>
-						</tr>
-						<tr>
-							<td align="center" valign="middle">2</td>
-							<td align="left" valign="middle">(20DHENEWM8901)- NEWTON
-								(Head Clerk)</td>
-							<td valign="middle">1,14,297</td>
-							<td valign="middle">1</td>
-						</tr>
-						<tr>
-							<td align="center" valign="middle">3</td>
-							<td align="left" valign="middle">(20DHEABDM6901)-DEMO AJIT
-								BALKRISHNA(Assistant Professor)</td>
-							<td valign="middle">1,21,150</td>
-							<td valign="middle">1</td>
-						</tr>
-						<tr>
-							<td align="center" valign="middle">4</td>
-							<td align="left" valign="middle">(20DHEASWM9501)-WASAKE
-								ASHISH SHANKAR(Assistant Professor)</td>
-							<td valign="middle">1,04,395</td>
-							<td valign="middle">1</td>
-						</tr>
-						<tr>
-							<td align="center" valign="middle"></td>
-							<td align="left" valign="middle"></td>
-							<td valign="middle" style="font-weight: bolder;">TOTAL (`)</td>
-							<td valign="middle" style="font-weight: bolder;">4</td>
-						</tr>
-						<tr>
-							<td colspan="4" align="center" valign="middle"
-								style="font-weight: bolder; text-align: Left;">Total
-								Deduction In Words (`): Four only.</td>
+							<tr>
+							<td></td>
+							<td>Total Deduction In Words (`): </td>
+							<td></td>
+							<td th:text="${word}"></td>
 						</tr>
 					</tbody>
+
 				</table>
 				<br />
 				<table class="table bor-0">
 					<tbody>
 						<tr>
 							<td valign="middle" style="font-weight: bold;"><br /> <b>Verification
-									Time:-</b>19-07-2024 11:55:29.372<br /> <span>* Generated
+									Time:-</b><span th:text="${systemdate}"></span><br /> <span>* Generated
 									By <span th:text="#{msg.thymeleaf.pagelabel.hteCustSevaarth}"></span>
 							</span></td>
 						</tr>

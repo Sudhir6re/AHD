@@ -11,7 +11,7 @@ public interface MstSchemeRepo {
 
 	List<MstScheme> findAllScheme();
 
-	List<Object[]> findAllSchemename(String username);
+	List<MstSchemeModel> findAllSchemename(String username);
 
 	List<MstSchemeModel> findAllSchemename();
 
@@ -20,6 +20,8 @@ public interface MstSchemeRepo {
 	BigInteger findNumberOfEmployeeInBillGroup(String logUser, BigInteger schemeBillGroupId, int monthName, int yearName, int paybillType);
 
 	List<MstSchemeModel> findAllMpgSchemeBillGroupBylvl2DDOCode(String userName);
+
+	List<MstSchemeModel> findAllSchemeforConsolidate(String ddoCode);
 
 
 }

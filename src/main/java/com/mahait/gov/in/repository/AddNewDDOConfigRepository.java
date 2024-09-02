@@ -212,11 +212,11 @@ public class AddNewDDOConfigRepository {
 			
 			lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
 
-			lObjUserMst.setStartDate(new Date());
+			lObjUserMst.setStartDate(new Timestamp(new Date().getTime()));
 			
 			lObjUserMst.setActivateFlag(0l);
 			lObjUserMst.setAppCode(1);
-			lObjUserMst.setCreatedDate(new Date());
+			lObjUserMst.setCreatedDate(new Timestamp(new Date().getTime()));
 
 			lObjUserMst.setCreatedBy(orgUserMst);
 
@@ -330,6 +330,7 @@ public class AddNewDDOConfigRepository {
 			lObjOrgPostMst.setCreatedDate(new Timestamp(new Date().getTime()));
 			lObjOrgPostMst.setLocationCode(lStrLocationCode);
 			lObjOrgPostMst.setDsgnCode(lStrDsgnCode);
+			lObjOrgPostMst.setStatusLookupId(13l);
 			Long id =(Long) ghibSession.save(lObjOrgPostMst);
 			
 			
@@ -990,7 +991,6 @@ public class AddNewDDOConfigRepository {
 		}
 	}
 
-	// added by vaibhav tyagi: start
 	public synchronized Long getNextSeqNoLoc() {
 	return 	cmnLocationMstRepository.findMaxLocId()+1;
 		/*

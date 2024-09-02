@@ -11,6 +11,8 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -491,7 +493,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setEmpClass(mstEmployeeModel.getEmpClass());
 			objEntity.setSuperAnnAge(mstEmployeeModel.getSuperannuationage());
 			objEntity.setEmpServiceEndDate(mstEmployeeModel.getSuperAnnDate()); // by default set to retirement date
-																				// added by sudhir
+			objEntity.setPercentageOfBasic(100l);														// added by sudhir
 			objEntity.setSuperAnnDate(mstEmployeeModel.getSuperAnnDate());
 			objEntity.setPayCommissionCode(mstEmployeeModel.getPayCommissionCode());
 			objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
@@ -974,6 +976,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setEmployeeLNameMr(mstEmployeeModel.getEmployeeLNameMr());
 		objEntity.setEmployeeMotherName(mstEmployeeModel.getEmployeeMotherName());
 		objEntity.setGender(mstEmployeeModel.getGender());
+		objEntity.setPercentageOfBasic(100l);
 		
 		objEntity.setBuckleNo(mstEmployeeModel.getBuckleNo());
 //		if (mstEmployeeModel.getGender() == '1') {
@@ -1028,6 +1031,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
 		objEntity.setDesignationCode(mstEmployeeModel.getDesignationId());
 		objEntity.setPayscalelevelId(mstEmployeeModel.getPayscalelevelId());
+		objEntity.setPercentageOfBasic(100l);
 		if (mstEmployeeModel.getPayscalelevelId() != null)
 			objEntity.setSevenPcLevel(Long.valueOf(mstEmployeeModel.getPayscalelevelId()));
 		else
@@ -1502,10 +1506,15 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				Optional<MstRoleEntity> findById = mstRoleRepo.findById(4);
 				lObjUserMst.setMstRoleEntity(findById.get());
 				lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
-				lObjUserMst.setStartDate(new Date());
+
+				
+				lObjUserMst.setStartDate(new Timestamp(new Date().getTime()));
 				lObjUserMst.setActivateFlag(0l);
 				lObjUserMst.setAppCode(1);
-				lObjUserMst.setCreatedDate(new Date());
+				
+				lObjUserMst.setCreatedDate(new Timestamp(new Date().getTime()));
+				
+				
 				lObjUserMst.setCreatedBy(message.getCreatedBy());
 				lObjUserMst.setCreatedByPost(message.getCreatedByPost());
 				lObjUserMst.setSecretQueCode("Secret_Other");

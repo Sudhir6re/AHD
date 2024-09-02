@@ -40,8 +40,8 @@ public class Form2RegularController  extends BaseController{
 	@Autowired
 	PaybillGenerationTrnService paybillGenerationTrnService;
 	
-	@RequestMapping(value = "/form2Regular", method = { RequestMethod.GET , RequestMethod.POST})
-	public String form2Regular(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
+	@RequestMapping(value = "/form2Report", method = { RequestMethod.GET , RequestMethod.POST})
+	public String form2Report(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
 			Model model, Locale locale, HttpSession session) {
 		
 			String message = (String) model.asMap().get("message");
@@ -50,10 +50,25 @@ public class Form2RegularController  extends BaseController{
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
+	/*	model.addAttribute("lstReportType", regularReportService.lstReportType();*/
+		
+		addMenuAndSubMenu(model,messages);
+		return "/views/form2-report";
+	}
+	/*@RequestMapping(value = "/form2Regular", method = { RequestMethod.GET , RequestMethod.POST})
+	public String form2Regular(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
+			Model model, Locale locale, HttpSession session) {
+		
+		String message = (String) model.asMap().get("message");
+		
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
+		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
+		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
 		addMenuAndSubMenu(model,messages);
 		return "/views/form2-regular";
 	}
-	
+	*/
 	@RequestMapping("/form2RegularReport")
 	public String form2RegularReport(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel, Model model, Locale locale,
 			HttpSession session) {
@@ -86,6 +101,8 @@ public class Form2RegularController  extends BaseController{
 		}
 		
 		
+		
+		
 		String startDate=null;
 		Date fromDate=null;
 		Date toDate=null;
@@ -106,7 +123,8 @@ public class Form2RegularController  extends BaseController{
 		
 
 		
-		List<RegularReportModel> entryinfo = regularReportService.findDCPSRegularEmpLst(regularReportModel.getYearId(),regularReportModel.getMonthId(),regularReportModel.getBillGroup(),messages.getDdoCode());
+		List<RegularReportModel> entryinfo = regularReportService.findDCPSRegularEmpLst(regularReportModel.getYearId(),regularReportModel.getMonthId(),regularReportModel.getBillGroup(),
+				messages.getDdoCode(),regularReportModel.getAllowdedCode());
         BigInteger bigInteger = BigInteger.valueOf(regularReportModel.getMonthId());
         
         
@@ -162,12 +180,25 @@ public class Form2RegularController  extends BaseController{
 			
 		}
 		
+		BigInteger trsyCode =null;
+		String trsyName=null;
+		List<Object[]>  treasuryDtls = regularReportService.findTrsyDtls(messages.getDdoCode());
+		
+		for (Object[] objects : treasuryDtls) {
+			
+			trsyCode = (BigInteger) objects[0];
+			trsyName = (String) objects[1];
+			
+		}
+		
 		String monthString = new DateFormatSymbols().getMonths()[month-1];
     	model.addAttribute("systemdate", sdf.format(new Date()));
     	model.addAttribute("date", sdf1.format(new Date()));
     	model.addAttribute("fromDate",sdf1.format(fromDate));
 		model.addAttribute("toDate",sdf1.format(toDate));
 		model.addAttribute("entryinfo",entryinfo);
+		model.addAttribute("trsyCode",trsyCode);
+		model.addAttribute("trsyName",trsyName);
 		String officename =commonHomeMethodsService.getOffice(messages.getDdoCode());
 		/*String treasury =commonHomeMethodsService.getTreasury(messages.getUserName());
 		String treasuryCode =commonHomeMethodsService.getTreasuryCode(messages.getUserName());*/
@@ -193,6 +224,7 @@ public class Form2RegularController  extends BaseController{
     	model.addAttribute("date", sdf1.format(new Date()));
 		model.addAttribute("ddoName",ddoName);
 		model.addAttribute("monthString", monthString);
+		model.addAttribute("allowdeducId", regularReportModel.getAllowdedCode());
 		/*model.addAttribute("treasury", treasury);
 		model.addAttribute("treasuryCode",treasuryCode);*/
 		model.addAttribute("nextMonth",nextMonth);

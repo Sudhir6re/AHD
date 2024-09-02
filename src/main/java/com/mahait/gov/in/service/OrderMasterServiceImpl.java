@@ -107,7 +107,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 			///payOrderMst.setLocationCode(messages.getUpdatedByPost().getLocationCode());
 			///payOrderMst.setCmnLanguageMst(cmnLanguageMst);
 			payOrderMst.setTrnCounter(new Integer(1));
-			payOrderMst.setDdoCode(messages.getUserName());
+			payOrderMst.setDdoCode(mstGrOrderModel.getDdoCode());
 			//payOrderMst.setOrgPostMstByCreatedByPost(messages.getCreatedByPost().getPostId());
 			///payOrderMst.setOrgUserMstByCreatedBy(orgUserMst);
 			payOrderMst.setCreatedDate(new Date());

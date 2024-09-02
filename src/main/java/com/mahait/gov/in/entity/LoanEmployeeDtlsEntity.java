@@ -1,6 +1,6 @@
 package com.mahait.gov.in.entity;
 
-
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,8 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
-@Data
+
 @Entity
+@Data
 @Table(name="loan_employee_dtls",schema="public")
 public class LoanEmployeeDtlsEntity {
 	@Id
@@ -33,19 +34,19 @@ public class LoanEmployeeDtlsEntity {
 	private Long loantypeid ;
 	
 	@Column(name="loan_prin_amt")
-	private Long loanprinamt ;
+	private Double loanprinamt ;
 	
 	@Column(name="loan_interest_amt")
-	private Long loaninterestamt ;
+	private Double loaninterestamt ;
 	
 	@Column(name="loan_prin_inst_no")
-	private Long loanprininstno ;
+	private Integer loanprininstno ;
 	
 	@Column(name="loan_int_inst_no")
-	private Long loanintinstno;
+	private Integer loanintinstno;
 	
 	@Column(name="loan_emi_amt")
-	private Long  loanemiamt ;
+	private Double  loanemiamt ;
 	
 	@Column(name="loan_account_no")
 	private String loanaccountno ;
@@ -54,28 +55,28 @@ public class LoanEmployeeDtlsEntity {
 	private Date  loandate ;
 	
 	@Column(name="trn_counter")
-	private Long trncounter ;
+	private Integer trncounter ;
 	
 	@Column(name="loan_int_emi_amt")
-	private Long loanintemiamt ;
+	private Double loanintemiamt ;
 	
 	@Column(name="loan_prin_emi_amt")
-	private Long loanprinemiamt;
+	private Double loanprinemiamt;
 	
 	@Column(name="loan_sanc_order_no")
 	private String loansancorderno ;
 	
 	@Column(name="loan_activate_flag")
-	private Long loanactivateflag ;
+	private Integer loanactivateflag ;
 	
 	@Column(name="odd_inst_no")
-	private Long oddinstno;
+	private Double oddinstno;
 	
 	@Column(name="odd_inst_amt")
-	private Long oddinstamt;
+	private Double oddinstamt;
 	
 	@Column(name="is_approved")
-	private Long isapproved ;
+	private Integer isapproved ;
 	
 	@Column(name="voucher_no")
 	private String voucherno;
@@ -87,16 +88,16 @@ public class LoanEmployeeDtlsEntity {
 	private Date loansancorderdate;
 	
 	@Column(name="loan_rec_type")
-	private Long loanrectype ;
+	private Integer loanrectype ;
 	
 	@Column(name="loan_rec_remarks")
 	private String loanrecremarks;
 	
 	@Column(name="multi_inst_recvd")
-	private Long multiinstrecvd ;
+	private Integer multiinstrecvd ;
 	
 	@Column(name="multi_amt_recvd")
-	private Long multiamtrecvd ;
+	private Double multiamtrecvd ;
 	
 	@Column(name="loan_update_order_no")
 	private String loanupdateorderno;
@@ -111,25 +112,25 @@ public class LoanEmployeeDtlsEntity {
 	private Date enddate ;
 	
 	@Column(name="created_by")
-	private Long createdby ;
+	private BigInteger createdby ;
 	
 	@Column(name="created_by_post")
-	private Long createdbypost ;
+	private BigInteger createdbypost ;
 	
 	@Column(name="created_date")
 	private Date createddate  ;
 	
 	@Column(name="updated_by")
-	private Long updatedby;
+	private BigInteger updatedby;
 	
 	@Column(name="updated_by_post")
-	private Long updatedbypost ;
+	private BigInteger updatedbypost ;
 	
 	@Column(name="updated_date")
 	private Date updateddate ;
 
 	@Column(name="total_recovered_amt")
-	private Long totalRecoveredAmt ;
+	private Double totalRecoveredAmt ;
 	
 	@Column(name="total_recovered_inst")
 	private int totalRecoveredInst ;
@@ -138,23 +139,18 @@ public class LoanEmployeeDtlsEntity {
 	private int gpfAppNo ;
 	
 	@Column(name="sanc_amt_gpf_II")
-	private Long sancAmtGpfII ;
+	private Double sancAmtGpfII ;
 
 	@Column(name="sanc_inst_gpf_II")
-	private Long sancInstGpfII ;
+	private Integer sancInstGpfII ;
 
 	@Column(name="inst_amt_gpf_II")
-	private Long instAmtgpfII;
+	private Double instAmtgpfII;
 	
 	@Column(name="total_recovered_amt_gpf_II")
-	private Long totalRecoveredAmtGpfII ;
+	private Double totalRecoveredAmtGpfII ;
 	
 	@Column(name="total_recovered_inst_gpf_II")
-	private Long totalRecoveredInstGpfII ;
-
-	
-
-
-	
+	private Integer totalRecoveredInstGpfII ;
 	
 }

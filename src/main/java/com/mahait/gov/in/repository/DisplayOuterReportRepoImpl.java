@@ -39,31 +39,19 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 		return rtnStr;
 	}
 	
-	public List getReportHeaderDetails(String bill_no) {
-		List list = new ArrayList();
-
-		Session hibSession = manager.unwrap(Session.class);
-
-		StringBuffer query = new StringBuffer();
-		
-		query.append("select drm.ddo_code ddocode,sm.scheme_name schemename,sm.scheme_code schemecode,pgt.bill_gross_amt grossamount,");
-		query.append("pgt.paybill_month paymonth ,pgt.bill_creation_date billcreationdate , ");
-		query.append("sm.demand_code demandcode,sm.major_head majorhead,sm.sub_major_head submajorhead,sm.minor_head minorhead,sm.sub_minor_head subminorhead,sm.sub_head subhead");
-		query.append(",trsy.treasury_office_code teasurycode,trsy.treasury_office_name teasuryname, pgt.bill_net_amount netamount,pgt.paybill_year,d.designation_name ");
-        query.append("from paybill_generation_trn pgt ");
-		query.append("inner join scheme_billgroup_mpg sbm on pgt.scheme_billgroup_id = sbm.bill_group_id ");
-		query.append("inner join ddo_map_rlt dmr on sbm.ddo_map_id = dmr.ddo_map_id ");
-		query.append("inner join ddo_reg_mst drm  on drm.ddo_reg_id = dmr.ddo_code_user_id1 "); 
-		query.append("inner join scheme_mst sm on sm.scheme_id = sbm.scheme_id ");
-		query.append("inner join bill_group_mst bgm on sbm.bill_group_id = bgm.bill_group_id ");
-		query.append("inner join YEAR_MST ym on ym.year_id=pgt.paybill_year ");
-		query.append("inner join treasury_office_mst trsy on drm.district_code=trsy.city_code left outer join designation_mst d on d.designation_code=drm.designation_code ");
-		query.append("where pgt.paybill_generation_trn_id = "+bill_no);
-		query.append(" order by pgt.paybill_generation_trn_id ");
-		Query sqlQuery = hibSession.createSQLQuery(query.toString());
-		list = sqlQuery.list();
-
-		return list;
+	public List<Object[]> getReportHeaderDetails(String bill_no) {
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL=" select drm.ddo_code ddocode,sm.scheme_name schemename,sm.scheme_code schemecode,pgt.bill_gross_amt grossamount,pgt.paybill_month paymonth ," + 
+				" pgt.bill_creation_date billcreationdate,sm.demand_code demandcode,sm.major_head majorhead,sm.sub_major_head submajorhead,sm.minor_head minorhead," + 
+				" sm.sub_minor_head subminorhead,sm.sub_head subhead,pgt.bill_net_amount netamount,pgt.paybill_year,d.desig_desc " + 
+				" from paybill_generation_trn pgt inner join rlt_zp_ddo_map dmr on pgt.ddo_code = dmr.zp_ddo_code " + 
+				" inner join org_ddo_mst drm on drm.ddo_code = dmr.zp_ddo_code inner join mst_dcps_bill_group bgm  on pgt.scheme_billgroup_id = bgm.bill_group_id " + 
+				" inner join  mst_scheme sm on sm.scheme_code = bgm.scheme_code" + 
+				" inner join  YEAR_MST ym on ym.year_id=pgt.paybill_year left outer join" + 
+				" mst_dcps_designation d on d.desig_id=cast(drm.dsgn_code as bigint)" + 
+				" where pgt.paybill_generation_trn_id = 52 order by pgt.paybill_generation_trn_id ";
+		Query query = currentSession.createSQLQuery(HQL);
+		return query.list();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -73,10 +61,10 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 		Session currentSession = manager.unwrap(Session.class);
 		String HQL = "select sum(total_deduction) from paybill_generation_trn_details where paybill_generation_trn_id = "+billno;
 		Query query = currentSession.createSQLQuery(HQL);
-		List<BigDecimal> lstprop = query.list();
+		List<Double> lstprop = query.list();
 		int totalded=0;
 		if (!lstprop.isEmpty()) {
-            for (BigDecimal objLst : lstprop) {
+            for (Double objLst : lstprop) {
             	totalded=(int)objLst.intValue();
             }
 		}
@@ -87,10 +75,10 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	public List<DisplayOuterReportModel> findBillDescription(String ddoCode,int month,int year) {
 		
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "select a.paybill_generation_trn_id,ddd.bill_description,a.paybill_month,a.paybill_year from paybill_generation_trn a inner join \r\n" + 
-				"scheme_billgroup_mpg b on a.scheme_billgroup_id = b.bill_group_id \r\n" + 
-				"inner join ddo_map_rlt c on b.ddo_map_id = c.ddo_map_id \r\n" + 
-				"inner join scheme_mst dd on dd.scheme_id = b.scheme_id \r\n" + 
+		String HQL = "select a.paybill_generation_trn_id,ddd.bill_description,a.paybill_month,a.paybill_year from paybill_generation_trn a inner join " + 
+				"scheme_billgroup_mpg b on a.scheme_billgroup_id = b.bill_group_id " + 
+				"inner join ddo_map_rlt c on b.ddo_map_id = c.ddo_map_id " + 
+				"inner join scheme_mst dd on dd.scheme_id = b.scheme_id " + 
 				"inner join bill_group_mst ddd on b.bill_group_id = ddd.bill_group_id inner join ddo_reg_mst cccc on a.ddo_code = cccc.ddo_code and cccc.ddo_reg_id = c.ddo_code_user_id1  where a.ddo_code = '"+ddoCode+"' and a.is_active <>'8'and a.paybill_month = "+month+" and a.paybill_year = "+year+"  order by paybill_generation_trn_id desc";
 		Query query = currentSession.createSQLQuery(HQL);
 		List<Object[]> lstprop = query.list();
@@ -115,13 +103,9 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	public List<Object[]> getAllDataForOuternew(String ddocode,Long billNumber)
 	{
 		Session currentSession = manager.unwrap(Session.class);
-		/*String HQL="select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,d.head_account_code,department_allowdeduc_seqno from  "
-		+ " employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id  inner join department_allowdeduc_mst d ON  "
-		+ " b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+ddocode+"' and paybill_generation_trn_id  = "+billNumber+" and b.is_active = '1' and  d.department_allowdeduc_col_nm <> 'LIC' "
-				+ " and  d.department_allowdeduc_col_nm <> 'COP_BANK' and  d.department_allowdeduc_col_nm <> 'COP_Bank' and  d.department_allowdeduc_col_nm <> 'CREDIT_SOC' and  d.department_allowdeduc_col_nm <> 'RECURRING_DEP' and  d.department_allowdeduc_col_nm <> 'RD'  order by department_allowdeduc_seqno ";*/
-		String HQL="select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,d.head_account_code,department_allowdeduc_seqno from  "
+		String HQL="select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,d.head_account_code,department_allowdeduc_seq from  "
 				+ " employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id  inner join department_allowdeduc_mst d ON  "
-				+ " b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+ddocode+"' and paybill_generation_trn_id  = '"+billNumber+"' and b.is_active = '1'   order by department_allowdeduc_seqno ";
+				+ " b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+ddocode+"' and paybill_generation_trn_id  = '"+billNumber+"' and b.is_active = '1'   order by department_allowdeduc_seq ";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
@@ -131,11 +115,11 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	{
 		Session currentSession = manager.unwrap(Session.class);
 		
-		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,b.* from paybill_generation_trn a\r\n" + 
-				"inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id\r\n" + 
-				"inner join employee_mst c on b.sevaarth_id = c.sevaarth_id\r\n" + 
-				"inner join designation_mst d on d.designation_code = c.designation_code\r\n" + 
-				"where a.paybill_generation_trn_id ="+bill_no;
+		String HQL = "select distinct c.sevaarth_id sevaarthid,c.employee_full_name_en,c.employee_l_name_en,d.designation_name,b.* from paybill_generation_trn a " + 
+				" inner join paybill_generation_trn_details b on a.paybill_generation_trn_id = b.paybill_generation_trn_id " + 
+				" inner join employee_mst c on b.sevaarth_id = c.sevaarth_id " + 
+				" inner join designation_mst d on d.designation_code = c.designation_code " + 
+				" where a.paybill_generation_trn_id ='"+bill_no+"'";
 		
 		 org.hibernate.Query hibernateQuery =  currentSession.createNativeQuery(HQL);
 	      hibernateQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
@@ -186,20 +170,21 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	
 	}
 
-	@Override
-	public String getbillDetails(Long billDetails) {
-		Session currentSession = manager.unwrap(Session.class);
-		List list = new ArrayList();
-		String rtnStr = null;
-		StringBuffer query = new StringBuffer();
-		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn \r\n" + 
-				" where paybill_generation_trn_id='"+billDetails+"') ");
-		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
-		list = hsqlQuery.list();
 
-		if (list != null && list.size() > 0)
-			rtnStr = list.get(0).toString();
-		return rtnStr;
+	@Override
+	public Double gettotalNetAmount(String billNumber) {
+		
+		Session currentSession = manager.unwrap(Session.class);
+		String HQL = "select sum(total_net_amt) from paybill_generation_trn_details where paybill_generation_trn_id = '"+billNumber+"'";
+		Query query = currentSession.createSQLQuery(HQL);
+		List<Double> lstprop = query.list();
+		Double totalNetAmount=0d;
+		if (!lstprop.isEmpty()) {
+            for (Double objLst : lstprop) {
+            	totalNetAmount=(Double)objLst;
+            }
+		}
+            return totalNetAmount ;
 	}
 }
 

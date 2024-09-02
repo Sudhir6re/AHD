@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.common.CommonConstants;
@@ -116,5 +117,14 @@ public class BranchMasterController extends BaseController {
 	}
 		return "redirect:/mdc/branchMaster";
 	}
+	
+	
+	@RequestMapping("/validateIFSCCode/{bankcode}/{ifscCode}") //validateBankBranchName/"+bankbranchname+"/"+bankcode
+	public @ResponseBody List<Long> validateIFSCCode(@PathVariable Integer bankcode,@PathVariable String ifscCode, Model model, Locale locale) {
+		
+		List<Long> status = branchMasterService.validateIFSCCode(bankcode,ifscCode);
+		return status;
+	}
+	
 
 }

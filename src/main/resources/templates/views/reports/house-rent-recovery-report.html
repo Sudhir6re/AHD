@@ -44,9 +44,8 @@
 								<br />For the Month of July &nbsp;&nbsp;2024</td>
 							</tr>
 							<tr>
-								<td>Name of the Office : MAHARASHTRA UNIVERSITY,THANE,NORTH
-									MAHARASHTRA UNIVERSITY(20541200001)</td>
-								<td align="right">Treasury : DEMO LVL2(2222)</td>
+								<td>Name of the Office : <span th:text="${officename}"></span>(<span th:text="${ddoCode}"></span>)</td>
+								<td align="right">Treasury : <span th:text="${trsyName}"></span><span th:text="${trsyCode}"></span></td>
 							</tr>
 							<tr>
 								<td colspan="2">Custodian Division Code :2222 - KOYNA
@@ -55,37 +54,44 @@
 						</tbody>
 					</table>
 					<br />
-					<table class="table table-bordered table-striped">
-						<tbody>
-							<tr>
-								<td width="5%"></td>
+					<table class="table table-striped">
 
-								<td width="20%"></td>
+					<thead>
+						<tr>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.srno}" /></th>
+							<th rowspan="2" th:utext="#{msg.pagelabel.employeeName}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.panno}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.grossAmount}" /></th>
+							<th rowspan="2" th:utext="#{msg.thymeleaf.label.amtofdeduc}" /></th>
 
-								<td width="10%"></td>
+						</tr>
 
-								<td width="5%"></td>
 
-								<td width="5%"></td>
+					</thead>
 
-								<td width="5%"></td>
-
-								<td width="5%"></td>
-
-								<td width="5%"></td>
-
-								<td width="10%"></td>
-
-								<td width="10%"></td>
-
-								<td width="10%"></td>
+					<tbody>
+						<tr th:each="varEmp : ${empDtls}">
+							<td class="text-center" th:text="${varEmpStat.index+1}"></td>
+							<td class="text-center" th:text="${varEmp.name}"></td>
+							<td class="text-center" th:text="${varEmp.panNo}"></td>
+							<td class="text-center" th:text="${varEmp.grossAmount}"></td>
+							<td class="text-center" th:text="${varEmp.incometax}"></td>
 							</tr>
 							<tr>
-								<td colspan="11">No data available</td>
-							</tr>
+							<td></td>
+							<td>Total Deduction (`): </td>
+							<td></td>
+							<td th:text="${totalDeduc}">/-</td>
+						</tr>
+							<tr>
+							<td></td>
+							<td>Total Deduction In Words (`): </td>
+							<td></td>
+							<td th:text="${word}"></td>
+						</tr>
+					</tbody>
 
-						</tbody>
-					</table>
+				</table>
 					<hr />
 					<table class="bor-0 tbBold">
 						<tbody>

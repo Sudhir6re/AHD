@@ -1,12 +1,6 @@
 package com.mahait.gov.in.service;
 
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mahait.gov.in.CashWordConverter;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.OrgDdoMst;
@@ -39,11 +32,11 @@ public class RegularReportServiceImpl implements RegularReportService{
 	}
 
 	@Override
-	public List<RegularReportModel> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode) {
+	public List<RegularReportModel> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode,Long allowdeducId) {
 
 		
 
-		List<Object[]> lstprop = regularReportRepo.findDCPSRegularEmpLst(yearId,monthId,billGroup,ddoCode);
+		List<Object[]> lstprop = regularReportRepo.findDCPSRegularEmpLst(yearId,monthId,billGroup,ddoCode,allowdeducId);
 		List<RegularReportModel> lstObj = new ArrayList<>();
 		
 		Double sum=0d;
@@ -75,7 +68,7 @@ public class RegularReportServiceImpl implements RegularReportService{
 	}
 
 	@Override
-	public List<Object[]> findpaybill(int billNumber, int monthName, int yearName, String ddo) {
+	public List<Object[]> findpaybill(Long billNumber, int monthName, int yearName, String ddo) {
 		// TODO Auto-generated method stub
 		return regularReportRepo.findpaybill(billNumber,monthName,yearName,ddo);
 	}
@@ -96,6 +89,12 @@ public class RegularReportServiceImpl implements RegularReportService{
 	public List<MstDcpsBillGroup> lstBillDesc(String ddoCode) {
 		// TODO Auto-generated method stub
 		return regularReportRepo.lstBillDesc(ddoCode);
+	}
+
+	@Override
+	public List<Object[]> findTrsyDtls(String ddoCode) {
+		// TODO Auto-generated method stub
+		return regularReportRepo.findTrsyDtls(ddoCode);
 	}
 
 }

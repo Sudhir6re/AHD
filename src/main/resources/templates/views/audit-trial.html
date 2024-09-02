@@ -36,73 +36,25 @@
 									<th class="">IP Address</th>
 									<th class="">Login Date and time</th>
 									<th class="">Login Status</th>
-									<th class="">Logout date and time</th>
-									<th class="">Logout Status</th>
+
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>MDC</td>
-									<td>47.247.155.86</td>
-									<td>2024-07-02 00:23:04.639</td>
-									<td>Login Successful.</td>
-									<td>2024-07-02 00:33:14.559</td>
-									<td>logout Successful</td>
-								</tr>
-								<tr>
-									<td>2222222222</td>
-									<td>47.247.155.86</td>
-									<td>2024-07-02 00:16:57.346</td>
-									<td>Login Successful.</td>
-									<td>NA</td>
-									<td>Still Login</td>
-								</tr>
-								<tr>
-									<td>MDC</td>
-									<td>47.247.155.86</td>
-									<td>2024-07-02 00:16:54.511</td>
-									<td>Login Successful.</td>
-									<td>2024-07-02 00:27:04.152</td>
-									<td>logout Successful</td>
-								</tr>
-								<tr>
-									<td>3401002205</td>
-									<td>0:0:0:0:0:0:0:1</td>
-									<td>2024-07-02 00:00:01.324</td>
-									<td>Login Successful.</td>
-									<td>2024-07-02 00:00:00.0</td>
-									<td>logout Successful</td>
-								</tr>
-								<tr>
-									<td>MDC</td>
-									<td>47.247.155.86</td>
-									<td>2024-07-02 00:00:00.025</td>
-									<td>Login Successful.</td>
-									<td>2024-07-02 00:10:13.26</td>
-									<td>logout Successful</td>
-								</tr>
-								<tr>
-									<td>MDC</td>
-									<td>47.247.155.86</td>
-									<td>2024-07-02 00:00:00.022</td>
-									<td>Login Successful.</td>
-									<td>NA</td>
-									<td>Still Login</td>
-								</tr>
-								<tr>
-									<td>DEMO_LVL1</td>
-									<td>47.247.155.86</td>
-									<td>2024-07-02 00:00:00.021</td>
-									<td>Login Successful.</td>
-									<td>2024-07-02 00:16:43.701</td>
-									<td>logout Successful</td>
+								<tr th:each="bankstat : ${lstdata}">
+									<td th:text="${bankstat.username}"></td>
+									<td th:text="${bankstat.loginIp}">47.247.155.86</td>
+									<td th:text="${bankstat.loginDate}">2024-07-02
+										00:23:04.639</td>
+									<td th:text="${bankstat.status}">Login Successful.</td>
+
 								</tr>
 							</tbody>
 						</table>
-						<br/>
-						<div class="text-center"> <input type="button" name="btnCancel"
-								onclick="history.back()" id="btnCancel" value="Cancel" size="3"
-								maxlength="3" class="buttontag">
+						<br />
+						<div class="text-center">
+							<input type="button" name="btnCancel" onclick="history.back()"
+								id="btnCancel" value="Cancel" size="3" maxlength="3"
+								class="buttontag">
 						</div>
 					</div>
 				</fieldset>

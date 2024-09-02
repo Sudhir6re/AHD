@@ -20,4 +20,6 @@ public interface MstSchemeService {
 
 	public List<MstSchemeModel> findAllMpgSchemeBillGroupBylvl2DDOCode(String userName);
 
+	public List<MstSchemeModel> findAllSchemeforConsolidate(String ddoCode);
+
 }

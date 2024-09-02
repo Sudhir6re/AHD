@@ -26,115 +26,123 @@
 		</h3>
 
 		<div class="formMainwithNoborTb container">
-			<fieldset class="tabstyle">
-				<legend>
-					<b>Input Details For Contribution</b>
-				</legend>
-				<table class=" bor-0">
-					<tbody>
-						<tr>
-							<td style="font-style: italic; color: red; padding-left: 1%"
-								colspan="5">DCPS Delayed, DCPS DA Arrear, DCPS Pay arrear
-								need to be given from this screen if applicable. Monthly DCPS
-								Regular contributions will be automatically calculated in
-								Paybill.</td>
-						</tr>
-						<tr>
-							<td style="font-style: italic; color: red; padding-left: 1%"
-								colspan="5">Save the contributions carefully. Saved
-								contributions will reflect in Paybill on generation.</td>
-						</tr>
-					</tbody>
-				</table>
-				<table class="table bor-0">
-					<tbody>
-						<tr>
-							<td width="15%"><b>Treasury Name</b></td>
-							<td width="35%"><select name="cmbTreasuryCode"
-								id="cmbTreasuryCode">
-									<option value="3401" title="NANDED ,DISTRICT TREASURY OFFICE">NANDED
-										,DISTRICT TREASURY OFFICE</option>
-							</select> <label class="mandatoryindicator">*</label></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>DDO Name</b></td>
-							<td width="35%"><select name="cmbDDOCode" id="cmbDDOCode">
-									<option value="06340100116"
-										title="Swami Ramanand Teerth Marathwada University Nanded">Swami
-										Ramanand Teerth Marathwada University Nanded</option>
-							</select> <label class="mandatoryindicator">*</label></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>Bill Group</b></td>
-							<td width="35%"><select name="cmbBillGroup"
-								id="cmbBillGroup">
-									<option value="-1" title="-- Select --">-- Select --</option>
-									<option value="99201790770" selected="selected"
-										title="Bill Group For Scheme IA-GRANTS TO UNIVERSITIS FOR GENERAL EDUCATION">Bill
-										Group For Scheme IA-GRANTS TO UNIVERSITIS FOR GENERAL
-										EDUCATION</option>
-									<option value="992017907106"
-										title="Bill Group For Scheme IA.1-GRANT TO NON-GOVT.  ARTS  , SCIENCE, COMMERCE ,LAW AND B.ED COLLEGES">Bill
-										Group For Scheme IA.1-GRANT TO NON-GOVT. ARTS , SCIENCE,
-										COMMERCE ,LAW AND B.ED COLLEGES</option>
-							</select> <label class="mandatoryindicator">*</label></td>
-							<td width="15%"><b>Scheme</b></td>
-							<td width="35%"><input type="text" name="txtSchemeName"
-								id="txtSchemeName"
-								value="IA-GRANTS TO UNIVERSITIS FOR GENERAL EDUCATION">
-								<label class="mandatoryindicator">*</label></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>Sub Scheme</b></td>
-							<td width="35%"><input type="text" name="txtSubSchemeName"
-								id="txtSubSchemeName" value=""> <label
-								class="mandatoryindicator">*</label></td>
-						</tr>
-						<tr>
-							<td width="15%"><b>Pay Month</b></td>
-							<td width="35%"><select name="cmbMonth" id="cmbMonth">
-									<option value="-1">-- Select --</option>
-									<option value="1">January</option>
-									<option value="2">February</option>
-									<option value="3">March</option>
-									<option value="4" selected="selected">April</option>
-									<option value="5">May</option>
-							</select> <label class="mandatoryindicator">*</label></td>
-							<td width="15%"><b>Pay year</b></td>
-							<td width="35%"><select name="cmbYear" id="cmbYear">
-									<option value="-1">-- Select --</option>
-									<option value="21">2008-2009</option>
-									<option value="35">2022-2023</option>
-									<option value="36">2023-2024</option>
-									<option value="37" selected="selected">2024-2025</option>
-							</select> <label class="mandatoryindicator">*</label></td>
-						</tr>
-					</tbody>
-				</table>
-				<br>
+			<form name="viewRejectedContri" id="viewRejectedContri"
+				th:action="#{/ddoast/viewRejectedContri}">
+				<input type="hidden" name="message" id="message"
+					th:value="${message}" />
 
-				<table class="table bor-0">
-					<tbody>
-						<tr>
-							<td id="go" align="center"><input type="button" name="btnGo"
-								id="btnGo" value="GO" class="buttontag btn"> <input
-								type="button" name="btnCancel" onclick="history.back()"
-								id="btnCancel" value="Cancel" size="3" maxlength="3"
-								class="buttontag btn"></td>
-						</tr>
-						<tr>
-							<td style="color: red; font-family: bold; font-weight: bold;">NOTE
-								: If you don't need NPS employer contribution in paybill then
-								make this value as '0' in DCPS Delayed, DCPS DA Arrear and DCPS
-								PAY Arrear.</td>
-						</tr>
-					</tbody>
-				</table>
-			</fieldset>
+				<fieldset class="tabstyle">
+					<legend>
+						<b>Input Details For Contribution</b>
+					</legend>
+					<table class=" bor-0">
+						<tbody>
+							<tr>
+								<td style="font-style: italic; color: red; padding-left: 1%"
+									colspan="5">DCPS Delayed, DCPS DA Arrear, DCPS Pay arrear
+									need to be given from this screen if applicable. Monthly DCPS
+									Regular contributions will be automatically calculated in
+									Paybill. Save the contributions carefully. Saved contributions
+									will reflect in Paybill on generation.<br />
+								</td>
+							</tr>
+							<!-- <tr>
+							<td style="font-style: italic; color: red; padding-left: 1%"
+								colspan="5"></td>
+						</tr> -->
+						</tbody>
+					</table>
+					<table class="table bor-0">
+						<tbody>
+							<tr>
+								<td width="15%"><b>Treasury Name</b></td>
+								<td width="35%"><select name="cmbTreasuryCode"
+									id="cmbTreasuryCode">
+										<option value="">-- Select --</option>
+										<option value="3401" title="NANDED ,DISTRICT TREASURY OFFICE">NANDED
+											,DISTRICT TREASURY OFFICE</option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td width="15%"><b>DDO Name</b></td>
+								<td width="35%"><select name="cmbDDOCode" id="cmbDDOCode">
+										<option value="">-- Select --</option>
+										<option value="06340100116"
+											title="Swami Ramanand Teerth Marathwada University Nanded">Swami
+											Ramanand Teerth Marathwada University Nanded</option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td width="15%"><b>Bill Group</b></td>
+								<td width="35%"><select name="cmbBillGroup"
+									id="cmbBillGroup">
+										<option value="" title="-- Select --">-- Select --</option>
+										<option value="99201790770"
+											title="Bill Group For Scheme IA-GRANTS TO UNIVERSITIS FOR GENERAL EDUCATION">Bill
+											Group For Scheme IA-GRANTS TO UNIVERSITIS FOR GENERAL
+											EDUCATION</option>
+										<option value="992017907106"
+											title="Bill Group For Scheme IA.1-GRANT TO NON-GOVT.  ARTS  , SCIENCE, COMMERCE ,LAW AND B.ED COLLEGES">Bill
+											Group For Scheme IA.1-GRANT TO NON-GOVT. ARTS , SCIENCE,
+											COMMERCE ,LAW AND B.ED COLLEGES</option>
+								</select> <label class="mandatoryindicator">*</label></td>
+								<td width="15%"><b>Scheme</b></td>
+								<td width="35%"><input type="text" name="txtSchemeName"
+									id="txtSchemeName" value=""> <label
+									class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td width="15%"><b>Sub Scheme</b></td>
+								<td width="35%"><input type="text" name="txtSubSchemeName"
+									id="txtSubSchemeName" value=""> <label
+									class="mandatoryindicator">*</label></td>
+							</tr>
+							<tr>
+								<td width="15%"><b>Pay Month</b></td>
+								<td width="35%"><select name="cmbMonth" id="cmbMonth">
+										<option value="">-- Select --</option>
+										<option value="1">January</option>
+										<option value="2">February</option>
+										<option value="3">March</option>
+										<option value="4">April</option>
+										<option value="5">May</option>
+								</select> <label class="mandatoryindicator">*</label></td>
+								<td width="15%"><b>Pay year</b></td>
+								<td width="35%"><select name="cmbYear" id="cmbYear">
+										<option value="">-- Select --</option>
+										<option value="21">2008-2009</option>
+										<option value="35">2022-2023</option>
+										<option value="36">2023-2024</option>
+										<option value="37">2024-2025</option>
+								</select> <label class="mandatoryindicator">*</label></td>
+							</tr>
+						</tbody>
+					</table>
+					<br>
+
+					<table class="table bor-0">
+						<tbody>
+							<tr>
+								<td id="go" align="center"><input type="submit"
+									name="btnGo" id="btnGo" value="GO" class="buttontag btn">
+									<input type="button" name="btnCancel" onclick="history.back()"
+									id="btnCancel" value="Cancel" class="buttontag btn"></td>
+							</tr>
+							<tr>
+								<td style="color: red; font-family: bold; font-weight: bold;"><br />NOTE
+									: If you don't need NPS employer contribution in paybill then
+									make this value as '0' in DCPS Delayed, DCPS DA Arrear and DCPS
+									PAY Arrear.</td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+			</form>
 		</div>
 	</div>
 
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
+	<script th:src="@{/js/project/view-rejected-contri.js}"></script>
 </body>
 </html>

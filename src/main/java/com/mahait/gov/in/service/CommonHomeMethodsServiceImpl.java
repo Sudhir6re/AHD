@@ -310,7 +310,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	 * lstObj.add(obj); } } return lstObj; }
 	 */
 	@Override
-	public Date findbillCreateDate(int billNumber) {
+	public Date findbillCreateDate(Long billNumber) {
 		return commonHomeMethodsRepo.findbillCreateDate(billNumber);
 	}
 	/*
@@ -517,5 +517,11 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	public List<Object[]> getCityClassByCity(String city) {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.getCityClassByCity(city);
+	}
+
+	@Override
+	public String findbillGrpname(Long billNumber) {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.findbillGrpname(billNumber);
 	}
 }

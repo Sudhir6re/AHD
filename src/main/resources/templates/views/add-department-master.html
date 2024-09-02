@@ -28,7 +28,7 @@
 		<div class="formMainwithNoborTb container">
 			<div id="content">
 
-				<form method="post" action="" name="addDept"
+				<form method="post" action="" name="addDept" th:object="${mstDepartmentEntity}"
 					enctype="multipart/form-data">
 					<div id="tcontent1">
 						<table class="table bor-0 width-50">
@@ -36,7 +36,11 @@
 								<tr>
 									<td width="25%"><b><label>Admin Office Name</label></b></td>
 									<td width="25%"><select name="seladminDept"
-										id="seladminDept"><option>--</option>
+										id="seladminDept">
+										<option value="-1">-- Select --</option>
+											<option th:each="varAdminOfcList : ${adminOfc}"
+												th:value="${varAdminOfcList.officeCode}"
+												th:text="${language=='mh' ? varAdminOfcList.officeName : varAdminOfcList.officeName}"></option>
 									</select></td>
 								</tr>
 								<tr>

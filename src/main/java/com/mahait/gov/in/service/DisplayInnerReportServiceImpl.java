@@ -69,7 +69,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				List<Map<String,Object>> lstempdetails1=displayInnerReportRepo.getempDetails(String.valueOf(billNumber));
 				
 				
-				DisplayInnerReportModel orElse = allEdpList.stream().filter(displayInnerReportModel->"BLWF".equals(displayInnerReportModel.getDeptalldetNm())).findAny().orElse(null);
+			/*	DisplayInnerReportModel orElse = allEdpList.stream().filter(displayInnerReportModel->"BLWF".equals(displayInnerReportModel.getDeptalldetNm())).findAny().orElse(null);
 				if(orElse==null) {
 					DisplayInnerReportModel obj1 = new DisplayInnerReportModel();
                 	obj1.setDeptalldetNm(StringHelperUtils.isNullString("BLWF"));
@@ -79,6 +79,8 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
                 	obj1.setTempempty("0.00");
                 	allEdpList.add(obj1);
 				}
+				*/
+				
 				
 				Partition partition=new Partition(lstempdetails1, 8);
 				int partitionsize=partition.size();
@@ -148,7 +150,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 		
 		
 		ArrayList DataList = new ArrayList();
-		String billDetails = displayOuterReportService.getbillDetails(billNumber);
+		String billDetails = commonHomeMethodsService.findbillGrpname(billNumber);
 		String officeDetails = displayOuterReportService.getOffice(strddo);
 		List<Object[]> cardecode = displayOuterReportService.getcardecode(strddo);
 		String carde="";

@@ -49,6 +49,7 @@ public class NewRegDDOModel {
 	private String status;
 	private String cityName;
 	private BigInteger cityId;
+	private Long instituteType;
 	
 	
 	public List<NewRegDDOModel> emplist=new ArrayList<>();

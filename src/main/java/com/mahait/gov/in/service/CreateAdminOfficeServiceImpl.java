@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ import com.mahait.gov.in.repository.CmnLocationMstRepository;
 import com.mahait.gov.in.repository.CmnTalukaMstRepository;
 import com.mahait.gov.in.repository.CreateAdminOfficeRepo;
 import com.mahait.gov.in.repository.OrgDdoMstRepository;
+import com.mahait.gov.in.repository.OrgPostMstRepository;
 import com.mahait.gov.in.repository.UserInfoRepo;
 import com.mahait.gov.in.repository.ZpAdminNameMstRepository;
 import com.mahait.gov.in.repository.ZpRltDdoMapRepository;
@@ -69,6 +72,14 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 	
 	@Autowired 
 	AddNewDDOConfigRepository objZpDDOOfficeMstDAOImpl;
+	
+	
+	@Autowired 
+	OrgPostMstRepository orgPostMstRepository;
+	
+	
+	
+	
 	
 	
 	
@@ -168,7 +179,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		
 		
 		Long lLngUserId =orgUserMst.getUserId();
-		Long lLngPostId = new Long(lLngUserId);
+		Long lLngPostId =orgUserMst.getUserId();//orgPostMstRepository.findMaxPostId()+1;
 
 	//	objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages,mobNo,email);
 
@@ -471,31 +482,49 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 
 	@Override
 	public Map<String, Object> findTrasuryDetails(String DDOCode) {
-
-		Long TDDOCode = 0l;
-		if (!DDOCode.equalsIgnoreCase("")) {
-			TDDOCode = Long.valueOf(DDOCode);
-		}
-		List RepoDDO = orgDdoMstRepository.findByDdoCodeLike(DDOCode);
-		List TODetail = createAdminOfficeRepo.getTreasuryName(TDDOCode);
+		Map<String, Object> response = new HashMap<>();
 		
-		if(TODetail.size()>0 && TODetail!=null) {
-			Object[] o = (Object[]) TODetail.get(0);
-			String TOName = o[1] != null ? o[1].toString() : "";
-			String TOCode = o[0] != null ? o[0].toString() : "";
+		try {
+			Long TDDOCode = 0l;
+			if (!DDOCode.equalsIgnoreCase("")) {
+				TDDOCode = Long.valueOf(DDOCode);
+			}
+			List RepoDDO = orgDdoMstRepository.findByDdoCodeLike(DDOCode);
+			List TODetail = createAdminOfficeRepo.getTreasuryName(TDDOCode);
+			
+			if(TODetail.size()>0 && TODetail!=null) {
+				Object[] o = (Object[]) TODetail.get(0);
+				String TOName = o[1] != null ? o[1].toString() : "";
+				String TOCode = o[0] != null ? o[0].toString() : "";
 
-			List lstSubTO = createAdminOfficeRepo.getSubTreasury(Long.valueOf(TOCode));
+				List lstSubTO = createAdminOfficeRepo.getSubTreasury(Long.valueOf(TOCode));
+				
+				
+				
+				response.put("trasuryDetails", TODetail);
+				response.put("subTreasuryList", lstSubTO);
+				return response;
+			}else {
+				return response;
+			}
+		} catch (DataIntegrityViolationException e) {
 			
-			Map<String, Object> response = new HashMap<>();
-			
-			response.put("trasuryDetails", TODetail);
-			response.put("subTreasuryList", lstSubTO);
-			return response;
-		}else {
-			Map<String, Object> response = new HashMap<>();
-			return response;
+		    e.printStackTrace();
+		    
+		    Throwable cause = e.getCause();
+		    if (cause instanceof SQLException) {
+		        SQLException sqlException = (SQLException) cause;
+		        
+		        System.err.println("SQLState: " + sqlException.getSQLState());
+		        System.err.println("Error Code: " + sqlException.getErrorCode());
+		        System.err.println("Message: " + sqlException.getMessage());
+		        
+		        sqlException.printStackTrace();
+		    }
+		    
+		    System.out.println("DataIntegrityViolationException occurred"+e);
 		}
-
+		return response;
 	}
 	
 	@Override

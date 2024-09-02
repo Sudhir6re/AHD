@@ -42,7 +42,7 @@
 		flag=0;
 		 $.ajax({
 		      type: "GET",
-		      url: "../master/CheckPaybill/"+billNumber+"/"+monthName +"/"+yearName,
+		      url: "../ddoast/CheckPaybill/"+billNumber+"/"+monthName +"/"+yearName,
 		      async: false,
 		      dataType : 'json',
 		    // contentType:'application/json',

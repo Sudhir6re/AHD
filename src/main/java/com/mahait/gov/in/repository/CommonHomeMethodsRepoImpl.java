@@ -269,13 +269,12 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 
 	}
 	@Override
-	public Date findbillCreateDate(int billNumber) {
+	public Date findbillCreateDate(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		Date rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ="
-				+ billNumber + " limit 1 ");
+		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ='"+billNumber+"' limit 1 ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)
@@ -394,6 +393,22 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		String HQL = "select * from cmn_city_mst where city_code  ='" + city + "' ";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
+	}
+
+	@Override
+	public String findbillGrpname(Long billNumber) {
+		Session currentSession = manager.unwrap(Session.class);
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn " + 
+				" where paybill_generation_trn_id='"+billNumber+"') ");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+
+		if (list != null && list.size() > 0)
+			rtnStr = list.get(0).toString();
+		return rtnStr;
 	}
 
 }

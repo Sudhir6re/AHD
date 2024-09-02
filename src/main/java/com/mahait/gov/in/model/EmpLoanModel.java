@@ -1,7 +1,8 @@
 package com.mahait.gov.in.model;
 
-
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -14,44 +15,49 @@ public class EmpLoanModel {
 	String orgnisationName;
 	private Long employeeid;
 	private Long loantypeid ;
-	private Long loanprinamt ;
-	private Long loaninterestamt ;
-	private Long loanprininstno ;
-	private Long loanintinstno;
-	private Long  loanemiamt ;
+	private Double loanprinamt ;
+	private Double loaninterestamt ;
+	private Integer loanprininstno ;
+	private Integer loanintinstno;
+	private Double  loanemiamt ;
 	private String loanaccountno ;
-	///private Date  loandate ;
-	private Long loanintemiamt ;
-	private Long loanprinemiamt;
+	private Double loanintemiamt ;
+	private Double loanprinemiamt;
 	private String loansancorderno ;
-	private Long oddinstno;
+	private Double oddinstno;
 	private String voucherno;
-	private String voucherdate;
-	private String loansancorderdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date voucherdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date loansancorderdate;
 	private String startdate ;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date enddate ;
 	private String loanAdvName;
-	private Long oddinstamt;
+	private Double oddinstamt;
 	private String officeName;
-	private String loanDate;
-	private Long loanStatus;
-	private Long loanEmpAdvId;
-	private Long RecoveredAmount;
-	private Long totalRecoveredAmount;
-	private Long totalRecoveredInstMent;
-	private Long totalRecoveredInstAmt;
-	private Long totalRecoveredInstallment;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date loanDate;
+	private Integer loanStatus;
+	private Integer loanEmpAdvId;
+	private Double RecoveredAmount;
+	private Double totalRecoveredAmount;
+	private Double totalRecoveredInstMent;
+	private Double totalRecoveredInstAmt;
+	private Integer totalRecoveredInstallment;
 	
 	private String dcpsNo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date doj;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date serviceEndDate;
-	private Long dcpsId;
+	private Integer dcpsId;
 	private String orgInstName;
 
 	
 	private String appNo;
 	private String pfDesc;
-	private Long appId;
-	
+	private Integer appId;
+	private Long deptAllowdeducCode;
 
 }
