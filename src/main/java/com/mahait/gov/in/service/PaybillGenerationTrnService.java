@@ -86,7 +86,7 @@ public interface PaybillGenerationTrnService {
 	
 	public Long savePaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
 	
-	public Long saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
+	///public Long saveSupPaybillHeadMpg(PaybillHeadMpgModel paybillHeadMpgModel);
 	
 	public PaybillGenerationTrnEntity findForwardChangeStatementById(Long paybillGenerationTrnId, Long userId, String namePIp);
 	
@@ -138,7 +138,6 @@ public interface PaybillGenerationTrnService {
 
 	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
 
-	public Long savePaybillHeadMpgNew(@Valid PaybillHeadMpgModel paybillHeadMpgModel);
 
 	
 }

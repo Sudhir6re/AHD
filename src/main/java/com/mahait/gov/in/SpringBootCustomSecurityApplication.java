@@ -54,42 +54,6 @@ public class SpringBootCustomSecurityApplication extends SpringBootServletInitia
 	    }
 	  
 	  
-	    @Profile("dev")
-		@Bean
-		public String devBean() {
-			return "dev";
-		}
-
-		@Profile("qa")
-		@Bean
-		public String qaBean() {
-			return "qa";
-		}
-
-		@Profile("prod")
-		@Bean
-		public String prodBean() {
-			return "prod";
-		}
-		
-		@Profile("uat")
-		@Bean
-		public String uatBean() {
-			return "uat";
-		}
-		
-		@Profile("test")
-		@Bean
-		public String testBean() {
-			return "test";
-		}
-		
-		
-		@Profile("local")
-		@Bean
-		public String localBean() {
-			return "local";
-		}
-	  
+	 
 	  
 }            

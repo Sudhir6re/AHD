@@ -422,6 +422,7 @@
 					enctype="multipart/form-data">
 					<fieldset id="Search Employee" class="fieldGroupTag">
 
+<input type="hidden" id ="status" th:value="${status}">
 						<p id="">
 							<legend>Search Employee </legend>
 						</p>
@@ -640,7 +641,7 @@
 					
 					<div class="form-group" th:switch="${status}">
 					<div class="text-center"  th:case="1">
-						<input type="submit" class="btn btn-primary" value="Add"
+						<input type="submit" class="btn btn-primary" value="save"
 							id="addloaddetailsbtn" />
 					</div>
 				</div>
@@ -650,11 +651,11 @@
 		<div align="center" >
 		
 		<div th:switch="${status}">
-		<div th:case="1">
+	<!-- 	<div th:case="1">
 			<input type="button" name="Save" onclick="submitForm()" id="Save"
 				value="Save" style="text-align: center;" size="3" maxlength="3"
 				class="btn"> 
-				</div>
+				</div> -->
 				<input type="button" name="btnClose1"
 				onclick="history.back()" id="btnClose1" value="Close"
 				style="text-align: center;" size="3" maxlength="3" class="btn">

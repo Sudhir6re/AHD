@@ -50,6 +50,10 @@ public class NewRegDDOModel {
 	private String cityName;
 	private BigInteger cityId;
 	private Long instituteType;
+	private Long designationId;
+	private String bankName;
+
+	private String branchName;
 	
 	
 	public List<NewRegDDOModel> emplist=new ArrayList<>();

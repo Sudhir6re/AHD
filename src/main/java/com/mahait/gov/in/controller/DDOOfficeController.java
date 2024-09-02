@@ -8,18 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.entity.CmnDistrictMst;
@@ -27,11 +22,14 @@ import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.CmnStateMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
 import com.mahait.gov.in.entity.DdoOffice;
-import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.InstituteType;
+import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.NewRegDDOModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DDOInfoService;
+import com.mahait.gov.in.service.OrganizationInstInfoService;
 
 @Controller
 @RequestMapping("/ddo")
@@ -43,6 +41,8 @@ public class DDOOfficeController  extends BaseController{
 	@Autowired
 	DDOInfoService ddoInfoService;
 	
+	@Autowired
+	OrganizationInstInfoService organizationInstInfoService;
 	
 	List<NewRegDDOModel> emplist = new ArrayList<>();
 	
@@ -54,6 +54,8 @@ public class DDOOfficeController  extends BaseController{
 		String lStrDdoOffice = "Yes";
 		List<CmnStateMst> lstState = ddoInfoService.getStateLst(1L);
 		List<CmnDistrictMst> lstDistrict=  ddoInfoService.getDistrictlst(15L);
+		List<MstDesnModel> lstdesgination = new ArrayList<>();
+		List<MstBankEntity> bankName = new ArrayList<>();
 		
 		List<CmnLookupMst> dcpsOfficeClassId=commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS);
 		List<CmnLookupMst>ddoOffClass=ddoInfoService.findDDOOffClass(dcpsOfficeClassId.get(0).getLookupId());
@@ -64,6 +66,8 @@ public class DDOOfficeController  extends BaseController{
 				lStrDdoOffice = "No";
 			}
 		}
+		bankName = commonHomeMethodsService.findBankName();
+		lstdesgination = commonHomeMethodsService.findDesignation(messages.getUserName());
 		String districtID=ddoInfoService.getDistrictId(ddoCode);
 		List<CmnTalukaMst> lstTaluka=  ddoInfoService.getTalukalst();
 		/*String message=(String) model.asMap().get("message");
@@ -75,11 +79,20 @@ public class DDOOfficeController  extends BaseController{
 	///	model.addAttribute("message", message);
 	///	
 		model.addAttribute("zpDDOOfficelst", zpDDOOfficelst);*/
+		
+		if (newRegDDOModel.getBankName() != null) {
+			model.addAttribute("lstAllBankBranchList",
+					commonHomeMethodsService.getBankBranch(newRegDDOModel.getBankName()));
+		}
+		List<InstituteType> lstInstituteType = organizationInstInfoService.lstInstType();
 		model.addAttribute("lstState", lstState);
+		model.addAttribute("bankName", bankName);
 		model.addAttribute("newRegDDOModel", newRegDDOModel);
 		model.addAttribute("ddoOffClass", ddoOffClass);
 		model.addAttribute("lstDistrict", lstDistrict);
+		model.addAttribute("lstInstituteType", lstInstituteType);
 		model.addAttribute("lstTaluka", lstTaluka);
+		model.addAttribute("lstdesgination", lstdesgination);
 		model.addAttribute("lstTown", ddoInfoService.getLstTown());
 		model.addAttribute("lstApprDdoOffice", ddoInfoService.getDDOOffForApproval(messages.getUserName()));
 		

@@ -45,10 +45,10 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 		List<Object[]> lst=onlineContributionRepo.getEmpListForContribution(dcpContributionModel,messages,startDate);
 		for(Object object[]:lst) {
 			DcpContributionModel dcpContributionModel1=new DcpContributionModel();
-			dcpContributionModel1.setDcpEmpId(StringHelperUtils.isNullLong(object[0]));
+			dcpContributionModel1.setDcpEmpId(StringHelperUtils.isNullBigInteger(object[0]).longValue());
 			dcpContributionModel1.setDcpsNO(StringHelperUtils.isNullString(object[1]));
 			dcpContributionModel1.setEmployeeName(String.valueOf(object[2]));
-			dcpContributionModel1.setPayCommission(StringHelperUtils.isNullString(object[3]));
+			dcpContributionModel1.setPayCommission(StringHelperUtils.isNullBigInteger(object[3]).longValue());
 			dcpContributionModel1.setBasicPay(StringHelperUtils.isNullDouble(object[4]));
 			dcpContributionModel1.setDcpContributionId(StringHelperUtils.isNullLong(object[5]));
 			dcpContributionModel1.setTypeOfPayment(StringHelperUtils.isNullString(object[6]));
