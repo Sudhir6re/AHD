@@ -87,17 +87,32 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
         Date newEndDate = calendar.getTime();
         String endDate = sdf.format(newEndDate);
         
+     
+        if(dcpContributionModel.getTypeOfPayment()!=null) {
+        	if(dcpContributionModel.getTypeOfPayment().equals("700048")) {
+            	startDate=sdf.format(dcpContributionModel.getDAArrearStartDate());
+            }else if(dcpContributionModel.getTypeOfPayment().equals("700049"))  {
+            	startDate=sdf.format(dcpContributionModel.getPayArrearStartDate());
+            }
+        }
         
         try {
-				SBQuery.append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,COALESCE(CO.BASIC_PAY,EM.BASIC_PAY),COALESCE(CO.DCPS_CONTRIBUTION_ID,0),COALESCE(CO.TYPE_OF_PAYMENT,'"
-						+ lStrTypeOfPaymentMaster.trim()
-						+ "'),COALESCE(CO.MONTH_ID,0),COALESCE(CO.FIN_YEAR_ID,0),COALESCE(DA.DA_RATE,"+ lDoubleDefaultDArateForNon5th6thPC + "),CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION," );
+				SBQuery.append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,"
+					//	+ "COALESCE(CO.BASIC_PAY,EM.BASIC_PAY) as BASIC_PAY,"
+						+ " CASE " + 
+						"        WHEN Em.pay_commission_code = '700005' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n" + 
+						"        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" + 
+						"    END AS BASIC_PAY,"
+						+ "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
+						+ dcpContributionModel.getTypeOfPayment()
+						+ "') as TYPE_OF_PAYMENT,COALESCE(CO.MONTH_ID,0) as MONTH_ID,COALESCE(CO.FIN_YEAR_ID,0) as FIN_YEAR_ID,COALESCE(DA.percentage,"+ lDoubleDefaultDArateForNon5th6thPC + ") as percentage,"
+								+ "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION," );
 
 				SBQuery.append(" CO.startDate StartDate");
-				SBQuery.append(",CO.endDate,nvl(CO.NPS_EMPLR_CONTRI_DED,0) FROM employee_mst EM " );
- 
+				SBQuery.append(",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED FROM employee_mst EM " );
 
-				SBQuery.append(" LEFT OUTER JOIN TRN_DCPS_CONTRIBUTION CO ON EM.employee_id=CO.DCPS_EMP_ID AND CO.MONTH_ID="+ monthId+ " AND CO.FIN_YEAR_ID=" + finYearId + " AND CO.DDO_CODE = '" + ddoCode + "'" );
+				SBQuery.append(" LEFT OUTER JOIN TRN_DCPS_CONTRIBUTION CO ON EM.employee_id=CO.DCPS_EMP_ID AND CO.MONTH_ID="+ monthId+ ""
+						+ " AND CO.FIN_YEAR_ID=" + finYearId + " AND CO.DDO_CODE = '" + ddoCode + "'" );
 
 
 			if((roleId==3 && (useType.equals("ViewAll")) && lStrTypeOfPaymentMaster.equals("700047") ))
@@ -110,7 +125,8 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 			}
 
 			SBQuery
-			.append(" LEFT OUTER JOIN mst_dcps_contri_voucher_dtls CV ON CV.treasury_code=CO.TREASURY_CODE AND CV.month_id=CO.MONTH_ID AND CV.year_id = CO.FIN_YEAR_ID AND CV.bill_group_id=CO.BILL_GROUP_ID AND CV.ddo_code = CO.ddo_code");
+			.append(" LEFT OUTER JOIN mst_dcps_contri_voucher_dtls CV ON CV.treasury_code=CO.TREASURY_CODE AND CV.month_id=CO.MONTH_ID "
+					+ " AND CV.year_id = CO.FIN_YEAR_ID AND CV.bill_group_id=CO.BILL_GROUP_ID AND CV.ddo_code = CO.ddo_code");
 
 			SBQuery
 			.append(" LEFT JOIN ALLOWANCE_DEDUCTION_WISE_RULE_MST DA ON DA.PAY_COMMISSION_CODE = EM.PAY_COMMISSION_CODE AND  (('"
@@ -118,33 +134,37 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 					+ "' BETWEEN DA.start_date AND DA.end_date) OR ('"
 					+ startDate
 					+ "' >= DA.start_date and DA.end_date IS NULL)) ");
+			
+		
+			
 
 			// Code Added to show employees of valid post and service only for first online contribution entry
 			if(roleId==3 && (useType.equals("ViewAll")))
 			{
-				SBQuery.append(" join org_post_mst OP on OP.post_id = EMP.post_detail_id and OP.ACTIVATE_FLAG = 1");
+				SBQuery.append(" join org_post_mst OP on OP.post_id = EM.post_detail_id and OP.ACTIVATE_FLAG = 1");
 			}
 
 			if((roleId==3 && (useType.equals("ViewAll"))))
 			{
-				SBQuery.append(" join employee_allowdeduc_mpg HRCGM on HRCGM.employee_id = EMP.employee_id and HRCGM.IS_ACTIVE = '1' ");
-				SBQuery.append(" join department_allowdeduc_mst HPDT on HPDT.department_allowdeduc_code = HRCM.department_allowdeduc_code ");
+				SBQuery.append(" join employee_allowdeduc_mpg HRCGM on HRCGM.employee_id = EM.employee_id and HRCGM.IS_ACTIVE = '1' ");
+				SBQuery.append(" join department_allowdeduc_mst HPDT on HPDT.department_allowdeduc_code = HRCGM.department_allowdeduc_code ");
 
+				
 				if(lStrTypeOfPaymentMaster.equals("700046"))  // Regular 
 				{
-					SBQuery.append(" AND HPDT.DEDUC_CODE = 59 ");
+					SBQuery.append(" AND HPDT.department_allowdeduc_code = 50 ");  //DCPS  59
 				}
 				if(lStrTypeOfPaymentMaster.equals("700047"))  // Delayed 
 				{
-					SBQuery.append(" AND HPDT.DEDUC_CODE = 120 ");
+					SBQuery.append(" AND HPDT.department_allowdeduc_code = 52 ");  //120 DCPS Delayed
 				}
 				if(lStrTypeOfPaymentMaster.equals("700048"))  // DA Arrear
 				{
-					SBQuery.append(" AND HPDT.DEDUC_CODE = 122 ");
+					SBQuery.append(" AND HPDT.department_allowdeduc_code = 51 "); //122 DCPS DA
 				}
 				if(lStrTypeOfPaymentMaster.equals("700049"))  // Pay Arrear
 				{
-					SBQuery.append(" AND HPDT.DEDUC_CODE = 121 ");
+					SBQuery.append(" AND HPDT.department_allowdeduc_code = 46 ");  // 121 DCPS Pay
 				}
 			}
 
