@@ -43,7 +43,7 @@ public interface DdoBillGroupRepo {
 
 	public int deleteEmpMpgDdoAllowDeduc(String sevaarthId);
 
-	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long department_id, Long empId, String sevaarthId,
+	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long empId, String sevaarthId,
 			String effectiveDate);
 
 	public List<Object[]> empEligibilityForAllowAndDeductCheckBoxId(String id);

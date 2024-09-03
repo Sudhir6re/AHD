@@ -178,7 +178,7 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		return 1;
 	}
 	@Override
-	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long department_id, Long empId, String sevaarthId,
+	public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long empId, String sevaarthId,
 			String effectiveDate) {
 		// TODO Auto-generated method stub
 		try {
@@ -187,11 +187,11 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 			 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 			 Date date1 = dt.parse(effectiveDate); // *** same for the format String below 
 			 SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd"); 
-				String hql = "insert into employee_allowdeduc_mpg (sevaarth_id,department_code,department_allowdeduc_code,is_active,created_date,employee_id,with_effective_date) values ('"+sevaarthId+"','"+department_id+"',"+allow_deduct_id+","+"1"+",current_timestamp,'"+empId+"','"+dt1.format(date1)+"')";
+				String hql = "insert into employee_allowdeduc_mpg (sevaarth_id,department_allowdeduc_code,is_active,created_date,employee_id,with_effective_date) values ('"+sevaarthId+"',"+allow_deduct_id+","+"1"+",current_timestamp,'"+empId+"','"+dt1.format(date1)+"')";
 				Query query = currentSession.createSQLQuery(hql);
 				query.executeUpdate();
 				
-				hql = "insert into employee_allowdeduc_mpg_hst (sevaarth_id,department_code,department_allowdeduc_code,is_active,created_date,employee_id,with_effective_date) values ('"+sevaarthId+"','"+department_id+"',"+allow_deduct_id+","+"1"+",current_timestamp,'"+empId+"','"+dt1.format(date1)+"')";
+				hql = "insert into employee_allowdeduc_mpg_hst (sevaarth_id,department_allowdeduc_code,is_active,created_date,employee_id,with_effective_date) values ('"+sevaarthId+"',"+allow_deduct_id+","+"1"+",current_timestamp,'"+empId+"','"+dt1.format(date1)+"')";
 				query = currentSession.createSQLQuery(hql);
 				query.executeUpdate();
 

@@ -272,9 +272,9 @@ public int deleteEmpMpgDdoAllowDeduc(String sevaarthId) {
 }
 
 @Override
-public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long department_id, Long empId, String sevaarthId,
+public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long empId, String sevaarthId,
 		String effectiveDate) {
-	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id,department_id, empId,sevaarthId,effectiveDate);
+	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id, empId,sevaarthId,effectiveDate);
 	return 0;
 }
 

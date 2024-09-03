@@ -139,8 +139,8 @@ public class CommonConstants {
 		String COMMONCODE_CITY_CLASS_Z = "Z";
 		
 		// All Component 
-		String COMMONCODE_COMPONENT_DA = "Dearness Allowance (D.A)";
-		String COMMONCODE_COMPONENT_SVN_PC_DA = "SVN_PC_DA";
+		String COMMONCODE_COMPONENT_DA = "DA";
+		String COMMONCODE_COMPONENT_SVN_PC_DA = "SVNPC_DA";
 		String COMMONCODE_COMPONENT_CLA = "CLA";
 		String COMMONCODE_COMPONENT_DEARNESS_PAY = "D_PAY";
 		String COMMONCODE_COMPONENT_FAMILY_PLAN_ALLOW = "FAMILY_PALNNING";
@@ -208,7 +208,7 @@ public class CommonConstants {
 		///Added for Non-Computation and Non-government deduction components
 		int COMMONCODE_COMPONENT_SVN_DA_CODE =124;
 		int COMMONCODE_COMPONENT_CLA_CODE =34;
-		int COMMONCODE_COMPONENT_DP_CODE =76;
+		int COMMONCODE_COMPONENT_DP_CODE =17;
 		
 		
 		//pension allowdeduct com ponent code

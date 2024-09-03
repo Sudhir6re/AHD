@@ -118,12 +118,11 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 							 }
 							*/
 							
-							if(allEdpList.get(i).getDeptallowdeducid()==36||allEdpList.get(i).getDeptallowdeducid()==37||allEdpList.get(i).getDeptallowdeducid()==38
-									||allEdpList.get(i).getDeptallowdeducid()==35) {
+							if(allEdpList.get(i).getCompoType()==2) {
 								
 								deducAgEdpList.add(allEdpList.get(i)); //Deductions Adj. By CAFO/Supri./Admin.
 							}
-							else if(allEdpList.get(i).getDeptallowdeducid()==103 || allEdpList.get(i).getDeptallowdeducid()==54 || allEdpList.get(i).getDeptallowdeducid()==57 || allEdpList.get(i).getDeptallowdeducid()==125||allEdpList.get(i).getDeptallowdeducid()==61) {
+							else if(allEdpList.get(i).getCompoType()==4) {
 								deducOthEdpList.add(allEdpList.get(i));
 							}
 							else {
@@ -132,7 +131,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 								deducTyEdpList.add(allEdpList.get(i)); //Adjust by Treasury
 							}
 							
-						}else {
+						}/*else {
 							if(allEdpList.get(i).getDeptallowdeducid()==53) {
 								deducTyEdpList.add(allEdpList.get(i));
 							}else if(allEdpList.get(i).getDeptallowdeducid()==58||allEdpList.get(i).getDeptallowdeducid()==59) {
@@ -141,7 +140,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 							{
 								deducOthEdpList.add(allEdpList.get(i));
 							}
-						}
+						}*/
 				}
 			
 				
@@ -996,9 +995,9 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 					if(i<=empsize) {
 						Map<String, Object> map = (Map<String, Object>) iteratoraldeduct_adj_try.next();
-						if(map.get("OTHER_DED_TRY")!=null) {
-							aldeduct_adj_try.add(map.get("OTHER_DED_TRY").toString());
-							aldeduct_adj_trySum += Double.parseDouble(map.get("OTHER_DED_TRY").toString());
+						if(map.get("other_ded_try")!=null) {
+							aldeduct_adj_try.add(map.get("other_ded_try").toString());
+							aldeduct_adj_trySum += Double.parseDouble(map.get("other_ded_try").toString());
 						}
 					}else {
 						aldeduct_adj_try.add(" ");
@@ -1019,9 +1018,9 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 				for (int i = 1; i <= 9; i++) {
 					if(i<=empsize) {
 						Map<String, Object> map = (Map<String, Object>) iteratoraldeduct_adj_otr.next();
-						if(map.get("DEDUCT_ADJ_OTR")!=null) {
-							aldeduct_adj_otr.add(map.get("DEDUCT_ADJ_OTR").toString());
-							aldeduct_adj_otrSum += Double.parseDouble(map.get("DEDUCT_ADJ_OTR").toString());
+						if(map.get("deduct_adj_otr")!=null) {
+							aldeduct_adj_otr.add(map.get("deduct_adj_otr").toString());
+							aldeduct_adj_otrSum += Double.parseDouble(map.get("deduct_adj_otr").toString());
 						}
 					}else {
 						aldeduct_adj_otr.add(" ");

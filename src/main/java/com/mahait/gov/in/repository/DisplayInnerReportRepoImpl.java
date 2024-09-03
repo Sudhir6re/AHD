@@ -31,10 +31,10 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
 		String split[]=strddo.split("_");
 		strddo=split[0];
 		
-		String HQL = "select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,'0' tempvalue,' ' tempempty,department_allowdeduc_col_nm "
+		String HQL = "select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,'0' tempvalue,' ' tempempty,department_allowdeduc_col_nm,d.is_allowdeduc_type_sum "
 				+ " from employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id "
 				+ " inner join department_allowdeduc_mst d ON b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"+strddo+"' and paybill_generation_trn_id  = '"+billNumber+"'  " //and  d.department_allowdeduc_col_nm <> 'LIC'
-						+ "   and d.is_active='1' order by department_allowdeduc_col_nm  ";//and  d.department_allowdeduc_col_nm <> 'COP_BANK' and  d.department_allowdeduc_col_nm <> 'COP_Bank' and  d.department_allowdeduc_col_nm <> 'CREDIT_SOC' and  d.department_allowdeduc_col_nm <> 'RECURRING_DEP' and  d.department_allowdeduc_col_nm <> 'RD' and  d.department_allowdeduc_col_nm <> 'MISC'
+						+ "   and d.is_active='1' and d.is_non_government <> 1 order by department_allowdeduc_col_nm  ";//and  d.department_allowdeduc_col_nm <> 'COP_BANK' and  d.department_allowdeduc_col_nm <> 'COP_Bank' and  d.department_allowdeduc_col_nm <> 'CREDIT_SOC' and  d.department_allowdeduc_col_nm <> 'RECURRING_DEP' and  d.department_allowdeduc_col_nm <> 'RD' and  d.department_allowdeduc_col_nm <> 'MISC'
 			Query query = currentSession.createSQLQuery(HQL);
 
 		List<Object[]> lstprop = query.list();
@@ -48,6 +48,7 @@ public class DisplayInnerReportRepoImpl  implements DisplayInnerReportRepo {
                 obj.setDeptallowdeducid(StringHelperUtils.isNullInt(objLst[2]));
                 obj.setTempvalue(StringHelperUtils.isNullString(objLst[3]));
                 obj.setTempempty(StringHelperUtils.isNullString(objLst[4]));
+                obj.setCompoType(StringHelperUtils.isNullInt(objLst[6]));
                 lstObj.add(obj);
                 i++;
             }

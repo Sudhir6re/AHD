@@ -64,7 +64,7 @@ public interface DdoBillGroupService {
 
 
 
-	public int saveEmpMpgDdoAllowDeduc(Object object, Long departmentId, Long empId, String sevaarthId,
+	public int saveEmpMpgDdoAllowDeduc(Object object, Long empId, String sevaarthId,
 			String effectiveDate);
 
 
