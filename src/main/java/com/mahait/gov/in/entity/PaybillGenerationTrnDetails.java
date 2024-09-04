@@ -670,16 +670,27 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "DEDUCT_ADJ_OTR")
 	private Double dedAdjOtr;
 	
-	@Column(name = "lic")
-	private Double lic;
-	
-	@Column(name = "COP_Bank")
-	private Double copBank;
-	
-	@Column(name = "Recurring_deposite")
-	private Double reccDeposit;
-	
-	@Column(name = "credit_soc")
-	private Double creditSoc;
 
+    // Non-govrrn
+ 	
+	@Column(name = "con_store")
+	private Double conStore;
+	
+		@Column(name = "mantralaya_bank")
+	private Double mantralayaBank;
+	
+	@Column(name = "mis")
+	private Double mis;
+	
+		@Column(name = "mrt_cop_soc")
+	private Double mrtcopSoc;
+	
+		@Column(name = "other_Deduc")
+	private Double otherDeduc;
+	
+	@Column(name = "other_Recovery")
+	private Double otherRecovery;
+	
+	
+	
 }
