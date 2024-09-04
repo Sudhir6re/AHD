@@ -691,4 +691,26 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "payslip_total_deduction")
 	private Double paysliptotalDeduc;
 
+    // Non-govrrn
+ 	
+	@Column(name = "con_store")
+	private Double conStore;
+	
+		@Column(name = "mantralaya_bank")
+	private Double mantralayaBank;
+	
+	@Column(name = "mis")
+	private Double mis;
+	
+		@Column(name = "mrt_cop_soc")
+	private Double mrtcopSoc;
+	
+		@Column(name = "other_Deduc")
+	private Double otherDeduc;
+	
+	@Column(name = "other_Recovery")
+	private Double otherRecovery;
+	
+	
+	
 }
