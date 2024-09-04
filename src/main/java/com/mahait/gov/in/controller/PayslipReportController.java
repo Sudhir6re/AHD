@@ -344,24 +344,24 @@ public class PayslipReportController extends BaseController {
 			Double algrosstotalSum = 0d;
 
 			Map<String, Object> map2 = (Map<String, Object>) iteratorgrosstotal.next();
-			algrosstotal.add(map2.get("gross_total_amt").toString());
-			algrosstotalSum += Double.parseDouble(map2.get("gross_total_amt").toString());
+			algrosstotal.add(map2.get("gross_amt").toString());
+			algrosstotalSum += Double.parseDouble(map2.get("gross_amt").toString());
 
 			alnetamt = new ArrayList<>();
 			Iterator iteratornetamt = lstempdetails1.iterator();
 			Double alnetamtSum = 0d;
 
 			Map<String, Object> map3 = (Map<String, Object>) iteratornetamt.next();
-			alnetamt.add(map3.get("total_net_amt").toString());
-			alnetamtSum += Double.parseDouble(map3.get("total_net_amt").toString());
+			alnetamt.add(map3.get("payslip_net").toString());
+			alnetamtSum += Double.parseDouble(map3.get("payslip_net").toString());
 
 			dedtotal = new ArrayList<>();
 			Iterator iteratordedtotal = lstempdetails1.iterator();
 			Double dedtotalSum = 0d;
 
 			Map<String, Object> map4 = (Map<String, Object>) iteratordedtotal.next();
-			dedtotal.add(map4.get("total_deduction").toString());
-			dedtotalSum += Double.parseDouble(map4.get("total_deduction").toString());
+			dedtotal.add(map4.get("payslip_total_deduction").toString());
+			dedtotalSum += Double.parseDouble(map4.get("payslip_total_deduction").toString());
 
 			String SalaryInWords = PayslipReportController.convertToIndianCurrency(alnetamtSum.toString());
 

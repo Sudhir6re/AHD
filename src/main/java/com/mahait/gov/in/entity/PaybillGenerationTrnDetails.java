@@ -130,8 +130,8 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "GPF_ADV")
 	private Double gpfAdv;
 
-	@Column(name = "MISC_RECOV")
-	private Double miscRecov;
+	@Column(name = "MISC")
+	private Double misc;
 
 	@Column(name = "TRN_COUNTER")
 	private Double trnCounter;
@@ -681,5 +681,14 @@ public class PaybillGenerationTrnDetails  {
 	
 	@Column(name = "credit_soc")
 	private Double creditSoc;
+	
+	@Column(name = "payslip_deduction")
+	private Double payslipDeduc;
+	
+	@Column(name = "payslip_net")
+	private Double payslipNet;
+	
+	@Column(name = "payslip_total_deduction")
+	private Double paysliptotalDeduc;
 
 }

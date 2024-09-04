@@ -64,6 +64,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double netAmount = 0d;
 		Double dedByAG = 0d;
 		Double dedByTreasury = 0d;
+		Double payslipDeduc = 0d;
+		Double payslipNet = 0d;
+		Double paySlipTotalDeduc = 0d;
 		Double dedByOthr = 0d;
 		Double netAmt = 0d;
 		Double dearnessPay = 0d;
@@ -88,6 +91,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double force1Inct25 = 0d;
 		Double pgAllow = 0d;
 		Double groupAccPolicy = 0d;
+		int isNonGovernment =0;
 		
 		
 		Double DaArr=0d;
@@ -207,6 +211,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			 npsEmprAllow=0d;
 				npsEmpContri=0d;
 				npsEmprContri=0d;
+				payslipDeduc = 0d;
 			if (count > 0) {
 				
 				
@@ -389,6 +394,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					int isNonComputation =0;
 					if (object12[15] != null)
 						isNonComputation =(int) object12[15];
+					isNonGovernment =0;
+					if (object12[16] != null)
+						isNonGovernment =(int) object12[16];
 
 					Double svnPcBasic = 0d;
 					
@@ -588,7 +596,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								dedByAG+=  temp;
 								break;
 							case 3:
-								dedByTreasury+= temp;
+								if(isNonGovernment==1) {
+									payslipDeduc+=temp;
+								}else {
+									dedByTreasury+= temp;
+								}
+								
 								break;
 							case 4:
 								dedByOthr+= temp;
@@ -729,10 +742,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				grossAmount+=basic;
 				netAmt = grossAmount - totaldeduc;
 				paybillGenerationTrnDetails.setBasicPay(basic);
-				
+				paySlipTotalDeduc = totaldeduc + payslipDeduc;
+				payslipNet = grossAmount - paySlipTotalDeduc;
 				
 				paybillGenerationTrnDetails.setGrossAmt(grossAmount);
 				paybillGenerationTrnDetails.setDedAdjAg(dedByAG);
+				paybillGenerationTrnDetails.setPayslipDeduc(payslipDeduc);
+				paybillGenerationTrnDetails.setPayslipNet(payslipNet);
+				paybillGenerationTrnDetails.setPaysliptotalDeduc(paySlipTotalDeduc);
 				
 				
 				
