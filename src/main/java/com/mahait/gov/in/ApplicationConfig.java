@@ -5,12 +5,16 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+
 
 @Configuration
 public class ApplicationConfig  extends WebMvcConfigurerAdapter {
@@ -36,6 +40,44 @@ public class ApplicationConfig  extends WebMvcConfigurerAdapter {
     	registry.addInterceptor(localeChangeInterceptor);
     }
     
+    
+    @Profile("dev")
+ 		@Bean
+ 		public String devBean() {
+ 			return "dev";
+ 		}
+
+ 		@Profile("qa")
+ 		@Bean
+ 		public String qaBean() {
+ 			return "qa";
+ 		}
+
+ 		@Profile("prod")
+ 		@Bean
+ 		public String prodBean() {
+ 			return "prod";
+ 		}
+ 		
+ 		@Profile("uat")
+ 		@Bean
+ 		public String uatBean() {
+ 			return "uat";
+ 		}
+ 		
+ 		@Profile("test")
+ 		@Bean
+ 		public String testBean() {
+ 			return "test";
+ 		}
+ 		
+ 		
+ 		@Profile("local")
+ 		@Bean
+ 		public String localBean() {
+ 			return "local";
+ 		}
+ 	  
     
     /*@Bean
 	public CookieSerializer cookieSerializer() {

@@ -30,7 +30,7 @@ public class DcpContributionModel {
     
     private String subSchemeCode;
 
-    private String payCommission;
+    private Long payCommission;
 
     private String typeOfPayment;
 
@@ -70,6 +70,27 @@ public class DcpContributionModel {
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+	
+	
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date payArrearStartDate;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date payArrearEndDate;
+	
+	
+	
+	
+	
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dAArrearStartDate;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dAArrearEndDate;
+	
+	
 	
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

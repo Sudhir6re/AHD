@@ -45,9 +45,9 @@ public class OnlineContriEntryController   extends BaseController{
 		
 		dcpContributionModel.setUseType("ViewAll");
 		
-		dcpContributionModel.setAction("search");
 		
-		model.addAttribute("dcpContributionModel", dcpContributionModel);
+		
+		
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
@@ -55,14 +55,15 @@ public class OnlineContriEntryController   extends BaseController{
 		model.addAttribute("paymentTypeLst", onlineContributionService.getPaymentTypeLst());
 		model.addAttribute("payCommisionLst", mstDesignationService.findAllPayCommission());
 		
-		if(dcpContributionModel.getAction()!=null && dcpContributionModel.getAction().equals("search")) {
+		if(dcpContributionModel.getAction()!=null && dcpContributionModel.getAction().equals("SEARCH_EMP")) {
 			String startDate=null;
+			
 			int month2 = dcpContributionModel.getDelayedMonthId();
 			int year2 = dcpContributionModel.getDelayedFinYearId();
 			if (month2 < 10) {
-				startDate = String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
+				startDate = 20+String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
 			} else {
-				startDate = String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
+				startDate = 20+String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
 			}
 			
 			
@@ -80,12 +81,18 @@ public class OnlineContriEntryController   extends BaseController{
 			
 			List<DcpContributionModel> dcpContributionModelLst=onlineContributionService.getEmpListForContribution(dcpContributionModel,messages,startDate);
 			
+			
+			dcpContributionModel.setLstDcpContributionModel(dcpContributionModelLst);
 			model.addAttribute("dcpContributionModelLst",dcpContributionModelLst);
 			
 		}
 		
 		
-	
+		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
+		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
+		
+		dcpContributionModel.setAction("search");
+		model.addAttribute("dcpContributionModel", dcpContributionModel);
 		
 		
 		return "/views/online-contri-entry";

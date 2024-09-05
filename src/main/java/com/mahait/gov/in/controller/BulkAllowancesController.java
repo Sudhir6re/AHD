@@ -33,7 +33,6 @@ public class BulkAllowancesController  extends BaseController{
 		String message = (String) model.asMap().get("message");
 		model.addAttribute("bulkAllowancesModel", bulkAllowancesModel);
 		model.addAttribute("language", locale.getLanguage());
-		model.addAttribute("language", locale.getLanguage());
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model,messages);	
 		return "/views/mst-bulkAllowance";

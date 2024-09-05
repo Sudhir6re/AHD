@@ -68,6 +68,9 @@ public class AllowanceDeductionRuleMstEntity {
 	@Column(name = "max_basic")
 	private Double maxBasic;
 	
+	@Column(name = "is_rule_based")
+	private Integer isRuleBased;
+	
 	
 	@Column(name = "premium_amount")
 	private Double premiumAmount;
