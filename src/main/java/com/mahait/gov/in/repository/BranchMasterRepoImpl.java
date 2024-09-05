@@ -1,6 +1,7 @@
 package com.mahait.gov.in.repository;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,10 @@ public class BranchMasterRepoImpl implements BranchMasterRepo{
 		for(Object obj[]:lstobj)
 		{
 		MstBankBranchEntity mstBankBranchEntity = new MstBankBranchEntity();
-		mstBankBranchEntity.setBankBranchId(StringHelperUtils.isNullBigInteger(obj[0]).intValue());
+		/*BigDecimal branchId = (BigDecimal) obj[0];
+		mstBankBranchEntity.setBankBranchId(branchId.longValue());*/
+		
+		mstBankBranchEntity.setBankBranchId(StringHelperUtils.isNullBigInteger(obj[0]).longValue());
 		mstBankBranchEntity.setBankBranchCode(StringHelperUtils.isNullBigInteger(obj[2]).longValue());
 		mstBankBranchEntity.setBankBranchName(StringHelperUtils.isNullString(obj[3]));
 		mstBankBranchEntity.setBankBranchShortName(StringHelperUtils.isNullString(obj[4]));
@@ -59,7 +63,7 @@ public class BranchMasterRepoImpl implements BranchMasterRepo{
 	}
 
 	@Override
-	public MstBankBranchEntity findBankBranchById(int bankBranchId) {
+	public MstBankBranchEntity findBankBranchById(Long bankBranchId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		MstBankBranchEntity mstBankBranchEntity = currentSession.get(MstBankBranchEntity.class, bankBranchId);
 		return mstBankBranchEntity;

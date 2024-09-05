@@ -3,6 +3,8 @@
 	$('#tblShowPayBill').hide();
 });*/
 
+$("#schemeCode").select2();
+
 var paybillGenerationTransactionIdArr = []; 
 var grossAmtAr = []; 
 var netAmtAr = []; 

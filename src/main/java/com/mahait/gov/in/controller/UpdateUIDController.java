@@ -24,7 +24,7 @@ import com.mahait.gov.in.service.UpdateUIDService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class UpdateUIDController {
+public class UpdateUIDController extends BaseController {
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -43,6 +43,8 @@ public class UpdateUIDController {
 		emplist = updateUIDService.findAllEmployee(messages.getUserName());
 		updateUIDModel.setEmplist(emplist);
 		model.addAttribute("updateUIDModel", updateUIDModel);
+		
+		addMenuAndSubMenu(model, messages);
 		model.addAttribute("message", message);
 		return "/views/UpdateUID";
 	}

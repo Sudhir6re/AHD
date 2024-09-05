@@ -51,7 +51,7 @@ public class MstGrOrderModel implements Serializable {
 	
 	private String docPath;
 	
-	
+	private String date;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;

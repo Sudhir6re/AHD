@@ -1204,6 +1204,18 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		return "save";
 	}
 
+	@Override
+	public List<Object[]> findAllEmployeesByDDOName(String userName) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		// String hql = "Select a.ddo_code,a.sevaarth_id,a.employee_full_name_en FROM
+		// employee_mst a where a.ddo_code = '"+ ddoCode +"'";
+		String hql = "Select a.sevaarth_id,a.employee_full_name_en,b.designation_name,c.department_name_en,a.employee_id,a.pay_commission_code,d.commission_name_en,a.dcps_gpf_flag,a.emp_service_end_date,e.bill_description  FROM employee_mst a,designation_mst b,department_mst c,\r\n"
+				+ " pay_commission_mst d,bill_group_mst e where a.designation_code = b.designation_code and a.admin_department_code = c.department_code and a.pay_commission_code=d.pay_commission_code and e.bill_group_id = a.billgroup_id and a.billgroup_id is not null  and a.is_active='1' and  a.ddo_code = '"
+				+ userName + "'  order by a.employee_full_name_en"; // and emp_service_end_date > now()
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+
 	}
 
 	

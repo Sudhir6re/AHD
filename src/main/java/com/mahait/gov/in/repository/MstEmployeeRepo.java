@@ -134,6 +134,8 @@ public interface MstEmployeeRepo {
 
 	public String saveUserId(String sevaarthId, long user_id);
 
+	public List<Object[]> findAllEmployeesByDDOName(String userName);
+
 
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 

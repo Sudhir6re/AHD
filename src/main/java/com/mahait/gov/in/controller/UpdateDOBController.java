@@ -48,7 +48,7 @@ public class UpdateDOBController  extends BaseController {
     	updateDOBModel.setEmplist(emplist);
 	
 		
-				
+    	addMenuAndSubMenu(model,messages);		
 		model.addAttribute("updateDOBModel", updateDOBModel);
 		model.addAttribute("message", message);
 		

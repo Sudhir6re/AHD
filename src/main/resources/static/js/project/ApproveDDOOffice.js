@@ -3,6 +3,16 @@ $(document).ready(function() {
 	 contextPath = $("#appRootPath").val();
 });
 
+$("#cmbTaluka").select2();
+$("#cmbDesignation").select2();
+$("#stateId").select2();
+$("#districtId").select2();
+$("#talukaId").select2();
+$("#txtTown").select2();
+$("#instituteType").select2();
+$("#cmbDesignation").select2();
+$("#cmbBankName").select2();
+$("#cmbBranchName").select2();
 
 function funDdo1() {
 
@@ -112,7 +122,7 @@ $(".officeName")
 												 
 												 $('#txtDDOName').val(value[17]);
 												 $('#cmbDesignation').val(value[18]);
-												 $('#txtWEFDate').val(value[19]);
+												 $('#txtWEFDate').val(dateToYMD(value[19]));
 												 $('#txtTANNo').val(value[20]);
 												 $('#txtITWardCircle').val(value[21]);
 												 $('#cmbBankName').val(value[22]);

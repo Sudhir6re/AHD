@@ -1583,6 +1583,34 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
       
 		
 	}
+	@Override
+	public Object findAllEmployeesByDDOName(String userName) {
+		List<Object[]> lstprop = mstEmployeeRepo.findAllEmployeesByDDOName(userName);
+		List<MstEmployeeModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				MstEmployeeModel obj = new MstEmployeeModel();
+				obj.setSevaarthId(StringHelperUtils.isNullString(objLst[0]));
+				obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
+				obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
+				obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
+				obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[4]));
+				obj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[5]));
+				obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
+				obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
+				obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
+				if (objLst[7] != null && !objLst[7].equals("")) {
+					if (objLst[7].equals('Y')) {
+						obj.setDcpsgpfflag("DCPS");
+					} else {
+						obj.setDcpsgpfflag("GPF");
+					}
+				}
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	}
 	
 
 

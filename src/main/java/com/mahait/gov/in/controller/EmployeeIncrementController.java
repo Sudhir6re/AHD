@@ -57,7 +57,7 @@ public class EmployeeIncrementController  extends BaseController{
 		model.addAttribute("incrementOrderempLst", employeeIncrementService.getIncrementDataForReptDDO(messages.getUserName(),currYear));
 		model.addAttribute("language", locale.getLanguage());
 		///model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
-		///model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
+		model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
 		
 		addMenuAndSubMenu(model,messages);
 		

@@ -66,7 +66,7 @@ public class BranchMasterController extends BaseController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		mstBankBranchEntity.setBankBranchCode(bigIntegerStr.longValue());
 		//mstBankBranchEntity.setIsActive('1');
-		mstBankBranchEntity.setCreatedUserId(messages.getUserId().intValue());
+		mstBankBranchEntity.setCreatedUserId(messages.getUserId());
 		int isSaved= branchMasterService.saveBankBranch(mstBankBranchEntity);
 		if (isSaved >0) {
 			redirectAttributes.addFlashAttribute("message", "SUCCESS");
@@ -75,7 +75,7 @@ public class BranchMasterController extends BaseController {
 	}
 	
 	@RequestMapping(value="/editBankBranch/{bankBranchId}")	// , method = RequestMethod.POST
-    public String editBankBranch(@PathVariable int bankBranchId,RedirectAttributes redirectAttributes, Model model,Locale locale,HttpSession session,@ModelAttribute("MstBankBranchEntity") MstBankBranchEntity mstBankBranchEntity) {
+    public String editBankBranch(@PathVariable Long bankBranchId,RedirectAttributes redirectAttributes, Model model,Locale locale,HttpSession session,@ModelAttribute("MstBankBranchEntity") MstBankBranchEntity mstBankBranchEntity) {
 		String message = (String)model.asMap().get("message");
 		
 		 mstBankBranchEntity=branchMasterService.findBankBranchById(bankBranchId);
@@ -109,7 +109,7 @@ public class BranchMasterController extends BaseController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		mstBankBranchEntity.setBankBranchCode(bigIntegerStr.longValue());
 		//mstBankBranchEntity.setIsActive('1');
-		mstBankBranchEntity.setCreatedUserId(messages.getUserId().intValue());
+		mstBankBranchEntity.setCreatedUserId(messages.getUserId());
        String message = branchMasterService.updateBankBranch(mstBankBranchEntity);
        System.out.println("saveId  " +message);
        if(message.equals("UPDATED")) {

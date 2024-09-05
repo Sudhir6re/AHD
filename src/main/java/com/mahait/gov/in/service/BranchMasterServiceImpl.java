@@ -29,7 +29,7 @@ public class BranchMasterServiceImpl implements BranchMasterService {
 	@Override
 	public int saveBankBranch(@Valid MstBankBranchEntity mstBankBranchEntity) {
 		mstBankBranchEntity.setIsActive('1');
-		mstBankBranchEntity.setCreatedUserId(1);
+		mstBankBranchEntity.setCreatedUserId(1l);
 		mstBankBranchEntity.setBankCode(mstBankBranchEntity.getBankid());
 		mstBankBranchEntity.setCreatedDate(new Date());
 		int isSaved =  branchMasterRepo.saveBankBranch(mstBankBranchEntity);
@@ -37,7 +37,7 @@ public class BranchMasterServiceImpl implements BranchMasterService {
 	}
 
 	@Override
-	public MstBankBranchEntity findBankBranchById(int bankBranchId) {
+	public MstBankBranchEntity findBankBranchById(Long bankBranchId) {
 		// TODO Auto-generated method stub
 		return branchMasterRepo.findBankBranchById(bankBranchId);
 	}

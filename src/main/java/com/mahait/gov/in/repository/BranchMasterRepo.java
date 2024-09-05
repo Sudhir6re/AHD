@@ -13,7 +13,7 @@ public interface BranchMasterRepo {
 
 	int saveBankBranch(@Valid MstBankBranchEntity mstBankBranchEntity);
 
-	MstBankBranchEntity findBankBranchById(int bankBranchId);
+	MstBankBranchEntity findBankBranchById(Long bankBranchId);
 
 	Serializable updateBankBranch(MstBankBranchEntity brachobject);
 
