@@ -49,9 +49,9 @@ public class AllowDeduBulkEmpController {
 	@Autowired
 	MstEmployeeService mstEmployeeService;
 	
-	@Autowired
+	/*@Autowired
 	MpgSchemeBillGroupService mpgSchemeBillGroupService;
-	
+	*/
 	
 	@Autowired
 	AllowanceDeductionWiseMstService allowanceDeductionWiseMstService;
@@ -79,10 +79,10 @@ public class AllowDeduBulkEmpController {
 		
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
 		model.addAttribute("context", request.getContextPath());
-
+/*
 		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
 				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));
-		
+		*/
 		
 		
 		model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);
