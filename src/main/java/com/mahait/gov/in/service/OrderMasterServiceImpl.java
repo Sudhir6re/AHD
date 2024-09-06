@@ -226,7 +226,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 				{
 					MstGrOrderModel obj1 = new MstGrOrderModel();
 					obj1.setSanctionOrderNo(StringHelperUtils.isNullString(obj[0]));
-					obj1.setOrderDate(StringHelperUtils.isNullDate(obj[1]));
+					obj1.setDate(StringHelperUtils.isNullString(obj[1]));
 					
 					listobj.add(obj1);
 				}

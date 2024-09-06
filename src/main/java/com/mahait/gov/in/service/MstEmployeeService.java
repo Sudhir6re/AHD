@@ -126,6 +126,8 @@ public interface MstEmployeeService {
 
 	public String createNewUser(String sevaarthid, OrgUserMst message, MstEmployeeModel mstEmployeeModel);
 
+	Object findAllEmployeesByDDOName(String userName);
+
 
 
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);

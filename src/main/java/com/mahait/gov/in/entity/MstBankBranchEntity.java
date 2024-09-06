@@ -22,7 +22,7 @@ public class MstBankBranchEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	/*@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = 'SUB_DEPARTMENT_ID')*/
 	@Column(name="BANK_BRANCH_ID")
-	private int bankBranchId;
+	private Long  bankBranchId;
 	
 	@Column(name="BANK_CODE")
 	private Long bankCode;
@@ -66,7 +66,7 @@ public class MstBankBranchEntity {
 	private Character isActive;
 	
 	@Column(name = "CREATED_USER_ID")
-	private Integer createdUserId;
+	private Long createdUserId;
 	
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;

@@ -24,7 +24,7 @@ import com.mahait.gov.in.service.UpdatePanNoService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class UpdatePanNoController {
+public class UpdatePanNoController extends BaseController {
  
 	
 	@Autowired
@@ -48,7 +48,7 @@ public class UpdatePanNoController {
     	emplist = updatePanNoService.findAllEmployee(messages.getUserName());
 		updatePanNoModel.setEmplist(emplist);
 	
-		
+		addMenuAndSubMenu(model,messages);
 				
 		model.addAttribute("updatePanNoModel", updatePanNoModel);
 		model.addAttribute("message", message);

@@ -411,4 +411,11 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return rtnStr;
 	}
 
+	@Override
+	public List<MstBankBranchEntity> findbankBranch() {
+		// TODO Auto-generated method stub
+		String HQL = "FROM MstBankBranchEntity as t";
+		return (List<MstBankBranchEntity>) manager.createQuery(HQL).getResultList();
+	}
+
 }

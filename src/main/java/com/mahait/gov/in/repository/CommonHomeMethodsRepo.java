@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
+import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
@@ -98,5 +99,7 @@ public interface CommonHomeMethodsRepo {
 	public List<Object[]> getCityClassByCity(String city);
 
 	public String findbillGrpname(Long billNumber);
+
+	public List<MstBankBranchEntity> findbankBranch();
 	
 }

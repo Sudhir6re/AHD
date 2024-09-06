@@ -410,9 +410,9 @@
 										>
 											<option value="-1">-- Select --</option>
 											<option
-												th:each="varAllBankbranchList : ${lstAllBankBranchList}"
-												th:value="${varAllBankbranchList[0]}"
-												th:text="${language=='mh' ? varAllBankbranchList[1] : varAllBankbranchList[1]}"></option>
+												th:each="varAllBankbranchList : ${lstBankBranch}"
+												th:value="${varAllBankbranchList.bankBranchCode}"
+												th:text="${language=='mh' ? varAllBankbranchList.bankBranchName : varAllBankbranchList.bankBranchName}"></option>
 									</select></td>
 								</tr>
 								<tr>
