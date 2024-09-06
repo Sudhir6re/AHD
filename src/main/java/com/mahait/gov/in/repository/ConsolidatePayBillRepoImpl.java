@@ -97,10 +97,11 @@ public class ConsolidatePayBillRepoImpl implements ConsolidatePayBillRepo {
 	public List<Object[]> fetchbilldts(Long paybillGenerationTrnId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL = "select COALESCE(income_tax,0) as IT,sum(dcps_arr)as DCPS_ARR,  sum(gis)as GIS,sum(pt)as PT,sum(group_acc_policy)as GROUP_ACC_POLICY,sum(hrr)as HRR, Sum(total_deduction)as TotalDeduct, SUM(COALESCE(gpf_grp_abc,0) + COALESCE(GPF_ADV_GRP_ABC,0)+COALESCE(GPF_ABC_ARR,0)+COALESCE(gpf_grp_d,0)+COALESCE(GPF_ADV_GRP_D,0)+COALESCE(GPF_D_ARR,0))as prov_fund\r\n"
-				+ " from paybill_generation_trn_details  where paybill_generation_trn_id=" + paybillGenerationTrnId
-				+ " group by income_tax,dcps_arr,gis,pt,group_acc_policy,hrr,gpf_grp_abc\r\n"
-				+ ",GPF_ADV_GRP_ABC,GPF_ABC_ARR,gpf_grp_d,GPF_ADV_GRP_D,GPF_D_ARR";/// ,sum(COALESCE(dcps_da_arr,0)+COALESCE(dcps_delay,0)+COALESCE(dcps_employer,0)+COALESCE(dcps_pay_arr,0)+COALESCE(dcps_regular_recovery,0))as
+		String HQL = " select COALESCE(income_tax,0) as IT, sum(dcps)as DCPS_ARR,sum(gis)as GIS,sum(pt)as PT,sum(ACC_POLICY)as GROUP_ACC_POLICY, " + 
+				" sum(hrr)as HRR,Sum(total_deduction)as TotalDeduct,SUM(COALESCE(gpf_grp_abc,0) + COALESCE(GPF_ADV_GRP_ABC,0) +  " + 
+				" COALESCE(GPF_ABC_ARR_MR,0)+COALESCE(gpf_grp_d,0)+COALESCE(GPF_ADV_GRP_D,0)+COALESCE(GPF_D_ARR_MR,0))as prov_fund    " + 
+				" from paybill_generation_trn_details  where paybill_generation_trn_id="+paybillGenerationTrnId+"  " + 
+				" group by income_tax,dcps_arr,gis, pt,ACC_POLICY,hrr,gpf_grp_abc,GPF_ADV_GRP_ABC,GPF_ABC_ARR_MR,gpf_grp_d,GPF_ADV_GRP_D,GPF_D_ARR_MR";/// ,sum(COALESCE(dcps_da_arr,0)+COALESCE(dcps_delay,0)+COALESCE(dcps_employer,0)+COALESCE(dcps_pay_arr,0)+COALESCE(dcps_regular_recovery,0))as
 																					/// dcps
 		Query query = currentSession.createSQLQuery(HQL);
 		// query.setParameter("paybill_generation_trn_id", paybillGenerationTrnId);

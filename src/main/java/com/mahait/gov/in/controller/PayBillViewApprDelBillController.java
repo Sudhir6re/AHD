@@ -54,6 +54,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.mahait.gov.in.HeaderFooterPageEvent;
 import com.mahait.gov.in.UserExcelExporter;
+import com.mahait.gov.in.common.ChangeStatementCommonHeader;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.configuration.PdfGenaratorUtil;
 import com.mahait.gov.in.entity.OrgUserMst;
@@ -1559,6 +1560,8 @@ public class PayBillViewApprDelBillController   extends BaseController{
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
 		SimpleDateFormat sdf =new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		List<Object[]> listA = paybillGenerationTrnService.getChangeStatementReport(paybillGenerationTrnId);
+		
+		
 		int i = 0;
 				Double curAll = 0D;
 				Double preAll = 0D;
@@ -1579,26 +1582,25 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			String empName = StringHelperUtils.isNullString(objLst[1]) + "(" + StringHelperUtils.isNullString(objLst[2])
 					+ ")";
 			
-			currmonth=StringHelperUtils.isNullBigInteger(objLst[4]);
 			curryear=StringHelperUtils.isNullBigInteger(objLst[3]);
-			premonth=StringHelperUtils.isNullBigInteger(objLst[6]);
+			currmonth=StringHelperUtils.isNullBigInteger(objLst[4]);
+			cumo =StringHelperUtils.isNullBigInteger(objLst[4]).longValue();
 			preyear=StringHelperUtils.isNullBigInteger(objLst[5]);
-			 cumo =StringHelperUtils.isNullBigInteger(objLst[4]).longValue();
+			premonth=StringHelperUtils.isNullBigInteger(objLst[6]);
 			
-			Long netpay =StringHelperUtils.isNullBigInteger(objLst[56]).longValue();
+			Long netpay =StringHelperUtils.isNullBigInteger(objLst[49]).longValue();
 			if(netpay!=null && netpay.equals(0l)) {
-				if ( objLst[55] != null
-						&&  objLst[56] != null) {
+				if ( objLst[29] != null
+						&&  objLst[30] != null) {
 					i++;
-					Double curGrossAmount =  (Double.parseDouble(objLst[55].toString()));
-					Double preGrossAmount =  (Double.parseDouble(objLst[56].toString()));
+					Double curGrossAmount =  (Double.parseDouble(objLst[29].toString()));
+					Double preGrossAmount =  (Double.parseDouble(objLst[30].toString()));
 					Double grossDiff = curGrossAmount-preGrossAmount;
 					if (grossDiff  != 0) {
 						String br = "color:red";
 						addDataToModel(i, empName, "Net Pay Amount", preGrossAmount, curGrossAmount, grossDiff, date, br);
 					} else {
 						String br = "color:green";
-					//	addDataToModel(i, empName, "Gross Amount", preGrossAmount, curGrossAmount, grossDiff, date, br);
 					}
 					curAll = curAll+(Double.parseDouble(objLst[55].toString()));
 					 preAll =allprenettotal+( Double.parseDouble(objLst[56].toString()));
@@ -1608,7 +1610,35 @@ public class PayBillViewApprDelBillController   extends BaseController{
 					 allprenettotal =allprenettotal+(Double.parseDouble( objLst[54].toString()));
 				}
 			}else {
-			if (objLst[7] != null
+				
+				
+				
+				
+				
+				
+				for(int j=7;j<objLst.length;j++) {
+					i++;
+					Double basicDiff=0d;
+					
+					if(objLst[j]!=null && objLst[j+1]!=null) {
+						Double curBasic =   (Double.parseDouble(objLst[j].toString()));
+						Double preBasic =   (Double.parseDouble(objLst[j+1].toString()));
+						 basicDiff = curBasic-preBasic;
+						if (basicDiff != 0) {
+							String br = "color:red";
+							addDataToModel(i, empName, ChangeStatementCommonHeader.header[j], preBasic, curBasic, basicDiff, date, br);
+						} else {
+							String br = "color:green";
+						}
+					}
+					j++;
+				}
+				
+				
+				
+				
+				
+		/*	if (objLst[7] != null
 					&&  objLst[8] != null) {
 				i++;
 				Double basicDiff=0d;
@@ -1622,60 +1652,56 @@ public class PayBillViewApprDelBillController   extends BaseController{
 					addDataToModel(i, empName, "Basic Pay", preBasic, curBasic, basicDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "Basic Pay", preBasic, curBasic, basicDiff, date, br);
 				}
 			}
 			if ( objLst[9] != null
 					&&  objLst[10] != null) {
 				i++;
-				Double curDa =  (Double.parseDouble(objLst[9].toString()));
-				Double preDa =  (Double.parseDouble(objLst[10].toString()));
-				Double daDiff = curDa-preDa;
-				if (daDiff != 0) {
+				Double currSpecialPay =  (Double.parseDouble(objLst[9].toString()));
+				Double preSpecialPay =  (Double.parseDouble(objLst[10].toString()));
+				Double specialPayDiff = currSpecialPay-preSpecialPay;
+				if (specialPayDiff != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "DA", preDa, curDa, daDiff, date, br);
+					addDataToModel(i, empName, "Special Pay", preSpecialPay, currSpecialPay, specialPayDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "DA", preDa, curDa, daDiff, date, br);
 				}
 			}
 			if ( objLst[11] != null
 					&&  objLst[12] != null) {
 				i++;
-				Double curHra =  (Double.parseDouble(objLst[11].toString()));
-				Double preHra =  (Double.parseDouble(objLst[12].toString()));
-				Double sub = curHra-preHra;
-				if (sub  != 0) {
+				Double curPo =  (Double.parseDouble(objLst[11].toString()));
+				Double prePo =  (Double.parseDouble(objLst[12].toString()));
+				Double poDiff = curPo-prePo;
+				if (poDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "HRA", preHra, curHra, sub, date, br);
+					addDataToModel(i, empName, "PO", prePo, curPo, poDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "HRA", preHra, curHra, sub, date, br);
 				}
 			}
 			if ( objLst[13] != null
 					&&  objLst[14] != null) {
 				i++;
-				Double curCla =  (Double.parseDouble(objLst[13].toString()));
-				Double preCla =  (Double.parseDouble(objLst[14].toString()));
-				Double claDiff = curCla-preCla;
-				if (claDiff  != 0) {
+				Double curDPay =  (Double.parseDouble(objLst[13].toString()));
+				Double preDPay =  (Double.parseDouble(objLst[14].toString()));
+				Double dPayDiff = curDPay-preDPay;
+				if (dPayDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "CLA", preCla, curCla, claDiff, date, br);
+					addDataToModel(i, empName, "D_PAY", preDPay, curDPay, dPayDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "CLA", preCla, curCla, claDiff, date, br);
 				}
 			}
 			if ( objLst[15] != null
 					&&  objLst[16] != null) {
 				i++;
-				Double curIt =  (Double.parseDouble(objLst[15].toString()));
-				Double preIt =  (Double.parseDouble(objLst[16].toString()));
-				Double ItDiff = curIt-preIt;
-				if (ItDiff  != 0) {
+				Double curDA =  (Double.parseDouble(objLst[15].toString()));
+				Double preDA =  (Double.parseDouble(objLst[16].toString()));
+				Double daDiff = curDA-preDA;
+				if (daDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "IT", preIt, curIt, ItDiff, date, br);
+					addDataToModel(i, empName, "DA", preDA, curDA, daDiff, date, br);
 				} else {
 					String br = "color:green";
 					//addDataToModel(i, empName, "IT", preIt, curIt, ItDiff, date, br);
@@ -1684,306 +1710,268 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			if ( objLst[17] != null
 					&&  objLst[18] != null) {
 				i++;
-				Double curHrr =  (Double.parseDouble(objLst[17].toString()));
-				Double preHrr =  (Double.parseDouble(objLst[18].toString()));
-				Double hrrDiff = curHrr-preHrr;
-				if (hrrDiff  != 0) {
+				Double curHRA =  (Double.parseDouble(objLst[17].toString()));
+				Double preHRA =  (Double.parseDouble(objLst[18].toString()));
+				Double hraDiff = curHRA-preHRA;
+				if (hraDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "HRR", preHrr, curHrr, hrrDiff, date, br);
+					addDataToModel(i, empName, "HRA", preHRA, curHRA, hraDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "HRR", preHrr, curHrr, hrrDiff, date, br);
 				}
 			}
 			if ( objLst[19] != null
 					&&  objLst[20] != null) {
 				i++;
-				Double curPli =  (Double.parseDouble(objLst[19].toString()));
-				Double prepli =  (Double.parseDouble(objLst[20].toString()));
-				Double pliDiff = curPli-prepli;
-				if (pliDiff  != 0) {
+				Double curCLA =  (Double.parseDouble(objLst[19].toString()));
+				Double preCLA =  (Double.parseDouble(objLst[20].toString()));
+				Double claDiff = curCLA-preCLA;
+				if (claDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "PLI", prepli, curPli, pliDiff, date, br);
+					addDataToModel(i, empName, "CLA", preCLA, curCLA, claDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "PLI", prepli, curPli, pliDiff, date, br);
 				}
 			}
 			if ( objLst[21] != null
 					&&  objLst[22] != null) {
 				i++;
-				Double curPt =  (Double.parseDouble(objLst[21].toString()));
-				Double prept =  (Double.parseDouble(objLst[22].toString()));
-				Double ptDiff = curPt-prept;
-				if (ptDiff  != 0) {
+				Double curMA =  (Double.parseDouble(objLst[21].toString()));
+				Double preMA =  (Double.parseDouble(objLst[22].toString()));
+				Double maDiff = curMA-preMA;
+				if (maDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "PT", prept, curPt, ptDiff, date, br);
+					addDataToModel(i, empName, "MA", preMA, curMA, maDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "PT", prept, curPt, ptDiff, date, br);
 				}
 			}
 			if ( objLst[23] != null
 					&&  objLst[24] != null) {
 				i++;
-				Double curHba =  (Double.parseDouble(objLst[23].toString()));
-				Double preHba =  (Double.parseDouble(objLst[24].toString()));
-				Double hbaDiff = curHba-preHba;
-				if (hbaDiff  != 0) {
+				Double curWA =  (Double.parseDouble(objLst[23].toString()));
+				Double preWA =  (Double.parseDouble(objLst[24].toString()));
+				Double waDiff = curWA-preWA;
+				if (waDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "HBA", preHba, curHba, hbaDiff, date, br);
+					addDataToModel(i, empName, "WA", preWA, curWA, waDiff, date, br);
 				} else {
 					String br = "color:green";
-				//	addDataToModel(i, empName, "HBA", preHba, curHba, hbaDiff, date, br);
 				}
 			}
-			/*if ( objLst[25]) != null
-					&&  objLst[26]) != null) {
-				i++;
-				Double curGpfAdv =  (objLst[25]));
-				Double preGpfAdv =  (objLst[26]));
-				Double gpfAdvDiff = curGpfAdv-preGpfAdv;
-				if (gpfAdvDiff  != 0) {
-					String br = "color:red";
-					addDataToModel(i, empName, "HBA", preGpfAdv, curGpfAdv, gpfAdvDiff, date, br);
-				} else {
-					String br = "color:green";
-				//	addDataToModel(i, empName, "HBA", preGpfAdv, curGpfAdv, gpfAdvDiff, date, br);
-				}
-			}*/
+	
 			if ( objLst[25] != null
 					&&  objLst[26] != null) {
 				i++;
-				Double curGpfAdv =  (Double.parseDouble(objLst[25].toString()));
-				Double preGpfAdv =  (Double.parseDouble(objLst[26].toString()));
-				Double gpfAdvDiff = curGpfAdv-preGpfAdv;
-				if (gpfAdvDiff  != 0) {
+				Double curTransAllow =  (Double.parseDouble(objLst[25].toString()));
+				Double preTransAllow =  (Double.parseDouble(objLst[26].toString()));
+				Double transAllowDiff = curTransAllow-preTransAllow;
+				if (transAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gpf Advance", preGpfAdv, curGpfAdv, gpfAdvDiff, date, br);
+					addDataToModel(i, empName, "Transport Allowance", preTransAllow, curTransAllow, transAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "Gpf Advance", preGpfAdv, curGpfAdv, gpfAdvDiff, date, br);
 				}
 			}
 			if ( objLst[27] != null
 					&&  objLst[28] != null) {
 				i++;
-				Double curGpfIvAdv =  (Double.parseDouble(objLst[27].toString()));
-				Double preGpfIvAdv =  (Double.parseDouble(objLst[28].toString()));
-				Double gpfIvAdvDiff = curGpfIvAdv-preGpfIvAdv;
-				if (gpfIvAdvDiff  != 0) {
+				Double curPayRecover =  (Double.parseDouble(objLst[27].toString()));
+				Double prePayRecover =  (Double.parseDouble(objLst[28].toString()));
+				Double payRecoverDiff = curPayRecover-prePayRecover;
+				if (payRecoverDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gpf Iv Advance", preGpfIvAdv, curGpfIvAdv, gpfIvAdvDiff, date, br);
+					addDataToModel(i, empName, "Pay Recover", prePayRecover, curPayRecover, payRecoverDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "Gpf Iv Advance", preGpfIvAdv, curGpfIvAdv, gpfIvAdvDiff, date, br);
 				}
 			}
 			if ( objLst[29] != null
 					&&  objLst[30] != null) {
 				i++;
-				Double curDcps =  (Double.parseDouble(objLst[29].toString()));
-				Double preDcps =  (Double.parseDouble(objLst[30].toString()));
-				Double dcpsDiff = curDcps-preDcps;
-				if (dcpsDiff  != 0) {
+				Double curgrossAmt =  (Double.parseDouble(objLst[31].toString()));
+				Double pregrossAmt =  (Double.parseDouble(objLst[32].toString()));
+				Double grossAmtDiff = curgrossAmt-pregrossAmt;
+				if (grossAmtDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "DCPS", preDcps, curDcps, dcpsDiff, date, br);
+					addDataToModel(i, empName, "Gross Amount", pregrossAmt, curgrossAmt, grossAmtDiff, date, br);
 				} else {
 					String br = "color:green";
-				//	addDataToModel(i, empName, "DCPS", preDcps, curDcps, dcpsDiff, date, br);
 				}
 			}
+			
 			if ( objLst[31] != null
 					&&  objLst[32] != null) {
 				i++;
-				Double curGpay =  (Double.parseDouble(objLst[31].toString()));
-				Double preGpay =  (Double.parseDouble(objLst[32].toString()));
-				Double gpayDiff = curGpay-preGpay;
-				if (gpayDiff  != 0) {
+				Double curIT =  (Double.parseDouble(objLst[31].toString()));
+				Double preIT =  (Double.parseDouble(objLst[32].toString()));
+				Double itDiff = curIT-preIT;
+				if (itDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "GPAY", preGpay, curGpay, gpayDiff, date, br);
+					addDataToModel(i, empName, "IT", preIT, curIT, itDiff, date, br);
 				} else {
 					String br = "color:green";
-				//	addDataToModel(i, empName, "GPAY", preGpay, curGpay, gpayDiff, date, br);
 				}
 			}
 			if ( objLst[33] != null
 					&&  objLst[34] != null) {
 				i++;
-				Double curGpfGrpAbc =  (Double.parseDouble(objLst[33].toString()));
-				Double preGpfGrpAbc =  (Double.parseDouble(objLst[34].toString()));
-				Double gpfGrpAbcDiff = curGpfGrpAbc-preGpfGrpAbc;
-				if (gpfGrpAbcDiff  != 0) {
+				Double curHRR =  (Double.parseDouble(objLst[33].toString()));
+				Double preHRR =  (Double.parseDouble(objLst[34].toString()));
+				Double hrrDiff = curHRR-preHRR;
+				if (hrrDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gpf Grp Abc", preGpfGrpAbc, curGpfGrpAbc, gpfGrpAbcDiff, date, br);
+					addDataToModel(i, empName, "HRR", preHRR, curHRR, hrrDiff, date, br);
 				} else {
 					String br = "color:green";
-				//	addDataToModel(i, empName, "Gpf Grp Abc", preGpfGrpAbc, curGpfGrpAbc, gpfGrpAbcDiff, date, br);
 				}
 			}
 			if ( objLst[35] != null
 					&&  objLst[36] != null) {
 				i++;
-				Double curGpfGrpD =  (Double.parseDouble(objLst[35].toString()));
-				Double preGpfGrpD =  (Double.parseDouble(objLst[36].toString()));
-				Double gpfGrpDDiff = curGpfGrpD-preGpfGrpD;
-				if (gpfGrpDDiff  != 0) {
+				Double curPLI =  (Double.parseDouble(objLst[35].toString()));
+				Double prePLI =  (Double.parseDouble(objLst[36].toString()));
+				Double pliDiff = curPLI-prePLI;
+				if (pliDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gpf Grp D", preGpfGrpD, curGpfGrpD, gpfGrpDDiff, date, br);
+					addDataToModel(i, empName, "PLI", prePLI, curPLI, pliDiff, date, br);
 				} else {
 					String br = "color:green";
-				//	addDataToModel(i, empName, "Gpf Grp D", preGpfGrpD, curGpfGrpD, gpfGrpDDiff, date, br);
 				}
 			}
 			if ( objLst[37] != null
 					&&  objLst[38] != null) {
 				i++;
-				Double curGpfAdvGrpAbc =  (Double.parseDouble(objLst[37].toString()));
-				Double preGpfAdvGrpAbc =  (Double.parseDouble(objLst[38].toString()));
-				Double gpfAdvGrpAbc = curGpfAdvGrpAbc-preGpfAdvGrpAbc;
-				if (gpfAdvGrpAbc  != 0) {
+				Double curPT =  (Double.parseDouble(objLst[37].toString()));
+				Double prePT =  (Double.parseDouble(objLst[38].toString()));
+				Double ptDiff = curPT-prePT;
+				if (ptDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gpf Advance Grp Abc", preGpfAdvGrpAbc, curGpfAdvGrpAbc, gpfAdvGrpAbc,
+					addDataToModel(i, empName, "PT", prePT, curPT, ptDiff,
 							date, br);
 				} else {
 					String br = "color:green";
-					/*addDataToModel(i, empName, "Gpf Advance Grp Abc", preGpfAdvGrpAbc, curGpfAdvGrpAbc, gpfAdvGrpAbc,
-							date, br);*/
 				}
 			}
 			if ( objLst[39] != null
 					&&  objLst[40]!= null) {
 				i++;
-				Double curGpfAdvGrpD =  (Double.parseDouble(objLst[39].toString()));
-				Double preGpfAdvGrpD =  (Double.parseDouble(objLst[40].toString()));
-				Double gpfAdvGrpDDiff = curGpfAdvGrpD-preGpfAdvGrpD;
-				if (gpfAdvGrpDDiff  != 0) {
+				Double curHBA =  (Double.parseDouble(objLst[39].toString()));
+				Double preHBA =  (Double.parseDouble(objLst[40].toString()));
+				Double hbaDiff = curHBA-preHBA;
+				if (hbaDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gpf Advance Grp D", preGpfAdvGrpD, curGpfAdvGrpD, gpfAdvGrpDDiff, date,
+					addDataToModel(i, empName, "HBA", preHBA, curHBA, hbaDiff, date,
 							br);
 				} else {
 					String br = "color:green";
-					/*addDataToModel(i, empName, "Gpf Advance Grp D", preGpfAdvGrpD, curGpfAdvGrpD, gpfAdvGrpDDiff, date,
-							br);*/
 				}
 			}
 			if ( objLst[41] != null
 					&&  objLst[42] != null) {
 				i++;
-				Double curMotorCycleAdv =  (Double.parseDouble(objLst[41].toString()));
-				Double preMotorCycleAdv =  (Double.parseDouble(objLst[42].toString()));
-				Double MotorCycleAdvDiff = curMotorCycleAdv-preMotorCycleAdv;
-				if (MotorCycleAdvDiff  != 0) {
+				Double curFanAdv =  (Double.parseDouble(objLst[41].toString()));
+				Double preFanAdv =  (Double.parseDouble(objLst[42].toString()));
+				Double fanAdvDiff = curFanAdv-preFanAdv;
+				if (fanAdvDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Motor Cycle Advance", preMotorCycleAdv, curMotorCycleAdv,
-							MotorCycleAdvDiff, date, br);
+					addDataToModel(i, empName, "Fan Adv", preFanAdv, curFanAdv,
+							fanAdvDiff, date, br);
 				} else {
 					String br = "color:green";
-					/*addDataToModel(i, empName, "Motor Cycle Advance", preMotorCycleAdv, curMotorCycleAdv,
-							MotorCycleAdvDiff, date, br);*/
 				}
 			}
 			if ( objLst[43] != null
 					&&  objLst[44] != null) {
 				i++;
-				Double curOtherDedTry =  (Double.parseDouble(objLst[43].toString()));
-				Double preOtherDedTry =  (Double.parseDouble(objLst[44].toString()));
-				Double otherDedTryDiff = curOtherDedTry-preOtherDedTry;
-				if (otherDedTryDiff  != 0) {
+				Double curjeepR =  (Double.parseDouble(objLst[43].toString()));
+				Double prejeepR =  (Double.parseDouble(objLst[44].toString()));
+				Double jeepRDiff = curjeepR-prejeepR;
+				if (jeepRDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Other ded try", preOtherDedTry, curOtherDedTry, otherDedTryDiff, date,
+					addDataToModel(i, empName, "JEEP R", prejeepR, curjeepR, jeepRDiff, date,
 							br);
 				} else {
 					String br = "color:green";
-				/*	addDataToModel(i, empName, "Other ded try", preOtherDedTry, curOtherDedTry, otherDedTryDiff, date,
-							br);*/
 				}
 			}
 			if ( objLst[45] != null
 					&&  objLst[46] != null) {
 				i++;
-				Double curJanjulgis =  (Double.parseDouble(objLst[45].toString()));
-				Double preJanjulgis =  (Double.parseDouble(objLst[46].toString()));
-				Double janjulgisDiff = curJanjulgis-preJanjulgis;
-				if (janjulgisDiff  != 0) {
+				Double curGPFIV =  (Double.parseDouble(objLst[45].toString()));
+				Double preGPFIV =  (Double.parseDouble(objLst[46].toString()));
+				Double gpfIVDiff = curGPFIV-preGPFIV;
+				if (gpfIVDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Janjulgis", preJanjulgis, curJanjulgis, janjulgisDiff, date, br);
+					addDataToModel(i, empName, "GPF IV", preGPFIV, curGPFIV, gpfIVDiff, date, br);
 				} else {
 					String br = "color:green";
-				//	addDataToModel(i, empName, "Janjulgis", preJanjulgis, curJanjulgis, janjulgisDiff, date, br);
 				}
 			}
 			if ( objLst[47] != null
 					&&  objLst[48] != null) {
 				i++;
-				Double curJanjulgis =  (Double.parseDouble(objLst[47].toString()));
-				Double preJanjulgis =  (Double.parseDouble(objLst[48].toString()));
-				Double janjulgisDiff = curJanjulgis-preJanjulgis;
-				if (janjulgisDiff  != 0) {
+				Double curTotalDed =  (Double.parseDouble(objLst[47].toString()));
+				Double preTotalDed =  (Double.parseDouble(objLst[48].toString()));
+				Double totalDedDiff = curTotalDed-preTotalDed;
+				if (totalDedDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Ded Adjust", preJanjulgis, curJanjulgis, janjulgisDiff, date, br);
+					addDataToModel(i, empName, "Total Deduction", preTotalDed, curTotalDed, totalDedDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "Ded Adjust", preJanjulgis, curJanjulgis, janjulgisDiff, date, br);
 				}
 			}
 			if ( objLst[49] != null
 					&&  objLst[50] != null) {
 				i++;
-				Double curGrossAdjust =  (Double.parseDouble(objLst[49].toString()));
-				Double preGrossAdjust =  (Double.parseDouble(objLst[50].toString()));
-				Double grossAdjustDiff = curGrossAdjust-preGrossAdjust;
-				if (grossAdjustDiff  != 0) {
+				Double curNetAmt =  (Double.parseDouble(objLst[49].toString()));
+				Double preNetAmt =  (Double.parseDouble(objLst[50].toString()));
+				Double netAmtDiff = curNetAmt-preNetAmt;
+				if (netAmtDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gross Adjust", preGrossAdjust, curGrossAdjust, grossAdjustDiff, date,
+					addDataToModel(i, empName, "Net Amount", preNetAmt, curNetAmt, netAmtDiff, date,
 							br);
 				} else {
 					String br = "color:green";
-				/*	addDataToModel(i, empName, "Gross Adjust", preGrossAdjust, curGrossAdjust, grossAdjustDiff, date,
-							br);*/
 				}
 			}
 			if ( objLst[51] != null
 					&&  objLst[52] != null) {
 				i++;
-				Double curGrossTotalAmount =  (Double.parseDouble(objLst[51].toString()));
-				Double preGrossTotalAmount =  (Double.parseDouble(objLst[52].toString()));
-				Double grossTotalAmountDiff = curGrossTotalAmount-preGrossTotalAmount;
-				if (grossTotalAmountDiff  != 0) {
+				Double curPerPay =  (Double.parseDouble(objLst[51].toString()));
+				Double prePerPay =  (Double.parseDouble(objLst[52].toString()));
+				Double perPayDiff = curPerPay-prePerPay;
+				if (perPayDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gross Total Amount", preGrossTotalAmount, curGrossTotalAmount,
-							grossTotalAmountDiff, date, br);
+					addDataToModel(i, empName, "Per Pay", prePerPay, curPerPay,
+							perPayDiff, date, br);
 				} else {
 					String br = "color:green";
-					/*addDataToModel(i, empName, "Gross Total Amount", preGrossTotalAmount, curGrossTotalAmount,
-							grossTotalAmountDiff, date, br);*/
 				}
 			}
-		/*	if ( objLst[53] != null
+			if ( objLst[53] != null
 					&&  objLst[54] != null) {
 				i++;
-				Double curGrossTotalNetAmount =  (objLst[53].toString()));
-				Double preGrossTotalNetAmount =  (objLst[54].toString()));
-				Double grossTotalNetAmountDiff = curGrossTotalNetAmount.subtract(preGrossTotalNetAmount);
-				if (grossTotalNetAmountDiff  != 0) {
+				Double curPE = (Double.parseDouble(objLst[51].toString()));
+				Double prePE =  (Double.parseDouble(objLst[51].toString()));
+				Double peDiff = curPE - prePE;
+				if (peDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gross Total Net Amount", preGrossTotalNetAmount, curGrossTotalNetAmount,
-							grossTotalNetAmountDiff, date, br);
+					addDataToModel(i, empName, "PE", prePE, curPE,
+							peDiff, date, br);
 				} else {
 					String br = "color:green";
-					addDataToModel(i, empName, "Gross Total Net Amount", preGrossTotalNetAmount, curGrossTotalNetAmount,
-							grossTotalNetAmountDiff, date, br);
 				}
-			}*/
+			}
 			if ( objLst[55] != null
 					&&  objLst[56] != null) {
 				i++;
-				Double curGrossAmount =  (Double.parseDouble(objLst[55].toString()));
-				Double preGrossAmount =  (Double.parseDouble(objLst[56].toString()));
-				Double grossDiff = curGrossAmount-preGrossAmount;
-				if (grossDiff  != 0) {
+				Double curOtherAllow =  (Double.parseDouble(objLst[55].toString()));
+				Double preOtherAllow =  (Double.parseDouble(objLst[56].toString()));
+				Double otherAllowDiff = curOtherAllow-preOtherAllow;
+				if (otherAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Net Pay Amount", preGrossAmount, curGrossAmount, grossDiff, date, br);
+					addDataToModel(i, empName, "Other Allowance", preOtherAllow, curOtherAllow, otherAllowDiff, date, br);
 				} else {
 					String br = "color:green";
 				//	addDataToModel(i, empName, "Gross Amount", preGrossAmount, curGrossAmount, grossDiff, date, br);
@@ -1993,435 +1981,402 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			if ( objLst[57] != null
 					&&  objLst[58] != null) {
 				i++;
-				Double curGrossAmount =  (Double.parseDouble(objLst[57].toString()));
-				Double preGrossAmount =  (Double.parseDouble(objLst[58].toString()));
-				Double grossAmountDiff = curGrossAmount-preGrossAmount;
-				if (grossAmountDiff  != 0) {
+				Double curBonus =  (Double.parseDouble(objLst[57].toString()));
+				Double preBonus =  (Double.parseDouble(objLst[58].toString()));
+				Double bonusDiff = curBonus-preBonus;
+				if (bonusDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Gross Amount", preGrossAmount, curGrossAmount,
-							grossAmountDiff, date, br);
+					addDataToModel(i, empName, "Bonus", preBonus, curBonus,
+							bonusDiff, date, br);
 				} else {
 					String br = "color:green";
-					/*addDataToModel(i, empName, "Total Deduction", preTotalDeduction, curTotalDeduction,
-							totalDeductionDiff, date, br);*/
 				}
 			}
-			/*if ( objLst[57] != null
-					&&  objLst[58] != null) {
-				i++;
-				Double curTotalDeduction =  (Double.parseDouble(objLst[57].toString()));
-				Double preTotalDeduction =  (Double.parseDouble(objLst[58].toString()));
-				Double totalDeductionDiff = curTotalDeduction-preTotalDeduction;
-				if (totalDeductionDiff  != 0) {
-					String br = "color:red";
-					addDataToModel(i, empName, "Total Deduction", preTotalDeduction, curTotalDeduction,
-							totalDeductionDiff, date, br);
-				} else {
-					String br = "color:green";
-					addDataToModel(i, empName, "Total Deduction", preTotalDeduction, curTotalDeduction,
-							totalDeductionDiff, date, br);
-				}
-			}*/
-			
 			if ( objLst[59] != null
 					&&  objLst[60] != null) {
 				i++;
-				Double curTotalDeduction =  (Double.parseDouble(objLst[59].toString()));
-				Double preTotalDeduction =  (Double.parseDouble(objLst[60].toString()));
-				Double totalDeductionDiff = curTotalDeduction-preTotalDeduction;
-				if (totalDeductionDiff  != 0) {
+				Double curSurcharge =  (Double.parseDouble(objLst[59].toString()));
+				Double preSurcharge =  (Double.parseDouble(objLst[60].toString()));
+				Double surchargeDiff = curSurcharge-preSurcharge;
+				if (surchargeDiff  != 0) {
 					String br = "style='color:red";
-					addDataToModel(i, empName, "Total Deduction", preTotalDeduction, curTotalDeduction,
-							totalDeductionDiff, date, br);
+					addDataToModel(i, empName, "Surcharge", preSurcharge, curSurcharge,
+							surchargeDiff, date, br);
 				} else {
 					String br = "color:green";
-//					addDataToModel(i, empName, "Total Deduction", preTotalDeduction, curTotalDeduction,totalDeductionDiff, date, br);
 				}
 			}
 			if ( objLst[61] != null
 					&&  objLst[62] != null) {
 				i++;
-				Double curDcpsArr =  (Double.parseDouble(objLst[61].toString()));
-				Double preDcpsArr =  (Double.parseDouble(objLst[62].toString()));
-				Double dcpsArrDiff = curDcpsArr-preDcpsArr;
-				if (dcpsArrDiff  != 0) {
+				Double curRentB =  (Double.parseDouble(objLst[61].toString()));
+				Double preRentB =  (Double.parseDouble(objLst[62].toString()));
+				Double rentBDiff = curRentB-preRentB;
+				if (rentBDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Dcps Arr", preDcpsArr, curDcpsArr, dcpsArrDiff, date, br);
+					addDataToModel(i, empName, "Rent B", preRentB, curRentB, rentBDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "Dcps Arr", preDcpsArr, curDcpsArr, dcpsArrDiff, date, br);
 				}
 			}
-			/*if ( objLst[63] != null
+			if ( objLst[63] != null
 					&&  objLst[64] != null) {
 				i++;
-				Double curDcpsDaArr =  (objLst[53].toString()));
-				Double preDcpsDaArr =  (objLst[54].toString()));
-				Double dcpsDaArrDiff = curDcpsDaArr.subtract(preDcpsDaArr);
-				if (dcpsDaArrDiff  != 0) {
+				Double curgpfAdv = (Double.parseDouble(objLst[63].toString()));
+				Double pregpfAdv = (Double.parseDouble(objLst[64].toString()));
+				Double gpfAdvDiff = curgpfAdv - pregpfAdv;
+				if (gpfAdvDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Pre Dcps Da Arr", preDcpsDaArr, curDcpsDaArr, dcpsDaArrDiff, date, br);
+					addDataToModel(i, empName, "GPF Adv", pregpfAdv, curgpfAdv, gpfAdvDiff, date, br);
 				} else {
 					String br = "color:green";
 					//addDataToModel(i, empName, "Pre Dcps Da Arr", preDcpsDaArr, curDcpsDaArr, dcpsDaArrDiff, date, br);
 				}
-			}*/
+			}
 			if ( objLst[65] != null
 					&&  objLst[66] != null) {
 				i++;
-				Double curDcpsDelay =  (Double.parseDouble(objLst[65].toString()));
-				Double preDcpsDelayt =  (Double.parseDouble(objLst[66].toString()));
-				Double dcpsDelayDiff = curDcpsDelay-preDcpsDelayt;
-				if (dcpsDelayDiff  != 0) {
+				Double curmisc =  (Double.parseDouble(objLst[65].toString()));
+				Double premisc =  (Double.parseDouble(objLst[66].toString()));
+				Double miscDiff = curmisc-premisc;
+				if (miscDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Dcps Delay", preDcpsDelayt, curDcpsDelay, dcpsDelayDiff, date, br);
+					addDataToModel(i, empName, "MISC", premisc, curmisc, miscDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "Dcps Delay", preDcpsDelayt, curDcpsDelay, dcpsDelayDiff, date, br);
 				}
 			}
 			if ( objLst[67] != null
 					&&  objLst[68] != null) {
 				i++;
-				Double curDcpsEmployer =  (Double.parseDouble(objLst[67].toString()));
-				Double preDcpsEmployer =  (Double.parseDouble(objLst[68].toString()));
-				Double dcpsEmployerDiff = curDcpsEmployer-preDcpsEmployer;
-				if (dcpsEmployerDiff  != 0) {
+				Double curTrnCounter =  (Double.parseDouble(objLst[67].toString()));
+				Double preTrnCounter =  (Double.parseDouble(objLst[68].toString()));
+				Double trnCOunterDiff = curTrnCounter-preTrnCounter;
+				if (trnCOunterDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Dcps Employer", preDcpsEmployer, curDcpsEmployer, dcpsEmployerDiff,
+					addDataToModel(i, empName, "Trn COunter", preTrnCounter, curTrnCounter, trnCOunterDiff,
 							date, br);
 				} else {
 					String br = "color:green";
-				/*	addDataToModel(i, empName, "Dcps Employer", preDcpsEmployer, curDcpsEmployer, dcpsEmployerDiff,
-							date, br);*/
 				}
 			}
 			if ( objLst[69] != null
 					&&  objLst[70] != null) {
 				i++;
-				Double curDcpsPayArr =  (Double.parseDouble(objLst[69].toString()));
-				Double preDcpsPayArr =  (Double.parseDouble(objLst[70].toString()));
-				Double dcpsPayArrDiff = curDcpsPayArr-preDcpsPayArr;
-				if (dcpsPayArrDiff  != 0) {
+				Double curDpGazzeted =  (Double.parseDouble(objLst[69].toString()));
+				Double preDpGazzeted =  (Double.parseDouble(objLst[70].toString()));
+				Double dpGazzetedDiff = curDpGazzeted-preDpGazzeted;
+				if (dpGazzetedDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Dcps Pay Arr", preDcpsPayArr, curDcpsPayArr, dcpsPayArrDiff, date, br);
+					addDataToModel(i, empName, "DP Gazzeted", preDpGazzeted, curDpGazzeted, dpGazzetedDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "Dcps Pay Arr", preDcpsPayArr, curDcpsPayArr, dcpsPayArrDiff, date, br);
 				}
 			}
 			if ( objLst[71] != null
 					&&  objLst[72] != null) {
 				i++;
-				Double curDcpsRegularRecovery =  (Double.parseDouble(objLst[71].toString()));
-				Double preDcpsRegularRecovery =  (Double.parseDouble(objLst[72].toString()));
-				Double dcpsRegularRecoveryDiff = curDcpsRegularRecovery-preDcpsRegularRecovery;
-				if (dcpsRegularRecoveryDiff  != 0) {
+				Double curgpfIVAdv =  (Double.parseDouble(objLst[71].toString()));
+				Double pregpfIVAdv =  (Double.parseDouble(objLst[72].toString()));
+				Double gpfIVAdvDiff = curgpfIVAdv-pregpfIVAdv;
+				if (gpfIVAdvDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Dcps Regular Recovery", preDcpsRegularRecovery, curDcpsRegularRecovery,
-							dcpsRegularRecoveryDiff, date, br);
+					addDataToModel(i, empName, "GPF-IV Adv", pregpfIVAdv, curgpfIVAdv,
+							gpfIVAdvDiff, date, br);
 				} else {
 					String br = "color:green";
-				/*	addDataToModel(i, empName, "Dcps Regular Recovery", preDcpsRegularRecovery, curDcpsRegularRecovery,
-							dcpsRegularRecoveryDiff, date, br);*/
 				}
 			}
 			if ( objLst[73] != null
 					&&  objLst[74] != null) {
 				i++;
-				Double curGis =  (Double.parseDouble(objLst[73].toString()));
-				Double preGis =  (Double.parseDouble(objLst[74].toString()));
-				Double gisDiff = curGis-preGis;
-				if (gisDiff  != 0) {
+				Double curDCPS =  (Double.parseDouble(objLst[73].toString()));
+				Double preDCPS =  (Double.parseDouble(objLst[74].toString()));
+				Double dcpsDiff = curDCPS-preDCPS;
+				if (dcpsDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "GIS", preGis, curGis, gisDiff, date, br);
+					addDataToModel(i, empName, "DCPS", preDCPS, curDCPS, dcpsDiff, date, br);
 				} else {
 					String br = "color:green";
-					//addDataToModel(i, empName, "GIS", preGis, curGis, gisDiff, date, br);
 				}
 			}
 			if ( objLst[75] != null
 					&&  objLst[76] != null) {
 				i++;
-				Double curTa =  (Double.parseDouble(objLst[75].toString()));
-				Double preta =  (Double.parseDouble(objLst[76].toString()));
-				Double taDiff = curTa-preta;
-				if (taDiff  != 0) {
+				Double curPSR =  (Double.parseDouble(objLst[75].toString()));
+				Double prePSR =  (Double.parseDouble(objLst[76].toString()));
+				Double psrDiff = curPSR-prePSR;
+				if (psrDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
+					addDataToModel(i, empName, "PSR", prePSR, curPSR, psrDiff, date, br);
 				} else {
 					String br = "color:green";
-				//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
+				}
+				
+			}
+			if ( objLst[77] != null
+					&&  objLst[78] != null) {
+				i++;
+				Double curdaGPF =  (Double.parseDouble(objLst[79].toString()));
+				Double predaGPF =  (Double.parseDouble(objLst[80].toString()));
+				Double daGPFDiff = curdaGPF-predaGPF;
+				if (daGPFDiff  != 0) {
+					String br = "color:red";
+					addDataToModel(i, empName, "DA_GPF", predaGPF, curdaGPF, daGPFDiff, date, br);
+				} else {
+					String br = "color:green";
 				}
 				
 			}
 			if ( objLst[79] != null
 					&&  objLst[80] != null) {
 				i++;
-				Double curNpsEmprDeduct =  (Double.parseDouble(objLst[79].toString()));
-				Double preNpsEmprDeduct =  (Double.parseDouble(objLst[80].toString()));
-				Double npsEmprDeductDiff = curNpsEmprDeduct-preNpsEmprDeduct;
-				if (npsEmprDeductDiff  != 0) {
+				Double curdaGPFIV =  (Double.parseDouble(objLst[79].toString()));
+				Double predaGPFIV =  (Double.parseDouble(objLst[80].toString()));
+				Double daGPFIVDiff = curdaGPFIV-predaGPFIV;
+				if (daGPFIVDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "NPS_EMPR_DEDUCT", preNpsEmprDeduct, curNpsEmprDeduct, npsEmprDeductDiff, date, br);
+					addDataToModel(i, empName, "DA_GPF_IV", predaGPFIV, curdaGPFIV, daGPFIVDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[81] != null
 					&&  objLst[82] != null) {
 				i++;
-				Double curNpsEmprAllow =  (Double.parseDouble(objLst[81].toString()));
-				Double preNpsEmprAllow =  (Double.parseDouble(objLst[82].toString()));
-				Double npsEmprAllowDiff = curNpsEmprAllow-preNpsEmprAllow;
-				if (npsEmprAllowDiff  != 0) {
+				Double curOthrTrnCounter =  (Double.parseDouble(objLst[81].toString()));
+				Double preOthrTrnCounter =  (Double.parseDouble(objLst[82].toString()));
+				Double othrTrnCounterDiff = curOthrTrnCounter-preOthrTrnCounter;
+				if (othrTrnCounterDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "NPS_EMPR_ALLOW", preNpsEmprAllow, curNpsEmprAllow, npsEmprAllowDiff, date, br);
+					addDataToModel(i, empName, "OTHER TRN Counter", preOthrTrnCounter, curOthrTrnCounter, othrTrnCounterDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[83] != null
 					&&  objLst[84] != null) {
 				i++;
-				Double curEmpDcpsRegularRecovery =  (Double.parseDouble(objLst[83].toString()));
-				Double preEmpDcpsRegularRecovery =  (Double.parseDouble(objLst[84].toString()));
-				Double empDcpsRegularRecoveryDiff = curEmpDcpsRegularRecovery-preEmpDcpsRegularRecovery;
-				if (empDcpsRegularRecoveryDiff  != 0) {
+				Double curGPAY =  (Double.parseDouble(objLst[83].toString()));
+				Double preGPAY =  (Double.parseDouble(objLst[84].toString()));
+				Double gpayDiff = curGPAY-preGPAY;
+				if (gpayDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "EMP_DCPS_REGULAR_RECOVERY", preEmpDcpsRegularRecovery, curEmpDcpsRegularRecovery, empDcpsRegularRecoveryDiff, date, br);
+					addDataToModel(i, empName, "GPAY", preGPAY, curGPAY, gpayDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[85] != null
 					&&  objLst[86] != null) {
 				i++;
-				Double curEmpDcpsPayArr =  (Double.parseDouble(objLst[85].toString()));
-				Double preEmpDcpsPayArr =  (Double.parseDouble(objLst[86].toString()));
-				Double empDcpsPayArrDiff = curEmpDcpsPayArr-preEmpDcpsPayArr;
-				if (empDcpsPayArrDiff  != 0) {
+				Double curTechAllow =  (Double.parseDouble(objLst[85].toString()));
+				Double preTechAllow =  (Double.parseDouble(objLst[86].toString()));
+				Double techAllowDiff = curTechAllow-preTechAllow;
+				if (techAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "EMP_DCPS_PAY_ARR", preEmpDcpsPayArr, curEmpDcpsPayArr, empDcpsPayArrDiff, date, br);
+					addDataToModel(i, empName, "TECH_ALLOW", preTechAllow, curTechAllow, techAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[87] != null
 					&&  objLst[88] != null) {
 				i++;
-				Double curEmpDcpsDelay =  (Double.parseDouble(objLst[87].toString()));
-				Double preEmpDcpsDelay =  (Double.parseDouble(objLst[88].toString()));
-				Double empDcpsDelayDiff = curEmpDcpsDelay-preEmpDcpsDelay;
-				if (empDcpsDelayDiff  != 0) {
+				Double curHillyAllow =  (Double.parseDouble(objLst[87].toString()));
+				Double preHillyAllow =  (Double.parseDouble(objLst[88].toString()));
+				Double hillyAllowDiff = curHillyAllow-preHillyAllow;
+				if (hillyAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "EMP_DCPS_DELAY", preEmpDcpsDelay, curEmpDcpsDelay, empDcpsDelayDiff, date, br);
+					addDataToModel(i, empName, "HILLY_ALLOW", preHillyAllow, curHillyAllow, hillyAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[89] != null
 					&&  objLst[90] != null) {
 				i++;
-				Double curEmpDcpsDaArr =  (Double.parseDouble(objLst[89].toString()));
-				Double preEmpDcpsDaArr =  (Double.parseDouble(objLst[90].toString()));
-				Double empDcpsDaArrDiff = curEmpDcpsDaArr-preEmpDcpsDaArr;
-				if (empDcpsDaArrDiff  != 0) {
+				Double curatsIncent30 =  (Double.parseDouble(objLst[89].toString()));
+				Double preatsIncent30 =  (Double.parseDouble(objLst[90].toString()));
+				Double atsIncent30Diff = curatsIncent30-preatsIncent30;
+				if (atsIncent30Diff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Emp_DCPS_DA_ARR", preEmpDcpsDaArr, curEmpDcpsDaArr, empDcpsDaArrDiff, date, br);
+					addDataToModel(i, empName, "ATS_INCENTIVE_30", preatsIncent30, curatsIncent30, atsIncent30Diff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[91] != null
 					&&  objLst[92] != null) {
 				i++;
-				Double curgpfSubscr =  (Double.parseDouble(objLst[91].toString()));
-				Double pregpfSubscr =  (Double.parseDouble(objLst[92].toString()));
-				Double gpfSubscrDiff = curgpfSubscr-pregpfSubscr;
-				if (gpfSubscrDiff  != 0) {
+				Double curatsIncent50 =  (Double.parseDouble(objLst[91].toString()));
+				Double preatsIncent50 =  (Double.parseDouble(objLst[92].toString()));
+				Double atsIncent50Diff = curatsIncent50-preatsIncent50;
+				if (atsIncent50Diff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "GPF_Subscription", pregpfSubscr, curgpfSubscr, gpfSubscrDiff, date, br);
+					addDataToModel(i, empName, "ATS_INCENTIVE_50", preatsIncent50, curatsIncent50, atsIncent50Diff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[93] != null
 					&&  objLst[94] != null) {
 				i++;
-				Double curgpfAdv =  (Double.parseDouble(objLst[93].toString()));
-				Double pregpfAdv =  (Double.parseDouble(objLst[94].toString()));
-				Double gpfAdvDiff = curgpfAdv-pregpfAdv;
-				if (gpfAdvDiff  != 0) {
+				Double curpgAllow =  (Double.parseDouble(objLst[93].toString()));
+				Double prepgAllow =  (Double.parseDouble(objLst[94].toString()));
+				Double pgAllowDiff = curpgAllow-prepgAllow;
+				if (pgAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "GPF_Advance", pregpfAdv, curgpfAdv, gpfAdvDiff, date, br);
+					addDataToModel(i, empName, "PG_ALLOW", prepgAllow, curpgAllow, pgAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[95] != null
 					&&  objLst[96] != null) {
 				i++;
-				Double curhra5th =  (Double.parseDouble(objLst[93].toString()));
-				Double prehra5th =  (Double.parseDouble(objLst[94].toString()));
-				Double hra5thDiff = curhra5th-prehra5th;
-				if (hra5thDiff  != 0) {
+				Double curtaa =  (Double.parseDouble(objLst[93].toString()));
+				Double pretaa =  (Double.parseDouble(objLst[94].toString()));
+				Double taaDiff = curtaa-pretaa;
+				if (taaDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "HRA_5th_PC", prehra5th, curhra5th, hra5thDiff, date, br);
+					addDataToModel(i, empName, "TAA", pretaa, curtaa, taaDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[97] != null
 					&&  objLst[98] != null) {
 				i++;
-				Double curta5th =  (Double.parseDouble(objLst[97].toString()));
-				Double preta5th =  (Double.parseDouble(objLst[98].toString()));
-				Double ta5Diff = curta5th-preta5th;
-				if (ta5Diff  != 0) {
+				Double curforce1100 =  (Double.parseDouble(objLst[97].toString()));
+				Double preforce1100 =  (Double.parseDouble(objLst[98].toString()));
+				Double force1100Diff = curforce1100-preforce1100;
+				if (force1100Diff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "TA_5th_PC", preta5th, curta5th, ta5Diff, date, br);
+					addDataToModel(i, empName, "force_1_100", preforce1100, curforce1100, force1100Diff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[99] != null
 					&&  objLst[100] != null) {
 				i++;
-				Double curta6th =  (Double.parseDouble(objLst[97].toString()));
-				Double preta6th =  (Double.parseDouble(objLst[98].toString()));
-				Double ta6Diff = curta6th-preta6th;
-				if (ta6Diff  != 0) {
+				Double curforce150 =  (Double.parseDouble(objLst[97].toString()));
+				Double preforce150 =  (Double.parseDouble(objLst[98].toString()));
+				Double force150Diff = curforce150-preforce150;
+				if (force150Diff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "TA_6th_PC", preta6th, curta6th, ta6Diff, date, br);
+					addDataToModel(i, empName, "force_1_50", preforce150, curforce150, force150Diff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[101] != null
 					&&  objLst[102] != null) {
 				i++;
-				Double cursocBankLoan =  (Double.parseDouble(objLst[101].toString()));
-				Double presocBankLoan =  (Double.parseDouble(objLst[102].toString()));
-				Double socBankLoanDiff = cursocBankLoan-presocBankLoan;
-				if (socBankLoanDiff  != 0) {
+				Double curArmAllow =  (Double.parseDouble(objLst[101].toString()));
+				Double preArmAllow =  (Double.parseDouble(objLst[102].toString()));
+				Double armAllowDiff = curArmAllow-preArmAllow;
+				if (armAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Socierty_or_BankLoan", presocBankLoan, cursocBankLoan, socBankLoanDiff, date, br);
+					addDataToModel(i, empName, "Arm_Allow", preArmAllow, curArmAllow, armAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[103] != null
 					&&  objLst[104] != null) {
 				i++;
-				Double curblwf =  (Double.parseDouble(objLst[103].toString()));
-				Double preblwf =  (Double.parseDouble(objLst[104].toString()));
-				Double blwfDiff = curblwf-preblwf;
-				if (blwfDiff  != 0) {
+				Double curarmourer =  (Double.parseDouble(objLst[103].toString()));
+				Double prearmourer =  (Double.parseDouble(objLst[104].toString()));
+				Double armourerDiff = curarmourer-prearmourer;
+				if (armourerDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "BLWF", preblwf, curblwf, blwfDiff, date, br);
+					addDataToModel(i, empName, "Armourer", prearmourer, curarmourer, armourerDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[105] != null
 					&&  objLst[106] != null) {
 				i++;
-				Double curndcpsSubscr =  (Double.parseDouble(objLst[105].toString()));
-				Double prendcpsSubscr =  (Double.parseDouble(objLst[106].toString()));
-				Double ndcpsSubscrDiff = curndcpsSubscr-prendcpsSubscr;
-				if (ndcpsSubscrDiff  != 0) {
+				Double curBMI =  (Double.parseDouble(objLst[105].toString()));
+				Double preBMI =  (Double.parseDouble(objLst[106].toString()));
+				Double bmiDiff = curBMI-preBMI;
+				if (bmiDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "NDCPS_Subscription", prendcpsSubscr, curndcpsSubscr, ndcpsSubscrDiff, date, br);
+					addDataToModel(i, empName, "BMI", preBMI, curBMI, bmiDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[107] != null
 					&&  objLst[108] != null) {
 				i++;
-				Double curgpfArr =  (Double.parseDouble(objLst[107].toString()));
-				Double pregpfArr =  (Double.parseDouble(objLst[108].toString()));
-				Double gpfArrDiff = curgpfArr-pregpfArr;
-				if (gpfArrDiff  != 0) {
+				Double curCashAllow =  (Double.parseDouble(objLst[107].toString()));
+				Double preCashAllow =  (Double.parseDouble(objLst[108].toString()));
+				Double CashAllowDiff = curCashAllow-preCashAllow;
+				if (CashAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "GPF_Arr", pregpfArr, curgpfArr, gpfArrDiff, date, br);
+					addDataToModel(i, empName, "Cash_Allow", preCashAllow, curCashAllow, CashAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[109] != null
 					&&  objLst[110] != null) {
 				i++;
-				Double curgpfSpclArr =  (Double.parseDouble(objLst[109].toString()));
-				Double pregpfSpclArr =  (Double.parseDouble(objLst[110].toString()));
-				Double gpfSpclArrDiff = curgpfSpclArr-pregpfSpclArr;
-				if (gpfSpclArrDiff  != 0) {
+				Double curCID =  (Double.parseDouble(objLst[109].toString()));
+				Double preCID =  (Double.parseDouble(objLst[110].toString()));
+				Double cidDiff = curCID-preCID;
+				if (cidDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "GPF_Special_Arr", pregpfSpclArr, curgpfSpclArr, gpfSpclArrDiff, date, br);
+					addDataToModel(i, empName, "CID", preCID, curCID, cidDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[111] != null
 					&&  objLst[112] != null) {
 				i++;
-				Double curarrears =  (Double.parseDouble(objLst[111].toString()));
-				Double prearrears =  (Double.parseDouble(objLst[112].toString()));
-				Double arrearsDiff = curarrears-prearrears;
-				if (arrearsDiff  != 0) {
+				Double curconveyance =  (Double.parseDouble(objLst[111].toString()));
+				Double preconveyance =  (Double.parseDouble(objLst[112].toString()));
+				Double conveyanceDiff = curconveyance-preconveyance;
+				if (conveyanceDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Arrears", prearrears, curarrears, arrearsDiff, date, br);
+					addDataToModel(i, empName, "conveyance", preconveyance, curconveyance, conveyanceDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[113] != null
 					&&  objLst[114] != null) {
 				i++;
-				Double curdeputAllow =  (Double.parseDouble(objLst[113].toString()));
-				Double predeputAllow =  (Double.parseDouble(objLst[114].toString()));
-				Double deputAllowDiff = curdeputAllow-predeputAllow;
-				if (deputAllowDiff  != 0) {
+				Double curEmergencyAllow =  (Double.parseDouble(objLst[113].toString()));
+				Double preEmergencyAllow =  (Double.parseDouble(objLst[114].toString()));
+				Double emergencyAllowDiff = curEmergencyAllow-preEmergencyAllow;
+				if (emergencyAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Deputation_Allow", predeputAllow, curdeputAllow, deputAllowDiff, date, br);
+					addDataToModel(i, empName, "Emergency Alowance", preEmergencyAllow, curEmergencyAllow, emergencyAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
@@ -2429,27 +2384,26 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			if ( objLst[115] != null
 					&&  objLst[116] != null) {
 				i++;
-				Double curtracerAllow =  (Double.parseDouble(objLst[115].toString()));
-				Double pretracerAllow =  (Double.parseDouble(objLst[116].toString()));
-				Double tracerAllowDiff = curtracerAllow-pretracerAllow;
-				if (tracerAllowDiff  != 0) {
+				Double curesis =  (Double.parseDouble(objLst[115].toString()));
+				Double preesis =  (Double.parseDouble(objLst[116].toString()));
+				Double esisDiff = curesis-preesis;
+				if (esisDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Tracer_Allow", pretracerAllow, curtracerAllow, tracerAllowDiff, date, br);
+					addDataToModel(i, empName, "ESIS", preesis, curesis, esisDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[117] != null
 					&&  objLst[118] != null) {
 				i++;
-				Double curnaksalisedAllow =  (Double.parseDouble(objLst[117].toString()));
-				Double prenaksalisedAllow =  (Double.parseDouble(objLst[118].toString()));
-				Double naksalisedAllowDiff = curnaksalisedAllow-prenaksalisedAllow;
-				if (naksalisedAllowDiff  != 0) {
+				Double curela =  (Double.parseDouble(objLst[117].toString()));
+				Double preela =  (Double.parseDouble(objLst[118].toString()));
+				Double elaDiff = curela-preela;
+				if (elaDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Naksalised_Allow", prenaksalisedAllow, curnaksalisedAllow, naksalisedAllowDiff, date, br);
+					addDataToModel(i, empName, "ELA", preela, curela, elaDiff, date, br);
 				} else {
 					String br = "color:green";
 					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
@@ -2459,85 +2413,66 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			if ( objLst[119] != null
 					&&  objLst[120] != null) {
 				i++;
-				Double curhillStatAllow =  (Double.parseDouble(objLst[119].toString()));
-				Double prehillStatAllow =  (Double.parseDouble(objLst[120].toString()));
-				Double hillStatAllowDiff = curhillStatAllow-prehillStatAllow;
-				if (hillStatAllowDiff  != 0) {
+				Double curFitnessAllow =  (Double.parseDouble(objLst[119].toString()));
+				Double preFitnessAllow =  (Double.parseDouble(objLst[120].toString()));
+				Double fitnessAllowDiff = curFitnessAllow-preFitnessAllow;
+				if (fitnessAllowDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "HillStation_Allow", prehillStatAllow, curhillStatAllow, hillStatAllowDiff, date, br);
+					addDataToModel(i, empName, "Fitness_Allow", preFitnessAllow, curFitnessAllow, fitnessAllowDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
-				}
-				
-			}
-			if ( objLst[119] != null
-					&&  objLst[120] != null) {
-				i++;
-				Double curwa =  (Double.parseDouble(objLst[119].toString()));
-				Double prewa =  (Double.parseDouble(objLst[120].toString()));
-				Double waDiff = curwa-prewa;
-				if (waDiff  != 0) {
-					String br = "color:red";
-					addDataToModel(i, empName, "WA_Allow", prewa, curwa, waDiff, date, br);
-				} else {
-					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[121] != null
 					&&  objLst[122] != null) {
 				i++;
-				Double curnaxalAreaAllow =  (Double.parseDouble(objLst[121].toString()));
-				Double prenaxalAreaAllow =  (Double.parseDouble(objLst[122].toString()));
-				Double naxalAreaAllowDiff = curnaxalAreaAllow-prenaxalAreaAllow;
-				if (naxalAreaAllowDiff  != 0) {
+				Double curgallantryawards =  (Double.parseDouble(objLst[121].toString()));
+				Double pregallantryawards =  (Double.parseDouble(objLst[122].toString()));
+				Double gallantryawardsDiff = curgallantryawards-pregallantryawards;
+				if (gallantryawardsDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Naxal_Area_Allow", prenaxalAreaAllow, curnaxalAreaAllow, naxalAreaAllowDiff, date, br);
+					addDataToModel(i, empName, "gallantry_awards", pregallantryawards, curgallantryawards, gallantryawardsDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[123] != null
 					&&  objLst[124] != null) {
 				i++;
-				Double curbegis =  (Double.parseDouble(objLst[123].toString()));
-				Double prebegis =  (Double.parseDouble(objLst[124].toString()));
-				Double begisDiff = curbegis-prebegis;
-				if (begisDiff  != 0) {
+				Double curkitmaintenance =  (Double.parseDouble(objLst[123].toString()));
+				Double prekitmaintenance =  (Double.parseDouble(objLst[124].toString()));
+				Double kitmaintenanceDiff = curkitmaintenance-prekitmaintenance;
+				if (kitmaintenanceDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "BEGIS", prebegis, curbegis, begisDiff, date, br);
+					addDataToModel(i, empName, "kit_maintenance", prekitmaintenance, curkitmaintenance, kitmaintenanceDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				
 			}
 			if ( objLst[125] != null
-					&&  objLst[126] != null) {
-				i++;
-				Double curleavePay =  (Double.parseDouble(objLst[125].toString()));
-				Double preleavePay =  (Double.parseDouble(objLst[126].toString()));
-				Double leavePayDiff = curleavePay-preleavePay;
-				if (leavePayDiff  != 0) {
+					&&  objLst[126] != null) {*/
+			/*	i++;
+				Double curlisencefee =  (Double.parseDouble(objLst[125].toString()));
+				Double prelisencefee =  (Double.parseDouble(objLst[126].toString()));
+				Double lisencefeeDiff = curlisencefee-prelisencefee;
+				if (lisencefeeDiff  != 0) {
 					String br = "color:red";
-					addDataToModel(i, empName, "Leave_Pay", preleavePay, curleavePay, leavePayDiff, date, br);
+					addDataToModel(i, empName, "lisence_fee", prelisencefee, curlisencefee, lisencefeeDiff, date, br);
 				} else {
 					String br = "color:green";
-					//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 				}
 				if ( objLst[127] != null
 						&&  objLst[128] != null) {
 					i++;
-					Double currajashriShahu =  (Double.parseDouble(objLst[127].toString()));
-					Double prerajashriShahu =  (Double.parseDouble(objLst[128].toString()));
-					Double rajashriShahuDiff = currajashriShahu-prerajashriShahu;
-					if (rajashriShahuDiff  != 0) {
+					Double curMechanicalAllow =  (Double.parseDouble(objLst[127].toString()));
+					Double preMechanicalAllow =  (Double.parseDouble(objLst[128].toString()));
+					Double mechanicalAllowDiff = curMechanicalAllow-preMechanicalAllow;
+					if (mechanicalAllowDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Rajashri_Shahu", prerajashriShahu, currajashriShahu, leavePayDiff, date, br);
+						addDataToModel(i, empName, "mechanical_allow", preMechanicalAllow, curMechanicalAllow, mechanicalAllowDiff, date, br);
 					} else {
 						String br = "color:green";
 						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
@@ -2547,219 +2482,231 @@ public class PayBillViewApprDelBillController   extends BaseController{
 				if ( objLst[129] != null
 						&&  objLst[130] != null) {
 					i++;
-					Double cursataraSoci =  (Double.parseDouble(objLst[129].toString()));
-					Double presataraSoci =  (Double.parseDouble(objLst[130].toString()));
-					Double sataraSociDiff = cursataraSoci-presataraSoci;
-					if (sataraSociDiff  != 0) {
+					Double curmedicalEducAllow =  (Double.parseDouble(objLst[129].toString()));
+					Double premedicalEducAllow =  (Double.parseDouble(objLst[130].toString()));
+					Double medicalEducAllowDiff = curmedicalEducAllow-premedicalEducAllow;
+					if (medicalEducAllowDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Satara_Society", presataraSoci, cursataraSoci, sataraSociDiff, date, br);
+						addDataToModel(i, empName, "medical_education_allow", premedicalEducAllow, curmedicalEducAllow, medicalEducAllowDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[131] != null
 						&&  objLst[132] != null) {
 					i++;
-					Double curmantralayaSoci =  (Double.parseDouble(objLst[131].toString()));
-					Double premantralayaSoci =  (Double.parseDouble(objLst[132].toString()));
-					Double mantralayaSociDiff = curmantralayaSoci-premantralayaSoci;
-					if (mantralayaSociDiff  != 0) {
+					Double curmessAllow =  (Double.parseDouble(objLst[131].toString()));
+					Double premessAllow =  (Double.parseDouble(objLst[132].toString()));
+					Double messAllowDiff = curmessAllow-premessAllow;
+					if (messAllowDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Mantralaya_Society", premantralayaSoci, curmantralayaSoci, mantralayaSociDiff, date, br);
+						addDataToModel(i, empName, "mess_allow", premessAllow, curmessAllow, messAllowDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[133] != null
 						&&  objLst[134] != null) {
 					i++;
-					Double curhbaHouse =  (Double.parseDouble(objLst[133].toString()));
-					Double prehbaHouse =  (Double.parseDouble(objLst[134].toString()));
-					Double hbaHouseDiff = curhbaHouse-prehbaHouse;
-					if (hbaHouseDiff  != 0) {
+					Double curnaxalAreaAllow =  (Double.parseDouble(objLst[133].toString()));
+					Double prenaxalAreaAllow =  (Double.parseDouble(objLst[134].toString()));
+					Double naxalAreaAllowDiff = curnaxalAreaAllow-prenaxalAreaAllow;
+					if (naxalAreaAllowDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "HBA_House", prehbaHouse, curhbaHouse, hbaHouseDiff, date, br);
+						addDataToModel(i, empName, "naxel_area_allow", prenaxalAreaAllow, curnaxalAreaAllow, naxalAreaAllowDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[135] != null
 						&&  objLst[136] != null) {
 					i++;
-					Double curpanipuravthaCl3or4 =  (Double.parseDouble(objLst[135].toString()));
-					Double prepanipuravthaCl3or4 =  (Double.parseDouble(objLst[134].toString()));
-					Double panipuravthaCl3or4Diff = curpanipuravthaCl3or4-prepanipuravthaCl3or4;
-					if (panipuravthaCl3or4Diff  != 0) {
+					Double curNonPracAllow =  (Double.parseDouble(objLst[135].toString()));
+					Double preNonPracAllow =  (Double.parseDouble(objLst[134].toString()));
+					Double nonPracAllowDiff = curNonPracAllow-preNonPracAllow;
+					if (nonPracAllowDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Panipuravtha_Soc_CL3or4", prepanipuravthaCl3or4, curpanipuravthaCl3or4, panipuravthaCl3or4Diff, date, br);
+						addDataToModel(i, empName, "non_prac_allow", preNonPracAllow, curNonPracAllow, nonPracAllowDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[137] != null
 						&&  objLst[138] != null) {
 					i++;
-					Double curmlwf =  (Double.parseDouble(objLst[137].toString()));
-					Double premlwf =  (Double.parseDouble(objLst[138].toString()));
-					Double mlwfDiff = curmlwf-premlwf;
-					if (mlwfDiff  != 0) {
+					Double cursumptuary =  (Double.parseDouble(objLst[137].toString()));
+					Double presumptuary =  (Double.parseDouble(objLst[138].toString()));
+					Double sumptuaryDiff = cursumptuary-presumptuary;
+					if (sumptuaryDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "MLWF_onlyMJP", premlwf, curmlwf, mlwfDiff, date, br);
+						addDataToModel(i, empName, "sumptuary", presumptuary, cursumptuary, sumptuaryDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[139] != null
 						&&  objLst[140] != null) {
 					i++;
-					Double curmjpSocSolapur =  (Double.parseDouble(objLst[139].toString()));
-					Double premjpSocSolapur =  (Double.parseDouble(objLst[140].toString()));
-					Double mjpSocSolapurDiff = curmjpSocSolapur-premjpSocSolapur;
-					if (mjpSocSolapurDiff  != 0) {
+					Double curProjectAllow =  (Double.parseDouble(objLst[139].toString()));
+					Double preProjectAllow =  (Double.parseDouble(objLst[140].toString()));
+					Double projectAllowDiff = curProjectAllow-preProjectAllow;
+					if (projectAllowDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "MJP_Soc_Solapur", premjpSocSolapur, curmjpSocSolapur, mjpSocSolapurDiff, date, br);
+						addDataToModel(i, empName, "project_Allow", preProjectAllow, curProjectAllow, projectAllowDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[141] != null
 						&&  objLst[142] != null) {
 					i++;
-					Double curjalbhavanSoci =  (Double.parseDouble(objLst[141].toString()));
-					Double prejalbhavanSoci =  (Double.parseDouble(objLst[142].toString()));
-					Double jalbhavanSociDiff = curjalbhavanSoci-prejalbhavanSoci;
-					if (jalbhavanSociDiff  != 0) {
+					Double cursda =  (Double.parseDouble(objLst[141].toString()));
+					Double presda =  (Double.parseDouble(objLst[142].toString()));
+					Double sdaDiff = cursda-presda;
+					if (sdaDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Jalbhavan_Soci", prejalbhavanSoci, curjalbhavanSoci, jalbhavanSociDiff, date, br);
+						addDataToModel(i, empName, "SDA", presda, cursda, sdaDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[143] != null
 						&&  objLst[144] != null) {
 					i++;
-					Double curmjpSocLatur =  (Double.parseDouble(objLst[143].toString()));
-					Double premjpSocLatur =  (Double.parseDouble(objLst[144].toString()));
-					Double mjpSocLaturDiff = curmjpSocLatur-premjpSocLatur;
-					if (mjpSocLaturDiff  != 0) {
+					Double curAddPay =  (Double.parseDouble(objLst[143].toString()));
+					Double preAddPay =  (Double.parseDouble(objLst[144].toString()));
+					Double addPayDiff = curAddPay-preAddPay;
+					if (addPayDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "MJP_Soc_Latur", premjpSocLatur, curmjpSocLatur, mjpSocLaturDiff, date, br);
+						addDataToModel(i, empName, "ADD_PAY", preAddPay, curAddPay, addPayDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
-					
 				}
 				if ( objLst[145] != null
 						&&  objLst[146] != null) {
 					i++;
-					Double curmahaLabwelfare =  (Double.parseDouble(objLst[145].toString()));
-					Double premahaLabwelfare =  (Double.parseDouble(objLst[146].toString()));
-					Double mahaLabwelfareDiff = curmahaLabwelfare-premahaLabwelfare;
-					if (mahaLabwelfareDiff  != 0) {
+					Double curUniformAllow =  (Double.parseDouble(objLst[145].toString()));
+					Double preUniformAllow =  (Double.parseDouble(objLst[146].toString()));
+					Double uniformAllowDiff = curUniformAllow-preUniformAllow;
+					if (uniformAllowDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "MahaLab_Welfare_fund", premahaLabwelfare, curmahaLabwelfare, mahaLabwelfareDiff, date, br);
+						addDataToModel(i, empName, "uniform_allow", preUniformAllow, curUniformAllow, uniformAllowDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
-					
 				}
 				if ( objLst[147] != null
 						&&  objLst[148] != null) {
 					i++;
-					Double cursociLatur =  (Double.parseDouble(objLst[147].toString()));
-					Double presociLatur =  (Double.parseDouble(objLst[148].toString()));
-					Double mahaLabwelfareDiff = cursociLatur-presociLatur;
-					if (mahaLabwelfareDiff  != 0) {
+					Double curFamilyPlan =  (Double.parseDouble(objLst[147].toString()));
+					Double preFamilyPlan =  (Double.parseDouble(objLst[148].toString()));
+					Double familyPlannDiff = curFamilyPlan-preFamilyPlan;
+					if (familyPlannDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Latur_Soci", presociLatur, cursociLatur, mahaLabwelfareDiff, date, br);
+						addDataToModel(i, empName, "family_palnning", preFamilyPlan, curFamilyPlan, familyPlannDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[149] != null
 						&&  objLst[150] != null) {
 					i++;
-					Double cursociAurang =  (Double.parseDouble(objLst[149].toString()));
-					Double presociAurang =  (Double.parseDouble(objLst[150].toString()));
-					Double sociAurangDiff = cursociAurang-presociAurang;
-					if (sociAurangDiff  != 0) {
+					Double curCentralGis =  (Double.parseDouble(objLst[149].toString()));
+					Double preCentralGis =  (Double.parseDouble(objLst[150].toString()));
+					Double centralGisDiff = curCentralGis-preCentralGis;
+					if (centralGisDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Aurangabad_Soci", presociAurang, cursociAurang, sociAurangDiff, date, br);
+						addDataToModel(i, empName, "central_gis", preCentralGis, curCentralGis, centralGisDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[151] != null
 						&&  objLst[152] != null) {
 					i++;
-					Double cursociNanded =  (Double.parseDouble(objLst[151].toString()));
-					Double presociNanded =  (Double.parseDouble(objLst[152].toString()));
-					Double sociNandedDiff = cursociNanded-presociNanded;
-					if (sociNandedDiff  != 0) {
+					Double curgisifs =  (Double.parseDouble(objLst[151].toString()));
+					Double pregisifs =  (Double.parseDouble(objLst[152].toString()));
+					Double gisifsDiff = curgisifs-pregisifs;
+					if (gisifsDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Nanded_Soci", presociNanded, cursociNanded, sociNandedDiff, date, br);
+						addDataToModel(i, empName, "gis_ifs", pregisifs, curgisifs, gisifsDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[153] != null
 						&&  objLst[154] != null) {
 					i++;
-					Double curjalsevaKarmPath =  (Double.parseDouble(objLst[153].toString()));
-					Double prejalsevaKarmPath =  (Double.parseDouble(objLst[154].toString()));
-					Double jalsevaKarmPathDiff = curjalsevaKarmPath-prejalsevaKarmPath;
-					if (jalsevaKarmPathDiff  != 0) {
+					Double curgisIas =  (Double.parseDouble(objLst[153].toString()));
+					Double pregisIas =  (Double.parseDouble(objLst[154].toString()));
+					Double gisIasDiff = curgisIas-pregisIas;
+					if (gisIasDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "Jalseva_karma_path", prejalsevaKarmPath, curjalsevaKarmPath, jalsevaKarmPathDiff, date, br);
+						addDataToModel(i, empName, "gis_ias", pregisIas, curgisIas, gisIasDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
 				if ( objLst[155] != null
 						&&  objLst[156] != null) {
 					i++;
-					Double curdaArr =  (Double.parseDouble(objLst[155].toString()));
-					Double predaArr =  (Double.parseDouble(objLst[156].toString()));
-					Double daArrDiff = curdaArr-predaArr;
-					if (daArrDiff  != 0) {
+					Double curgpfIps =  (Double.parseDouble(objLst[155].toString()));
+					Double pregpfIps =  (Double.parseDouble(objLst[156].toString()));
+					Double gpfIpsDiff = curgpfIps-pregpfIps;
+					if (gpfIpsDiff  != 0) {
 						String br = "color:red";
-						addDataToModel(i, empName, "DA_ARR", predaArr, curdaArr, daArrDiff, date, br);
+						addDataToModel(i, empName, "gis_ips", pregpfIps, curgpfIps, gpfIpsDiff, date, br);
 					} else {
 						String br = "color:green";
-						//	addDataToModel(i, empName, "TA", preta, curTa, taDiff, date, br);
 					}
 					
 				}
-				curAll = curAll+(Double.parseDouble(objLst[55].toString()));
+				if ( objLst[157] != null
+						&&  objLst[158] != null) {
+					i++;
+					Double curgpfIasOther =  (Double.parseDouble(objLst[155].toString()));
+					Double pregpfIasOther =  (Double.parseDouble(objLst[156].toString()));
+					Double gpfgpfIasOther = curgpfIasOther-pregpfIasOther;
+					if (gpfgpfIasOther  != 0) {
+						String br = "color:red";
+						addDataToModel(i, empName, "gpf_ias_other", pregpfIasOther, curgpfIasOther, gpfgpfIasOther, date, br);
+					} else {
+						String br = "color:green";
+					}
+					
+				}
+				if ( objLst[159] != null
+						&&  objLst[160] != null) {
+					i++;
+					Double curgpfias=  (Double.parseDouble(objLst[155].toString()));
+					Double pregpfias =  (Double.parseDouble(objLst[156].toString()));
+					Double gpfiasOther = curgpfias-pregpfias;
+					if (gpfiasOther  != 0) {
+						String br = "color:red";
+						addDataToModel(i, empName, "gpf_ias", pregpfias, curgpfias, gpfiasOther, date, br);
+					} else {
+						String br = "color:green";
+					}
+					
+				}*/
+				/*curAll = curAll+(Double.parseDouble(objLst[55].toString()));
 				 preAll =allprenettotal+( Double.parseDouble(objLst[56].toString()));
 				 alldedtotal =alldedtotal+( Double.parseDouble(objLst[59].toString()));
 				 allprededtotal =allprededtotal+( Double.parseDouble(objLst[60].toString()));
 				 allcurnettotal =allcurnettotal+( Double.parseDouble(objLst[53].toString()));
-				 allprenettotal =allprenettotal+(Double.parseDouble( objLst[54].toString()));
+				 allprenettotal =allprenettotal+(Double.parseDouble( objLst[54].toString()));*/
 				
 			}
 			
@@ -2771,7 +2718,7 @@ public class PayBillViewApprDelBillController   extends BaseController{
 		String premonname=null;
 		Long regid=null;
 		Long ofcid=null;
-		List<Object[]>  ddoinfo = paybillGenerationTrnService.findDDOinfo(messages.getUserName());
+		/*List<Object[]>  ddoinfo = paybillGenerationTrnService.findDDOinfo(messages.getUserName());
 
 		for (Object[] objddoLst : ddoinfo) {
 			// String empName;
@@ -2821,7 +2768,7 @@ public class PayBillViewApprDelBillController   extends BaseController{
 			// String empName;
 			premonname = monthLst[1].toString();
 			
-		}
+		}*/
 		
 		Date createdate = commonHomeMethodsService.findbillCreateDate(Long.valueOf(paybillGenerationTrnId));
 		
@@ -2850,9 +2797,8 @@ public class PayBillViewApprDelBillController   extends BaseController{
 		model.addAttribute("createddate", sdf.format(createdate));
 		model.addAttribute("systemdate", sdf.format(new Date()));
 		model.addAttribute("paybillGenerationTrnId", paybillGenerationTrnId);
-		}
 		
-		return "/views/report/changestatement";	
+		return "/views/reports/changestatement";	
 		}
 	
 	@GetMapping("/viewChangeStatementReportPDF/{paybillGenerationTrnId}")
