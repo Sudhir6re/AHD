@@ -22,6 +22,8 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<OrgDdoMst> getDDOName(String userName) {
+		
+		
 		String HQL = "FROM OrgDdoMst as t  where ddoCode='"+userName+"' and t.activateFlag='1' ORDER BY t.ddoId";
 		return (List<OrgDdoMst>) entityManager.createQuery(HQL).getResultList();
 	}

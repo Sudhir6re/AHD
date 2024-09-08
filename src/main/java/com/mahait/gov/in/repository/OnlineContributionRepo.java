@@ -3,6 +3,8 @@ package com.mahait.gov.in.repository;
 import java.util.List;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
+import com.mahait.gov.in.entity.DcpsContributionEntity;
+import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
 
@@ -13,5 +15,9 @@ public interface OnlineContributionRepo {
 	Boolean checkIfBillAlreadyGenerated(Long billGroupId, Long monthId, Long finYearId);
 
 	List<Object[]> getEmpListForContribution(DcpContributionModel dcpContributionModel, OrgUserMst messages, String startDate);
+
+	Long saveMstDcpsContriVoucherDtlEntity(MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity);
+
+	void saveDcpsContributionEntity(DcpsContributionEntity dcpsContributionEntity);
 
 }
