@@ -13,9 +13,45 @@ jQuery(document).ready(function($) {
   	  });
 	}
 	});
-$("#delayedMonthAndYearCombos").hide()
-$("#DAArrearsDatesDivDisplay").hide()
-$("#PayArrearsDatesDivDisplay").hide()
+
+
+$("#delayedMonthAndYearCombos").hide();
+$("#DAArrearsDatesDivDisplay").hide();
+$("#PayArrearsDatesDivDisplay").hide();
+
+
+$("#save").click(function(e){
+    //	e.preventDefault();
+     $("#onlineEntryForm").attr("action","../saveOnlineContriEntry");
+	 $("#onlineEntryForm").submit();   
+});
+
+
+function changeDpDaAndContri(counter)
+{
+	var nthElement = counter ; 
+	var basic = document.getElementById("basic"+nthElement).value ;
+	var DP;
+	var payCommission = document.getElementById("cmbPayCommission"+nthElement).value.trim();
+	if(payCommission == '700015' || payCommission == '700345'){
+		DP = Number(basic/2);
+	}else{
+		DP = 0;
+	}
+	var DARate = Number (document.getElementById("daRate"+nthElement).value);
+	var DA = (Number(Number(basic)+Number(DP)) * DARate).toFixed(2);
+	var tempcontribution = Number(basic) + Number(Math.round(DA)) + Number(DP); 
+	var contribution = (Number( tempcontribution * 0.10)).toFixed(2);
+	var contributionNps = (Number( tempcontribution * 0.14)).toFixed(2);
+	document.getElementById("DP" + nthElement).value = Math.round(DP) ;
+	document.getElementById("DA" + nthElement).value = Math.round(DA) ; 
+	document.getElementById("contribution" + nthElement).value = Math.ceil(contribution) ;
+	document.getElementById("contributionNps" + nthElement).value = Math.ceil(contributionNps) ;
+}
+
+
+
+
 
 function addMonthYearComboForDelayed() {
     var user = $("#levelRoleVal").val().trim();
@@ -87,13 +123,14 @@ function funDdo1() {
 
 
 var status = false;
+
 function SearchEmployee(e) {
 	
 	$('#action').val('SEARCH_EMP');
 	
-	var paymentType = document.getElementById("paymentType").value;
-	var yearId = document.getElementById("paybillYear").value;
-	var monthId = document.getElementById("paybillMonth").value;
+	var paymentType = document.getElementById("typeOfPayment").value;
+	var yearId = document.getElementById("finYearId").value;
+	var monthId = document.getElementById("monthId").value;
 	
 	if(paymentType == "" || paymentType=='0')
 	{
@@ -127,10 +164,10 @@ $(document).ready(function() {
 			cmbTreasuryCode : {
 				required : true,
 			},
-			cmbDDOCode : {
+			ddoCode : {
 				required : true,
 			},
-			cmbBillGroup : {
+			billGroupId : {
 				required : true,
 			},
 			txtSchemeName : {
@@ -139,10 +176,10 @@ $(document).ready(function() {
 			txtSubSchemeName : {
 				required : true,
 			},
-			cmbMonth : {
+			monthId : {
 				required : true,
 			},
-			cmbYear : {
+			finYearId : {
 				required : true,
 			},
 
@@ -151,10 +188,10 @@ $(document).ready(function() {
 			cmbTreasuryCode : {
 				required : "Please select Treasury Name",
 			},
-			cmbDDOCode : {
+			ddoCode : {
 				required : "Please select DDO Name",
 			},
-			cmbBillGroup : {
+			billGroupId : {
 				required : "Please select Bill Group",
 			},
 			txtSchemeName : {
@@ -163,10 +200,10 @@ $(document).ready(function() {
 			txtSubSchemeName : {
 				required : "Please Insert Sub Scheme",
 			},
-			cmbMonth : {
+			monthId : {
 				required : "Please select Pay Month",
 			},
-			cmbYear : {
+			finYearId : {
 				required : "Please select Pay year",
 			},
 
@@ -176,5 +213,4 @@ $(document).ready(function() {
 		}
 	});
 
-});
-*/
+});*/

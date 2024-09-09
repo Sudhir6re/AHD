@@ -212,7 +212,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 						}else {
 							row.add("-");//found
 						}
-						row.add(map.get("basic").toString());
+						row.add(map.get("basic_pay").toString());
 						orderdataList.add(row);
 				
 				}else {
