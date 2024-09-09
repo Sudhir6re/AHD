@@ -23,10 +23,10 @@ public class MstDcpsContriVoucherDtlEntity {
     private Long mstDcpsContriVoucherDtls;
     
     @Column(name = "YEAR_ID")
-    private Long yearId;
+    private Integer yearId;
 
     @Column(name = "MONTH_ID")
-    private Long monthId;
+    private Integer monthId;
 
     @Column(name = "TREASURY_CODE")
     private Long treasuryCode;

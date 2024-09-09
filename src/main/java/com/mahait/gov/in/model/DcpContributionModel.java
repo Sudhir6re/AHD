@@ -20,7 +20,7 @@ public class DcpContributionModel {
     
     private String employeeName;
 
-    private Integer treasuryCode;
+    private Long treasuryCode;
 
     private String ddoCode;
 
@@ -41,6 +41,7 @@ public class DcpContributionModel {
     private Double basicPay;
 
     private Double da;
+    
 
     private Double contribution;
 
@@ -115,7 +116,7 @@ public class DcpContributionModel {
     
     private String useType;
     
-    private Double daRate;
+    private Integer daRate;
     
 	private Double dp;
     
