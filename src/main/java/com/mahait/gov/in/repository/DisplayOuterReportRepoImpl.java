@@ -65,7 +65,8 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 		int totalded=0;
 		if (!lstprop.isEmpty()) {
             for (Double objLst : lstprop) {
-            	totalded=(int)objLst.intValue();
+
+
             }
 		}
             return totalded ;
