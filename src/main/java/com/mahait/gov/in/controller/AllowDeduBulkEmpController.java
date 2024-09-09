@@ -49,10 +49,8 @@ public class AllowDeduBulkEmpController {
 	MstEmployeeService mstEmployeeService;
 /*	
 	@Autowired
-=======
 	
 	/*@Autowired
->>>>>>> c308c3d318e1676d109ce10184c1567c0ae61b8e
 	MpgSchemeBillGroupService mpgSchemeBillGroupService;
 	*/
 	

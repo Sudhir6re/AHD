@@ -958,6 +958,14 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 		// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());
 		// objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
+		
+		
+		
+	/*	if(mstEmployeeModel.getAction().equals("saveAsDraft")) {
+			
+		}
+		*/
+		
 		if (mstEmployeeModel.getSevaarthId() == null || mstEmployeeModel.getSevaarthId().equalsIgnoreCase(""))
 			if (mstEmployeeModel.getSevaarthId() == null) {
 				String sevaarthGenration = getCrearteSevaartIh(mstEmployeeModel);
