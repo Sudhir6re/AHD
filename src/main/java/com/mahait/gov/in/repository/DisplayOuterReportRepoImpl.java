@@ -49,7 +49,7 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 				" inner join  mst_scheme sm on sm.scheme_code = bgm.scheme_code" + 
 				" inner join  YEAR_MST ym on ym.year_id=pgt.paybill_year left outer join" + 
 				" mst_dcps_designation d on d.desig_id=cast(drm.dsgn_code as bigint)" + 
-				" where pgt.paybill_generation_trn_id = 52 order by pgt.paybill_generation_trn_id ";
+				" where pgt.paybill_generation_trn_id = '"+bill_no+"' order by pgt.paybill_generation_trn_id ";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
@@ -131,7 +131,9 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	public List<Object[]> getempDetails(int monthName, int yearName, String ddocode, String billnumber) {
 
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL="select * from paybill_generation_trn  where bill_gross_amt  >0 and ddo_code ='"+ddocode+"' and paybill_year  ="+yearName+" and paybill_month  ="+monthName+" and is_active <>'8' and scheme_billgroup_id="+billnumber;
+		String HQL="select paybill_generation_trn_id,paybill_month,paybill_year from paybill_generation_trn  where bill_gross_amt  >0 and ddo_code ='"+ddocode+"' \r\n" + 
+				"and paybill_year  ="+yearName+" and paybill_month  ="+monthName+" and is_active <>'8' " + 
+				"and scheme_billgroup_id='"+billnumber+"'";
   		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	
@@ -175,7 +177,7 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	public Double gettotalNetAmount(String billNumber) {
 		
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "select sum(total_net_amt) from paybill_generation_trn_details where paybill_generation_trn_id = '"+billNumber+"'";
+		String HQL = "select sum(net_total) from paybill_generation_trn_details where paybill_generation_trn_id = '"+billNumber+"'";
 		Query query = currentSession.createSQLQuery(HQL);
 		List<Double> lstprop = query.list();
 		Double totalNetAmount=0d;

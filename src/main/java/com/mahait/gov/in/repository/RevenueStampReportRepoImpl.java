@@ -19,7 +19,7 @@ public class RevenueStampReportRepoImpl implements RevenueStampReportRepo{
 	@Override
 	public List<Object[]> findRevenueStampEmpDtls(int monthName, int yearName, String ddoCode, Long billNumber) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select  '('|| emp.sevaarth_id ||')'|| employee_full_name_en ||' ('|| designation_name ||')' as employee,pan_no,gross_total_amt,revenue_stamp " + 
+		String HQL = "select  '('|| emp.sevaarth_id ||')'|| employee_full_name_en ||' ('|| designation_name ||')' as employee,pan_no,gross_amt,revenue_stamp " + 
 				" from paybill_generation_trn  bill inner join paybill_generation_trn_details billdtl" + 
 				" ON billdtl.paybill_generation_trn_id=bill.paybill_generation_trn_id  inner join employee_mst  emp  " + 
 				" on billdtl.sevaarth_id = emp.sevaarth_id  inner join designation_mst as deg on deg.designation_code=emp.designation_code" + 

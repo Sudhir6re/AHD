@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,8 @@ public class DisplayOuterReportServiceImpl implements DisplayOuterReportService 
             	obj.setDdoCode(StringHelperUtils.isNullString(objLst[0]));
                 obj.setSchemeName(StringHelperUtils.isNullString(objLst[1]));
                 obj.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
-                obj.setGrossAmount(StringHelperUtils.isNullDouble(objLst[3]));
+                BigInteger gross = (BigInteger) objLst[3];
+                obj.setGrossAmount(gross.doubleValue());
                 obj.setMonthId(StringHelperUtils.isNullInt(objLst[4]));
                 obj.setBillCreatedDate(StringHelperUtils.isNullDate(objLst[5]));
                 obj.setDemandCode(StringHelperUtils.isNullString(objLst[6]));
@@ -46,7 +48,8 @@ public class DisplayOuterReportServiceImpl implements DisplayOuterReportService 
                 obj.setMinorHead(StringHelperUtils.isNullString(objLst[9]));
                 obj.setSubMinorHead(StringHelperUtils.isNullString(objLst[10]));
                 obj.setSubHead(StringHelperUtils.isNullString(objLst[11]));
-                obj.setNetAmount(StringHelperUtils.isNullDouble(objLst[12]));
+                BigInteger net = (BigInteger) objLst[12];
+                obj.setNetAmount(net.doubleValue());
                 obj.setYearId(StringHelperUtils.isNullInt(objLst[13]));
                 obj.setDesgName(StringHelperUtils.isNullString(objLst[14]));
                 lstObj.add(obj);
