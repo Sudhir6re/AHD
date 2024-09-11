@@ -207,6 +207,14 @@ public class EmployeeConfigurationController extends BaseController {
 			}
 		}
 
+		if (message != null && message.equals("DRAFTCASE")) {
+			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
+				model = CommonUtils.initModel(CommonConstants.Message.DRAFTCASE, STATUS.SUCCESS, model);
+			} else {
+				model = CommonUtils.initModel(CommonConstants.Message.DRAFTCASE, STATUS.SUCCESS, model);
+			}
+		}
+
 		// List<MstCommonEntity> cityClassList = new ArrayList<>();
 		// cityClassList =
 		// commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
@@ -416,7 +424,6 @@ public class EmployeeConfigurationController extends BaseController {
 			// int result=
 			// mstEmployeeService.savePhotoSignature(files,mstEmployeeModel.getDeptNm(),mstEmployeeModel.getEmployeeId());
 			if (afterSaveId > 0) {
-
 				if (mstEmployeeModel.getIsActive() == 2) {
 					redirectAttributes.addFlashAttribute("message", "SUCCESS");
 				} else {
@@ -430,9 +437,13 @@ public class EmployeeConfigurationController extends BaseController {
 			long afterSaveId = mstEmployeeService.saveEmployeeConfiguration(mstEmployeeModel, files);
 			// int saveimage=
 			// mstEmployeeService.savePhotoSignature(files,mstEmployeeModel.getDeptNm(),mstEmployeeModel.getEmployeeId());
-			if (afterSaveId > 0)
-				redirectAttributes.addFlashAttribute("message", "SUCCESS");
-			else
+			if (afterSaveId > 0) {
+				if (strAction.equals("saveAsDraft")) {
+					redirectAttributes.addFlashAttribute("message", "DRAFTCASE");
+				} else {
+					redirectAttributes.addFlashAttribute("message", "SUCCESS");
+				}
+			} else
 				redirectAttributes.addFlashAttribute("message", "Registration form is forwarded successfully");
 			return "redirect:/ddoast/employeeConfiguration";
 		}

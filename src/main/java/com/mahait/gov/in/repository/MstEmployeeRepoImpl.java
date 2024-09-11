@@ -1238,7 +1238,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public List<Object[]> findDraftCaseList(OrgUserMst messages, Long CASESTATUS) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = "SELECT a.employee_full_name_en, a.dob, "
-				+ "a.employee_id, a.remark,a.is_active   "
+				+ "a.employee_id, a.remark,a.is_active  from employee_mst a "
 				+ " WHERE a.is_active in (0,-1) AND a.ddo_code = '" + messages.getDdoCode() + "'"
 				+ " ORDER BY a.employee_full_name_en";
 		Query query = currentSession.createSQLQuery(hql);

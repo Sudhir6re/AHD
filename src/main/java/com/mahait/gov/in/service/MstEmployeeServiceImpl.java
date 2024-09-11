@@ -1171,7 +1171,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		if (!mstEmployeeModel.getAction().equals("saveAsDraft")) {
 			objEntity.setIsActive(3l);
 		} else {
-			objEntity.setIsActive(3l);
+			objEntity.setIsActive(0l);
 		}
 		objEntity.setSignatureAttachmentId(mstEmployeeModel.getSignatureAttachmentId());
 		objEntity.setCreatedUserId(mstEmployeeModel.getCreatedUserId());
