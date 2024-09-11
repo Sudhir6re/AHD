@@ -309,9 +309,6 @@ if(paycomm != '' && paycomm != undefined){
 				validAge=true;
 				//swal("Age " + age + " is restrict");
 				
-				
-				
-				
 				document.getElementById("dob").value = "";
 			} 
 		} else {
@@ -4592,7 +4589,6 @@ function validateBankAccNumUniqe() {
 	if (employeeId == "" || employeeId == null) {
 		employeeId='0';
 	}
-	
 		if (bankAccountNo != '') {
 			$
 					.ajax({
@@ -4628,31 +4624,3 @@ function validateBankAccNumUniqe() {
 					});
 		}
 	}
-
-/*
-
-$("#btnSaveAsdraft").click(function(){
-	if($("#fullName").val()=='' || $("#fullName").val()==undefined){
-		swal("Please enter employee name");
-	}else{
-		swal({
-			  title: "Are you sure?",
-			  text: "To Draft this case ???",
-			  icon: "warning",
-			  buttons: true,
-			  dangerMode: true,
-			}).then((willDelete) => {
-			    if (willDelete) {
-			    	$('input[type=text]').addClass('ignore');
-			    	$('input[type=checkbox]').addClass('ignore');
-			    	$('input[type=radio]').addClass('ignore');
-			    	$('select').addClass('ignore');
-			    	$("#isActive").val("saveAsDraft");
-			    	$("#myForm").submit();  
-			     }
-		})
-	}
-	
-		
-});
-*/
