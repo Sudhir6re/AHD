@@ -182,14 +182,14 @@ public class PayslipReportController extends BaseController {
 
 				payslipModel.setBillGroupName(StringHelperUtils.isNullString(object[16]));
 				payslipModel.setDor(StringHelperUtils.isNullDate(object[17]));
-				payslipModel.setHraPercent(StringHelperUtils.isNullInt(object[18]));
+				/*payslipModel.setHraPercent(StringHelperUtils.isNullInt(object[18]));*/
 				/// hraPercent = (Integer) object[20];
-				payslipModel.setDaPercent(StringHelperUtils.isNullInt(object[19]));
+				payslipModel.setDaPercent(StringHelperUtils.isNullInt(object[18]));
 				//// daPercent = StringHelperUtils.isNullInt(object[21]);
-				if (object[20] != null) {
-					BigInteger sevenPcLvl = (BigInteger) object[20];
+				if (object[19] != null) {
+					BigInteger sevenPcLvl = (BigInteger) object[19];
 					payslipModel.setSevenPcLvl(sevenPcLvl.longValue());
-					payslipModel.setLvl("S_" + object[20]);
+					payslipModel.setLvl("S_" + object[19]);
 				}
 
 				if (payCommissionCode.equals(700005)) {
@@ -202,10 +202,10 @@ public class PayslipReportController extends BaseController {
 				 * BigDecimal basic = (BigDecimal) object[21]; Double basicPay =
 				 * basic.doubleValue();
 				 */
-				payslipModel.setBasic(StringHelperUtils.isNullDouble(object[21]));
-				payslipModel.setVoucherNo(StringHelperUtils.isNullString(object[22]));
-				payslipModel.setVoucherDate(StringHelperUtils.isNullDate(object[23]));
-				BigInteger billNo = (BigInteger) object[24];
+				payslipModel.setBasic(StringHelperUtils.isNullDouble(object[20]));
+				payslipModel.setVoucherNo(StringHelperUtils.isNullString(object[21]));
+				payslipModel.setVoucherDate(StringHelperUtils.isNullDate(object[22]));
+				BigInteger billNo = (BigInteger) object[23];
 				payslipModel.setBillNo(billNo.longValue());
 				ltsPayslipModel.add(payslipModel);
 			}
