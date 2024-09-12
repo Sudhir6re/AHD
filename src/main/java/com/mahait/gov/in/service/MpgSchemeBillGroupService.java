@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.model.MpgSchemeBillGroupModel;
-
+/*
 public interface MpgSchemeBillGroupService {
 
 	public int saveMpgSchemeBillGroup(MpgSchemeBillGroupModel mpgSchemeBillGroupModel);
@@ -23,3 +23,4 @@ public interface MpgSchemeBillGroupService {
 	
 	public List<MstDcpsBillGroup> findAllMpgSchemeBillGroupByDDOCode(String DDOCode);
 }
+*/

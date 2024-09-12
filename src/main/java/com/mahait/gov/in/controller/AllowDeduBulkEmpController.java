@@ -30,7 +30,6 @@ import com.mahait.gov.in.service.AllowanceDeductionWiseMstService;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
 import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
-import com.mahait.gov.in.service.MpgSchemeBillGroupService;
 import com.mahait.gov.in.service.MstEmployeeService;
 
 @Controller
@@ -48,6 +47,11 @@ public class AllowDeduBulkEmpController {
 	
 	@Autowired
 	MstEmployeeService mstEmployeeService;
+	
+	/*@Autowired
+	MpgSchemeBillGroupService mpgSchemeBillGroupService;*/
+/*	
+	@Autowired
 	
 	/*@Autowired
 	MpgSchemeBillGroupService mpgSchemeBillGroupService;
@@ -79,10 +83,12 @@ public class AllowDeduBulkEmpController {
 		
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
 		model.addAttribute("context", request.getContextPath());
-/*
-		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
+
+	/*	model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
 				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));
 		*/
+/*		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
+				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));*/
 		
 		
 		model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);

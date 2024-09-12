@@ -59,13 +59,14 @@ public class DisplayOuterReportRepoImpl implements DisplayOuterReportRepo{
 	public int getTotalDeduction(double billno) {
 		
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "select sum(total_deduction) from paybill_generation_trn_details where paybill_generation_trn_id = "+billno;
+		String HQL = "select sum(total_ded) from paybill_generation_trn_details where paybill_generation_trn_id = "+billno;
 		Query query = currentSession.createSQLQuery(HQL);
 		List<Double> lstprop = query.list();
 		int totalded=0;
 		if (!lstprop.isEmpty()) {
             for (Double objLst : lstprop) {
-            	totalded=(int)objLst.intValue();
+
+
             }
 		}
             return totalded ;

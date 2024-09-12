@@ -39,14 +39,12 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	
-	
 	@Override
 	public DdoOffice findAllGroup(String ddocode) {
 		String HQL = "FROM DdoOffice as  t  where  t.dcpsDdoCode = '" + ddocode + "'";
 		return (DdoOffice) entityManager.createQuery(HQL).getSingleResult();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, Long billGroupId,
@@ -56,12 +54,14 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		try {
 			if (month >= 1 && month < 10) {
 
-				HQL = "FROM MstEmployeeEntity as  t  where t.ddoCode = '" + ddoCode.trim() + "' and t.billGroupId = '"+ billGroupId + "' and to_char(t.doj,'YYYY-MM')<='20" + year + "-0" + month
+				HQL = "FROM MstEmployeeEntity as  t  where t.ddoCode = '" + ddoCode.trim() + "' and t.billGroupId = '"
+						+ billGroupId + "' and to_char(t.doj,'YYYY-MM')<='20" + year + "-0" + month
 						+ "' and  (to_char(t.superAnnDate,'YYYY-MM')>='20" + year + "-0" + month
 						+ "' and   to_char(t.empServiceEndDate,'YYYY-MM')>='20" + year + "-0" + month
 						+ "') AND t.isActive='1' ORDER BY t.employeeFullNameEn";
 			} else
-				HQL = "FROM MstEmployeeEntity as  t  where t.ddoCode = '" + ddoCode.trim() + "' and t.billGroupId = '"+ billGroupId + "' and to_char(t.doj,'YYYY-MM')<='20" + year + "-" + month
+				HQL = "FROM MstEmployeeEntity as  t  where t.ddoCode = '" + ddoCode.trim() + "' and t.billGroupId = '"
+						+ billGroupId + "' and to_char(t.doj,'YYYY-MM')<='20" + year + "-" + month
 						+ "' and  (to_char(t.superAnnDate,'YYYY-MM')>='20" + year + "-" + month
 						+ "' and   to_char(t.empServiceEndDate,'YYYY-MM')>='20" + year + "-" + month
 						+ "') AND t.isActive='1' ORDER BY t.employeeFullNameEn";
@@ -94,6 +94,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId, int allowDedCode) {
@@ -116,36 +117,39 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 			return null;
 		}
 	}
+
 	@Override
 	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthid, int commoncodeComponentGpfaCode) {
 		try {
 			String HQL = "FROM LoanEmployeeDtlsEntity as  t  where t.totalRecoveredInstGpfII<=t.sancInstGpfII and t.sevaarthid ='"
 					+ sevaarthid + "' and t.loanactivateflag = 1";
-			System.out.println("-----------"+HQL);
+			System.out.println("-----------" + HQL);
 			return (LoanEmployeeDtlsEntity) entityManager.createQuery(HQL).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> findDDOScreenDataTable(long loc_id) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		String hql = "SELECT cast(CM.loc_id as int),CM.loc_name FROM org_ddo_mst DM,cmn_location_mst CM \r\n"
-				+ "WHERE DM.location_code = '"+loc_id+"' AND cast(CM.loc_id as varchar) = DM.hod_loc_code";
+				+ "WHERE DM.location_code = '" + loc_id + "' AND cast(CM.loc_id as varchar) = DM.hod_loc_code";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> getInstitueDtls(String ddocode) {
 		Session currentSession = entityManager.unwrap(Session.class);
-//		String hql = "select org_inst_name,tel_no_1,tel_no_2,email_id from org_inst_mst where ddo_reg_id in (select ddo_reg_id from ddo_reg_mst where ddo_code='"
-//				+ ddocode + "')";
+		// String hql = "select org_inst_name,tel_no_1,tel_no_2,email_id from
+		// org_inst_mst where ddo_reg_id in (select ddo_reg_id from ddo_reg_mst where
+		// ddo_code='"
+		// + ddocode + "')";
 		String hql = "select org_inst_name,tel_no_1,tel_no_2,email_id from org_inst_mst where cast(ddo_reg_id as bigint) ='06710100040'";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
@@ -154,17 +158,17 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		 * (List<MstCadreEntity>) entityManager.createQuery(HQL).getResultList();
 		 */
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> getCadreMstData(long fielddeptid) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "SELECT cadre_id,cadre_name from mst_dcps_cadre where field_dept_id = '"+fielddeptid+"' ";
+		String hql = "SELECT cadre_id,cadre_name from mst_dcps_cadre where field_dept_id = '" + fielddeptid + "' ";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
-		
+
 	}
+
 	@Override
 	public List<MstCadreGroupEntity> getGISGroup() {
 		Session hibSession = entityManager.unwrap(Session.class);
@@ -172,17 +176,18 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		result = entityManager.createQuery("from MstCadreGroupEntity", MstCadreGroupEntity.class).getResultList();
 		return result;
 	}
-	
+
 	@Override
 	public List<MstRoleEntity> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public long getFieldDeptId(long loc_id) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = " Select cast(hod_loc_code as int) from org_ddo_mst where location_code = '"+loc_id+"'";
+		String HQL = " Select cast(hod_loc_code as int) from org_ddo_mst where location_code = '" + loc_id + "'";
 		Query query = currentSession.createSQLQuery(HQL);
 		int result = (int) query.list().get(0);
 		return result;
@@ -228,13 +233,15 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		List<Object[]> scales = query.list();
 		return scales;
 	}
+
 	@SuppressWarnings("unchecked")
-	
+
 	@Override
 	public List<Object[]> getgroupname(String caderid) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "SELECT lookup.LOOKUP_NAME,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"+caderid+"'";
-	
+		String hql = "SELECT lookup.LOOKUP_NAME,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"
+				+ caderid + "'";
+
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 		/*
@@ -242,20 +249,23 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		 * (List<MstCadreEntity>) entityManager.createQuery(HQL).getResultList();
 		 */
 	}
+
 	@Override
 	public List<Object[]> getCadreGroupMstDataNew(String cadreid) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "SELECT lookup.LOOKUP_NAME,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"+cadreid+"'";
-//		String hql = "SELECT c.id, " +
-//		/*
-//		 * "b.sub_department_name_en, "+ "b.sub_department_name_mr, "+
-//		 */
-//				"c.group_name_en, " + "c.group_name_mh, " + "a.cadre_code, " + "a.cadre_name, " + "a.ministerial_flag, "
-//				+ "a.superannuation_age, " + "a.is_active " + "FROM   cadre_mst a, " +
-//				/* "sub_department_mst b, "+ */
-//				"cadre_group_mst c " +
-//				/* "WHERE  a.org_category_id = b.sub_department_id "+ */
-//				"Where a.group_id = c.id and a.is_active='1' and a.cadre_id='" + cadreid+"'";
+		String hql = "SELECT lookup.LOOKUP_NAME,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"
+				+ cadreid + "'";
+		// String hql = "SELECT c.id, " +
+		// /*
+		// * "b.sub_department_name_en, "+ "b.sub_department_name_mr, "+
+		// */
+		// "c.group_name_en, " + "c.group_name_mh, " + "a.cadre_code, " + "a.cadre_name,
+		// " + "a.ministerial_flag, "
+		// + "a.superannuation_age, " + "a.is_active " + "FROM cadre_mst a, " +
+		// /* "sub_department_mst b, "+ */
+		// "cadre_group_mst c " +
+		// /* "WHERE a.org_category_id = b.sub_department_id "+ */
+		// "Where a.group_id = c.id and a.is_active='1' and a.cadre_id='" + cadreid+"'";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 		/*
@@ -263,12 +273,14 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		 * (List<MstCadreEntity>) entityManager.createQuery(HQL).getResultList();
 		 */
 	}
+
 	@Override
 	public List<AppoinmentEntity> getAppoitnment(String language) {
 		// TODO Auto-generated method stub
 		String HQL = "FROM AppoinmentEntity t ORDER BY t.appointmentName DESC";
 		return (List<AppoinmentEntity>) entityManager.createQuery(HQL).getResultList();
 	}
+
 	@Override
 	public List<Object[]> getSvnPayscale() {
 
@@ -277,8 +289,9 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		List<Object[]> scales = query.list();
 		return scales;
 	}
+
 	@Override
-	
+
 	public List<Object[]> getSvnPcData(String clmn) {
 
 		Session hibSession = entityManager.unwrap(Session.class);
@@ -286,12 +299,14 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		List<Object[]> lstsvnpcdata = query.list();
 		return lstsvnpcdata;
 	}
+
 	@Override
 	public List<Object[]> getDesignationMstData(long fielddeptId) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = " SELECT ODM.designation_id,ODM.designation_name FROM designation_mst ODM, MST_DCPS_DESIGNATION MDD "
-		+ "WHERE ODM.designation_id = MDD.ORG_DESIGNATION_ID AND MDD.FIELD_DEPT_ID = '"+fielddeptId+"' ORDER by upper(ODM.designation_name) ";
+				+ "WHERE ODM.designation_id = MDD.ORG_DESIGNATION_ID AND MDD.FIELD_DEPT_ID = '" + fielddeptId
+				+ "' ORDER by upper(ODM.designation_name) ";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
@@ -300,33 +315,33 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String ddocode,
 			String currpostcode, long loc_id) {
 		// TODO Auto-generated method stub
-			Session currentSession = entityManager.unwrap(Session.class);
-			StringBuffer hql = new StringBuffer();
-			hql.append(
-					"Select p.POST_ID,r.post_name from org_post_mst p inner join org_post_details_rlt r on r.post_id = p.post_id and p.activate_flag = 1 inner join MST_DCPS_DDO_OFFICE off on off.DCPS_DDO_OFFICE_MST_ID =p.office_id ");
-			hql.append("where r.LOC_ID = '"+loc_id+"' and (p.END_DATE > now() or p.END_DATE is null)" );
-			hql.append("and p.post_Id not in (select RL.post_detail_Id ");
-			hql.append("from employee_mst RL where RL.post_detail_Id is not null and rl.ddo_Code =(select ddo_code ");
-			hql.append("from org_ddo_mst where location_code= '"+loc_id+"')) ");
-			hql.append("and r.DSGN_ID = '"+designationId+"' ");
-			hql.append("and p.ACTIVATE_FLAG = 1 ");
-			hql.append("and p.POST_TYPE_LOOKUP_ID in (10001198130,10001198129,10001198155) ");
-			System.out.println("\n " + hql);
+		Session currentSession = entityManager.unwrap(Session.class);
+		StringBuffer hql = new StringBuffer();
+		hql.append(
+				"Select p.POST_ID,r.post_name from org_post_mst p inner join org_post_details_rlt r on r.post_id = p.post_id and p.activate_flag = 1 inner join MST_DCPS_DDO_OFFICE off on off.DCPS_DDO_OFFICE_MST_ID =p.office_id ");
+		hql.append("where r.LOC_ID = '" + loc_id + "' and (p.END_DATE > now() or p.END_DATE is null)");
+		hql.append("and p.post_Id not in (select RL.post_detail_Id ");
+		hql.append("from employee_mst RL where RL.post_detail_Id is not null and rl.ddo_Code =(select ddo_code ");
+		hql.append("from org_ddo_mst where location_code= '" + loc_id + "')) ");
+		hql.append("and r.DSGN_ID = '" + designationId + "' ");
+		hql.append("and p.ACTIVATE_FLAG = 1 ");
+		hql.append("and p.POST_TYPE_LOOKUP_ID in (10001198130,10001198129,10001198155) ");
+		System.out.println("\n " + hql);
 
-			Query query = currentSession.createSQLQuery(hql.toString());
-			return query.list();
-		}
+		Query query = currentSession.createSQLQuery(hql.toString());
+		return query.list();
+	}
 
 	@Override
-	public List<Object[]> employeeConfigurationGetCurrenOffice(long postdetailid, String userName,
-			long locId) {
+	public List<Object[]> employeeConfigurationGetCurrenOffice(long postdetailid, String userName, long locId) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuffer hql = new StringBuffer();
 
-    	hql.append("Select off.DCPS_DDO_OFFICE_MST_ID,off.OFF_NAME,off.ADDRESS1,off.TEL_NO1,off.TEL_NO2,off.fax,off.EMAIL,off.ADDRESS2,off.OFFICE_CITY_CLASS from MST_DCPS_DDO_OFFICE off ");
-		hql.append(	"inner join org_post_mst o on off.DCPS_DDO_OFFICE_MST_ID = o.office_id ");
-		hql.append("where o.POST_ID = '"+postdetailid+"'");
+		hql.append(
+				"Select off.DCPS_DDO_OFFICE_MST_ID,off.OFF_NAME,off.ADDRESS1,off.TEL_NO1,off.TEL_NO2,off.fax,off.EMAIL,off.ADDRESS2,off.OFFICE_CITY_CLASS from MST_DCPS_DDO_OFFICE off ");
+		hql.append("inner join org_post_mst o on off.DCPS_DDO_OFFICE_MST_ID = o.office_id ");
+		hql.append("where o.POST_ID = '" + postdetailid + "'");
 
 		Query query = currentSession.createSQLQuery(hql.toString());
 		return query.list();
@@ -340,7 +355,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		StringBuffer hql = new StringBuffer();
 
 		hql.append("Select ADDRESS1,TEL_NO1,TEL_NO2,fax,EMAIL,ADDRESS2,OFFICE_CITY_CLASS from MST_DCPS_DDO_OFFICE ");
-		hql.append("where DCPS_DDO_OFFICE_MST_ID = '"+adminDepartmentId+"' ");
+		hql.append("where DCPS_DDO_OFFICE_MST_ID = '" + adminDepartmentId + "' ");
 		Query query = currentSession.createSQLQuery(hql.toString());
 		return query.list();
 	}
@@ -358,28 +373,28 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public List<Object[]> getPfSeries(String accmainby) {
 		// TODO Auto-generated method stub
 		Long lLngParentLookupId = null;
-		if (accmainby.equals("700092"))
-		{
+		if (accmainby.equals("700092")) {
 			lLngParentLookupId = 700098l;
 		}
 
-		if (accmainby.equals("700093"))
-		{
+		if (accmainby.equals("700093")) {
 			lLngParentLookupId = 700181l;
 		}
 		Session hibSession = entityManager.unwrap(Session.class);
-		Query query = hibSession.createSQLQuery(
-				"SELECT Lookup_id,lookup_name FROM cmn_lookup_mst where parent_lookup_id = '"+lLngParentLookupId+"' ");
+		Query query = hibSession
+				.createSQLQuery("SELECT Lookup_id,lookup_name FROM cmn_lookup_mst where parent_lookup_id = '"
+						+ lLngParentLookupId + "' ");
 		List<Object[]> lstPfSeries = query.list();
 		return lstPfSeries;
 	}
 
-//	@Override
-//	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId) {
-//		// TODO Auto-generated method stub
-//		String HQL = "FROM MstBankBranchEntity as t where t.bankBranchId="+branchId;
-//		return (List<MstBankBranchEntity>) entityManager.createQuery(HQL).getResultList();
-//	}
+	// @Override
+	// public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId) {
+	// // TODO Auto-generated method stub
+	// String HQL = "FROM MstBankBranchEntity as t where t.bankBranchId="+branchId;
+	// return (List<MstBankBranchEntity>)
+	// entityManager.createQuery(HQL).getResultList();
+	// }
 
 	@Override
 	public MstEmployeeEntity findbyemplid(Long employeeId) {
@@ -396,6 +411,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		objDept = currentSession.get(MstDcpsDetailsEntity.class, dcpsid);
 		return objDept;
 	}
+
 	@Override
 	public MstGpfDetailsEntity findbyGPFid(Long gpf_id) {
 		MstGpfDetailsEntity objDept = null;
@@ -403,7 +419,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		objDept = currentSession.get(MstGpfDetailsEntity.class, gpf_id);
 		return objDept;
 	}
-	
+
 	@Override
 	public MstGisdetailsEntity findbyGisid(Long gisid) {
 		MstGisdetailsEntity objDept = null;
@@ -417,7 +433,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 			MstNomineeDetailsEntity[] lArrNomineeDtls) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		objEntity.setDcpsgpfflag(mstEmployeeModel.getDcpsgpfflag());
-		//currentSession.update(objEntity);
+		// currentSession.update(objEntity);
 		currentSession.save(objEntity);
 
 		long resNmnDtls = deleteNomineeDtls(objEntity.getEmployeeId());
@@ -473,6 +489,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 
 		return (Integer) 1;
 	}
+
 	@Override
 	public Long deleteNomineeDtls(Long empid) {
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -486,6 +503,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		}
 		return result;
 	}
+
 	@Override
 	public BigInteger findbySevaarthCount(String sevaarth) {
 		// TODO Auto-generated method stub
@@ -502,6 +520,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		return rtnStr;
 
 	}
+
 	@Override
 	public List saveEmployeeConfiguration(MstEmployeeEntity objEntity, MstEmployeeModel mstEmployeeModel,
 			MstNomineeDetailsEntity[] lArrNomineeDtls) {
@@ -595,7 +614,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		// return (Integer) saveId;
 		return result;
 	}
-	
+
 	@Override
 	public String updateImagePath(String photopath, String signpath, Long empid) {
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -611,7 +630,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		// TODO Auto-generated method stub
 
 		Session currentSession = entityManager.unwrap(Session.class);
-	
+
 		List<Object[]> result = null;
 		List<MstEmployeeEntity> result1 = new ArrayList<MstEmployeeEntity>();
 		StringBuffer strQuery = new StringBuffer();
@@ -621,9 +640,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 					"select employee_id,employee_full_name_en,sevaarth_id,designation_code,ddo_code from employee_mst  where is_active=3 and dcps_gpf_flag='N' and ddo_code in (");
 			strQuery.append(
 					"select ddo_code from org_ddo_mst where ddo_code in (select dmr.zp_ddo_code from rlt_zp_ddo_map dmr ");
-			strQuery.append(
-					"inner join org_ddo_mst drm  on drm.ddo_code = dmr.rept_ddo_code  where drm.ddo_code='"
-							+ strddo + "'))");
+			strQuery.append("inner join org_ddo_mst drm  on drm.ddo_code = dmr.rept_ddo_code  where drm.ddo_code='"
+					+ strddo + "'))");
 			Query query = currentSession.createSQLQuery(strQuery.toString());
 			System.out.println("query---" + query);
 			System.out.println("strQuery---" + strQuery);
@@ -637,11 +655,11 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 			// e.printStackTrace();
 			// logger.info("stack trace exceptionend");
 		}
-		
+
 		for (Iterator iterator = result.iterator(); iterator.hasNext();) {
 			Object[] object = (Object[]) iterator.next();
 			MstEmployeeEntity mstEmployeeEntity = new MstEmployeeEntity();
-//			mstEmployeeEntity.setEmployeeId((Long) object[0]);
+			// mstEmployeeEntity.setEmployeeId((Long) object[0]);
 			mstEmployeeEntity.setEmployeeId(Long.valueOf(object[0].toString()));
 			mstEmployeeEntity.setEmployeeFullNameEn(object[1].toString().toUpperCase());
 			if (object[2] != null)
@@ -653,7 +671,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		}
 		return result1;
 	}
-	
+
 	@Override
 	public String getDesignationName(String strDesgId) {
 		String strDeptNm = "";
@@ -674,7 +692,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public MstEmployeeModel getEmployeeinfo(Long employeeId) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-	
+
 		List<MstEmployeeEntity> result = null;
 		List<MstDcpsDetailsEntity> result1 = null;
 		List<MstGpfDetailsEntity> result2 = null;
@@ -712,13 +730,13 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setEmployeeLNameMr(mstEmployeeEntity.getEmployeeLNameMr());
 				mstEmployeeModel.setEmployeeMotherName(mstEmployeeEntity.getEmployeeMotherName());
 				mstEmployeeModel.setBuckleNo(mstEmployeeEntity.getBuckleNo());
-//				if (mstEmployeeEntity.getGender() == 'M') {
-//					mstEmployeeModel.setGender('1');
-//				} else if (mstEmployeeEntity.getGender() == 'F') {
-//					mstEmployeeModel.setGender('2');
-//				} else {
-//					mstEmployeeModel.setGender('3');
-//				}
+				// if (mstEmployeeEntity.getGender() == 'M') {
+				// mstEmployeeModel.setGender('1');
+				// } else if (mstEmployeeEntity.getGender() == 'F') {
+				// mstEmployeeModel.setGender('2');
+				// } else {
+				// mstEmployeeModel.setGender('3');
+				// }
 				mstEmployeeModel.setGender(mstEmployeeEntity.getGender());
 				mstEmployeeModel.setReligionCode(mstEmployeeEntity.getReligionCode());
 				mstEmployeeModel.setMaritalStatus(mstEmployeeEntity.getMaritalStatus());
@@ -750,8 +768,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				// Department Details Start
 				mstEmployeeModel.setParentAdminDepartmentId(mstEmployeeEntity.getFieldDepartmentCode());
 				mstEmployeeModel.setParentFieldDepartmentId(mstEmployeeEntity.getParentFieldDepartmentCode());
-//				if (mstEmployeeEntity.getParentFieldDepartmentCode() != null)
-//					mstEmployeeModel.setParentFieldDepartmentId((mstEmployeeEntity.getParentFieldDepartmentCode().longValue()));
+				// if (mstEmployeeEntity.getParentFieldDepartmentCode() != null)
+				// mstEmployeeModel.setParentFieldDepartmentId((mstEmployeeEntity.getParentFieldDepartmentCode().longValue()));
 
 				mstEmployeeModel.setSubCorporationId(mstEmployeeEntity.getSubCorporationId());
 				mstEmployeeModel.setAdminDepartmentId(mstEmployeeEntity.getParentAdminDepartmentCode());
@@ -765,7 +783,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); // by default set to
 																							// retirement date added by
 				mstEmployeeModel.setAppointmentId(Long.valueOf(mstEmployeeEntity.getAppointment()));
-				//mstEmployeeModel.setQid(Long.valueOf(mstEmployeeEntity.getQualification()));// sudhir
+				// mstEmployeeModel.setQid(Long.valueOf(mstEmployeeEntity.getQualification()));//
+				// sudhir
 				mstEmployeeModel.setQualification(mstEmployeeEntity.getQualification());
 				mstEmployeeModel.setSuperAnnDate(mstEmployeeEntity.getSuperAnnDate());
 				mstEmployeeModel.setPayCommissionCode(mstEmployeeEntity.getPayCommissionCode());
@@ -784,23 +803,23 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setPayInPayBand(mstEmployeeEntity.getPayInPayBand());
 				mstEmployeeModel.setGradePay(mstEmployeeEntity.getGradePay());
 				mstEmployeeModel.setTeaching(mstEmployeeEntity.getTeaching());
-				/*if (mstEmployeeEntity.getBasicPay() != null) {
-					Integer basic = mstEmployeeEntity.getBasicPay().intValue();
-					mstEmployeeModel.setBasicPay(basic);
-				} else {
-					Integer basic = mstEmployeeEntity.getSevenPcBasic().intValue();
-					mstEmployeeModel.setBasicPay(basic);
-				}*/
-				
-				if(mstEmployeeModel.getPayCommissionCode()==700005) {
+				/*
+				 * if (mstEmployeeEntity.getBasicPay() != null) { Integer basic =
+				 * mstEmployeeEntity.getBasicPay().intValue();
+				 * mstEmployeeModel.setBasicPay(basic); } else { Integer basic =
+				 * mstEmployeeEntity.getSevenPcBasic().intValue();
+				 * mstEmployeeModel.setBasicPay(basic); }
+				 */
+
+				if (mstEmployeeModel.getPayCommissionCode() == 700005) {
 					Integer basic = mstEmployeeEntity.getSevenPcBasic().intValue();
 					mstEmployeeModel.setBasicPay(basic.doubleValue());
 				}
-				if(mstEmployeeModel.getPayCommissionCode()==700016) {
+				if (mstEmployeeModel.getPayCommissionCode() == 700016) {
 					Integer basic = mstEmployeeEntity.getBasicPay().intValue();
 					mstEmployeeModel.setBasicPay(basic.doubleValue());
 				}
-				
+
 				mstEmployeeModel.setPostdetailid(mstEmployeeEntity.getPostdetailid());
 				mstEmployeeModel.setDepartmentNameEn(mstEmployeeEntity.getDepartmentNameEn());
 				mstEmployeeModel
@@ -877,7 +896,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				// mstEmployeeModel.setCreatedid(mstEmployeeModel.getCreatedUserId());
 				// mstEmployeeModel.setIsactive(mstEmployeeModel.getDcpsgpfflag());
 				mstEmployeeModel.setPfacno(mstEmployeeEntity.getPfacno());
-//				mstEmployeeModel.setPfseries(mstEmployeeModel.getPfseries());
+				// mstEmployeeModel.setPfseries(mstEmployeeModel.getPfseries());
 				mstEmployeeModel.setPfdescription("");
 
 				// mstEmployeeModel.setUpdatedate(mstEmployeeModel.getUpdatedDate());
@@ -901,7 +920,6 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				// mstEmployeeModel.setUpdateid(mstEmployeeModel.getUpdatedUserId());
 
 			}
-			
 
 			System.out.println("designation id >>>>>" + mstEmployeeModel.getDesignationId());
 
@@ -913,6 +931,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 
 		return mstEmployeeModel;
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MstNomineeDetailsEntity> getNominees(String empId) {
@@ -924,49 +943,50 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	}
 
 	@Override
-	public List<Object[]> GetCurrentPostByLvlTwo(long designationId, String ddocode,long loc_id) {
+	public List<Object[]> GetCurrentPostByLvlTwo(long designationId, String ddocode, long loc_id) {
 		// TODO Auto-generated method stub
-		
 
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuffer hql = new StringBuffer();
 		hql.append(
 				"Select p.POST_ID,r.post_name from org_post_mst p inner join org_post_details_rlt r on r.post_id = p.post_id and p.activate_flag = 1 inner join MST_DCPS_DDO_OFFICE off on off.DCPS_DDO_OFFICE_MST_ID =p.office_id ");
-		hql.append("where r.LOC_ID = '"+loc_id+"' and (p.END_DATE > now() or p.END_DATE is null)" );
+		hql.append("where r.LOC_ID = '" + loc_id + "' and (p.END_DATE > now() or p.END_DATE is null)");
 		hql.append("and p.post_Id in (select RL.post_detail_Id ");
 		hql.append("from employee_mst RL where RL.post_detail_Id is not null and rl.ddo_Code =(select ddo_code ");
-		hql.append("from org_ddo_mst where location_code= '"+loc_id+"')) ");
-		hql.append("and r.DSGN_ID = '"+designationId+"' ");
+		hql.append("from org_ddo_mst where location_code= '" + loc_id + "')) ");
+		hql.append("and r.DSGN_ID = '" + designationId + "' ");
 		hql.append("and p.ACTIVATE_FLAG = 1 ");
 		hql.append("and p.POST_TYPE_LOOKUP_ID in (10001198130,10001198129,10001198155) ");
 		System.out.println("\n " + hql);
-		
+
 		Query query = currentSession.createSQLQuery(hql.toString());
 		return query.list();
 	}
 
-
 	@Override
 	public String getCmnLocationMst(String ddoCode) {
 		// TODO Auto-generated method stub
-//		String strDeptNm = "";
-//		Session currentSession = entityManager.unwrap(Session.class);
-//		String hql = "SELECT loc.LOC_SHORT_NAME FROM CMN_LOCATION_MST loc  "
-//				+ "inner join ORG_DDO_MST ddo on cast(ddo.HOD_LOC_CODE  as bigint) = loc.LOC_ID  where ddo.DDO_CODE= '"+ddoCode+"'";
-//		Query query = currentSession.createSQLQuery(hql);
-//		List<Object[]> lstprop = query.list();
-//		if (!lstprop.isEmpty()) {
-//			for (Object[] objLst : lstprop) {
-//				strDeptNm = StringHelperUtils.isNullString(objLst[]);
-//			}
-//		}
-//		return strDeptNm;
-		
+		// String strDeptNm = "";
+		// Session currentSession = entityManager.unwrap(Session.class);
+		// String hql = "SELECT loc.LOC_SHORT_NAME FROM CMN_LOCATION_MST loc "
+		// + "inner join ORG_DDO_MST ddo on cast(ddo.HOD_LOC_CODE as bigint) =
+		// loc.LOC_ID where ddo.DDO_CODE= '"+ddoCode+"'";
+		// Query query = currentSession.createSQLQuery(hql);
+		// List<Object[]> lstprop = query.list();
+		// if (!lstprop.isEmpty()) {
+		// for (Object[] objLst : lstprop) {
+		// strDeptNm = StringHelperUtils.isNullString(objLst[]);
+		// }
+		// }
+		// return strDeptNm;
+
 		Session currentSession = entityManager.unwrap(Session.class);
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT loc.LOC_SHORT_NAME FROM CMN_LOCATION_MST loc inner join ORG_DDO_MST ddo on cast(ddo.HOD_LOC_CODE  as bigint) = loc.LOC_ID  where ddo.DDO_CODE= '"+ddoCode+"' ");
+		query.append(
+				"SELECT loc.LOC_SHORT_NAME FROM CMN_LOCATION_MST loc inner join ORG_DDO_MST ddo on cast(ddo.HOD_LOC_CODE  as bigint) = loc.LOC_ID  where ddo.DDO_CODE= '"
+						+ ddoCode + "' ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)
@@ -978,7 +998,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public long getLocationCode(String getLocationCode) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = " Select cast(location_code as bigint) from org_ddo_mst where ddo_code  = '"+getLocationCode+"'";
+		String HQL = " Select cast(location_code as bigint) from org_ddo_mst where ddo_code  = '" + getLocationCode
+				+ "'";
 		Query query = currentSession.createSQLQuery(HQL);
 		Long result = (Long) StringHelperUtils.isNullBigInteger(query.list().get(0)).longValue();
 		return result;
@@ -1102,9 +1123,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 					"select employee_id,employee_full_name_en,sevaarth_id,designation_code,ddo_code from employee_mst  where is_active=3 and  dcps_gpf_flag = 'Y' and ddo_code in (");
 			strQuery.append(
 					"select ddo_code from org_ddo_mst where ddo_code in (select dmr.zp_ddo_code from rlt_zp_ddo_map dmr ");
-			strQuery.append(
-					"inner join org_ddo_mst drm  on drm.ddo_code = dmr.rept_ddo_code  where drm.ddo_code='"
-							+ strddo + "'))");
+			strQuery.append("inner join org_ddo_mst drm  on drm.ddo_code = dmr.rept_ddo_code  where drm.ddo_code='"
+					+ strddo + "'))");
 			Query query = currentSession.createSQLQuery(strQuery.toString());
 
 			result = query.list();
@@ -1114,7 +1134,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		for (Iterator iterator = result.iterator(); iterator.hasNext();) {
 			Object[] object = (Object[]) iterator.next();
 			MstEmployeeEntity mstEmployeeEntity = new MstEmployeeEntity();
-			//mstEmployeeEntity.setEmployeeId((Long) object[0]);
+			// mstEmployeeEntity.setEmployeeId((Long) object[0]);
 			mstEmployeeEntity.setEmployeeId(Long.valueOf(object[0].toString()));
 			mstEmployeeEntity.setEmployeeFullNameEn(object[1].toString().toUpperCase());
 			if (object[2] != null)
@@ -1126,6 +1146,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		}
 		return result1;
 	}
+
 	@Modifying(clearAutomatically = true)
 	@Override
 	public List<Long> approveDcpsEmployeeConfiguration(String empid, String Dcpsnumber, String sevaarthid,
@@ -1134,8 +1155,8 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		// MstEmployeeEntity objEntity=new MstEmployeeEntity();
 		// objEntity.setEmployeeId(empid);
 		// currentSession.delete(objEntity);
-		String hql = "update employee_mst set is_active=1,is_dcps_generate='Y', dcps_no = '"+Dcpsnumber+"',sevaarth_id='" + sevaarthid
-				+ "'  where employee_id = " + empid;
+		String hql = "update employee_mst set is_active=1,is_dcps_generate='Y', dcps_no = '" + Dcpsnumber
+				+ "',sevaarth_id='" + sevaarthid + "'  where employee_id = " + empid;
 		Query query = currentSession.createSQLQuery(hql);
 		Integer result = query.executeUpdate();
 
@@ -1171,16 +1192,14 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		res.add((long) result);
 		return res;
 	}
-	
+
 	@Override
 	public OrgUserMst saveUserInfo(OrgUserMst objuserInfo) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Serializable userId =currentSession.save(objuserInfo);
+		Serializable userId = currentSession.save(objuserInfo);
 		OrgUserMst save = currentSession.get(OrgUserMst.class, userId);
-		return save; 
+		return save;
 	}
-
-
 
 	@Override
 	public OrgPostDetailsRlt findPostdetailById(Long postdetailid) {
@@ -1188,17 +1207,16 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		return null;
 	}
 
-//	@Override
-//	public void saveUserId(String sevaarthId, long user_id) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-	
+	// @Override
+	// public void saveUserId(String sevaarthId, long user_id) {
+	// // TODO Auto-generated method stub
+	//
+	// }
+
 	@Override
 	public String saveUserId(String sevaarthId, long user_id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "update employee_mst set user_id = " + user_id + " where sevaarth_id = '" + sevaarthId
-				+ "'";
+		String hql = "update employee_mst set user_id = " + user_id + " where sevaarth_id = '" + sevaarthId + "'";
 		Query query = currentSession.createSQLQuery(hql);
 		query.executeUpdate();
 		return "save";
@@ -1215,10 +1233,16 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
 	}
-
+	
+	@Override
+	public List<Object[]> findDraftCaseList(OrgUserMst messages, Long CASESTATUS) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "SELECT a.employee_full_name_en, a.dob, "
+				+ "a.employee_id, a.remark,a.is_active  from employee_mst a "
+				+ " WHERE a.is_active in (0,-1) AND a.ddo_code = '" + messages.getDdoCode() + "'"
+				+ " ORDER BY a.employee_full_name_en";
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
 	}
 
-	
-	
-
-
+}

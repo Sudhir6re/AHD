@@ -21,26 +21,24 @@ import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstCadreModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
 
-
-
 public interface MstEmployeeService {
 
 	DdoOffice findAllGroup(String ddocode);
-	
-	 public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode,Long SchemeBillgroupId,int month,int year);
-	
-	 public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId,int allowDedCode);
-	 
-	 public int getpayCommissionAgainstEmployee(String sevaarthId);
-		
-		public List<Object[]> employeeAllowDeduction(String sevaarthId);
 
-		 
-		 public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode);
-		 
-		 public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthId, int commoncodeComponentGpfaCode);
-	 
-	public List<DDOScreenModel> findDDOScreenDataTable(String locale,long locId);
+	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, Long SchemeBillgroupId,
+			int month, int year);
+
+	public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId, int allowDedCode);
+
+	public int getpayCommissionAgainstEmployee(String sevaarthId);
+
+	public List<Object[]> employeeAllowDeduction(String sevaarthId);
+
+	public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode);
+
+	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthId, int commoncodeComponentGpfaCode);
+
+	public List<DDOScreenModel> findDDOScreenDataTable(String locale, long locId);
 
 	public List<Object[]> getInstitueDtls(String userName);
 
@@ -60,7 +58,8 @@ public interface MstEmployeeService {
 
 	public List<Object[]> findEmployeeConfigurationGetpayscale(int payCommission);
 
-	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String userName, String postdetailid , long locId);
+	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String userName,
+			String postdetailid, long locId);
 
 	public List<Object[]> getCadreGroupMstData(String language, String cadreid);
 
@@ -68,16 +67,13 @@ public interface MstEmployeeService {
 
 	public List<Object[]> findEmployeeConfigurationpayScaleSeven(int payScaleSeven);
 
-
 	public List<AppoinmentEntity> getAppoitnment(String language);
 
 	public List<Object[]> findEmployeeConfigurationGetsvnbasicpay(String payscale);
 
-	
 	public List<MstDesignationEntity> getDesignationMstData(String locale, long locId);
 
-	List<Object[]> employeeConfigurationGetCurrenOffice(long postdetailid, String userName,
-			long locId);
+	List<Object[]> employeeConfigurationGetCurrenOffice(long postdetailid, String userName, long locId);
 
 	List<Object[]> employeeConfigurationGetCurrenOfficeAddress(long adminDepartmentId, String userName, long locId);
 
@@ -107,7 +103,8 @@ public interface MstEmployeeService {
 	void saveGpfDetails(MstGpfDetailsEntity mstGpfDetailsEntity);
 
 	long getCount(String sevaarthid);
-	public List<Long> approveEmployeeConfiguration(String empid,String sevaarthid,String dcpsgpfflg);
+
+	public List<Long> approveEmployeeConfiguration(String empid, String sevaarthid, String dcpsgpfflg);
 
 	int getSevaarthid(String sevaarthid);
 
@@ -128,14 +125,11 @@ public interface MstEmployeeService {
 
 	Object findAllEmployeesByDDOName(String userName);
 
+	List<MstEmployeeModel> findDraftCaseList(OrgUserMst messages, Long cASE_STATUS);
+
+	long updateDraftCase(@Valid MstEmployeeModel mstEmployeeModel, MultipartFile[] files);
 
 
-//	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
+	// public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 
-
-
-
-
-	
-	
 }
