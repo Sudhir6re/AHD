@@ -1107,6 +1107,31 @@ public class EmployeeConfigurationController extends BaseController {
 
 		String message = (String) model.asMap().get("message");
 		
+		if (message != null && message.equals("SUCCESS")) {
+			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
+				model = CommonUtils.initModel(CommonConstants.Message.SAVEDRAFT, STATUS.SUCCESS, model);
+			} else {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
+			}
+		}
+		if (message != null && message.equals("FRWDDDO")) {
+			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
+				model = CommonUtils.initModel(CommonConstants.Message.FRWDDDO, STATUS.SUCCESS, model);
+			} else {
+				model = CommonUtils.initModel(CommonConstants.Message.ADDED_MARATHI, STATUS.SUCCESS, model);
+			}
+		}
+
+		if (message != null && message.equals("DRAFTCASE")) {
+			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
+				model = CommonUtils.initModel(CommonConstants.Message.DRAFTCASE, STATUS.SUCCESS, model);
+			} else {
+				model = CommonUtils.initModel(CommonConstants.Message.DRAFTCASE, STATUS.SUCCESS, model);
+			}
+		}		
+		
+		
+		
 		mstEmployeeModel.setAction("Save");
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
@@ -1295,9 +1320,14 @@ public class EmployeeConfigurationController extends BaseController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		mstEmployeeModel.setCreatedUserId(messages.getUserId());
 		long afterSaveId = mstEmployeeService.updateDraftCase(mstEmployeeModel, files);
-		if (afterSaveId > 0)
-			redirectAttributes.addFlashAttribute("message", "SUCCESS");
-		else
+		mstEmployeeModel.setCreatedUserId(messages.getUserId());
+		if (afterSaveId > 0) {
+			if (mstEmployeeModel.getAction().equals("saveAsDraft")) {
+				redirectAttributes.addFlashAttribute("message", "DRAFTCASE");
+			} else {
+				redirectAttributes.addFlashAttribute("message", "SUCCESS");
+			}
+		} else
 			redirectAttributes.addFlashAttribute("message", "Registration form is forwarded successfully");
 		return "redirect:/ddoast/draftCaseList";
 
