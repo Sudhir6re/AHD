@@ -1821,10 +1821,17 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 			// DCPS/NPS Nominee Details End
 
+			
+			
 			objEntity.setEmpType("1");
 			objEntity.setIsMappedWithNps('0');
 			objEntity.setBillGroupId(mstEmployeeModel.getBillgroupId());
-			objEntity.setIsActive(3l);
+			if (!mstEmployeeModel.getAction().equals("saveAsDraft")) {
+				objEntity.setIsActive(0l);
+			}else {
+				objEntity.setIsActive(3l);
+			}
+		
 			mstEmployeeModel.setIsActive(3l);
 			objEntity.setSignatureAttachmentId(mstEmployeeModel.getSignatureAttachmentId());
 			objEntity.setCreatedUserId(mstEmployeeModel.getCreatedUserId());

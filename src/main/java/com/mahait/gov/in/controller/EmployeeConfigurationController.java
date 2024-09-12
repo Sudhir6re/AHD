@@ -1285,7 +1285,7 @@ public class EmployeeConfigurationController extends BaseController {
 		model.addAttribute("language", locale.getLanguage());
 
 		addMenuAndSubMenu(model, messages);
-		return "/views/employee-configuration";
+		return "/views/employee-configuration-draft-form";
 	}
 
 	@RequestMapping(value = "/updateDraftCase", method = { RequestMethod.POST })
