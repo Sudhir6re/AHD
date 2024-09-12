@@ -24,12 +24,8 @@ public class EmplyeeComponentMappingloginRepositoryImpl implements EmplyeeCompon
 	EntityManager entityManager;
 	
 	
-	@Override
-	public List<DeptEligibilityForAllowAndDeductEntity> findAllComponentDetails() {
-		Session session=entityManager.unwrap(Session.class);
-		Query query=session.createQuery("From DeptEligibilityForAllowAndDeductEntity");
-		return query.getResultList();
-	}
+
+
 
 
 	@Override
