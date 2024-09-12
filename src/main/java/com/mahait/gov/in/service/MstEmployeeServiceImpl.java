@@ -1638,9 +1638,19 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				MstEmployeeModel obj = new MstEmployeeModel();
 				obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[0]));
 				obj.setDob(StringHelperUtils.isNullDate(objLst[1]));
-				obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[2]));
+				if (objLst[2] instanceof BigInteger) {
+					obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[2]).longValue());
+				}else {
+					obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[2]));
+				}
 				obj.setRemark(StringHelperUtils.isNullString(objLst[3]));
-
+				if (objLst[4] instanceof Integer) {
+				    obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]).longValue());
+				}else if (objLst[4] instanceof BigInteger) {
+				    obj.setIsActive(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
+				}else {
+					obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]));
+				}
 				lstObj.add(obj);
 			}
 		}

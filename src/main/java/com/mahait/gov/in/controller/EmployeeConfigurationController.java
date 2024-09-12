@@ -1103,12 +1103,14 @@ public class EmployeeConfigurationController extends BaseController {
 	@RequestMapping(value = "/draftCaseList", method = { RequestMethod.GET })
 	public String draftCaseList(@ModelAttribute("mstEmployeeModel") MstEmployeeModel mstEmployeeModel, Model model,
 			Locale locale, HttpSession session) {
+		
 
 		String message = (String) model.asMap().get("message");
+		
 		mstEmployeeModel.setAction("Save");
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-
+		addMenuAndSubMenu(model, messages);
 		Long CASE_STATUS = 0l;
 
 		List<MstEmployeeModel> employeeDraftCaseLst = mstEmployeeService.findDraftCaseList(messages, CASE_STATUS);

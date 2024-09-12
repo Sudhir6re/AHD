@@ -1247,7 +1247,7 @@ if(paycomm != '' && paycomm != undefined){
 	            }).then((willSave) => {
 	                if (willSave) {
 	                    $('input[type=text], input[type=email], input[type=date], textarea, input[type=checkbox], input[type=radio], select').addClass('ignore');
-	                    $("#isActive").val("saveAsDraft"); 
+	                    $("#action").val("saveAsDraft"); 
 	                    $("#myForm").submit();
 	                }
 	            });
