@@ -31,7 +31,7 @@ public class UpdateServiceEndDateController extends BaseController {
 	
 	List<UpdateDOBModel> emplist = new ArrayList<>();
 	
-	@GetMapping("/updateDOB")
+	@GetMapping("/updateSED")
 	public String updateDOB(@ModelAttribute("updateServiceEndDateModel") UpdateServiceEndDateModel updateServiceEndDateModel, Model model, Locale locale,
 			HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
@@ -49,7 +49,11 @@ public class UpdateServiceEndDateController extends BaseController {
 		
 		
 		
-		return "/views/updateDob";
+		return "/views/updateServiceEnd";
 	}
+	
+	
+	
+	
 
 }

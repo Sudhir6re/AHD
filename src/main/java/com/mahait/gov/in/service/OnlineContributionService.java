@@ -15,6 +15,8 @@ public interface OnlineContributionService {
 	List<DcpContributionModel> getEmpListForContribution(DcpContributionModel dcpContributionModel,
 			OrgUserMst messages, String startDate);
 
+	Long saveOrUpdate(DcpContributionModel dcpContributionModel);
+
 
 	
 }

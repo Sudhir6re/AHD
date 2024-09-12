@@ -215,9 +215,12 @@ input#uid1, input#uid2, input#uid3 {
 						type="button" class="btn btn-primary rejectbtnn"
 						th:value="#{msg.thymeleaf.pagelabel.back}"
 						th:onclick="'backlvlEmpDtls();'" />
-					</span> <input type="button" id="btnSave" class="btn btn-primary"
-						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}"
-						th:onclick="'saveAsDraft();'" /> <input type="reset"
+					</span>
+					
+					 <input type="submit" id="btnSaveAsdraft" class="btn btn-primary"
+						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}" />
+						
+						 <input type="reset"
 						id="btnReset" class="btn btn-primary"
 						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a
 						th:href="@{/user/home}" class="btn"><span

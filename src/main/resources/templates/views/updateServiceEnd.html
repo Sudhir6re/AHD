@@ -30,8 +30,8 @@
 			<form class="form-horizontal container" method="POST"
 				name="updateDOBSS
 				
-				" th:action="@{/ddoast/saveDOB}"
-				th:object="${updateDOBModel}" enctype="multipart/form-data">
+				" th:action="@{/ddoast/saveSED}"
+				th:object="${updateServiceEndDateModel}" enctype="multipart/form-data">
 				<input type="hidden" name="message" id="message"
 					th:value="${message}" /> <input type="hidden" name="language"
 					id="language" th:value="${language}" />
@@ -42,7 +42,7 @@
 							<th th:text="#{msg.thymeleaf.pagelabel.sevaarthId}"></th>
 							<th th:text="#{msg.thymeleaf.pagelabel.employeeName}"></th>
 							<th th:text="#{msg.thymeleaf.pagelabel.designation}"></th>
-							<th th:text="#{msg.thymeleaf.pagelabel.DOB}"
+							<th th:text="#{msg.thymeleaf.pageheading.sed}"
 								style="width: 170px !important;"></th>
 						</tr>
 					</thead>
