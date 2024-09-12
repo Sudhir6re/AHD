@@ -205,6 +205,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			paybillGenerationTrnDetails.setBankAccNo(mstEmployeeEntity2.getBankAcntNo());
 			paybillGenerationTrnDetails.setBankId(mstEmployeeEntity2.getBankCode());
 			paybillGenerationTrnDetails.setBankBranchId(mstEmployeeEntity2.getBankBranchCode());
+			if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+				paybillGenerationTrnDetails.setDaPercent(percentageRate[0]);
+			}else if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
+				paybillGenerationTrnDetails.setDaPercent(percentageRate[1]);
+			}else {
+				paybillGenerationTrnDetails.setDaPercent(percentageRate[2]);
+			}
+			paybillGenerationTrnDetails.setHraPercent(Integer.parseInt(percentageHRA));
 
 			cadre = paybillHeadMpgRepo.getEmpCadre(mstEmployeeEntity2.getSevaarthId(),
 					mstEmployeeEntity2.getEmpClass());

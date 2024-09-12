@@ -135,7 +135,7 @@ public class PayslipReportRepoImpl  implements PayslipReportRepo{
 			Session currentSession = entityManager.unwrap(Session.class);
 			String HQL =" select a.sevaarth_id,employee_full_name_en,designation_name,doj,dob,mobile_no1,pan_no,a.pay_commission_code,uid_no,a.ifsc_code," + 
 					" bank_acnt_no,a.ddo_code,b.gross_amt,b.payslip_total_deduction,b.payslip_net,case when a.dcps_gpf_flag='Y' then a.dcps_no else a.pfdescription end,f.description,a.super_ann_date," + 
-					" b.da_percentage,b.seven_pc_level,b.basic_pay,d.voucher_no,d.voucher_date,d.paybill_generation_trn_id from  " + 
+					" b.seven_pc_lvl,b.basic_pay,d.voucher_no,d.voucher_date,d.paybill_generation_trn_id from  " + 
 					" employee_mst a inner join paybill_generation_trn_details b on b.sevaarth_id=a.sevaarth_id inner join designation_mst c on c.designation_code=b.desg_code " + 
 					" inner join paybill_generation_trn d on d.paybill_generation_trn_id=b.paybill_generation_trn_id  inner join mst_dcps_bill_group f on d.scheme_billgroup_id=f.bill_group_id where " + 
 					" d.paybill_month = "+paybillMonth+" and  d.paybill_year = "+paybillYear+" and scheme_billgroup_id in(select bill_group_id from mst_dcps_bill_group  a " + 

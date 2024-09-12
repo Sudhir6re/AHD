@@ -711,6 +711,12 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "other_Recovery")
 	private Double otherRecovery;
 	
+	@Column(name = "DA_PERCENT")
+	private Integer daPercent;
+	
+	@Column(name = "HRA_PERCENT")
+	private Integer hraPercent;
+	
 	
 	
 }

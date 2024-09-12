@@ -59,7 +59,7 @@ public class DDOOfficeController  extends BaseController{
 		List<MstBankEntity> bankName = new ArrayList<>();
 		List<MstBankBranchEntity> lstBankBranch = new ArrayList<>();
 		
-		List<CmnLookupMst> dcpsOfficeClassId=commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS);
+		List<CmnLookupMst> dcpsOfficeClassId=commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS);
 		List<CmnLookupMst>ddoOffClass=ddoInfoService.findDDOOffClass(dcpsOfficeClassId.get(0).getLookupId());
 		///model.addAttribute("lstAdvance", commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS));
 		List<DdoOffice> lLstSavedOffices = ddoInfoService.getAllOffices(ddoCode);

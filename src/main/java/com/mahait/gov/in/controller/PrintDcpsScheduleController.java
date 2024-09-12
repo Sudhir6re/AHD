@@ -16,6 +16,8 @@ public class PrintDcpsScheduleController  extends BaseController {
 	public String printDcpsSchedule(Model model, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model,messages);
+		model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
+		model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
 		return "/views/dcps-print-schedule";
 	}
 }

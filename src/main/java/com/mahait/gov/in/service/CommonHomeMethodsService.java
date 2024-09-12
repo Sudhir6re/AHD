@@ -10,6 +10,7 @@ import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
@@ -46,7 +47,7 @@ public interface CommonHomeMethodsService {
 
 	public String editRoleSave(@Valid MstRoleEntity mstRoleEntity);
 
-	public  List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus);
+	public  List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus);
 
 	public List<MstBankEntity> findBankName();
 
