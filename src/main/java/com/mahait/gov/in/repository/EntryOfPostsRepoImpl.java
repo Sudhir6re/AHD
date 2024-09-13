@@ -36,8 +36,11 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		Session session = getSession();
-		String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  where mst.desginationId=dcpsDesig.orgDesignation and mst.isActive='1' and  dcpsDesig.fieldDeptId =  "
-				+ lLngFieldDept;
+		String HQL_QUERY = "from MstDesignationEntity ";
+		
+	/*	String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  "
+				+ "where mst.desginationId=dcpsDesig.orgDesignation and mst.isActive='1' and  dcpsDesig.fieldDeptId =  "
+				+ lLngFieldDept;*/
 		Query query = session.createQuery(HQL_QUERY);
 		List resultList = query.list();
 		return resultList;
@@ -72,9 +75,9 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List getAllBranchList(long langId) {
 		Session session = getSession();
-		Criteria crit = session.createCriteria(CmnBranchMst.class);
-		//crit.add(Restrictions.eq("cmnLanguageMst.langId", Long.valueOf(langId)));
-		return crit.list();
+		String hql=" from CmnBranchMst";
+		Query sqlQuery = session.createQuery(hql);
+		return sqlQuery.list();
 	}
 
 	@Override
