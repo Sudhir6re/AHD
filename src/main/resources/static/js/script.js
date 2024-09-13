@@ -18,10 +18,10 @@ function addErrorClass(element,msg){
 function removeErrorClass(element){
 	var elementId=$(element).attr('id');
 	 element.css("border-color", "");
-	   //  var errorMessageVisible =  $("#"+elementId+"-error").is(":visible");
+	   // var errorMessageVisible = $("#"+elementId+"-error").is(":visible");
 	     var errorMessageVisible =  $("label[class*="+elementId+"-error]").is(":visible");
 	     if (errorMessageVisible){
-	        //$("#"+elementId+"-error").remove();
+	        // $("#"+elementId+"-error").remove();
 	    		$("label[class*="+elementId+"-error]").remove();
 	        $("."+elementId+"-error").remove();
 	        $(".errorbr").remove();
@@ -40,10 +40,10 @@ function showError(element,msg){
 function hideError(element){
 	var elementId=$(element).attr('id');
 	element.css("border-color", "");
-//	var errorMessageVisible =  $("#"+elementId+"-error").is(":visible");
+// var errorMessageVisible = $("#"+elementId+"-error").is(":visible");
       var errorMessageVisible =  $("label[class*="+elementId+"-error]").is(":visible");
 	if (errorMessageVisible){
-		//$("#"+elementId+"-error").remove(); 
+		// $("#"+elementId+"-error").remove();
 		
 		$("label[class*="+elementId+"-error]").remove();
 		$("."+elementId+"-error").remove();
@@ -81,15 +81,14 @@ $(document).ready(function(){
 	
 	
 	$(".loader").hide();
-/*	$('select').select2();*/
-/*	$('select').chosen();	*/
+/* $('select').select2(); */
+/* $('select').chosen(); */
 	
 	/*
-	$(".number").keyup(function (event) {
-	      if (event.which != 8 && event.which != 0 && event.which < 48 || event.which > 57) {
-	        this.value = this.value.replace(/\D/g, "");
-	      }
-	    });*/
+	 * $(".number").keyup(function (event) { if (event.which != 8 && event.which !=
+	 * 0 && event.which < 48 || event.which > 57) { this.value =
+	 * this.value.replace(/\D/g, ""); } });
+	 */
 	
 	
 	$(document).on("keyup", ".number", function(event) {
@@ -111,11 +110,11 @@ $(document).ready(function(){
 	 
 	
 	
-/*	$(".float").keyup(function (event) {
-		if (event.which != 8 && event.which != 0 && event.which < 48 || event.which > 57) {
-			this.value = this.value.replace(/^[-+]?[0-9]+\.[0-9]+$/, "");
-		}
-	});*/
+/*
+ * $(".float").keyup(function (event) { if (event.which != 8 && event.which != 0 &&
+ * event.which < 48 || event.which > 57) { this.value =
+ * this.value.replace(/^[-+]?[0-9]+\.[0-9]+$/, ""); } });
+ */
 	
 	
 	$(document).on('keypress','.float', function(event){
@@ -207,10 +206,10 @@ $(document).ready(function(){
 		
 	
 		
-/*		console.log("hello");
-		console.log(dayName + ", "
-				+ monthName + " " + curr_day + ", " + curr_year + " | "
-				+ hours + ":" + m + ":" + s + " " + ampm);*/
+/*
+ * console.log("hello"); console.log(dayName + ", " + monthName + " " + curr_day + ", " +
+ * curr_year + " | " + hours + ":" + m + ":" + s + " " + ampm);
+ */
 	}
 	function checkTime(i) {
 		if (i < 10) {
@@ -221,70 +220,62 @@ $(document).ready(function(){
 	}
 	
 	var screen2 = $(window).width();
-   /* console.log(screen2);*/
+   /* console.log(screen2); */
     if (screen2 < 768) {
-    	//console.log("ala re");
+    	// console.log("ala re");
     	$(".dropdown-toggle").click(function(){
-    		/*console.log("ala re");*/
-    		/*$(".dropdown-menu").hide();*/
-    		/*$(".dropdown-toggle").siblings().find("dropdown-menu").toggle();*/
-    		/*var ps = $(".dropdown-toggle").siblings().find("dropdown-menu").hide();
-    		console.log(ps);*/
+    		/* console.log("ala re"); */
+    		/* $(".dropdown-menu").hide(); */
+    		/* $(".dropdown-toggle").siblings().find("dropdown-menu").toggle(); */
+    		/*
+			 * var ps =
+			 * $(".dropdown-toggle").siblings().find("dropdown-menu").hide();
+			 * console.log(ps);
+			 */
     		$(this).next().toggle();
-    		/*$(this).closest("ul").toggle();*/
+    		/* $(this).closest("ul").toggle(); */
     	})
     }
     var favicon = document.getElementById("favicon").src ;
-    /*alert(favicon);*/
+    /* alert(favicon); */
    $('head').append('<link rel="icon" href="'+favicon+'" type="image/png"  sizes="16x16" data="scrtp.js">');
-    /*$('head').append('<link rel="icon" href="../images/logo-v16.png" sizes="16x16" data="scrtp.js">');*/
+    /*
+	 * $('head').append('<link rel="icon" href="../images/logo-v16.png"
+	 * sizes="16x16" data="scrtp.js">');
+	 */
     $("form").attr("autocomplete", "off");	
     
-    /* Adding Search in Select Tag*/
-   /* $('#schemName').select2();
-	$('#departmentId').select2('destroy');
-	$('#bankId').select2();
-	$('#branches').select2();
-	$('#bankCode').select2();
-	$('#department_id').select2('destroy');
-	$('#subdepartment_id').select2();
-	$('#departmentCode').select2();
-	$('.ipdepartmentCode').select2('destroy'); for mst-department
-	$('#subdepartmentCode').select2();
-	$('#districtId').select2('destroy');
-	$('#talukaId').select2();
-//	$('#designationCode').select2();
-	$('.ipdesignationCode').select2('destroy'); for mst-designation
-	$('#level1').select2();
-	$('#level2').select2();
+    /* Adding Search in Select Tag */
+   /*
+	 * $('#schemName').select2(); $('#departmentId').select2('destroy');
+	 * $('#bankId').select2(); $('#branches').select2();
+	 * $('#bankCode').select2(); $('#department_id').select2('destroy');
+	 * $('#subdepartment_id').select2(); $('#departmentCode').select2();
+	 * $('.ipdepartmentCode').select2('destroy'); for mst-department
+	 * $('#subdepartmentCode').select2(); $('#districtId').select2('destroy');
+	 * $('#talukaId').select2(); // $('#designationCode').select2();
+	 * $('.ipdesignationCode').select2('destroy'); for mst-designation
+	 * $('#level1').select2(); $('#level2').select2();
+	 * 
+	 * $('#responseDistrictId').select2('destroy'); $('#bankName').select2();
+	 * $('#stateCode').select2(); $('#districtCode').select2();
+	 * $('#cadre').select2(); $('#designationId').select2();
+	 * $('#payCommision').select2(); $('#payscalelevel').select2();
+	 * $('#svnthpaybasic').select2(); $('#payScale').select2();
+	 * $('#postdetailid').select2(); $('#adminDepartmentId').select2();
+	 * $('#bankBranchId').select2(); //$('#schemeCode').select2(); //
+	 * $('#designation').select2(); $('#ddoBulk').select2();
+	 * $('.designationnamecl').select2('destroy'); for mst-designation
+	 * 
+	 * $('select#sevaarthId').select2(); //$('#ddoCode').select2();
+	 * $('select#sevaarthId').select2(); $('#ddo_code').select2();
+	 * $('select#billNumber').select2();
+	 */
 	
-	$('#responseDistrictId').select2('destroy');
-	$('#bankName').select2();
-	$('#stateCode').select2();
-	$('#districtCode').select2();
-	$('#cadre').select2();
-	$('#designationId').select2();
-	$('#payCommision').select2();
-	$('#payscalelevel').select2();
-	$('#svnthpaybasic').select2();
-	$('#payScale').select2();
-	$('#postdetailid').select2();
-	$('#adminDepartmentId').select2();
-	$('#bankBranchId').select2();
-	//$('#schemeCode').select2();
-//	$('#designation').select2();
-	$('#ddoBulk').select2();
-	$('.designationnamecl').select2('destroy'); for mst-designation
-	
-	$('select#sevaarthId').select2();
-	//$('#ddoCode').select2();
-	$('select#sevaarthId').select2();
-	$('#ddo_code').select2();
-	$('select#billNumber').select2();*/
-	
-	/*var loader = document.getElementById("loaderImg").src ;
-	    alert(loader);
-	    $(".loader").css("background-image", "url(" + loader + ")");*/
+	/*
+	 * var loader = document.getElementById("loaderImg").src ; alert(loader);
+	 * $(".loader").css("background-image", "url(" + loader + ")");
+	 */
 	
 	
 	
@@ -427,8 +418,8 @@ function toPlainString(num) {
 
 $(document).ready(
 		function() {
-			//$("#GPFBlock").hide();
-			//$(".homemenu").hide();
+			// $("#GPFBlock").hide();
+			// $(".homemenu").hide();
 			hideAllDashBoardBlock();
 			
 			var roleId = parseInt($("#levelRoleVal").val());
@@ -490,7 +481,7 @@ $(document).ready(
 			if(roleId=='7'){
 				$(".HomepageLevel").hide();
 			}else{
-			//	$(dashBoardBlock.get(roleId)).hide(); 
+			// $(dashBoardBlock.get(roleId)).hide();
 			}
 			
 			
@@ -599,7 +590,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	/*capitalize select element start*/
+	/* capitalize select element start */
 	function capitalize(label) {
 		var words = label.split(' ');
 		var CapitalizedWords = [];
@@ -610,14 +601,12 @@ $(document).ready(function(){
 		}
 		return CapitalizedWords.join(' ');
 	}
-	/*$(".select2-results li").each(function() {
-		var text = $(this).text();
-		var dataType = typeof text;
-		if (dataType == "string" && text != null && text != '') {
-			text = text.split('_').join(' ');
-			$(this).text(capitalize(text.toLowerCase()));
-		}
-	});*/
+	/*
+	 * $(".select2-results li").each(function() { var text = $(this).text(); var
+	 * dataType = typeof text; if (dataType == "string" && text != null && text !=
+	 * '') { text = text.split('_').join(' ');
+	 * $(this).text(capitalize(text.toLowerCase())); } });
+	 */
 	function capitalize(label) {
 		var words = label.split(' ');
 		var CapitalizedWords = [];
@@ -628,15 +617,13 @@ $(document).ready(function(){
 		}
 		return CapitalizedWords.join(' ');
 	}
-	/*$("option").each(function() {
-		var text = $(this).text();
-		var dataType = typeof text;
-		if (dataType == "string" && text != null && text != '') {
-			text = text.split('_').join(' ');
-			$(this).text(capitalize(text.toLowerCase()));
-		}
-	});*/
-	/*capitalize select element end*/
+	/*
+	 * $("option").each(function() { var text = $(this).text(); var dataType =
+	 * typeof text; if (dataType == "string" && text != null && text != '') {
+	 * text = text.split('_').join(' ');
+	 * $(this).text(capitalize(text.toLowerCase())); } });
+	 */
+	/* capitalize select element end */
 });
 
 
@@ -647,9 +634,34 @@ function isValidEmail(email) {
 	  // Check if the email matches the pattern
 	  return emailRegex.test(email);
 	}
+/*
+ * $(document).ready(function() { setTimeout(function () {
+ * $("select").select2(); }, 200);
+ * 
+ * });
+ */
+$(document).ready(function() {
+    // Initialize Select2 on all select elements with class 'select2'
+     $("select").select2();
+    	 $('select').each(function() {
+         var preloadedValue = $(this).val(); 
+         if (preloadedValue) {
+             $(this).trigger('change');
+         }
+    	 }); 
+    	 
+    	 $('.select2').each(function() {
+    	        // Find the nearest <select> element from the current .select2
+				// element
+    	        var $select = $(this).closest('form').find('select').filter(function() {
+    	            return $(this).hasClass('readonly');
+    	        });
 
-
-
-
-
-
+    	        // Check if the <select> element has the 'readonly' class
+    	        if ($select.length) {
+    	            // Find the nearest .select2-selection__rendered element and
+					// add the 'readonly' class
+    	            $(this).find('.select2-selection__rendered').addClass('readonly');
+    	        }
+    	    });
+});

@@ -102,7 +102,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 		if(mstGrOrderModel!=null) {
 			///payOrderMst.setOrderId(mstGrOrderModel.getGrOrderId());//setting order id
 			payOrderMst.setOrderName(mstGrOrderModel.getSanctionOrderNo());
-			payOrderMst.setOrderDate(mstGrOrderModel.getOrderDate());
+			payOrderMst.setOrderDate(mstGrOrderModel.getDate());
 			payOrderMst.setGrType(mstGrOrderModel.getOrderType());
 			///payOrderMst.setLocationCode(messages.getUpdatedByPost().getLocationCode());
 			///payOrderMst.setCmnLanguageMst(cmnLanguageMst);
@@ -226,7 +226,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 				{
 					MstGrOrderModel obj1 = new MstGrOrderModel();
 					obj1.setSanctionOrderNo(StringHelperUtils.isNullString(obj[0]));
-					obj1.setDate(StringHelperUtils.isNullString(obj[1]));
+					obj1.setDate(StringHelperUtils.isNullDate(obj[1]));
 					
 					listobj.add(obj1);
 				}
