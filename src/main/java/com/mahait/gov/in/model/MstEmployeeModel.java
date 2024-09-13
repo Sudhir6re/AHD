@@ -101,7 +101,7 @@ public class MstEmployeeModel {
 	private Long gradePay;
 	private Long bankId;
 	private String ifscCode;
-	private Long bankAcntNo;
+	private String bankAcntNo;
 	private Long bankBranchId;
 	private String ddoCode;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
