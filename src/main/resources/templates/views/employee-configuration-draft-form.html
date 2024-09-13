@@ -77,7 +77,7 @@ input#uid1, input#uid2, input#uid3 {
 		</h3>
 		<fieldset>
 			<form class="form-horizontal container" name="myForm" id="myForm"
-				th:action="@{/ddoast/saveEmployeeConfiguration}"
+				th:action="@{/ddoast/updateDraftCase}"
 				th:object="${mstEmployeeModel}" method="POST"
 				enctype="multipart/form-data">
 				<input type="hidden" name="deptNm" id="deptNm" th:field="*{deptNm}"
@@ -221,7 +221,7 @@ input#uid1, input#uid2, input#uid3 {
 					</span>
 					
 					 <input type="button" id="btnSaveAsdraft" class="btn btn-primary btnSaveAsDraft" 
-						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}" />
+						th:value="#{msg.thymeleaf.pagelabel.updateDraftCase}" />
 						
 						 <input type="reset"
 						id="btnReset" class="btn btn-primary"

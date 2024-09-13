@@ -18,6 +18,7 @@ public class CommonConstants {
 		String SAVEDRAFT="All the details saved successfully";
 		String FRWDDDO="Registration form is forwarded successfully";
 		
+		String DRAFTCASE="Employee details Draft Successfully";
 		
 		String FRWDCLK="Opening Balance Saved and Forwarded To Next Authority";
 		

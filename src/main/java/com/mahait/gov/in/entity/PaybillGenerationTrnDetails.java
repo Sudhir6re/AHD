@@ -717,6 +717,9 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "HRA_PERCENT")
 	private Integer hraPercent;
 	
+	@Column(name = "remark")
+	private String remark;
+	
 	
 	
 }

@@ -62,8 +62,6 @@ public class DisplayInnerReportController  extends BaseController{
 			ddoCode=ddoCode;
 		}
 		
-		
-		
 		Page<DisplayInnerReportModel> innerrptPage = displayInnerReportService
 				.findPaginated(PageRequest.of(currentPage - 1, pageSize), billNumber, ddoCode.toString());
 
@@ -113,6 +111,7 @@ public class DisplayInnerReportController  extends BaseController{
 		model.addAttribute("ddoname", ddoCode);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		model.addAttribute("roleId", messages.getMstRoleEntity().getRoleId());
 		
 		
 		addMenuAndSubMenu(model,messages);	
@@ -166,10 +165,15 @@ public class DisplayInnerReportController  extends BaseController{
 		model.addAttribute("currmonyer", monname + " " + curryear);
 		model.addAttribute("officeDetails", officeDetails);
 		model.addAttribute("ddoname", messages.getUserName());
+		
+		
+		
+		
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
 		String billDetails = displayInnerReportService.getbillDetails(billNumber);
 		model.addAttribute("billDetails", billDetails);
+		model.addAttribute("roleId", messages.getMstRoleEntity().getRoleId());
 
 		String ddoname = null;
 		Map<String, String> data = new HashMap<String, String>();
@@ -252,7 +256,7 @@ public class DisplayInnerReportController  extends BaseController{
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
 		
 		if (ddoCode.equals("1")) {
-			ddoCode = messages.getUserName();
+			ddoCode = messages.getDdoCode();
 		} else {
 			ddoCode = ddoCode;
 		}
@@ -284,8 +288,6 @@ public class DisplayInnerReportController  extends BaseController{
 		}
 
 		displayInnerReportModel.setLstDisplayInnerReportModel(listDisplayInnerReportModel);
-		
-		
 		
 		
 		model.addAttribute("listDisplayInnerReportModel", listDisplayInnerReportModel);
