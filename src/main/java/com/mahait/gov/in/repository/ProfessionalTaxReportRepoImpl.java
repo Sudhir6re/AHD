@@ -19,7 +19,7 @@ public class ProfessionalTaxReportRepoImpl implements ProfessionalTaxReportRepo{
 	public List<Object[]> findProfessionalTaxDtls(Integer yearId, Integer monthId, Long billGroup, String ddoCode) {
 		// TODO Auto-generated method stub
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = " select a.sevaarth_id || ' - ' || a.employee_full_name_en || '(' ||d.designation_name || ')' ,a.pan_no,b.gross_total_amt,b.pt" + 
+		String HQL = " select a.sevaarth_id || ' - ' || a.employee_full_name_en || '(' ||d.designation_name || ')' ,a.pan_no,b.gross_amt,b.pt" + 
 				" from employee_mst a inner join paybill_generation_trn_details b" + 
 				" on a.sevaarth_id=b.sevaarth_id\r\n" + 
 				" inner join paybill_generation_trn c on c.paybill_generation_trn_id=b.paybill_generation_trn_id " + 

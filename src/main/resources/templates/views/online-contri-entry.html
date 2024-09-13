@@ -48,7 +48,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 					<legend>
 						<b>Input Details For Contribution</b>
 					</legend>
-					<table class=" bor-0">
+					<table class="bor-0">
 						<tbody>
 							<tr>
 								<td style="font-style: italic; color: red; padding-left: 1%"
@@ -158,7 +158,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 									<td width="15%"></td>
 									<td width="35%"></td>
 								</tr>
-								<tr id="delayedMonthAndYearCombos">
+								<tr id="delayedMonthAndYearCombos" th:style="${dcpContributionModel.typeOfPayment == 700047 ? 'display:block;' : 'display:none;'}"   >
 									<td width="15%"><b>Delayed Month</b></td>
 									<td width="30%"><select name="delayedMonthId"
 										th:field="*{delayedMonthId}" id="delayedMonthId"
@@ -185,7 +185,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 					</div>
 
 					<br>
-					<div id="DAArrearsDatesDivDisplay">
+					<div id="DAArrearsDatesDivDisplay"   th:style="${dcpContributionModel.typeOfPayment == 700048 ? 'display:block;' : 'display:none;'}"   >
 						<table class="table bor-0">
 							<tbody>
 								<tr>
@@ -211,7 +211,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 							</tbody>
 						</table>
 					</div>
-					<div id="PayArrearsDatesDivDisplay">
+					<div id="PayArrearsDatesDivDisplay"   th:style="${dcpContributionModel.typeOfPayment == 700049 ? 'display:block;' : 'display:none;'}"    >
 						<table class="table bor-0">
 							<tbody>
 								<tr>
@@ -278,12 +278,8 @@ div#tblEmpDtlsBody\ table-responsive th {
 									<th width="20%"><b>Status </b></th>
 								</TR>
 							</THEAD>
-							
-							
-							
 
 							<tbody>
-
 								<tr
 									th:each="dcpContributionModelRow, itemStat : ${dcpContributionModel.lstDcpContributionModel}">
 									<td width="20%"
@@ -300,7 +296,6 @@ div#tblEmpDtlsBody\ table-responsive th {
 										<input type="hidden" th:id="dcpContributionId"
 										class="dcpContributionId"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpContributionId}">
-
 									</td>
 
 									<td width="20%"><select class="form-control"   th:id="${'payCommission' + itemStat.index}"   
@@ -311,7 +306,6 @@ div#tblEmpDtlsBody\ table-responsive th {
 												th:value="${varPay.id}"
 												th:text="${language=='mh' ? varPay.commission_name_mh : varPay.commission_name_en}"></option>
 									</select></b></td>
-									
 									
 									<td>
 									<select
@@ -376,6 +370,8 @@ div#tblEmpDtlsBody\ table-responsive th {
 									>
 									
 									</td>
+									
+									
 							    </tr>
 							</tbody>
 						</table>

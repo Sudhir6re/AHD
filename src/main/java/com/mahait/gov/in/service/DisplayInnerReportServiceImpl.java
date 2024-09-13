@@ -1050,8 +1050,8 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 						        Long yer=0l;
 						        List<Object[]> createdatenew = commonHomeMethodsService.findDetailsBillNumber(billNumber);
 						        for (Object[] objects : createdatenew) {
-						        	mon=Long.parseLong(objects[4].toString());
-						        	yer=Long.parseLong(objects[5].toString());
+						        	mon=Long.parseLong(objects[12].toString());
+						        	yer=Long.parseLong(objects[13].toString());
 								}
 						        
 						        BigInteger monthcurr = BigInteger.valueOf(mon);
@@ -1064,7 +1064,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService{
 								
 								List<Object[]>  yearinfo = commonHomeMethodsService.findyearinfo(yearcurr);
 								for (Object[] yearLst : yearinfo) {
-									curryear = (Integer) yearLst[1];
+									curryear = (Integer) yearLst[9];
 								}
 							String lstLoan=displayInnerReportRepo.getLoanDtls(map.get("sevaarth_id").toString(),mon,curryear);
 							abcloans.add(lstLoan);

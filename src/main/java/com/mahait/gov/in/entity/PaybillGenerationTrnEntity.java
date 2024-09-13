@@ -117,5 +117,6 @@ public class PaybillGenerationTrnEntity {
 	@Column(name = "CMP_DOWNLOAD_STATUS")
 	private Integer cmpdownloadStatus;
 
-
+	@Column(name = "remark")
+	private String remark;
 }

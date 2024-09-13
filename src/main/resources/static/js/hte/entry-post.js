@@ -42,6 +42,9 @@ $(document).ready(function() {
 	    
 	    
 	    
+	    
+	    
+	    
 	
 	function checkRenewalDataBeforeSubmit()
 	{
@@ -497,6 +500,42 @@ $('#SelectAll').on('change', function() {
 });
 });
 
+
+
+
+
+
+$("#ddoCode").change(function(){
+	var context = $("#appRootPath").val();
+	var ddoCode = $("#ddoCode").val();
+	$.ajax({
+	      type: "POST",
+	      url: context+"/ddo/findGrOrderByGrOrderByDdoCode/"+ddoCode,
+	      async: false,
+	      contentType:'application/json',
+	      error: function(data){
+	    	  console.log(data);
+	      },
+		  	beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
+	      success: function(data){
+	    		 var len = data.length;
+	    		 $('#orderCmb').empty();
+	    		 $( "#loaderMainNew").hide();
+	    		 $('#orderCmb').append($('<option  value="-1"></option>').text("Please Select")); 
+					if (len != 0) {
+							   for(var i=0;i<len;i++){
+								   $('#orderCmb').append('<option value="' + data[i].orderId + '">' + data[i].orderName + '</option>');
+				                }		
+				}
+					
+	     }
+	 });
+});
 
 
 

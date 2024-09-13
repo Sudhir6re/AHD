@@ -65,13 +65,14 @@ public class EmplyeeComponentMappingloginRepositoryImpl implements EmplyeeCompon
 				"SELECT *\r\n" + 
 				"FROM LatestEntries\r\n" + 
 				"WHERE rn = 1;\r\n" ;
-		 org.hibernate.Query hibernateQuery =  currentSession.createNativeQuery(HQL);
+		 org.hibernate.Query<Map<String, Object>> hibernateQuery =  currentSession.createNativeQuery(HQL);
 	      hibernateQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 	        List<Map<String,Object>> resvalue = hibernateQuery.list();
 		return resvalue;
 	}
 
 
+	
 	@Override
 	public void mapComonent(Long empId, String sevaarthId, Integer deptAllowDeducCode) {
 			
