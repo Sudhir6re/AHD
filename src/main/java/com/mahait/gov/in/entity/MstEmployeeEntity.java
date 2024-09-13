@@ -417,7 +417,7 @@ public class MstEmployeeEntity {
 	private Date withEffectFromDate;
 
 	@Column(name = "GRADE_ID")
-	private Date gradeId;
+	private String gradeId;
 
 	@Column(name = "PHOTO_ATTACHMENT_ID")
 	private String photoAttachmentId;

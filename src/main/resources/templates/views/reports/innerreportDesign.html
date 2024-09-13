@@ -207,25 +207,9 @@ body {font-family: Verdana }.TableBorderN {border-style: solid;border-color: gre
 			</tr> -->
 			<tr th:if="${innerrptPage.totalPages > 0}" class="pagination"
 				th:each="pageNumber : ${pageNumbers}">
-				<td>
-				
-			    	<a th:if="${roleId==3}"
+				<td><a
 					th:href="@{|/ddoast/getinnerreport/${billNumber}/${innerrptPage.size}/${pageNumber}/1|}"><span
-						th:utext="${pageNumber}"></span></a>
-						
-						
-							<a th:if="${roleId==2}"
-					th:href="@{|/ddo/getinnerreport/${billNumber}/${innerrptPage.size}/${pageNumber}/1|}"><span
-						th:utext="${pageNumber}"></span></a>
-						
-						
-						
-							<a th:if="${roleId==1}"
-					th:href="@{|/mdc/getinnerreport/${billNumber}/${innerrptPage.size}/${pageNumber}/1|}"><span
-						th:utext="${pageNumber}"></span></a>
-						
-						
-						</td>
+						th:utext="${pageNumber}"></span></a></td>
 			</tr>
 
 			<span th:each="innerrptPagerow,iterationStatus : ${innerrptPage}">
@@ -613,10 +597,8 @@ body {font-family: Verdana }.TableBorderN {border-style: solid;border-color: gre
 	
 	<div class="text-center btniHideOnAllreport">
 		<input type="hidden" hidden="billNumber" value="billNumber"></input>
-		<input type="hidden" hidden="size" value="size"></input> 
-		
-		<input type="hidden" hidden="page" value="page"></input>
-		<input type="hidden"  th:value="${roleId}" id="roleId"></input>
+		<input type="hidden" hidden="size" value="size"></input> <input
+			type="hidden" hidden="page" value="page"></input>
 		<!-- <input type="button"
 				class="buttontag buttonDisplay orange btn" value="OK" onClick="getok()"></input> -->
 		<!-- <button id="print" 
@@ -629,20 +611,8 @@ body {font-family: Verdana }.TableBorderN {border-style: solid;border-color: gre
 					
 		    
 		    
-		    <a       id="print"  th:if="${roleId==3}" target="_blank"
-				th:href="@{${'/ddoast/getinnerreportAllPages/'+billNumber+'/'+size+'/1/1'}}">
-					<input id="pdfbutton" type="button" value="Print ALL" class="orange btn"></input>
-			</a> 
-			
-			
-			  <a       id="print"  th:if="${roleId==1}" target="_blank"
-				th:href="@{${'/ddoast/getinnerreportAllPages/'+billNumber+'/'+size+'/1/1'}}">
-					<input id="pdfbutton" type="button" value="Print ALL" class="orange btn"></input>
-			</a> 
-			
-			
-			   <a       id="print"   th:if="${roleId==2}"  target="_blank"
-				th:href="@{${'/ddo/getinnerreportAllPages/'+billNumber+'/'+size+'/1/1'}}">
+		    <a       id="print"  target="_blank"
+				th:href="@{${'/innerreport/getinnerreportAllPages/'+billNumber+'/'+size+'/1/1'}}">
 					<input id="pdfbutton" type="button" value="Print ALL" class="orange btn"></input>
 			</a> 
 			

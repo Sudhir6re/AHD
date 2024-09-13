@@ -33,21 +33,31 @@ public class EmplyeeComponentMappingLogicController {
 			for (Map.Entry<String, Object> entry : employeeMap.entrySet()) {
 				String key = entry.getKey();
 				Object value = entry.getValue();
-
+           boolean isAmountGreaterThanZero=false;
 				Integer deptAllowDeducCode = 0;
             
 				Long empId = (Long) employeeMap.get("employee_id");
 				
 				empId=0l;
-				System.out.println("aaaaaaaa1"+empId);
 				String sevaarthId = (String) employeeMap.get("sevaarth_id");
-				System.out.println("aaaaaaaa2"+sevaarthId);
-                System.err.println("aaaaaaaa2"+sevaarthId);
+                if(value instanceof Double) {
+                 double value2 = Double.valueOf(value.toString());
+                 if(value2>0) {
+                	 isAmountGreaterThanZero=true;
+                }
+                if(value instanceof Integer) {
+                    Integer value3 = Integer.valueOf(value.toString());
+                    if(value3>0) {
+                   	 isAmountGreaterThanZero=true;
+                   }
+                    }
+               
+                if(isAmountGreaterThanZero) {
+                	
 				List<DeptEligibilityForAllowAndDeductEntity> duplicateList = lstDeptEligibilityForAllowAndDeductEntity.stream().filter(s -> s.getDepartmentAllowdeducColNm().toLowerCase().equals(key.toLowerCase())).collect(Collectors.toList());
 				if (duplicateList.size() > 0) {
 
 					deptAllowDeducCode = duplicateList.get(0).getDepartmentAllowdeducCode();
-					System.out.println("aaaaaaaa"+deptAllowDeducCode);
 
 					if (deptAllowDeducCode != null) {
 
@@ -56,7 +66,8 @@ public class EmplyeeComponentMappingLogicController {
 				}
 			}
 		}
-
+		}
 	}
+		}
 
 }

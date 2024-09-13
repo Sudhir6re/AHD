@@ -13,9 +13,9 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.BillStatusMstEntity;
-import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
@@ -148,9 +148,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	}
 
 	@Override
-	public List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus) {
-		String HQL = "FROM CmnLookupMst as t  WHERE t.lookupName='" + commoncodeStatus + "' ORDER BY t.lookupId ";
-		return (List<CmnLookupMst>) manager.createQuery(HQL).getResultList();
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
+		String HQL = "FROM MstCommonEntity as t  WHERE t.commonCode='" + commoncodeStatus + "' ORDER BY t.commonId ";
+		return (List<MstCommonEntity>) manager.createQuery(HQL).getResultList();
 	}
 
 	@Override

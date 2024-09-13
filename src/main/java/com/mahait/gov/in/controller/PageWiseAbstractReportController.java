@@ -62,8 +62,8 @@ public class PageWiseAbstractReportController  extends BaseController{
 	        Long yer=0l;
 	        List<Object[]> createdate = commonHomeMethodsService.findDetailsBillNumber(billNumber);
 	        for (Object[] objects : createdate) {
-	        	mon=Long.parseLong(objects[22].toString());
-	        	yer=Long.parseLong(objects[23].toString());
+	        	mon=Long.parseLong(objects[12].toString());
+	        	yer=Long.parseLong(objects[13].toString());
 			}
 	        
 	        BigInteger monthcurr = BigInteger.valueOf(mon);

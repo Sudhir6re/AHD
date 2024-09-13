@@ -467,8 +467,8 @@ public class PageWiseAbstractReportServiceImpl implements PageWiseAbstractReport
 				for (int i = 1; i <= 9; i++) {
 					if(i<=empsize) {
 						Map<String, Object> map = (Map<String, Object>) iteratorgrossamt.next();
-						algrossamt.add(map.get("gross_total_amt").toString());
-						grossTotalSum += Double.parseDouble(map.get("gross_total_amt").toString());
+						algrossamt.add(map.get("gross_amt").toString());
+						grossTotalSum += Double.parseDouble(map.get("gross_amt").toString());
 					}else {
 						algrossamt.add(" ");
 					}
@@ -489,8 +489,8 @@ public class PageWiseAbstractReportServiceImpl implements PageWiseAbstractReport
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratorgrossale.next();
-								algrosssale.add(map.get("gross_total_amt").toString());
-								algrosssaleSum += Double.parseDouble(map.get("gross_total_amt").toString());
+								algrosssale.add(map.get("gross_amt").toString());
+								algrosssaleSum += Double.parseDouble(map.get("gross_amt").toString());
 						}else {
 							algrosssale.add("");
 						}
@@ -510,8 +510,8 @@ public class PageWiseAbstractReportServiceImpl implements PageWiseAbstractReport
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratorgrosstotal.next();
-								algrosstotal.add(map.get("gross_total_amt").toString());
-								algrosstotalSum += Double.parseDouble(map.get("gross_total_amt").toString());
+								algrosstotal.add(map.get("gross_amt").toString());
+								algrosstotalSum += Double.parseDouble(map.get("gross_amt").toString());
 						}else {
 							algrosstotal.add("");
 						}
@@ -531,8 +531,8 @@ public class PageWiseAbstractReportServiceImpl implements PageWiseAbstractReport
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratornetamt.next();
-								alnetamt.add(map.get("total_net_amt").toString());
-								alnetamtSum += Double.parseDouble(map.get("total_net_amt").toString());
+								alnetamt.add(map.get("net_total").toString());
+								alnetamtSum += Double.parseDouble(map.get("net_total").toString());
 						}else {
 							alnetamt.add(" ");
 						}
@@ -552,9 +552,9 @@ public class PageWiseAbstractReportServiceImpl implements PageWiseAbstractReport
 				for (int i = 1; i <= 9; i++) {
 						if(i<=empsize) {
 								Map<String, Object> map = (Map<String, Object>) iteratortotal_deduction.next();
-								if(map.get("deduct_adj_ag")!=null) {
-									altotal_deduction.add(map.get("deduct_adj_ag").toString());
-									altotal_deductionSum += Double.parseDouble(map.get("deduct_adj_ag").toString());
+								if(map.get("deduc_adj_ag")!=null) {
+									altotal_deduction.add(map.get("deduc_adj_ag").toString());
+									altotal_deductionSum += Double.parseDouble(map.get("deduc_adj_ag").toString());
 								}
 						}else {
 							altotal_deduction.add(" ");

@@ -55,7 +55,7 @@ public class EmpChangeBasicDtlsController extends BaseController {
 		model.addAttribute("language", locale.getLanguage());
 		
 		
-		changeBasicDtlsModelsList = empchangeBasicDtls.findEmpChangeBasicDtls(messages.getUserName());
+		changeBasicDtlsModelsList = empchangeBasicDtls.findEmpChangeBasicDtls(messages.getDdoCode());
 		
 		changeBasicDtlsModel.setChangeBasicDtlsModelsList(changeBasicDtlsModelsList);
 		
