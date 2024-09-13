@@ -140,37 +140,6 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
 						// details.setCrtId(Long.valueOf(dataFormatter.formatCellValue(row.getCell(69))));
 						//
 
-						// details.setEmployeeFatherHubandName(dataFormatter.formatCellValue(row.getCell(75)));
-						// details.setEmployeeSpouseName(dataFormatter.formatCellValue(row.getCell(76)));
-						// details.setEmployeeBankPinCode(dataFormatter.formatCellValue(row.getCell(77)));
-						// details.setBuildingName(dataFormatter.formatCellValue(row.getCell(78)));
-						// details.setEmpPermanentFlatUnitNo(dataFormatter.formatCellValue(row.getCell(79)));
-						// details.setEmpPermanentBuildingName(dataFormatter.formatCellValue(row.getCell(80)));
-						// details.setEmpPermanentLocality(dataFormatter.formatCellValue(row.getCell(81)));
-						// details.setEmpPermanentDistrict(dataFormatter.formatCellValue(row.getCell(82)));
-						// details.setEmpPermanentState(dataFormatter.formatCellValue(row.getCell(83)));
-						// details.setEmpPermanentCountry(dataFormatter.formatCellValue(row.getCell(84)));
-						// details.setEmpPermanentPinCode(dataFormatter.formatCellValue(row.getCell(85)));
-						// details.setEmpNominee1GuardName(dataFormatter.formatCellValue(row.getCell(86)));
-						// details.setEmpNominee1InvalidCondn(dataFormatter.formatCellValue(row.getCell(87)));
-						// details.setEmpNominee2GuardName(dataFormatter.formatCellValue(row.getCell(88)));
-						// details.setEmpNominee2InvalidCondn(dataFormatter.formatCellValue(row.getCell(89)));
-						// details.setEmpNominee3GuardName(dataFormatter.formatCellValue(row.getCell(90)));
-						// details.setEmpNominee3InvalidCondn(dataFormatter.formatCellValue(row.getCell(91)));
-						// details.setNSDLStatus(dataFormatter.formatCellValue(row.getCell(92)));
-						// details.setUSPerson(dataFormatter.formatCellValue(row.getCell(93)));
-						// details.setCountryofTax(dataFormatter.formatCellValue(row.getCell(94)));
-						// details.setAddressOfTax(dataFormatter.formatCellValue(row.getCell(95)));
-						// details.setCityOfTax(dataFormatter.formatCellValue(row.getCell(96)));
-						// details.setStateofTax(dataFormatter.formatCellValue(row.getCell(97)));
-						// details.setPostCodeofTax(dataFormatter.formatCellValue(row.getCell(98)));
-						// details.setTinOrPan(dataFormatter.formatCellValue(row.getCell(99)));
-						// details.setState(dataFormatter.formatCellValue(row.getCell(100)));
-						// details.setCountry(dataFormatter.formatCellValue(row.getCell(101)));
-						// details.setDistrict(dataFormatter.formatCellValue(row.getCell(102)));
-						// details.setEmpSTDCode(dataFormatter.formatCellValue(row.getCell(103)));
-						// details.setEmpPhoneNo(dataFormatter.formatCellValue(row.getCell(104)));
-						// details.setEmployeeBankName(dataFormatter.formatCellValue(row.getCell(105)));
 
 						employeeDetailRepository.save(details);
 					}
