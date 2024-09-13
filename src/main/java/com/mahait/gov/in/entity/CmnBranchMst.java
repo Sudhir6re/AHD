@@ -35,9 +35,9 @@ public class CmnBranchMst {
     @JoinColumn(name = "LANG_ID", nullable = false)
     private CmnLanguageMst cmnLanguageMst;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DB_ID", nullable = false)
-    private CmnDatabaseMst cmnDatabaseMst;*/
+    private CmnDatabaseMst cmnDatabaseMst;
     
     
     

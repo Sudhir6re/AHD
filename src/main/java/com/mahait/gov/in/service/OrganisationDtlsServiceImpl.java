@@ -182,6 +182,7 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
         lstprop.setDcpsDdoOfficeTelNo2(organisationDtlsModel.getTel2());
         lstprop.setDcpsDdoOfficeFax(organisationDtlsModel.getFax());
         lstprop.setDcpsDdoOfficeEmail(organisationDtlsModel.getEmail());
+        lstprop.setDcpsDdoOfficePin(organisationDtlsModel.getPin());
         lstprop.setStatusFlag(0l);
         lstprop.setDcpsDdoOfficeDdoFlag("YES");
         lstprop.setLangId(1l);
