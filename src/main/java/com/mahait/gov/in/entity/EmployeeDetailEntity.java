@@ -1,4 +1,4 @@
-package com.mahait.gov.in.controller.datamigration;
+package com.mahait.gov.in.entity;
 
 
 import javax.persistence.*;

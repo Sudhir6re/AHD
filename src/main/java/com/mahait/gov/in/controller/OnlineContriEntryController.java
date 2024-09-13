@@ -72,16 +72,12 @@ public class OnlineContriEntryController extends BaseController {
 			}
 
 			dcpContributionModel.setUseType("ViewAll");
-
-			/*
-			 * Boolean isPaybillGenerated = false;
-			 * 
-			 * if (messages.getMstRoleEntity().getRoleId()==3) { isPaybillGenerated =
-			 * onlineContributionService.checkIfBillAlreadyGenerated(dcpContributionModel.
-			 * getBillGroupId(),
-			 * dcpContributionModel.getMonthId(),dcpContributionModel.getFinYearId()); }
-			 * model.addAttribute("isPaybillGenerated", isPaybillGenerated);
-			 */
+			
+			Boolean isPaybillGenerated = onlineContributionService.checkIfBillAlreadyGenerated(dcpContributionModel.getBillGroupId(),
+					dcpContributionModel.getMonthId(),dcpContributionModel.getFinYearId());
+			
+			model.addAttribute("isPaybillGenerated", isPaybillGenerated);
+			
 
 			List<DcpContributionModel> dcpContributionModelLst = onlineContributionService
 					.getEmpListForContribution(dcpContributionModel, messages, startDate);

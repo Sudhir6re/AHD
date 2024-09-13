@@ -36,7 +36,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 
 
 	@Override
-	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Long monthId, Long finYearId) {
+	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId) {
 		return onlineContributionRepo.checkIfBillAlreadyGenerated(billGroupId,monthId,finYearId);
 	}
 
@@ -47,6 +47,10 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 		
 		List<DcpContributionModel> dcpContributionModelLst=new ArrayList<>();
 		
+		
+		
+		 //  0    1         2                   3       4     5    6     7  8   9   10     11         12    13    14    15    16   17   18    19     20   21  
+		//[34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600, 0, 700047, 0, 0, 46, null, 2017-01-01, null, null, null, null, null, 0, 18216, 5782, 0.46, null]
 		List<Object[]> lst=onlineContributionRepo.getEmpListForContribution(dcpContributionModel,messages,startDate);
 		for(Object object[]:lst) {
 			DcpContributionModel dcpContributionModel1=new DcpContributionModel();
@@ -64,6 +68,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			
 			dcpContributionModel1.setDcpContributionId(StringHelperUtils.isNullBigInteger(object[5]).longValue());
 			dcpContributionModel1.setTypeOfPayment(StringHelperUtils.isNullString(object[6]));
+			
 			dcpContributionModel1.setMonthId(StringHelperUtils.isNullInt(object[7]));
 			dcpContributionModel1.setFinYearId(StringHelperUtils.isNullInt(object[8]));
 			
@@ -78,7 +83,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			dcpContributionModel1.setRegStatus(StringHelperUtils.isNullInt(object[10]));
 			dcpContributionModel1.setDoj(StringHelperUtils.isNullDate(object[11]));
 			dcpContributionModel1.setDa(StringHelperUtils.isNullDouble(object[12]));
-			dcpContributionModel1.setDp(StringHelperUtils.isNullDouble(object[13]));
+			dcpContributionModel1.setDp(StringHelperUtils.isNullDouble(object[17]));
 			dcpContributionModel1.setContribution(StringHelperUtils.isNullDouble(object[14]));
 			dcpContributionModel1.setStartDate(StringHelperUtils.isNullDate(object[11]));
 			dcpContributionModel1.setEndDate(StringHelperUtils.isNullDate(object[11]));

@@ -14,6 +14,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
@@ -34,7 +35,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	}
 
 	@Override
-	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Long monthId, Long finYearId) {
+	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId) {
 		Session ghibSession = entityManager.unwrap(Session.class);
 		StringBuilder lSBQuery = new StringBuilder();
 		List<PaybillGenerationTrnEntity> PaybillGenerationTrnEntityLst = new ArrayList<PaybillGenerationTrnEntity>();
@@ -43,7 +44,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		lSBQuery.append(
 				"FROM PaybillGenerationTrnEntity where schemeBillgroupId = :billNo and paybillMonth = :month and paybillYear = :year and isActive in (5,14) ");
 
-		Query lQuery = ghibSession.createSQLQuery(lSBQuery.toString());
+		Query lQuery = ghibSession.createQuery(lSBQuery.toString());
 		lQuery.setParameter("billNo", billGroupId);
 		lQuery.setParameter("month", monthId);
 		lQuery.setParameter("year", finYearId);
@@ -102,9 +103,8 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 
 		try {
 			SBQuery.append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,"
-					// + "COALESCE(CO.BASIC_PAY,EM.BASIC_PAY) as BASIC_PAY,"
 					+ " CASE "
-					+ "        WHEN Em.pay_commission_code = '700005' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
+					+ "        WHEN Em.pay_commission_code = '"+CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC+"' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
 					+ "        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" + "    END AS BASIC_PAY,"
 					+ "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
 					+ dcpContributionModel.getTypeOfPayment()
@@ -113,8 +113,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 					+ "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
 
 			SBQuery.append(" CO.startDate StartDate");
-			SBQuery.append(
-					",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED FROM employee_mst EM ");
+			SBQuery.append(",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED FROM employee_mst EM ");
 
 			SBQuery.append(" LEFT OUTER JOIN TRN_DCPS_CONTRIBUTION CO ON EM.employee_id=CO.DCPS_EMP_ID AND CO.MONTH_ID="
 					+ monthId + "" + " AND CO.FIN_YEAR_ID=" + finYearId + " AND CO.DDO_CODE = '" + ddoCode + "'");
@@ -135,7 +134,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 							+ startDate + "' BETWEEN DA.start_date AND DA.end_date) OR ('" + startDate
 							+ "' >= DA.start_date and DA.end_date IS NULL))"
 
-							+ " AND DA.department_allowdeduc_code = (CASE WHEN EM.PAY_COMMISSION_CODE = 700005 THEN 161 ELSE 10 END)");
+							+ " AND DA.department_allowdeduc_code = (CASE WHEN EM.PAY_COMMISSION_CODE = 700005 THEN "+CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE+" ELSE "+CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE+" END)");
 
 			// Code Added to show employees of valid post and service only for first online
 			// contribution entry
@@ -173,6 +172,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				SBQuery.append(" WHERE CO.DDO_CODE='" + ddoCode + "'");
 			}
 
+		//	SBQuery.append(" AND  (CO.BILL_GROUP_ID=" + billGroupId + " OR EM.BILLGROUP_ID=" + billGroupId+")");
+			
+			
 			/*
 			 * if((!(lLongbillGroupId.toString().equals(gObjRsrcBndle.getString(
 			 * "DCPS.BGIdForContriThruChallan")))) && (lStrUser.equals("DDOAsst") ||
@@ -225,7 +227,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 			Double DA = 0D;
 			Double employeeContribution = 0D;
 			String lStrDA = "";
-			Double emplrContribution = 0D;
+			Double emplrContribution = 0D;  //[34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600.0, 0, 700047, 0, 0, 46, null, 2017-01-01, null, null, null, null, null, 0.0]
 			for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) {
 				Object[] tempObjectList = (Object[]) empList.get(lInt1);
 				Object[] newList = new Object[tempObjectList.length + 4];
@@ -239,9 +241,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 						if (tempObjectList[lInt2] == null) {
 							tempObjectList[lInt2] = 0;
 						} else {
-
-							tempObjectList[lInt2] = (int) Math
-									.ceil(Double.parseDouble(tempObjectList[lInt2].toString()));
+							tempObjectList[lInt2] = (int) Math.ceil(Double.parseDouble(tempObjectList[lInt2].toString()));
 						}
 					}
 
@@ -262,6 +262,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 						DP = BasicPay / 2;
 					}
 				}
+				
 				DARate = 0.01 * Double.parseDouble(tempObjectList[9].toString());
 				lStrTypeOfPayment = tempObjectList[6].toString();
 				DA = 0D;
@@ -309,10 +310,10 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 						}
 					}
 
-					if (!tempObjectList[17].toString().equals("0")) {
+					if (!tempObjectList[17].toString().equals("0.0") && !tempObjectList[17].toString().equals("0")) {
 						emplrContribution = Double.parseDouble(tempObjectList[17].toString());
 					} else {
-						if ((finYearId <= 32 && finYearId <= 3) || finYearId < 32) {
+						if ((finYearId <= 20 && monthId <= 3) || finYearId < 20) {   //2019(Old 32 if ((finYearId <= 32 && finYearId <= 3) || finYearId < 32)  )
 							if (newList[3].toString().equals("700015")) {
 								emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA))
 										* 0.10;
