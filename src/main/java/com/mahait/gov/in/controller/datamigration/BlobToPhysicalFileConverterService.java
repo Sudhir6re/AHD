@@ -1,11 +1,11 @@
 package com.mahait.gov.in.controller.datamigration;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.math.BigInteger;
 
 public interface BlobToPhysicalFileConverterService {
-
 	void convertBlogToFile(Integer typeOp);
 
-	String[] savePhotoSignature(MultipartFile[] files, String DeptNm, Long empid);
+	String uploadPhoto(byte[] files, String DeptNm, BigInteger empid);
 
+	String uploadSignature(byte[] files, String DeptNm, BigInteger empid);
 }

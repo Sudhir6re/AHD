@@ -127,6 +127,8 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 		if (!new File(filePath).exists()) {
 			new File(filePath).mkdirs();
 		}
+		
+		
 		 Integer saveIdnew=orderMasterRepo.saveGrOrder(payOrderMst,files);
 		   for(int i=0;i<files.length;i++) {
 	        	String filePathnew=saveAttachment(files,saveIdnew,mstGrOrderModel.getGrOrderId(),i);
@@ -177,12 +179,12 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 					String strOSName = System.getProperty("os.name");
 					boolean test = strOSName.contains("Windows");
 					if (strOSName.contains("Windows")) {
-						key = "serverempconfigimagepath";
+						key = "serverGrOrderpath";
 					} else {
-						key = "serverempconfigimagepathLinuxOS";
+						key = "serverGrOrderLinuxOS";
 					}
 					rootPath = environment.getRequiredProperty(key);
-					rootPath += saveIdnew.toString() + File.separator + long1;
+					rootPath += saveIdnew.toString();
 					File dir = new File(rootPath);
 					if (!dir.exists())
 						dir.mkdirs();
@@ -190,7 +192,8 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 					Date date=new Date();
 
 				//	String name = files[fileNo].getOriginalFilename()+"."+extension;
-					String name = files[fileNo].getOriginalFilename();
+					//String name = files[fileNo].getOriginalFilename();
+					String name = saveIdnew+"."+extension;
 					// Create the file on server
 					File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));

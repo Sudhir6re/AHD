@@ -18,10 +18,8 @@ public class BlobToPhysicalFileConverterController {
 	//employeeconfig 1 //gr 2
 	@RequestMapping("/convertBlogToFile/{typeOp}")
 	public String convertBlogToFile(@PathVariable Integer typeOp) {
-		
 		blobToPhysicalFileConverterService.convertBlogToFile(typeOp);
 	    return "Processing complete.";
-		
 	}
 	
 	

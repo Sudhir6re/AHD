@@ -5,29 +5,34 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.transaction.Transactional;
 
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.stereotype.Service;
 
+import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.GROrderDocumentEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
+
+
+@Transactional
+@Service
 public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFileConverterService {
 
 	@Autowired
 	BlobToPhysicalFileConverterRepo blobToPhysicalFileConverterRepo;
-	
+
 	@Autowired
 	private Environment environment;
-	
 
 	@Override
 	public void convertBlogToFile(Integer typeOp) {
@@ -37,24 +42,44 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 		for (Object[] row : results) {
 			String fileName = row[0].toString();
 			byte[] byteData = (byte[]) row[1];
-		//	byte[] byteData = (byte[]) row[2];
-			
-			
-			List<byte[]> lst=new ArrayList<>();
+			BigInteger id = StringHelperUtils.isNullBigInteger(row[2]);
 
-			try {
-				String fileExtension = getFileExtension(byteData, tika);
-				String fullFileName = fileName + "." + fileExtension;
+			List<byte[]> lst = new ArrayList<>();
+			String fileExtension = getFileExtension(byteData, tika);
+			String fullFileName = fileName + "." + fileExtension;
 
-				try (OutputStream outputStream = new FileOutputStream(fullFileName)) {
-					outputStream.write(byteData);
+			String DeptNm = "";
+
+			if (typeOp == 1) {
+				String filePath = uploadPhoto(byteData, DeptNm, id);
+				if (filePath != null) {
+
+					MstEmployeeEntity mstEmployeeEntity = blobToPhysicalFileConverterRepo.findEmpByEmpId(id);
+					mstEmployeeEntity.setPhotoAttachmentId(filePath);
+					mstEmployeeEntity.setEmployeeId(id.longValue());
+					blobToPhysicalFileConverterRepo.updatePhotoPath(mstEmployeeEntity);
 				}
 
-				System.out.println("Data has been written to " + fullFileName);
+			} else if (typeOp == 2) {
+				String filePath = uploadSignature(byteData, DeptNm, id);
+				if (filePath != null) {
+					MstEmployeeEntity mstEmployeeEntity = blobToPhysicalFileConverterRepo.findEmpByEmpId(id);
+					mstEmployeeEntity.setSignatureAttachmentId(filePath);
+					blobToPhysicalFileConverterRepo.updatePhotoPath(mstEmployeeEntity);
+				}
+			} else {
+				
+				String filePath = saveAttachment(byteData, id, fileExtension);
+				if (filePath != null) {
+					BigInteger grDocumentId = StringHelperUtils.isNullBigInteger(row[3]);
+					GROrderDocumentEntity gROrderDocumentEntity =blobToPhysicalFileConverterRepo.findDocumentId(grDocumentId);
+					gROrderDocumentEntity.setFilePath(filePath);
+					blobToPhysicalFileConverterRepo.updateGrPath(gROrderDocumentEntity);
+				}
 
-			} catch (IOException e) {
-				System.err.println("Error writing file: " + e.getMessage());
 			}
+
+			
 		}
 	}
 
@@ -68,47 +93,43 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 			return "bin"; // Fallback extension
 		}
 	}
-	
-	
-	public String saveAttachment(MultipartFile[] files, Integer saveIdnew, Long long1,Integer fileNo) {
-		String res =null;
+
+	public String saveAttachment(byte files[], BigInteger grOrderId, String fileExtension) {
+		String res = null;
 		if (files.length != 0) {
 			int width = 963;
 			int height = 640;
 			try {
-				byte[] bytes = files[fileNo].getBytes();
-				String extension=StringUtils.getFilenameExtension(files[fileNo].getOriginalFilename());
+				byte[] bytes = files;
+				String extension = fileExtension;
 				if (bytes.length != 0) {
 					BufferedImage image = null;
 					File f = null;
 					InputStream in = new ByteArrayInputStream(bytes);
 					image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 					image = ImageIO.read(in);
-				
 					String key = "";
 					String rootPath = "";
 					String strOSName = System.getProperty("os.name");
 					boolean test = strOSName.contains("Windows");
 					if (strOSName.contains("Windows")) {
-						key = "serverempconfigimagepath";
+						key = "serverGrOrderpath";
 					} else {
-						key = "serverempconfigimagepathLinuxOS";
+						key = "serverGrOrderLinuxOS";
 					}
 					rootPath = environment.getRequiredProperty(key);
-					rootPath += saveIdnew.toString() + File.separator + long1;
+					rootPath += grOrderId.toString();
 					File dir = new File(rootPath);
 					if (!dir.exists())
 						dir.mkdirs();
-					
-					Date date=new Date();
 
-					String name = files[fileNo].getOriginalFilename();
+					Date date = new Date();
+					String name = grOrderId + "." + fileExtension;
 					File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 					stream.write(bytes);
 					stream.close();
 					res = dir.getAbsolutePath() + File.separator + name;
-
 				} else {
 					res = "";
 				}
@@ -121,15 +142,14 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 	}
 
 	@Override
-	public String[] savePhotoSignature(MultipartFile[] files, String DeptNm, Long empid) {
-		// department name/photo/employee_id/photo.jpg
-		String[] res = new String[2];
+	public String uploadPhoto(byte files[], String DeptNm, BigInteger empid) {
+		String res = null;
 		if (files.length != 0) {
 			int width = 963;
 			int height = 640;
 
 			try {
-				byte[] bytes = files[0].getBytes();
+				byte[] bytes = files;
 				if (bytes.length != 0) {
 					BufferedImage image = null;
 					File f = null;
@@ -157,21 +177,27 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 					stream.write(bytes);
 					stream.close();
 
-					res[0] = dir.getAbsolutePath() + File.separator + name;
+					res = dir.getAbsolutePath() + File.separator + name;
 
 				} else {
-					res[0] = "";
+					res = "";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				res[0] = "";
+				res = "";
 			}
 		}
+		return res;
 
+	}
+
+	@Override
+	public String uploadSignature(byte files[], String DeptNm, BigInteger empid) {
 		// signature image code started
+		String res = null;
 		if (files.length != 0) {
 			try {
-				byte[] bytes = files[1].getBytes();
+				byte[] bytes = files;
 				boolean var = bytes.length != 0;
 
 				if (bytes.length != 0) {
@@ -204,13 +230,13 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 					stream.write(bytes);
 					stream.close();
 
-					res[1] = dir.getAbsolutePath() + File.separator + name;
+					res = dir.getAbsolutePath() + File.separator + name;
 				} else {
-					res[1] = "";
+					res = "";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				res[1] = "";
+				res = "";
 			}
 		}
 		// signature code ended
