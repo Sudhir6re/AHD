@@ -135,16 +135,19 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 	        	grOrderDocumentEntity.setCreatedDate(new Date());
 	        	grOrderDocumentEntity.setIsActive('1');
 	        	grOrderDocumentEntity.setCreatedUserId(messages.getUserId());
-	        	grOrderDocumentEntity.setGrDocId(Long.valueOf(saveIdnew));
+	        	//grOrderDocumentEntity.setGrDocId(Long.valueOf(saveIdnew));
+	        	grOrderDocumentEntity.setGrOrderId(Long.valueOf(saveIdnew));
 	        	Long saveDocid=orderMasterRepo.saveAdvanceDocuments(grOrderDocumentEntity);
 	        }
-		 try {
+			payOrderMst.setAttachmentId(saveIdnew.longValue());
+		   
+		/* try {
 				File file = new File(filePath + files[0].getOriginalFilename());
 				FileCopyUtils.copy(files[0].getBytes(),file);
 				payOrderMst.setAttachmentId(saveIdnew.longValue());
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 		 saveId = orderMasterRepo.saveMstGrOrder(payOrderMst);
 		}
