@@ -217,6 +217,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}
 			/////paybillGenerationTrnDetails.setHraPercent(Integer.parseInt(percentageHRA));
 			paybillGenerationTrnDetails.setRemark("Testing");
+			paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
+			objEntity.setPaybillGenerationTrnId(val);
 
 			cadre = paybillHeadMpgRepo.getEmpCadre(mstEmployeeEntity2.getSevaarthId(),
 					mstEmployeeEntity2.getEmpClass());
@@ -322,7 +324,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						paybillGenerationTrnDetails.setPayBand(mstEmployeeEntity2.getPayInPayBand());
 				}
 
-				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
+				
 				Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
 
 				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);
@@ -333,7 +335,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 				objEntity.setBillNetAmount((double) Math.round(netAmt));
-				objEntity.setPaybillGenerationTrnId(val);
+				
 
 				// Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
 				// Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
@@ -756,7 +758,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						paybillGenerationTrnDetails.setPayBand(mstEmployeeEntity2.getPayInPayBand());
 				}
 
-				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
 
 				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);
 
@@ -772,7 +773,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 		objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 		objEntity.setBillNetAmount((double) Math.round(netAmt));
-		objEntity.setPaybillGenerationTrnId(val);
 
 		Long saveId = paybillHeadMpgRepo.saveBulkPaybillDetail(lstPaybillGenerationTrnDetails);
 
