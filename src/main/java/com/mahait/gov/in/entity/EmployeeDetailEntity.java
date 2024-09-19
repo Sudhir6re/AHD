@@ -7,8 +7,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,15 +21,14 @@ import lombok.Data;
 @Table(name = "employee_details_no_approval")
 public class EmployeeDetailEntity implements Serializable {
 	
-
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "EMPLOYEE_ID")
 	private Long employeeId;
 
 	@Column(name = "SEVAARTH_ID")
 	private String sevaarthId;
-
 
 
 	@Column(name = "GENDER")
@@ -42,74 +43,37 @@ public class EmployeeDetailEntity implements Serializable {
 	@Column(name = "EMPLOYEE_F_NAME_EN")
 	private String employeeFNameEn;
 
-	@Column(name = "gis_remark")
-	private String GisRemark;
-
 	@Column(name = "EMPLOYEE_M_NAME_EN")
 	private String employeeMNameEn;
 
 	@Column(name = "EMPLOYEE_L_NAME_EN")
 	private String employeeLNameEn;
 
-	@Column(name = "EMPLOYEE_FULL_NAME_MR")
-	private String employeeFullNameMr;
-
-	@Column(name = "EMPLOYEE_F_NAME_MR")
-	private String employeeFNameMr;
-
-	@Column(name = "EMPLOYEE_M_NAME_MR")
-	private String employeeMNameMr;
-
-	@Column(name = "EMPLOYEE_L_NAME_MR")
-	private String employeeLNameMr;
-
-	@Column(name = "EMPLOYEE_MOTHER_NAME")
-	private String employeeMotherName;
-
-	@Column(name = "MARITAL_STATUS")
-	private Character maritalStatus;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "DOB")
 	private Date dob;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "membership_date")
-	private Date membership_date;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "DtJoinCurrentPost")
-	private Date dtJoinCurrentPost;
-
-	@Column(name = "BLOOD_GROUP")
-	private Character bloodGroup;
+	
 
 	@Column(name = "MOBILE_NO1")
 	private Long mobileNo1;
 
 	@Column(name = "MOBILE_NO2")
 	private Long mobileNo2;
-
-	@Column(name = "LANDLINE_NO")
-	private String landlineNo;
-
+	
 	@Column(name = "EMAIL_ID")
 	private String emailId;
-
-	@Column(name = "Inst_email")
-	private String instemail;
-
-	@Column(name = "RELIGION_CODE")
-	private Long religionCode;
-
-	@Column(name = "GISCATAHORY")
-	private Long giscatagory;
-
+	
+	
 	@Column(name = "EID_NO")
 	private String eidNo;
+	
+	
 
 	@Column(name = "UID_NO")
 	private String uidNo;
+	
+	
 
 	@Column(name = "PAN_NO")
 	private String panNo;
@@ -125,48 +89,40 @@ public class EmployeeDetailEntity implements Serializable {
 
 	@Column(name = "PINCODE")
 	private Long pinCode;
-
-	@Column(name = "VILLAGE_CODE")
-	private Long villageCode;
-
-	@Column(name = "VILLAGE_NAME")
-	private String villageName;
-
-	@Column(name = "TALUKA_CODE")
-	private Long talukaCode;
+	
 
 	@Column(name = "DISTRICT_CODE")
 	private Long districtCode;
 
-	@Column(name = "sub_department_id")
-	private Long subDeptId;
 
 	@Column(name = "STATE_CODE")
 	private Long stateCode;
 
-	@Column(name = "COUNTRY_CODE")
-	private Long countryCode;
-
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "appointment_date")
+	private Date dtInitialAppointmentParentInst;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "DOJ")
 	private Date doj;
 
 	@Column(name = "USER_ID")
 	private Long userId;
+	
 
 	@Column(name = "CADRE_CODE")
 	private Long cadreCode;
 
-	@Column(name = "EMP_CLASS")
-	private Long empClass;
 
 	@Column(name = "FIRST_DESIGNATION_CODE")
 	private Long firstDesignationCode;
 
+	
 	@Column(name = "DESIGNATION_CODE")
 	private Long designationCode;
 
-	@Column(name = "PARENT_ADMIN_DEPARTMENT_CODE")
+/*	@Column(name = "PARENT_ADMIN_DEPARTMENT_CODE")
 	private Long parentAdminDepartmentCode;
 
 	@Column(name = "PARENT_FIELD_DEPARTMENT_CODE")
@@ -176,86 +132,19 @@ public class EmployeeDetailEntity implements Serializable {
 	private Long adminDepartmentCode;
 
 	@Column(name = "SUB_CORPORATION_CODE")
-	private Long subCorporationId;
+	private Long subCorporationId;*/
 
 	@Column(name = "FIELD_DEPARTMENT_CODE")
 	private Long fieldDepartmentCode;
-
-	@Column(name = "CURRENT_OFFICE_CODE")
-	private Long currentOfficeCode;
-
-	@Column(name = "PAY_COMMISSION_CODE")
-	private Long payCommissionCode;
-
+	
 	@Column(name = "PAY_SCALE_CODE")
 	private Long payScaleCode;
-
-	@Column(name = "IsApplicableforBeams", length = 1)
-	private Character IsApplicableforBeams;
-
-
-
-	@Column(name = "REASON_FOR_CHANGEDTLS")
-	private String reasonForChangedtls;
-
-	@Column(name = "instituteAdd")
-	private String instituteAdd;
-
-	@Column(name = "departmentNameEn")
-	private String departmentNameEn;
-
-	@Column(name = "instName")
-	private String instName;
-
-	@Column(name = "pfacno")
-	private String pfacno;
-
-	@Column(name = "pfdescription")
-	private String pfdescription;
-
-	@Column(name = "gisapplicable")
-	private String gisapplicable;
-
-	@Column(name = "gisgroup")
-	private String gisgroup;
-
-	@Column(name = "dcpsaccountmaintainby")
-	private String dcpsaccountmaintainby;
-
-	@Column(name = "accountmaintainby")
-	private String accountmaintainby;
-
-	@Column(name = "indiApproveOrderNo")
-	private String indiApproveOrderNo;
-
-	@Column(name = "pfseries")
-	private String pfseries;
-	
-	@Column(name = "dcps_no")
-	private String dcpsNo;
-
-	@Column(name = "isgpfflag")
-	private Long isgpfflag;
-
-	@Column(name = "crtId")
-	private Long crtId;
-	
-	@Column(name = "headOfAccCode")
-	private String headOfAccCode;
-	
 	
 
-	@Column(name = "accMaintainedByOther")
-	private String accMaintainedByOther;
-
-	
-	@Transient
-	private String uidNo3;
-
-	
 	@Column(name = "PAY_IN_PAY_BAND")
 	private Long payInPayBand;
-
+	
+	
 	@Column(name = "GRADE_PAY")
 	private Long gradePay;
 
@@ -271,6 +160,8 @@ public class EmployeeDetailEntity implements Serializable {
 	@Column(name = "BANK_BRANCH_CODE")
 	private Long bankBranchCode;
 
+
+
 	@Column(name = "DDO_CODE")
 	private String ddoCode;
 
@@ -285,10 +176,11 @@ public class EmployeeDetailEntity implements Serializable {
 
 	@Column(name = "PERCENTAGE_OF_BASIC")
 	private Long percentageOfBasic;
+	
 
 	@Column(name = "HEAD_ACT_CODE")
 	private String headActCode;
-
+	
 	@Column(name = "EMPLOYEE_TYPE")
 	private Character employeeType;
 
@@ -313,6 +205,8 @@ public class EmployeeDetailEntity implements Serializable {
 
 	@Column(name = "SIGNATURE_ATTACHMENT_ID")
 	private String signatureAttachmentId;
+	
+	
 
 	@Column(name = "CREATED_USER_ID")
 	private Long createdUserId;
@@ -328,112 +222,163 @@ public class EmployeeDetailEntity implements Serializable {
 	
 	@Column(name = "PAY_SCALE_LEVEL_ID")
 	private String payscalelevelId;
-
-	@Column(name = "locality")
-	private String locality;
-
 	
-
-	@Column(name = "seven_pc_basic")
-	private Double sevenPcBasic;
-
-	@Column(name = "remark")
-	private String remark;
-
 	@Column(name = "post_detail_id")
 	private Long postdetailid;
-
-	@Column(name = "dcps_gpf_flag")
-	private String dcpsgpfflag;
-
+	
+	@Column(name = "remark")
+	private String remark;
+	
 	@Column(name = "state_matrix_7pc_id")
 	private Long svnthpaybasic;
 
 	@Column(name = "pyhical_handicapped")
 	private String physicallyHandicapped;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "appointment_date")
-	private Date dtInitialAppointmentParentInst;
+
+	@Column(name = "dcps_gpf_flag")
+	private String dcpsgpfflag;
+	
+
+	@Column(name = "pran_no")
+	private String pranNo;
+	
+	@Column(name = "pran_status")
+	private String pranStatus;
+	
+	
+	@Column(name = "pran_remarks")
+	private String pranRemarks;
+	
+
+	@Column(name = "PAY_COMMISSION_CODE")
+	private Long payCommissionCode;
+
+	
+	@Column(name = "CURRENT_OFFICE_CODE")
+	private Long currentOfficeCode;
+	
+	
+	@Column(name = "pay_scale_id_old")
+	private Long payScaleIdOld;
+	
+	
+	@Column(name = "billgroup_id_old")
+	private Long billgroupIdOld;
+	
+	
+
+	@Column(name = "seven_pc_basic")
+	private Double sevenPcBasic;
+
 
 	@Column(name = "seven_pc_level")
 	private Long sevenPcLevel;
-
-	@Column(name = "updated_basic_date")
-	private Date updatedBasicDate;
-
-	@Column(name = "updated_basic_user_id")
-	private Long updatedBasicUserId;
-
-	@Column(name = "updated_basic_percentage")
-	private Long updatedBasicPercent;
-
-	@Column(name = "updated_basic_witheff_date")
-	private Date updatedBasicwitheffDate;
-
-	@Column(name = "revised_basic")
-	private Double revisedBasic;
-
-	@Column(name = "relieving_date")
-	private Date relievingDate;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "order_date")
-	private Date orderDate;
-
-	@Column(name = "new_joining_date")
-	private Date newJoiningDate;
-
+	
+	@Column(name = "pay_scale_id")
+	private Long payScaleId;
+	
+	
 	@Column(name = "ac_dcps_maintained_by ")
 	private Long acDcpsMaintedBy;
+	
+
 
 	@Column(name = "buckle_no")
 	private Long buckleNo;
 
-	@Column(name = "is_changeParent_department")
-	private Boolean isChangeParentDepartment;
-
-	@Column(name = "reason_for_change_parent_field_dept ")
-	private String reasonForChngParentFieldDept;
-
-	@Column(name = "pran_no ")
-	private String pranNo;
-
+	
+	
 	@Column(name = "emp_type")
 	private String empType;
 
-	@Column(name = "reason_for_rejectorapproved")
-	private String reasonForRejOrApprv;
-
-	@Column(name = "is_mapped_with_nps")
-	private Character isMappedWithNps;
-
-	@Column(name = "hra_basic")
-	private Double hraBasic;
-
-	@Column(name = "BEGIS_CATG")
-	private String begisCatg;
-
-	@Column(name = "joining_relieving_reason")
-	private String joiningRelievingReason;
-
+	
+	
+	@Column(name = "reason_for_change_parent_field_dept ")
+	private String reasonForChngParentFieldDept;
+	
+	
 	@Column(name = "city_class")
 	private String cityClass;
-
-	@Column(name = "GID_ID")
-	private Long gisId;
-
-	@Column(name = "pay_scal_desc")
-	private String payScaleDesc;
-
-	@Column(name = "HOD_lOC_CODE")
-	private Long parentFieldDepartmentId;
 	
-	@Column(name = "QUALIFICATION")
-	private String qualification;
+	
+
+	@Column(name = "REASON_FOR_CHANGEDTLS")
+	private String reasonForChangedtls;
+	
+	@Column(name = "EMP_CLASS")
+	private Long empClass;
+
+
+	@Column(name = "accMaintainedByOther")
+	private String accMaintainedByOther;
+	
+
+	@Column(name = "locality")
+	private String locality;
+	
+	@Column(name = "instName")
+	private String instName;
+	
+	
+	@Column(name = "Inst_email")
+	private String instemail;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "curr_post_joining_date")
+	private Date currPostJoiningDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "DtJoinCurrentPost")
+	private Date dtJoinCurrentPost;
+	
+	
+	@Column(name = "accountmaintainby")
+	private String accountmaintainby;
+
+	@Column(name = "dcpsaccountmaintainby")
+	private String dcpsaccountmaintainby;
+
+
+	@Column(name = "gisapplicable")
+	private String gisapplicable;
+
+	
+	@Column(name = "gisgroup")
+	private String gisgroup;
+
+
+	@Column(name = "indiApproveOrderNo")
+	private String indiApproveOrderNo;
+
+	
+	
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "membership_date")
+	private Date membership_date;
+
+
+	@Column(name = "pfacno")
+	private String pfacno;
+	
+	@Column(name = "pfdescription")
+	private String pfdescription;
+	
+
+	@Column(name = "pfseries")
+	private String pfseries;
+	
+	
+	@Column(name = "dcps_no")
+	private String dcpsNo;
+
+	@Column(name = "headOfAccCode")
+	private String headOfAccCode;
 	
 	@Column(name = "APPOINTMENT")
 	private String appointment;
+	
 	
 	@Column(name = "EMP_TYPES")
 	private String teaching;
@@ -444,6 +389,6 @@ public class EmployeeDetailEntity implements Serializable {
 	
 	@Column(name = "MORE_QUALIFICATION")
 	private String morequalification;
-	
+
 	
 }

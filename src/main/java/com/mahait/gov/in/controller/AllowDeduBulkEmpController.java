@@ -1,8 +1,5 @@
-package com.mahait.gov.in.controller;
+/*package com.mahait.gov.in.controller;
 
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,13 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -49,18 +43,19 @@ public class AllowDeduBulkEmpController {
 	MstEmployeeService mstEmployeeService;
 	
 	/*@Autowired
-	MpgSchemeBillGroupService mpgSchemeBillGroupService;*/
-/*	
+	MpgSchemeBillGroupService mpgSchemeBillGroupService;
+	
 	@Autowired
 	
 	/*@Autowired
 	MpgSchemeBillGroupService mpgSchemeBillGroupService;
-	*/
+	
 	
 	@Autowired
 	AllowanceDeductionWiseMstService allowanceDeductionWiseMstService;
 	
-	
+	@Autowired
+	MstEmployeeService mstEmployeeService;
 	
 	@Autowired
 	AllowDeduBulkEmpService allowDeduBulkEmpService;
@@ -76,19 +71,19 @@ public class AllowDeduBulkEmpController {
 		
 	    List<Object[]> deptEligibilityForAllowAndDeductEntity =  createAdminOfficeService.employeeMappingList(messages.getUserName());
 		model.addAttribute("language", locale.getLanguage());
-		/*model.addAttribute("lstDDOWiseEmployee", mstEmployeeService.findAllEmployeeByddoCode(messages.getUserName()));
-		*/
-		/*model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());*/
+		model.addAttribute("lstDDOWiseEmployee", mstEmployeeService.findAllEmployeeByddoCode(messages.getUserName()));
+		
+		model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());
 		model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployeesByDDOName(messages.getUserName()));
 		
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
 		model.addAttribute("context", request.getContextPath());
 
-	/*	model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
+		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
 				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));
-		*/
-/*		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
-				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));*/
+		
+		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
+				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));
 		
 		
 		model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);
@@ -150,4 +145,5 @@ public class AllowDeduBulkEmpController {
 		return ResponseEntity.ok(resJson);
 	}
 
-}
+*/}
+*/

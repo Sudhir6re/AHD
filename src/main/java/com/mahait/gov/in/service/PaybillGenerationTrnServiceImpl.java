@@ -130,6 +130,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 		Long val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
 
+		
+		System.out.println("Hiiii checking----");
 		paybillStatusEntity.setBillNo(val);
 		paybillStatusEntity.setCreatedDate(new Date());
 		paybillStatusEntity.setIsActive(1);
@@ -185,7 +187,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			dedByTreasury = 0d;
 			netAmount = 0d;
 
-			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+			/*if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				percentage = percentageRate[0];
 				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC, cityClass);
@@ -194,7 +196,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC, cityClass);
 			}
-
+*/
 			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId().trim(),
 					String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
 					String.valueOf(paybillHeadMpgModel.getPaybillYear()));
@@ -213,7 +215,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}else {
 				paybillGenerationTrnDetails.setDaPercent(percentageRate[2]);
 			}
-			paybillGenerationTrnDetails.setHraPercent(Integer.parseInt(percentageHRA));
+			/////paybillGenerationTrnDetails.setHraPercent(Integer.parseInt(percentageHRA));
 			paybillGenerationTrnDetails.setRemark("Testing");
 
 			cadre = paybillHeadMpgRepo.getEmpCadre(mstEmployeeEntity2.getSevaarthId(),
@@ -376,7 +378,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					if (object12[9] != null)
 						gradePaynew = (int) object12[9];
 					int allowDeducCode = (int) object12[2];
-					String physicalhand = Character.toString((char) object12[10]);
+					String physicalhand = (String) object12[10];
 					int isRuleBased = 0;
 					if (object12[14] != null)
 						isRuleBased = (int) object12[14];

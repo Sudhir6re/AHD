@@ -460,6 +460,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 				CmnLookupMst obj = new CmnLookupMst();
 				obj.setLookupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
 				obj.setLookupName(StringHelperUtils.isNullString(objLst[1]));
+				obj.setLookupDesc(StringHelperUtils.isNullString(objLst[2]));
 
 				lstObj.add(obj);
 			}

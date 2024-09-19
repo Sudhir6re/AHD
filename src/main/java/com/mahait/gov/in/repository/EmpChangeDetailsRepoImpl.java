@@ -117,7 +117,7 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
             	lstObj.setSuperannuationage(StringHelperUtils.isNullLong(age));
             	lstObj.setBankId(StringHelperUtils.isNullLong(objLst[33]));
             	lstObj.setBankBranchId(StringHelperUtils.isNullLong(objLst[34]));
-            	lstObj.setBankAcntNo(StringHelperUtils.isNullLong(objLst[35]));
+            	lstObj.setBankAcntNo(StringHelperUtils.isNullString(objLst[35]));
             	lstObj.setIfscCode(StringHelperUtils.isNullString(objLst[36]));
             	lstObj.setDcpsgpfflag(StringHelperUtils.isNullString(String.valueOf(objLst[37])));
             	lstObj.setEidNo(StringHelperUtils.isNullString(objLst[38]));

@@ -139,8 +139,8 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "DP_GAZZETED")
 	private Double dpGazzeted;
 
-	@Column(name = "PAYBILL_GRP_ID",columnDefinition = "double default 0.0")
-	private Long paybillGrpId;
+	/*@Column(name = "PAYBILL_GRP_ID",columnDefinition = "double default 0.0")
+	private Long paybillGrpId;*/
 
 	@Column(name = "GPF_IV_ADV")
 	private Double gpfIvAdv;
@@ -644,7 +644,7 @@ public class PaybillGenerationTrnDetails  {
 	private String sevaarthId;
 	
 	@Column(name = "bank_account_no")
-	private Long bankAccNo;
+	private String bankAccNo;
 	
 	@Column(name = "bank_id")
 	private Long bankId;

@@ -154,7 +154,7 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
 			obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
 			if (objLst[7] != null && !objLst[7].equals("")) {
-				if (objLst[7].equals('Y')) {
+				if (objLst[7].equals("Y")) {
 					obj.setDcpsgpfflag("DCPS");
 				} else {
 					obj.setDcpsgpfflag("GPF");

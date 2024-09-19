@@ -1231,24 +1231,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					BufferedImage image = null;
 					File f = null;
 					InputStream in = new ByteArrayInputStream(bytes);
-					//    //read image
-					////    try{
-					////      f = new File(strmagepath); //image file path
 					image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 					image = ImageIO.read(in);
-					////      logger.info("Reading complete.");
-					////    }catch(IOException e){
-					////      logger.info("Error: "+e);
-					////    }
-					//  //write image
-					// String stroutputimagepath="D:\\Image\\Output.jpg";
-					//
-					// f = new File(stroutputimagepath);
-					// ImageIO.write(image, "jpg", f);
-					// logger.info("Writing complete.");
-
-					// Creating the directory to store file
-					// String rootPath = System.getProperty("catalina.home");
 					String key = "";
 					String rootPath = "";
 					String strOSName = System.getProperty("os.name");
@@ -1265,7 +1249,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 						dir.mkdirs();
 
 					String name = "photo.jpg";
-					// Create the file on server
 					File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 					stream.write(bytes);
@@ -1294,24 +1277,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					int width = 963;
 					int height = 640;
 					InputStream in = new ByteArrayInputStream(bytes);
-					//    //read image
-					////    try{
-					////      f = new File(strmagepath); //image file path
 					image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 					image = ImageIO.read(in);
-					// BufferedImage scaleimg = Scalr
-					////      logger.info("Reading complete.");
-					////    }catch(IOException e){
-					////      logger.info("Error: "+e);
-					////    }
-					//  //write image
-					// String stroutputimagepath="D:\\Image\\Signature.jpg";
-
-					// f = new File(stroutputimagepath);
-					// ImageIO.write(image, "jpg", f);
-					// logger.info("Writing complete.");
-					// Creating the directory to store file
-					// String rootPath = System.getProperty("catalina.home");
 					String key = "";
 					String rootPath = "";
 					String strOSName = System.getProperty("os.name");
@@ -1645,12 +1612,13 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				}
 				obj.setRemark(StringHelperUtils.isNullString(objLst[3]));
 				if (objLst[4] instanceof Integer) {
-				    obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]).longValue());
-				}else if (objLst[4] instanceof BigInteger) {
-				    obj.setIsActive(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
-				}else {
-					obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]));
+				    obj.setIsActive(StringHelperUtils.isNullLong(Long.valueOf((Integer) objLst[4])));
+				} else if (objLst[4] instanceof BigInteger) {
+				    obj.setIsActive(StringHelperUtils.isNullBigInteger((BigInteger) objLst[4]).longValue());
+				} else {
+				    obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]));
 				}
+
 				lstObj.add(obj);
 			}
 		}
