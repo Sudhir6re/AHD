@@ -649,7 +649,6 @@ function isValidEmail(email) {
 	}
 
 
-
-
-
-
+$(document).ready(function(){ 
+	$('select').select2();
+});

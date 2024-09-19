@@ -880,6 +880,27 @@ if(paycomm != '' && paycomm != undefined){
 			}catch(err){
 			}
 		},
+		
+		
+		
+		 errorPlacement: function(label, element) {
+			    if (element.hasClass('web-select2')) {
+			      label.insertAfter(element.next('.select2-container')).addClass('mt-2 text-danger');
+			      select2label = label
+			    } else {
+			      label.addClass('mt-2 text-danger');
+			      label.insertAfter(element);
+			    }
+			  },
+			  highlight: function(element) {
+			    $(element).parent().addClass('is-invalid')
+			    $(element).addClass('form-control-danger')
+			  },
+			  success: function(label, element) {
+			    $(element).parent().removeClass('is-invalid')
+			    $(element).removeClass('form-control-danger')
+			    label.remove();
+			  },
 		 /*errorPlacement: function (error, element) {
 	          //  console.log('dd', element.attr("name"))
 	            if (element.attr("name") == "client_city") {
