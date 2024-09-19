@@ -208,7 +208,7 @@ body {font-family: Verdana }.TableBorderN {border-style: solid;border-color: gre
 			<tr th:if="${innerrptPage.totalPages > 0}" class="pagination"
 				th:each="pageNumber : ${pageNumbers}">
 				<td><a
-					th:href="@{|/innerreport/getinnerreport/${billNumber}/${innerrptPage.size}/${pageNumber}/1|}"><span
+					th:href="@{|/ddoast/getinnerreport/${billNumber}/${innerrptPage.size}/${pageNumber}/1|}"><span
 						th:utext="${pageNumber}"></span></a></td>
 			</tr>
 

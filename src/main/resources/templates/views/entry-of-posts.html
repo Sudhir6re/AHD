@@ -26,10 +26,10 @@
 
 		<div class="formMainwithNoborTb container">
 
-			<div th:if="${messageResponse!=null}"
+		<!-- 	<div th:if="${messageResponse!=null}"
 				th:class="${messageResponse.style}">
 				<strong><span th:utext="${messageResponse.response}"></span></strong>
-			</div>
+			</div> -->
 
 			<form method="post" action="" name="frmAdminCrtPost"
 				enctype="multipart/form-data">
@@ -37,6 +37,8 @@
 					<legend>View Post Details </legend>
 				</fieldset>
 				<div id="tcontent1">
+				
+				<input type="hidden" name="message" id="message" th:value="${message}" />
 
 					<table class="table bor-0">
 

@@ -18,6 +18,7 @@ public class CommonConstants {
 		String SAVEDRAFT="All the details saved successfully";
 		String FRWDDDO="Registration form is forwarded successfully";
 		
+		String DRAFTCASE="Employee details Draft Successfully";
 		
 		String FRWDCLK="Opening Balance Saved and Forwarded To Next Authority";
 		
@@ -94,7 +95,7 @@ public class CommonConstants {
 		String MOTOR_VEHICLE_ADVANCE = "MOTORVEHADV";
 		String HOUSE_ADVANCE = "HBA";
 		String EMPLOYEE_TYPE = "EMPLOYEE_TYPE";
-		String BILL_TYPE = "PAYBILL_TYPE";
+		String BILL_TYPE = "PAYROLL_BILL_TYPE";
 		String CADRE_GROUP = "CADRE_GROUP";
 		String ADVANCE_PURPOSE = "PURPOSE_OF_WITHDRAWL";
 		String DCPS_OFFICE_CLASS = "DCPS_OFFICE_CLASS";

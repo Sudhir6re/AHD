@@ -89,8 +89,8 @@ h2#swal2-title {
 								<option th:value="0"
 									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 								<option th:each="varCommon : ${lstBillTypes}"
-									th:value="${varCommon.parentLookupId}"
-									th:text="${language=='mh' ? varCommon.lookupDesc : varCommon.lookupDesc}"></option>
+									th:value="${varCommon.commonValue}"
+									th:text="${language=='mh' ? varCommon.commonValEnglish : varCommon.commonValEnglish}"></option>
 							</select>
 						</div>
 

@@ -136,6 +136,9 @@ public interface MstEmployeeRepo {
 
 	public List<Object[]> findAllEmployeesByDDOName(String userName);
 
+	public List<Object[]> findDraftCaseList(OrgUserMst messages, Long cASE_STATUS);
+
+
 
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 

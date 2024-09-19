@@ -309,9 +309,6 @@ if(paycomm != '' && paycomm != undefined){
 				validAge=true;
 				//swal("Age " + age + " is restrict");
 				
-				
-				
-				
 				document.getElementById("dob").value = "";
 			} 
 		} else {
@@ -1231,6 +1228,52 @@ if(paycomm != '' && paycomm != undefined){
 	            updateButtonVisibility();
 	        }
 	    });
+	    
+	    
+	    
+	    $('.btnSaveAsDraft').click(function(e) {
+	        var uidNo1 = $('#uid1').val().trim();
+	        var uidNo2 = $('#uid2').val().trim();
+	        var uidNo3 = $('#uid3').val().trim();
+	        var eidNo = $('#eidNo').val().trim();
+	        var dob = $('#dob').val().trim();
+	        var gisApplicable = $('#gisapplicable').val().trim();
+	        var pfDescription = $('#pfdescription').val().trim();
+	        var accountMaintainBy = $('#accountmaintainby').val().trim();
+	        var dcpsGpfFlag = $('input[name="dcpsgpfflag"]:checked').val();
+
+	        if (accountMaintainBy === "700094" && pfDescription === "") {
+	            swal("Please enter PF description.");
+	        } else if ((uidNo1 === "" || uidNo2 === "" || uidNo3 === "") && eidNo === "") {
+	            swal("Please enter UID or EID.");
+	        } else if (uidNo1 && uidNo2 && uidNo3 && (uidNo1.length !== 4 || uidNo2.length !== 4 || uidNo3.length !== 4)) {
+	            swal("Please enter a valid UID.");
+	        }else if ($("#salutation").val().trim() === "0") {
+	            swal("Please select salutation.");
+	        }  else if ($("#fullName").val().trim() === '') {
+	            swal("Please enter employee name.");
+	        } else if ($("#gender").val().trim() === "") {
+	            swal("Please select gender.");
+	        } else if (dob === "") {
+	            swal("Please select date of birth.");
+	        } else if ((gisApplicable === "0" || gisApplicable !== "1") && !checkMembershipDate()) {
+	            swal("Please select membership date.");
+	        } else {
+	            swal({
+	                title: "Are you sure?",
+	                text: "Do you want to save this as a draft?",
+	                icon: "warning",
+	                buttons: true,
+	                dangerMode: true,
+	            }).then((willSave) => {
+	                if (willSave) {
+	                    $('input[type=text], input[type=email], input[type=date], textarea, input[type=checkbox], input[type=radio], select').addClass('ignore');
+	                    $("#action").val("saveAsDraft"); 
+	                    $("#myForm").submit();
+	                }
+	            });
+	        }
+	    }); 
 	
 });
 
@@ -3634,11 +3677,7 @@ function checkMembershipDate() {
 			swal("Mebmership date must be 1st of  April");
 			return false;
 		}
-		// alert('Year='+membershipdate.getFullYear());
-		// alert('month='+membershipdate.getMonth());
-		// alert('Date='+membershipdate.getDate());
-		// var mdate = new Date(membershipdate.getFullYear(),0,1);
-		// var d = new Date(year, 0, 1);
+		return true;
 	}
 }
 
@@ -4613,7 +4652,6 @@ function validateBankAccNumUniqe() {
 	if (employeeId == "" || employeeId == null) {
 		employeeId='0';
 	}
-	
 		if (bankAccountNo != '') {
 			$
 					.ajax({
@@ -4649,10 +4687,5 @@ function validateBankAccNumUniqe() {
 					});
 		}
 	}
-
-
-
-
-
 
 

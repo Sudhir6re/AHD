@@ -2,6 +2,14 @@
 $(document).ready(function() {
 	context = $("#appRootPath").val();
 	
+	
+	
+	var message =$("#message").val(); 
+	if (message != ''  && $("#message").val()!=null  && $("#message").val()!=undefined ) {
+		swal('Post Created Successfully !!!');
+	}
+	
+	
 	var dataTable= $("#postDetails").DataTable();
 	
 	    if ($('#cmbAsstDDO').length) {
@@ -36,6 +44,9 @@ $(document).ready(function() {
 	    if ($('#cmbNewOrder').length) {
 	    	$('#cmbNewOrder').select2();
 	    }
+	    
+	    
+	    
 	    
 	    
 	    
@@ -253,11 +264,30 @@ $("#Search").click(function(){
 						$("#loaderMainNew").hide();
 						j=1;
 						if(len>0){
-							 dataTable.fnClearTable();
+							
+							dataTable.clear();
+
+							// Loop through the data array and add new data to the DataTable
 							for (var i = 0; i < data.length; i++) {
-								 dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].billNo]);
-								 j++;
+							    dataTable.row.add([
+							        j,
+							        data[i].empFullName,
+							        data[i].postname,
+							        data[i].postType,
+							        data[i].dsgnname,
+							        data[i].ddoCode,
+							        data[i].billNo
+							    ]);
+							    j++;
 							}
+							// Redraw the DataTable to display the updated data
+							dataTable.draw();
+							/*// dataTable.fnClearTable();
+							 dataTable.clear();
+							for (var i = 0; i < data.length; i++) {
+								dataTable.fnAddData([j,data[i].empFullName,data[i].postname,data[i].postType,data[i].dsgnname,data[i].billNo]);
+								 j++;
+							}*/
 						}
 						if(data.length==0){
 							tablePost.fnClearTable();
@@ -466,6 +496,11 @@ $('#cmbAsstDDO').on('change', function() {
 		dataTable.column(5).search(ddoCode).draw(); 
 	}
 	
+	
+	if ($('#billCmb').length) {
+		fetchBillGroup();
+	}
+	
 });
 
 
@@ -489,13 +524,104 @@ $('#BillNo').on('change', function() {
 });
 
 
+/*
+$('#billCmb').on('change', function() {
+	var BillNo=$(this).val();
+	if(BillNo=="-1"){
+		dataTable.columns().search('').draw();
+	}else{
+		dataTable.column(6).search(BillNo).draw();
+	}
+});*/
+
+
+
+
+
+
 
 
 $('#SelectAll').on('change', function() {
     var isChecked = $(this).prop('checked');
     $('.postIdsChk').prop('checked', isChecked);
 });
+
+
+
+
+$(document).on('change', '#ddoCode', function() {
+	var context = $("#appRootPath").val();
+	var ddoCode = $("#ddoCode").val();
+	$.ajax({
+	      type: "POST",
+	      url: context+"/ddo/findGrOrderByGrOrderByDdoCode/"+ddoCode,
+	      async: false,
+	      contentType:'application/json',
+	      error: function(data){
+	    	  console.log(data);
+	      },
+		  	beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
+	      success: function(data){
+	    		 var len = data.length;
+	    		 $('#orderCmb').empty();
+	    		 $( "#loaderMainNew").hide();
+	    		 $('#orderCmb').append($('<option  value="-1"></option>').text("Please Select")); 
+					if (len != 0) {
+							   for(var i=0;i<len;i++){
+								   $('#orderCmb').append('<option value="' + data[i].orderId + '">' + data[i].orderName + '</option>');
+				                }		
+				}
+					
+	     }
+	 });
 });
+
+
+function fetchBillGroup(){
+	var context = $("#appRootPath").val();
+	var ddoCode = $("#cmbAsstDDO").val();
+	$.ajax({
+	      type: "POST",
+	      url: context+"/ddo/fetchBillGroupByDdoCode/"+ddoCode,
+	      async: false,
+	      contentType:'application/json',
+	      error: function(data){
+	    	  console.log(data);
+	      },
+		  	beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
+	      success: function(data){
+	    		 var len = data.length;
+	    		 $('#billCmb').empty();
+	    		 $( "#loaderMainNew").hide();
+	    		 $('#billCmb').append($('<option  value="-1"></option>').text("Please Select")); 
+					if (len != 0) {
+							   for(var i=0;i<len;i++){
+								   $('#billCmb').append('<option value="' + data[i].dcpsDdoBillGroupId + '">' + data[i].description + '</option>');
+				                }		
+				}
+					
+	     }
+	 });
+}
+
+});
+
+
+
+
+
+
+
 
 
 

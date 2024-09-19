@@ -98,9 +98,12 @@ input#uid1, input#uid2, input#uid3 {
 					id="uidNo" th:field="*{uidNo}" class="form-control" /> <input
 					type="hidden" name="ddoCode" id="ddoCode" th:field="*{ddoCode}"
 					class="form-control" /> <input type="hidden" name="employeeId"
-					id="employeeId" th:field="*{employeeId}" class="form-control" /> <input
+					id="employeeId" th:field="*{employeeId}" class="form-control" />
+					 <input
 					type="hidden" name="action" id="action" th:field="*{action}"
-					class="form-control" /> <input type="hidden" name="isActive"
+					class="form-control" />
+					
+					 <input type="hidden" name="isActive"
 					id="isActive" th:field="*{isActive}" /> <input type="hidden"
 					name="language" id="language" th:value="${language}" /> <input
 					type="hidden" name="message" id="message" th:value="${message}" />
@@ -215,9 +218,12 @@ input#uid1, input#uid2, input#uid3 {
 						type="button" class="btn btn-primary rejectbtnn"
 						th:value="#{msg.thymeleaf.pagelabel.back}"
 						th:onclick="'backlvlEmpDtls();'" />
-					</span> <input type="button" id="btnSave" class="btn btn-primary"
-						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}"
-						th:onclick="'saveAsDraft();'" /> <input type="reset"
+					</span>
+					
+					 <input type="button" id="btnSaveAsdraft" class="btn btn-primary btnSaveAsDraft" 
+						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}" />
+						
+						 <input type="reset"
 						id="btnReset" class="btn btn-primary"
 						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a
 						th:href="@{/user/home}" class="btn"><span

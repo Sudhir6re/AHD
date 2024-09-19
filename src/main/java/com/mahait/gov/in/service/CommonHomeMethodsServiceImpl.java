@@ -19,6 +19,7 @@ import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
@@ -245,8 +246,8 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	}
 
 	@Override
-	public List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus) {
-		return (List<CmnLookupMst>) commonHomeMethodsRepo.findCommonMstByCommonCode(commoncodeStatus);
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
+		return (List<MstCommonEntity>) commonHomeMethodsRepo.findCommonMstByCommonCode(commoncodeStatus);
 	}
 
 	@Override
@@ -459,6 +460,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 				CmnLookupMst obj = new CmnLookupMst();
 				obj.setLookupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
 				obj.setLookupName(StringHelperUtils.isNullString(objLst[1]));
+				obj.setLookupDesc(StringHelperUtils.isNullString(objLst[2]));
 
 				lstObj.add(obj);
 			}

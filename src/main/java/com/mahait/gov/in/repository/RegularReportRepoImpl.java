@@ -22,6 +22,8 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<OrgDdoMst> getDDOName(String userName) {
+		
+		
 		String HQL = "FROM OrgDdoMst as t  where ddoCode='"+userName+"' and t.activateFlag='1' ORDER BY t.ddoId";
 		return (List<OrgDdoMst>) entityManager.createQuery(HQL).getResultList();
 	}
@@ -41,37 +43,7 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
 			
 		}
-		if(allowdeducId==120) {
-			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-					"b.svn_pc_da else da end as DA, b.DCPS_DELAYED,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
-					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
-					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
-					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
-					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
-					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
-			
-		}
-		if(allowdeducId==121) {
-			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-					"b.svn_pc_da else da end as DA, b.DCPS_PAY_ARR,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
-					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
-					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
-					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
-					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
-					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
-			
-		}
-		if(allowdeducId==122) {
-			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-					"b.svn_pc_da else da end as DA, b.DCPS_DA_ARR,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
-					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
-					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
-					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
-					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
-					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
-			
-		}
-		if(allowdeducId==218) {
+		else if(allowdeducId==218) {
 			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
 					"b.svn_pc_da else da end as DA, b.DCPS_SVNPC_Recovery,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
 					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
@@ -80,6 +52,10 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
 					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
 			
+		}else {
+			HQL = " select a.basic_pay,a.da,a.contribution,a.nps_emplr_contri_ded,a.month_id,a.fin_year_id,b.employee_full_name_en,b.pran_no " + 
+					" from trn_dcps_contribution a inner join employee_mst b on a.sevaarth_id=b.sevaarth_id where a.ddo_code ='"+ddoCode+"' and " + 
+					" a.bill_group_id = '"+billGroup+"' and a.month_id = "+monthId+" and a.fin_year_id = "+yearId+" and b.dcps_gpf_flag = 'Y' ";
 		}
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("HQL:"+HQL);

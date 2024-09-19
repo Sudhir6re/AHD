@@ -377,7 +377,7 @@ public class MstEmployeeEntity {
 	private String ifscCode;
 
 	@Column(name = "BANK_ACNT_NO")
-	private Long bankAcntNo;
+	private String bankAcntNo;
 
 	@Column(name = "BANK_BRANCH_CODE")
 	private Long bankBranchCode;
@@ -417,7 +417,7 @@ public class MstEmployeeEntity {
 	private Date withEffectFromDate;
 
 	@Column(name = "GRADE_ID")
-	private Date gradeId;
+	private String gradeId;
 
 	@Column(name = "PHOTO_ATTACHMENT_ID")
 	private String photoAttachmentId;

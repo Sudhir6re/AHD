@@ -36,8 +36,11 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		Session session = getSession();
-		String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  where mst.desginationId=dcpsDesig.orgDesignation and mst.isActive='1' and  dcpsDesig.fieldDeptId =  "
-				+ lLngFieldDept;
+		String HQL_QUERY = "from MstDesignationEntity ";
+		
+	/*	String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  "
+				+ "where mst.desginationId=dcpsDesig.orgDesignation and mst.isActive='1' and  dcpsDesig.fieldDeptId =  "
+				+ lLngFieldDept;*/
 		Query query = session.createQuery(HQL_QUERY);
 		List resultList = query.list();
 		return resultList;
@@ -72,9 +75,9 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List getAllBranchList(long langId) {
 		Session session = getSession();
-		Criteria crit = session.createCriteria(CmnBranchMst.class);
-		//crit.add(Restrictions.eq("cmnLanguageMst.langId", Long.valueOf(langId)));
-		return crit.list();
+		String hql=" from CmnBranchMst";
+		Query sqlQuery = session.createQuery(hql);
+		return sqlQuery.list();
 	}
 
 	@Override
@@ -368,10 +371,13 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 			sb.append(
 					" and a.loc_id =(select cast(loc.location_code as bigint) from org_ddo_mst loc where loc.ddo_code='"
 							+ ddoSelected + "')");
-		} else if (BillNo != null && !(BillNo.trim()).equals(""))
+		} 
+		
+		if (BillNo != null && !BillNo.equals(""))
 			sb.append("  and i.BILL_GROUP_ID  = " + BillNo);
-		else if (Dsgn != null && !(Dsgn.trim()).equals(""))
-			sb.append("  and  upper(c.designation_id) like  upper('%" + Dsgn + "%')  ");
+		
+	    if (Dsgn != null && !(Dsgn.trim()).equals(""))
+			sb.append("  and  upper(c.DESIGNATION_NAME) like  upper('%" + Dsgn + "%')  ");
 		else
 			sb.append("  and  upper(a.post_name) like  upper('%" + lPostName + "%') ");
 		

@@ -305,7 +305,7 @@ body.mst-grorder table#oldData tr td:nth-child(6) {
 						<tr th:each="varDept : ${lstSancOrder}">
 							<td th:text="${varDept.sanctionOrderNo}"></td>
 
-							<td th:text="${#dates.format(varDept.orderDate, 'dd-MMM-yyyy')}"></td>
+							<td th:text="${#dates.format(varDept.date, 'dd-MMM-yyyy')}"></td>
 							<!-- th:text="${varDept.orderDate}" -->
 
 						</tr>

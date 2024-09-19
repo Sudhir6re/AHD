@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
+import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgPostDetailsRlt;
@@ -36,10 +37,11 @@ import com.mahait.gov.in.repository.OrgPostDetailsRltRepository;
 import com.mahait.gov.in.repository.OrganizationInstInfoRepo;
 import com.mahait.gov.in.response.MessageResponse;
 import com.mahait.gov.in.service.EntryOfPostsService;
+import com.mahait.gov.in.service.MstSchemeService;
 
 @RequestMapping("/ddo")
 @Controller
-public class EntryOfPostsController  extends BaseController{
+public class EntryOfPostsController extends BaseController {
 
 	@Autowired
 	OrgPostDetailsRltRepository orgPostDetailsRltRepository;
@@ -49,9 +51,10 @@ public class EntryOfPostsController  extends BaseController{
 
 	@Autowired
 	EntryOfPostsService entryOfPostsService;
+	
+	@Autowired
+	MstSchemeService mstSchemeService;
 
-	
-	
 	@GetMapping("/entryOfPosts")
 	public String entryOfPosts(Model model, Locale locale, HttpSession session) {
 
@@ -66,7 +69,8 @@ public class EntryOfPostsController  extends BaseController{
 
 		MessageResponse messageResponse = (MessageResponse) model.asMap().get("messageResponse");
 		if (messageResponse != null) {
-			model.addAttribute("messageResponse", messageResponse);
+			//model.addAttribute("messageResponse", messageResponse);
+			model.addAttribute("message", messageResponse.getResponse());
 		}
 
 		if (session.getAttribute("locationId") != null) {
@@ -90,9 +94,7 @@ public class EntryOfPostsController  extends BaseController{
 				ddoCode = ddoCodeList.get(0).getDdoCode();
 
 			List filterDdoCode = entryOfPostsService.findLevel1DddoByDdoCode(ddoCode);
-			
-			
-			
+
 			model.addAttribute("ddoCode", ddoCode);
 			model.addAttribute("filterDdoCode", filterDdoCode);
 
@@ -107,8 +109,8 @@ public class EntryOfPostsController  extends BaseController{
 
 			model.addAttribute("getPostNameForDisplay", getPostNameForDisplay);
 		}
-		
-		addMenuAndSubMenu(model,messages);
+
+		addMenuAndSubMenu(model, messages);
 		return "/views/entry-of-posts";
 	}
 
@@ -140,12 +142,10 @@ public class EntryOfPostsController  extends BaseController{
 			if (ddoCodeList.size() > 0)
 				ddoCode = ddoCodeList.get(0).getDdoCode();
 
-			//model.addAttribute("DDOlist", DDOdtls);
-			
-			
+			// model.addAttribute("DDOlist", DDOdtls);
+
 			List filterDdoCode = entryOfPostsService.findLevel1DddoByDdoCode(ddoCode);
 			model.addAttribute("DDOlist", filterDdoCode);
-			
 
 			List branchList_en = entryOfPostsService.getAllBranchList(1L);
 			model.addAttribute("Branch", branchList_en);
@@ -164,8 +164,6 @@ public class EntryOfPostsController  extends BaseController{
 
 			// List<OrgDdoMst> ddoCodeList =
 			// entryOfPostsService.getDDOCodeByLoggedInlocId(locId);
-			
-		
 
 			Long lLngFieldDept = Long.parseLong(ddoCodeList.get(0).getHodLocCode());
 
@@ -173,7 +171,6 @@ public class EntryOfPostsController  extends BaseController{
 
 			model.addAttribute("Designation", desgList);
 
-		
 			List<Object[]> subList = entryOfPostsService.getSubjectList();
 			model.addAttribute("SubjectList", subList);
 			model.addAttribute("subOfficeList", subOfficeList);
@@ -187,14 +184,15 @@ public class EntryOfPostsController  extends BaseController{
 			// model.addAttribute("ddoSelected", ddoSelected);
 		}
 
-		addMenuAndSubMenu(model,messages);
+		addMenuAndSubMenu(model, messages);
 		model.addAttribute("postEntryModel", postEntryModel);
 
 		return "/views/add-posts";
 	}
 
 	@RequestMapping("/updatePosts")
-	public String updatePosts(Model model, Locale locale, HttpSession session,@ModelAttribute("postEntryModel") PostEntryModel postEntryModel) {
+	public String updatePosts(Model model, Locale locale, HttpSession session,
+			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel) {
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 
@@ -223,33 +221,33 @@ public class EntryOfPostsController  extends BaseController{
 			model.addAttribute("DDOlist", DDOdtls);
 		}
 
-		  if (postEntryModel.getAction() != null && postEntryModel.getAction().equals("search")) {
-	            List<OrgPostDetailsRlt> lst = entryOfPostsService.searchPostListByGrOrderId(locId, postEntryModel.getOldGrOrderId());
-	            model.addAttribute("attachedPostList", lst);
-	            model.addAttribute("style", "display:block;");
-	            HrPayOrderMst hrPayOrderMst= entryOfPostsService.findOrderMasterById(postEntryModel.getOldGrOrderId());
-	            postEntryModel.setCurrentOrder(hrPayOrderMst.getOrderName());
-	            postEntryModel.setCurrentOrderDate(hrPayOrderMst.getOrderDate());
-	            
-	        } else {
-	            model.addAttribute("attachedPostList",null);
-	            model.addAttribute("style", "display:none;");
-	        }
-		
-		
+		if (postEntryModel.getAction() != null && postEntryModel.getAction().equals("search")) {
+			List<OrgPostDetailsRlt> lst = entryOfPostsService.searchPostListByGrOrderId(locId,
+					postEntryModel.getOldGrOrderId());
+			model.addAttribute("attachedPostList", lst);
+			model.addAttribute("style", "display:block;");
+			HrPayOrderMst hrPayOrderMst = entryOfPostsService.findOrderMasterById(postEntryModel.getOldGrOrderId());
+			postEntryModel.setCurrentOrder(hrPayOrderMst.getOrderName());
+			postEntryModel.setCurrentOrderDate(hrPayOrderMst.getOrderDate());
+
+		} else {
+			model.addAttribute("attachedPostList", null);
+			model.addAttribute("style", "display:none;");
+		}
+
 		Calendar cal = Calendar.getInstance();
 		Date today = cal.getTime();
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		String TodaysDate = fmt.format(today);
 
-		List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderDataByDate(locId, TodaysDate,ddoCode);
+		List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderDataByDate(locId, TodaysDate, ddoCode);
 		model.addAttribute("orderList", orderList);
 
-		List postExpiryList = entryOfPostsService.getExpiryData(locId,ddoCode);
+		List postExpiryList = entryOfPostsService.getExpiryData(locId, ddoCode);
 		model.addAttribute("postExpiryList", postExpiryList);
 		model.addAttribute("postEntryModel", postEntryModel);
 
-		addMenuAndSubMenu(model,messages);
+		addMenuAndSubMenu(model, messages);
 		return "/views/update-posts";
 	}
 
@@ -269,6 +267,7 @@ public class EntryOfPostsController  extends BaseController{
 			messageResponse.setStyle("alert alert-success");
 			messageResponse.setStatusCode(200);
 			redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
+			postEntryModel=new PostEntryModel();
 			return "redirect:/ddo/entryOfPosts";
 
 		} else {
@@ -276,7 +275,7 @@ public class EntryOfPostsController  extends BaseController{
 		}
 
 	}
-	
+
 	@PostMapping("/renewPostEntry")
 	public String renewPostEntry(Model model, Locale locale, HttpSession session,
 			@ModelAttribute("postEntryModel") PostEntryModel postEntryModel, RedirectAttributes redirectAttribute) {
@@ -299,8 +298,6 @@ public class EntryOfPostsController  extends BaseController{
 		}
 
 	}
-	
-	
 
 	@RequestMapping(value = "/findGrOrderByGrOrderId/{grOrderId}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -309,11 +306,23 @@ public class EntryOfPostsController  extends BaseController{
 		return ResponseEntity.ok(response1);
 	}
 
+	@RequestMapping(value = "/findGrOrderByGrOrderByDdoCode/{ddoCode}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<HrPayOrderMst>> findGrOrderByGrOrderByDdoCode(@PathVariable String ddoCode) {
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		String TodaysDate = fmt.format(today);
+		Long locId = 1l;
+		List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderDataByDate(locId, TodaysDate, ddoCode);
+		return ResponseEntity.ok(orderList);
+	}
+
 	@RequestMapping(value = "/searchPostDetails", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List> searchPostDetails(@RequestParam String lPostName, @RequestParam String BillNo,
 			@RequestParam String ddoCode1, @RequestParam String Dsgn, HttpSession session) {
-		
+
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
 		String PsrNo = "";
@@ -327,7 +336,19 @@ public class EntryOfPostsController  extends BaseController{
 	public ResponseEntity<List> searchPostListByGrOrderId(@RequestParam Long orderId, HttpSession session) {
 		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
 		String PsrNo = "";
-		List getPostNameForDisplay = entryOfPostsService.searchPostListByGrOrderId(locId,orderId);
+		List getPostNameForDisplay = entryOfPostsService.searchPostListByGrOrderId(locId, orderId);
 		return ResponseEntity.ok(getPostNameForDisplay);
 	}
+
+
+	
+	@RequestMapping(value = "/fetchBillGroupByDdoCode/{ddoCode}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MstDcpsBillGroup>> fetchBillGroupByDdoCode(@PathVariable String ddoCode, HttpSession session) {
+		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
+		String PsrNo = "";
+		List<MstDcpsBillGroup> lstMstDcpsBillGroup=mstSchemeService.findAllMpgSchemeBillGroupByDDOCode(ddoCode,0);
+		return ResponseEntity.ok(lstMstDcpsBillGroup);
+	}
+
 }

@@ -2,6 +2,22 @@ package com.mahait.gov.in.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+<<<<<<< HEAD
+=======
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.mahait.gov.in.entity.DeptEligibilityForAllowAndDeductEntity;
+import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.DeptEligibilityForAllowAndDeductModel;
+import com.mahait.gov.in.model.MstEmployeeModel;
+import com.mahait.gov.in.service.AllowDeduBulkEmpService;
+import com.mahait.gov.in.service.AllowanceDeductionWiseMstService;
+import com.mahait.gov.in.service.CommonHomeMethodsService;
+import com.mahait.gov.in.service.CreateAdminOfficeService;
+import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
+import com.mahait.gov.in.service.MstEmployeeService;
+>>>>>>> 6f840dbaa553d90f9c6313da10544ec6ab2d6471
 
 @Controller
 @RequestMapping("/ddoast")
@@ -19,9 +35,14 @@ public class AllowDeduBulkEmpController {/*
 	@Autowired
 	MstEmployeeService mstEmployeeService;
 	
+	/*@Autowired
+	MpgSchemeBillGroupService mpgSchemeBillGroupService;*/
+/*	
 	@Autowired
-	MpgSchemeBillGroupService mpgSchemeBillGroupService;
 	
+	/*@Autowired
+	MpgSchemeBillGroupService mpgSchemeBillGroupService;
+	*/
 	
 	@Autowired
 	AllowanceDeductionWiseMstService allowanceDeductionWiseMstService;
@@ -50,9 +71,11 @@ public class AllowDeduBulkEmpController {/*
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
 		model.addAttribute("context", request.getContextPath());
 
-		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
+	/*	model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
 				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));
-		
+		*/
+/*		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
+				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));*/
 		
 		
 		model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);

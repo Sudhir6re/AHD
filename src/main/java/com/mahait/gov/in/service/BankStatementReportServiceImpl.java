@@ -31,8 +31,7 @@ public class BankStatementReportServiceImpl implements BankStatementReportServic
 			for (Object[] objLst : lstprop) {
 				BankStatementReportModel obj = new BankStatementReportModel();
 				///bank_acnt_no,bank_name,bank_branch_name,employee_full_name_en as employee,total_net_amt,bbm.ifsc_code
-				BigInteger accNo = (BigInteger) objLst[0];
-				obj.setAccno(accNo.toString());
+				obj.setAccno(StringHelperUtils.isNullString(objLst[0]));
 				obj.setBankname(StringHelperUtils.isNullString(objLst[1]));
 				obj.setBankBranchName(StringHelperUtils.isNullString(objLst[2]));
 				obj.setEmpName(StringHelperUtils.isNullString(objLst[3]));

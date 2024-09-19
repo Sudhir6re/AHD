@@ -45,7 +45,7 @@ public class UpdatePanNoController extends BaseController {
 		
 		
 		//model.addAttribute("", getDesignation())
-    	emplist = updatePanNoService.findAllEmployee(messages.getUserName());
+    	emplist = updatePanNoService.findAllEmployee(messages.getDdoCode());
 		updatePanNoModel.setEmplist(emplist);
 	
 		addMenuAndSubMenu(model,messages);

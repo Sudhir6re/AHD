@@ -416,19 +416,33 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 			citygroup = spilt[1];
 
+			
+			int percentageRate[] = new int[3];
+			
+			percentageRate[0] = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
+					CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE);
+			percentageRate[1] = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
+					CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE);
+			percentageRate[2] = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
+					CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC,0);
+
+			int centralpercentageRate[] = new int[3];
+			centralpercentageRate[0] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
+					CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
+			centralpercentageRate[1] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
+					CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
+			centralpercentageRate[2] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
+					CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC);
+			
+			
 			if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
-				if (payCommission == 700005) {
-					percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE);
-					percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
-							CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC,
-							mstEmployeeModel.getCityClass());
-				}
-			} else if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
-				percentage = paybillHeadMpgRepo.getDaPercentageByMonthYear(startDate,
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC,CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE);
+				percentage = percentageRate[0];
 				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
-						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC, mstEmployeeModel.getCityClass());
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC, cityClass);
+			} else {
+				percentage = percentageRate[1];
+				percentageHRA = paybillHeadMpgRepo.getHRAPercentageByMonthYear(startDate,
+						CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC, cityClass);
 			}
 
 			if (!allEdpList.get(i).getMethodName().equals("")) {
@@ -487,20 +501,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 				svnDA = (double) (Math
 						.round((basic * percentage) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-
-				String formula = allEdpList.get(i).getFormulas();
-				ScriptEngineManager manager = new ScriptEngineManager();
-				ScriptEngine engine = manager.getEngineByName("JavaScript");
-				formula = formula.replace("basic", String.valueOf(basic));
-				formula = formula.replace("percentage", String.valueOf(percentage));
-				Object result = null;
-				try {
-					result = engine.eval(formula);
-				} catch (ScriptException e) {
-					e.printStackTrace();
-				}
-
-				svnDA = ((Number) result).doubleValue();
 
 				// End : 7 pc Calculation
 				logger.info("svnDA component3=" + svnDA);
