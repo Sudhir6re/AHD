@@ -20,7 +20,7 @@ import lombok.Data;
 public class PaybillGenerationTrnEntity {
 	 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="PAYBILL_GENERATION_TRN_ID")
     private Long paybillGenerationTrnId;  
 	

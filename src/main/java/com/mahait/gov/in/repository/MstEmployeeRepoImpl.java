@@ -1072,7 +1072,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		BigInteger bg = null;
 		int rtnStr = 0;
 		StringBuffer query = new StringBuffer();
-		query.append("select count(*) from user_mst where username ='" + sevaarthid + "' ");
+		query.append("select count(*) from org_user_mst where user_name ='" + sevaarthid + "' ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0) {

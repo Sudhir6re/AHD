@@ -129,6 +129,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				paybillHeadMpgModel.getPaybillMonth(), paybillHeadMpgModel.getPaybillYear());
 
 		Long val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
+		objEntity.setPaybillGenerationTrnId(val);
 
 		
 		System.out.println("Hiiii checking----");
