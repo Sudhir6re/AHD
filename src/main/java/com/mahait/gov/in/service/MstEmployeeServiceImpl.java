@@ -1612,12 +1612,13 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				}
 				obj.setRemark(StringHelperUtils.isNullString(objLst[3]));
 				if (objLst[4] instanceof Integer) {
-				    obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]).longValue());
-				}else if (objLst[4] instanceof BigInteger) {
-				    obj.setIsActive(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
-				}else {
-					obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]));
+				    obj.setIsActive(StringHelperUtils.isNullLong(Long.valueOf((Integer) objLst[4])));
+				} else if (objLst[4] instanceof BigInteger) {
+				    obj.setIsActive(StringHelperUtils.isNullBigInteger((BigInteger) objLst[4]).longValue());
+				} else {
+				    obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]));
 				}
+
 				lstObj.add(obj);
 			}
 		}

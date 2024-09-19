@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.HrPayOfficepostMpg;
 import com.mahait.gov.in.entity.HrPayOrderMst;
+import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgPostDetailsRlt;
@@ -36,6 +37,7 @@ import com.mahait.gov.in.repository.OrgPostDetailsRltRepository;
 import com.mahait.gov.in.repository.OrganizationInstInfoRepo;
 import com.mahait.gov.in.response.MessageResponse;
 import com.mahait.gov.in.service.EntryOfPostsService;
+import com.mahait.gov.in.service.MstSchemeService;
 
 @RequestMapping("/ddo")
 @Controller
@@ -49,6 +51,9 @@ public class EntryOfPostsController extends BaseController {
 
 	@Autowired
 	EntryOfPostsService entryOfPostsService;
+	
+	@Autowired
+	MstSchemeService mstSchemeService;
 
 	@GetMapping("/entryOfPosts")
 	public String entryOfPosts(Model model, Locale locale, HttpSession session) {
@@ -64,7 +69,8 @@ public class EntryOfPostsController extends BaseController {
 
 		MessageResponse messageResponse = (MessageResponse) model.asMap().get("messageResponse");
 		if (messageResponse != null) {
-			model.addAttribute("messageResponse", messageResponse);
+			//model.addAttribute("messageResponse", messageResponse);
+			model.addAttribute("message", messageResponse.getResponse());
 		}
 
 		if (session.getAttribute("locationId") != null) {
@@ -261,6 +267,7 @@ public class EntryOfPostsController extends BaseController {
 			messageResponse.setStyle("alert alert-success");
 			messageResponse.setStatusCode(200);
 			redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
+			postEntryModel=new PostEntryModel();
 			return "redirect:/ddo/entryOfPosts";
 
 		} else {
@@ -298,8 +305,6 @@ public class EntryOfPostsController extends BaseController {
 		List<HrPayOrderMst> response1 = entryOfPostsService.findGrOrderDetails(grOrderId);
 		return ResponseEntity.ok(response1);
 	}
-	
-	
 
 	@RequestMapping(value = "/findGrOrderByGrOrderByDdoCode/{ddoCode}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -308,11 +313,10 @@ public class EntryOfPostsController extends BaseController {
 		Date today = cal.getTime();
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		String TodaysDate = fmt.format(today);
-		Long locId=1l;
+		Long locId = 1l;
 		List<HrPayOrderMst> orderList = entryOfPostsService.getAllOrderDataByDate(locId, TodaysDate, ddoCode);
 		return ResponseEntity.ok(orderList);
 	}
-
 
 	@RequestMapping(value = "/searchPostDetails", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -335,4 +339,16 @@ public class EntryOfPostsController extends BaseController {
 		List getPostNameForDisplay = entryOfPostsService.searchPostListByGrOrderId(locId, orderId);
 		return ResponseEntity.ok(getPostNameForDisplay);
 	}
+
+
+	
+	@RequestMapping(value = "/fetchBillGroupByDdoCode/{ddoCode}", consumes = {
+			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MstDcpsBillGroup>> fetchBillGroupByDdoCode(@PathVariable String ddoCode, HttpSession session) {
+		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
+		String PsrNo = "";
+		List<MstDcpsBillGroup> lstMstDcpsBillGroup=mstSchemeService.findAllMpgSchemeBillGroupByDDOCode(ddoCode,0);
+		return ResponseEntity.ok(lstMstDcpsBillGroup);
+	}
+
 }

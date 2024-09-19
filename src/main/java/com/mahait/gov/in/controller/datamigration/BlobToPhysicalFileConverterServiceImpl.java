@@ -5,7 +5,9 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,10 +56,10 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 				String filePath = uploadPhoto(byteData, DeptNm, id);
 				if (filePath != null) {
 
-					MstEmployeeEntity mstEmployeeEntity = blobToPhysicalFileConverterRepo.findEmpByEmpId(id);
-					mstEmployeeEntity.setPhotoAttachmentId(filePath);
-					mstEmployeeEntity.setEmployeeId(id.longValue());
-					blobToPhysicalFileConverterRepo.updatePhotoPath(mstEmployeeEntity);
+				//	MstEmployeeEntity mstEmployeeEntity = blobToPhysicalFileConverterRepo.findEmpByEmpId(id);
+					//mstEmployeeEntity.setPhotoAttachmentId(filePath);
+					//mstEmployeeEntity.setEmployeeId(id.longValue());
+					//blobToPhysicalFileConverterRepo.updatePhotoPath(mstEmployeeEntity);
 				}
 
 			} else if (typeOp == 2) {
@@ -71,10 +73,10 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 				
 				String filePath = saveAttachment(byteData, id, fileExtension);
 				if (filePath != null) {
-					BigInteger grDocumentId = StringHelperUtils.isNullBigInteger(row[3]);
+					/*BigInteger grDocumentId = StringHelperUtils.isNullBigInteger(row[3]);
 					GROrderDocumentEntity gROrderDocumentEntity =blobToPhysicalFileConverterRepo.findDocumentId(grDocumentId);
 					gROrderDocumentEntity.setFilePath(filePath);
-					blobToPhysicalFileConverterRepo.updateGrPath(gROrderDocumentEntity);
+					blobToPhysicalFileConverterRepo.updateGrPath(gROrderDocumentEntity);*/
 				}
 
 			}
@@ -141,7 +143,7 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 		return res;
 	}
 
-	@Override
+	/*@Override
 	public String uploadPhoto(byte files[], String DeptNm, BigInteger empid) {
 		String res = null;
 		if (files.length != 0) {
@@ -189,6 +191,58 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 		}
 		return res;
 
+	}*/
+
+	
+	@Override
+	public String uploadPhoto(byte[] files, String DeptNm, BigInteger empid) {
+	    String res = null;
+	    if (files != null && files.length > 0) {
+	        try {
+	            // Create a buffered image from byte array
+	            InputStream in = new ByteArrayInputStream(files);
+	            BufferedImage image = ImageIO.read(in);
+	            
+	            if (image == null) {
+	                // If ImageIO couldn't read the image, return an error message
+	                res = "Invalid image data.";
+	                return res;
+	            }
+
+	            // Determine the correct file path
+	            String key = "";
+	            String rootPath = "";
+	            String strOSName = System.getProperty("os.name");
+	            if (strOSName.contains("Windows")) {
+	                key = "serverempconfigimagepath";
+	            } else {
+	                key = "serverempconfigimagepathLinuxOS";
+	            }
+	            rootPath = environment.getRequiredProperty(key);
+	            rootPath += DeptNm + File.separator + empid;
+	            File dir = new File(rootPath);
+	            if (!dir.exists()) {
+	                dir.mkdirs(); // Create directories if they do not exist
+	            }
+
+	            // Define file name and write the image to the file
+	            String name = "photo.jpg";
+	            File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+
+	            // Write the image to file
+	            try (OutputStream os = new BufferedOutputStream(new FileOutputStream(serverFile))) {
+	                ImageIO.write(image, "jpg", os); // Write the buffered image to file
+	            }
+
+	            res = serverFile.getAbsolutePath(); // Return the path to the saved file
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            res = "Error writing file.";
+	        }
+	    } else {
+	        res = "No file data provided.";
+	    }
+	    return res;
 	}
 
 	@Override

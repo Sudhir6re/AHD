@@ -31,15 +31,15 @@ public class BlobToPhysicalFileConverterRepoImpl implements BlobToPhysicalFileCo
 					+ "FROM cmn_attachment_mst a "
 					+ " INNER JOIN cmn_attachment_mpg b ON a.attachment_id = b.attachment_id "
 					+ "INNER JOIN cmn_attdoc_mst c ON b.sr_no = c.sr_no "
-					+ "INNER JOIN employee_mst d on d.PHOTO_ATTACHMENT_ID=a.attachment_id "
-					+ "WHERE a.activate_flag = 1";
+					+ "INNER JOIN employee_mst d on d.PHOTO_ATTACHMENT_ID=cast(a.attachment_id as varchar) ";
+					//+ "WHERE a.activate_flag = 1";
 
 		} else if (typeOp == 2) {
 			queryStr = "SELECT a.attachment_id AS fileName, " + "    c.final_attachment AS byteData,d.employee_id "
 					+ "FROM cmn_attachment_mst a "
 					+ " INNER JOIN cmn_attachment_mpg b ON a.attachment_id = b.attachment_id "
 					+ "INNER JOIN cmn_attdoc_mst c ON b.sr_no = c.sr_no "
-					+ "INNER JOIN employee_mst d on d.SIGNATURE_ATTACHMENT_ID=a.attachment_id ";
+					+ "INNER JOIN employee_mst d on d.SIGNATURE_ATTACHMENT_ID=cast(a.attachment_id as varchar) ";
 					//+ "WHERE a.activate_flag = 1";
 
 		} else {
