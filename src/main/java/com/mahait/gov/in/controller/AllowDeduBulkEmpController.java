@@ -1,6 +1,5 @@
 package com.mahait.gov.in.controller;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +30,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
 import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
 import com.mahait.gov.in.service.MstEmployeeService;
+import com.sun.el.parser.ParseException;
 
 @Controller
 @RequestMapping("/ddoast")
@@ -76,10 +76,10 @@ public class AllowDeduBulkEmpController {
 		
 	    List<Object[]> deptEligibilityForAllowAndDeductEntity =  createAdminOfficeService.employeeMappingList(messages.getUserName());
 		model.addAttribute("language", locale.getLanguage());
-		/*model.addAttribute("lstDDOWiseEmployee", mstEmployeeService.findAllEmployeeByddoCode(messages.getUserName()));
-		*/
-		/*model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());*/
-		model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployeesByDDOName(messages.getUserName()));
+	//	model.addAttribute("lstDDOWiseEmployee", mstEmployeeService.findAllEmployeeByddoCode(messages.getUserName()));
+		
+	//	model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());
+		//model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployeesByDDOName(messages.getUserName()));
 		
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
 		model.addAttribute("context", request.getContextPath());

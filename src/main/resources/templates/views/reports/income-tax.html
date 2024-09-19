@@ -26,8 +26,9 @@
 				</h3>
 			</div>
 			<br />
-			<form method="POST" action="" name="ReportForm" th:action="@{/ddoast/incomeTaxReport}"
-			th:object="${regularReportModel}"enctype="multipart/form-data">
+			<form method="POST" action="" name="ReportForm"
+				th:action="@{/ddoast/incomeTaxReport}"
+				th:object="${regularReportModel}" enctype="multipart/form-data">
 				<div id="tcontent1">
 					<table class="table bor-0">
 						<tbody>
@@ -39,43 +40,45 @@
 										<option value="4000839">MAHARASHTRA
 											UNIVERSITY,THANE,NORTH MAHARASHTRA UNIVERSITY</option>
 								</select></td>
-								<td width="20%"><label class="control-label monthhide" for="title"><span
-							th:utext="#{msg.thymeleaf.pagelabel.month}"></span>&nbsp;&nbsp;<b><font
-								color="red" size="4px;">*</font></b></label></td>
-							<td width="30%"><select name="monthId" th:field="*{monthId}"
-								id="monthId" class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllMonths : ${lstMonths}"
-										th:value="${varGetAllMonths.monthId}"
-										th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
-							</select></td>
+								<td width="20%"><label class="control-label monthhide"
+									for="title"><span
+										th:utext="#{msg.thymeleaf.pagelabel.month}"></span>&nbsp;&nbsp;<b><font
+											color="red" size="4px;">*</font></b></label></td>
+								<td width="30%"><select name="monthId"
+									th:field="*{monthId}" id="monthId"
+									class="form-control removeErrorFromDropdown">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="varGetAllMonths : ${lstMonths}"
+											th:value="${varGetAllMonths.monthId}"
+											th:text="${language=='mh' ? varGetAllMonths.monthMarathi : varGetAllMonths.monthEnglish}"></option>
+								</select></td>
 							</tr>
 							<tr>
-								<td width="20%"><label class="control-label " for="title"><span
-							th:utext="#{msg.thymeleaf.pagelabel.billGroup}"></span>&nbsp;&nbsp;<b><font
-								color="red" size="4px;">*</font></b></label>
-							</td>
-							<td width="30%"><select name="billGroup"
-								th:field="*{billGroup}" id="billGroup"
-								class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllBillGrp : ${lstBillDesc}"
-										th:value="${varGetAllBillGrp.dcpsDdoBillGroupId}"
-										th:text="${language=='mh' ? varGetAllBillGrp.description : varGetAllBillGrp.description}"></option>
-							</select></td>
+								<td width="20%" align="center"><label
+									class="control-label " for="title"><span
+										th:utext="#{msg.thymeleaf.pagelabel.billGroup}"></span>&nbsp;&nbsp;<b><font
+											color="red" size="4px;">*</font></b></label></td>
+								<td width="30%"><select name="billGroup"
+									th:field="*{billGroup}" id="billGroup"
+									class="form-control removeErrorFromDropdown">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="varGetAllBillGrp : ${lstBillDesc}"
+											th:value="${varGetAllBillGrp.dcpsDdoBillGroupId}"
+											th:text="${language=='mh' ? varGetAllBillGrp.description : varGetAllBillGrp.description}"></option>
+								</select></td>
 								<td><label class="control-label" for="title"><span
-						th:utext="#{msg.thymeleaf.pagelabel.Year}"></span>&nbsp;&nbsp;<b><font
-							color="red" size="4px;">*</font></b></label></td>
-							<td><select name="yearId" th:field="*{yearId}" id="yearId"
-								class="form-control removeErrorFromDropdown">
-									<option selected="selected" th:value="0"
-										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-									<option th:each="varGetAllYear : ${lstYears}"
-										th:value="${varGetAllYear.yearId}"
-										th:text="${language=='mh' ? varGetAllYear.yearMarathi : varGetAllYear.yearEnglish}"></option>
-							</select></td>
+										th:utext="#{msg.thymeleaf.pagelabel.Year}"></span>&nbsp;&nbsp;<b><font
+											color="red" size="4px;">*</font></b></label></td>
+								<td><select name="yearId" th:field="*{yearId}" id="yearId"
+									class="form-control removeErrorFromDropdown">
+										<option selected="selected" th:value="0"
+											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										<option th:each="varGetAllYear : ${lstYears}"
+											th:value="${varGetAllYear.yearId}"
+											th:text="${language=='mh' ? varGetAllYear.yearMarathi : varGetAllYear.yearEnglish}"></option>
+								</select></td>
 							</tr>
 							<!-- <tr>
 								<td width="20%" align="center"><b>No of Records</b></td>
@@ -88,15 +91,13 @@
 									</b>Parameter marked with a '<font face="Verdana" color="red">*</font>'
 										are mandatory</i> <br></td>
 								<td colspan="2" class="TableBorderTN"
-									style="padding: 5px; text-align: right">
-									 <input
-								type="submit" name="GenerateReport" id="rptBtn_GenerateReport"
-								value="Generate Report" class="btn"><input
-									type="reset" name="ResetParams" id="rptBtn_ResetBtn"
-									value="Reset" class="btn"> <input type="button"
-									name="btnBackAgain" id="btnBackAgain" onclick="history.back()"
-									value="Back" class="buttontag">
-								</td>
+									style="padding: 5px; text-align: right"><input
+									type="submit" name="GenerateReport" id="rptBtn_GenerateReport"
+									value="Generate Report" class="btn"><input type="reset"
+									name="ResetParams" id="rptBtn_ResetBtn" value="Reset"
+									class="btn"> <input type="button" name="btnBackAgain"
+									id="btnBackAgain" onclick="history.back()" value="Back"
+									class="buttontag"></td>
 							</tr>
 
 						</tbody>

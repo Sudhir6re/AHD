@@ -16,7 +16,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
 
-import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
