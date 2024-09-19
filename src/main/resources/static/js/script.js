@@ -657,11 +657,6 @@ $(document).ready(function() {
     	            return $(this).hasClass('readonly');
     	        });
 
-<<<<<<< HEAD
-
-$(document).ready(function(){ 
-	$('select').select2();
-=======
     	        // Check if the <select> element has the 'readonly' class
     	        if ($select.length) {
     	            // Find the nearest .select2-selection__rendered element and
@@ -669,5 +664,4 @@ $(document).ready(function(){
     	            $(this).find('.select2-selection__rendered').addClass('readonly');
     	        }
     	    });
->>>>>>> 6f840dbaa553d90f9c6313da10544ec6ab2d6471
 });
