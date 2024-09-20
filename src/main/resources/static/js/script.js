@@ -643,16 +643,14 @@ function isValidEmail(email) {
 $(document).ready(function() {
     // Initialize Select2 on all select elements with class 'select2'
      $("select").select2();
-    	 $('select').each(function() {
+    	/* $('select').each(function() {
          var preloadedValue = $(this).val(); 
          if (preloadedValue) {
              $(this).trigger('change');
          }
-    	 }); 
+    	 }); */
     	 
     	 $('.select2').each(function() {
-    	        // Find the nearest <select> element from the current .select2
-				// element
     	        var $select = $(this).closest('form').find('select').filter(function() {
     	            return $(this).hasClass('readonly');
     	        });

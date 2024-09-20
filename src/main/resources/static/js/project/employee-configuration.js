@@ -870,16 +870,13 @@ if(paycomm != '' && paycomm != undefined){
 					pattern: /^([0-9])?$/,
 				},
 		},
-		invalidHandler: function(form, validator) {
-			//form.preventDefault();
-			try{
-				$(".error").closest(".collapse").addClass("in");
-			}catch(err){
-			}
-		},
 		
-		
-		
+		invalidHandler: function(event, validator) {
+            var firstError = validator.errorList[0].element;
+            var $errorTab = $(firstError).closest("#tabs div");
+            var index = $errorTab.index();
+            $("#tabs").tabs("option", "active", index);
+        },
 		 errorPlacement: function(label, element) {
 			    if (element.hasClass('web-select2')) {
 			      label.insertAfter(element.next('.select2-container')).addClass('mt-2 text-danger');
@@ -4687,5 +4684,15 @@ function validateBankAccNumUniqe() {
 					});
 		}
 	}
+
+
+$("#myForm").on('keypress', function(e) {
+    if (e.which === 13) { // Enter key code
+        e.preventDefault(); // Prevent default form submission
+        if ($("#myForm").valid()) { // Check if form is valid
+            $(this).submit(); // Submit the form
+        }
+    }
+});
 
 
