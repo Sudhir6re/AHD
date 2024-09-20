@@ -1306,7 +1306,7 @@ $("#payCommision")
 					
 					
 					
-					if (payCommisionId != '') {
+					if (payCommisionId != '' && payCommisionId != '0') {
 						if (payCommisionId == '700005') {
 //							$('#payScaleSeven').attr("disabled", true); 
 //							$('#basicPay').attr("disabled", true);
@@ -1487,7 +1487,7 @@ $("#payscalelevel")
 					$('#payInPayBand').empty();
 					$('#gradePay').empty();
 
-					if (payScale != '') {
+					if (payScale != ''  && payScale != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -1611,7 +1611,7 @@ $("#designationId")
 					var postdetailid = $("#postdetailid").val();
 				
 					// alert("DDO CODE is "+designationId);
-					if (designationId != '') {
+					if (designationId != '' && designationId != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -1736,7 +1736,7 @@ $("#accountmaintainby")
 					document.getElementById('pfseries').disabled = '';	
 					document.getElementById('pfacno').disabled = '';	
 				///	document.getElementById('pfdescription').disabled = '';	
-					if (accmainby != '') {
+					if (accmainby != '' &&  accmainby != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -3197,7 +3197,7 @@ $("#stateCode")
 
 
 
-//for fetching Sub Corporation associates with Corporation
+/*//for fetching Sub Corporation associates with Corporation
 $("#parentFieldDepartmentId")
 		.change(
 				function() {
@@ -3252,13 +3252,13 @@ $("#parentFieldDepartmentId")
 											$('#subCorporationId')
 													.append(
 															"<option value='0'>Please Select</option>");
-											/*swal("Record not found !!!");*/
+											swal("Record not found !!!");
 										}
 									}
 								});
 					}
 
-				});
+				});*/
 
 
 function approveEmpDtls() {
@@ -3455,7 +3455,7 @@ $("#bankId")
 					// alert("DDO CODE is "+departmentId);
 					//  alert("payScale CODE is "+payScale);
 
-					if (bankid != '') {
+					if (bankid != ''  && bankid != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -4466,7 +4466,7 @@ $("#postdetailid")
 		function() {
 			var postdetailid = $("#postdetailid").val();
 			//alert("postdetailid"+postdetailid);
-			if (postdetailid != '') {
+			if (postdetailid != '' && postdetailid != '0') {
 				$
 						.ajax({
 							type : "GET",
@@ -4532,8 +4532,8 @@ $("#adminDepartmentId")
 .change(
 		function() {
 			var adminDepartmentId = $("#adminDepartmentId").val();
-			alert("adminDepartmentId"+adminDepartmentId);
-			if (adminDepartmentId != '') {
+	//		alert("adminDepartmentId"+adminDepartmentId);
+			if (adminDepartmentId != '' && adminDepartmentId!="0") {
 				$
 						.ajax({
 							type : "GET",
