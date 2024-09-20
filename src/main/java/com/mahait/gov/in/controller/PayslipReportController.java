@@ -122,8 +122,8 @@ public class PayslipReportController extends BaseController {
 		List<Object[]> lstEmp = payslipReportService.getEmployeeData1(payslipReportModel.getSchemeBillgroupId(),
 				payslipReportModel.getPaybillMonth(), payslipReportModel.getPaybillYear(), messages.getDdoCode());
 
-		Integer hraPercent = null;
-		Integer daPercent = null;
+		BigInteger hraPercent = null;
+		BigInteger daPercent = null;
 		allowEdpList.clear();
 		deducAgEdpList.clear();
 		nongovdeducEdpList.clear();
@@ -175,8 +175,7 @@ public class PayslipReportController extends BaseController {
 				BigInteger gross = (BigInteger)object[12];
 				payslipModel.setGrossTotalAmt(gross.doubleValue());
 				payslipModel.setTotalDeduction(StringHelperUtils.isNullDouble(object[13]));
-				BigInteger net = (BigInteger)object[14];
-				payslipModel.setTotalNetAmt(net.doubleValue());
+				payslipModel.setTotalNetAmt(StringHelperUtils.isNullDouble(object[14]));
 
 				if (object[14] != null)
 					payslipModel.setNetAmtInWord(convertToIndianCurrency(object[14].toString()));
@@ -205,7 +204,8 @@ public class PayslipReportController extends BaseController {
 				 * BigDecimal basic = (BigDecimal) object[21]; Double basicPay =
 				 * basic.doubleValue();
 				 */
-				payslipModel.setBasic(StringHelperUtils.isNullDouble(object[19]));
+				BigInteger basic = (BigInteger) object[19];
+				payslipModel.setBasic(basic.doubleValue());
 				payslipModel.setVoucherNo(StringHelperUtils.isNullString(object[20]));
 				payslipModel.setVoucherDate(StringHelperUtils.isNullDate(object[21]));
 				BigInteger billNo = (BigInteger) object[22];
@@ -221,8 +221,8 @@ public class PayslipReportController extends BaseController {
 		for (Object[] objects : lstEmp) {
 			savaarthid = objects[0].toString();
 			payCommCode = (BigInteger) objects[7];
-			daPercent = (Integer) (objects[19]);
-			hraPercent = (Integer) (objects[18]);
+			daPercent = (BigInteger) (objects[19]);
+			hraPercent = (BigInteger) (objects[18]);
 
 			allEdpList = payslipReportService.getAllDataForinnernew(savaarthid);
 			lstempdetails1 = payslipReportService.getempDetails(payslipReportModel.getSchemeBillgroupId(),
