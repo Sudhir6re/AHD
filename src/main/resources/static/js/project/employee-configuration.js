@@ -4687,12 +4687,15 @@ function validateBankAccNumUniqe() {
 
 
 $("#myForm").on('keypress', function(e) {
-    if (e.which === 13) { // Enter key code
-        e.preventDefault(); // Prevent default form submission
-        if ($("#myForm").valid()) { // Check if form is valid
-            $(this).submit(); // Submit the form
+    if (e.which === 13) { 
+        e.preventDefault(); 
+        if ($("#myForm").valid()) { 
+            $(this).submit(); 
         }
     }
 });
+
+
+
 
 
