@@ -1,5 +1,6 @@
 var contextPath = $("#appRootPath").val();
 jQuery(document).ready(function() {
+	contextPath = $("#appRootPath").val();
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});
 	$("#qid").select2();
@@ -200,7 +201,7 @@ if(paycomm != '' && paycomm != undefined){
 		$("#eidNo").prop("disabled",true);
 	});
 	
-	if($("#uid1").val()!='' && $("#uid2").val()!='' && $("#uid3").val()!=''){
+	if ($("#uid1").val() && $("#uid2").val() && $("#uid3").val()) {
 		var UID1 = document.getElementById("uid1").value;
 		var UID2 = document.getElementById("uid2").value;
 		var UID3 = document.getElementById("uid3").value;
@@ -381,13 +382,17 @@ if(paycomm != '' && paycomm != undefined){
 	var eidnumbercheck=$('#eidNo').val();
 //	alert("uidnumbercheck="+uidnumbercheck);
 	if(eidnumbercheck!=""||uidnumbercheck!=""){
-	if (uidnumbercheck != "") {
+	if ($('#uidNo').val()) {
 		document.getElementById('eidNo').readOnly = true;
 	}else{
-//		document.getElementById('eidNo').readOnly = true;
-		document.getElementById("uid1").readOnly = true;
-		document.getElementById("uid2").readOnly = true;
-		document.getElementById("uid3").readOnly = true;
+		const fields = ["uid1", "uid2", "uid3"];
+		fields.forEach(field => {
+		    const element = document.getElementById(field);
+		    if (element) {
+		        element.readOnly = true;
+		    } else {
+		    }
+		});
 	}
 	}
 	
@@ -870,13 +875,6 @@ if(paycomm != '' && paycomm != undefined){
 					pattern: /^([0-9])?$/,
 				},
 		},
-		
-		invalidHandler: function(event, validator) {
-            var firstError = validator.errorList[0].element;
-            var $errorTab = $(firstError).closest("#tabs div");
-            var index = $errorTab.index();
-            $("#tabs").tabs("option", "active", index);
-        },
 		 errorPlacement: function(label, element) {
 			    if (element.hasClass('web-select2')) {
 			      label.insertAfter(element.next('.select2-container')).addClass('mt-2 text-danger');
@@ -1280,9 +1278,24 @@ var yyyy = today.getFullYear();
 if(dd<10){ dd='0'+dd } 
 if(mm<10){ mm='0'+mm } 
 today = yyyy+'-'+mm+'-'+dd; 
+
+/*
 document.getElementById("dtInitialAppointmentParentInst").setAttribute("max", today);
 document.getElementById("dtJoinCurrentPost").setAttribute("max", today);
 document.getElementById("indiApproDt").setAttribute("max", today);
+*/
+
+const fields = ["dtInitialAppointmentParentInst", "dtJoinCurrentPost", "indiApproDt"];
+
+fields.forEach(field => {
+    const element = document.getElementById(field);
+    if (element) {
+        element.setAttribute("max", today);
+     //   console.log(`Set max attribute for ${field}.`);
+    } else {
+       // console.warn(`Element with ID ${field} not found.`);
+    }
+});
 
 
 
@@ -4598,7 +4611,10 @@ if (mm1 < 10) {
 }
    
 today1 = yyyy1 + '-' + mm1 + '-' + dd1;
-document.getElementById("serviceJod").setAttribute("max", today1);
+
+if (document.getElementById("serviceJod")) {
+	document.getElementById("serviceJod").setAttribute("max", today1);
+}
 
 
 
@@ -4694,6 +4710,9 @@ $("#myForm").on('keypress', function(e) {
         }
     }
 });
+
+
+
 
 
 

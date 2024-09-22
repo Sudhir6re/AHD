@@ -36,11 +36,11 @@ public class EntryOfPostsRepoImpl implements EntryOfPostsRepo {
 	@Override
 	public List<MstDesignationEntity> getActiveDesig(Long lLngFieldDept) {
 		Session session = getSession();
-		String HQL_QUERY = "from MstDesignationEntity ";
+		//String HQL_QUERY = "from MstDesignationEntity ";
 		
-	/*	String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  "
+		String HQL_QUERY = "select mst from MstDcpsDesignation dcpsDesig, MstDesignationEntity mst  "
 				+ "where mst.desginationId=dcpsDesig.orgDesignation and mst.isActive='1' and  dcpsDesig.fieldDeptId =  "
-				+ lLngFieldDept;*/
+				+ lLngFieldDept;
 		Query query = session.createQuery(HQL_QUERY);
 		List resultList = query.list();
 		return resultList;

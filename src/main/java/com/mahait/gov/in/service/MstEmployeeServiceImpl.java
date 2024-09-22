@@ -1167,6 +1167,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setIsMappedWithNps('0');
 		objEntity.setDdoCode(mstEmployeeModel.getDdoCode());
 		objEntity.setBillGroupId(mstEmployeeModel.getBillgroupId());
+		objEntity.setEmpClass(mstEmployeeModel.getEmpClass());
 
 		if (!mstEmployeeModel.getAction().equals("saveAsDraft")) {
 			objEntity.setIsActive(3l);
@@ -1893,6 +1894,13 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		Serializable id = mstEmployeeRepo.updateEmployeeConfiguration(objEntity, mstEmployeeModel, lArrNomineeDtls);
 
 		return (int) id;
+	}
+
+	
+
+	@Override
+	public Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst) {
+		return mstEmployeeRepo.deleteEmployeesByIds(employeeIds, orgUserMst);
 	}
 
 }
