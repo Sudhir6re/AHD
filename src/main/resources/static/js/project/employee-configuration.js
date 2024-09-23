@@ -1,5 +1,6 @@
 var contextPath = $("#appRootPath").val();
 jQuery(document).ready(function() {
+	contextPath = $("#appRootPath").val();
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});
 	$("#qid").select2();
@@ -200,7 +201,7 @@ if(paycomm != '' && paycomm != undefined){
 		$("#eidNo").prop("disabled",true);
 	});
 	
-	if($("#uid1").val()!='' && $("#uid2").val()!='' && $("#uid3").val()!=''){
+	if ($("#uid1").val() && $("#uid2").val() && $("#uid3").val()) {
 		var UID1 = document.getElementById("uid1").value;
 		var UID2 = document.getElementById("uid2").value;
 		var UID3 = document.getElementById("uid3").value;
@@ -381,13 +382,17 @@ if(paycomm != '' && paycomm != undefined){
 	var eidnumbercheck=$('#eidNo').val();
 //	alert("uidnumbercheck="+uidnumbercheck);
 	if(eidnumbercheck!=""||uidnumbercheck!=""){
-	if (uidnumbercheck != "") {
+	if ($('#uidNo').val()) {
 		document.getElementById('eidNo').readOnly = true;
 	}else{
-//		document.getElementById('eidNo').readOnly = true;
-		document.getElementById("uid1").readOnly = true;
-		document.getElementById("uid2").readOnly = true;
-		document.getElementById("uid3").readOnly = true;
+		const fields = ["uid1", "uid2", "uid3"];
+		fields.forEach(field => {
+		    const element = document.getElementById(field);
+		    if (element) {
+		        element.readOnly = true;
+		    } else {
+		    }
+		});
 	}
 	}
 	
@@ -870,16 +875,6 @@ if(paycomm != '' && paycomm != undefined){
 					pattern: /^([0-9])?$/,
 				},
 		},
-		invalidHandler: function(form, validator) {
-			//form.preventDefault();
-			try{
-				$(".error").closest(".collapse").addClass("in");
-			}catch(err){
-			}
-		},
-		
-		
-		
 		 errorPlacement: function(label, element) {
 			    if (element.hasClass('web-select2')) {
 			      label.insertAfter(element.next('.select2-container')).addClass('mt-2 text-danger');
@@ -1283,9 +1278,24 @@ var yyyy = today.getFullYear();
 if(dd<10){ dd='0'+dd } 
 if(mm<10){ mm='0'+mm } 
 today = yyyy+'-'+mm+'-'+dd; 
+
+/*
 document.getElementById("dtInitialAppointmentParentInst").setAttribute("max", today);
 document.getElementById("dtJoinCurrentPost").setAttribute("max", today);
 document.getElementById("indiApproDt").setAttribute("max", today);
+*/
+
+const fields = ["dtInitialAppointmentParentInst", "dtJoinCurrentPost", "indiApproDt"];
+
+fields.forEach(field => {
+    const element = document.getElementById(field);
+    if (element) {
+        element.setAttribute("max", today);
+     //   console.log(`Set max attribute for ${field}.`);
+    } else {
+       // console.warn(`Element with ID ${field} not found.`);
+    }
+});
 
 
 
@@ -1306,7 +1316,7 @@ $("#payCommision")
 					
 					
 					
-					if (payCommisionId != '') {
+					if (payCommisionId != '' && payCommisionId != '0') {
 						if (payCommisionId == '700005') {
 //							$('#payScaleSeven').attr("disabled", true); 
 //							$('#basicPay').attr("disabled", true);
@@ -1487,7 +1497,7 @@ $("#payscalelevel")
 					$('#payInPayBand').empty();
 					$('#gradePay').empty();
 
-					if (payScale != '') {
+					if (payScale != ''  && payScale != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -1611,7 +1621,7 @@ $("#designationId")
 					var postdetailid = $("#postdetailid").val();
 				
 					// alert("DDO CODE is "+designationId);
-					if (designationId != '') {
+					if (designationId != '' && designationId != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -1736,7 +1746,7 @@ $("#accountmaintainby")
 					document.getElementById('pfseries').disabled = '';	
 					document.getElementById('pfacno').disabled = '';	
 				///	document.getElementById('pfdescription').disabled = '';	
-					if (accmainby != '') {
+					if (accmainby != '' &&  accmainby != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -3197,7 +3207,7 @@ $("#stateCode")
 
 
 
-//for fetching Sub Corporation associates with Corporation
+/*//for fetching Sub Corporation associates with Corporation
 $("#parentFieldDepartmentId")
 		.change(
 				function() {
@@ -3252,13 +3262,13 @@ $("#parentFieldDepartmentId")
 											$('#subCorporationId')
 													.append(
 															"<option value='0'>Please Select</option>");
-											/*swal("Record not found !!!");*/
+											swal("Record not found !!!");
 										}
 									}
 								});
 					}
 
-				});
+				});*/
 
 
 function approveEmpDtls() {
@@ -3455,7 +3465,7 @@ $("#bankId")
 					// alert("DDO CODE is "+departmentId);
 					//  alert("payScale CODE is "+payScale);
 
-					if (bankid != '') {
+					if (bankid != ''  && bankid != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -4466,7 +4476,7 @@ $("#postdetailid")
 		function() {
 			var postdetailid = $("#postdetailid").val();
 			//alert("postdetailid"+postdetailid);
-			if (postdetailid != '') {
+			if (postdetailid != '' && postdetailid != '0') {
 				$
 						.ajax({
 							type : "GET",
@@ -4532,8 +4542,8 @@ $("#adminDepartmentId")
 .change(
 		function() {
 			var adminDepartmentId = $("#adminDepartmentId").val();
-			alert("adminDepartmentId"+adminDepartmentId);
-			if (adminDepartmentId != '') {
+	//		alert("adminDepartmentId"+adminDepartmentId);
+			if (adminDepartmentId != '' && adminDepartmentId!="0") {
 				$
 						.ajax({
 							type : "GET",
@@ -4601,7 +4611,10 @@ if (mm1 < 10) {
 }
    
 today1 = yyyy1 + '-' + mm1 + '-' + dd1;
-document.getElementById("serviceJod").setAttribute("max", today1);
+
+if (document.getElementById("serviceJod")) {
+	document.getElementById("serviceJod").setAttribute("max", today1);
+}
 
 
 
@@ -4687,5 +4700,21 @@ function validateBankAccNumUniqe() {
 					});
 		}
 	}
+
+
+$("#myForm").on('keypress', function(e) {
+    if (e.which === 13) { 
+        e.preventDefault(); 
+        if ($("#myForm").valid()) { 
+            $(this).submit(); 
+        }
+    }
+});
+
+
+
+
+
+
 
 

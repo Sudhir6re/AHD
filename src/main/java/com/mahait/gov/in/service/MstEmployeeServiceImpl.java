@@ -1167,6 +1167,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setIsMappedWithNps('0');
 		objEntity.setDdoCode(mstEmployeeModel.getDdoCode());
 		objEntity.setBillGroupId(mstEmployeeModel.getBillgroupId());
+		objEntity.setEmpClass(mstEmployeeModel.getEmpClass());
 
 		if (!mstEmployeeModel.getAction().equals("saveAsDraft")) {
 			objEntity.setIsActive(3l);
@@ -1770,7 +1771,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 						}
 
 					}
-
 					lObjNomineeDtls.setDob(dtBirthDate);
 					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
 					lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
@@ -1781,7 +1781,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					lObjNomineeDtls.setUpdatedate(mstEmployeeModel.getUpdatedDate());
 					lObjNomineeDtls.setUpdateid(mstEmployeeModel.getUpdatedUserId());
 					lObjNomineeDtls.setEmployeeId(objEntity.getEmployeeId());
-
 					lArrNomineeDtls[i] = lObjNomineeDtls;
 				}
 
@@ -1794,13 +1793,12 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setEmpType("1");
 			objEntity.setIsMappedWithNps('0');
 			objEntity.setBillGroupId(mstEmployeeModel.getBillgroupId());
-			if (!mstEmployeeModel.getAction().equals("saveAsDraft")) {
+			if (mstEmployeeModel.getAction().equals("saveAsDraft")) {
 				objEntity.setIsActive(0l);
 			}else {
 				objEntity.setIsActive(3l);
 			}
 		
-			mstEmployeeModel.setIsActive(3l);
 			objEntity.setSignatureAttachmentId(mstEmployeeModel.getSignatureAttachmentId());
 			objEntity.setCreatedUserId(mstEmployeeModel.getCreatedUserId());
 			objEntity.setCreatedDate(new Date());
@@ -1896,6 +1894,13 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		Serializable id = mstEmployeeRepo.updateEmployeeConfiguration(objEntity, mstEmployeeModel, lArrNomineeDtls);
 
 		return (int) id;
+	}
+
+	
+
+	@Override
+	public Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst) {
+		return mstEmployeeRepo.deleteEmployeesByIds(employeeIds, orgUserMst);
 	}
 
 }

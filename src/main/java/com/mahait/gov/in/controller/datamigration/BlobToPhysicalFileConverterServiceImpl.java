@@ -22,6 +22,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.GROrderDocumentEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 
 
@@ -48,14 +49,13 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 			List<byte[]> lst = new ArrayList<>();
 			String fileExtension = getFileExtension(byteData, tika);
 			String fullFileName = fileName + "." + fileExtension;
-
 			String DeptNm = "";
 
 			if (typeOp == 1) {
 				String filePath = uploadPhoto(byteData, DeptNm, id);
 				if (filePath != null) {
 
-				//	MstEmployeeEntity mstEmployeeEntity = blobToPhysicalFileConverterRepo.findEmpByEmpId(id);
+					MstEmployeeEntity mstEmployeeEntity = blobToPhysicalFileConverterRepo.findEmpByEmpId(id);
 					//mstEmployeeEntity.setPhotoAttachmentId(filePath);
 					//mstEmployeeEntity.setEmployeeId(id.longValue());
 					//blobToPhysicalFileConverterRepo.updatePhotoPath(mstEmployeeEntity);
@@ -72,10 +72,10 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 				
 				String filePath = saveAttachment(byteData, id, fileExtension);
 				if (filePath != null) {
-					/*BigInteger grDocumentId = StringHelperUtils.isNullBigInteger(row[3]);
+					BigInteger grDocumentId = StringHelperUtils.isNullBigInteger(row[3]);
 					GROrderDocumentEntity gROrderDocumentEntity =blobToPhysicalFileConverterRepo.findDocumentId(grDocumentId);
 					gROrderDocumentEntity.setFilePath(filePath);
-					blobToPhysicalFileConverterRepo.updateGrPath(gROrderDocumentEntity);*/
+					blobToPhysicalFileConverterRepo.updateGrPath(gROrderDocumentEntity);
 				}
 
 			}

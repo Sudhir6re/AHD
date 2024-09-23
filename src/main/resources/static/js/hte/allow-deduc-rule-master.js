@@ -10,9 +10,17 @@ jQuery(document).ready(function($) {
 	
 	var table = $('#tblDataTable').DataTable();
 	
+	
     $('#departmentAllowdeducCode').on('change', function() {
     	var depName=$(this).attr("data2");
-        table.column(1).search(depName).draw(); 
+      //  table.column(1).search(depName).draw(); 
+        if($('#departmentAllowdeducCode').val()=="4" || $('#departmentAllowdeducCode').val()=="11"  || $('#departmentAllowdeducCode').val()=="135" || $('#departmentAllowdeducCode').val()=="12"  || $('#departmentAllowdeducCode').val()=="18"){
+        	swal("This component is update only");
+        	$("#btnSave").prop("disabled",true);
+        }else{
+        	 $("#btnSave").prop("disabled",false);
+        }
+        
     });
     
     $("#isType").change(function(){
@@ -29,23 +37,33 @@ jQuery(document).ready(function($) {
   			success : function(data) {
   				 console.log(data);
   				var len = data.length;
+  				
+  			var validCodes = [
+      		    "106", "10", "87", "161", "39", 
+      		    "101", "102", "61", "35", "160", 
+      		    "143", "9", "127", "11", "128"
+      		];
+  				
   				if (len != 0) { 
   				$("#departmentAllowdeducCode").empty();
   				 var newOption = $('<option value="0">Please Select</option>');
               	 $('#departmentAllowdeducCode').append(newOption);
-                  for(var i=0;i<len;i++){
-                  	  newOption = $('<option value="'+data[i].departmentAllowdeducCode+'">'+data[i].departmentAllowdeducName+'</option>');
-                  	 $('#departmentAllowdeducCode').append(newOption);
-                  }				
+                		for (var i = 0; i < data.length; i++) {
+                			var departmentCodeString = String(data[i].departmentAllowdeducCode);
+                			 if (validCodes.indexOf(departmentCodeString) !== -1) {
+                		        var newOption = $('<option value="'+data[i].departmentAllowdeducCode+'">'+data[i].departmentAllowdeducName+'</option>');
+                		        $('#departmentAllowdeducCode').append(newOption);
+                		    }
+                		}
   			   }
   			}
   		});
        });
     
     
-        $('form').on('submit', function (event) {
-           
-
+        	
+        $("#btnSave").click(function(event){
+        		event.preventDefault();
             var isType = $('#isType').val();
             var departmentAllowdeducCode = $('#departmentAllowdeducCode').val();
             var payCommissionCode = $('#payCommissionCode').val();
@@ -62,38 +80,47 @@ jQuery(document).ready(function($) {
             var cityGroup = $('#cityGroup').val().trim();
             
             var errors = [];
-
-            var payCommissionMandatoryCodes = ["11", "2", "6", "12", "10", "208", "135", "18", "19", "8", "207", "4"];
+            
+            
+            var payCommissionMandatoryCodes = [];   ["101", "35", "143", "102", "106", "11", "128", "61", "160", "10", "161", "39"];
             if (payCommissionMandatoryCodes.includes(departmentAllowdeducCode) && payCommissionCode == "0") {
                 errors.push('Pay Commission is required for the selected Type Of Component.');
             }
 
-            var mandatoryPercentageAllowDeducCode = ["4", "18", "11", "12", "19", "6", "8", "207", "10", "17", "208"];
+            
+            
+            var mandatoryPercentageAllowDeducCode = ["39", "61", "101", "102", "160", "143", "10", "161", "106", "9", "11"];
             if (mandatoryPercentageAllowDeducCode.includes(departmentAllowdeducCode) && !percentage) {
                 errors.push('Percentage is required for the selected Type Of Component.');
             }
 
-            var amountMandatoryCodes = ["2", "17", "134", "37", "10", "208", "14"];
+          
+            
+            var amountMandatoryCodes = ["35", "9", "127", "87", "106", "11", "128"];
             if (amountMandatoryCodes.includes(departmentAllowdeducCode) && !amount) {
                 errors.push('Amount is required for the selected Type Of Component.');
             }
+            
 
-            var maxBasicMandatoryCodes = ["208", "2"];
+            var maxBasicMandatoryCodes = ["11", "35"];
             if (maxBasicMandatoryCodes.includes(departmentAllowdeducCode) && !maxBasic) {
                 errors.push('Maximum Basic is required for the selected Type Of Component.');
             }
-
-            var minBasicMandatoryCodes = ["17", "208", "2"];
+           
+            
+            var minBasicMandatoryCodes = ["9", "11", "35"];
             if (minBasicMandatoryCodes.includes(departmentAllowdeducCode) && !minBasic) {
                 errors.push('Minimum Basic is required for the selected Type Of Component.');
             }
 
-            var startDateMandatoryCodes = ["10", "208", "18", "19", "11", "17", "8", "6", "134", "12", "207"];
+            
+            var startDateMandatoryCodes = ["106", "11", "61", "160", "101", "9", "10", "143", "127", "102", "161"];
             if (startDateMandatoryCodes.includes(departmentAllowdeducCode) && !startDate) {
                 errors.push('Start Date is required for the selected Type Of Component.');
             }
 
-            var cityGroupMandatoryCodes = ["208", "2", "134", "37"];
+           
+            var cityGroupMandatoryCodes = ["11", "35", "127", "87"];
             if (cityGroupMandatoryCodes.includes(departmentAllowdeducCode) && !cityGroup) {
                 errors.push('City Group is required for the selected Type Of Component.');
             }
@@ -102,11 +129,13 @@ jQuery(document).ready(function($) {
                 errors.push('End Date should be after Start Date.');
             }
 
-            if (departmentAllowdeducCode == "17" && !cityClass) {
+            
+            
+            if (departmentAllowdeducCode == "9" && !cityClass) {
                 errors.push('City Class is required for the selected Type Of Component.');
             }
 
-            if (departmentAllowdeducCode == "10" && (!gradePayLower || !gradePayHigher)) {
+            if (departmentAllowdeducCode == "106" && (!gradePayLower || !gradePayHigher)) {
                 errors.push('Grade Pay/Pay Scale is required for the selected Type Of Component.');
             }
 
@@ -129,7 +158,7 @@ jQuery(document).ready(function($) {
             		})
             		.then((willDelete) => {
             		  if (willDelete && parseInt(departmentAllowdeducCode)>0) {
-            			  $(this).off('submit').submit();
+            			  $("#ruleMasterForm").submit();
             		  }else{
             			  event.preventDefault(); 
             		  }
@@ -145,7 +174,43 @@ jQuery(document).ready(function($) {
 });
 
 	
-	 
+	
    
+/*
+
+
+old  mandatory code                                   new codes
+
+"Family Planning Allowance"	10      "Family Planning Allowance"	106
+
+"Dearness Allowance (D.A)"	8          "Dearness Allowance (D.A)"	10
+
+"GIS"	37                             "GIS"	87
+
+"7PC DA"	207                        "7PC DA"	161
+
+"ATS-Incentive(50)"	4                      "ATS-Incentive(50)"	39
+
+"Force-1 Incentive(100)"	11              "Force-1 Incentive(100)"	101
+
+"Force-1 Incentive(25)"	12                  "Force-1 Incentive(25)"	102
+
+"ATS-Incentive(30)"	18                       "ATS-Incentive(30)"	61
+
+"CLA"	2                                       "CLA"  35	
+
+"DA ON TA"	19                                 "DA ON TA"	 160 
+
+"Central DA"	6                            "Central DA"	143
+
+"HRA"	17                                     "HRA"	 9 
+
+"Accidential Policy"	134                    "Accidential Policy"	127
+
+"Empr Contr(NPS 14%)"	208                      "Empr Contr(NPS 14%)"   11 
+
+"Revenue_Stamp"	135                                  "Revenue_Stamp"	 128
+
+*/
   
   

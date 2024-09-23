@@ -670,7 +670,7 @@ $("#btnSearch")
 									console.log(data);
 							 $("#tblShowPayBill").dataTable().fnClearTable();
 //									var paybillGenerationTrnId,status,billDescription, schemeCode, schemeName, noOfEmployee,authno, billGrossAmt, billNetAmt, isActive,ddoCode;
-									var paybillGenerationTrnId,status,billDescription,  noOfEmployee,RTGS, billGrossAmt, billNetAmt, isActive,ddoCode;
+									var paybillGenerationTrnId,status,billDescription,  noOfEmployee,RTGS, billGrossAmt, billNetAmt, isActive,ddoCode,schemeCode, schemeName;
 									$
 											.each(
 													data,
@@ -678,8 +678,8 @@ $("#btnSearch")
 														paybillGenerationTrnId = result[0],
 														billDescription = result[1];
 														console.log(result[0]);
-//														schemeCode = result[2]
-//														schemeName = result[3];
+														schemeCode = result[2]
+														schemeName = result[3];
 														noOfEmployee = result[7];
 														//authno=result[8];
 														RTGS=result[0];
@@ -845,8 +845,10 @@ $("#btnSearch")
 																				change1,
 																				inner5,
 																				billDescription,
-//																				schemeCode,
-//																				schemeName,
+																			
+																				schemeCode,
+																				schemeName,
+																				
 																				noOfEmployee,
 																				billGrossAmt,
 																				billNetAmt,
@@ -856,10 +858,10 @@ $("#btnSearch")
 														
 														
 														 $('#tblShowPayBill tr').each(function(row, tr){
-														        $(tr).find('td:eq(5)').text();
-														        $(tr).find('td:eq(6)').text();
-														        $(tr).find('td:eq(5)').text(toPlainString($(tr).find('td:eq(5)').text()));
-														        $(tr).find('td:eq(6)').text(toPlainString($(tr).find('td:eq(6)').text()));
+														        $(tr).find('td:eq(7)').text();
+														        $(tr).find('td:eq(8)').text();
+														        $(tr).find('td:eq(7)').text(toPlainString($(tr).find('td:eq(7)').text()));
+														        $(tr).find('td:eq(8)').text(toPlainString($(tr).find('td:eq(8)').text()));
 														    });         	
 
 

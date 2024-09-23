@@ -48,7 +48,8 @@
 					</thead>
 					<tbody>
 						<tr th:each="att, itemStat : ${updateDOBModel.emplist}">
-							<td><input type="checkbox" name="checkboxid" id="checkboxid"
+							<td>
+							<input type="checkbox" name="checkboxid" id="checkboxid"
 								th:data="'chk'+${itemStat.index}" class="checkbox"
 								th:value="${updateDOBModel.emplist[__${itemStat.index}__].checkboxid}"
 								th:field="${updateDOBModel.emplist[__${itemStat.index}__].checkboxid}" />

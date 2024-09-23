@@ -1,6 +1,6 @@
 $(document).ready(function(){
 		  				 // alert("DDO CODE is "+departmentId);
-	            var countryId=1;
+	            /*var countryId=1;
 		  			    	 if (countryId != '') 
 		  			    	 {
 		  			    		 $.ajax({
@@ -34,7 +34,7 @@ $(document).ready(function(){
 		 						    		  }
 		  						    	}
 		  						 });	
-		  			    	 }
+		  			    	 }*/
 		  			    		
 	     
 	     

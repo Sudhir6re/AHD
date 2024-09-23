@@ -1,5 +1,8 @@
 package com.mahait.gov.in.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -17,10 +21,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -712,10 +719,10 @@ public class EmployeeConfigurationController extends BaseController {
 
 		if (mstEmployeeModel.getPayCommissionCode() != null && !mstEmployeeModel.getPayCommissionCode().equals(8))
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
-		if (mstEmployeeModel.getPayCommissionCode().equals(8)) {
+		if (mstEmployeeModel.getPayCommissionCode().equals(700005)) {
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
 		}
-		if (mstEmployeeModel.getPayCommissionCode().equals(8)) {
+		if (mstEmployeeModel.getPayCommissionCode().equals(700005)) {
 			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(8);
 		}
 
@@ -1103,10 +1110,9 @@ public class EmployeeConfigurationController extends BaseController {
 	@RequestMapping(value = "/draftCaseList", method = { RequestMethod.GET })
 	public String draftCaseList(@ModelAttribute("mstEmployeeModel") MstEmployeeModel mstEmployeeModel, Model model,
 			Locale locale, HttpSession session) {
-		
 
 		String message = (String) model.asMap().get("message");
-		
+
 		if (message != null && message.equals("SUCCESS")) {
 			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
 				model = CommonUtils.initModel(CommonConstants.Message.SAVEDRAFT, STATUS.SUCCESS, model);
@@ -1128,10 +1134,8 @@ public class EmployeeConfigurationController extends BaseController {
 			} else {
 				model = CommonUtils.initModel(CommonConstants.Message.DRAFTCASE, STATUS.SUCCESS, model);
 			}
-		}		
-		
-		
-		
+		}
+
 		mstEmployeeModel.setAction("Save");
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
@@ -1160,6 +1164,7 @@ public class EmployeeConfigurationController extends BaseController {
 		long locId = Long.parseLong((String) session.getAttribute("locationId"));
 
 		List<OrgDdoMst> lstDDO = dDOScreenService.findDDOByUsername(messages.getUserName());
+		model.addAttribute("lstGISGroup", mstEmployeeService.getGISGroup());
 
 		List<DDOScreenModel> lstDepartment = mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(), locId);
 
@@ -1284,12 +1289,12 @@ public class EmployeeConfigurationController extends BaseController {
 		List<Object[]> lstsvnbasicpay = new ArrayList<Object[]>();
 		List<Object[]> lstpfSeries = new ArrayList<Object[]>();
 
-		if (mstEmployeeModel.getPayCommissionCode() != null && !mstEmployeeModel.getPayCommissionCode().equals(8))
+		if (mstEmployeeModel.getPayCommissionCode() != null && mstEmployeeModel.getPayCommissionCode()!=700005l)
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
-		if (mstEmployeeModel.getPayCommissionCode().equals(8)) {
+		if (mstEmployeeModel.getPayCommissionCode()==700005l) {
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
 		}
-		if (mstEmployeeModel.getPayCommissionCode().equals(8)) {
+		if (mstEmployeeModel.getPayCommissionCode()==700005) {
 			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(8);
 		}
 
@@ -1331,6 +1336,93 @@ public class EmployeeConfigurationController extends BaseController {
 			redirectAttributes.addFlashAttribute("message", "Registration form is forwarded successfully");
 		return "redirect:/ddoast/draftCaseList";
 
+	}
+
+	// View Stamp and signd Documents
+	@GetMapping("/viewFileSign/{employeeId}")
+	void viewFileSign(HttpServletResponse response, @PathVariable Integer employeeId) throws IOException {
+		try {
+			if (employeeId != null) {
+				String fileName = null;
+				String filePath = null;
+				List<Object[]> photodtl = empChangeDetailsService.getEmpSignPhoto(employeeId);
+
+				// mstEmployeeModel=empChangeDetailsService.getEmpData(empId);
+				for (Object[] obj : photodtl) {
+					fileName = (String) obj[1];
+					filePath = obj[1].toString();
+				}
+				if (photodtl.size() > 0) {
+
+					File file = new File(filePath);
+					FileInputStream inputStream = new FileInputStream(file);
+
+					if (filePath.contains("pdf")) {
+						response.setContentType("application/pdf");
+					} else if (filePath.contains("jpg") || filePath.contains("jpeg")) {
+						response.setContentType("image/jpeg");
+					} else if (filePath.contains("png")) {
+						response.setContentType("image/png");
+					} else if (filePath.contains("gif")) {
+						response.setContentType("image/gif");
+					} else if (filePath.contains("mp4")) {
+						response.setContentType("video/mp4");
+					}
+					response.setContentLength((int) file.length());
+					response.setHeader("Content-Disposition", "inline;filename=\"" + file.getName() + "\"");
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// View Stamp and signd Documents
+	@GetMapping("/viewFilephoto/{employeeId}")
+	void viewFilephoto(HttpServletResponse response, @PathVariable Integer employeeId) throws IOException {
+		try {
+			if (employeeId != null) {
+				String fileName = null;
+				String filePath = null;
+				List<Object[]> photodtl = empChangeDetailsService.getEmpSignPhoto(employeeId);
+
+				// mstEmployeeModel=empChangeDetailsService.getEmpData(empId);
+				for (Object[] obj : photodtl) {
+					fileName = (String) obj[0];
+					filePath = obj[0].toString();
+				}
+				if (photodtl.size() > 0) {
+
+					File file = new File(filePath);
+					FileInputStream inputStream = new FileInputStream(file);
+
+					if (filePath.contains("pdf")) {
+						response.setContentType("application/pdf");
+					} else if (filePath.contains("jpg") || filePath.contains("jpeg")) {
+						response.setContentType("image/jpeg");
+					} else if (filePath.contains("png")) {
+						response.setContentType("image/png");
+					} else if (filePath.contains("gif")) {
+						response.setContentType("image/gif");
+					} else if (filePath.contains("mp4")) {
+						response.setContentType("video/mp4");
+					}
+					response.setContentLength((int) file.length());
+					response.setHeader("Content-Disposition", "inline;filename=\"" + file.getName() + "\"");
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@DeleteMapping("/deleteDraftCase")
+	public ResponseEntity<Integer> deleteDraftCase(@RequestBody List<Long> employeeIds,HttpSession session) {
+		OrgUserMst orgUserMst = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		Integer isDeleted=mstEmployeeService.deleteEmployeesByIds(employeeIds,orgUserMst);
+		return ResponseEntity.ok(isDeleted);
 	}
 
 }
