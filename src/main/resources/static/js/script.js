@@ -639,7 +639,7 @@ function isValidEmail(email) {
  * $("select").select2(); }, 200);
  * 
  * });
- */
+ *//*
 $(document).ready(function() {
     // Initialize Select2 on all select elements with class 'select2'
      $("select").select2();
@@ -656,18 +656,16 @@ $(document).ready(function() {
     	        var $select = $(this).closest('form').find('select').filter(function() {
     	            return $(this).hasClass('readonly');
     	        });
+    	 });
+});*/
 
-<<<<<<< HEAD
-
+/*
 $(document).ready(function(){ 
 	$('select').select2();
-=======
     	        // Check if the <select> element has the 'readonly' class
     	        if ($select.length) {
     	            // Find the nearest .select2-selection__rendered element and
 					// add the 'readonly' class
     	            $(this).find('.select2-selection__rendered').addClass('readonly');
     	        }
-    	    });
->>>>>>> 6f840dbaa553d90f9c6313da10544ec6ab2d6471
-});
+    	    });*/

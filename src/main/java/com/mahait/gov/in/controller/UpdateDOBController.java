@@ -44,7 +44,7 @@ public class UpdateDOBController  extends BaseController {
 		
 		
 		//model.addAttribute("", getDesignation())
-    	emplist = updateDOBService.findAllEmployee(messages.getUserName());
+    	emplist = updateDOBService.findAllEmployee(messages.getDdoCode());
     	updateDOBModel.setEmplist(emplist);
 	
 		
