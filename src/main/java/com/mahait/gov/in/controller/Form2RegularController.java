@@ -95,7 +95,7 @@ public class Form2RegularController  extends BaseController{
 		
 		List<Object[]>  yearinfo = commonHomeMethodsService.findyearinfo(BigInteger.valueOf(year));
 		for (Object[] yearLst : yearinfo) {
-			curryear = yearLst[9].toString();
+			curryear = yearLst[4].toString();
 			currFinancialYr = yearLst[3].toString();
 			
 		}
@@ -121,17 +121,19 @@ public class Form2RegularController  extends BaseController{
 			
 		}
 		
-
+		String totalContrinword = null;
 		
 		List<RegularReportModel> entryinfo = regularReportService.findDCPSRegularEmpLst(regularReportModel.getYearId(),regularReportModel.getMonthId(),regularReportModel.getBillGroup(),
 				messages.getDdoCode(),regularReportModel.getAllowdedCode());
         BigInteger bigInteger = BigInteger.valueOf(regularReportModel.getMonthId());
         
+        if(entryinfo!=null || entryinfo.size()>0) {
+        	double dcpsReg = entryinfo.stream().mapToDouble(RegularReportModel::getDcpsReg).sum();
+            double npsEmprdeduc = entryinfo.stream().mapToDouble(RegularReportModel::getNpsEmployerDedu).sum();
+            double totalSum = dcpsReg + npsEmprdeduc;
+            totalContrinword=CashWordConverter.doubleConvert(totalSum);
+        }
         
-        double dcpsReg = entryinfo.stream().mapToDouble(RegularReportModel::getDcpsReg).sum();
-        double npsEmprdeduc = entryinfo.stream().mapToDouble(RegularReportModel::getNpsEmployerDedu).sum();
-        double totalSum = dcpsReg + npsEmprdeduc;
-        String totalContrinword=CashWordConverter.doubleConvert(totalSum);
         
         
 		String monname="";

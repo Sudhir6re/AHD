@@ -284,7 +284,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<Object[]> findDetailsBillNumber(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "select * from paybill_generation_trn  where paybill_generation_trn_id = '"+billNumber+"'";
+		String HQL = "select paybill_month,paybill_year from paybill_generation_trn  where paybill_generation_trn_id = '"+billNumber+"'";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
