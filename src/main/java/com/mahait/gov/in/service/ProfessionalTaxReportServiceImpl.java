@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,10 @@ public class ProfessionalTaxReportServiceImpl implements ProfessionalTaxReportSe
 				RegularReportModel obj = new RegularReportModel();
 				obj.setName(StringHelperUtils.isNullString(objLst[0]));
 				obj.setPanNo(StringHelperUtils.isNullString(objLst[1]));
-				obj.setGrossAmount(StringHelperUtils.isNullDouble(objLst[2]));
-				obj.setProfessionalTax(StringHelperUtils.isNullDouble(objLst[3]));
+				BigInteger gross = (BigInteger) objLst[2];	
+				obj.setGrossAmount(gross.doubleValue());
+				BigInteger pt = (BigInteger) objLst[3];
+				obj.setProfessionalTax(pt.doubleValue());
 				
 				lstObj.add(obj);
 			}
