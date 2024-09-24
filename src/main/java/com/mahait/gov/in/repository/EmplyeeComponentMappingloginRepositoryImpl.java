@@ -48,6 +48,9 @@ public class EmplyeeComponentMappingloginRepositoryImpl implements EmplyeeCompon
 				//"        INNER JOIN designation_mst d ON d.designation_code = c.designation_code\r\n" + 
 			//	"        LEFT JOIN pay_scale_sixpc_mst e ON e.pay_scale_code = c.pay_scale_code\r\n" + 
 				//"        LEFT JOIN payband_gp_state_7pc f ON f.level_id = c.seven_pc_level\r\n" + 
+				"        INNER JOIN designation_mst d ON d.designation_code = c.designation_code\r\n" + 
+				"        LEFT JOIN pay_scale_sixpc_mst e ON e.pay_scale_code = c.pay_scale_code\r\n" + 
+				"        LEFT JOIN payband_gp_state_7pc f ON f.level_id = c.seven_pc_level where  c.sevaarth_id NOT IN (SELECT sevaarth_id FROM employee_allowdeduc_mpg1) \r\n" + 
 				")\r\n" + 
 				"SELECT *\r\n" + 
 				"FROM LatestEntries\r\n" + 

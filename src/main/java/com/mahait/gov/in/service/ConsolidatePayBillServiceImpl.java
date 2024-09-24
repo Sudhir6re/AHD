@@ -1,6 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +16,6 @@ import com.mahait.gov.in.entity.ConsolidatePayBillTrnEntity;
 import com.mahait.gov.in.entity.ConsolidatePayBillTrnMpgEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
-import com.mahait.gov.in.entity.ZpRltDdoMap;
 import com.mahait.gov.in.model.ConsolidatePayBillModel;
 import com.mahait.gov.in.repository.ConsolidatePayBillRepo;
 
@@ -61,11 +61,13 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 							ConsolidatePayBillModel obj = new ConsolidatePayBillModel();
 							obj.setDdoCode(StringHelperUtils.isNullString(objLst[0]));
 							BigInteger b=(BigInteger) objLst[1];
-							Integer billNo= b.intValue();
-							obj.setBillNo(billNo);
+							obj.setBillNo(b.longValue());
 							obj.setBillDesc(StringHelperUtils.isNullString(objLst[2]));
-							obj.setBillGrossAmt(StringHelperUtils.isNullDouble(objLst[3]));
-							obj.setBillNetAmt(StringHelperUtils.isNullDouble(objLst[4]));
+							
+							BigInteger gross = (BigInteger) objLst[3];
+							obj.setBillGrossAmt(gross.doubleValue());
+							BigInteger net = (BigInteger) objLst[4];
+							obj.setBillNetAmt(net.doubleValue());
 							lstObj.add(obj);
 						}
 					}
@@ -119,29 +121,59 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 				for (Object[] obj : lstpaybilldtls) {
 								
 					
-						incomeTax = (StringHelperUtils.isNullDouble(obj[0]));
+					BigInteger it = (BigInteger) obj[0];
+						incomeTax = (it.doubleValue());
 						totalITamt+=incomeTax;
-										
+							
 						dcpsarr=(StringHelperUtils.isNullDouble(obj[1]));
 						totaldcpsArr+=dcpsarr;
-												
-						 gis=(StringHelperUtils.isNullDouble(obj[2]));
-						totalgis+=gis;
-													
-						pt=(StringHelperUtils.isNullDouble(obj[3]));
-						totalpt+=pt;
-															
-						accpolicy=(StringHelperUtils.isNullDouble(obj[4]));
-						totalaccPolicy+=accpolicy;
-					
-						hrr=(StringHelperUtils.isNullDouble(obj[5]));
-						totalHrr+=hrr;
+							
+						BigDecimal gisVal = null;
+						if(obj[2]!=null) {
+							gisVal = (BigDecimal) obj[2];
+							 gis=(gisVal.doubleValue());
+								totalgis+=gis;
+						}
+						
+										
+						BigDecimal ptVal = null;
+						if(obj[3]!=null) {
+							ptVal = (BigDecimal) obj[3];
+							pt=(ptVal.doubleValue());
+							totalpt+=pt;
+						}
+						
 									
-						deduc=(StringHelperUtils.isNullDouble(obj[6]));
-						totalDeduc+=deduc;
+						BigDecimal accpolicyVal = null;
+						if(obj[4]!=null) {
+							accpolicyVal = (BigDecimal) obj[4];
+							accpolicy=(accpolicyVal.doubleValue());
+							totalaccPolicy+=accpolicy;
+						}
+						
 					
-						pf=(StringHelperUtils.isNullDouble(obj[7]));
-						totalpf+=pf;
+						
+						BigDecimal hrrVal = null;
+						if( obj[5]!=null) {
+							hrrVal = (BigDecimal) obj[5];
+							hrr=(hrrVal.doubleValue());
+							totalHrr+=hrr;
+							
+						}
+						if(obj[6]!=null) {
+							deduc=(StringHelperUtils.isNullDouble(obj[6]));
+							totalDeduc+=deduc;
+						}
+						
+					
+						
+						BigDecimal pfVal = null;;
+						if(obj[7]!=null) {
+							pfVal = (BigDecimal) obj[7];
+							pf=(pfVal.doubleValue());
+							totalpf+=pf;
+						}
+						
 										
 					
 				}

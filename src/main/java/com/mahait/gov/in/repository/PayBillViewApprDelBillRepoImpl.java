@@ -1,6 +1,6 @@
 package com.mahait.gov.in.repository;
 
-import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -153,27 +153,40 @@ public class PayBillViewApprDelBillRepoImpl implements PayBillViewApprDelBillRep
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> findPayBillByMonthYear(int paybillMonth, int paybillYear,String ddoCode,int roleId) {
-			Session currentSession = entityManager.unwrap(Session.class);
-			String HQL=null;
-			if(roleId==3) {
-				HQL = "select a.paybill_generation_trn_id,b.description,b.scheme_code,b.scheme_name,a.bill_gross_amt,a.bill_net_amount,a.is_active,\r\n" + 
-						"a.no_of_employee,a.auth_no from paybill_generation_trn a inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id   \r\n" + 
-						"inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code inner join org_ddo_mst cccc on c.zp_ddo_code = cccc.ddo_code \r\n" + 
-						"where a.is_active <>8 and a.paybill_month = "+paybillMonth+" and a.paybill_year = "+paybillYear+"  and a.ddo_code = '"+ddoCode+"' order by paybill_generation_trn_id desc";
-			}else {
-				HQL = "select a.paybill_generation_trn_id,b.description,b.scheme_code,b.scheme_name,a.bill_gross_amt,a.bill_net_amount,a.is_active,\r\n" + 
-						"a.no_of_employee,a.auth_no from paybill_generation_trn a inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id   \r\n" + 
-						"inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code inner join org_ddo_mst cccc on c.rept_ddo_code = cccc.ddo_code \r\n" + 
-						"where a.is_active  in(1,2) and a.paybill_month = "+paybillMonth+" and a.paybill_year = "+paybillYear+"  and c.rept_ddo_code = '"+ddoCode+"' order by paybill_generation_trn_id desc";
+	public List<Object[]> findPayBillByMonthYear(int paybillMonth, int paybillYear, String ddoCode, int roleId) {
+	    Session currentSession = entityManager.unwrap(Session.class);
+	    String HQL;
 
-				
-			}
-			Query query = currentSession.createSQLQuery(HQL);
-			System.out.println(HQL);
-			/*String HQL11 = "FROM MpgSchemeBillGroupEntity as t where t.isActive = '1' and t.ddoMapId = "+query.uniqueResult()+" ORDER BY t.billDescription ";*/
-			return query.list();
-}
+	    if (roleId == 3) {
+	        HQL = "SELECT a.paybill_generation_trn_id, b.description, b.scheme_code, b.scheme_name, " +
+	              "a.bill_gross_amt, a.bill_net_amount, a.is_active, a.no_of_employee, a.auth_no " +
+	              "FROM paybill_generation_trn a " +
+	              "INNER JOIN mst_dcps_bill_group b ON a.scheme_billgroup_id = b.bill_group_id " +
+	              "INNER JOIN rlt_zp_ddo_map c ON b.ddo_code = c.zp_ddo_code " +
+	              "INNER JOIN org_ddo_mst cccc ON c.zp_ddo_code = cccc.ddo_code " +
+	              "WHERE a.is_active <> 8 AND a.paybill_month = :paybillMonth " +
+	              "AND a.paybill_year = :paybillYear AND a.ddo_code = :ddoCode " +
+	              "ORDER BY paybill_generation_trn_id DESC";
+	    } else {
+	        HQL = "SELECT a.paybill_generation_trn_id, b.description, b.scheme_code, b.scheme_name, " +
+	              "a.bill_gross_amt, a.bill_net_amount, a.is_active, a.no_of_employee, a.auth_no " +
+	              "FROM paybill_generation_trn a " +
+	              "INNER JOIN mst_dcps_bill_group b ON a.scheme_billgroup_id = b.bill_group_id " +
+	              "INNER JOIN rlt_zp_ddo_map c ON b.ddo_code = c.zp_ddo_code " +
+	              "INNER JOIN org_ddo_mst cccc ON c.rept_ddo_code = cccc.ddo_code " +
+	              "WHERE a.is_active IN (1, 2) AND a.paybill_month = :paybillMonth " +
+	              "AND a.paybill_year = :paybillYear AND c.rept_ddo_code = :ddoCode " +
+	              "ORDER BY paybill_generation_trn_id DESC";
+	    }
+
+	    Query query = currentSession.createSQLQuery(HQL)
+	        .setParameter("paybillMonth", paybillMonth)
+	        .setParameter("paybillYear", paybillYear)
+	        .setParameter("ddoCode", ddoCode);
+
+	    System.out.println(HQL);
+	    return query.list();
+	}
 
 	/*@Override
 	public Integer saveDCPSNpsDeductions(DcpsCalculationEntity dcpsCalc) {

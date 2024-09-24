@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,6 +63,7 @@ import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
 import com.mahait.gov.in.model.ChangeStatementModel;
 import com.mahait.gov.in.model.PayBillViewApprDelBillModel;
+import com.mahait.gov.in.model.PaybillViewApproveDeleteModel;
 import com.mahait.gov.in.repository.PayBillViewApprDelBillRepo;
 import com.mahait.gov.in.repository.PaybillGenerationTrnRepo;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
@@ -4350,19 +4352,19 @@ public class PayBillViewApprDelBillController   extends BaseController{
 	 }
 	
 	@GetMapping(value="/findPayBillByBillNumber/{billNumber}/{yearName}/{monthName}")
-	public @ResponseBody List<Object[]> findPayBillByBillNumber(@PathVariable String billNumber,@PathVariable int yearName,@PathVariable int monthName,Model model,Locale locale,HttpSession session) {
+	public ResponseEntity<List<PaybillViewApproveDeleteModel>> findPayBillByBillNumber(@PathVariable String billNumber,@PathVariable int yearName,@PathVariable int monthName,Model model,Locale locale,HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		List<Object[]> consolatedFilterList =  payBillViewApprDelBill.findPayBillByBillNumber(billNumber,monthName,yearName,messages.getMstRoleEntity().getRoleId());
-		return consolatedFilterList;
+		List<PaybillViewApproveDeleteModel> lstPaybillViewApproveDeleteModel =  payBillViewApprDelBill.findPayBillByBillNumber(billNumber,monthName,yearName,messages.getMstRoleEntity().getRoleId());
+		return ResponseEntity.ok(lstPaybillViewApproveDeleteModel);
     }
 	
 	//Added for search paybill for only  month and year//
 	
 	@GetMapping(value="/findPayBillByMonthYear/{yearName}/{monthName}")
-	public @ResponseBody List<Object[]> findPayBillByMonthYear(@PathVariable int yearName,@PathVariable int monthName,Model model,Locale locale,HttpSession session) {
+	public ResponseEntity<List<PaybillViewApproveDeleteModel>> findPayBillByMonthYear(@PathVariable int yearName,@PathVariable int monthName,Model model,Locale locale,HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		List<Object[]> consolatedFilterList =  payBillViewApprDelBill.findPayBillByMonthYear(monthName,yearName,messages.getDdoCode(),messages.getMstRoleEntity().getRoleId());
-		return consolatedFilterList;
+		List<PaybillViewApproveDeleteModel> lstPaybillViewApproveDeleteModel =  payBillViewApprDelBill.findPayBillByMonthYear(monthName,yearName,messages.getDdoCode(),messages.getMstRoleEntity().getRoleId());
+		return ResponseEntity.ok(lstPaybillViewApproveDeleteModel);
     }
 	
 	@GetMapping("/downloadAuthPdf/{authno}") 

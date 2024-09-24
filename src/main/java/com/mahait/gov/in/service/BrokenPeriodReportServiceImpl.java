@@ -65,8 +65,8 @@ public class BrokenPeriodReportServiceImpl implements BrokenPeriodReportService 
 				Integer year=null;
 				List<Object[]> monthyear = commonHomeMethodsService.findDetailsBillNumber(billno);
 				for (Object[] objects : monthyear) {
-					month=Integer.parseInt(objects[22].toString());
-					year=Integer.parseInt(objects[23].toString());
+					month=Integer.parseInt(objects[0].toString());
+					year=Integer.parseInt(objects[1].toString());
 				}
 				List<DisplayBrokenPeriodReportModel> allEdpList = brokenPeriodReportRepo.getAllDataForinnernew(strddo,month,year,billNumber);
 				List<Map<String,Object>> lstempdetails1=brokenPeriodReportRepo.getbrokenPeriodDetails(month,year,strddo,billNumber);

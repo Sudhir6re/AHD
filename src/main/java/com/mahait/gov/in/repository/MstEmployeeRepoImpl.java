@@ -1,5 +1,6 @@
 package com.mahait.gov.in.repository;
 
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -1072,7 +1073,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		BigInteger bg = null;
 		int rtnStr = 0;
 		StringBuffer query = new StringBuffer();
-		query.append("select count(*) from user_mst where username ='" + sevaarthid + "' ");
+		query.append("select count(*) from org_user_mst where user_name ='" + sevaarthid + "' ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0) {
@@ -1233,7 +1234,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
 	}
-	
+
 	@Override
 	public List<Object[]> findDraftCaseList(OrgUserMst messages, Long CASESTATUS) {
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -1245,4 +1246,57 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		return query.list();
 	}
 
+	public Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		
+		List<MstEmployeeEntity> employees = currentSession.createQuery(
+		            "FROM MstEmployeeEntity e WHERE e.employeeId IN (:employeeIds) AND e.ddoCode = :ddoCode", MstEmployeeEntity.class)
+		            .setParameterList("employeeIds", employeeIds)
+		            .setParameter("ddoCode", orgUserMst.getDdoCode())
+		            .getResultList();
+		if(employees.size()>0) {
+			for(MstEmployeeEntity mstEmployeeEntity:employees) {
+				deleteFileIfExists(mstEmployeeEntity.getPhotoAttachmentId());
+				deleteFileIfExists(mstEmployeeEntity.getSignatureAttachmentId());
+			}
+		}
+		
+
+		Query deleteEmployeesQuery = currentSession.createQuery(
+				"DELETE FROM MstEmployeeEntity e WHERE e.employeeId IN (:employeeIds) AND e.ddoCode = :ddoCode");
+		deleteEmployeesQuery.setParameterList("employeeIds", employeeIds);
+		deleteEmployeesQuery.setParameter("ddoCode", orgUserMst.getDdoCode());
+		int deletedCount = deleteEmployeesQuery.executeUpdate();
+
+		if (deletedCount > 0) {
+			String[] relatedEntities = { "MstDcpsDetailsEntity", "MstNomineeDetailsEntity", "MstGpfDetailsEntity",
+					"MstGisdetailsEntity" };
+
+			for (String entity : relatedEntities) {
+				Query deleteRelatedQuery = currentSession
+						.createQuery("DELETE FROM " + entity + " e WHERE e.employeeId IN (:employeeIds)");
+				deleteRelatedQuery.setParameterList("employeeIds", employeeIds);
+				deleteRelatedQuery.executeUpdate();
+			}
+
+		}
+
+		return deletedCount > 0 ? 1 : 0;
+	}
+
+	private void deleteFileIfExists(String filePath) {
+	    if (filePath != null && !filePath.isEmpty()) {
+	        File file = new File(filePath);
+	        if (file.exists()) {
+	            boolean deleted = file.delete();
+	            if (deleted) {
+	                System.out.println("Deleted file: " + filePath);
+	            } else {
+	                System.err.println("Failed to delete file: " + filePath);
+	            }
+	        }
+	    }
+}
 }

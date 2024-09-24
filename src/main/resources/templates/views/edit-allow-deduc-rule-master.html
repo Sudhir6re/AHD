@@ -46,7 +46,7 @@ table#tblNonGovDuesDeduct th:nth-child(2) {
 			<span th:utext="#{msg.thymeleaf.pageheading.allowdeducrulemaster}"></span>
 		</h3>
 
-		<form class="form-horizontal"
+		<form class="form-horizontal"  id="editRuleMasterForm"
 			th:action="@{/mdc/updateAllowanceDeductionRulesMaster}"
 			th:object="${allowanceDeductionRuleMstEntity}" method="POST"
 			enctype="multipart/form-data">
@@ -219,7 +219,7 @@ table#tblNonGovDuesDeduct th:nth-child(2) {
 
 			<div class="form-group text-center">
 				<hr />
-				<input type="submit" id="btnSave" class="btn btn-primary"
+				<input type="submit" id="btnUpdate" class="btn btn-primary"
 					th:value="#{msg.thymeleaf.pagelabel.btnSave}" /> <input
 					type="reset" id="btnReset" class="btn btn-primary"
 					th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a

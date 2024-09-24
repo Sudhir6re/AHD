@@ -32,7 +32,6 @@
 	<dependencies>
 
 
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -273,7 +272,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.34</version><!--$NO-MVN-MAN-VER$ -->
+			<version>1.18.34</version>
 		</dependency>
 
 
@@ -313,8 +312,8 @@
 		</dependency>
 
 
-
-	</dependencies>
+		
+      </dependencies>
 
 	<!-- <repositories> <repository> <id>spring-milestones</id> <name>Spring 
 		Milestones</name> <url>https://repo.spring.io/milestone</url> </repository> 

@@ -29,4 +29,5 @@ public class PayBillViewApprDelBillModel implements Serializable {
 	private String voucherDate; 
 	private Integer bankId; 
 	
+	
 }

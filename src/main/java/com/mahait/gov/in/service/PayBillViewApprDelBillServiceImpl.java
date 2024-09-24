@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.model.LstGenerateBillDetailsModel;
+import com.mahait.gov.in.model.PaybillViewApproveDeleteModel;
 import com.mahait.gov.in.repository.PayBillViewApprDelBillRepo;
 
 @Service
@@ -100,15 +101,53 @@ public class PayBillViewApprDelBillServiceImpl implements PayBillViewApprDelBill
 		}
 		return lstObj;
 	}
-	public List<Object[]> findPayBillByBillNumber(String billNumber, int paybillMonth, int paybillYear,int roleId) {
+	public List<PaybillViewApproveDeleteModel> findPayBillByBillNumber(String billNumber, int paybillMonth, int paybillYear,int roleId) {
+		
+
 		// TODO Auto-generated method stub
-		return  payBillViewApprDelBill.findPayBillByBillNumber(billNumber,paybillMonth,paybillYear,roleId);
+		List<Object[]>  lstObject= payBillViewApprDelBill.findPayBillByBillNumber(billNumber,paybillMonth,paybillYear,roleId);
+		List<PaybillViewApproveDeleteModel> lstPaybillViewApproveDeleteModel=new ArrayList<>();
+		if (lstObject.size()>0) {
+			for (Object[] objLst : lstObject) {
+				PaybillViewApproveDeleteModel paybillViewApproveDeleteModel=new PaybillViewApproveDeleteModel();
+				paybillViewApproveDeleteModel.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+				paybillViewApproveDeleteModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
+				paybillViewApproveDeleteModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
+				paybillViewApproveDeleteModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
+				paybillViewApproveDeleteModel.setBillGrossAmt(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
+				paybillViewApproveDeleteModel.setBillNetAmount(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
+				paybillViewApproveDeleteModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
+				paybillViewApproveDeleteModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));
+				paybillViewApproveDeleteModel.setAuthNo(StringHelperUtils.isNullString(objLst[8]));
+				lstPaybillViewApproveDeleteModel.add(paybillViewApproveDeleteModel);
+			}
+		}
+		return lstPaybillViewApproveDeleteModel;
+	
+		//return  payBillViewApprDelBill.findPayBillByBillNumber(billNumber,paybillMonth,paybillYear,roleId);
 	}
 	
 	//
-	public List<Object[]> findPayBillByMonthYear(int paybillMonth, int paybillYear,String ddoCode,int roleId) {
+	public List<PaybillViewApproveDeleteModel> findPayBillByMonthYear(int paybillMonth, int paybillYear,String ddoCode,int roleId) {
 		// TODO Auto-generated method stub
-		return  payBillViewApprDelBill.findPayBillByMonthYear(paybillMonth,paybillYear,ddoCode,roleId);
+		List<Object[]>  lstObject= payBillViewApprDelBill.findPayBillByMonthYear(paybillMonth,paybillYear,ddoCode,roleId);
+		List<PaybillViewApproveDeleteModel> lstPaybillViewApproveDeleteModel=new ArrayList<>();
+		if (lstObject.size()>0) {
+			for (Object[] objLst : lstObject) {
+				PaybillViewApproveDeleteModel paybillViewApproveDeleteModel=new PaybillViewApproveDeleteModel();
+				paybillViewApproveDeleteModel.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+				paybillViewApproveDeleteModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
+				paybillViewApproveDeleteModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
+				paybillViewApproveDeleteModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
+				paybillViewApproveDeleteModel.setBillGrossAmt(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
+				paybillViewApproveDeleteModel.setBillNetAmount(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
+				paybillViewApproveDeleteModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
+				paybillViewApproveDeleteModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));
+				paybillViewApproveDeleteModel.setAuthNo(StringHelperUtils.isNullString(objLst[8]));
+				lstPaybillViewApproveDeleteModel.add(paybillViewApproveDeleteModel);
+			}
+		}
+		return lstPaybillViewApproveDeleteModel;
 	}
 	
 

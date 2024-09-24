@@ -639,29 +639,39 @@ function isValidEmail(email) {
  * $("select").select2(); }, 200);
  * 
  * });
- */
+ *//*
 $(document).ready(function() {
     // Initialize Select2 on all select elements with class 'select2'
      $("select").select2();
-    	 $('select').each(function() {
+    	/* $('select').each(function() {
          var preloadedValue = $(this).val(); 
          if (preloadedValue) {
              $(this).trigger('change');
          }
-    	 }); 
+    	 }); */
     	 
     	 $('.select2').each(function() {
-    	        // Find the nearest <select> element from the current .select2
-				// element
     	        var $select = $(this).closest('form').find('select').filter(function() {
     	            return $(this).hasClass('readonly');
     	        });
+    	 });
+});*/
 
+<<<<<<< HEAD
+/*
+$(document).ready(function(){ 
+	$('select').select2();
+=======
+>>>>>>> 37dd139dd11988863a82f8d88e4284992037cf71
     	        // Check if the <select> element has the 'readonly' class
     	        if ($select.length) {
     	            // Find the nearest .select2-selection__rendered element and
 					// add the 'readonly' class
     	            $(this).find('.select2-selection__rendered').addClass('readonly');
     	        }
+<<<<<<< HEAD
+    	    });*/
+=======
     	    });
 });
+>>>>>>> 37dd139dd11988863a82f8d88e4284992037cf71

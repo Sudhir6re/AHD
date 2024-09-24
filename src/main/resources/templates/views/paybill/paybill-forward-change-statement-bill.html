@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
- 
+
 <title th:utext="#{menu.mapping.payBillforwardChangeStatement}"></title>
 </head>
 <body class="paybill-forward-change-statement-bill">
@@ -38,7 +38,7 @@
 					id="message" th:value="${message}" /> <input type="hidden"
 					name="roleId" id="roleId" th:value="${roleId}" /> <input
 					type="hidden" name="ddoCode" id="ddoCode" th:value="${ddoCode}" />
-					<input type="hidden"	name="userId" id="userId" th:value="${userId}" />
+				<input type="hidden" name="userId" id="userId" th:value="${userId}" />
 
 
 
@@ -76,15 +76,15 @@
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.billNumber}"></span></label>
 					<div class="col-sm-2">
-					<select class="form-control" th:field="*{billNumber}"
+						<select class="form-control" th:field="*{billNumber}"
 							id="billNumber">
-								<option selected="selected" th:value="0" th:data="0"
-									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-								<option th:each="varSchemeBillGroup : ${lstBillGroupLvl2}"
-									th:value="${varSchemeBillGroup.billGrpId}"
-									th:data="${varSchemeBillGroup.billGrpId}"
-									th:text="${language=='mh' ? varSchemeBillGroup.billDesc : varSchemeBillGroup.billDesc}"></option>
-							</select>
+							<option selected="selected" th:value="0" th:data="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option th:each="varSchemeBillGroup : ${lstBillGroupLvl2}"
+								th:value="${varSchemeBillGroup.billGrpId}"
+								th:data="${varSchemeBillGroup.billGrpId}"
+								th:text="${language=='mh' ? varSchemeBillGroup.billDesc : varSchemeBillGroup.billDesc}"></option>
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
@@ -108,8 +108,8 @@
 							<th th:utext="#{msg.thymeleaf.pagelabel.chngStatmBillDetails}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.payBillDetails}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.billDesc}" />
-							<!-- 							<th th:utext="#{msg.thymeleaf.pagelabel.schemeCode}" /> -->
-							<!-- 							<th th:utext="#{msg.thymeleaf.pagelabel.schemeName}" /> -->
+							<th th:utext="#{msg.thymeleaf.pagelabel.schemeCode}" />
+							<th th:utext="#{msg.thymeleaf.pagelabel.schemeName}" />
 							<!-- <th th:utext="#{msg.thymeleaf.pagelabel.subSchemeCode}" /> -->
 							<th th:utext="#{msg.thymeleaf.pagelabel.noOfEmployee}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.grossAmount}" />
@@ -135,8 +135,8 @@
 
 
 							<td th:text="${varBillGrp.billDescription}"></td>
-							<!-- 							<td th:text="${varBillGrp.schemeCode}"></td> -->
-							<!-- 							<td th:text="${varBillGrp.schemeName}"></td> -->
+							<td th:text="${varBillGrp.schemeCode}"></td>
+							<td th:text="${varBillGrp.schemeName}"></td>
 							<td th:text="${varBillGrp.noOfEmployee}"></td>
 							<td th:text="${varBillGrp.billGrossAmt}"></td>
 							<td th:text="${varBillGrp.billNetAmt}"></td>

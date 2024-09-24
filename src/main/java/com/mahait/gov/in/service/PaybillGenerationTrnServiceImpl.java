@@ -129,6 +129,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				paybillHeadMpgModel.getPaybillMonth(), paybillHeadMpgModel.getPaybillYear());
 
 		Long val = paybillHeadMpgRepo.getPaybillGenerationTrnId() + 1;
+		objEntity.setPaybillGenerationTrnId(val);
 
 		
 		System.out.println("Hiiii checking----");
@@ -217,6 +218,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}
 			/////paybillGenerationTrnDetails.setHraPercent(Integer.parseInt(percentageHRA));
 			paybillGenerationTrnDetails.setRemark("Testing");
+			paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
+			objEntity.setPaybillGenerationTrnId(val);
 
 			cadre = paybillHeadMpgRepo.getEmpCadre(mstEmployeeEntity2.getSevaarthId(),
 					mstEmployeeEntity2.getEmpClass());
@@ -304,6 +307,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 				netAmount = grossAmount - totaldeduc;
 
+				paySlipTotalDeduc = totaldeduc + payslipDeduc;
+				payslipNet = grossAmount - paySlipTotalDeduc;
+				
 				paybillGenerationTrnDetails.setGrossAmt(grossAmount);
 				paybillGenerationTrnDetails.setDedAdjAg(dedByAG);
 
@@ -314,6 +320,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				paybillGenerationTrnDetails.setTotalDed(totaldeduc);
 
 				paybillGenerationTrnDetails.setNetTotal(netAmount);
+				
+				
+				paybillGenerationTrnDetails.setPayslipDeduc(payslipDeduc);
+				paybillGenerationTrnDetails.setPayslipNet(payslipNet);
+				paybillGenerationTrnDetails.setPaysliptotalDeduc(paySlipTotalDeduc);
+				
 				paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 				if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
 					paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());
@@ -322,7 +334,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						paybillGenerationTrnDetails.setPayBand(mstEmployeeEntity2.getPayInPayBand());
 				}
 
-				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
+				
 				Serializable id12 = paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
 
 				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);
@@ -333,7 +345,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 				objEntity.setBillNetAmount((double) Math.round(netAmt));
-				objEntity.setPaybillGenerationTrnId(val);
+				
 
 				// Serializable id = paybillHeadMpgRepo.savePaybillHeadMpg(objEntity);
 				// Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
@@ -401,7 +413,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL
 							&& (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)) {
 
-						svnDA = (double) ((basic * percentage)
+						svnDA = (double) ((basic * percentageRate[0])
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100);
 
 						grossAmount += svnDA;
@@ -412,7 +424,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC)) {
 
 						da = (double) (Math.round(
-								(basic * percentage) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								(basic * percentageRate[1]) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						paybillGenerationTrnDetails.setDa((double) Math.round((da)));
 
 						grossAmount += da;
@@ -756,7 +768,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						paybillGenerationTrnDetails.setPayBand(mstEmployeeEntity2.getPayInPayBand());
 				}
 
-				paybillGenerationTrnDetails.setPaybillGenerationTrnId(val);
 
 				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);
 
@@ -772,7 +783,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 		objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 		objEntity.setBillNetAmount((double) Math.round(netAmt));
-		objEntity.setPaybillGenerationTrnId(val);
 
 		Long saveId = paybillHeadMpgRepo.saveBulkPaybillDetail(lstPaybillGenerationTrnDetails);
 
@@ -1112,7 +1122,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				obj.setInstName(StringHelperUtils.isNullString(objLst[0]));
 				obj.setBillName(StringHelperUtils.isNullString(objLst[1]));
-				obj.setGrossSalary(StringHelperUtils.isNullDouble(objLst[2]));
+				BigInteger gross = (BigInteger) objLst[2];
+				obj.setGrossSalary(gross.doubleValue());
 				obj.setFa(StringHelperUtils.isNullDouble(objLst[3]));
 				obj.setRecovery(StringHelperUtils.isNullDouble(objLst[4]));
 				obj.setGPF(StringHelperUtils.isNullDouble(objLst[5]));
@@ -1120,39 +1131,38 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				obj.setDcpsdel(StringHelperUtils.isNullDouble(objLst[7]));
 				obj.setDcpsPay(StringHelperUtils.isNullDouble(objLst[8]));
 				obj.setDcpsda(StringHelperUtils.isNullDouble(objLst[9]));
-				obj.setNpsEmprDeduc(StringHelperUtils.isNullDouble(objLst[10]));
+				BigDecimal npsEmprDeduc = (BigDecimal) objLst[10];
+				obj.setNpsEmprDeduc(npsEmprDeduc.doubleValue());
 				obj.setIt(StringHelperUtils.isNullDouble(objLst[11]));
-				obj.setPt(StringHelperUtils.isNullDouble(objLst[12]));
+				BigDecimal pt = (BigDecimal) objLst[12];
+				obj.setPt(pt.doubleValue());
 				obj.setCompadv(StringHelperUtils.isNullDouble(objLst[13]));
 				obj.setOtherded(StringHelperUtils.isNullDouble(objLst[14]));
 				obj.setPli(StringHelperUtils.isNullDouble(objLst[15]));
-				obj.setGis(StringHelperUtils.isNullDouble(objLst[16]));
-				obj.setAccPolicy(StringHelperUtils.isNullDouble(objLst[17]));
+				BigDecimal gis = (BigDecimal) objLst[16];
+				obj.setGis(gis.doubleValue());
+				BigDecimal accPolicy = (BigDecimal) objLst[17];
+				obj.setAccPolicy(accPolicy.doubleValue());
 				obj.setRevenueStamp(StringHelperUtils.isNullDouble(objLst[18]));
-				obj.setTotdedction(StringHelperUtils.isNullDouble(objLst[19]));
-				obj.setNetpay(StringHelperUtils.isNullDouble(objLst[20]));
+				
+				BigDecimal totalDed = (BigDecimal) objLst[19];
+				obj.setTotdedction(totalDed.doubleValue());
+				BigInteger netPay = (BigInteger) objLst[20];
+				obj.setNetpay(netPay.doubleValue());
 				obj.setRecurringDeposit(StringHelperUtils.isNullDouble(objLst[21]));
 				obj.setNgrlic(StringHelperUtils.isNullDouble(objLst[22]));
 				obj.setNgrmisc(StringHelperUtils.isNullDouble(objLst[23]));
 				obj.setNgrbankloan(0d);/// StringHelperUtils.isNullDouble(objLst[24])
 				obj.setNgrsocloan(0d);// StringHelperUtils.isNullDouble(objLst[25])
-				obj.setNgrtotded(StringHelperUtils.isNullDouble(objLst[26]));
-				obj.setTotalSalary(StringHelperUtils.isNullDouble(objLst[27]));
+				BigDecimal ngr = (BigDecimal) objLst[26];
+				obj.setNgrtotded(ngr.doubleValue());
+				BigDecimal totalSal = (BigDecimal) objLst[27];
+				obj.setTotalSalary(totalSal.doubleValue());
 
 				lstObj.add(obj);
 			}
 		}
 		return lstObj;
-
-		/*
-		 * // TODO Auto-generated method stub ///return
-		 * ddoInfoRepo.getLevel1DDOList(lStrDdoCode);
-		 * 
-		 * 
-		 * 
-		 * List<Object[]> obj =
-		 * paybillHeadMpgRepo.getAbstractReport(paybillGenerationTrnId); return obj;
-		 */
 	}
 
 	@Override

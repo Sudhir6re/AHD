@@ -129,6 +129,8 @@ public interface MstEmployeeService {
 
 	long updateDraftCase(@Valid MstEmployeeModel mstEmployeeModel, MultipartFile[] files);
 
+	Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst);
+
 
 	// public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 

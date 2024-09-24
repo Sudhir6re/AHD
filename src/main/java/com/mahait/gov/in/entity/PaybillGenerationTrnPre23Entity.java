@@ -1,9 +1,12 @@
 package com.mahait.gov.in.entity;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,11 +16,11 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="PAYBILL_GENERATION_TRN",schema="public")
-public class PaybillGenerationTrnEntity {
+@Table(name="paybill_generation_trn_pre_2023",schema="public")
+public class PaybillGenerationTrnPre23Entity {
 	 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="PAYBILL_GENERATION_TRN_ID")
     private Long paybillGenerationTrnId;  
 	

@@ -919,9 +919,13 @@ input[type="Date"] {
 					<input Type="file" ng-model="attachFile" id="files"
 					onchange="getimage(this);" disabled="disabled" name="files" />
 				</td>
-				<td width="10%"><img id="imagePath"
-					th:src="@{${'/level1/viewFilephoto/' + mstEmployeeModel.employeeId}}"
-					width="100" height="100" /></td>
+				<td width="10%">
+				
+				   <img id="imagePath"
+					th:src="@{${'/ddo/viewFilephoto/' + mstEmployeeModel.employeeId}}"
+					width="100" height="100" />
+					
+					</td>
 			</tr>
 			<tr>
 				<td width="10%"><label><span
@@ -936,9 +940,12 @@ input[type="Date"] {
 				<td width="25%"><input Type="file" ng-model="attachFile1"
 					id="files" onchange="getimagesign(this);" disabled="disabled"
 					name="files" /></td>
-				<td width="10%"><img id="imagePathSign"
-					th:src="@{${'/level1/viewFileSign/' + mstEmployeeModel.employeeId}}"
-					width="100" height="100" /></td>
+				<td width="10%">
+				<img id="imagePathSign"
+					th:src="@{${'/ddo/viewFileSign/' + mstEmployeeModel.employeeId}}"
+					width="100" height="100" />
+					
+					</td>
 			</tr>
 
 		</table>

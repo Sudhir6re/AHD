@@ -34,20 +34,18 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String HQL = null;
 		if(allowdeducId==59) {
-			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-					"b.svn_pc_da else da end as DA, b.dcps_regular,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
-					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
-					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
-					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
-					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
-					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
+			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.D_pay,case when a.pay_commission_code =700005 then b.SVNPC_DA else da  " + 
+					"end as DA,b.dcps,NPS_EMPLR_CONTRI_DED,c.paybill_month,c.paybill_year from employee_mst a inner join paybill_generation_trn_details b  " + 
+					"on  a.sevaarth_id=b.sevaarth_id inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id  " + 
+					"where c.scheme_billgroup_id = '"+billGroup+"' and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+" and c.ddo_code='"+ddoCode+"' and a.dcps_gpf_flag = 'Y' " + 
+					"and c.is_active in (5,6,9,11,14) ";
 			
 		}
 		else if(allowdeducId==218) {
-			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-					"b.svn_pc_da else da end as DA, b.DCPS_SVNPC_Recovery,nps_empr_deduct,c.paybill_month,c.paybill_year from employee_mst a " + 
-					" inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
-					" inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
+			HQL = "select  a.employee_full_name_en,a.pran_no,b.basic_pay,b.D_pay,case when a.pay_commission_code =700005 then " + 
+					"b.SVNPC_DA else da end as DA, b.SVNPC_DCPS_RECO,NPS_EMPLR_CONTRI_DED,c.paybill_month,c.paybill_year from employee_mst a  " + 
+					"inner join paybill_generation_trn_details b on  a.sevaarth_id=b.sevaarth_id " + 
+					"inner join paybill_generation_trn c on b.paybill_generation_trn_id=c.paybill_generation_trn_id " + 
 					" where c.scheme_billgroup_id = '"+billGroup+"' " + 
 					" and  c.paybill_month= "+monthId+" and  c.paybill_year= "+yearId+"  and c.ddo_code='"+ddoCode+"'" + 
 					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
