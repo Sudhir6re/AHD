@@ -73,7 +73,7 @@ public class PageWiseAbstractReportServiceImpl implements PageWiseAbstractReport
 					deducOthEdpList.clear();
 					deducTyEdpList.clear();
 					DisplayPageWiseAbstractReportModel obj = new DisplayPageWiseAbstractReportModel();
-	            	obj.setDeptalldetNm(StringHelperUtils.isNullString("Basic_Pay"));
+	            	obj.setDeptalldetNm(StringHelperUtils.isNullString("basic_pay"));
 	                obj.setType(1);
 	                obj.setDeptallowdeducid(1);
 	                obj.setTempvalue("0");

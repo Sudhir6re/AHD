@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Security-Policy" content="form-action 'self';" />
-<title th:utext="#{msg.thymeleaf.pageheading.updateDOB}"></title>
+<title th:utext="#{msg.thymeleaf.pagelabel.updateSED}"></title>
 <style type="text/css">
 </style>
 <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap4.min.css}" />
@@ -19,18 +19,16 @@
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pageheading.updateDOB}"></span></li>
+						th:utext="#{msg.thymeleaf.pagelabel.updateSED}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<h3 Class="PageHeading">
-			<span th:utext="#{msg.thymeleaf.pageheading.updateDOB}"></span>
+			<span th:utext="#{msg.thymeleaf.pagelabel.updateSED}"></span>
 		</h3>
 		<fieldset class="">
 			<form class="form-horizontal container" method="POST"
-				name="updateDOBSS
-				
-				" th:action="@{/ddoast/saveSED}"
+				name="updateDOBSS" th:action="@{/ddoast/saveSED}"
 				th:object="${updateServiceEndDateModel}" enctype="multipart/form-data">
 				<input type="hidden" name="message" id="message"
 					th:value="${message}" /> <input type="hidden" name="language"
@@ -47,31 +45,39 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="att, itemStat : ${updateDOBModel.emplist}">
+						<tr th:each="att, itemStat : ${updateServiceEndDateModel.emplist}">
 							<td><input type="checkbox" name="checkboxid" id="checkboxid"
 								th:data="'chk'+${itemStat.index}" class="checkbox"
-								th:value="${updateDOBModel.emplist[__${itemStat.index}__].checkboxid}"
-								th:field="${updateDOBModel.emplist[__${itemStat.index}__].checkboxid}" />
+								th:value="${updateServiceEndDateModel.emplist[__${itemStat.index}__].checkboxid}"
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].checkboxid}" />
 							</td>
 							<td class="" align="left" style="text-align: center;"><span
 								style="font-size: 12px;"
-								th:text="${updateDOBModel.emplist[__${itemStat.index}__].sevaarthId}"
-								th:field="${updateDOBModel.emplist[__${itemStat.index}__].sevaarthId}"></span></td>
+								th:text="${updateServiceEndDateModel.emplist[__${itemStat.index}__].sevaarthId}"
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].sevaarthId}"></span></td>
 							<td class="" align="left" style="text-align: left;"><span
 								style="font-size: 12px;"
-								th:text="${updateDOBModel.emplist[__${itemStat.index}__].employeeFullNameEn}"
-								th:field="${updateDOBModel.emplist[__${itemStat.index}__].employeeFullNameEn}"></span></td>
+								th:text="${updateServiceEndDateModel.emplist[__${itemStat.index}__].employeeFullNameEn}"
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].employeeFullNameEn}"></span></td>
 							<td class="" align="left" style="text-align: left;"><span
 								style="font-size: 12px;"
-								th:text="${updateDOBModel.emplist[__${itemStat.index}__].designation}"
-								th:field="${updateDOBModel.emplist[__${itemStat.index}__].designation}"></span>
+								th:text="${updateServiceEndDateModel.emplist[__${itemStat.index}__].designation}"
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].designation}"></span>
 							</td>
 							<td><input type="date" maxlength="12"
-								 id="'dob'+${itemStat.index}"
-								th:field="${updateDOBModel.emplist[__${itemStat.index}__].sed}"
-								class="form-control dob"> <input type="hidden"
-								th:value="${updateDOBModel.emplist[__${itemStat.index}__].employeeId}"
-								th:field="${updateDOBModel.emplist[__${itemStat.index}__].employeeId}">
+								 id="'sed'+${itemStat.index}" 
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].sed}"
+								class="form-control sed"> 
+								
+								<input type="hidden"    class="employeeId"
+								th:value="${updateServiceEndDateModel.emplist[__${itemStat.index}__].employeeId}"
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].employeeId}">
+								<input type="hidden" class="cadreid"
+								th:value="${updateServiceEndDateModel.emplist[__${itemStat.index}__].cadreid}"
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].cadreid}">
+								<input type="hidden"   class="dob"
+								th:value="${updateServiceEndDateModel.emplist[__${itemStat.index}__].dob}"
+								th:field="${updateServiceEndDateModel.emplist[__${itemStat.index}__].dob}">
 							</td>
 						</tr>
 					</tbody>
@@ -89,7 +95,7 @@
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<script th:src="@{/js/project/datatable-common.js}"></script>
-	<script th:src="@{/js/updatedob.js}"></script>
+	<script th:src="@{/js/updatesed.js}"></script>
 	<script th:src="@{/js/validated.js}"></script>
 	<script th:src="@{/js/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/js/dataTables.bootstrap4.min.js}"></script>

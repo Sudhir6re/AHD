@@ -40,7 +40,7 @@ public class UpdateUIDController extends BaseController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		
 		String message=(String) model.asMap().get("message");
-		emplist = updateUIDService.findAllEmployee(messages.getUserName());
+		emplist = updateUIDService.findAllEmployee(messages.getDdoCode());
 		updateUIDModel.setEmplist(emplist);
 		model.addAttribute("updateUIDModel", updateUIDModel);
 		

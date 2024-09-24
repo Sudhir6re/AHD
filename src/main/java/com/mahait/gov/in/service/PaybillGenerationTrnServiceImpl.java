@@ -307,6 +307,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 				netAmount = grossAmount - totaldeduc;
 
+				paySlipTotalDeduc = totaldeduc + payslipDeduc;
+				payslipNet = grossAmount - paySlipTotalDeduc;
+				
 				paybillGenerationTrnDetails.setGrossAmt(grossAmount);
 				paybillGenerationTrnDetails.setDedAdjAg(dedByAG);
 
@@ -317,6 +320,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				paybillGenerationTrnDetails.setTotalDed(totaldeduc);
 
 				paybillGenerationTrnDetails.setNetTotal(netAmount);
+				
+				
+				paybillGenerationTrnDetails.setPayslipDeduc(payslipDeduc);
+				paybillGenerationTrnDetails.setPayslipNet(payslipNet);
+				paybillGenerationTrnDetails.setPaysliptotalDeduc(paySlipTotalDeduc);
+				
 				paybillGenerationTrnDetails.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
 				if (mstEmployeeEntity2.getPayCommissionCode() == 700005) {
 					paybillGenerationTrnDetails.setSevenPcLevel(mstEmployeeEntity2.getSevenPcLevel());

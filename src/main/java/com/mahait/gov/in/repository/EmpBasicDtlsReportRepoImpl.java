@@ -33,7 +33,7 @@ public class EmpBasicDtlsReportRepoImpl implements EmpBasicDtlsReportRepo{
 				" inner join designation_mst d on d.designation_code=b.desg_code " + 
 				" inner join bank_mst e on b.bank_id=e.bank_code " + 
 				" inner join bank_branch_mst f on f.bank_branch_code = b.bank_branch_id where " + 
-				" c.paybill_month = "+monthId+" and c.paybill_year = "+yearId+" and c.scheme_billgroup_id = '"+billGroup+"' and c.ddo_code='"+ddoCode+"' and b.sevaarth_id ='"+sevaarthId+"' ";
+				" c.paybill_month = "+monthId+" and c.paybill_year = "+yearId+" and c.is_active <> 8 and c.scheme_billgroup_id = '"+billGroup+"' and c.ddo_code='"+ddoCode+"' and b.sevaarth_id ='"+sevaarthId+"' ";
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("HQL:"+HQL);
 		return query.list();

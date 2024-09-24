@@ -493,8 +493,19 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							dedRuleList.add(brokenPeriodModel);
 						}
 
-					}
+					}else {
+						tempVal = (double) (Math.round(lst.get(0).getAmount()));
 
+						if (allEdpList.get(i).getType() == 1) {
+							allowEdpList.add(brokenPeriodModel);
+							allowRuleList.add(brokenPeriodModel);
+						} else if (allEdpList.get(i).getType() == 2 || allEdpList.get(i).getType() == 3
+								|| allEdpList.get(i).getType() == 4) {
+							deducTyEdpList.add(brokenPeriodModel);
+							dedRuleList.add(brokenPeriodModel);
+						}
+
+						}
 				}
 			} else if ((allEdpList.get(i).getDeptalldetNm()
 					.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_DA))) {
