@@ -14,13 +14,22 @@ public class UpdateServiceEndDateModel {
 	private Long employeeId;
 	private String employeeFullNameEn;
 	private boolean checkboxid;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date sed;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date dob;
+	
+	
 	private String designation; 
 	private Integer designationCode;
 	private Integer designationId;
+	
+	
+	private Long cadreid;
 
 	
-	public List<UpdateDOBModel> emplist=new ArrayList<>();
+	public List<UpdateServiceEndDateModel> emplist=new ArrayList<>();
 
 }
