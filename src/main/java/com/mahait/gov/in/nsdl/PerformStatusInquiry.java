@@ -1,5 +1,5 @@
 
-package com.mahait.gov.in.controller.nsdl;
+package com.mahait.gov.in.nsdl;
 
 import java.util.ArrayList;
 import java.util.List;

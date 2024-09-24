@@ -3,6 +3,7 @@ package com.mahait.gov.in.service;
 import java.util.List;
 
 import com.mahait.gov.in.model.LstGenerateBillDetailsModel;
+import com.mahait.gov.in.model.PaybillViewApproveDeleteModel;
 
 public interface PayBillViewApprDelBillService {
 
@@ -10,9 +11,9 @@ public interface PayBillViewApprDelBillService {
 
 	public List<LstGenerateBillDetailsModel> findAllPayBillsForConsolidatedAgainstDDO(String userName,int roleId);
 	
-	public List<Object[]> findPayBillByBillNumber(String billGroup, int paybillMonth, int paybillYear, int ddoCode);
+	public List<PaybillViewApproveDeleteModel> findPayBillByBillNumber(String billGroup, int paybillMonth, int paybillYear, int ddoCode);
 	
-	public List<Object[]> findPayBillByMonthYear(int paybillMonth, int paybillYear, String ddoCode,int roleId);
+	public  List<PaybillViewApproveDeleteModel> findPayBillByMonthYear(int paybillMonth, int paybillYear, String ddoCode,int roleId);
 
 	
 }

@@ -404,7 +404,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& str != CommonConstants.PAYBILLDETAILS.COMMONCODE_VALUE_NULL
 							&& (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)) {
 
-						svnDA = (double) ((basic * percentage)
+						svnDA = (double) ((basic * percentageRate[0])
 								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100);
 
 						grossAmount += svnDA;
@@ -415,7 +415,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							&& (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC)) {
 
 						da = (double) (Math.round(
-								(basic * percentage) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+								(basic * percentageRate[1]) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						paybillGenerationTrnDetails.setDa((double) Math.round((da)));
 
 						grossAmount += da;

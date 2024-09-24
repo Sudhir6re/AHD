@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pagelabel.dcpsapproveemployeedetails}"></title>
+<title th:utext="#{msg.thymeleaf.pagelabel.empdetails}"></title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
 <script
@@ -13,16 +13,6 @@
 	
 </script>
 
-<script type="text/javascript">
-	//Edit method started
-	function editempconfig(empid) {
-		var employeeid = empid;
-		$('#employeeId').val(employeeid);
-		document.getElementById("myDForm").submit();
-	}
-
-	//Edit method ended
-</script>
 </head>
 <body class="dcps-employee-details">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
