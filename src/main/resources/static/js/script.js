@@ -655,9 +655,7 @@ $(document).ready(function() {
     	            return $(this).hasClass('readonly');
     	        });
     	 });
-});*/
 
-<<<<<<< HEAD
 /*
 $(document).ready(function(){ 
 	$('select').select2();
@@ -671,7 +669,3 @@ $(document).ready(function(){
     	        }
 <<<<<<< HEAD
     	    });*/
-=======
-    	    });
-});
->>>>>>> 37dd139dd11988863a82f8d88e4284992037cf71
