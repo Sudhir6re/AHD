@@ -4,7 +4,7 @@
  * This class is not complete
  */
 
-package com.mahait.gov.in.controller.nsdl;
+package com.mahait.gov.in.nsdl;
 
 import java.util.logging.Logger;
 

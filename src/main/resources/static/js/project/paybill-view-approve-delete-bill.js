@@ -3,14 +3,6 @@ jQuery(document)
 				function($) {
 					
 					// $('#tblShowPayBill').hide();
-					
-					
-					
-					
-				
-					
-					
-
 					var date = new Date();
 					var currentMonth = date.getMonth() + 1;
 					var currentYear = date.getFullYear();
@@ -609,7 +601,31 @@ jQuery(document).ready(function($) {
 		});
 	}
 });
+
+/*
 $("#btnSearch")
+.click(
+		function(e) {
+			e.preventDefault();
+			var roleId= $("#roleId").val();
+			var billNumber= $('option:selected',"#billNumber").attr('data');
+			var yearName = $("#yearName").val();
+			var monthName = $("#monthName").val();
+			if (monthName == "" || monthName == "0") {
+				e.preventDefault();
+				swal("Please select month");
+			} 
+			 else if (yearName == "" || yearName == "0") {
+					e.preventDefault();
+					swal("Please select year");
+				}
+			 else{
+				 $("#action").val("search");
+				  $("#viewPaybillFrm").submit(); 
+			 }
+		});		*/
+
+$("#btnSearch1")
 .click(
 		function(e) {
 			e.preventDefault();
@@ -659,7 +675,10 @@ $("#btnSearch")
 							error : function(data) {
 								console.log(data);
 							},
+							contentType : 'application/json',
 							success : function(data) {
+								
+								console.log(data);
 								
 								$('#tblShowPayBill').show();
 								$('#tblShowPayBill_wrapper').show();
@@ -671,23 +690,21 @@ $("#btnSearch")
 							 $("#tblShowPayBill").dataTable().fnClearTable();
 //									var paybillGenerationTrnId,status,billDescription, schemeCode, schemeName, noOfEmployee,authno, billGrossAmt, billNetAmt, isActive,ddoCode;
 									var paybillGenerationTrnId,status,billDescription,  noOfEmployee,RTGS, billGrossAmt, billNetAmt, isActive,ddoCode,schemeCode, schemeName;
-									$
-											.each(
-													data,
-													function(i, result) {
-														paybillGenerationTrnId = result[0],
-														billDescription = result[1];
-														console.log(result[0]);
-														schemeCode = result[2]
-														schemeName = result[3];
-														noOfEmployee = result[7];
-														//authno=result[8];
-														RTGS=result[0];
-														billGrossAmt = result[4];
-														billNetAmt = result[5];
-														//ddoCode = result[5];
-                                                        status= result[6];
-                                                        console.log(status);
+									for(var i=0;i<data.length;i++){
+													paybillGenerationTrnId = data[i].paybillGenerationTrnId;
+													billDescription = data[i].billDescription;
+													console.log(data[i].billDescription);
+													schemeCode = data[i].schemeCode;
+													schemeName = data[i].schemeName;
+													noOfEmployee = data[i].noOfEmployee;
+													//authno=result[8];
+													RTGS=data[i].paybillGenerationTrnId;
+													billGrossAmt =data[i].billGrossAmt;
+													billNetAmt = data[i].billNetAmount;
+													//ddoCode = result[5];
+			                                        status= data[i].isActive;
+			                                        authNo= data[i].authno;
+			                                        console.log(status);
                                                         
                                                        var   change1;
                                                        var inner5;
@@ -873,7 +890,9 @@ $("#btnSearch")
 														            : b + c + d + Array(e-d.length+1).join(0);
 														        });
 														    } 
-													});
+														    
+														    
+													}   //loop end
 								}
 								else{
 									swal("No Records Found");

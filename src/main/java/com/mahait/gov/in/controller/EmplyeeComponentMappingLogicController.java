@@ -1,5 +1,6 @@
 package com.mahait.gov.in.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,10 +35,11 @@ public class EmplyeeComponentMappingLogicController {
 				String key = entry.getKey();
 				Object value = entry.getValue();
            boolean isAmountGreaterThanZero=false;
+           
 				Integer deptAllowDeducCode = 0;
-            
-				Long empId = (Long) employeeMap.get("employee_id");
-				
+				BigInteger empIdBigInt = (BigInteger) employeeMap.get("employee_id");
+				Long empId = empIdBigInt.longValue(); 
+				//Long empId = (Long) employeeMap.get("employee_id");
 				empId=0l;
 				String sevaarthId = (String) employeeMap.get("sevaarth_id");
                 if(value instanceof Double) {

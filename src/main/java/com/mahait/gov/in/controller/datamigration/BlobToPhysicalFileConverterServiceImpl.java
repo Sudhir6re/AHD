@@ -20,7 +20,7 @@ import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
+import org.apache.tika.Tika;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.GROrderDocumentEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -223,7 +223,6 @@ public class BlobToPhysicalFileConverterServiceImpl implements BlobToPhysicalFil
 	            if (!dir.exists()) {
 	                dir.mkdirs(); // Create directories if they do not exist
 	            }
-
 	            // Define file name and write the image to the file
 	            String name = "photo.jpg";
 	            File serverFile = new File(dir.getAbsolutePath() + File.separator + name);

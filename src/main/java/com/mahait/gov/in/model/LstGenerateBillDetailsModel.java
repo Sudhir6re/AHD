@@ -1,13 +1,11 @@
 package com.mahait.gov.in.model;
 
-import java.math.BigInteger;
-
 import lombok.Data;
 
 @Data
 public class LstGenerateBillDetailsModel {
 	
-	private BigInteger paybillGenerationTrnId;
+	private String paybillGenerationTrnId;
 	private String  billDescription;
 	private String schemeCode;
 	private String schemeName;

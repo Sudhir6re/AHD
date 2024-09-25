@@ -511,7 +511,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_SVN_DA))) {
 				BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 				svnDA = (double) (Math
-						.round((basic * percentage) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						.round((basic * percentageRate[0]) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 
 				// End : 7 pc Calculation
 				logger.info("svnDA component3=" + svnDA);
@@ -527,7 +527,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
 
 				da = (double) (Math
-						.round((basic * percentage) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						.round((basic * percentageRate[1]) / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 				brokenPeriodModel.setDeptalldetValue(String.valueOf((da)));
 				logger.info("da Component=" + da);
 				allowEdpList.add(brokenPeriodModel);

@@ -12,7 +12,7 @@ public class CommonHelper {
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				LstGenerateBillDetailsModel obj = new LstGenerateBillDetailsModel();
-				obj.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]));
+				obj.setPaybillGenerationTrnId(objLst[0].toString());
 				obj.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
 				obj.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
 				obj.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
