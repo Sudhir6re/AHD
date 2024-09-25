@@ -3,14 +3,6 @@ jQuery(document)
 				function($) {
 					
 					// $('#tblShowPayBill').hide();
-					
-					
-					
-					
-				
-					
-					
-
 					var date = new Date();
 					var currentMonth = date.getMonth() + 1;
 					var currentYear = date.getFullYear();
@@ -609,7 +601,31 @@ jQuery(document).ready(function($) {
 		});
 	}
 });
+
+/*
 $("#btnSearch")
+.click(
+		function(e) {
+			e.preventDefault();
+			var roleId= $("#roleId").val();
+			var billNumber= $('option:selected',"#billNumber").attr('data');
+			var yearName = $("#yearName").val();
+			var monthName = $("#monthName").val();
+			if (monthName == "" || monthName == "0") {
+				e.preventDefault();
+				swal("Please select month");
+			} 
+			 else if (yearName == "" || yearName == "0") {
+					e.preventDefault();
+					swal("Please select year");
+				}
+			 else{
+				 $("#action").val("search");
+				  $("#viewPaybillFrm").submit(); 
+			 }
+		});		*/
+
+$("#btnSearch1")
 .click(
 		function(e) {
 			e.preventDefault();
@@ -687,7 +703,7 @@ $("#btnSearch")
 													billNetAmt = data[i].billNetAmount;
 													//ddoCode = result[5];
 			                                        status= data[i].isActive;
-			                                        authNo= data[i].authNo;
+			                                        authNo= data[i].authno;
 			                                        console.log(status);
                                                         
                                                        var   change1;

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mahait.gov.in.configuration.PdfGenaratorUtil;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.DisplayInnerReportModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DisplayInnerReportService;
@@ -73,13 +74,17 @@ public class DisplayInnerReportController  extends BaseController{
 			model.addAttribute("pageNumbers", pageNumbers);
 		}
 
+		
+		
+		
+		PaybillGenerationTrnEntity paybillGenerationTrnEntity=displayInnerReportService.findPayBilldetailByPaybillid(billNumber);
+		
 		Long mon = 0l;
 		Long yer = 0l;
-		List<Object[]> createdate = commonHomeMethodsService.findDetailsBillNumber(billNumber);
-		for (Object[] objects : createdate) {
-			
-			mon = Long.parseLong(objects[12].toString());
-			yer = Long.parseLong(objects[13].toString());
+	//	List<Object[]> createdate = commonHomeMethodsService.findDetailsBillNumber(billNumber);
+		if (paybillGenerationTrnEntity!=null) {
+			mon = paybillGenerationTrnEntity.getPaybillMonth().longValue();
+			yer = paybillGenerationTrnEntity.getPaybillYear().longValue();
 		}
 
 		BigInteger monthcurr = BigInteger.valueOf(mon);
@@ -102,7 +107,7 @@ public class DisplayInnerReportController  extends BaseController{
 		
 		String officeDetails = commonHomeMethodsService.getOffice(ddoCode);
 
-		Date createdateded = displayInnerReportService.findbillCreateDate(billNumber);
+		Date createdateded = paybillGenerationTrnEntity.getCreatedDate();
 		
 		model.addAttribute("createddate", sdf.format(createdateded));
 		model.addAttribute("currmonyer", monname + " " + curryear);

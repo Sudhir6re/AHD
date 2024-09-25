@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.LstGenerateBillDetailsModel;
+import com.mahait.gov.in.model.PayBillViewApprDelBillModel;
 import com.mahait.gov.in.model.PaybillViewApproveDeleteModel;
 import com.mahait.gov.in.repository.PayBillViewApprDelBillRepo;
 
@@ -101,53 +103,75 @@ public class PayBillViewApprDelBillServiceImpl implements PayBillViewApprDelBill
 		}
 		return lstObj;
 	}
-	public List<PaybillViewApproveDeleteModel> findPayBillByBillNumber(String billNumber, int paybillMonth, int paybillYear,int roleId) {
+	public List<LstGenerateBillDetailsModel> findPayBillByBillNumber(String billNumber, int paybillMonth, int paybillYear,int roleId) {
 		
 
 		// TODO Auto-generated method stub
 		List<Object[]>  lstObject= payBillViewApprDelBill.findPayBillByBillNumber(billNumber,paybillMonth,paybillYear,roleId);
-		List<PaybillViewApproveDeleteModel> lstPaybillViewApproveDeleteModel=new ArrayList<>();
+		List<LstGenerateBillDetailsModel> lstGenerateBillDetailsModel=new ArrayList<>();
 		if (lstObject.size()>0) {
 			for (Object[] objLst : lstObject) {
-				PaybillViewApproveDeleteModel paybillViewApproveDeleteModel=new PaybillViewApproveDeleteModel();
-				paybillViewApproveDeleteModel.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
-				paybillViewApproveDeleteModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
-				paybillViewApproveDeleteModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
-				paybillViewApproveDeleteModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
-				paybillViewApproveDeleteModel.setBillGrossAmt(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
-				paybillViewApproveDeleteModel.setBillNetAmount(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
-				paybillViewApproveDeleteModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
-				paybillViewApproveDeleteModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));
-				paybillViewApproveDeleteModel.setAuthNo(StringHelperUtils.isNullString(objLst[8]));
-				lstPaybillViewApproveDeleteModel.add(paybillViewApproveDeleteModel);
+				LstGenerateBillDetailsModel generateBillDetailsModel=new LstGenerateBillDetailsModel();
+				generateBillDetailsModel.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]));
+				generateBillDetailsModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
+				generateBillDetailsModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
+				generateBillDetailsModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
+				generateBillDetailsModel.setBillGrossAmt(StringHelperUtils.isNullDouble(objLst[4]));
+				generateBillDetailsModel.setBillNetAmt(StringHelperUtils.isNullDouble(objLst[5]));
+				generateBillDetailsModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
+				generateBillDetailsModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));
+				generateBillDetailsModel.setAuthno(StringHelperUtils.isNullString(objLst[8]));
+				lstGenerateBillDetailsModel.add(generateBillDetailsModel);
 			}
 		}
-		return lstPaybillViewApproveDeleteModel;
-	
+		return lstGenerateBillDetailsModel;
 		//return  payBillViewApprDelBill.findPayBillByBillNumber(billNumber,paybillMonth,paybillYear,roleId);
 	}
 	
 	//
-	public List<PaybillViewApproveDeleteModel> findPayBillByMonthYear(int paybillMonth, int paybillYear,String ddoCode,int roleId) {
+	public List<LstGenerateBillDetailsModel> findPayBillByMonthYear(int paybillMonth, int paybillYear,String ddoCode,int roleId) {
 		// TODO Auto-generated method stub
 		List<Object[]>  lstObject= payBillViewApprDelBill.findPayBillByMonthYear(paybillMonth,paybillYear,ddoCode,roleId);
-		List<PaybillViewApproveDeleteModel> lstPaybillViewApproveDeleteModel=new ArrayList<>();
+		List<LstGenerateBillDetailsModel> lstGenerateBillDetailsModel=new ArrayList<>();
 		if (lstObject.size()>0) {
 			for (Object[] objLst : lstObject) {
-				PaybillViewApproveDeleteModel paybillViewApproveDeleteModel=new PaybillViewApproveDeleteModel();
-				paybillViewApproveDeleteModel.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
-				paybillViewApproveDeleteModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
-				paybillViewApproveDeleteModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
-				paybillViewApproveDeleteModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
-				paybillViewApproveDeleteModel.setBillGrossAmt(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
-				paybillViewApproveDeleteModel.setBillNetAmount(StringHelperUtils.isNullBigInteger(objLst[5]).longValue());
-				paybillViewApproveDeleteModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
-				paybillViewApproveDeleteModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));
-				paybillViewApproveDeleteModel.setAuthNo(StringHelperUtils.isNullString(objLst[8]));
-				lstPaybillViewApproveDeleteModel.add(paybillViewApproveDeleteModel);
+				LstGenerateBillDetailsModel generateBillDetailsModel=new LstGenerateBillDetailsModel();
+				generateBillDetailsModel.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]));
+				generateBillDetailsModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
+				generateBillDetailsModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
+				generateBillDetailsModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
+				generateBillDetailsModel.setBillGrossAmt(StringHelperUtils.isNullBigInteger(objLst[4]).doubleValue());
+				generateBillDetailsModel.setBillNetAmt(StringHelperUtils.isNullBigInteger(objLst[5]).doubleValue());
+				generateBillDetailsModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
+				generateBillDetailsModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));
+				generateBillDetailsModel.setAuthno(StringHelperUtils.isNullString(objLst[8]));
+				lstGenerateBillDetailsModel.add(generateBillDetailsModel);
 			}
 		}
-		return lstPaybillViewApproveDeleteModel;
+		return lstGenerateBillDetailsModel;
+	}
+
+	@Override
+	public List<LstGenerateBillDetailsModel> findPayBillByBillNumber(
+			PayBillViewApprDelBillModel payBillViewApprDelBillModel, OrgUserMst messages) {
+		List<LstGenerateBillDetailsModel> lstGenerateBillDetailsModel=new ArrayList<>();
+		List<Object[]> lstObject=payBillViewApprDelBill.findPayBillByBillNumber(payBillViewApprDelBillModel,messages);
+		if (lstObject.size()>0) {
+			for (Object[] objLst : lstObject) {
+				LstGenerateBillDetailsModel generateBillDetailsModel=new LstGenerateBillDetailsModel();
+				generateBillDetailsModel.setPaybillGenerationTrnId(StringHelperUtils.isNullBigInteger(objLst[0]));
+				generateBillDetailsModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
+				generateBillDetailsModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
+				generateBillDetailsModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
+				generateBillDetailsModel.setBillGrossAmt(StringHelperUtils.isNullBigInteger(objLst[4]).doubleValue());
+				generateBillDetailsModel.setBillNetAmt(StringHelperUtils.isNullBigInteger(objLst[5]).doubleValue());
+				generateBillDetailsModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
+				generateBillDetailsModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));
+				generateBillDetailsModel.setAuthno(StringHelperUtils.isNullString(objLst[8]));
+				lstGenerateBillDetailsModel.add(generateBillDetailsModel);
+			}
+		}
+		return lstGenerateBillDetailsModel;
 	}
 	
 

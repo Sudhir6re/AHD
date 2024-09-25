@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.DisplayInnerReportModel;
 
 public  interface DisplayInnerReportRepo {
@@ -23,4 +24,5 @@ public  interface DisplayInnerReportRepo {
 	public String getPayFixDiffLoanDtls(String string, Long billNumber);
 	public String gethbaLoanIntsDtls(String string, Long billNumber);
 	public String getexPayRecDtls(String string, Long billNumber);
+	public PaybillGenerationTrnEntity findPayBilldetailByPaybillid(Long billNumber);
 }
