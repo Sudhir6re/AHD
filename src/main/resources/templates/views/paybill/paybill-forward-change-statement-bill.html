@@ -12,7 +12,7 @@
 	<div class="container min-height-600">
 		<div class="breadcrumbMain">
 			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
+				<ol class="breadcrumb"S>
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.TransactionBD}"></span></a></li>
@@ -28,7 +28,7 @@
 			<!-- <legend th:utext="#{menu.mapping.payBillforwardChangeStatement}"
 				th:style="${'color: orange;'}"></legend> -->
 			<input type="hidden" value="text" id="radioid" />
-			<form class="form-horizontal"  id="viewPaybillFrm"   th:action="@{${levelRoleVal == 3 ? '/ddoast/payBillViewApprDelBill' : '/ddo/payBillViewApprDelBill'}}" 
+			<form class="form-horizontal"  id="viewPaybillFrm"   
 				th:object="${payBillViewApprDelBillModel}" method="POST"
 				enctype="multipart/form-data">
 				<!-- th:action="@{/master/saveBillGrpMain}" -->

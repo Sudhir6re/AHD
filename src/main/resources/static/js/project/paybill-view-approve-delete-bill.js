@@ -1,8 +1,14 @@
 jQuery(document)
 		.ready(
 				function($) {
-					
 					// $('#tblShowPayBill').hide();
+					
+					
+					
+					if($('#tblShowPayBill').length){
+						$('#tblShowPayBill').DataTable();
+					}
+					
 					var date = new Date();
 					var currentMonth = date.getMonth() + 1;
 					var currentYear = date.getFullYear();
@@ -986,4 +992,36 @@ $("#btnUpdate")
 			$("#loaderMainNew").hide();
 		});
 
+
+$(".showinneRreport").click(function(){
+	var billnm = billNumber;
+	var ddoCode = "1";
+	
+	   billNumber = $(this).data('bill-number');     //$(this).attr('bill-number'); 
+
+	$("#loaderMainNew").show();
+
+	$
+			.ajax({
+				type : "GET",
+				url : "../ddoast/getinnerreport/" + billNumber + "/" + 1
+						+ "/" + 1 + "/" + ddoCode,
+				async : true,
+				contentType : 'application/json',
+				error : function(data) {
+					alert("error");
+					console.log(data);
+				},
+				success : function(data) {
+					$("#loaderMainNew").hide();
+					var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
+					var win = window.open("", "", urlstyle);
+					win.document.write(data);
+					win.focus();
+
+					// self.close();
+
+				}
+			});
+});
 

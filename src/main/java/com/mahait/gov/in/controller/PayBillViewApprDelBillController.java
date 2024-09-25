@@ -3759,8 +3759,10 @@ public class PayBillViewApprDelBillController extends BaseController {
 	public ResponseEntity<List<LstGenerateBillDetailsModel>> findPayBillByBillNumber(@PathVariable String billNumber,
 			@PathVariable int yearName, @PathVariable int monthName, Model model, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
 		List<LstGenerateBillDetailsModel> lstPaybillViewApproveDeleteModel = payBillViewApprDelBill
 				.findPayBillByBillNumber(billNumber, monthName, yearName, messages.getMstRoleEntity().getRoleId());
+		
 		return ResponseEntity.ok(lstPaybillViewApproveDeleteModel);
 	}
 
@@ -3770,9 +3772,11 @@ public class PayBillViewApprDelBillController extends BaseController {
 	public ResponseEntity<List<LstGenerateBillDetailsModel>> findPayBillByMonthYear(@PathVariable int yearName,
 			@PathVariable int monthName, Model model, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
 		List<LstGenerateBillDetailsModel> lstPaybillViewApproveDeleteModel = payBillViewApprDelBill
 				.findPayBillByMonthYear(monthName, yearName, messages.getDdoCode(),
 						messages.getMstRoleEntity().getRoleId());
+		
 		return ResponseEntity.ok(lstPaybillViewApproveDeleteModel);
 	}
 

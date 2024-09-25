@@ -79,6 +79,7 @@ public class PayBillViewApprDelBillRepoImpl implements PayBillViewApprDelBillRep
 		 * "FROM MpgSchemeBillGroupEntity as t where t.isActive = '1' and t.ddoMapId = "
 		 * +query.uniqueResult()+" ORDER BY t.billDescription ";
 		 */
+		
 		return query.list();
 	}
 
@@ -204,6 +205,8 @@ public class PayBillViewApprDelBillRepoImpl implements PayBillViewApprDelBillRep
 			int currYear = d.getYear();
 			currYear = currYear + 1900;
 			currYear = currYear - 2000;
+			
+			
 			int month = d.getMonth() + 1;
 			payBillViewApprDelBillModel.setYearName(String.valueOf((currYear+1)));
 			payBillViewApprDelBillModel.setMonthName(String.valueOf(month));
