@@ -652,6 +652,8 @@ $("#btnSearch")
 				e.preventDefault();
 				swal("Please select billNumber");
 			} */else  {
+				$("#loaderMainNew").show();
+				
 				var urlCall;
 				
 				if(billNumber == "" || billNumber == "0" || billNumber == undefined){
@@ -680,10 +682,11 @@ $("#btnSearch")
 							async : false,
 							error : function(data) {
 								console.log(data);
+								$("#loaderMainNew").hide();
 							},
 							contentType : 'application/json',
 							success : function(data) {
-								
+								$("#loaderMainNew").hide();
 								console.log(data);
 								
 								$('#tblShowPayBill').show();
@@ -697,6 +700,7 @@ $("#btnSearch")
 //									var paybillGenerationTrnId,status,billDescription, schemeCode, schemeName, noOfEmployee,authno, billGrossAmt, billNetAmt, isActive,ddoCode;
 									var paybillGenerationTrnId,status,billDescription,  noOfEmployee,RTGS, billGrossAmt, billNetAmt, isActive,ddoCode,schemeCode, schemeName;
 									for(var i=0;i<data.length;i++){
+										
 													paybillGenerationTrnId = data[i].paybillGenerationTrnId;
 													billDescription = data[i].billDescription;
 													console.log(data[i].billDescription);
@@ -706,7 +710,7 @@ $("#btnSearch")
 													//authno=result[8];
 													RTGS=data[i].paybillGenerationTrnId;
 													billGrossAmt =data[i].billGrossAmt;
-													billNetAmt = data[i].billNetAmount;
+													billNetAmt = data[i].billNetAmt;
 													//ddoCode = result[5];
 			                                        status= data[i].isActive;
 			                                        authNo= data[i].authno;

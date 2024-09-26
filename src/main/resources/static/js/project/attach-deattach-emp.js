@@ -357,7 +357,7 @@ $("#btnAttachPost").click(function(e){
     });
     $('#postIdstoBeDetached').val(dettachedValues.slice(0, -1));
 
-	if(attachedValues==''){
+	if(attachedValues==''  && dettachedValues==''){
 		e.preventDefault();
 	}else{
 		document.getElementById("status").value="SAVE";

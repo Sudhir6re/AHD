@@ -23,7 +23,8 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 		var billnm = billNumber;
 		var ddoCode = "1";
 		
-		   billNumber = $(element).data('bill-number'); 
+		   billNumber = $(element). data('bill-number'); 
+		   billNumber = $(element). data('bill-number'); 
 
 		$("#loaderMainNew").show();
 
@@ -77,6 +78,7 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 				th:style="${'color: orange;'}"></legend> -->
 
 			<form class="form-horizontal" id="viewPaybillFrm"
+				th:action="@{${levelRoleVal == 3 ? '/ddoast/payBillViewApprDelBill' : '/ddo/payBillViewApprDelBill'}}"
 				th:object="${payBillViewApprDelBillModel}" method="POST"
 				enctype="multipart/form-data">
 				<!--  -->
@@ -144,7 +146,7 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 
 				<hr />
 
-				<table id="tblShowPayBill"  th:if="${lstGenerateBillDetails.size() > 0}"
+				<table id="tblShowPayBill"  
 					class="table table-striped table-bordered" style="width: 100%">
 					<thead>
 						<tr>
@@ -164,8 +166,7 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 					</thead>
 					<tbody>
 						<tr th:each="varBillGrp : ${lstGenerateBillDetails}">
-							<td class="text-center"><input
-							 type="radio" name="paybillId"
+							<td class="text-center"><input type="radio" name="paybillId"
 								class="generatedChkId"
 								th:value="${varBillGrp.paybillGenerationTrnId}"
 								th:data="${varBillGrp.isActive}" /></td>
@@ -198,9 +199,8 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 							<span
 								th:if="${varBillGrp.isActive} == 5 OR ${varBillGrp.isActive} == 6 OR ${varBillGrp.isActive}==7 OR ${varBillGrp.isActive}==8 OR ${varBillGrp.isActive}==9 OR ${varBillGrp.isActive}==10
 								OR ${varBillGrp.isActive}==11 OR ${varBillGrp.isActive}==12  OR ${varBillGrp.isActive}==13 OR ${varBillGrp.isActive}==14 OR ${varBillGrp.isActive}==15">
-								<td><a  
-								    class="showinneRreport"
-									 th:data-bill-number=${varBillGrp.paybillGenerationTrnId}
+								<td><a
+									th:onclick="|showinnerreport(${varBillGrp.paybillGenerationTrnId},this)|"  th:data-bill-number=${varBillGrp.paybillGenerationTrnId}
 									th:text=${varBillGrp.paybillGenerationTrnId}></a></td>
 							</span>
 
@@ -282,9 +282,7 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 						</tr>
 					</tbody>
 				</table>
-				<div th:if="${lstGenerateBillDetails.size() == 0}">
-					<p>Data not found.</p>
-				</div>
+			
 
 				<div class="text-center">
 					<!-- 	<input type="button" value="Forward Change Statement" class="btn btn-primary" id="btnForwardChangeStatment" /> -->
