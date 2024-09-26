@@ -24,7 +24,7 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 	public List<OrgDdoMst> getDDOName(String userName) {
 		
 		
-		String HQL = "FROM OrgDdoMst as t  where ddoCode='"+userName+"' and t.activateFlag='1' ORDER BY t.ddoId";
+		String HQL = "FROM OrgDdoMst as t  where ddoCode='"+userName+"'  ORDER BY t.ddoId";  //and t.activateFlag='1'
 		return (List<OrgDdoMst>) entityManager.createQuery(HQL).getResultList();
 	}
 

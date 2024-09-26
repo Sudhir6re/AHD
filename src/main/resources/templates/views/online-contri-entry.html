@@ -299,7 +299,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 									</td>
 
 									<td width="20%"><select class="form-control"   th:id="${'payCommission' + itemStat.index}"   
-										th:field="*{payCommission}">
+									   th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].payCommission}" >
 											<option th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 											<option th:each="varPay : ${lstddcPayCommission}"
@@ -311,7 +311,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 									<select
 										onchange="addMonthYearComboForDelayed();"   th:id="${'typeOfPayment' + itemStat.index}"   
 										class="form-control removeErrorFromDropdown"
-										th:field="*{typeOfPayment}">
+										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].typeOfPayment}">
 											<option selected="selected" th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 											<option th:each="varType : ${paymentTypeLst}"

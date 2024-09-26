@@ -4,6 +4,17 @@ $(document).ready(function() {
 	  if ($('#cmbSchemeName').length) {
 	        $('#cmbSchemeName').select2();
 	    }
+	  if ($('#billGroupId').length) {
+		  $('#billGroupId').select2();
+	  }
+	  
+	  
+	  if ($('#ddoCode').length) {
+		  $('#ddoCode').select2();
+	  }
+	  
+	  
+	  
 });
 jQuery(document).ready(function($) {
 	var varMessage = $("#message").val();

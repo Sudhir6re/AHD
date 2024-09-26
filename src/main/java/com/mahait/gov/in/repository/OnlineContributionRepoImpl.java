@@ -268,9 +268,22 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				dcpContributionModel1.setDcpsNO(StringHelperUtils.isNullString(object[1]));
 				dcpContributionModel1.setEmployeeName(String.valueOf(object[2]));
 				dcpContributionModel1.setPayCommission(StringHelperUtils.isNullBigInteger(object[3]).longValue());
+				
+				
+				if(object[4] instanceof Double) {
+					dcpContributionModel1.setBasicPay(StringHelperUtils.isNullDouble(object[4]));
+				}else if(object[4] instanceof Integer){
+					dcpContributionModel1.setBasicPay(StringHelperUtils.isNullBigInteger(object[4]).doubleValue());
+				}
+				
+				BasicPay=dcpContributionModel1.getBasicPay();
+				
 				dcpContributionModel1.setDcpContributionId(StringHelperUtils.isNullBigInteger(object[5]).longValue());
 				dcpContributionModel1.setTypeOfPayment(StringHelperUtils.isNullString(object[6]));
 
+				
+				
+				
 				if (object[7] instanceof BigInteger) {
 					dcpContributionModel1.setMonthId(StringHelperUtils.isNullBigInteger(object[7]).intValue());
 				} else {
