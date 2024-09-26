@@ -23,6 +23,8 @@ public class GISReportServiceImpl implements GISReportService{
 		
 		List<Object[]> lst = gisReportRepo.findRptDtls(monthId,yearId,billGroup,gisAllowDeducCode);
 		
+		
+		List<RegularReportModel> lstObj = new ArrayList<>();
 		//count (a.sevaarth_id),d.group_name_en,'preminum_amount'
 		for (Object[] objects : lst) {
 			RegularReportModel regularReportModel = new RegularReportModel();	
@@ -30,10 +32,11 @@ public class GISReportServiceImpl implements GISReportService{
 			regularReportModel.setCadreGroup(StringHelperUtils.isNullString(objects[1]));
 			regularReportModel.setGisRateType(StringHelperUtils.isNullString(objects[2]));
 			regularReportModel.setGisAmount(StringHelperUtils.isNullDouble(objects[3]));
-			regularReportModel.setGisRate(StringHelperUtils.isNullDouble(objects[4]));
+			regularReportModel.setGisRate(StringHelperUtils.isNullInt(objects[4]));
+			lstObj.add(regularReportModel);
+			
 		}
 		
-		List<RegularReportModel> lstObj = new ArrayList<>();
 		// TODO Auto-generated method stub
 		return lstObj;
 	}

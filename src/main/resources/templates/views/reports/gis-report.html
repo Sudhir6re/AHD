@@ -27,21 +27,21 @@ table.table.table-striped.table-bordered a {
 									of GIS</b></td>
 						</tr>
 						<tr align="center">
-							<td align="center" colspan="2"><b>From Major Head 8011</b><br/></td>
+							<td align="center" colspan="2"><b>From Major Head 8011</b><br /></td>
 						</tr>
 						<tr>
-							<td colspan="2">For the Month of July &nbsp;&nbsp;2024</td>
+							<td colspan="2">For the Month of &nbsp;<span
+								th:text="${currmonyer}"></span></td>
 						</tr>
 						<tr>
-							<td>Name of the Office : MAHARASHTRA UNIVERSITY,THANE,NORTH
-								MAHARASHTRA UNIVERSITY(20541200001)</td>
-							<td align="right">Treasury : DEMO LVL2(2222)</td>
+							<td>Name of the Office : <span th:text="${officename}"></span></td>
+							<td align="right">Treasury : <span th:text="${treasury}"></span></td>
 						</tr>
 					</tbody>
 				</table>
 				<br />
 				<table class="table table-striped">
-					<tbody  >
+					<tbody>
 						<tr>
 							<td align="center" width="5%">SrNo.</td>
 							<td align="center" width="15%">Particular Of Group</td>
@@ -52,7 +52,7 @@ table.table.table-striped.table-bordered a {
 											<td width=" 100%" colspan="3" align="center">Recovery
 												made at Composite Rate</td>
 										</tr>
-										<tr align="center" >
+										<tr align="center">
 											<td width="30%">No. of Emp</td>
 											<td width="30%">Rate (<font face="Rupee Foradian">`</font>)
 											</td>
@@ -69,7 +69,7 @@ table.table.table-striped.table-bordered a {
 											<td width="100%" colspan="3" align="center">Recovery
 												made at Premium Rate</td>
 										</tr>
-										<tr align="center" >
+										<tr align="center">
 											<td width="30%">No. of Emp</td>
 											<td width="30%">Rate (<font face="Rupee Foradian">`</font>)
 											</td>
@@ -92,10 +92,12 @@ table.table.table-striped.table-bordered a {
 							<td width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstComposite}" th:if="{varDtls.cadreGroup == 'A'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstComposite}"
+											th:if="${varDtls.cadreGroup == 'A'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -103,16 +105,18 @@ table.table.table-striped.table-bordered a {
 							<td width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstPremium}" th:if="{varDtls.cadreGroup == 'A'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstPremium}"
+											th:if="${varDtls.cadreGroup == 'A'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
 							</td>
 							<td align="center" width="15%">0.0</td>
-							<td align="center" width="15%">1920.0</td>
+							<td align="center" width="15%"></td>
 						</tr>
 						<tr align="center">
 							<td align="center" width="5%">2</td>
@@ -120,10 +124,12 @@ table.table.table-striped.table-bordered a {
 							<td width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstComposite}" th:if="{varDtls.cadreGroup == 'B'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstComposite}"
+											th:if="${varDtls.cadreGroup == 'B'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -131,10 +137,12 @@ table.table.table-striped.table-bordered a {
 							<td width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstPremium}" th:if="{varDtls.cadreGroup == 'B'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstPremium}"
+											th:if="${varDtls.cadreGroup == 'B'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -148,10 +156,12 @@ table.table.table-striped.table-bordered a {
 							<td align="right" width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstComposite}" th:if="{varDtls.cadreGroup == 'BnGZ'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstComposite}"
+											th:if="${varDtls.cadreGroup == 'BnGZ'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -159,10 +169,12 @@ table.table.table-striped.table-bordered a {
 							<td width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstPremium}" th:if="{varDtls.cadreGroup == 'BnGZ'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstPremium}"
+											th:if="${varDtls.cadreGroup == 'BnGZ'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -176,10 +188,12 @@ table.table.table-striped.table-bordered a {
 							<td align="right" width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstComposite}" th:if="{varDtls.cadreGroup == 'C'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}" ></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstComposite}"
+											th:if="${varDtls.cadreGroup == 'C'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -187,10 +201,12 @@ table.table.table-striped.table-bordered a {
 							<td align="right" width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstPremium}" th:if="{varDtls.cadreGroup == 'C'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstPremium}"
+											th:if="${varDtls.cadreGroup == 'C'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -204,10 +220,12 @@ table.table.table-striped.table-bordered a {
 							<td align="right" width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstComposite}" th:if="{varDtls.cadreGroup == 'D'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstComposite}"
+											th:if="${varDtls.cadreGroup == 'D'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -215,10 +233,12 @@ table.table.table-striped.table-bordered a {
 							<td width="25%">
 								<table class="bor-0">
 									<tbody>
-										<tr th:each="varDtls : ${lstPremium}" th:if="{varDtls.cadreGroup == 'D'}">
-											<td width="30%" align="center" th:text = "${varDtls.countGisEmp}"></td>
-											<td width="40%" align="center" th:text = "${varDtls.gisRate}"></td>
-											<td width="30%" align="right" th:text = "${varDtls.gisAmount}"></td>
+										<tr th:each="varDtls : ${lstPremium}"
+											th:if="${varDtls.cadreGroup == 'D'}">
+											<td width="30%" align="center"
+												th:text="${varDtls.countGisEmp}"></td>
+											<td width="40%" align="center" th:text="${varDtls.gisRate}"></td>
+											<td width="30%" align="right" th:text="${varDtls.gisAmount}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -237,7 +257,7 @@ table.table.table-striped.table-bordered a {
 										<tr align="center">
 											<td width="30%">2</td>
 											<td width="30%"></td>
-											<td width="40%">1920</td>
+											<td width="40%" th:text="${totalCompositeSum}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -254,7 +274,7 @@ table.table.table-striped.table-bordered a {
 								</table>
 							</td>
 							<td align="center" width="15%">0</td>
-							<td align="center" width="15%">1920</td>
+							<td align="center" width="15%" th:text="${totalPremiumSum}"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -263,12 +283,11 @@ table.table.table-striped.table-bordered a {
 					<tbody>
 						<tr>
 							<td>Total Deduction In Words (<font face="Rupee Foradian">`</font>):
-								One Thousand Nine Hundred and Twenty Only.
+								<span th:text="${totalDeducInWords}"></span>.
 							</td>
 						</tr>
 						<tr>
-							<td align="center"><br />
-							<b>CERTIFICATE</b></td>
+							<td align="center"><br /> <b>CERTIFICATE</b></td>
 						</tr>
 						<tr>
 							<td>1.Certified that total Recoveries shown in column (10)
@@ -278,7 +297,7 @@ table.table.table-striped.table-bordered a {
 						</tr>
 
 						<tr>
-							<td>Dated: 19/7/2024</td>
+							<td>Dated: <span th:text="${date}"></span></td>
 						</tr>
 
 						<tr>
@@ -298,7 +317,7 @@ table.table.table-striped.table-bordered a {
 								Officer</td>
 						</tr>
 						<tr>
-							<td>VERIFICATION TIME:19-07-2024 15:31:35.874</td>
+							<td>VERIFICATION TIME:<span th:text="${sysDate}"></span></td>
 						</tr>
 					</tbody>
 				</table>

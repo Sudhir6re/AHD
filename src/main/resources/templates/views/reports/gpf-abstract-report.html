@@ -57,20 +57,34 @@
 					</table>
 					<br />
 					<table class="table table-bordered">
-						<tbody>
+						<thead>
 							<tr>
-								<td width="7%"></td>
-								<td width="14%"></td>
-								<td width="16%"></td>
-								<td width="20%"></td>
-								<td width="9%"></td>
-								<td width="10%"></td>
-								<td width="7%"></td>
-								<td width="12%"></td>
-								<td width="10%"></td>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.srno}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.seriesName}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.noOfgovser}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.payDP}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.subs}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.payDA}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.gpfArr}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.refundamt}" /></th>
+								<th rowspan="2" th:utext="#{msg.thymeleaf.pagelabel.total}" /></th>
+
 							</tr>
-							<tr>
-								<td colspan="9">No data available</td>
+
+
+						</thead>
+						<tbody>
+
+							<tr th:each="varDtls : ${gpfRptDtls}">
+								<td class="text-center" th:text="${varDtlsStat.index+1}"></td>
+								<td class="text-center" th:text="${varDtls.name}"></td>
+								<td class="text-center" th:text="${varDtls.pfSeries}"></td>
+								<td class="text-center" th:text="${varDtls.grossAmount}"></td>
+								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
+								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
+								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
+								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
+								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
 							</tr>
 						</tbody>
 					</table>
