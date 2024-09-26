@@ -46,14 +46,14 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 	public List<DcpContributionModel> getEmpListForContribution(DcpContributionModel dcpContributionModel,
 			OrgUserMst messages, String startDate) {
 		
-		List<DcpContributionModel> dcpContributionModelLst=new ArrayList<>();
+		//List<DcpContributionModel> dcpContributionModelLst=new ArrayList<>();
 		
 		
 		
 		 //  0    1         2                   3       4     5    6     7  8   9   10     11         12    13    14    15    16   17   18    19     20   21  
 		//[34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600, 0, 700047, 0, 0, 46, null, 2017-01-01, null, null, null, null, null, 0, 18216, 5782, 0.46, null]
-		List<Object[]> lst=onlineContributionRepo.getEmpListForContribution(dcpContributionModel,messages,startDate);
-		for(Object object[]:lst) {
+		List<DcpContributionModel> dcpContributionModelLst=onlineContributionRepo.getEmpListForContribution(dcpContributionModel,messages,startDate);
+	/*	for(Object object[]:lst) {
 			DcpContributionModel dcpContributionModel1=new DcpContributionModel();
 			dcpContributionModel1.setDcpEmpId(StringHelperUtils.isNullBigInteger(object[0]).longValue());
 			dcpContributionModel1.setDcpsNO(StringHelperUtils.isNullString(object[1]));
@@ -92,24 +92,25 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			
 			dcpContributionModel1.setRegStatus(StringHelperUtils.isNullInt(object[10]));
 			dcpContributionModel1.setDoj(StringHelperUtils.isNullDate(object[11]));
-			
+			dcpContributionModel1.setStartDate(StringHelperUtils.isNullDate(object[11]));
+			dcpContributionModel1.setEndDate(StringHelperUtils.isNullDate(object[11]));
 			
 			
 			
 			dcpContributionModel1.setDa(StringHelperUtils.isNullDouble(object[12]));
 			
-		/*	if(object[9] instanceof Integer) {
+			if(object[9] instanceof Integer) {
 			dcpContributionModel1.setDp(Double.valueOf(StringHelperUtils.isNullInt(object[17])));
 			}else{
 				dcpContributionModel1.setDp(StringHelperUtils.isNullDouble(object[17]));
-			}*/
+			}
 			dcpContributionModel1.setContribution(StringHelperUtils.isNullDouble(object[14]));
 			dcpContributionModel1.setStartDate(StringHelperUtils.isNullDate(object[11]));
 			dcpContributionModel1.setEndDate(StringHelperUtils.isNullDate(object[11]));
 			dcpContributionModel1.setEmprContribution(StringHelperUtils.isNullDouble(object[14]));
 			
 			dcpContributionModelLst.add(dcpContributionModel1);
-		}
+		}*/
 		return dcpContributionModelLst;
 	}
 

@@ -631,7 +631,7 @@ $("#btnSearch")
 			 }
 		});		*/
 
-$("#btnSearch1")
+$("#btnSearch")
 .click(
 		function(e) {
 			e.preventDefault();

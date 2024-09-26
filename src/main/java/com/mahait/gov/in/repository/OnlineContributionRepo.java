@@ -14,7 +14,7 @@ public interface OnlineContributionRepo {
 
 	Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId);
 
-	List<Object[]> getEmpListForContribution(DcpContributionModel dcpContributionModel, OrgUserMst messages, String startDate);
+	List<DcpContributionModel> getEmpListForContribution(DcpContributionModel dcpContributionModel, OrgUserMst messages, String startDate);
 
 	Long saveMstDcpsContriVoucherDtlEntity(MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity);
 
