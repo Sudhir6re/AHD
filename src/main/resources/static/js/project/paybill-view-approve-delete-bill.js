@@ -721,7 +721,7 @@ $("#btnSearch")
                                                        var RTGS;
                                                          change1="<a class='paybillGenerationTrnId'>"+paybillGenerationTrnId+"</a>"; 
                                                                   
-                                       inner5="<a  onclick='showinnerreport("+paybillGenerationTrnId+");'>"+paybillGenerationTrnId+"</a></td>";
+                                       inner5="<a  class='showinneRreport' >"+paybillGenerationTrnId+"</a></td>";
                                        
                                        if(RTGS!=null){
                                     	   if(status==14){
