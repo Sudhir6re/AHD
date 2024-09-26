@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.DisplayInnerReportModel;
 
 public interface DisplayInnerReportService {
@@ -15,4 +16,5 @@ public interface DisplayInnerReportService {
 	public Page<DisplayInnerReportModel> findPaginated(Pageable pageable,Long billNumber,String strddo);
 	Date findbillCreateDate(Long billNumber);
 	String getbillDetails(Long billNumber);
+	public PaybillGenerationTrnEntity findPayBilldetailByPaybillid(Long billNumber);
 }

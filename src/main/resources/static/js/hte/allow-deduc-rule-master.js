@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
     $('#departmentAllowdeducCode').on('change', function() {
     	var depName=$(this).attr("data2");
       //  table.column(1).search(depName).draw(); 
-        if($('#departmentAllowdeducCode').val()=="4" || $('#departmentAllowdeducCode').val()=="11"  || $('#departmentAllowdeducCode').val()=="135" || $('#departmentAllowdeducCode').val()=="12"  || $('#departmentAllowdeducCode').val()=="18"){
+        if($('#departmentAllowdeducCode').val()=="4" || $('#departmentAllowdeducCode').val()=="11"  || $('#departmentAllowdeducCode').val()=="135" || $('#departmentAllowdeducCode').val()=="12"  || $('#departmentAllowdeducCode').val()=="18"  || $('#departmentAllowdeducCode').val()=="128"){
         	swal("This component is update only");
         	$("#btnSave").prop("disabled",true);
         }else{
@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
     
     
         	
-        $("#btnSave").click(function(event){
+    $("#ruleMasterForm").submit(function(event) {
         		event.preventDefault();
             var isType = $('#isType').val();
             var departmentAllowdeducCode = $('#departmentAllowdeducCode').val();
@@ -167,6 +167,115 @@ jQuery(document).ready(function($) {
       
             }
         });
+        
+        
+        	
+        	
+        		$("#editRuleMasterForm").submit(function(event) {
+    		event.preventDefault();
+        var isType = $('#isType').val();
+        var departmentAllowdeducCode = $('#departmentAllowdeducCode').val();
+        var payCommissionCode = $('#payCommissionCode').val();
+        var amount = $('#amount').val().trim();
+        var startDate = $('#startDate').val().trim();
+        var endDate = $('#endDate').val().trim();
+        var percentage = $('#percentage').val().trim();
+        var minBasic = $('#minBasic').val().trim();
+        var maxBasic = $('#maxBasic').val().trim();
+        var cityClass = $('#cityClass').val();
+        var gradePayLower = $('#gradePayLower').val().trim();
+        var gradePayHigher = $('#gradePayHigher').val().trim();
+        var premiumAmount = $('#premiumAmount').val().trim();
+        var cityGroup = $('#cityGroup').val().trim();
+        
+        var errors = [];
+        
+        
+        var payCommissionMandatoryCodes = [];   ["101", "35", "143", "102", "106", "11", "128", "61", "160", "10", "161", "39"];
+        if (payCommissionMandatoryCodes.includes(departmentAllowdeducCode) && payCommissionCode == "0") {
+            errors.push('Pay Commission is required for the selected Type Of Component.');
+        }
+
+        
+        
+        var mandatoryPercentageAllowDeducCode = ["39", "61", "101", "102", "160", "143", "10", "161", "106", "9", "11"];
+        if (mandatoryPercentageAllowDeducCode.includes(departmentAllowdeducCode) && !percentage) {
+            errors.push('Percentage is required for the selected Type Of Component.');
+        }
+
+      
+        
+        var amountMandatoryCodes = ["35", "9", "127", "87", "106", "11", "128"];
+        if (amountMandatoryCodes.includes(departmentAllowdeducCode) && !amount) {
+            errors.push('Amount is required for the selected Type Of Component.');
+        }
+        
+
+        var maxBasicMandatoryCodes = ["11", "35"];
+        if (maxBasicMandatoryCodes.includes(departmentAllowdeducCode) && !maxBasic) {
+            errors.push('Maximum Basic is required for the selected Type Of Component.');
+        }
+       
+        
+        var minBasicMandatoryCodes = ["9", "11", "35"];
+        if (minBasicMandatoryCodes.includes(departmentAllowdeducCode) && !minBasic) {
+            errors.push('Minimum Basic is required for the selected Type Of Component.');
+        }
+
+        
+        var startDateMandatoryCodes = ["106", "11", "61", "160", "101", "9", "10", "143", "127", "102", "161"];
+        if (startDateMandatoryCodes.includes(departmentAllowdeducCode) && !startDate) {
+            errors.push('Start Date is required for the selected Type Of Component.');
+        }
+
+       
+        var cityGroupMandatoryCodes = ["11", "35", "127", "87"];
+        if (cityGroupMandatoryCodes.includes(departmentAllowdeducCode) && !cityGroup) {
+            errors.push('City Group is required for the selected Type Of Component.');
+        }
+
+        if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+            errors.push('End Date should be after Start Date.');
+        }
+
+        
+        
+        if (departmentAllowdeducCode == "9" && !cityClass) {
+            errors.push('City Class is required for the selected Type Of Component.');
+        }
+
+        if (departmentAllowdeducCode == "106" && (!gradePayLower || !gradePayHigher)) {
+            errors.push('Grade Pay/Pay Scale is required for the selected Type Of Component.');
+        }
+
+        if (errors.length > 0) {
+        	 event.preventDefault(); 
+        	swal({
+        	    title: 'Validation Error',
+        	    text: errors.join('\n'),  
+        	    icon: 'error',
+        	    button: 'Ok',
+        	});
+        } else {
+        	
+        	swal({
+        		 title: 'Success',
+                 icon: 'success',
+                  text: 'Form submitted successfully!',
+        		  buttons: true,
+        		  dangerMode: true,
+        		})
+        		.then((willDelete) => {
+        		  if (willDelete && parseInt(departmentAllowdeducCode)>0) {
+        			  $("#editRuleMasterForm").submit();
+        		  }else{
+        			  event.preventDefault(); 
+        		  }
+        		});	
+        	
+  
+        }
+    });
 
     
    

@@ -1,5 +1,5 @@
 
-package com.mahait.gov.in.controller.nsdl;
+package com.mahait.gov.in.nsdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for performFileUploadResponse complex type.
+ * <p>Java class for performStatusInquiryResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="performFileUploadResponse">
+ * &lt;complexType name="performStatusInquiryResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "performFileUploadResponse", propOrder = {
+@XmlType(name = "performStatusInquiryResponse", propOrder = {
     "_return"
 })
-public class PerformFileUploadResponse {
+public class PerformStatusInquiryResponse {
 
     @XmlElement(name = "return")
     protected String _return;

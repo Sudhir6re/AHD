@@ -1,5 +1,5 @@
 
-package com.mahait.gov.in.controller.nsdl;
+package com.mahait.gov.in.nsdl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for performFileUpload complex type.
+ * <p>Java class for performFileDownload complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="performFileUpload">
+ * &lt;complexType name="performFileDownload">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -29,10 +29,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "performFileUpload", propOrder = {
+@XmlType(name = "performFileDownload", propOrder = {
     "arg0"
 })
-public class PerformFileUpload {
+public class PerformFileDownload {
 
     protected List<byte[]> arg0;
 

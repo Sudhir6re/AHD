@@ -14,16 +14,7 @@ import com.mahait.gov.in.repository.MstBankRepo;
 @Service
 @Transactional
 public class MstBankServiceImpl implements MstBankService{
-	@Autowired
-	MstBankRepo mstBankRepo;
 	
-	@Override
-	public List<MstBankEntity> lstAllBank() {
-		// TODO Auto-generated method stub
-		return mstBankRepo.lstAllBank();
-	}
-	
-	/*
 
 	@Autowired
 	MstBankRepo mstBankRepo;
@@ -82,4 +73,4 @@ public class MstBankServiceImpl implements MstBankService{
 		// TODO Auto-generated method stub
 		return mstBankRepo.validateBankName(bankname);
 	}
-*/}
+}
