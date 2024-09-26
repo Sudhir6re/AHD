@@ -486,6 +486,44 @@ $('#btnbankstatementreport').click(function() {
 	});
 
 
+$("#aquittReport").click(function(){
+	
+	 var yearName=$('#yearName').val();
+	 var monthName=$('#monthName').val();
+	 var billNumber=$('#billGroup').val();
+	 
+	 if (billNumber != '') {
+		 $
+		 .ajax({
+			 type : "GET",
+			 
+			 url : context+"/ddoast/btnShowReport/"+yearName+"/"+monthName+"/"
+			 + billNumber,
+				 async : true,
+				 contentType : 'application/json',
+				 error : function(data) {
+					 console.log(data);
+				 },
+				 success : function(data) {
+					 console.log(data);
+					 if(data!=''){
+						 $("#billno").val(data);
+						 
+						 $('#btnaquittancerollreport').click();
+					 }else{
+						 swal("No Data Found");
+					 }
+					
+					 
+				 }
+		 });
+	 }
+	 
+	
+});
+
+
+
 $('#btnaquittancerollreport').click(function() {
 	 var yearName=$('#yearName').val();
 	 var monthName=$('#monthName').val();
