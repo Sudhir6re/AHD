@@ -1,6 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,9 +70,18 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			dcpContributionModel1.setDcpContributionId(StringHelperUtils.isNullBigInteger(object[5]).longValue());
 			dcpContributionModel1.setTypeOfPayment(StringHelperUtils.isNullString(object[6]));
 			
-			dcpContributionModel1.setMonthId(StringHelperUtils.isNullInt(object[7]));
-			dcpContributionModel1.setFinYearId(StringHelperUtils.isNullInt(object[8]));
 			
+			if(object[7] instanceof BigInteger) {
+				dcpContributionModel1.setMonthId(StringHelperUtils.isNullBigInteger(object[7]).intValue());
+			}else{
+				dcpContributionModel1.setMonthId(StringHelperUtils.isNullInt(object[7]));
+			}
+			
+			if(object[8] instanceof BigInteger) {
+				dcpContributionModel1.setFinYearId(StringHelperUtils.isNullBigInteger(object[8]).intValue());
+			}else {
+				dcpContributionModel1.setFinYearId(StringHelperUtils.isNullInt(object[8]));
+			}
 			
 			if(object[9] instanceof BigDecimal) {
 				dcpContributionModel1.setDaRate(StringHelperUtils.isNullBigDecimal(object[9]).intValue());
@@ -82,8 +92,17 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			
 			dcpContributionModel1.setRegStatus(StringHelperUtils.isNullInt(object[10]));
 			dcpContributionModel1.setDoj(StringHelperUtils.isNullDate(object[11]));
+			
+			
+			
+			
 			dcpContributionModel1.setDa(StringHelperUtils.isNullDouble(object[12]));
-			dcpContributionModel1.setDp(StringHelperUtils.isNullDouble(object[17]));
+			
+		/*	if(object[9] instanceof Integer) {
+			dcpContributionModel1.setDp(Double.valueOf(StringHelperUtils.isNullInt(object[17])));
+			}else{
+				dcpContributionModel1.setDp(StringHelperUtils.isNullDouble(object[17]));
+			}*/
 			dcpContributionModel1.setContribution(StringHelperUtils.isNullDouble(object[14]));
 			dcpContributionModel1.setStartDate(StringHelperUtils.isNullDate(object[11]));
 			dcpContributionModel1.setEndDate(StringHelperUtils.isNullDate(object[11]));

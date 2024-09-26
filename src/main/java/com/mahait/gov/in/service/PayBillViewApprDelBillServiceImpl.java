@@ -1,9 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,6 @@ import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.LstGenerateBillDetailsModel;
 import com.mahait.gov.in.model.PayBillViewApprDelBillModel;
-import com.mahait.gov.in.model.PaybillViewApproveDeleteModel;
 import com.mahait.gov.in.repository.PayBillViewApprDelBillRepo;
 
 @Service

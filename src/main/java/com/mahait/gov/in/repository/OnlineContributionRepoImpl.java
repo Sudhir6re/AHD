@@ -228,6 +228,26 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 			Double employeeContribution = 0D;
 			String lStrDA = "";
 			Double emplrContribution = 0D;  //[34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600.0, 0, 700047, 0, 0, 46, null, 2017-01-01, null, null, null, null, null, 0.0]
+		
+			
+			
+		/*	SBQuery.append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,"
+					+ " CASE "
+					+ "        WHEN Em.pay_commission_code = '"+CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC+"' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
+					+ "        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" + "    END AS BASIC_PAY,"
+					+ "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
+					+ dcpContributionModel.getTypeOfPayment()
+					+ "') as TYPE_OF_PAYMENT,COALESCE(CO.MONTH_ID,0) as MONTH_ID,COALESCE(CO.FIN_YEAR_ID,0) as FIN_YEAR_ID,"
+					+ " COALESCE(DA.percentage," + lDoubleDefaultDArateForNon5th6thPC + ") as percentage,"
+					+ "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
+
+			SBQuery.append(" CO.startDate StartDate");
+			SBQuery.append(",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED
+			
+			Em.employee_id 0 
+			
+			
+*/			
 			for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) {
 				Object[] tempObjectList = (Object[]) empList.get(lInt1);
 				Object[] newList = new Object[tempObjectList.length + 4];
@@ -244,9 +264,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 							tempObjectList[lInt2] = (int) Math.ceil(Double.parseDouble(tempObjectList[lInt2].toString()));
 						}
 					}
-
 					newList[lInt2] = tempObjectList[lInt2];
-
 				}
 				BasicPay = Double.parseDouble(tempObjectList[4].toString());
 
@@ -334,18 +352,21 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				DA = (double) Math.round(DA);
 
 				employeeContribution = (double) Math.round(employeeContribution);
+			
 				newList[lInt2] = (int) Math.ceil(DP);
 				newList[lInt2 + 1] = (int) Math.round(DA);
 				newList[lInt2 + 2] = (int) Math.round(employeeContribution);
 				newList[lInt2 + 3] = DARate;
 				newList[lInt2 + 4] = (int) Math.round(emplrContribution);
+				
 				finalList.add(newList);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return finalList;
+		//return finalList;
+		return empList;
 	}
 
 	@Override
