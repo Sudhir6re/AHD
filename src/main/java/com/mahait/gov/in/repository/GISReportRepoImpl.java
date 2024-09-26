@@ -27,7 +27,7 @@ public class GISReportRepoImpl implements  GISReportRepo{
 		
 	String sumComponentClause = null;
 		 
-		hql.append(" select count (a.sevaarth_id),d.group_name_en,'premium_amount'");
+		hql.append(" select count (a.sevaarth_id),d.group_name_en,'premium_amount',");
 		switch(gisAllowDeducCode.intValue()) {
 		case 84:
 			hql.append(" sum(gis_ias)");
@@ -56,16 +56,16 @@ public class GISReportRepoImpl implements  GISReportRepo{
 			break;
 		}
 		
-		hql.append(" , case when d.group_name_en = 'BnGz' then 160 case when d.group_name_en = 'A' then 320 case when d.group_name_en = 'B' then 160 case when d.group_name_en = 'C' then 120 case when d.group_name_en = 'D' then 80 end as premiumRate");
+		hql.append(" ,(CASE  WHEN d.group_name_en = 'BnGz' THEN 160 WHEN d.group_name_en = 'A' THEN 320 WHEN d.group_name_en = 'B' THEN 160 WHEN d.group_name_en = 'C' THEN 120 WHEN d.group_name_en = 'D' THEN 80  ELSE 0 END) AS premium_amount");
 		hql.append(" from EMPLOYEE_MST a inner join  ");
 		hql.append(" PAYBILL_GENERATION_TRN_DETAILS b on a.sevaarth_id= b.sevaarth_id ");
 		hql.append(" inner join PAYBILL_GENERATION_TRN c on b.paybill_generation_trn_id= c.paybill_generation_trn_id ");
 		hql.append(" inner join cadre_group_mst d on d.id = a.emp_class where  c.is_active <> 8 and ");
 		hql.append(" to_char(a.doj,'YY') = cast((c.paybill_year - 1) as varchar ) and c.paybill_month = "+monthId+" and c.paybill_year = "+yearId+" and c.scheme_billgroup_id = '"+billGroup+"' group by d.group_name_en, "+componentName);
 		hql.append(" UNION ALL ");
-		hql.append(" select count (a.sevaarth_id),d.group_name_en,'composite_amount'  from EMPLOYEE_MST a inner join  ");
-		hql.append(sumComponentClause);
-		hql.append(" , case when d.group_name_en = 'BnGz' then 480 case when d.group_name_en = 'A' then 960 case when d.group_name_en = 'B' then 480 case when d.group_name_en = 'C' then 360 case when d.group_name_en = 'D' then 240 end as premiumRate");
+		hql.append(" select count (a.sevaarth_id),d.group_name_en,'composite_amount',"+sumComponentClause+" ");
+		hql.append(" ,(CASE  WHEN d.group_name_en = 'BnGz' THEN 160 WHEN d.group_name_en = 'A' THEN 320 WHEN d.group_name_en = 'B' THEN 160 WHEN d.group_name_en = 'C' THEN 120 WHEN d.group_name_en = 'D' THEN 80  ELSE 0 END) AS premium_amount");
+		hql.append(" from EMPLOYEE_MST a inner join  ");
 		hql.append(" PAYBILL_GENERATION_TRN_DETAILS b on a.sevaarth_id= b.sevaarth_id ");
 		hql.append(" inner join PAYBILL_GENERATION_TRN c on b.paybill_generation_trn_id= c.paybill_generation_trn_id ");
 		hql.append(" inner join cadre_group_mst d on d.id = a.emp_class where  c.is_active <> 8 and  ");

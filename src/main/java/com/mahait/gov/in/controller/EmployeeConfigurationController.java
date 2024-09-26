@@ -124,75 +124,17 @@ public class EmployeeConfigurationController extends BaseController {
 
 		List<OrgDdoMst> lstDDO = dDOScreenService.findDDOByUsername(messages.getUserName());
 
-		// model.addAttribute("lstDeptDataTable",
-		// mstDepartmentService.findAllDepartment());
-		// .filter(p -> p.getIsActive() == '1')
-		// //.filter(p ->p.getDepartmentCode()==lstDDO.get(0).getDepartmentCode())
-		// .collect(Collectors.toList()));
-
-		// model.addAttribute("lstSubDepartment",
-		// mstSubCorporationService.findAllSubCorporation());
 
 		List<DDOScreenModel> lstDepartment = mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(), locId);
-		/*
-		 * List<DDOScreenModel> lstDepartment =
-		 * mstEmployeeService.findDDOScreenDataTable(locale.getLanguage(),
-		 * messages.getUserName().toString()); >>>>>>>
-		 * 8d4a41d2e57608761a9df84456d77e0c03f867a4 for (Iterator iterator =
-		 * lstDepartment.iterator(); iterator.hasNext();) { DDOScreenModel
-		 * ddoScreenModel = (DDOScreenModel) iterator.next(); //
-		 * mstEmployeeModel.setParentAdminDepartmentId(BigInteger.valueOf(ddoScreenModel
-		 * .getDepartmentId()));
-		 * mstEmployeeModel.setParentFieldDepartmentId(BigInteger.valueOf(ddoScreenModel
-		 * .getSubDepartmentId()));
-		 * 
-		 * <<<<<<< HEAD } // List<Object[]> lstInstitueDtls =
-		 * mstEmployeeService.getInstitueDtls(messages.getUserName()); // if
-		 * (!lstInstitueDtls.isEmpty()) { // for (Object[] objLst : lstInstitueDtls) {
-		 * // mstEmployeeModel.setInstName(objLst[0].toString()); //
-		 * mstEmployeeModel.setInsttelnoone(objLst[1].toString()); //
-		 * mstEmployeeModel.setInsttelnotwo(objLst[2].toString()); //
-		 * mstEmployeeModel.setInstemail(objLst[3].toString()); // } // } // ======= }
-		 */
-		/*
-		 * List<Object[]> lstInstitueDtls =
-		 * mstEmployeeService.getInstitueDtls(messages.getUserName()); if
-		 * (!lstInstitueDtls.isEmpty()) { for (Object[] objLst : lstInstitueDtls) {
-		 * mstEmployeeModel.setInstName(objLst[0].toString());
-		 * mstEmployeeModel.setInsttelnoone(objLst[1].toString());
-		 * mstEmployeeModel.setInsttelnotwo(objLst[2].toString());
-		 * mstEmployeeModel.setInstemail(objLst[3].toString()); } }
-		 */
-
-		// model.addAttribute("parentAdminDepartmentId",
-		// lstDDO.get(0).getDepartmentCode());
-		// model.addAttribute("parentFieldDepartmentId",
-		// lstDDO.get(0).getSubDepartmentCode());
-		//
-		// mstEmployeeModel.setParentAdminDepartmentId(BigInteger.valueOf(lstDDO.get(0).getDepartmentCode()));
-		// mstEmployeeModel.setParentFieldDepartmentId((BigInteger.valueOf(lstDDO.get(0).getSubDepartmentCode())));
-		//
 
 		List<Object[]> districtListAgainstStateId = locationMasterService.findAllDistricts(15);
 		model.addAttribute("districtListAgainstStateId", districtListAgainstStateId);
 		mstEmployeeModel.setStateCode(15l); // Default state maharashtra
 		model.addAttribute("mstEmployeeModel", mstEmployeeModel);
-		// List<TopicModel> menuList = new ArrayList<>();
-		// List<TopicModel> subMenuList = new ArrayList<>();
-
-		// menuList =
-		// commonHomeMethodsService.findMenuNameByRoleID(messages.getRole_id(),
-		// locale.getLanguage());
-		// subMenuList =
-		// commonHomeMethodsService.findSubMenuByRoleID(messages.getRole_id(),
-		// locale.getLanguage());
 
 		List<ReligionMstEntity> mstReligionLst = new ArrayList<>();
 		mstReligionLst = commonHomeMethodsService.fetchAllReligions();
 		model.addAttribute("mstReligionLst", mstReligionLst);
-		//
-		// model.addAttribute("menuList", menuList);
-		// model.addAttribute("subMenuList", subMenuList);
 
 		List<CmnLookupMst> lookupLst = new ArrayList<>();
 		lookupLst = commonHomeMethodsService
@@ -222,23 +164,10 @@ public class EmployeeConfigurationController extends BaseController {
 			}
 		}
 
-		// List<MstCommonEntity> cityClassList = new ArrayList<>();
-		// cityClassList =
-		// commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
-		// model.addAttribute("cityClassList", cityClassList);
-
-		// List<MstCommonEntity> cityClassList = new ArrayList<>();
-		// //cityClassList =
-		// commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
-		// model.addAttribute("cityClassList", cityClassList);
-		//
 
 		model.addAttribute("lstAdminOfficeMst", lstDepartment);
 
-		// findDDOScreenDataTable(locale.getLanguage()),messages.getUserName());
 		model.addAttribute("lstCadreMst", mstEmployeeService.getCadreMstData(locale.getLanguage(), locId));
-		/// .addAttribute("lstCadreMst",
-		/// mstEmployeeService.getCadreMstData(locale.getLanguage()));
 		model.addAttribute("language", locale.getLanguage());
 
 		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
@@ -252,17 +181,11 @@ public class EmployeeConfigurationController extends BaseController {
 				.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_DCPSACCMAINTAINEDBY);
 		model.addAttribute("lstDcpsAccnMaintainby", lstDcpccnMaintainby);
 
-		// model.addAttribute("lstDcpsAccnMaintainby",
-		// mstEmployeeService.getDcpsAccnMaintainby()); COMMONCODE_GPFACCMAINTAINEDBY
 
 		List<CmnLookupMst> lstAccnMaintainby = new ArrayList<>();
 		lstAccnMaintainby = commonHomeMethodsService
 				.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.COMMONCODE_GPFACCMAINTAINEDBY);
 		model.addAttribute("lstAccountMaintainby", lstAccnMaintainby);
-		// model.addAttribute("lstAccountMaintainby",
-		// mstEmployeeService.getAccountMaintainby());
-		// model.addAttribute("lstCurntDepartment",
-		// mstDepartmentService.findMstDeptByDeptId(15));
 		model.addAttribute("lstCurntDepartment", lstDepartment);
 
 		List<CmnLookupMst> lstgisapplicable = new ArrayList<>();
