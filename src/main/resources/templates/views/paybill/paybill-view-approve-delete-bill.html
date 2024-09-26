@@ -199,8 +199,8 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 							<span
 								th:if="${varBillGrp.isActive} == 5 OR ${varBillGrp.isActive} == 6 OR ${varBillGrp.isActive}==7 OR ${varBillGrp.isActive}==8 OR ${varBillGrp.isActive}==9 OR ${varBillGrp.isActive}==10
 								OR ${varBillGrp.isActive}==11 OR ${varBillGrp.isActive}==12  OR ${varBillGrp.isActive}==13 OR ${varBillGrp.isActive}==14 OR ${varBillGrp.isActive}==15">
-								<td><a
-									th:onclick="|showinnerreport(${varBillGrp.paybillGenerationTrnId},this)|"  th:data-bill-number=${varBillGrp.paybillGenerationTrnId}
+								<td><a class="showinneRreport"
+									th:data-bill-number=${varBillGrp.paybillGenerationTrnId}
 									th:text=${varBillGrp.paybillGenerationTrnId}></a></td>
 							</span>
 

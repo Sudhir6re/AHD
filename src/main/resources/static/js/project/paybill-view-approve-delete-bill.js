@@ -1001,7 +1001,7 @@ $(".showinneRreport").click(function(){
 	var billnm = billNumber;
 	var ddoCode = "1";
 	
-	   billNumber = $(this).data('bill-number');     //$(this).attr('bill-number'); 
+	 var   billNumber = $(this).data('bill-number');     //$(this).attr('bill-number'); 
 
 	$("#loaderMainNew").show();
 
