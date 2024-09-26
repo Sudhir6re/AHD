@@ -997,7 +997,9 @@ $("#btnUpdate")
 		});
 
 
-$(".showinneRreport").click(function(){
+	
+	
+$(document).on('click','.showinneRreport', function(event){	
 	var billnm = billNumber;
 	var ddoCode = "1";
 	
