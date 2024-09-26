@@ -719,7 +719,7 @@ $("#btnSearch")
                                                        var   change1;
                                                        var inner5;
                                                        var RTGS;
-                                                         change1="<a class='paybillGenerationTrnId'>"+paybillGenerationTrnId+"</a>"; 
+                                                         change1="<a   data-bill-number='"+paybillGenerationTrnId+"'  class='paybillGenerationTrnId'>"+paybillGenerationTrnId+"</a>"; 
                                                                   
                                        inner5="<a  class='showinneRreport' >"+paybillGenerationTrnId+"</a></td>";
                                        
