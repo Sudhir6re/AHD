@@ -656,3 +656,13 @@ $(document).ready(function() {
     	        });
     	 });
 
+/*
+$(document).ready(function(){ 
+	$('select').select2();
+    	        // Check if the <select> element has the 'readonly' class
+    	        if ($select.length) {
+    	            // Find the nearest .select2-selection__rendered element and
+					// add the 'readonly' class
+    	            $(this).find('.select2-selection__rendered').addClass('readonly');
+    	        }
+    	    });*/

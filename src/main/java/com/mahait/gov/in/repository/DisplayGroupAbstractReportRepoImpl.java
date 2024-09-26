@@ -63,6 +63,7 @@ public class DisplayGroupAbstractReportRepoImpl implements DisplayGroupAbstractR
 		int totalded=0;
 		if (!lstprop.isEmpty()) {
             for (Double objLst : lstprop) {
+            	if(objLst!=null)
             	totalded=(int)objLst.intValue();
             }
 		}

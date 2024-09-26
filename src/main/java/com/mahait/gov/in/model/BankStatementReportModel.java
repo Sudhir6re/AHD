@@ -13,5 +13,7 @@ public class BankStatementReportModel {
 	String monname;
 	Double Totalamt;
 	Double netamt;
-	
+	private Integer yearId;
+	private Integer monthId;
+	private Long billGroup;
 }

@@ -16,6 +16,9 @@ public class AquittanceRollReportModel {
 	Double recDept ;
 	Double creditSoc ;
 	Double misc ;
+	private Integer yearId;
+	private Integer monthId;
+	private Long billGroup;
 	
 	
 	

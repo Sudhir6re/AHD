@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pageheading.groupWisseAbstarct}"></title>
+<title th:utext="#{menu.mapping.aqureport}"></title>
 </head>
 <body class="group-wise-abstract">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
@@ -15,24 +15,25 @@
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.reportBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pageheading.groupWisseAbstarct}"></span></li>
+						th:utext="#{menu.mapping.aqureport}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<div class="formMainwithNoborTb container">
 			<div class="text-center">
 				<h3 Class="PageHeading">
-					<span th:utext="#{msg.thymeleaf.pageheading.groupWisseAbstarct}"></span>
+					<span th:utext="#{menu.mapping.aqureport}"></span>
 				</h3>
 			</div>
 			<br />
-			<form method="POST" action="" name="ReportForm"  th:object="${regularReportModel}"
+			<form method="POST" action="" name="ReportForm"  th:object="${aquittanceRollReportModel}"   th:action="@{/ddoast/aquittanceRollReport}" 
 				enctype="multipart/form-data">
 				<div id="tcontent1">
 						<div id="tcontent1">
 						
 						
 						 <input type="hidden" name="context" id="context" th:value="${context}" />
+						 <input type="hidden" name="billno" id="billno"/>
 					<table class="table bor-0">
 						<tbody>
 							<tr>
@@ -40,7 +41,6 @@
 										class="mandatoryindicator">*</label></b></td>
 								<td width="30%"><select class="selecttag" name="Department"
 									id="Department">
-										<option value="-1">---------Select---------</option>
 										<option value="4000839">MAHARASHTRA
 											UNIVERSITY,THANE,NORTH MAHARASHTRA UNIVERSITY</option>
 								</select></td>
@@ -62,7 +62,7 @@
 								color="red" size="4px;">*</font></b></label>
 							</td>
 							<td width="30%"><select name="billGroup"
-								th:field="*{billGroup}" id="billno"
+								th:field="*{billGroup}" id="billGroup"
 								class="form-control removeErrorFromDropdown">
 									<option selected="selected" th:value="0"
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -90,8 +90,17 @@
 								<td colspan="2" class="TableBorderTN"
 									style="padding: 5px; text-align: right">
 								 <input
-								type="button" name="btngroupAbstractreport" id="btngroupAbstractreport"
-								value="Generate Report" class="btn"><input
+								type="button" name="aquittReport" id="aquittReport"
+								value="Generate Report" class="btn">
+								
+									 <input
+								type="hidden" name="aquittReport" id="btnaquittancerollreport"
+								value="Generate Report" class="btn">
+								
+								
+								
+								
+								<input
 									type="reset" name="ResetParams" id="rptBtn_ResetBtn"
 									value="Reset" class="btn"> <input type="button"
 									name="btnBackAgain" id="btnBackAgain" onclick="history.back()"
@@ -108,6 +117,6 @@
 		</div>
 	</div>
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-	<script th:src="@{/js/project/outerreport.js}"></script>
+		<script th:src="@{/js/project/outerreport.js}"></script>
 </body>
 </html>
