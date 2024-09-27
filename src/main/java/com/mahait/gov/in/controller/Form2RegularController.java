@@ -55,20 +55,6 @@ public class Form2RegularController  extends BaseController{
 		addMenuAndSubMenu(model,messages);
 		return "/views/form2-report";
 	}
-	/*@RequestMapping(value = "/form2Regular", method = { RequestMethod.GET , RequestMethod.POST})
-	public String form2Regular(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
-			Model model, Locale locale, HttpSession session) {
-		
-		String message = (String) model.asMap().get("message");
-		
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
-		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
-		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
-		addMenuAndSubMenu(model,messages);
-		return "/views/form2-regular";
-	}
-	*/
 	@RequestMapping("/form2RegularReport")
 	public String form2RegularReport(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel, Model model, Locale locale,
 			HttpSession session) {

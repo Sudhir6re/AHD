@@ -1,5 +1,8 @@
 package com.mahait.gov.in.controller;
 
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.RegularReportModel;
 import com.mahait.gov.in.service.GPFAbstractReportService;
+import com.mahait.gov.in.service.PaybillGenerationTrnService;
 import com.mahait.gov.in.service.RegularReportService;
 
 @RequestMapping("/ddoast")
@@ -26,6 +30,9 @@ public class GPFAbstractReportController  extends BaseController {
 	
 	@Autowired
 	GPFAbstractReportService gpfAbstractReportService;
+	
+	@Autowired
+	PaybillGenerationTrnService paybillGenerationTrnService;
 	
 	@GetMapping("/gpfAbstract")
 	public String gpfAbstract(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
@@ -39,18 +46,55 @@ public class GPFAbstractReportController  extends BaseController {
 		
 		return "/views/reports/gpf-abstract";
 	}
-	@GetMapping("/gpfAbstractReport")
+	@RequestMapping("/gpfAbstractReport")
 	public String gpfAbstractReport(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
 			Model model, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model,messages);
 		
-		
-		
-		
 		List<RegularReportModel> gpfRptDtls = gpfAbstractReportService.findgpfRptDtls(regularReportModel.getMonthId(),regularReportModel.getYearId(),regularReportModel.getBillGroup());
 		
+		String monname = "";
+		String curryear = "";
+		String currFinancialYr = null;
+		List<Object[]> monthinfo = paybillGenerationTrnService
+				.findmonthinfo(BigInteger.valueOf(regularReportModel.getMonthId()));
+		for (Object[] monthLst : monthinfo) {
+			monname = monthLst[4].toString();
+
+		}
+
+		List<Object[]> yearinfo = commonHomeMethodsService
+				.findyearinfo(BigInteger.valueOf(regularReportModel.getYearId()));
+		for (Object[] yearLst : yearinfo) {
+			curryear = yearLst[4].toString();
+			currFinancialYr = yearLst[3].toString();
+
+		}
+
+		String officename = commonHomeMethodsService.getOffice(messages.getDdoCode());
+
+		BigInteger trsyCode = null;
+		String trsyName = null;
+
+		List<Object[]> treasuryDtls = regularReportService.findTrsyDtls(messages.getDdoCode());
+
+		for (Object[] objects : treasuryDtls) {
+
+			trsyCode = (BigInteger) objects[0];
+			trsyName = (String) objects[1];
+
+		}
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		
 		model.addAttribute("gpfRptDtls",gpfRptDtls);
+		model.addAttribute("currmonyer", monname + " " + curryear);
+		model.addAttribute("officename", officename + " (" + messages.getDdoCode() + " )");
+		model.addAttribute("treasury", trsyName + " (" + trsyCode + " )");
+		model.addAttribute("sysDate", sdf.format(new Date()));
+		model.addAttribute("date", sdf1.format(new Date()));
 		
 		return "/views/reports/gpf-abstract-report";
 	}

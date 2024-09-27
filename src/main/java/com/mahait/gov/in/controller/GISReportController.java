@@ -35,6 +35,17 @@ public class GISReportController extends BaseController {
 	@Autowired
 	PaybillGenerationTrnService paybillGenerationTrnService;
 
+	@GetMapping("/gis")
+	public String gis(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel, Model model,
+			Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model, messages);
+
+		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
+		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
+		return "/views/reports/gis-search";
+	}
 	@RequestMapping("/gisReport")
 	public String gisReport(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel, Model model,
 			Locale locale, HttpSession session) {
@@ -109,15 +120,5 @@ public class GISReportController extends BaseController {
 		return "/views/reports/gis-report";
 	}
 
-	@GetMapping("/gis")
-	public String gis(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel, Model model,
-			Locale locale, HttpSession session) {
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		addMenuAndSubMenu(model, messages);
-
-		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
-		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
-		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
-		return "/views/reports/gis-search";
-	}
+	
 }

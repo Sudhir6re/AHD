@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +28,14 @@ public class GPFAbstractReportServiceImpl implements GPFAbstractReportService{
 		for (Object[] objects : lst) {
 			RegularReportModel obj = new RegularReportModel();
 			obj.setPfSeries(StringHelperUtils.isNullString(objects[0]));
-			obj.setDp(StringHelperUtils.isNullDouble(objects[1]));
-			obj.setSubsAmt(StringHelperUtils.isNullDouble(objects[2]));
-			obj.setPayDaArrMrg(StringHelperUtils.isNullDouble(objects[3]));
-			obj.setRefundAmt(StringHelperUtils.isNullDouble(objects[4]));
+			obj.setCountGPFEmp(StringHelperUtils.isNullBigInteger(objects[1]));
+			obj.setDp(StringHelperUtils.isNullDouble(objects[2]));
+			obj.setSubsAmt(StringHelperUtils.isNullDouble(objects[3]));
+			obj.setPayDaArrMrg(StringHelperUtils.isNullDouble(objects[4]));
+			Integer daArr= (Integer) objects[5];
+			obj.setDaArr(daArr.doubleValue());
+			obj.setRefundAmt(StringHelperUtils.isNullDouble(objects[6]));
+			obj.setTotalAmt(StringHelperUtils.isNullDouble(objects[7]));
 			
 			lstObj.add(obj);
 			

@@ -68,5 +68,7 @@ public class RegularReportModel {
 	private Double subsAmt;
 	private Double payDaArrMrg;
 	private Double refundAmt;
-	
+	private BigInteger countGPFEmp;
+	private Double totalAmt;
+	private Double daArr;
 }
