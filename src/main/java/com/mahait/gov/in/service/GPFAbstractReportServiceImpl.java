@@ -32,8 +32,10 @@ public class GPFAbstractReportServiceImpl implements GPFAbstractReportService{
 			obj.setDp(StringHelperUtils.isNullDouble(objects[2]));
 			obj.setSubsAmt(StringHelperUtils.isNullDouble(objects[3]));
 			obj.setPayDaArrMrg(StringHelperUtils.isNullDouble(objects[4]));
-			Integer refund = (Integer) objects[5];
-			obj.setRefundAmt(refund.doubleValue());
+			Integer daArr= (Integer) objects[5];
+			obj.setDaArr(daArr.doubleValue());
+			obj.setRefundAmt(StringHelperUtils.isNullDouble(objects[6]));
+			obj.setTotalAmt(StringHelperUtils.isNullDouble(objects[7]));
 			
 			lstObj.add(obj);
 			
