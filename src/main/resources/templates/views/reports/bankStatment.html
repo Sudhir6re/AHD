@@ -33,6 +33,7 @@
 						
 						
 						 <input type="hidden" name="context" id="context" th:value="${context}" />
+						  <input type="hidden" name="billno" id="billno"/>
 						 
 					<table class="table bor-0">
 						<tbody>
@@ -48,7 +49,7 @@
 							th:utext="#{msg.thymeleaf.pagelabel.month}"></span>&nbsp;&nbsp;<b><font
 								color="red" size="4px;">*</font></b></label></td>
 							<td width="30%"><select name="monthId" th:field="*{monthId}"
-								id="monthId" class="form-control removeErrorFromDropdown">
+								id="monthName" class="form-control removeErrorFromDropdown">
 									<option selected="selected" th:value="0"
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 									<option th:each="varGetAllMonths : ${lstMonths}"
@@ -73,7 +74,7 @@
 								<td><label class="control-label" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.Year}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label></td>
-							<td><select name="yearId" th:field="*{yearId}" id="yearId"
+							<td><select name="yearId" th:field="*{yearId}" id="yearName"
 								class="form-control removeErrorFromDropdown">
 									<option selected="selected" th:value="0"
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -90,8 +91,14 @@
 								<td colspan="2" class="TableBorderTN"
 									style="padding: 5px; text-align: right">
 								 <input
-								type="submit" name="generateReport" id=""generateReport""
-								value="Generate Report" class="btn"><input
+								type="button" name="bankStatReport" id="bankStatReport"
+								value="Generate Report" class="btn">
+								
+								 <input
+								type="hidden" name="bankStatReport" id="btnbankstatementreport"
+								value="Generate Report" class="btn">
+								
+								<input
 									type="reset" name="ResetParams" id="rptBtn_ResetBtn"
 									value="Reset" class="btn"> <input type="button"
 									name="btnBackAgain" id="btnBackAgain" onclick="history.back()"
@@ -108,5 +115,6 @@
 		</div>
 	</div>
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
+<script th:src="@{/js/project/outerreport.js}"></script>
 </body>
 </html>

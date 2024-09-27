@@ -39,9 +39,9 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="font-weight: bold;">For the Month of July 2024</td>
+								<td style="font-weight: bold;">For the Month of <span th:text="${currmonyer}"></span></td>
 								<td style="font-weight: bold; text-align: right;">Treasury
-									: DEMO LVL2(2222)</td>
+									: <span th:text="${treasury}"></span></td>
 							</tr>
 							<tr>
 								<td style="font-weight: bold;">AG Office : A. G. Mumbai</td>
@@ -49,8 +49,7 @@
 							</tr>
 							<tr>
 								<td style="font-weight: bold;">Name of the Office :
-									MAHARASHTRA UNIVERSITY,THANE,NORTH MAHARASHTRA
-									UNIVERSITY(20541200001)</td>
+									<span th:text = "${officename}"></span></td>
 								<td style="font-weight: bold; text-align: right;"></td>
 							</tr>
 						</tbody>
@@ -77,14 +76,13 @@
 
 							<tr th:each="varDtls : ${gpfRptDtls}">
 								<td class="text-center" th:text="${varDtlsStat.index+1}"></td>
-								<td class="text-center" th:text="${varDtls.name}"></td>
 								<td class="text-center" th:text="${varDtls.pfSeries}"></td>
-								<td class="text-center" th:text="${varDtls.grossAmount}"></td>
-								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
-								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
-								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
-								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
-								<td class="text-center" th:text="${varDtls.professionalTax}"></td>
+								<td class="text-center" th:text="${varDtls.countGPFEmp}"></td>
+								<td class="text-center" th:text="${varDtls.dp}"></td>
+								<td class="text-center" th:text="${varDtls.subsAmt}"></td>
+								<td class="text-center" th:text="${varDtls.payDaArrMrg}"></td>
+								<td class="text-center" th:text="${varDtls.refundAmt}"></td>
+								<td class="text-center" th:text="${varDtls.refundAmt}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -108,7 +106,7 @@
 							</tr>
 							<tr>
 								<td colspan="2" style="font-weight: bolder;">Dated
-									:23/7/2024</td>
+									: <span th:text="${date}"></span></td>
 							</tr>
 							<tr>
 								<td colspan="2" style="font-weight: bolder;"><br></td>
@@ -157,7 +155,7 @@
 							</tr>
 							<tr>
 								<td colspan="2" style="font-weight: bolder;">Dated
-									:23/7/2024</td>
+									: <span th:text="${date}"></span></td>
 							</tr>
 							<tr>
 								<td colspan="2" style="font-weight: bolder; text-align: Center;">
@@ -190,7 +188,7 @@
 							</tr>
 							<tr>
 								<td colspan="2" style="font-weight: bolder;">VERIFICATION
-									TIME :23-07-2024 16:11:08.718</td>
+									TIME : <span th:text = "${sysDate}"></span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -199,7 +197,7 @@
 						<tbody>
 							<tr>
 								<td valign="middle" style="font-weight: bold;"><br /> <b>Verification
-										Time:-</b>19-07-2024 11:55:29.372<br /> <span>* Generated
+										Time:-</b><span th:text = "${sysDate}"></span><br /> <span>* Generated
 										By <span th:text="#{msg.thymeleaf.pagelabel.hteCustSevaarth}"></span>
 								</span></td>
 							</tr>

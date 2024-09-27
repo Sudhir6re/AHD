@@ -33,6 +33,7 @@
 						
 						
 						 <input type="hidden" name="context" id="context" th:value="${context}" />
+						   <input type="hidden" name="billno" id="billno"/>
 					<table class="table bor-0">
 						<tbody>
 							<tr>
@@ -47,7 +48,7 @@
 										<td width="20%"><label class="control-label monthhide" for="title"><span
 							th:utext="#{msg.thymeleaf.pagelabel.month}"></span>&nbsp;&nbsp;<b><font
 								color="red" size="4px;">*</font></b></label></td>
-							<td width="30%"><select name="monthId" th:field="*{monthId}"
+							<td width="30%"><select name="monthName" th:field="*{monthId}"
 								id="monthName" class="form-control removeErrorFromDropdown">
 									<option selected="selected" th:value="0"
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -62,7 +63,7 @@
 								color="red" size="4px;">*</font></b></label>
 							</td>
 							<td width="30%"><select name="billGroup"
-								th:field="*{billGroup}" id="billno"
+								th:field="*{billGroup}" id="billGroup"
 								class="form-control removeErrorFromDropdown">
 									<option selected="selected" th:value="0"
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -90,8 +91,15 @@
 								<td colspan="2" class="TableBorderTN"
 									style="padding: 5px; text-align: right">
 								 <input
-								type="button" name="btngroupAbstractreport" id="btngroupAbstractreport"
-								value="Generate Report" class="btn"><input
+								type="button" name="groupAbstractreport" id="groupAbstractreport"
+								value="Generate Report" class="btn">
+								
+								 <input
+								type="hidden" name="groupAbstractreport" id="btngroupAbstractreport"
+								value="Generate Report" class="btn">
+								
+								
+								<input
 									type="reset" name="ResetParams" id="rptBtn_ResetBtn"
 									value="Reset" class="btn"> <input type="button"
 									name="btnBackAgain" id="btnBackAgain" onclick="history.back()"
