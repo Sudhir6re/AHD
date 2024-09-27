@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,6 @@ import com.mahait.gov.in.entity.MstGpfDetailsEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.OrgPostDetailsRlt;
-import com.mahait.gov.in.entity.OrgPostMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.QualificationEntity;
 import com.mahait.gov.in.model.MstEmployeeModel;
@@ -1249,20 +1249,18 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
-		
-		
-		List<MstEmployeeEntity> employees = currentSession.createQuery(
-		            "FROM MstEmployeeEntity e WHERE e.employeeId IN (:employeeIds) AND e.ddoCode = :ddoCode", MstEmployeeEntity.class)
-		            .setParameterList("employeeIds", employeeIds)
-		            .setParameter("ddoCode", orgUserMst.getDdoCode())
-		            .getResultList();
-		if(employees.size()>0) {
-			for(MstEmployeeEntity mstEmployeeEntity:employees) {
+
+		List<MstEmployeeEntity> employees = currentSession
+				.createQuery("FROM MstEmployeeEntity e WHERE e.employeeId IN (:employeeIds) AND e.ddoCode = :ddoCode",
+						MstEmployeeEntity.class)
+				.setParameterList("employeeIds", employeeIds).setParameter("ddoCode", orgUserMst.getDdoCode())
+				.getResultList();
+		if (employees.size() > 0) {
+			for (MstEmployeeEntity mstEmployeeEntity : employees) {
 				deleteFileIfExists(mstEmployeeEntity.getPhotoAttachmentId());
 				deleteFileIfExists(mstEmployeeEntity.getSignatureAttachmentId());
 			}
 		}
-		
 
 		Query deleteEmployeesQuery = currentSession.createQuery(
 				"DELETE FROM MstEmployeeEntity e WHERE e.employeeId IN (:employeeIds) AND e.ddoCode = :ddoCode");
@@ -1287,16 +1285,32 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	}
 
 	private void deleteFileIfExists(String filePath) {
-	    if (filePath != null && !filePath.isEmpty()) {
-	        File file = new File(filePath);
-	        if (file.exists()) {
-	            boolean deleted = file.delete();
-	            if (deleted) {
-	                System.out.println("Deleted file: " + filePath);
-	            } else {
-	                System.err.println("Failed to delete file: " + filePath);
-	            }
-	        }
-	    }
-}
+		if (filePath != null && !filePath.isEmpty()) {
+			File file = new File(filePath);
+			if (file.exists()) {
+				boolean deleted = file.delete();
+				if (deleted) {
+					System.out.println("Deleted file: " + filePath);
+				} else {
+					System.err.println("Failed to delete file: " + filePath);
+				}
+			}
+		}
+	}
+
+	@Override
+	public List<Long> rejectEmployeeConfiguration(String empid) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query updateRelatedQuery = currentSession
+				.createQuery("UPDATE MstEmployeeEntity SET isActive = :activeStatus WHERE employeeId = :employeeId");
+		updateRelatedQuery.setParameter("activeStatus", -1L);
+		updateRelatedQuery.setParameter("employeeId", Long.valueOf(empid));
+
+		int resultCount = updateRelatedQuery.executeUpdate();
+		if (resultCount > 0) {
+			return Collections.singletonList(Long.valueOf(empid));
+		} else {
+			return Collections.emptyList();
+		}
+	}
 }

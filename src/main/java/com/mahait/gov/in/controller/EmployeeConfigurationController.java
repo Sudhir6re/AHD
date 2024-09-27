@@ -1348,4 +1348,12 @@ public class EmployeeConfigurationController extends BaseController {
 		return ResponseEntity.ok(isDeleted);
 	}
 
+	@RequestMapping("/rejectEmpDtls/{empid}")
+	public @ResponseBody List<Long> rejectEmployeeConfiguration(@PathVariable String empid, Model model,
+			Locale locale) {
+		List<Long> status = mstEmployeeService.rejectEmployeeConfiguration(empid);
+		return status;
+	}
+	
+
 }

@@ -54,6 +54,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		String ddoCode = null;
 		Double svnDA = 0d;
 		Double da = 0d;
+		Integer dcps = 0;
 		Double cla = 0d;
 		Double SevenPcBasic = 0d;
 		Double sixPcBasic = 0d;
@@ -187,6 +188,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			dedByOthr = 0d;
 			dedByTreasury = 0d;
 			netAmount = 0d;
+			
+			dcps=0;
 
 			/*if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				percentage = percentageRate[0];
@@ -404,7 +407,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					Double svnPcBasic = 0d;
 
-					if (allowDeducCode == 37) {
+					if (allowDeducCode == 139) {
 						System.out.println("------");
 					}
 
@@ -499,8 +502,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						// varying
 						ta = paybillHeadMpgRepo.fetchtaDtls(basic, payCommission, allowDeducCode, gradelevel, cityClass,
 								mstEmployeeEntity2.getPhysicallyHandicapped());
-						paybillGenerationTrnDetails.setTaa(ta);
-						ta = paybillGenerationTrnDetails.getTaa();
+						paybillGenerationTrnDetails.setTransAll(ta);
+						ta = paybillGenerationTrnDetails.getTransAll();
 						grossAmount += ta;
 					}
 					/* HRA component */
@@ -582,6 +585,16 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 						dedByTreasury += npsEmprContri;
 					}
+					
+					else if (str
+							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS)) {
+						
+							dcps =  (int) (Math.round((basic + svnDA + DaArr) * 10
+									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						paybillGenerationTrnDetails.setDcps(dcps);
+
+						dedByTreasury += dcps;
+					}
 
 					// End GIS Component
 					if (methodName != null) {
@@ -618,10 +631,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
 									fieldName.setAccessible(true);
 									try {
-
-										/// fieldName.getType();
-
-										fieldName.set(paybillGenerationTrnDetails, temp == null ? 0 : temp);
+										Class<?> fieldType = fieldName.getType();
+										 if (fieldType.equals(Double.class)) {
+											 fieldName.set(paybillGenerationTrnDetails, temp == null ? 0 : temp);
+										 }else {
+											 fieldName.set(paybillGenerationTrnDetails, temp == null ? 0 : temp.intValue());
+										 }
+										
 									} catch (IllegalArgumentException e) {
 										System.out.println("fieldName" + fieldName);
 										e.printStackTrace();
@@ -674,7 +690,13 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 										fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
 										fieldName.setAccessible(true);
 										try {
-											fieldName.set(paybillGenerationTrnDetails, tempVal == null ? 0 : tempVal);
+											Class<?> fieldType = fieldName.getType();
+											 if (fieldType.equals(Double.class)) {
+												 fieldName.set(paybillGenerationTrnDetails, tempVal == null ? 0 : tempVal);
+											 }else {
+												 fieldName.set(paybillGenerationTrnDetails, tempVal == null ? 0 : tempVal.intValue());
+											 }
+											 
 										} catch (IllegalArgumentException e) {
 											System.out.println("fieldName" + fieldName);
 											e.printStackTrace();
@@ -716,7 +738,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 										fieldName = paybillGenerationTrnDetails.getClass().getDeclaredField(methodName);
 										fieldName.setAccessible(true);
 										try {
-											fieldName.set(paybillGenerationTrnDetails, tempVal == null ? 0 : tempVal);
+											Class<?> fieldType = fieldName.getType();
+											 if (fieldType.equals(Double.class)) {
+												 fieldName.set(paybillGenerationTrnDetails, tempVal == null ? 0 : tempVal);
+											 }else {
+												 fieldName.set(paybillGenerationTrnDetails, tempVal == null ? 0 : tempVal.intValue());
+											 }
 										} catch (IllegalArgumentException e) {
 											System.out.println("fieldName" + fieldName);
 											e.printStackTrace();

@@ -1,7 +1,5 @@
 package com.mahait.gov.in.repository;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +15,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.CommonConstants;
-import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
@@ -60,7 +57,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	}
 
 	@Override
-	public List<DcpContributionModel> getEmpListForContribution(DcpContributionModel dcpContributionModel,
+	public List<Object[]> getEmpListForContribution(DcpContributionModel dcpContributionModel,
 			OrgUserMst messages, String startDate) {
 		Session ghibSession = entityManager.unwrap(Session.class);
 		Integer roleId = messages.getMstRoleEntity().getRoleId(); // 2 DDO 3 DDOAST
@@ -118,7 +115,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 
 			SBQuery.append(" CO.startDate StartDate");
 			SBQuery.append(
-					",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED FROM employee_mst EM ");
+					",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED,Em.sevaarth_id FROM employee_mst EM ");
 
 			SBQuery.append(" LEFT OUTER JOIN TRN_DCPS_CONTRIBUTION CO ON EM.employee_id=CO.DCPS_EMP_ID AND CO.MONTH_ID="
 					+ monthId + "" + " AND CO.FIN_YEAR_ID=" + finYearId + " AND CO.DDO_CODE = '" + ddoCode + "'");
@@ -259,151 +256,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 			 * 
 			 * 
 			 */
-			List<DcpContributionModel> dcpContributionModelLst = new ArrayList<>();
-			for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) {
-				Object[] object = (Object[]) empList.get(lInt1);
-				DcpContributionModel dcpContributionModel1 = new DcpContributionModel();
-
-				dcpContributionModel1.setDcpEmpId(StringHelperUtils.isNullBigInteger(object[0]).longValue());
-				dcpContributionModel1.setDcpsNO(StringHelperUtils.isNullString(object[1]));
-				dcpContributionModel1.setEmployeeName(String.valueOf(object[2]));
-				dcpContributionModel1.setPayCommission(StringHelperUtils.isNullBigInteger(object[3]).longValue());
-				
-				
-				if(object[4] instanceof Double) {
-					dcpContributionModel1.setBasicPay(StringHelperUtils.isNullDouble(object[4]));
-				}else if(object[4] instanceof Integer){
-					dcpContributionModel1.setBasicPay(StringHelperUtils.isNullBigInteger(object[4]).doubleValue());
-				}
-				
-				BasicPay=dcpContributionModel1.getBasicPay();
-				
-				dcpContributionModel1.setDcpContributionId(StringHelperUtils.isNullBigInteger(object[5]).longValue());
-				dcpContributionModel1.setTypeOfPayment(StringHelperUtils.isNullString(object[6]));
-
-				
-				
-				
-				if (object[7] instanceof BigInteger) {
-					dcpContributionModel1.setMonthId(StringHelperUtils.isNullBigInteger(object[7]).intValue());
-				} else {
-					dcpContributionModel1.setMonthId(StringHelperUtils.isNullInt(object[7]));
-				}
-
-				if (object[8] instanceof BigInteger) {
-					dcpContributionModel1.setFinYearId(StringHelperUtils.isNullBigInteger(object[8]).intValue());
-				} else {
-					dcpContributionModel1.setFinYearId(StringHelperUtils.isNullInt(object[8]));
-				}
-
-				if (object[9] instanceof BigDecimal) {
-					dcpContributionModel1.setDaRate(StringHelperUtils.isNullBigDecimal(object[9]).intValue());
-				} else {
-					dcpContributionModel1.setDaRate(StringHelperUtils.isNullInt(object[9]));
-				}
-
-				dcpContributionModel1.setRegStatus(StringHelperUtils.isNullInt(object[10]));
-				dcpContributionModel1.setDoj(StringHelperUtils.isNullDate(object[11]));
-				dcpContributionModel1.setStartDate(StringHelperUtils.isNullDate(object[11]));
-				dcpContributionModel1.setEndDate(StringHelperUtils.isNullDate(object[12]));
-				
-				DP = 0D;
-				lStrDP = "";
-				if (null != object[13]) {
-					lStrDP = object[13].toString();
-				}
-				if (object[3].toString().equals("700015") || object[3].toString().equals("700345")) { // paycommision
-					if (null != lStrDP && !"".equals(lStrDP)) {
-						DP = Double.parseDouble(lStrDP);
-					} else {
-						DP = BasicPay / 2;
-					}
-				}
-
-				DARate = 0.01 * Double.parseDouble(object[9].toString());
-				lStrTypeOfPayment = object[6].toString();
-				DA = 0D;
-				employeeContribution = 0D;
-				emplrContribution = 0D;
-
-				lStrDA = "";
-
-				if (null != object[12]) {
-					lStrDA = object[12].toString(); // da aMOUNT
-				}
-
-				if (lStrTypeOfPayment.equals("700048")) {
-					if (object[12] != null) {
-						DA = Double.parseDouble(object[12].toString());
-					}
-					if (object[14] != null) {
-						employeeContribution = Double.parseDouble(object[14].toString());
-					}
-					if (object[17] != null) {
-						emplrContribution = Double.parseDouble(object[17].toString());
-					}
-				} else if (lStrTypeOfPayment.equals("700049")) {
-					DA = 0D;
-					if (object[14] != null) {
-						employeeContribution = Double.parseDouble(object[14].toString());
-					}
-					if (object[17] != null) {
-						emplrContribution = Double.parseDouble(object[17].toString());
-					}
-				} else {
-					if (null != lStrDA && !"".equals(lStrDA)) {
-						DA = Double.parseDouble(lStrDA);
-					} else {
-						DA = ((BasicPay + DP) * DARate);
-					}
-
-					if (null != object[14]) {
-						employeeContribution = Double.parseDouble(object[14].toString());
-					} else {
-						if (object[3].toString().equals("700015")) {
-							employeeContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA))
-									* 0.10;
-						} else {
-							employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
-						}
-					}
-
-					if (!object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
-						emplrContribution = Double.parseDouble(object[17].toString());
-					} else {
-						if ((finYearId <= 20 && monthId <= 3) || finYearId < 20) { // 2019(Old 32 if ((finYearId <= 32
-																					// && finYearId <= 3) || finYearId <
-																					// 32) )
-							if (object[3].toString().equals("700015")) {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA))
-										* 0.10;
-							} else {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
-							}
-						} else {
-							if (object[3].toString().equals("700015")) {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA))
-										* 0.14;
-							} else {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.14;
-							}
-
-						}
-					}
-				}
-				DA = (double) Math.round(DA);
-
-				employeeContribution = (double) Math.round(employeeContribution);
-
-				dcpContributionModel1.setDp(DP);
-				dcpContributionModel1.setDa(DA);
-				dcpContributionModel1.setEmprContribution(emplrContribution);
-				dcpContributionModel1.setContribution(employeeContribution);
-
-				dcpContributionModelLst.add(dcpContributionModel1);
-			}
-
-			return dcpContributionModelLst;
+		
+			
+			//calculation start here 
 
 			/*
 			 * for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) { Object[]

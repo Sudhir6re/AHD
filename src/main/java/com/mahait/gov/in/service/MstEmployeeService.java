@@ -131,6 +131,8 @@ public interface MstEmployeeService {
 
 	Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst);
 
+	List<Long> rejectEmployeeConfiguration(String empid);
+
 
 	// public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);
 

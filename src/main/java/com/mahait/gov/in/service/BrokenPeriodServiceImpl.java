@@ -303,6 +303,8 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 		Double ta5th = 0d;
 		Date fromDate = null;
 		Date toDate = null;
+		
+		Integer  dcps=0;
 
 		MstEmployeeModel mstEmployeeModel = new MstEmployeeModel();
 		List<String> lstResult = new ArrayList<String>();
@@ -738,6 +740,25 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				deducTyEdpList.add(brokenPeriodModel);
 				dedRuleList.add(brokenPeriodModel);
 			}
+			
+			
+			//
+			
+			else if (allEdpList.get(i).getDeptalldetNm()
+					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS)) {
+
+				BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				
+				dcps = (int) (Math.round(
+						(basic + svnDA ) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+				
+				brokenPeriodModel.setDeptalldetValue(String.valueOf(dcps));
+				deducTyEdpList.add(brokenPeriodModel);
+				dedRuleList.add(brokenPeriodModel);
+			}
+			
+			
+			
 
 			// Start GIS Component
 			else if (allEdpList.get(i).getDeptalldetNm()

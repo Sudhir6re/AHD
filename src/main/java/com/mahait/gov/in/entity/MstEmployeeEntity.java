@@ -555,6 +555,14 @@ public class MstEmployeeEntity {
 	
 	@Column(name = "MORE_QUALIFICATION")
 	private String morequalification;
+	
+	@Column(name = "is_dcps_generate")
+	private String isDcpsGenerate;
+	
+	
+	
+	
+	
 	}
 
 

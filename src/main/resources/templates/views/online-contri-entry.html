@@ -283,7 +283,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 								<tr
 									th:each="dcpContributionModelRow, itemStat : ${dcpContributionModel.lstDcpContributionModel}">
 									<td width="20%"
-										th:text="${dcpContributionModelRow.employeeName}"></td>
+										th:text="${dcpContributionModelRow.employeeName}"   ></td>
 									<td width="20%" th:text="${dcpContributionModelRow.dcpsNO}"><b>DCPS
 											ID</b></td>
 									<td width="20%"><input type="date"     th:id="${'startDate' + itemStat.index}"  
@@ -321,18 +321,38 @@ div#tblEmpDtlsBody\ table-responsive th {
 									</td>
 									
 									
-									<td width="20%"><input type="text"    th:id="${'basicPay' + itemStat.index}"  
+									<td width="20%">
+									
+									<input type="text"    th:id="${'basicPay' + itemStat.index}"  
 										class="basicPay"
-										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].basicPay}"></td>
+										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].basicPay}">
+										
+											
+										
+										
+										</td>
 								
 								<!-- 	<td width="20%"><input type="text" th:id="dp" class="dp"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dp}"></td> -->
 										
 										
 									<td width="20%">
-									<input type="text"   th:id="${'daRate' + itemStat.index}"  
+									<input type="hidden"   th:id="${'daRate' + itemStat.index}"  
+										class="daRate"
+										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].sevaarthId}">
+										
+										
+											<input type="hidden"   th:id="${'dcpEmpId' + itemStat.index}"  
+										class="daRate"
+										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpEmpId}">
+										
+										
+										
+											<input type="hidden"   th:id="${'daRate' + itemStat.index}"  
 										class="daRate"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].daRate}">
+										
+										
 										
 										
 											<input type="text"    th:id="${'da' + itemStat.index}" 
@@ -346,9 +366,20 @@ div#tblEmpDtlsBody\ table-responsive th {
 									<td width="20%"><input type="text"
 									class="emprContribution"   th:id="${'emprContribution' + itemStat.index}"  
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].emprContribution}"></td>
-									<td width="20%"><b class="addRow"   th:data="${itemStat.index}"   >Add Row</b></td>
-									<td width="20%"><b class="deleteRow"    th:data="${itemStat.index}">Delete Row</b></td>
-									<td width="20%" ><b   th:text="${dcpContributionModelRow.status}">Status </b></td>
+									<td width="20%"><b class="addRow"   th:data="${itemStat.index}"    th:data-dcpEmpId="${itemStat.dcpEmpId}"  th:data-sevaarthId="${itemStat.sevaarthId}"   >Add Row</b></td>
+									<td width="20%"><b class="deleteRow"    th:data="${itemStat.index}"   th:data-dcpEmpId="${itemStat.dcpEmpId}"  th:data-sevaarthId="${itemStat.sevaarthId}"  >Delete Row</b></td>
+									
+									<td width="20%" >
+									
+									   <span th:switch="${dcpContributionModelRow.status}">
+									    <span th:case='-1' th:class="'label label-danger text-center'"
+									          th:text="#{|msg.employeeConfiguration.isActive${varempdtls.isActive}|}"></span>
+									  
+									    <span  th:case = "*" th:class="'label label-warning text-center'"
+									         th:text="#{|msg.employeeConfiguration.isActive${varempdtls.isActive}|}"  ></span>
+							           </span>
+									
+									</td>
 								</tr>
 								<tr>
 									<td style="font-style: italic; color: red; padding-left: 1%"
