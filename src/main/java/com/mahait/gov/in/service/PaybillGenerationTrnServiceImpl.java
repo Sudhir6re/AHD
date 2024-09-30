@@ -490,7 +490,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								: mstEmployeeEntity2.getPercentageOfBasic();
 						Double ratio = (double) (percentBasic / 100);
 						ta = ratio * ta;
-						paybillGenerationTrnDetails.setTaa(ta);
+						paybillGenerationTrnDetails.setTransAll(ta);
 						grossAmount += ta;
 					}
 					// Start Travels Allowances for 7PC
