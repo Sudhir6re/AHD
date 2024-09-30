@@ -60,92 +60,54 @@ function changeDpDaAndContri(counter)
 
 
 
+$("#trnDCPSTable").on('blur', ".endDate, .startDate", function() {
+    var row = $(this).closest("tr");
+    var startDate = row.find('.startDate').val();
+    var endDate = row.find('.endDate').val();
 
-function changeContriForSelectedPrd(counter) {
-    var str3 = document.getElementById("startDate" + counter).value.trim(); // Contribution Start Date
-    var str4 = document.getElementById("endDate" + counter).value.trim(); // Contribution End Date
-    
-    var startDateForThisMonth = document.getElementById("hidEmpStartDate" + counter).value; // You may need to define this
-    var endDateForThisMonth = document.getElementById("hidEmpEndDate" + counter).value; // You may need to define this
-    
-    if (str3 !== "" && str4 !== "") {
-        var dt3 = parseInt(str3.substring(8, 10), 10);
-        var mon3 = parseInt(str3.substring(5, 7), 10);
-        var yr3 = parseInt(str3.substring(0, 4), 10);
+    if (startDate > endDate) {
+        swal('Select start date less than or equal to End Date');
+        row.find('.startDate').val("");
+        row.find('.endDate').val("");
+    } else {
+        var sevaarthId = row.find('.sevaarthId').val();
+        var typeOfPayment = row.find('.typeOfPayment').val();
+        var payCommission = row.find('.payCommission').val();
+        var noOfDays = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24) + 1; 
 
-        var dt4 = parseInt(str4.substring(8, 10), 10);
-        var mon4 = parseInt(str4.substring(5, 7), 10);
-        var yr4 = parseInt(str4.substring(0, 4), 10);
-        
-        var date3 = new Date(yr3, mon3 - 1, dt3);
-        var date4 = new Date(yr4, mon4 - 1, dt4);
-        
-        // Assuming startDateForThisMonth and endDateForThisMonth are defined and formatted correctly
-        var dt5 = parseInt(startDateForThisMonth.substring(8, 10), 10);
-        var mon5 = parseInt(startDateForThisMonth.substring(5, 7), 10);
-        var yr5 = parseInt(startDateForThisMonth.substring(0, 4), 10);
-        
-        var dt6 = parseInt(endDateForThisMonth.substring(8, 10), 10);
-        var mon6 = parseInt(endDateForThisMonth.substring(5, 7), 10);
-        var yr6 = parseInt(endDateForThisMonth.substring(0, 4), 10);
-        
-        var date5 = new Date(yr5, mon5 - 1, dt5);
-        var date6 = new Date(yr6, mon6 - 1, dt6);
-       
-        var contributionDays = daysBetween(date3, date4);
-        var totalDaysInMonth = daysBetween(date5, date6);
-        
-        var nthElement = counter; 
-        var basic = document.getElementById("basicPay" + nthElement).value;
-        var DP;
-        var payCommission = document.getElementById("payCommission" + nthElement).value.trim();
-        
-        if (payCommission === '700015' || payCommission === '700345') {
-            DP = Number(basic) / 2;
-        } else {
-            DP = 0;
-        }
+        var params = {
+        	startDate: startDate,
+        	endDate: endDate,
+        	sevaarthId: sevaarthId,
+        	typeOfPayment: typeOfPayment,
+        	payCommission: payCommission
+            
+        };
 
-        var DARate = Number(document.getElementById("daRate" + nthElement).value);
-        var DA = (Number(Number(basic) + Number(DP)) * DARate).toFixed(2);
-        var tempContribution = Number(basic) + Number(Math.round(DA)) + Number(DP);
-        var contribution = (Number(tempContribution * 0.10)).toFixed(2);
-
-        var contributionNps = 0;
-        let date1 = new Date(str3).getTime();
-        let date2 = new Date("2019-04-01").getTime();
-        
-        if (date1 < date2) {
-            contributionNps = (Number(tempContribution * 0.10)).toFixed(2);
-        } else if (date1 > date2) {
-            contributionNps = (Number(tempContribution * 0.14)).toFixed(2);
-        }
-        
-        var newBasic = (Number(basic) * Number(contributionDays) / Number(totalDaysInMonth));
-        var newDP = (Number(DP) * Number(contributionDays) / Number(totalDaysInMonth));
-        var newDA = (Number(DA) * Number(contributionDays) / Number(totalDaysInMonth));
-        var newContri = (Number(contribution) * Number(contributionDays) / Number(totalDaysInMonth));
-        var newContriNps = (Number(contributionNps) * Number(contributionDays) / Number(totalDaysInMonth));
-
-        document.getElementById("basicPay" + nthElement).value = Math.round(newBasic);
-        document.getElementById("DP" + nthElement).value = Math.round(newDP); // Ensure you have an element with this ID
-        document.getElementById("da" + nthElement).value = Math.round(newDA); // Ensure you have an element with this ID
-        document.getElementById("contribution" + nthElement).value = Math.ceil(newContri);
-        document.getElementById("contributionNps" + nthElement).value = Math.ceil(newContriNps); // Ensure you have an element with this ID
+        $.ajax({
+            type: "POST",
+            url: contextPath+'/ddoast/calculateDcpsArrear',
+            data: JSON.stringify(params), // Serialize parameters into query string
+            contentType: 'application/json',
+            error: function(xhr, status, error) {
+                console.error('Error occurred:', error);
+            },
+            success: function(data) {
+                console.log(data);
+                if (data.length !== 0) {
+                    row.find('.basicPay').val(data.basicPay);
+                    row.find('.da').val(data.da);
+                    row.find('.daRate').val(data.daRate);
+                    row.find('.contribution').val(data.contribution);
+                    row.find('.emprContribution').val(data.emprContribution);
+                    
+                    
+                    
+                }
+            }
+        });
     }
-}
-
-function daysBetween(first, second) {
-    var one = new Date(first.getFullYear(), first.getMonth(), first.getDate());
-    var two = new Date(second.getFullYear(), second.getMonth(), second.getDate());
-    var millisecondsPerDay = 1000 * 60 * 60 * 24;
-    var millisBetween = two.getTime() - one.getTime();
-    var days = millisBetween / millisecondsPerDay;
-    days = Number(days) + 1;
-    return Math.floor(Number(days));
-}
-
-
+});
 
 
 

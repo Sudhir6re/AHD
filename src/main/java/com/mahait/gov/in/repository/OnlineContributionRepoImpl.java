@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,6 +20,7 @@ import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.DcpContributionModel;
@@ -358,7 +361,23 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		String hql = "select a.scheme_code,a.scheme_name from mst_scheme a inner join MST_DCPS_BILL_GROUP b on a.scheme_code=b.scheme_code where b.BILL_GROUP_ID="
 				+ billGroupId;
 		Query query = currentSession.createSQLQuery(hql);
-		return  query.list();
+		return query.list();
+	}
+
+	@Override
+	public MstEmployeeEntity findEmpDtlBySevaarthId(String sevaarthId) {
+		StringBuilder sbQuery = new StringBuilder();
+		sbQuery.append("SELECT Em FROM MstEmployeeEntity Em ")
+				.append(" WHERE Em.sevaarthId = :sevaarthId"); // Filtering by a unique attribute
+
+		TypedQuery<MstEmployeeEntity> query = entityManager.createQuery(sbQuery.toString(), MstEmployeeEntity.class);
+		query.setParameter("sevaarthId", sevaarthId);
+
+		try {
+			return query.getSingleResult(); // Get a single result
+		} catch (NoResultException e) {
+			return null; 
+		}
 	}
 
 }

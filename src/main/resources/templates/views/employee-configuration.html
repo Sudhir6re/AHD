@@ -246,6 +246,12 @@ input#uid1, input#uid2, input#uid3 {
 	<script th:src="@{/js/project/employee-configuration.js}"></script>
 	<script th:src="@{/js/project/census.js}"></script>
 	<script th:src="@{/js/validated.js}"></script>
+	<script th:src="@{/js/pramukhlib.js}"></script>
+	<script>
+		var pph = new PramukhPhoneticHandler();
+		pph.convertToIndicIME("fullNameInDevnagri", document
+				.getElementById('txtNameInDevanagari'), 'devanagari');
+	</script>
 
 	<script>
 		$(document).ready(function() {

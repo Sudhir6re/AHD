@@ -1,6 +1,7 @@
 package com.mahait.gov.in.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.OrgUserMst;
@@ -19,6 +20,9 @@ public interface OnlineContributionService {
 	Long saveOrUpdate(DcpContributionModel dcpContributionModel);
 
 	List<MstSchemeModel> getSchemeCodeByBillGroupId(String billGroupId);
+
+
+	DcpContributionModel calculateDcpsArrear(Map<String, String> formData);
 
 
 	
