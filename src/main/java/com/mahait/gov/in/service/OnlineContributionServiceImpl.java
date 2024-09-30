@@ -21,6 +21,7 @@ import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
+import com.mahait.gov.in.model.MstSchemeModel;
 import com.mahait.gov.in.repository.OnlineContributionRepo;
 
 @Transactional
@@ -56,27 +57,28 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 		List<DcpContributionModel> dcpContributionModelLst = new ArrayList<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		Date date = null;
-		try {
-			date = sdf.parse(startDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-
-		Date newStartDate = calendar.getTime();
-
-		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)); // Set to the last day of
-																								// the month
-		Date newEndDate = calendar.getTime();
-		String endDate = sdf.format(newEndDate);
+		Date newStartDate = null;
+		Date newEndDate =null;
 
 		if (dcpContributionModel.getTypeOfPayment() != null) {
 			if (dcpContributionModel.getTypeOfPayment().equals("700048")) {
-				startDate = sdf.format(dcpContributionModel.getDAArrearStartDate());
+				newStartDate=dcpContributionModel.getDAArrearStartDate();
+				newEndDate=dcpContributionModel.getDAArrearEndDate();
 			} else if (dcpContributionModel.getTypeOfPayment().equals("700049")) {
 				startDate = sdf.format(dcpContributionModel.getPayArrearStartDate());
+				newEndDate=dcpContributionModel.getPayArrearEndDate();
+			}else {
+				Date date = null;
+				try {
+					date = sdf.parse(startDate);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				 newStartDate = calendar.getTime();
+				calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)); // Set to the last day of
+				 newEndDate = calendar.getTime();
 			}
 		}
 		
@@ -120,13 +122,13 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			if (object[7] instanceof BigInteger) {
 				dcpContributionModel1.setMonthId(StringHelperUtils.isNullBigInteger(object[7]).intValue());
 			} else {
-				dcpContributionModel1.setMonthId(StringHelperUtils.isNullInt(object[7]));
+				dcpContributionModel1.setMonthId(dcpContributionModel.getMonthId());
 			}
 
 			if (object[8] instanceof BigInteger) {
 				dcpContributionModel1.setFinYearId(StringHelperUtils.isNullBigInteger(object[8]).intValue());
 			} else {
-				dcpContributionModel1.setFinYearId(StringHelperUtils.isNullInt(object[8]));
+				dcpContributionModel1.setFinYearId(dcpContributionModel.getFinYearId());
 			}
 
 			if (object[9] instanceof BigDecimal) {
@@ -148,14 +150,14 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			dcpContributionModel1.setDoj(StringHelperUtils.isNullDate(object[11]));
 			
 			
-			if(object[11]!=null) {
-				dcpContributionModel1.setStartDate(StringHelperUtils.isNullDate(object[11]));
+			if(object[15]!=null) {
+				dcpContributionModel1.setStartDate(StringHelperUtils.isNullDate(object[15]));
 			}else{
 				dcpContributionModel1.setStartDate(newStartDate);
 			}
 			
-			if(object[12]!=null) {
-				dcpContributionModel1.setEndDate(StringHelperUtils.isNullDate(object[12]));
+			if(object[16]!=null) {
+				dcpContributionModel1.setEndDate(StringHelperUtils.isNullDate(object[16]));
 			}else {
 				dcpContributionModel1.setEndDate(newEndDate);
 			}
@@ -251,6 +253,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
 			DA = (double) Math.round(DA);
 
 			employeeContribution = (double) Math.round(employeeContribution);
+			emplrContribution=(double) Math.round(emplrContribution);
 
 			dcpContributionModel1.setDp(DP);
 			dcpContributionModel1.setDa(DA);
@@ -299,8 +302,59 @@ public class OnlineContributionServiceImpl implements OnlineContributionService{
     	   onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
     	   
        }
-		return null;
+		return save;
+	}
+
+
+	@Override
+	public List<MstSchemeModel> getSchemeCodeByBillGroupId(String billGroupId) {
+		
+		List<Object[]> lstObject=onlineContributionRepo.getSchemeCodeByBillGroupId(billGroupId);
+		List<MstSchemeModel> lstMstSchemeModel=new ArrayList<>();
+		
+		for (Object object[]:lstObject) {
+			MstSchemeModel mstSchemeModel=new MstSchemeModel();
+			mstSchemeModel.setSchemeCode(object[0].toString());
+			mstSchemeModel.setSchemeName(object[1].toString());
+			lstMstSchemeModel.add(mstSchemeModel);
+		}
+		
+		return lstMstSchemeModel;
 	}
 
 
 }
+
+
+
+/*
+    public Map<Long, Double> getDCPValues(String sevaarthId, Long monthId, Long finYearId) {
+        Map<Long, Double> contributionMap = new HashMap<>();
+
+        // Query for each type of payment
+        String[] paymentTypes = {"700046", "700047", "700048", "700049"};
+        for (String paymentType : paymentTypes) {
+            List<Double> results = repository.getContributions(sevaarthId, monthId, finYearId, paymentType);
+            if (results != null && results.size() == 2) {
+                Double contribution = results.get(0);
+                Double contributionEmpr = results.get(1);
+                contributionMap.put(Long.valueOf(paymentType), contribution != null ? contribution : 0.0);
+                // You can also store contributionEmpr if needed
+            }
+        }
+
+        return contributionMap;
+    }
+    
+     @Query("SELECT SUM(d.contribution), SUM(d.contributionEmpr) " +
+           "FROM DCPContribution d " +
+           "WHERE d.sevaarthId = :sevaarthId " +
+           "AND d.monthId = :monthId " +
+           "AND d.finYearId = :finYearId " +
+           "AND d.typeOfPayment = :typeOfPayment " +
+           "AND d.regStatus = '1'")
+*/
+
+
+
+

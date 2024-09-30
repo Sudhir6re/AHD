@@ -20,4 +20,6 @@ public interface OnlineContributionRepo {
 
 	void saveDcpsContributionEntity(DcpsContributionEntity dcpsContributionEntity);
 
+	List<Object[]> getSchemeCodeByBillGroupId(String billGroupId);
+
 }

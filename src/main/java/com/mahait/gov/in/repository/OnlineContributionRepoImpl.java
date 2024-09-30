@@ -57,8 +57,8 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	}
 
 	@Override
-	public List<Object[]> getEmpListForContribution(DcpContributionModel dcpContributionModel,
-			OrgUserMst messages, String startDate) {
+	public List<Object[]> getEmpListForContribution(DcpContributionModel dcpContributionModel, OrgUserMst messages,
+			String startDate) {
 		Session ghibSession = entityManager.unwrap(Session.class);
 		Integer roleId = messages.getMstRoleEntity().getRoleId(); // 2 DDO 3 DDOAST
 		String useType = dcpContributionModel.getUseType();
@@ -176,8 +176,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				SBQuery.append(" WHERE CO.DDO_CODE='" + ddoCode + "'");
 			}
 
-			// SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + " OR
-			// EM.BILLGROUP_ID=" + billGroupId+")");
+			SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + " OR EM.BILLGROUP_ID=" + billGroupId + ")");
 
 			/*
 			 * if((!(lLongbillGroupId.toString().equals(gObjRsrcBndle.getString(
@@ -256,9 +255,8 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 			 * 
 			 * 
 			 */
-		
-			
-			//calculation start here 
+
+			// calculation start here
 
 			/*
 			 * for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) { Object[]
@@ -352,6 +350,15 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	public void saveDcpsContributionEntity(DcpsContributionEntity dcpsContributionEntity) {
 		Session ghibSession = entityManager.unwrap(Session.class);
 		ghibSession.save(dcpsContributionEntity);
+	}
+
+	@Override
+	public List<Object[]> getSchemeCodeByBillGroupId(String billGroupId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "select a.scheme_code,a.scheme_name from mst_scheme a inner join MST_DCPS_BILL_GROUP b on a.scheme_code=b.scheme_code where b.BILL_GROUP_ID="
+				+ billGroupId;
+		Query query = currentSession.createSQLQuery(hql);
+		return  query.list();
 	}
 
 }

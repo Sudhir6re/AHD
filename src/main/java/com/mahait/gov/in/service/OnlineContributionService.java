@@ -5,6 +5,7 @@ import java.util.List;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
+import com.mahait.gov.in.model.MstSchemeModel;
 
 public interface OnlineContributionService {
 
@@ -16,6 +17,8 @@ public interface OnlineContributionService {
 			OrgUserMst messages, String startDate);
 
 	Long saveOrUpdate(DcpContributionModel dcpContributionModel);
+
+	List<MstSchemeModel> getSchemeCodeByBillGroupId(String billGroupId);
 
 
 	

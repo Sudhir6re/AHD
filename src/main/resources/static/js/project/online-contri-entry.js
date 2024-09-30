@@ -98,16 +98,16 @@ function addMonthYearComboForDelayed() {
 
 function funDdo1() {
 
-	var schemeId = $('#billGroupId').val();
+	var billGroupId = $('#billGroupId').val();
 	
-	if(schemeId != "0"){
-		removeErrorClass($("#txtSchemeName"));
+	if(billGroupId != "0"){
+		removeErrorClass($("#billGroupId"));
 	}
 
-	if (schemeId != '') {
+	if (billGroupId != '') {
 		$.ajax({
 			type : "GET",
-			url : contextPath+"/ddoast/getSchemeCodeAgainstName/" + schemeId,
+			url : contextPath+"/ddoast/getSchemeCodeByBillGroupId/" + billGroupId,
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {

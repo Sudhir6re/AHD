@@ -212,6 +212,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			paybillGenerationTrnDetails.setBankAccNo(mstEmployeeEntity2.getBankAcntNo());
 			paybillGenerationTrnDetails.setBankId(mstEmployeeEntity2.getBankCode());
 			paybillGenerationTrnDetails.setBankBranchId(mstEmployeeEntity2.getBankBranchCode());
+			paybillGenerationTrnDetails.setEmpId(mstEmployeeEntity2.getEmployeeId());
 			if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
 				paybillGenerationTrnDetails.setDaPercent(percentageRate[0]);
 			}else if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {

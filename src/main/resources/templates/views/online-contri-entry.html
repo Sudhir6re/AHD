@@ -96,7 +96,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 										<option selected="selected" th:value="0"
 											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 										<option th:each="varGetAllBillGrp : ${lstBillDesc}"
-											th:value="${varGetAllBillGrp.dcpsDdoSchemeCode}"
+											th:data="${varGetAllBillGrp.dcpsDdoSchemeCode}"  th:value="${varGetAllBillGrp.dcpsDdoBillGroupId}"
 											th:text="${language=='mh' ? varGetAllBillGrp.description : varGetAllBillGrp.description}"></option>
 								</select></td>
 								<td width="15%"><b>Scheme</b></td>
@@ -284,11 +284,15 @@ div#tblEmpDtlsBody\ table-responsive th {
 									th:each="dcpContributionModelRow, itemStat : ${dcpContributionModel.lstDcpContributionModel}">
 									<td width="20%"
 										th:text="${dcpContributionModelRow.employeeName}"   ></td>
-									<td width="20%" th:text="${dcpContributionModelRow.dcpsNO}"><b>DCPS
-											ID</b></td>
-									<td width="20%"><input type="date"     th:id="${'startDate' + itemStat.index}"  
-										class="startDate"
-										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].startDate}">
+									<td width="20%" >
+									<b  th:text="${dcpContributionModelRow.dcpsNO}">DCPS ID</b>
+									<input type="hidden"     th:id="${'startDate' + itemStat.index}"  
+										class="dcpsNO" th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpsNO}">
+									
+									</td>
+									<td width="20%">
+									<input type="date"     th:id="${'startDate' + itemStat.index}"  
+										class="startDate" th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].startDate}">
 									</td>
 									<td width="20%"><input type="date"      th:id="'endDate' + ${itemStat.index}"  
 										class="endDate"
@@ -298,14 +302,16 @@ div#tblEmpDtlsBody\ table-responsive th {
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpContributionId}">
 									</td>
 
-									<td width="20%"><select class="form-control"   th:id="${'payCommission' + itemStat.index}"   
+									<td width="20%">
+									<select class="form-control"   th:id="${'payCommission' + itemStat.index}"   
 									   th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].payCommission}" >
 											<option th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 											<option th:each="varPay : ${lstddcPayCommission}"
 												th:value="${varPay.id}"
 												th:text="${language=='mh' ? varPay.commission_name_mh : varPay.commission_name_en}"></option>
-									</select></b></td>
+									</select>
+									</td>
 									
 									<td>
 									<select
@@ -327,7 +333,6 @@ div#tblEmpDtlsBody\ table-responsive th {
 										class="basicPay"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].basicPay}">
 										
-											
 										
 										
 										</td>
@@ -353,11 +358,15 @@ div#tblEmpDtlsBody\ table-responsive th {
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].daRate}">
 										
 										
-										
-										
 											<input type="text"    th:id="${'da' + itemStat.index}" 
 										class="da"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].da}">
+										
+										
+																				<input type="hidden"    th:id="${'hidBasic' + itemStat.index}"  
+										class="hidBasic" th:text="${dcpContributionModelRow.basicPay}"
+										>
+										
 										
 										</td>
 									<td width="20%"><input type="text"     th:id="${'contribution' + itemStat.index}"  
@@ -366,17 +375,16 @@ div#tblEmpDtlsBody\ table-responsive th {
 									<td width="20%"><input type="text"
 									class="emprContribution"   th:id="${'emprContribution' + itemStat.index}"  
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].emprContribution}"></td>
-									<td width="20%"><b class="addRow"   th:data="${itemStat.index}"    th:data-dcpEmpId="${itemStat.dcpEmpId}"  th:data-sevaarthId="${itemStat.sevaarthId}"   >Add Row</b></td>
-									<td width="20%"><b class="deleteRow"    th:data="${itemStat.index}"   th:data-dcpEmpId="${itemStat.dcpEmpId}"  th:data-sevaarthId="${itemStat.sevaarthId}"  >Delete Row</b></td>
+									<td width="20%"><b class="addRow btn btn-success"   th:data="${itemStat.index}"   th:data-dcpsNo="${dcpContributionModelRow.dcpsNO}"   th:data-dcpsEmpId="${dcpContributionModelRow.dcpEmpId}"  th:data-sevaarthId="${dcpContributionModelRow.sevaarthId}"   >Add Row</b></td>
+									<td width="20%"><b class="deleteRow btn  btn-danger"    th:data="${itemStat.index}"  th:data-dcpsNo="${dcpContributionModelRow.dcpsNO}"   th:data-dcpsEmpId="${dcpContributionModelRow.dcpEmpId}"  th:data-sevaarthId="${dcpContributionModelRow.sevaarthId}"  >Delete Row</b></td>
 									
 									<td width="20%" >
-									
 									   <span th:switch="${dcpContributionModelRow.status}">
 									    <span th:case='-1' th:class="'label label-danger text-center'"
-									          th:text="#{|msg.employeeConfiguration.isActive${varempdtls.isActive}|}"></span>
+									          th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
 									  
 									    <span  th:case = "*" th:class="'label label-warning text-center'"
-									         th:text="#{|msg.employeeConfiguration.isActive${varempdtls.isActive}|}"  ></span>
+									         th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"  ></span>
 							           </span>
 									
 									</td>
@@ -387,6 +395,57 @@ div#tblEmpDtlsBody\ table-responsive th {
 										than employee's joining date else delete Pay arrear of those
 										employees. Save contributions carefully with correct dates.
 										Please press Go button first then set dates.</td>
+								</tr>
+								
+								<tr>
+								<td colspan="5">
+								<fieldset class="tabstyle"><legend><b>
+						
+						
+									
+									
+										Voucher Details
+									
+						
+								
+						</b></legend>
+						<table align="left" width="50%">
+							<tbody><tr>
+								<td width="50%">
+								
+									
+									
+										Voucher No.
+									
+								
+								<input type="text" id="txtVoucherNo" style="width: 70%" name="txtVoucherNo" value="" readonly="readOnly" fdprocessedid="22edt">
+									
+								
+								
+								</td>
+								
+								<td width="50%">
+								
+									
+									
+										Voucher Date
+									
+								
+								
+								<input type="text" name="txtVoucherDate" id="txtVoucherDate" maxlength="10" onkeypress="digitFormat(this);dateFormat(this);" onblur="validateDate(this);" value="" style="width: 60%" readonly="readOnly" fdprocessedid="micib">
+								<img src="images/CalendarImages/ico-calendar.gif" onclick="window_open(&quot;txtVoucherDate&quot;,375,570)" style="cursor: pointer;"> 
+											
+								
+								
+								</td>
+							</tr>
+						</tbody></table>
+						
+						<input type="hidden" id="hidContriVoucherId" name="hidContriVoucherId" value="">
+						
+						
+						</fieldset>
+								</td>
 								</tr>
 								
 								<tr>
