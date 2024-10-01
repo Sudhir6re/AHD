@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
@@ -73,6 +74,8 @@ public interface PaybillGenerationTrnRepo {
 	Double fetchAccidentialPilocyDtls(String startDate, String citygroup, int allowDeducCode);
 	public String getEmpCadre(String sevaarthId, Long empClass);
 	public Long saveBulkPaybillDetail(List<PaybillGenerationTrnDetails> lstPaybillGenerationTrnDetails);
+	public List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId);
+	public List<Object[]> findTreasuryList(OrgUserMst messages);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);

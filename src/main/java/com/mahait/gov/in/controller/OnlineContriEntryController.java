@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
@@ -86,6 +87,14 @@ public class OnlineContriEntryController extends BaseController {
 
 			List<DcpContributionModel> dcpContributionModelLst = onlineContributionService
 					.getEmpListForContribution(dcpContributionModel, messages, startDate);
+			
+			
+			
+			List<CmnLocationMst> lst=onlineContributionService.findTreasuryList(messages);
+					
+			
+			
+			
 
 			dcpContributionModel.setLstDcpContributionModel(dcpContributionModelLst);
 			model.addAttribute("dcpContributionModelLst", dcpContributionModelLst);
@@ -134,6 +143,14 @@ public class OnlineContriEntryController extends BaseController {
 		DcpContributionModel lstDcpContributionModel = onlineContributionService.calculateDcpsArrear(formData);
 		return ResponseEntity.ok(lstDcpContributionModel);
 	}
+	
+	@PostMapping("/findDcpsContribution")
+	public ResponseEntity<List<Object[]>> findSumContribution(@PathVariable String sevaarthId,String paymentType,Integer monthId,Integer yearId) {
+		List<Object[]> lst= onlineContributionService.findSumContribution(sevaarthId,paymentType,monthId,yearId);
+		return ResponseEntity.ok(lst);
+	}
+	
+	
 	
 
 }

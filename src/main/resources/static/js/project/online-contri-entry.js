@@ -31,36 +31,60 @@ $("#PayArrearsDatesDivDisplay").hide();
 
 $("#save").click(function(e){
     //	e.preventDefault();
-     $("#onlineEntryForm").attr("action","../saveOnlineContriEntry");
+     $("#onlineEntryForm").attr("action",contextPath+"/ddoast/saveOnlineContriEntry");
 	 $("#onlineEntryForm").submit();   
 });
 
+$("#trnDCPSTable").on('blur', ".basicPay", function() {
+    var row = $(this).closest("tr");
+    var basic = parseFloat(row.find('.basicPay').val());
+    var payCommission = row.find('.payCommission').val();
+    var DP;
 
-function changeDpDaAndContri(counter)
-{
-	var nthElement = counter ; 
-	var basic = document.getElementById("basic"+nthElement).value ;
-	var DP;
-	var payCommission = document.getElementById("cmbPayCommission"+nthElement).value.trim();
-	if(payCommission == '700015' || payCommission == '700345'){
-		DP = Number(basic/2);
-	}else{
-		DP = 0;
-	}
-	var DARate = Number (document.getElementById("daRate"+nthElement).value);
-	var DA = (Number(Number(basic)+Number(DP)) * DARate).toFixed(2);
-	var tempcontribution = Number(basic) + Number(Math.round(DA)) + Number(DP); 
-	var contribution = (Number( tempcontribution * 0.10)).toFixed(2);
-	var contributionNps = (Number( tempcontribution * 0.14)).toFixed(2);
-	document.getElementById("DP" + nthElement).value = Math.round(DP) ;
-	document.getElementById("DA" + nthElement).value = Math.round(DA) ; 
-	document.getElementById("contribution" + nthElement).value = Math.ceil(contribution) ;
-	document.getElementById("contributionNps" + nthElement).value = Math.ceil(contributionNps) ;
-}
+    if (payCommission === '700015' || payCommission === '700345') {
+        DP = basic / 2;
+    } else {
+        DP = 0;
+    }
+
+    var DARate = parseFloat(row.find('.daRate').val());
+    var DA = ((basic + DP) * DARate).toFixed(2);
+    var tempContribution = basic + Math.round(DA) + DP;
+    var contribution = (tempContribution * 0.10).toFixed(2);
+    var contributionNps = (tempContribution * 0.14).toFixed(2);
+
+    row.find('.da').val(Math.round(DA));
+    row.find('.contribution').val(Math.round(contribution));
+    row.find('.emprContribution').val(Math.ceil(contributionNps));
+});
+
+
+$("#trnDCPSTable").on('blur', ".da", function() {
+    var row = $(this).closest("tr");
+    var basic = parseFloat(row.find('.basicPay').val());
+    var payCommission = row.find('.payCommission').val();
+    var DP;
+
+    if (payCommission === '700015' || payCommission === '700345') {
+        DP = basic / 2;
+    } else {
+        DP = 0;
+    }
+
+    //var DARate = parseFloat(row.find('.daRate').val()) || 0;
+    var DA = parseFloat(row.find('.da').val()) || 0;  
+    var tempContribution = basic + Math.round(DA) + DP;
+    var contribution = (tempContribution * 0.10).toFixed(2);
+    var contributionNps = (tempContribution * 0.14).toFixed(2);
+
+    row.find('.da').val(Math.round(DA));
+    row.find('.contribution').val(Math.round(contribution));
+    row.find('.emprContribution').val(Math.ceil(contributionNps));
+});
 
 
 
-$("#trnDCPSTable").on('blur', ".endDate, .startDate", function() {
+$("#trnDCPSTable").on('blur', ".endDate, .startDate,.payCommission", function() {
     var row = $(this).closest("tr");
     var startDate = row.find('.startDate').val();
     var endDate = row.find('.endDate').val();
@@ -81,13 +105,12 @@ $("#trnDCPSTable").on('blur', ".endDate, .startDate", function() {
         	sevaarthId: sevaarthId,
         	typeOfPayment: typeOfPayment,
         	payCommission: payCommission
-            
         };
 
         $.ajax({
             type: "POST",
             url: contextPath+'/ddoast/calculateDcpsArrear',
-            data: JSON.stringify(params), // Serialize parameters into query string
+            data: JSON.stringify(params), 
             contentType: 'application/json',
             error: function(xhr, status, error) {
                 console.error('Error occurred:', error);
@@ -95,14 +118,11 @@ $("#trnDCPSTable").on('blur', ".endDate, .startDate", function() {
             success: function(data) {
                 console.log(data);
                 if (data.length !== 0) {
-                    row.find('.basicPay').val(data.basicPay);
-                    row.find('.da').val(data.da);
+                    row.find('.basicPay').val(data.basicPay.toFixed(2));
+                    row.find('.da').val(data.da.toFixed(2));
                     row.find('.daRate').val(data.daRate);
-                    row.find('.contribution').val(data.contribution);
-                    row.find('.emprContribution').val(data.emprContribution);
-                    
-                    
-                    
+                    row.find('.contribution').val(data.contribution.toFixed(2));
+                    row.find('.emprContribution').val(data.emprContribution.toFixed(2));
                 }
             }
         });

@@ -116,7 +116,7 @@ public class DcpContributionModel {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date voucherDate;
 
-    private String voucherNo;
+    private Integer voucherNo;
     
     private String action;
     

@@ -117,7 +117,7 @@ public class DcpsContributionEntity  {
     private Date voucherDate;
 
     @Column(name = "VOUCHER_NO", length = 40)
-    private String voucherNo;
+    private Integer voucherNo;
     
     @Column(name = "NPS_EMPLR_CONTRI_DED")
     private Double npsEmplrContriDed;
