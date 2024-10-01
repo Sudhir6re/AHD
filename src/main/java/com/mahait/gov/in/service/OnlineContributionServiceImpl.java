@@ -339,17 +339,21 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	            employeeEntity.getBasicPay();
 
 	    try {
-	        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        Date fromDate = dateFormat.parse(fromDateStr);
 	        Date toDate = dateFormat.parse(toDateStr);
 
-	        LocalDate startDate = LocalDate.parse(fromDateStr);
-	        LocalDate endDate = LocalDate.parse(toDateStr);
+	        Calendar startCal = Calendar.getInstance();
+	        startCal.setTime(fromDate);
+	        
+	        Calendar endCal = Calendar.getInstance();
+	        endCal.setTime(toDate);
 
 	        // Check if the dates are in the same month
-	        if (startDate.getYear() == endDate.getYear() && startDate.getMonth() == endDate.getMonth()) {
-	            int daysInRange = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
-	            int totalDaysInMonth = startDate.lengthOfMonth();
+	        if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR) &&
+	            startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
+	            int daysInRange = endCal.get(Calendar.DAY_OF_MONTH) - startCal.get(Calendar.DAY_OF_MONTH) + 1;
+	            int totalDaysInMonth = startCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 	            // Calculate basic salary for the period
 	            double calculatedBasic = (basicPay * daysInRange) / totalDaysInMonth;
@@ -368,18 +372,20 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	            totalContributionModel.setContribution(employeeContribution);
 	        } else {
 	            // Loop through each month in the range
-	            LocalDate currentDate = startDate;
+	            Calendar currentCal = (Calendar) startCal.clone();
 
-	            while (!currentDate.isAfter(endDate)) {
-	                int monthDays = currentDate.lengthOfMonth();
-	                int daysInRange = 0;
+	            while (currentCal.before(endCal) || currentCal.equals(endCal)) {
+	                int monthDays = currentCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	                int daysInRange;
 
-	                if (currentDate.getYear() == startDate.getYear() && currentDate.getMonth() == startDate.getMonth()) {
+	                if (currentCal.get(Calendar.YEAR) == startCal.get(Calendar.YEAR) &&
+	                    currentCal.get(Calendar.MONTH) == startCal.get(Calendar.MONTH)) {
 	                    // Calculate days from start date to the end of the month
-	                    daysInRange = monthDays - startDate.getDayOfMonth() + 1;
-	                } else if (currentDate.getYear() == endDate.getYear() && currentDate.getMonth() == endDate.getMonth()) {
+	                    daysInRange = monthDays - startCal.get(Calendar.DAY_OF_MONTH) + 1;
+	                } else if (currentCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR) &&
+	                           currentCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
 	                    // Calculate days from the start of the month to end date
-	                    daysInRange = endDate.getDayOfMonth();
+	                    daysInRange = endCal.get(Calendar.DAY_OF_MONTH);
 	                } else {
 	                    // Full month
 	                    daysInRange = monthDays;
@@ -389,21 +395,38 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	                double calculatedBasic = (basicPay * daysInRange) / monthDays;
 
 	                // Calculate DA and contributions
-	                Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(currentDate.toString(), Integer.parseInt(payCommission), allowDeducCode);
+	                Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(
+	                        dateFormat.format(currentCal.getTime()), Integer.parseInt(payCommission), allowDeducCode);
 	                double daRate = 0.01 * percentageRate.doubleValue();
 	                double da = calculatedBasic * daRate;
 	                double employeeContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.10;
 	                double employerContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.14;
-
-	                // Aggregate the values
-	                totalContributionModel.setDa(totalContributionModel.getDa() == null ? 0d : totalContributionModel.getDa() + da);
+	             // Aggregate the values
+	                totalContributionModel.setDa(
+	                    totalContributionModel.getDa() == null || totalContributionModel.getDa() == 0.0
+	                    ? 0d 
+	                    : totalContributionModel.getDa() + da
+	                );
 	                totalContributionModel.setDaRate(percentageRate);
-	                totalContributionModel.setEmprContribution(totalContributionModel.getEmprContribution() == null ? 0d : totalContributionModel.getEmprContribution() + employerContribution);
-	                totalContributionModel.setContribution(totalContributionModel.getContribution() == null ? 0d : totalContributionModel.getContribution() + employeeContribution);
-	                totalContributionModel.setBasicPay(totalContributionModel.getBasicPay() == null ? 0d : totalContributionModel.getBasicPay() + calculatedBasic);
 	                
+	                totalContributionModel.setEmprContribution(
+	                    (totalContributionModel.getEmprContribution() == null || totalContributionModel.getEmprContribution() == 0.0) 
+	                    ? 0d 
+	                    : totalContributionModel.getEmprContribution() + employerContribution
+	                );
+	                totalContributionModel.setContribution(
+	                    (totalContributionModel.getContribution() == null || totalContributionModel.getContribution() == 0.0)
+	                    ? 0d 
+	                    : totalContributionModel.getContribution() + employeeContribution
+	                );
+
+	                // Correctly accumulate basicPay
+	                double newBasicPay = ((totalContributionModel.getBasicPay() == null || totalContributionModel.getBasicPay()==0.0)  ? 0d : totalContributionModel.getBasicPay()) + calculatedBasic;
+	                totalContributionModel.setBasicPay(newBasicPay);
+
+
 	                // Move to the next month
-	                currentDate = currentDate.plusMonths(1);
+	                currentCal.add(Calendar.MONTH, 1);
 	            }
 	        }
 	    } catch (ParseException e) {
@@ -412,6 +435,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 	    return totalContributionModel; // Return the single aggregated contribution model
 	}
+
 
 
 }
