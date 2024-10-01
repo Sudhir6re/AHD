@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,6 +20,7 @@ import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.DcpContributionModel;
@@ -103,8 +106,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 
 		try {
 			SBQuery.append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,"
-					+ " CASE "
-					+ "        WHEN Em.pay_commission_code = '"+CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC+"' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
+					+ " CASE " + "        WHEN Em.pay_commission_code = '"
+					+ CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
+					+ "' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
 					+ "        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" + "    END AS BASIC_PAY,"
 					+ "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
 					+ dcpContributionModel.getTypeOfPayment()
@@ -113,7 +117,8 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 					+ "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
 
 			SBQuery.append(" CO.startDate StartDate");
-			SBQuery.append(",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED FROM employee_mst EM ");
+			SBQuery.append(
+					",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED,Em.sevaarth_id FROM employee_mst EM ");
 
 			SBQuery.append(" LEFT OUTER JOIN TRN_DCPS_CONTRIBUTION CO ON EM.employee_id=CO.DCPS_EMP_ID AND CO.MONTH_ID="
 					+ monthId + "" + " AND CO.FIN_YEAR_ID=" + finYearId + " AND CO.DDO_CODE = '" + ddoCode + "'");
@@ -134,7 +139,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 							+ startDate + "' BETWEEN DA.start_date AND DA.end_date) OR ('" + startDate
 							+ "' >= DA.start_date and DA.end_date IS NULL))"
 
-							+ " AND DA.department_allowdeduc_code = (CASE WHEN EM.PAY_COMMISSION_CODE = 700005 THEN "+CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE+" ELSE "+CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE+" END)");
+							+ " AND DA.department_allowdeduc_code = (CASE WHEN EM.PAY_COMMISSION_CODE = 700005 THEN "
+							+ CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE + " ELSE "
+							+ CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE + " END)");
 
 			// Code Added to show employees of valid post and service only for first online
 			// contribution entry
@@ -172,9 +179,8 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				SBQuery.append(" WHERE CO.DDO_CODE='" + ddoCode + "'");
 			}
 
-		//	SBQuery.append(" AND  (CO.BILL_GROUP_ID=" + billGroupId + " OR EM.BILLGROUP_ID=" + billGroupId+")");
-			
-			
+			SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + " OR EM.BILLGROUP_ID=" + billGroupId + ")");
+
 			/*
 			 * if((!(lLongbillGroupId.toString().equals(gObjRsrcBndle.getString(
 			 * "DCPS.BGIdForContriThruChallan")))) && (lStrUser.equals("DDOAsst") ||
@@ -227,145 +233,113 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 			Double DA = 0D;
 			Double employeeContribution = 0D;
 			String lStrDA = "";
-			Double emplrContribution = 0D;  //[34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600.0, 0, 700047, 0, 0, 46, null, 2017-01-01, null, null, null, null, null, 0.0]
-		
-			
-			
-		/*	SBQuery.append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,"
-					+ " CASE "
-					+ "        WHEN Em.pay_commission_code = '"+CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC+"' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
-					+ "        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" + "    END AS BASIC_PAY,"
-					+ "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
-					+ dcpContributionModel.getTypeOfPayment()
-					+ "') as TYPE_OF_PAYMENT,COALESCE(CO.MONTH_ID,0) as MONTH_ID,COALESCE(CO.FIN_YEAR_ID,0) as FIN_YEAR_ID,"
-					+ " COALESCE(DA.percentage," + lDoubleDefaultDArateForNon5th6thPC + ") as percentage,"
-					+ "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
+			Double emplrContribution = 0D; // [34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600.0, 0, 700047, 0, 0, 46,
+											// null, 2017-01-01, null, null, null, null, null, 0.0]
 
-			SBQuery.append(" CO.startDate StartDate");
-			SBQuery.append(",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED
-			
-			Em.employee_id 0 
-			
-			
-*/			
-			for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) {
-				Object[] tempObjectList = (Object[]) empList.get(lInt1);
-				Object[] newList = new Object[tempObjectList.length + 4];
-				lInt2 = 0;
-				emplrContribution = Math.ceil(Double.parseDouble(tempObjectList[17].toString()));
-				lInt2 = tempObjectList.length;
-				for (lInt2 = 0; lInt2 < tempObjectList.length - 1; lInt2++) {
+			/*
+			 * SBQuery.
+			 * append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,"
+			 * + " CASE " +
+			 * "        WHEN Em.pay_commission_code = '"+CommonConstants.PAYBILLDETAILS.
+			 * COMMONCODE_PAYCOMMISSION_7PC+"' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
+			 * + "        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" +
+			 * "    END AS BASIC_PAY," +
+			 * "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
+			 * + dcpContributionModel.getTypeOfPayment() +
+			 * "') as TYPE_OF_PAYMENT,COALESCE(CO.MONTH_ID,0) as MONTH_ID,COALESCE(CO.FIN_YEAR_ID,0) as FIN_YEAR_ID,"
+			 * + " COALESCE(DA.percentage," + lDoubleDefaultDArateForNon5th6thPC +
+			 * ") as percentage," + "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
+			 * 
+			 * SBQuery.append(" CO.startDate StartDate");
+			 * SBQuery.append(",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as
+			 * NPS_EMPLR_CONTRI_DED
+			 * 
+			 * Em.employee_id 0
+			 * 
+			 * 
+			 */
 
-					// Changes Basic pay to Integer value
-					if (lInt2 == 4) {
-						if (tempObjectList[lInt2] == null) {
-							tempObjectList[lInt2] = 0;
-						} else {
-							tempObjectList[lInt2] = (int) Math.ceil(Double.parseDouble(tempObjectList[lInt2].toString()));
-						}
-					}
-					newList[lInt2] = tempObjectList[lInt2];
-				}
-				BasicPay = Double.parseDouble(tempObjectList[4].toString());
+			// calculation start here
 
-				DP = 0D;
-				lStrDP = "";
-				if (null != tempObjectList[13]) {
-					lStrDP = tempObjectList[13].toString();
-				}
-				if (newList[3].toString().equals("700015") || newList[3].toString().equals("700345")) {
-					if (null != lStrDP && !"".equals(lStrDP)) {
-						DP = Double.parseDouble(lStrDP);
-					} else {
-						DP = BasicPay / 2;
-					}
-				}
-				
-				DARate = 0.01 * Double.parseDouble(tempObjectList[9].toString());
-				lStrTypeOfPayment = tempObjectList[6].toString();
-				DA = 0D;
-				employeeContribution = 0D;
-				emplrContribution = 0D;
-
-				lStrDA = "";
-
-				if (null != tempObjectList[12]) {
-					lStrDA = tempObjectList[12].toString();
-				}
-				if (lStrTypeOfPayment.equals("700048")) {
-					if (tempObjectList[12] != null) {
-						DA = Double.parseDouble(tempObjectList[12].toString());
-					}
-					if (tempObjectList[14] != null) {
-						employeeContribution = Double.parseDouble(tempObjectList[14].toString());
-					}
-					if (tempObjectList[17] != null) {
-						emplrContribution = Double.parseDouble(tempObjectList[17].toString());
-					}
-				} else if (lStrTypeOfPayment.equals("700049")) {
-					DA = 0D;
-					if (tempObjectList[14] != null) {
-						employeeContribution = Double.parseDouble(tempObjectList[14].toString());
-					}
-					if (tempObjectList[17] != null) {
-						emplrContribution = Double.parseDouble(tempObjectList[17].toString());
-					}
-				} else {
-					if (null != lStrDA && !"".equals(lStrDA)) {
-						DA = Double.parseDouble(lStrDA);
-					} else {
-						DA = ((BasicPay + DP) * DARate);
-					}
-
-					if (null != tempObjectList[14]) {
-						employeeContribution = Double.parseDouble(tempObjectList[14].toString());
-					} else {
-						if (newList[3].toString().equals("700015")) {
-							employeeContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA))
-									* 0.10;
-						} else {
-							employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
-						}
-					}
-
-					if (!tempObjectList[17].toString().equals("0.0") && !tempObjectList[17].toString().equals("0")) {
-						emplrContribution = Double.parseDouble(tempObjectList[17].toString());
-					} else {
-						if ((finYearId <= 20 && monthId <= 3) || finYearId < 20) {   //2019(Old 32 if ((finYearId <= 32 && finYearId <= 3) || finYearId < 32)  )
-							if (newList[3].toString().equals("700015")) {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA))
-										* 0.10;
-							} else {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
-							}
-						} else {
-							if (newList[3].toString().equals("700015")) {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA))
-										* 0.14;
-							} else {
-								emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.14;
-							}
-
-						}
-					}
-				}
-				DA = (double) Math.round(DA);
-
-				employeeContribution = (double) Math.round(employeeContribution);
-			
-				newList[lInt2] = (int) Math.ceil(DP);
-				newList[lInt2 + 1] = (int) Math.round(DA);
-				newList[lInt2 + 2] = (int) Math.round(employeeContribution);
-				newList[lInt2 + 3] = DARate;
-				newList[lInt2 + 4] = (int) Math.round(emplrContribution);
-				
-				finalList.add(newList);
-			}
+			/*
+			 * for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) { Object[]
+			 * tempObjectList = (Object[]) empList.get(lInt1); Object[] newList = new
+			 * Object[tempObjectList.length + 4]; lInt2 = 0; emplrContribution =
+			 * Math.ceil(Double.parseDouble(tempObjectList[17].toString())); lInt2 =
+			 * tempObjectList.length; for (lInt2 = 0; lInt2 < tempObjectList.length - 1;
+			 * lInt2++) {
+			 * 
+			 * // Changes Basic pay to Integer value if (lInt2 == 4) { if
+			 * (tempObjectList[lInt2] == null) { tempObjectList[lInt2] = 0; } else {
+			 * tempObjectList[lInt2] = (int)
+			 * Math.ceil(Double.parseDouble(tempObjectList[lInt2].toString())); } }
+			 * newList[lInt2] = tempObjectList[lInt2]; } BasicPay =
+			 * Double.parseDouble(tempObjectList[4].toString());
+			 * 
+			 * DP = 0D; lStrDP = ""; if (null != tempObjectList[13]) { lStrDP =
+			 * tempObjectList[13].toString(); } if (newList[3].toString().equals("700015")
+			 * || newList[3].toString().equals("700345")) { if (null != lStrDP &&
+			 * !"".equals(lStrDP)) { DP = Double.parseDouble(lStrDP); } else { DP = BasicPay
+			 * / 2; } }
+			 * 
+			 * DARate = 0.01 * Double.parseDouble(tempObjectList[9].toString());
+			 * lStrTypeOfPayment = tempObjectList[6].toString(); DA = 0D;
+			 * employeeContribution = 0D; emplrContribution = 0D;
+			 * 
+			 * lStrDA = "";
+			 * 
+			 * if (null != tempObjectList[12]) { lStrDA = tempObjectList[12].toString(); }
+			 * 
+			 * if (lStrTypeOfPayment.equals("700048")) { if (tempObjectList[12] != null) {
+			 * DA = Double.parseDouble(tempObjectList[12].toString()); } if
+			 * (tempObjectList[14] != null) { employeeContribution =
+			 * Double.parseDouble(tempObjectList[14].toString()); } if (tempObjectList[17]
+			 * != null) { emplrContribution =
+			 * Double.parseDouble(tempObjectList[17].toString()); } } else if
+			 * (lStrTypeOfPayment.equals("700049")) { DA = 0D; if (tempObjectList[14] !=
+			 * null) { employeeContribution =
+			 * Double.parseDouble(tempObjectList[14].toString()); } if (tempObjectList[17]
+			 * != null) { emplrContribution =
+			 * Double.parseDouble(tempObjectList[17].toString()); } } else { if (null !=
+			 * lStrDA && !"".equals(lStrDA)) { DA = Double.parseDouble(lStrDA); } else { DA
+			 * = ((BasicPay + DP) * DARate); }
+			 * 
+			 * if (null != tempObjectList[14]) { employeeContribution =
+			 * Double.parseDouble(tempObjectList[14].toString()); } else { if
+			 * (newList[3].toString().equals("700015")) { employeeContribution = ((double)
+			 * Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) 0.10; } else {
+			 * employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) *
+			 * 0.10; } }
+			 * 
+			 * if (!tempObjectList[17].toString().equals("0.0") &&
+			 * !tempObjectList[17].toString().equals("0")) { emplrContribution =
+			 * Double.parseDouble(tempObjectList[17].toString()); } else { if ((finYearId <=
+			 * 20 && monthId <= 3) || finYearId < 20) { //2019(Old 32 if ((finYearId <= 32
+			 * && finYearId <= 3) || finYearId < 32) ) if
+			 * (newList[3].toString().equals("700015")) { emplrContribution = ((double)
+			 * Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) 0.10; } else {
+			 * emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10; }
+			 * } else { if (newList[3].toString().equals("700015")) { emplrContribution =
+			 * ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) 0.14; } else
+			 * { emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.14;
+			 * }
+			 * 
+			 * } } } DA = (double) Math.round(DA);
+			 * 
+			 * employeeContribution = (double) Math.round(employeeContribution);
+			 * 
+			 * newList[lInt2] = (int) Math.ceil(DP); newList[lInt2 + 1] = (int)
+			 * Math.round(DA); newList[lInt2 + 2] = (int) Math.round(employeeContribution);
+			 * newList[lInt2 + 3] = DARate; newList[lInt2 + 4] = (int)
+			 * Math.round(emplrContribution);
+			 * 
+			 * finalList.add(newList); }
+			 */
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//return finalList;
+		// return finalList;
 		return empList;
 	}
 
@@ -378,7 +352,32 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	@Override
 	public void saveDcpsContributionEntity(DcpsContributionEntity dcpsContributionEntity) {
 		Session ghibSession = entityManager.unwrap(Session.class);
-		 ghibSession.save(dcpsContributionEntity);
+		ghibSession.save(dcpsContributionEntity);
+	}
+
+	@Override
+	public List<Object[]> getSchemeCodeByBillGroupId(String billGroupId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "select a.scheme_code,a.scheme_name from mst_scheme a inner join MST_DCPS_BILL_GROUP b on a.scheme_code=b.scheme_code where b.BILL_GROUP_ID="
+				+ billGroupId;
+		Query query = currentSession.createSQLQuery(hql);
+		return query.list();
+	}
+
+	@Override
+	public MstEmployeeEntity findEmpDtlBySevaarthId(String sevaarthId) {
+		StringBuilder sbQuery = new StringBuilder();
+		sbQuery.append("SELECT Em FROM MstEmployeeEntity Em ")
+				.append(" WHERE Em.sevaarthId = :sevaarthId"); // Filtering by a unique attribute
+
+		TypedQuery<MstEmployeeEntity> query = entityManager.createQuery(sbQuery.toString(), MstEmployeeEntity.class);
+		query.setParameter("sevaarthId", sevaarthId);
+
+		try {
+			return query.getSingleResult(); // Get a single result
+		} catch (NoResultException e) {
+			return null; 
+		}
 	}
 
 }

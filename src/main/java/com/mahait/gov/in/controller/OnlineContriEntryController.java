@@ -2,21 +2,26 @@ package com.mahait.gov.in.controller;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
-import com.mahait.gov.in.model.OnlineContributionModel;
-import com.mahait.gov.in.model.RegularReportModel;
-import com.mahait.gov.in.response.MessageResponse;
+import com.mahait.gov.in.model.MstSchemeModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.MstDesignationService;
 import com.mahait.gov.in.service.OnlineContributionService;
@@ -113,5 +118,22 @@ public class OnlineContriEntryController extends BaseController {
 		model.addAttribute("message", "SUCCESS");
 		return "redirect:/ddoast/onlineContriEntry";
 	}
+	
+	
+
+	@RequestMapping("/getSchemeCodeByBillGroupId/{billGroupId}")
+	public @ResponseBody List<MstSchemeModel> getSchemeCodeByBillGroupId(@PathVariable String billGroupId, Model model,
+			Locale locale) {
+		List<MstSchemeModel> status = onlineContributionService.getSchemeCodeByBillGroupId(billGroupId);
+		return status;
+	}
+	
+	
+	@PostMapping("/calculateDcpsArrear")
+	public ResponseEntity<DcpContributionModel> calculateDcpsArrear(@RequestBody Map<String, String> formData) {
+		DcpContributionModel lstDcpContributionModel = onlineContributionService.calculateDcpsArrear(formData);
+		return ResponseEntity.ok(lstDcpContributionModel);
+	}
+	
 
 }

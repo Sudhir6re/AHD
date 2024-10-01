@@ -63,6 +63,12 @@ public class RegularReportModel {
 	private String cadreGroup;
 	private Double gisAmount;
 	private String gisRateType;
-	private Double gisRate;
-	
+	private Integer gisRate;
+	private String pfSeries;
+	private Double subsAmt;
+	private Double payDaArrMrg;
+	private Double refundAmt;
+	private BigInteger countGPFEmp;
+	private Double totalAmt;
+	private Double daArr;
 }

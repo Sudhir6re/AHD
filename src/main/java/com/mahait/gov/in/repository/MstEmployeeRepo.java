@@ -140,6 +140,8 @@ public interface MstEmployeeRepo {
 
 	public Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst);
 
+	public List<Long> rejectEmployeeConfiguration(String empid);
+
 
 
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);

@@ -1903,4 +1903,12 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return mstEmployeeRepo.deleteEmployeesByIds(employeeIds, orgUserMst);
 	}
 
+	@Override
+	public List<Long> rejectEmployeeConfiguration(String empid) {
+		return mstEmployeeRepo.rejectEmployeeConfiguration(empid);
+	}
+
+	
+	
+	
 }

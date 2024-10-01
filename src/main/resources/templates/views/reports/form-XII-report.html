@@ -24,21 +24,44 @@
 		<div class="formMainwithNoborTb container">
 			<div id="print-content">
 				<fieldset>
+				<form method="POST" action="" name="ReportForm"  th:object="${regularReportModel}"
+				enctype="multipart/form-data">
 					<div class="text-center">
 						<h3 Class="PageHeading">
 							<span th:utext="#{msg.thymeleaf.pageheading.formXII}"></span>
 						</h3>
 					</div>
 					<br />
-					<table class="table table-bordered">
+					<table class="table bor-0">
 						<tbody>
 							<tr>
-								<td width="3%"></td>
-								<td width="30%"></td>
-								<td width="8%"></td>
+								<td colspan="2">FORM XII</td>
 							</tr>
 							<tr>
-								<td colspan="3">No data available</td>
+								<td>Certificate Attached with the Paybill in respect of
+									class IV Govt. Servants for the Month of June 2020</td>
+							</tr>
+							<tr>
+								<td>Paid in <span th:text="${nextmonyer}"></span> for the office of M. H.
+									Saboo Siddik Polytechnic, Mumbai</td>
+							</tr>
+							<tr>
+								<td>Certified that the sum of (`) <span th:text="${totalAmount}"></span> has been
+									deducted from the salary for the month of <span th:text="${currmonyer}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+					<br />
+					<table class="table">
+						<tbody>
+							<tr>
+								<td>
+									<p>1. Subscription...................... :<span th:text="${totalSubscription}"></span></p>
+									<p>2. Refund of Withdrawal........:<span th:text="${totalRefund}"></span></p>
+									<p>3. DA Arrears.........................:<span th:text="${totalDaArr}"></span></p>
+									<p>Total (`).................................:<span th:text="${totalAmount}"></span></p>
+									<p>Total Deduction In Words (`) : <span th:text="${word}"></span></p>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -62,7 +85,7 @@
 									duly posted in Register of Advance (Form A ).</td>
 							</tr>
 							<tr>
-								<td colspan="2">Dated :23/7/2024</td>
+								<td colspan="2">Dated :<span th:text="${date}"></span></td>
 							</tr>
 							<tr>
 								<td colspan="2"><br></td>
@@ -110,7 +133,7 @@
 								<td colspan="2"><br></td>
 							</tr>
 							<tr>
-								<td colspan="2">VERIFICATION TIME :23-07-2024 14:49:01.916
+								<td colspan="2">VERIFICATION TIME :<span th:text="${sysDate}"></span>
 								</td>
 							</tr>
 							<tr>
@@ -129,6 +152,7 @@
 							</tr>
 						</tbody>
 					</table>
+					</form>
 				</fieldset>
 			</div>
 		</div>

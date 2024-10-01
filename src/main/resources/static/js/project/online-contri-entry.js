@@ -3,7 +3,16 @@ $(document).ready(function() {
 	 contextPath = $("#appRootPath").val();
 	  if ($('#cmbSchemeName').length) {
 	        $('#cmbSchemeName').select2();
-	    }
+	  }
+	  
+	  if ($('#billGroupId').length) {
+		  $('#billGroupId').select2();
+	  }
+	  
+	  if ($('#ddoCode').length) {
+		  $('#ddoCode').select2();
+	  }
+	  
 });
 jQuery(document).ready(function($) {
 	var varMessage = $("#message").val();
@@ -12,7 +21,7 @@ jQuery(document).ready(function($) {
   	      icon: "success",
   	  });
 	}
-	});
+});
 
 
 $("#delayedMonthAndYearCombos").hide();
@@ -51,6 +60,156 @@ function changeDpDaAndContri(counter)
 
 
 
+$("#trnDCPSTable").on('blur', ".endDate, .startDate", function() {
+    var row = $(this).closest("tr");
+    var startDate = row.find('.startDate').val();
+    var endDate = row.find('.endDate').val();
+
+    if (startDate > endDate) {
+        swal('Select start date less than or equal to End Date');
+        row.find('.startDate').val("");
+        row.find('.endDate').val("");
+    } else {
+        var sevaarthId = row.find('.sevaarthId').val();
+        var typeOfPayment = row.find('.typeOfPayment').val();
+        var payCommission = row.find('.payCommission').val();
+        var noOfDays = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24) + 1; 
+
+        var params = {
+        	startDate: startDate,
+        	endDate: endDate,
+        	sevaarthId: sevaarthId,
+        	typeOfPayment: typeOfPayment,
+        	payCommission: payCommission
+            
+        };
+
+        $.ajax({
+            type: "POST",
+            url: contextPath+'/ddoast/calculateDcpsArrear',
+            data: JSON.stringify(params), // Serialize parameters into query string
+            contentType: 'application/json',
+            error: function(xhr, status, error) {
+                console.error('Error occurred:', error);
+            },
+            success: function(data) {
+                console.log(data);
+                if (data.length !== 0) {
+                    row.find('.basicPay').val(data.basicPay);
+                    row.find('.da').val(data.da);
+                    row.find('.daRate').val(data.daRate);
+                    row.find('.contribution').val(data.contribution);
+                    row.find('.emprContribution').val(data.emprContribution);
+                    
+                    
+                    
+                }
+            }
+        });
+    }
+});
+
+
+
+
+
+
+
+
+$(document).on('click', '.addRow', function() {
+	
+	var rowIndex=$('#trnDCPSTable>tr').length;
+	
+	 var currentRow = $(this).closest('tr').clone();
+	 currentRow.find(".employeeName").attr("id","employeeName"+rowIndex);
+	 
+	 
+	 currentRow.find('.dcpsNO')
+     .attr('name', 'lstDcpContributionModel[' + rowIndex + '].dcpsNO')
+     .attr('id', 'dcpsNO' + rowIndex);
+	 
+	 
+	 currentRow.find('.startDate')
+       .attr('name', 'lstDcpContributionModel[' + rowIndex + '].startDate')
+       .attr('id', 'startDate' + rowIndex)
+       .val('');
+	 
+   
+	 currentRow.find('.endDate')
+       .attr('name', 'lstDcpContributionModel[' + rowIndex + '].endDate')
+       .attr('id', 'endDate' + rowIndex)
+       .val('');
+	 
+	 
+	 currentRow.find('.payCommission')
+     .attr('name', 'lstDcpContributionModel[' + rowIndex + '].payCommission')
+     .attr('id', 'payCommission' + rowIndex)
+     .val("0");
+	 
+	 
+	 currentRow.find('.dcpContributionId')
+     .attr('name', 'lstDcpContributionModel[' + rowIndex + '].dcpContributionId')
+     .attr('id', 'dcpContributionId' + rowIndex);
+    // .val("0");
+	 
+	 
+	 currentRow.find('.typeOfPayment')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].typeOfPayment')
+	 .attr('id', 'typeOfPayment' + rowIndex)
+	 .val("0");
+	 
+	 currentRow.find('.basicPay')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].basicPay')
+	 .attr('id', 'basicPay' + rowIndex);
+	 //.val("0");
+	 
+	 
+	 currentRow.find('.sevaarthId')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].sevaarthId')
+	 .attr('id', 'sevaarthId' + rowIndex);
+	 
+	 
+	 
+	 currentRow.find('.dcpEmpId')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].dcpEmpId')
+	 .attr('id', 'dcpEmpId' + rowIndex);
+	 
+	 
+	 currentRow.find('.daRate')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].daRate')
+	 .attr('id', 'daRate' + rowIndex);
+	 
+	 
+	 currentRow.find('.da')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].da')
+	 .attr('id', 'da' + rowIndex);
+	 
+	 
+	 currentRow.find('.contribution')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].contribution')
+	 .attr('id', 'contribution' + rowIndex)
+	 .val("0");
+	 
+	 
+	 currentRow.find('.emprContribution')
+	 .attr('name', 'lstDcpContributionModel[' + rowIndex + '].emprContribution')
+	 .attr('id', 'emprContribution' + rowIndex)
+	 .val("0");
+	 
+	 
+	 currentRow.find('.hidBasic').attr('id', 'hidBasic' + rowIndex);
+	 
+	 
+	 currentRow.find('.regStatus').attr('text', 'Not Saved');
+	 
+      $('#trnDCPSTable').append(currentRow);
+});
+
+$(document).on('click', '.deleteRow', function() {
+    $(this).closest('tr').remove();
+});
+
+
 
 
 function addMonthYearComboForDelayed() {
@@ -87,16 +246,16 @@ function addMonthYearComboForDelayed() {
 
 function funDdo1() {
 
-	var schemeId = $('#billGroupId').val();
+	var billGroupId = $('#billGroupId').val();
 	
-	if(schemeId != "0"){
-		removeErrorClass($("#txtSchemeName"));
+	if(billGroupId != "0"){
+		removeErrorClass($("#billGroupId"));
 	}
 
-	if (schemeId != '') {
+	if (billGroupId != '') {
 		$.ajax({
 			type : "GET",
-			url : contextPath+"/ddoast/getSchemeCodeAgainstName/" + schemeId,
+			url : contextPath+"/ddoast/getSchemeCodeByBillGroupId/" + billGroupId,
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {
@@ -149,7 +308,7 @@ function SearchEmployee(e) {
 	}
 	var flag=true;
 		if(flag){
-			$(".tblEmpDtlsBody").empty();
+			$(".trnDCPSTable").empty();
 			$("#onlineEntryForm").submit();   
 			return true;
 		}

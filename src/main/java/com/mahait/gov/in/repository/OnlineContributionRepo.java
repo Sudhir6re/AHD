@@ -5,6 +5,7 @@ import java.util.List;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
+import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
 
@@ -19,5 +20,9 @@ public interface OnlineContributionRepo {
 	Long saveMstDcpsContriVoucherDtlEntity(MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity);
 
 	void saveDcpsContributionEntity(DcpsContributionEntity dcpsContributionEntity);
+
+	List<Object[]> getSchemeCodeByBillGroupId(String billGroupId);
+
+	MstEmployeeEntity findEmpDtlBySevaarthId(String sevaarthId);
 
 }

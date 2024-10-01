@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,7 +114,8 @@ public class PayBillViewApprDelBillServiceImpl implements PayBillViewApprDelBill
 				generateBillDetailsModel.setBillDescription(StringHelperUtils.isNullString(objLst[1]));
 				generateBillDetailsModel.setSchemeCode(StringHelperUtils.isNullString(objLst[2]));
 				generateBillDetailsModel.setSchemeName(StringHelperUtils.isNullString(objLst[3]));
-				generateBillDetailsModel.setBillGrossAmt(StringHelperUtils.isNullDouble(objLst[4]));
+				BigInteger gross = (BigInteger) objLst[4];
+				generateBillDetailsModel.setBillGrossAmt(gross.doubleValue());
 				generateBillDetailsModel.setBillNetAmt(StringHelperUtils.isNullDouble(objLst[5]));
 				generateBillDetailsModel.setIsActive(StringHelperUtils.isNullInt(objLst[6]));
 				generateBillDetailsModel.setNoOfEmployee(StringHelperUtils.isNullInt(objLst[7]));

@@ -7,6 +7,11 @@ $(document).ready(function(){
 		});
 	}
 	
+	if($("#schemebillGroupId")){
+		$("#schemebillGroupId").select2();
+	}
+	
+	
 	var selecteditems  = [];
      $("#btnSave").click(function(e){
     	
@@ -56,7 +61,7 @@ $(document).ready(function(){
     			   
     			     $.ajax({
     				      type: "GET",
-    				      url: "../level1/dettachBillGroupId/"+sevaarthId,
+    				      url: "../ddoast/dettachBillGroupId/"+sevaarthId,
     				      async: true,
     				      error: function(data){
     				    	  console.log(data);
@@ -88,7 +93,7 @@ function isPaybillIsInProcessForAttach(sevaarthId) {
 	var len=0;
 	$.ajax({
 		type : "GET",
-		url : "../level1/isPaybillIsInProcessForAttach/" + sevaarthId,
+		url : "../ddoast/isPaybillIsInProcessForAttach/" + sevaarthId,
 		async : false,
 		contentType:'application/json',
 		error : function(data) {

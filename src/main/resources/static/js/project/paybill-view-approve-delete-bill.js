@@ -631,7 +631,7 @@ $("#btnSearch")
 			 }
 		});		*/
 
-$("#btnSearch1")
+$("#btnSearch")
 .click(
 		function(e) {
 			e.preventDefault();
@@ -652,6 +652,8 @@ $("#btnSearch1")
 				e.preventDefault();
 				swal("Please select billNumber");
 			} */else  {
+				$("#loaderMainNew").show();
+				
 				var urlCall;
 				
 				if(billNumber == "" || billNumber == "0" || billNumber == undefined){
@@ -680,10 +682,11 @@ $("#btnSearch1")
 							async : false,
 							error : function(data) {
 								console.log(data);
+								$("#loaderMainNew").hide();
 							},
 							contentType : 'application/json',
 							success : function(data) {
-								
+								$("#loaderMainNew").hide();
 								console.log(data);
 								
 								$('#tblShowPayBill').show();
@@ -697,6 +700,7 @@ $("#btnSearch1")
 //									var paybillGenerationTrnId,status,billDescription, schemeCode, schemeName, noOfEmployee,authno, billGrossAmt, billNetAmt, isActive,ddoCode;
 									var paybillGenerationTrnId,status,billDescription,  noOfEmployee,RTGS, billGrossAmt, billNetAmt, isActive,ddoCode,schemeCode, schemeName;
 									for(var i=0;i<data.length;i++){
+										
 													paybillGenerationTrnId = data[i].paybillGenerationTrnId;
 													billDescription = data[i].billDescription;
 													console.log(data[i].billDescription);
@@ -706,7 +710,7 @@ $("#btnSearch1")
 													//authno=result[8];
 													RTGS=data[i].paybillGenerationTrnId;
 													billGrossAmt =data[i].billGrossAmt;
-													billNetAmt = data[i].billNetAmount;
+													billNetAmt = data[i].billNetAmt;
 													//ddoCode = result[5];
 			                                        status= data[i].isActive;
 			                                        authNo= data[i].authno;
@@ -715,9 +719,9 @@ $("#btnSearch1")
                                                        var   change1;
                                                        var inner5;
                                                        var RTGS;
-                                                         change1="<a class='paybillGenerationTrnId'>"+paybillGenerationTrnId+"</a>"; 
+                                                         change1="<a    class='paybillGenerationTrnId'>"+paybillGenerationTrnId+"</a>"; 
                                                                   
-                                       inner5="<a  onclick='showinnerreport("+paybillGenerationTrnId+");'>"+paybillGenerationTrnId+"</a></td>";
+                                       inner5="<a   data-bill-number='"+paybillGenerationTrnId+"'  class='showinneRreport' >"+paybillGenerationTrnId+"</a></td>";
                                        
                                        if(RTGS!=null){
                                     	   if(status==14){
@@ -993,11 +997,13 @@ $("#btnUpdate")
 		});
 
 
-$(".showinneRreport").click(function(){
+	
+	
+$(document).on('click','.showinneRreport', function(event){	
 	var billnm = billNumber;
 	var ddoCode = "1";
 	
-	   billNumber = $(this).data('bill-number');     //$(this).attr('bill-number'); 
+	 var   billNumber = $(this).data('bill-number');     //$(this).attr('bill-number'); 
 
 	$("#loaderMainNew").show();
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
@@ -27,7 +28,7 @@
 			</div>
 			<br />
 			<form method="POST" action="" name="ReportForm"
-				th:action="@{/ddoast/professionalTaxReport}"
+				th:action="@{/ddoast/gpfAbstractReport}"
 				th:object="${regularReportModel}" enctype="multipart/form-data">
 				<div id="tcontent1">
 					<table class="table bor-0">
@@ -90,9 +91,7 @@
 								<td colspan="2" class="TableBorderTN"
 									style="padding: 5px; text-align: right"><input
 									type="submit" name="GenerateReport" id="rptBtn_GenerateReport"
-									value="Generate Report" class="btn"> <!-- <a
-									th:href="@{/ddoast/profTaxReport}" class="btn"
-									id="rptBtn_GenerateReport">Generate Report</a>  -->
+									value="Generate Report" class="btn"> 
 									<input type="reset" name="ResetParams" id="rptBtn_ResetBtn"
 									value="Reset" class="btn"> <input type="button"
 									name="btnBackAgain" id="btnBackAgain" onclick="history.back()"

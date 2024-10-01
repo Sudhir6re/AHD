@@ -16,6 +16,8 @@ public class DcpContributionModel {
 
     private Long dcpEmpId;
     
+    private String sevaarthId;
+    
     private String dcpsNO;
     
     private String employeeName;
@@ -39,6 +41,10 @@ public class DcpContributionModel {
     private int monthId;
 
     private Double basicPay;
+    
+    
+    private Double actualBasic;
+    
 
     private Double da;
     

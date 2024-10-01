@@ -22,13 +22,6 @@ public class GroupWiseAbstractReportController   extends BaseController{
 	
 	@Autowired
 	RegularReportService regularReportService;
-	
-	@GetMapping("/groupWiseAbstractReport")
-	public String groupWiseAbstractReport(Model model, Locale locale, HttpSession session) {
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		addMenuAndSubMenu(model,messages);
-		return "/views/reports/group-wise-abstract-report";
-	}
 
 	@GetMapping("/groupWiseAbstract")
 	public String groupWiseAbstract(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
