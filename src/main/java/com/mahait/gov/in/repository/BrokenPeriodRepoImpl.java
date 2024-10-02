@@ -77,7 +77,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 				mstEmployeeModel.setBloodGroup(mstEmployeeEntity.getBloodGroup());
 				mstEmployeeModel.setMobileNo1(mstEmployeeEntity.getMobileNo1());
 				mstEmployeeModel.setMobileNo2(mstEmployeeEntity.getMobileNo2());
-				mstEmployeeModel.setLandlineNo(mstEmployeeEntity.getLineNo());
+				mstEmployeeModel.setLandlineNo(mstEmployeeEntity.getLandlineNo());
 				mstEmployeeModel.setEmailId(mstEmployeeEntity.getEmailId());
 				mstEmployeeModel.setReligionCode(mstEmployeeEntity.getReligionCode());
 				mstEmployeeModel.setEidNo(mstEmployeeEntity.getEidNo());
