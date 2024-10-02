@@ -367,17 +367,28 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	@Override
 	public MstEmployeeEntity findEmpDtlBySevaarthId(String sevaarthId) {
 		StringBuilder sbQuery = new StringBuilder();
-		sbQuery.append("SELECT Em FROM MstEmployeeEntity Em ")
-				.append(" WHERE Em.sevaarthId = :sevaarthId"); // Filtering by a unique attribute
-
+		sbQuery.append("SELECT Em FROM MstEmployeeEntity Em ").append(" WHERE Em.sevaarthId = :sevaarthId"); 
 		TypedQuery<MstEmployeeEntity> query = entityManager.createQuery(sbQuery.toString(), MstEmployeeEntity.class);
 		query.setParameter("sevaarthId", sevaarthId);
-
 		try {
 			return query.getSingleResult(); // Get a single result
 		} catch (NoResultException e) {
-			return null; 
+			return null;
 		}
+	}
+
+	@Override
+	public List<Object[]> findTreasuryList(OrgUserMst messages) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select  b.loc_id,b.loc_name from RLT_DDO_ORG a");
+		sb.append(" inner join cmn_location_mst b on a.LOCATION_CODE=b.location_code");
+		sb.append(" where a.ddo_code=:ddo_code");
+
+		Query query = currentSession.createSQLQuery(sb.toString());
+		query.setParameter("ddo_code", messages.getDdoCode());
+		return query.list();
+
 	}
 
 }

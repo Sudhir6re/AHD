@@ -25,4 +25,6 @@ public interface OnlineContributionRepo {
 
 	MstEmployeeEntity findEmpDtlBySevaarthId(String sevaarthId);
 
+	List<Object[]> findTreasuryList(OrgUserMst messages);
+
 }

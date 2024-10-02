@@ -163,10 +163,6 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 				dcpContributionModel1.setEndDate(newEndDate);
 			}
 
-			
-			
-			
-			
 			dcpContributionModel1.setSevaarthId(StringHelperUtils.isNullString(object[18]));
 
 			DP = 0D;
@@ -289,10 +285,10 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			dcpsContributionEntity.setTypeOfPayment(dcpContributionModel1.getTypeOfPayment());
 			dcpsContributionEntity.setDcpEmpId(dcpContributionModel1.getDcpEmpId());
 			dcpsContributionEntity.setDdoCode(dcpContributionModel1.getDdoCode());
-			
+
 			dcpsContributionEntity.setDelayedFinYearId(dcpContributionModel.getDelayedFinYearId());
 			dcpsContributionEntity.setDelayedMonthId(dcpContributionModel.getDelayedMonthId());
-			
+
 			dcpsContributionEntity.setStartDate(dcpContributionModel1.getStartDate());
 			dcpsContributionEntity.setEndDate(dcpContributionModel1.getEndDate());
 			dcpsContributionEntity.setFinYearId(dcpContributionModel.getFinYearId());
@@ -325,146 +321,137 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 	@Override
 	public DcpContributionModel calculateDcpsArrear(Map<String, String> formData) {
-	    String fromDateStr = formData.get("startDate"); 
-	    String toDateStr = formData.get("endDate");   
-	    String sevaarthId = formData.get("sevaarthId");
-	    String payCommission = formData.get("payCommission");
+		String fromDateStr = formData.get("startDate");
+		String toDateStr = formData.get("endDate");
+		String sevaarthId = formData.get("sevaarthId");
+		String payCommission = formData.get("payCommission");
 
-	    double basicPay = 0d;
-	    Integer allowDeducCode = payCommission.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) ?
-	            CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE :
-	            CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE;
+		double basicPay = 0d;
+		Integer allowDeducCode = payCommission.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)
+				? CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE
+				: CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE;
 
-	    DcpContributionModel totalContributionModel = new DcpContributionModel();
-	    MstEmployeeEntity employeeEntity = onlineContributionRepo.findEmpDtlBySevaarthId(sevaarthId);
+		DcpContributionModel totalContributionModel = new DcpContributionModel();
+		MstEmployeeEntity employeeEntity = onlineContributionRepo.findEmpDtlBySevaarthId(sevaarthId);
 
-	    basicPay = payCommission.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) ?
-	            employeeEntity.getSevenPcBasic() :
-	            employeeEntity.getBasicPay();
-	            
-	            
-	            double da = 0d;
-                double employeeContribution =  0d;
-                double employerContribution = 0d;      
-	    
-                double newBasicPay=0d;
-	    
-	            
+		basicPay = payCommission.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)
+				? employeeEntity.getSevenPcBasic()
+				: employeeEntity.getBasicPay();
 
-	    try {
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	        Date fromDate = dateFormat.parse(fromDateStr);
-	        Date toDate = dateFormat.parse(toDateStr);
+		double da = 0d;
+		double employeeContribution = 0d;
+		double employerContribution = 0d;
 
-	        Calendar startCal = Calendar.getInstance();
-	        startCal.setTime(fromDate);
-	        
-	        Calendar endCal = Calendar.getInstance();
-	        endCal.setTime(toDate);
+		double newBasicPay = 0d;
 
-	        if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR) &&
-	            startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
-	            int daysInRange = endCal.get(Calendar.DAY_OF_MONTH) - startCal.get(Calendar.DAY_OF_MONTH) + 1;
-	            int totalDaysInMonth = startCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date fromDate = dateFormat.parse(fromDateStr);
+			Date toDate = dateFormat.parse(toDateStr);
 
-	            double calculatedBasic = (basicPay * daysInRange) / totalDaysInMonth;
+			Calendar startCal = Calendar.getInstance();
+			startCal.setTime(fromDate);
 
-	            Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(fromDateStr, Integer.parseInt(payCommission), allowDeducCode);
-	            double daRate = 0.01 * percentageRate.doubleValue();
-	             da = calculatedBasic * daRate;
-	             employeeContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.10;
-	             employerContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.14;
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(toDate);
 
-	            totalContributionModel.setBasicPay(calculatedBasic);
-	            totalContributionModel.setDa(da);
-	            totalContributionModel.setDaRate(percentageRate);
-	            totalContributionModel.setEmprContribution(employerContribution);
-	            totalContributionModel.setContribution(employeeContribution);
-	        } else {
-	            Calendar currentCal = (Calendar) startCal.clone();
+			if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)
+					&& startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
+				int daysInRange = endCal.get(Calendar.DAY_OF_MONTH) - startCal.get(Calendar.DAY_OF_MONTH) + 1;
+				int totalDaysInMonth = startCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-	            while (currentCal.before(endCal) || currentCal.equals(endCal)) {
-	                int monthDays = currentCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-	                int daysInRange;
+				double calculatedBasic = (basicPay * daysInRange) / totalDaysInMonth;
 
-	                if (currentCal.get(Calendar.YEAR) == startCal.get(Calendar.YEAR) &&
-	                    currentCal.get(Calendar.MONTH) == startCal.get(Calendar.MONTH)) {
-	                    daysInRange = monthDays - startCal.get(Calendar.DAY_OF_MONTH) + 1;
-	                } else if (currentCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR) &&
-	                           currentCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
-	                    daysInRange = endCal.get(Calendar.DAY_OF_MONTH);
-	                } else {
-	                    daysInRange = monthDays;
-	                }
+				Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(fromDateStr,
+						Integer.parseInt(payCommission), allowDeducCode);
+				double daRate = 0.01 * percentageRate.doubleValue();
+				da = calculatedBasic * daRate;
+				employeeContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.10;
+				employerContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.14;
 
-	                double calculatedBasic = (basicPay * daysInRange) / monthDays;
+				totalContributionModel.setBasicPay(calculatedBasic);
+				totalContributionModel.setDa(da);
+				totalContributionModel.setDaRate(percentageRate);
+				totalContributionModel.setEmprContribution(employerContribution);
+				totalContributionModel.setContribution(employeeContribution);
+			} else {
+				Calendar currentCal = (Calendar) startCal.clone();
 
-	                Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(
-	                        dateFormat.format(currentCal.getTime()), Integer.parseInt(payCommission), allowDeducCode);
-	                double daRate = 0.01 * percentageRate.doubleValue();
-	                 da = da+(calculatedBasic * daRate);
-	                 employeeContribution =employeeContribution+ (Math.ceil(calculatedBasic) + Math.round(da)) * 0.10;
-	                 employerContribution = employerContribution+(Math.ceil(calculatedBasic) + Math.round(da)) * 0.14;
-	                
-	                 totalContributionModel.setDa(da);
-	                 totalContributionModel.setContribution(employeeContribution);
-	                 totalContributionModel.setEmprContribution(employerContribution);
-	                 totalContributionModel.setDaRate(percentageRate);
-	                 
-	               /*  
-	                 totalContributionModel.setDa(
-	                    totalContributionModel.getDa() == null || totalContributionModel.getDa() == 0.0
-	                    ? 0d 
-	                    : totalContributionModel.getDa() + da
-	                );*/
-	               /* totalContributionModel.setDaRate(percentageRate);
-	                
-	                totalContributionModel.setEmprContribution(
-	                    (totalContributionModel.getEmprContribution() == null || totalContributionModel.getEmprContribution() == 0.0) 
-	                    ? 0d 
-	                    : totalContributionModel.getEmprContribution() + employerContribution
-	                );
-	                totalContributionModel.setContribution(
-	                    (totalContributionModel.getContribution() == null || totalContributionModel.getContribution() == 0.0)
-	                    ? 0d 
-	                    : totalContributionModel.getContribution() + employeeContribution
-	                );*/
+				while (currentCal.before(endCal) || currentCal.equals(endCal)) {
+					int monthDays = currentCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+					int daysInRange;
 
-	                 newBasicPay =newBasicPay+calculatedBasic;
-	                totalContributionModel.setBasicPay(newBasicPay);
-	                currentCal.add(Calendar.MONTH, 1);
-	            }
-	        }
-	    } catch (ParseException e) {
-	        e.printStackTrace(); 
-	    }
+					if (currentCal.get(Calendar.YEAR) == startCal.get(Calendar.YEAR)
+							&& currentCal.get(Calendar.MONTH) == startCal.get(Calendar.MONTH)) {
+						daysInRange = monthDays - startCal.get(Calendar.DAY_OF_MONTH) + 1;
+					} else if (currentCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)
+							&& currentCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
+						daysInRange = endCal.get(Calendar.DAY_OF_MONTH);
+					} else {
+						daysInRange = monthDays;
+					}
 
-	    return totalContributionModel; 
+					double calculatedBasic = (basicPay * daysInRange) / monthDays;
+
+					Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(
+							dateFormat.format(currentCal.getTime()), Integer.parseInt(payCommission), allowDeducCode);
+					double daRate = 0.01 * percentageRate.doubleValue();
+					da = da + (calculatedBasic * daRate);
+					employeeContribution = employeeContribution + (Math.ceil(calculatedBasic) + Math.round(da)) * 0.10;
+					employerContribution = employerContribution + (Math.ceil(calculatedBasic) + Math.round(da)) * 0.14;
+
+					totalContributionModel.setDa(da);
+					totalContributionModel.setContribution(employeeContribution);
+					totalContributionModel.setEmprContribution(employerContribution);
+					totalContributionModel.setDaRate(percentageRate);
+
+					/*
+					 * totalContributionModel.setDa( totalContributionModel.getDa() == null ||
+					 * totalContributionModel.getDa() == 0.0 ? 0d : totalContributionModel.getDa() +
+					 * da );
+					 */
+					/*
+					 * totalContributionModel.setDaRate(percentageRate);
+					 * 
+					 * totalContributionModel.setEmprContribution(
+					 * (totalContributionModel.getEmprContribution() == null ||
+					 * totalContributionModel.getEmprContribution() == 0.0) ? 0d :
+					 * totalContributionModel.getEmprContribution() + employerContribution );
+					 * totalContributionModel.setContribution(
+					 * (totalContributionModel.getContribution() == null ||
+					 * totalContributionModel.getContribution() == 0.0) ? 0d :
+					 * totalContributionModel.getContribution() + employeeContribution );
+					 */
+
+					newBasicPay = newBasicPay + calculatedBasic;
+					totalContributionModel.setBasicPay(newBasicPay);
+					currentCal.add(Calendar.MONTH, 1);
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return totalContributionModel;
 	}
-
-	
-	
-
-
 
 	@Override
 	public List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId) {
-		return paybillHeadMpgRepo.findSumContribution(sevaarthId,paymentType,monthId,yearId);
+		return paybillHeadMpgRepo.findSumContribution(sevaarthId, paymentType, monthId, yearId);
 	}
 
 	@Override
 	public List<CmnLocationMst> findTreasuryList(OrgUserMst messages) {
-		// TODO Auto-generated method stub
-		
-		List<Object[]> lst= paybillHeadMpgRepo.findTreasuryList(messages);
-		/*for() {
-			
-		}*/
-		
-		
-		return null;
+		List<Object[]> lst = onlineContributionRepo.findTreasuryList(messages);
+		List<CmnLocationMst> lstCmnLocationMst = new ArrayList<>();
+		for (Object object[] : lst) {
+			CmnLocationMst cmnLocationMst = new CmnLocationMst();
+			cmnLocationMst.setLocId(Long.valueOf(object[0].toString()));
+			cmnLocationMst.setLocName(object[1].toString());
+			lstCmnLocationMst.add(cmnLocationMst);
+		}
+		return lstCmnLocationMst;
 	}
-
 }
 
 /*

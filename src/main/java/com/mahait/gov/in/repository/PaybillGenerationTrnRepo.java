@@ -75,7 +75,6 @@ public interface PaybillGenerationTrnRepo {
 	public String getEmpCadre(String sevaarthId, Long empClass);
 	public Long saveBulkPaybillDetail(List<PaybillGenerationTrnDetails> lstPaybillGenerationTrnDetails);
 	public List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId);
-	public List<Object[]> findTreasuryList(OrgUserMst messages);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);

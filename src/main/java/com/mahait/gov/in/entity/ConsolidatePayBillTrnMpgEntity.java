@@ -13,7 +13,6 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="CONSOLIDATE_PAYBILL_TRN_MPG",schema="public")
-
 public class ConsolidatePayBillTrnMpgEntity {
 	
 	@Id

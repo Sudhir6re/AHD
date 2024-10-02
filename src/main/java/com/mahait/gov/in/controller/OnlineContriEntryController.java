@@ -90,7 +90,7 @@ public class OnlineContriEntryController extends BaseController {
 			
 			
 			
-			List<CmnLocationMst> lst=onlineContributionService.findTreasuryList(messages);
+			
 					
 			
 			
@@ -106,6 +106,8 @@ public class OnlineContriEntryController extends BaseController {
 
 		dcpContributionModel.setAction("search");
 		model.addAttribute("dcpContributionModel", dcpContributionModel);
+		List<CmnLocationMst> lstTreasury=onlineContributionService.findTreasuryList(messages);
+		model.addAttribute("lstTreasury", lstTreasury);
 
 		return "/views/online-contri-entry";
 	}

@@ -66,22 +66,25 @@ div#tblEmpDtlsBody\ table-responsive th {
 						<tbody>
 							<tr>
 								<td width="15%"><b>Treasury Name</b></td>
-								<td width="35%"><select   th:field="*{treasuryCode}"
+								<td width="35%"><select  readonly th:field="*{treasuryCode}"
 									id="cmbTreasuryCode">
-										<option value="3401" title="NANDED ,DISTRICT TREASURY OFFICE">NANDED
-											,DISTRICT TREASURY OFFICE</option>
+											
+								     <option th:each="cmnLocationMst : ${lstTreasury}" selected="selected" 
+											th:value="${cmnLocationMst.locId}"
+											th:text="${cmnLocationMst.locName}"></option>
+											
+											
 								</select> <label class="mandatoryindicator">*</label></td>
 							</tr>
 							<tr>
 								<td width="15%"><b>DDO Name</b></td>
 
 								<td width="30%"><select name="ddoCode"
-									th:field="*{ddoCode}" id="ddoCode"
+									th:field="*{ddoCode}" id="ddoCode" readonly
 									class="form-control removeErrorFromDropdown">
-										<option selected="selected" th:value="0"
-											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										
 										<option th:each="varGetAllddoNameLst : ${ddoNameLst}"
-											th:value="${varGetAllddoNameLst.ddoCode}"
+											selected="selected"  th:value="${varGetAllddoNameLst.ddoCode}"
 											th:text="${language=='mh' ? varGetAllddoNameLst.ddoName : varGetAllddoNameLst.ddoName}"></option>
 								</select></td>
 							</tr>

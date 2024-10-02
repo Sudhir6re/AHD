@@ -1519,19 +1519,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		return query.list();
 	}
 
-	@Override
-	public List<Object[]> findTreasuryList(OrgUserMst messages) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		StringBuilder sb = new StringBuilder();
-		sb.append(" select  b.location_code,b.loc_name from RLT_DDO_ORG a");
-		sb.append(" inner join cmn_location_mst b on a.LOCATION_CODE=b.location_code");
-		sb.append(" where a.ddo_code=:ddo_code");
-
-		Query query = currentSession.createSQLQuery(sb.toString());
-		query.setParameter("ddo_code", messages.getDdoCode());
-		return query.list();
-
-	}
+	
 
 	/*
 	 * public Map<Long, Double> getDCPValues(String sevaarthId, Long monthId, Long
