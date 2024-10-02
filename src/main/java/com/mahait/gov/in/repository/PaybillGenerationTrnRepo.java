@@ -74,7 +74,7 @@ public interface PaybillGenerationTrnRepo {
 	Double fetchAccidentialPilocyDtls(String startDate, String citygroup, int allowDeducCode);
 	public String getEmpCadre(String sevaarthId, Long empClass);
 	public Long saveBulkPaybillDetail(List<PaybillGenerationTrnDetails> lstPaybillGenerationTrnDetails);
-	public List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId);
+	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId, String string);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);

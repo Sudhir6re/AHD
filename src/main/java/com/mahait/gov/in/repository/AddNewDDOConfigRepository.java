@@ -532,7 +532,6 @@ public class AddNewDDOConfigRepository {
 			lObjRltDdoOrg.setTrnCounter(1);
 			ghibSession.save(lObjRltDdoOrg);
 			ghibSession.flush();
-		
 	}
 
 	/*public void insertWfOrgPost(String Pid) {

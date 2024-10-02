@@ -17,18 +17,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.CmnLocationMst;
+import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
+import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
 import com.mahait.gov.in.model.MstSchemeModel;
+import com.mahait.gov.in.response.MessageResponse;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.MstDesignationService;
 import com.mahait.gov.in.service.OnlineContributionService;
 import com.mahait.gov.in.service.RegularReportService;
 
-@RequestMapping(value= {"/ddoast","/ddo"})
+@RequestMapping(value = { "/ddoast", "/ddo" })
 @Controller
 public class OnlineContriEntryController extends BaseController {
 
@@ -50,13 +54,29 @@ public class OnlineContriEntryController extends BaseController {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model, messages);
 
+		String message = (String) model.asMap().get("message");
+		model.addAttribute("message", message);
+
 		dcpContributionModel.setUseType("ViewAll");
 
 		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
-		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
+		
+		Integer regStatus=0;
+		
+		List<MstDcpsBillGroup>  listMstDcpsBillGroup=onlineContributionService.findBillgroupList(messages,regStatus);
+		
+		
+		model.addAttribute("lstBillDesc", listMstDcpsBillGroup);
+		
+		
 
 		model.addAttribute("ddoNameLst", regularReportService.getDDOName(messages.getDdoCode()));
+
+		List<OrgDdoMst> lst = regularReportService.getDDOName(messages.getDdoCode());
+		if (lst.size() > 0) {
+			dcpContributionModel.setLocId(Long.valueOf(lst.get(0).getLocationCode()));
+		}
 
 		model.addAttribute("paymentTypeLst", onlineContributionService.getPaymentTypeLst());
 		model.addAttribute("payCommisionLst", mstDesignationService.findAllPayCommission());
@@ -78,23 +98,15 @@ public class OnlineContriEntryController extends BaseController {
 			}
 
 			dcpContributionModel.setUseType("ViewAll");
-			
-			Boolean isPaybillGenerated = onlineContributionService.checkIfBillAlreadyGenerated(dcpContributionModel.getBillGroupId(),
-					dcpContributionModel.getMonthId(),dcpContributionModel.getFinYearId());
-			
+
+			Boolean isPaybillGenerated = onlineContributionService.checkIfBillAlreadyGenerated(
+					dcpContributionModel.getBillGroupId(), dcpContributionModel.getMonthId(),
+					dcpContributionModel.getFinYearId());
+
 			model.addAttribute("isPaybillGenerated", isPaybillGenerated);
-			
 
 			List<DcpContributionModel> dcpContributionModelLst = onlineContributionService
 					.getEmpListForContribution(dcpContributionModel, messages, startDate);
-			
-			
-			
-			
-					
-			
-			
-			
 
 			dcpContributionModel.setLstDcpContributionModel(dcpContributionModelLst);
 			model.addAttribute("dcpContributionModelLst", dcpContributionModelLst);
@@ -106,31 +118,115 @@ public class OnlineContriEntryController extends BaseController {
 
 		dcpContributionModel.setAction("search");
 		model.addAttribute("dcpContributionModel", dcpContributionModel);
-		List<CmnLocationMst> lstTreasury=onlineContributionService.findTreasuryList(messages);
+		List<CmnLocationMst> lstTreasury = onlineContributionService.findTreasuryList(messages);
 		model.addAttribute("lstTreasury", lstTreasury);
 
 		return "/views/online-contri-entry";
 	}
 
+	
+	@RequestMapping("/viewForwrdedOnlineContriEntry")
+	public String viewForwrdedOnlineContriEntry(@ModelAttribute("dcpContributionModel") DcpContributionModel dcpContributionModel,
+			Model model, Locale locale, HttpSession session) {
+
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model, messages);
+
+		String message = (String) model.asMap().get("message");
+		model.addAttribute("message", message);
+
+		dcpContributionModel.setUseType("ViewAll");
+
+		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
+		
+		if(messages.getMstRoleEntity().getRoleId()==2) {
+			
+			Integer regStatus=2;
+			
+			List<MstDcpsBillGroup>  ListMstDcpsBillGroup=onlineContributionService.findBillgroupList(messages,regStatus);
+			
+		}
+		
+		
+		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
+
+		model.addAttribute("ddoNameLst", regularReportService.getDDOName(messages.getDdoCode()));
+
+		List<OrgDdoMst> lst = regularReportService.getDDOName(messages.getDdoCode());
+		if (lst.size() > 0) {
+			dcpContributionModel.setLocId(Long.valueOf(lst.get(0).getLocationCode()));
+		}
+
+		model.addAttribute("paymentTypeLst", onlineContributionService.getPaymentTypeLst());
+		model.addAttribute("payCommisionLst", mstDesignationService.findAllPayCommission());
+
+		String messageResponse = (String) model.asMap().get("message");
+		if (messageResponse != null && messageResponse.equals("SUCCESS")) {
+			model.addAttribute("message", "Contribution saved successfully !!!");
+		}
+
+		if (dcpContributionModel.getAction() != null && dcpContributionModel.getAction().equals("SEARCH_EMP")) {
+			String startDate = null;
+
+			int month2 = dcpContributionModel.getDelayedMonthId();
+			int year2 = dcpContributionModel.getDelayedFinYearId();
+			if (month2 < 10) {
+				startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
+			} else {
+				startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
+			}
+
+			dcpContributionModel.setUseType("ViewAll");
+
+			Boolean isPaybillGenerated = onlineContributionService.checkIfBillAlreadyGenerated(
+					dcpContributionModel.getBillGroupId(), dcpContributionModel.getMonthId(),
+					dcpContributionModel.getFinYearId());
+
+			model.addAttribute("isPaybillGenerated", isPaybillGenerated);
+
+			List<DcpContributionModel> dcpContributionModelLst = onlineContributionService
+					.getEmpListForContribution(dcpContributionModel, messages, startDate);
+
+			dcpContributionModel.setLstDcpContributionModel(dcpContributionModelLst);
+			model.addAttribute("dcpContributionModelLst", dcpContributionModelLst);
+
+		}
+
+		List<MstPayCommissionEntity> lstddcPayCommission = mstDesignationService.findAllPayCommission();
+		model.addAttribute("lstddcPayCommission", lstddcPayCommission);
+
+		dcpContributionModel.setAction("search");
+		model.addAttribute("dcpContributionModel", dcpContributionModel);
+		List<CmnLocationMst> lstTreasury = onlineContributionService.findTreasuryList(messages);
+		model.addAttribute("lstTreasury", lstTreasury);
+
+		return "/views/view-forwarded-online-contri-entry";
+	
+		
+	}
+	
 	@GetMapping("/viewRejectedContri")
 	public String viewRejectedContri(Model model, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model, messages);
 		return "/views/view-rejected-contri";
 	}
+	
 
 	@RequestMapping("/saveOnlineContriEntry")
 	public String saveOnlineContriEntry(
 			@ModelAttribute("dcpContributionModel") DcpContributionModel dcpContributionModel, Model model,
-			Locale locale, HttpSession session) {
+			RedirectAttributes redirectAttributes, Locale locale, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		dcpContributionModel.setCreatedPostId(messages.getUserId());
-		Long saveId = onlineContributionService.saveOrUpdate(dcpContributionModel);
+		Long saveId = onlineContributionService.saveOrUpdate(dcpContributionModel, messages);
+
+		redirectAttributes.addFlashAttribute("message", "Contribution Saved Successfully !!!");
+
 		model.addAttribute("message", "SUCCESS");
 		return "redirect:/ddoast/onlineContriEntry";
 	}
-	
-	
 
 	@RequestMapping("/getSchemeCodeByBillGroupId/{billGroupId}")
 	public @ResponseBody List<MstSchemeModel> getSchemeCodeByBillGroupId(@PathVariable String billGroupId, Model model,
@@ -138,21 +234,18 @@ public class OnlineContriEntryController extends BaseController {
 		List<MstSchemeModel> status = onlineContributionService.getSchemeCodeByBillGroupId(billGroupId);
 		return status;
 	}
-	
-	
+
 	@PostMapping("/calculateDcpsArrear")
 	public ResponseEntity<DcpContributionModel> calculateDcpsArrear(@RequestBody Map<String, String> formData) {
 		DcpContributionModel lstDcpContributionModel = onlineContributionService.calculateDcpsArrear(formData);
 		return ResponseEntity.ok(lstDcpContributionModel);
 	}
-	
+
 	@PostMapping("/findDcpsContribution")
-	public ResponseEntity<List<Object[]>> findSumContribution(@PathVariable String sevaarthId,String paymentType,Integer monthId,Integer yearId) {
-		List<Object[]> lst= onlineContributionService.findSumContribution(sevaarthId,paymentType,monthId,yearId);
+	public ResponseEntity<List<Object[]>> findSumContribution(@PathVariable String sevaarthId, String paymentType,
+			Integer monthId, Integer yearId) {
+		List<Object[]> lst = onlineContributionService.findSumContribution(sevaarthId, paymentType, monthId, yearId);
 		return ResponseEntity.ok(lst);
 	}
-	
-	
-	
 
 }

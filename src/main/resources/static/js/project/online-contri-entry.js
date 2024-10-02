@@ -24,9 +24,9 @@ jQuery(document).ready(function($) {
 });
 
 
-$("#delayedMonthAndYearCombos").hide();
+/*$("#delayedMonthAndYearCombos").hide();
 $("#DAArrearsDatesDivDisplay").hide();
-$("#PayArrearsDatesDivDisplay").hide();
+$("#PayArrearsDatesDivDisplay").hide();*/
 
 
 $("#save").click(function(e){
@@ -89,7 +89,9 @@ $("#trnDCPSTable").on('blur', ".endDate, .startDate,.payCommission", function() 
     var startDate = row.find('.startDate').val();
     var endDate = row.find('.endDate').val();
 
-    if (startDate > endDate) {
+    
+    
+    if (endDate!='' && (startDate > endDate) ) {
         swal('Select start date less than or equal to End Date');
         row.find('.startDate').val("");
         row.find('.endDate').val("");
@@ -97,6 +99,9 @@ $("#trnDCPSTable").on('blur', ".endDate, .startDate,.payCommission", function() 
         var sevaarthId = row.find('.sevaarthId').val();
         var typeOfPayment = row.find('.typeOfPayment').val();
         var payCommission = row.find('.payCommission').val();
+        
+        var monthId = $('#monthId').val();
+        var finYearId = $('#finYearId').val();
         var noOfDays = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24) + 1; 
 
         var params = {
@@ -104,7 +109,9 @@ $("#trnDCPSTable").on('blur', ".endDate, .startDate,.payCommission", function() 
         	endDate: endDate,
         	sevaarthId: sevaarthId,
         	typeOfPayment: typeOfPayment,
-        	payCommission: payCommission
+        	payCommission: payCommission,
+        	monthId: monthId,
+        	finYearId: finYearId
         };
 
         $.ajax({

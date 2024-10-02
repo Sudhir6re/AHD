@@ -25,6 +25,7 @@ import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
+import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
@@ -45,7 +46,6 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 	@Override
 	public List<CmnLookupMst> getPaymentTypeLst() {
-		// TODO Auto-generated method stub
 		return onlineContributionRepo.getPaymentTypeLst();
 	}
 
@@ -58,10 +58,6 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	public List<DcpContributionModel> getEmpListForContribution(DcpContributionModel dcpContributionModel,
 			OrgUserMst messages, String startDate) {
 
-		// List<DcpContributionModel> dcpContributionModelLst=new ArrayList<>();
-		// 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
-		// [34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600, 0, 700047, 0, 0, 46, null,
-		// 2017-01-01, null, null, null, null, null, 0, 18216, 5782, 0.46, null]
 		List<Object[]> lstobject = onlineContributionRepo.getEmpListForContribution(dcpContributionModel, messages,
 				startDate);
 		List<DcpContributionModel> dcpContributionModelLst = new ArrayList<>();
@@ -263,7 +259,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	}
 
 	@Override
-	public Long saveOrUpdate(DcpContributionModel dcpContributionModel) {
+	public Long saveOrUpdate(DcpContributionModel dcpContributionModel,OrgUserMst orgUserMst) {
 		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = new MstDcpsContriVoucherDtlEntity();
 		mstDcpsContriVoucherDtlEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
 		mstDcpsContriVoucherDtlEntity.setCreatedDate(new Timestamp((new Date().getTime())));
@@ -285,10 +281,11 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			dcpsContributionEntity.setTypeOfPayment(dcpContributionModel1.getTypeOfPayment());
 			dcpsContributionEntity.setDcpEmpId(dcpContributionModel1.getDcpEmpId());
 			dcpsContributionEntity.setDdoCode(dcpContributionModel1.getDdoCode());
-
+			dcpsContributionEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
 			dcpsContributionEntity.setDelayedFinYearId(dcpContributionModel.getDelayedFinYearId());
 			dcpsContributionEntity.setDelayedMonthId(dcpContributionModel.getDelayedMonthId());
-
+			dcpsContributionEntity.setLangId(1l);
+			dcpsContributionEntity.setLocId(dcpContributionModel.getLocId());
 			dcpsContributionEntity.setStartDate(dcpContributionModel1.getStartDate());
 			dcpsContributionEntity.setEndDate(dcpContributionModel1.getEndDate());
 			dcpsContributionEntity.setFinYearId(dcpContributionModel.getFinYearId());
@@ -297,6 +294,11 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			dcpsContributionEntity.setContribution(dcpContributionModel1.getContribution());
 			dcpsContributionEntity.setContributionEmpr(dcpContributionModel1.getEmprContribution().floatValue());
 			dcpsContributionEntity.setRegStatus(2);
+			dcpsContributionEntity.setDbId(99l);
+			dcpsContributionEntity.setCreatedDate(new Timestamp(new Date().getTime()));
+			dcpsContributionEntity.setCreatedPostId(orgUserMst.getPostId());
+			dcpsContributionEntity.setCreatedUserId(orgUserMst.getUserId());
+			dcpsContributionEntity.setRltContriVoucherId(save);
 			onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
 
 		}
@@ -325,24 +327,29 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		String toDateStr = formData.get("endDate");
 		String sevaarthId = formData.get("sevaarthId");
 		String payCommission = formData.get("payCommission");
-
+		//String monthId = formData.get("monthId");
+	//	String finYearId = formData.get("finYearId");
+		
+		
 		double basicPay = 0d;
-		Integer allowDeducCode = payCommission.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)
+		Integer allowDeducCode = Integer.parseInt(payCommission)==(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)
 				? CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE
 				: CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE;
 
 		DcpContributionModel totalContributionModel = new DcpContributionModel();
 		MstEmployeeEntity employeeEntity = onlineContributionRepo.findEmpDtlBySevaarthId(sevaarthId);
 
-		basicPay = payCommission.equals(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)
+		basicPay = Integer.parseInt(payCommission)==CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 				? employeeEntity.getSevenPcBasic()
 				: employeeEntity.getBasicPay();
 
-		double da = 0d;
-		double employeeContribution = 0d;
-		double employerContribution = 0d;
+		double totalDa = 0d;
+		// double employeeContribution = 0d;
+		// double employerContribution = 0d;
 
-		double newBasicPay = 0d;
+		double totalBasicPay = 0d;
+		double totalEmployeeContribution = 0d;
+		double totalEmployerContribution = 0d;
 
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -360,20 +367,32 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 				int daysInRange = endCal.get(Calendar.DAY_OF_MONTH) - startCal.get(Calendar.DAY_OF_MONTH) + 1;
 				int totalDaysInMonth = startCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-				double calculatedBasic = (basicPay * daysInRange) / totalDaysInMonth;
+				double oneMonthBasic = (basicPay * daysInRange) / totalDaysInMonth;
 
 				Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(fromDateStr,
 						Integer.parseInt(payCommission), allowDeducCode);
 				double daRate = 0.01 * percentageRate.doubleValue();
-				da = calculatedBasic * daRate;
-				employeeContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.10;
-				employerContribution = (Math.ceil(calculatedBasic) + Math.round(da)) * 0.14;
+				double oneMonthDa = oneMonthBasic * daRate;
 
-				totalContributionModel.setBasicPay(calculatedBasic);
-				totalContributionModel.setDa(da);
+				double oneMonthEmployeeContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.10;
+				
+				double oneMonthEmployerContribution = 0d;
+				
+				//if ((Integer.parseInt(finYearId) <= 20 && Integer.parseInt(monthId) <= 3) || Integer.parseInt(finYearId) < 20) {
+				
+				if ((endCal.get(Calendar.YEAR) <= 2019 && startCal.get(Calendar.MONTH) <= 3) || endCal.get(Calendar.YEAR) < 2019) {		
+					oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
+				}else {
+					oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
+				}
+				
 				totalContributionModel.setDaRate(percentageRate);
-				totalContributionModel.setEmprContribution(employerContribution);
-				totalContributionModel.setContribution(employeeContribution);
+				
+				totalContributionModel.setBasicPay((double) Math.round(oneMonthBasic));
+				totalContributionModel.setDa((double) Math.round(oneMonthDa));
+				totalContributionModel.setEmprContribution((double) Math.round(oneMonthEmployerContribution));
+				totalContributionModel.setContribution((double) Math.round(oneMonthEmployeeContribution));
+
 			} else {
 				Calendar currentCal = (Calendar) startCal.clone();
 
@@ -391,42 +410,38 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 						daysInRange = monthDays;
 					}
 
-					double calculatedBasic = (basicPay * daysInRange) / monthDays;
+					double oneMonthBasic = (basicPay * daysInRange) / monthDays;
 
 					Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(
 							dateFormat.format(currentCal.getTime()), Integer.parseInt(payCommission), allowDeducCode);
 					double daRate = 0.01 * percentageRate.doubleValue();
-					da = da + (calculatedBasic * daRate);
-					employeeContribution = employeeContribution + (Math.ceil(calculatedBasic) + Math.round(da)) * 0.10;
-					employerContribution = employerContribution + (Math.ceil(calculatedBasic) + Math.round(da)) * 0.14;
+					double oneMonthDa = (oneMonthBasic * daRate);
 
-					totalContributionModel.setDa(da);
-					totalContributionModel.setContribution(employeeContribution);
-					totalContributionModel.setEmprContribution(employerContribution);
+					double oneMonthEmployeeContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.10;
+					
+					
+					double oneMonthEmployerContribution = 0d;
+					//if ((Integer.parseInt(finYearId) <= 20 && Integer.parseInt(monthId) <= 3) || Integer.parseInt(finYearId) < 20) {
+					if ((endCal.get(Calendar.YEAR) <= 2019 && startCal.get(Calendar.MONTH) <= 3) || endCal.get(Calendar.YEAR) < 2019) {		
+						oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
+					}else {
+						oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
+					}
+					
+					totalDa = totalDa + oneMonthDa;
+					totalBasicPay = totalBasicPay + oneMonthBasic;
+					totalEmployeeContribution = totalEmployeeContribution + oneMonthEmployeeContribution;
+					totalEmployerContribution = totalEmployerContribution + oneMonthEmployerContribution;
 					totalContributionModel.setDaRate(percentageRate);
-
-					/*
-					 * totalContributionModel.setDa( totalContributionModel.getDa() == null ||
-					 * totalContributionModel.getDa() == 0.0 ? 0d : totalContributionModel.getDa() +
-					 * da );
-					 */
-					/*
-					 * totalContributionModel.setDaRate(percentageRate);
-					 * 
-					 * totalContributionModel.setEmprContribution(
-					 * (totalContributionModel.getEmprContribution() == null ||
-					 * totalContributionModel.getEmprContribution() == 0.0) ? 0d :
-					 * totalContributionModel.getEmprContribution() + employerContribution );
-					 * totalContributionModel.setContribution(
-					 * (totalContributionModel.getContribution() == null ||
-					 * totalContributionModel.getContribution() == 0.0) ? 0d :
-					 * totalContributionModel.getContribution() + employeeContribution );
-					 */
-
-					newBasicPay = newBasicPay + calculatedBasic;
-					totalContributionModel.setBasicPay(newBasicPay);
 					currentCal.add(Calendar.MONTH, 1);
 				}
+
+				totalContributionModel.setDa((double) Math.round(totalDa));
+				totalContributionModel.setContribution((double) Math.round(totalEmployeeContribution));
+				totalContributionModel.setEmprContribution((double) Math.round(totalEmployerContribution));
+				totalContributionModel.setBasicPay((double) Math.round(totalBasicPay));
+
+
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -451,6 +466,12 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			lstCmnLocationMst.add(cmnLocationMst);
 		}
 		return lstCmnLocationMst;
+	}
+
+	@Override
+	public List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus) {
+		// TODO Auto-generated method stub
+		return onlineContributionRepo.findBillgroupList(messages,regStatus);
 	}
 }
 

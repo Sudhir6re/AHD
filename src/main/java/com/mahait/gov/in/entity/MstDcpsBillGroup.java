@@ -16,6 +16,11 @@ import lombok.Data;
 @Table(name="MST_DCPS_BILL_GROUP",schema="public")
 public class MstDcpsBillGroup  {
 	
+	
+	
+	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="bill_group_id")

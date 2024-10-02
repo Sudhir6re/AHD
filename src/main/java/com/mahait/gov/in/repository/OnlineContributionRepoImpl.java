@@ -17,8 +17,10 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.CommonConstants;
+import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
+import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
@@ -367,9 +369,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	@Override
 	public MstEmployeeEntity findEmpDtlBySevaarthId(String sevaarthId) {
 		StringBuilder sbQuery = new StringBuilder();
-		sbQuery.append("SELECT Em FROM MstEmployeeEntity Em ").append(" WHERE Em.sevaarthId = :sevaarthId"); 
+		sbQuery.append("SELECT Em FROM MstEmployeeEntity Em WHERE Em.sevaarthId = :sevaarthId");
 		TypedQuery<MstEmployeeEntity> query = entityManager.createQuery(sbQuery.toString(), MstEmployeeEntity.class);
-		query.setParameter("sevaarthId", sevaarthId);
+		query.setParameter("sevaarthId", sevaarthId.toString()); // Optionally specify type
 		try {
 			return query.getSingleResult(); // Get a single result
 		} catch (NoResultException e) {
@@ -390,5 +392,41 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		return query.list();
 
 	}
+
+	@Override
+	public List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus) {
+	    Session currentSession = entityManager.unwrap(Session.class);
+	    List<MstDcpsBillGroup> lstMstDcpsBillGroup = new ArrayList<>();
+
+	    // 1 -3 approved 2 forwarded -3 rejected 
+	    
+	    if (messages.getMstRoleEntity().getRoleId() == 2) {
+	        String sql = " SELECT a.bill_group_id, a.description FROM MST_DCPS_BILL_GROUP a " +
+	                     " INNER JOIN TRN_DCPS_CONTRIBUTION b ON a.bill_group_id = b.BILL_GROUP_ID " +
+	                     " WHERE a.ddo_code = :ddoCode AND b.reg_Status = :regStatus " +
+	                     " GROUP BY a.bill_group_id, a.description " +
+	                     " ORDER BY a.description DESC";
+
+	        Query query = currentSession.createSQLQuery(sql)
+	            .setParameter("ddoCode", messages.getDdoCode())
+	            .setParameter("regStatus", regStatus);
+
+	        List<Object[]> lstprop = query.list();
+
+	        for (Object[] objLst : lstprop) {
+	            MstDcpsBillGroup mstDcpsBillGroup = new MstDcpsBillGroup();
+	            mstDcpsBillGroup.setDcpsDdoBillGroupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+	            mstDcpsBillGroup.setDescription(StringHelperUtils.isNullString(objLst[1]));
+	            lstMstDcpsBillGroup.add(mstDcpsBillGroup);
+	        }
+	        return lstMstDcpsBillGroup;
+	    } else {
+	        String HQL = "FROM MstDcpsBillGroup t WHERE t.dcpsDdoCode = :ddoCode ORDER BY t.dcpsDdoBillGroupId";
+	        return (List<MstDcpsBillGroup>) entityManager.createQuery(HQL)
+	            .setParameter("ddoCode", messages.getDdoCode())
+	            .getResultList();
+	    }
+	}
+
 
 }

@@ -72,6 +72,12 @@ public class LoginController extends BaseController{
 				session.setAttribute("ddoCode", obj[0]);
 				session.setAttribute("locationId", obj[1]);
 				session.setAttribute("loggedInPost", obj[2]);
+				
+				messages.setLocId(Long.valueOf(obj[1].toString()));
+				messages.setPostId(Long.valueOf(obj[2].toString()));
+				
+				request.getSession().setAttribute("MY_SESSION_MESSAGES",messages);
+				
 			}
 		}
 		
@@ -134,6 +140,11 @@ public class LoginController extends BaseController{
 				session.setAttribute("ddoCode", obj[0]);
 				session.setAttribute("locationId", obj[1]);
 				session.setAttribute("loggedInPost", obj[2]);
+				
+				messages.setLocId(Long.valueOf(obj[1].toString()));
+				messages.setPostId(Long.valueOf(obj[2].toString()));
+				
+				request.getSession().setAttribute("MY_SESSION_MESSAGES",messages);
 			}
 		}
 		

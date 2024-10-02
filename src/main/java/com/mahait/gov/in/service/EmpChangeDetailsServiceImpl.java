@@ -26,7 +26,6 @@ import com.mahait.gov.in.repository.EmpChangeDetailsRepo;
 
 @Service
 @Transactional
-
 public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 	
 	@Autowired

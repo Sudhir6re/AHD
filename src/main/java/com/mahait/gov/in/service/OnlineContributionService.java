@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
+import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
 import com.mahait.gov.in.model.MstSchemeModel;
@@ -18,7 +19,7 @@ public interface OnlineContributionService {
 	List<DcpContributionModel> getEmpListForContribution(DcpContributionModel dcpContributionModel,
 			OrgUserMst messages, String startDate);
 
-	Long saveOrUpdate(DcpContributionModel dcpContributionModel);
+	Long saveOrUpdate(DcpContributionModel dcpContributionModel, OrgUserMst messages);
 
 	List<MstSchemeModel> getSchemeCodeByBillGroupId(String billGroupId);
 
@@ -28,6 +29,9 @@ public interface OnlineContributionService {
 	List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId);
 
 	List<CmnLocationMst> findTreasuryList(OrgUserMst messages);
+
+	List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus);
+
 
 
 

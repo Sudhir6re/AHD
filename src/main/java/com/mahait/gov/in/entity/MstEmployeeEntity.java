@@ -56,7 +56,7 @@ public class MstEmployeeEntity {
 	@Column(name = "EMPLOYEE_FULL_NAME_EN")
 	private String employeeFullNameEn;
 
-	@Column(name = "EMPLOYEE_F_NAME_EN`")
+	@Column(name = "EMPLOYEE_F_NAME_EN")
 	private String employeeFNameEn;
 
 	@Column(name = "gis_remark")

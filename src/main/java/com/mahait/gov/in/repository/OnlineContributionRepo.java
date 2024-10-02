@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
+import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
@@ -26,5 +27,7 @@ public interface OnlineContributionRepo {
 	MstEmployeeEntity findEmpDtlBySevaarthId(String sevaarthId);
 
 	List<Object[]> findTreasuryList(OrgUserMst messages);
+
+	List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus);
 
 }

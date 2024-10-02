@@ -1499,16 +1499,13 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId) {
+	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId,String component) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		String sql = "SELECT SUM(d.contribution), SUM(d.contributionEmpr) " + "FROM your_table_name d " + // Replace
-																											// with the
-																											// actual
-																											// table
-																											// name
-				"WHERE d.sevaarth_id = :sevaarthId " + "AND d.FIN_YEAR_ID = :yearId " + "AND d.MONTH_ID = :monthId "
-				+ "AND d.TYPE_OF_PAYMENT = :paymentType " + "AND d.REG_STATUS = 1";
+		String sql = "SELECT COALESCE(SUM(contribution),0) AS totalContribution, COALESCE(SUM(contribution_empr),0) as totalEmprContribution "
+				+ " FROM TRN_DCPS_CONTRIBUTION  WHERE sevaarth_id = :sevaarthId "
+				+ " AND FIN_YEAR_ID = :yearId AND MONTH_ID = :monthId "
+				+ " AND TYPE_OF_PAYMENT = :paymentType " + "AND REG_STATUS = 2  GROUP BY TYPE_OF_PAYMENT,FIN_YEAR_ID,MONTH_ID";
 
 		Query query = currentSession.createSQLQuery(sql);
 		query.setParameter("sevaarthId", sevaarthId);
@@ -1516,28 +1513,16 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.setParameter("monthId", monthId);
 		query.setParameter("paymentType", paymentType);
 
-		return query.list();
+		List<Object[]> result = query.list();
+		if (!result.isEmpty()) {
+			if(component.equals("EMPR")) {
+				return (double) result.get(0)[1];
+			}else {
+				return (double) result.get(0)[0];
+			}
+		}
+		return 0.0; //
+
 	}
 
-	
-
-	/*
-	 * public Map<Long, Double> getDCPValues(String sevaarthId, Long monthId, Long
-	 * finYearId) { Map<Long, Double> contributionMap = new HashMap<>();
-	 * 
-	 * // Query for each type of payment String[] paymentTypes = {"700046",
-	 * "700047", "700048", "700049"}; for (String paymentType : paymentTypes) {
-	 * List<Double> results = repository.getContributions(sevaarthId, monthId,
-	 * finYearId, paymentType); if (results != null && results.size() == 2) { Double
-	 * contribution = results.get(0); Double contributionEmpr = results.get(1);
-	 * contributionMap.put(Long.valueOf(paymentType), contribution != null ?
-	 * contribution : 0.0); // You can also store contributionEmpr if needed } }
-	 * 
-	 * return contributionMap; }
-	 * 
-	 * @Query("SELECT SUM(d.contribution), SUM(d.contributionEmpr) " +
-	 * "FROM DCPContribution d " + "WHERE d.sevaarthId = :sevaarthId " +
-	 * "AND d.monthId = :monthId " + "AND d.finYearId = :finYearId " +
-	 * "AND d.typeOfPayment = :typeOfPayment " + "AND d.regStatus = '1'")
-	 */
 }

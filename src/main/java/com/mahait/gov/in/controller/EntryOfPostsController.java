@@ -47,7 +47,7 @@ public class EntryOfPostsController extends BaseController {
 
 	@Autowired
 	EntryOfPostsService entryOfPostsService;
-	
+
 	@Autowired
 	MstSchemeService mstSchemeService;
 
@@ -65,7 +65,7 @@ public class EntryOfPostsController extends BaseController {
 
 		MessageResponse messageResponse = (MessageResponse) model.asMap().get("messageResponse");
 		if (messageResponse != null) {
-			//model.addAttribute("messageResponse", messageResponse);
+			// model.addAttribute("messageResponse", messageResponse);
 			model.addAttribute("message", messageResponse.getResponse());
 		}
 
@@ -263,7 +263,7 @@ public class EntryOfPostsController extends BaseController {
 			messageResponse.setStyle("alert alert-success");
 			messageResponse.setStatusCode(200);
 			redirectAttribute.addFlashAttribute("messageResponse", messageResponse);
-			postEntryModel=new PostEntryModel();
+			postEntryModel = new PostEntryModel();
 			return "redirect:/ddo/entryOfPosts";
 
 		} else {
@@ -336,14 +336,13 @@ public class EntryOfPostsController extends BaseController {
 		return ResponseEntity.ok(getPostNameForDisplay);
 	}
 
-
-	
 	@RequestMapping(value = "/fetchBillGroupByDdoCode/{ddoCode}", consumes = {
 			"application/json" }, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<MstDcpsBillGroup>> fetchBillGroupByDdoCode(@PathVariable String ddoCode, HttpSession session) {
+	public ResponseEntity<List<MstDcpsBillGroup>> fetchBillGroupByDdoCode(@PathVariable String ddoCode,
+			HttpSession session) {
 		Long locId = Long.parseLong((String) session.getAttribute("locationId"));
 		String PsrNo = "";
-		List<MstDcpsBillGroup> lstMstDcpsBillGroup=mstSchemeService.findAllMpgSchemeBillGroupByDDOCode(ddoCode,0);
+		List<MstDcpsBillGroup> lstMstDcpsBillGroup = mstSchemeService.findAllMpgSchemeBillGroupByDDOCode(ddoCode, 0);
 		return ResponseEntity.ok(lstMstDcpsBillGroup);
 	}
 

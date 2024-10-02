@@ -555,9 +555,24 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
 
-						grossAmount += npsEmprAllow;
+						Double employeeContri=0d;
+						Double emprContri=0d;
+						
+						double dcpsEmpr = 0;
+						double dcpsdelayed = 0;
+						double dcpsda = 0;
+						double payArr = 0;
+						
+						
+						dcpsEmpr =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700046",month2,year2,"EMPR");
+						dcpsdelayed =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700047",month2,year2,"EMPR");
+						dcpsda =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700048",month2,year2,"EMPR");
+						payArr =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700049",month2,year2,"EMPR");
+						
+						
+						grossAmount += npsEmprAllow+dcpsEmpr+dcpsdelayed+dcpsda+payArr;
 
-						paybillGenerationTrnDetails.setNpsEmplr(npsEmprAllow);
+						paybillGenerationTrnDetails.setNpsEmplr(npsEmprAllow+dcpsEmpr+dcpsdelayed+dcpsda+payArr);
 
 					}
 
@@ -582,7 +597,21 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 							npsEmprContri = (double) (Math.round((basic + svnDA + DaArr) * 10
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
-						paybillGenerationTrnDetails.setNpsEmplrContriDed(npsEmprContri);
+						
+						
+						
+						double dcpsEmpr = 0;
+						double dcpsdelayed = 0;
+						double dcpsda = 0;
+						double payArr = 0;
+						
+						dcpsEmpr =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700046",month2,year2,"EMPR");
+						dcpsdelayed =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700047",month2,year2,"EMPR");
+						dcpsda =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700048",month2,year2,"EMPR");
+						payArr =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700049",month2,year2,"EMPR");
+						
+						
+						paybillGenerationTrnDetails.setNpsEmplrContriDed(npsEmprContri+dcpsEmpr+dcpsdelayed+dcpsda+payArr);
 
 						dedByTreasury += npsEmprContri;
 					}
