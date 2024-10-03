@@ -617,12 +617,49 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					}
 					
 					else if (str
+							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAY)) {
+							
+							double dcpsdelayed =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700047",month2,year2,"EMP");
+							dedByTreasury += dcpsdelayed;
+							
+							paybillGenerationTrnDetails.setDcpsDelay(dcpsdelayed);
+					}
+					else if (str
+							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_PAY)) {
+						
+						double payArr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700049",month2,year2,"EMP");
+						dedByTreasury += payArr;
+						
+						paybillGenerationTrnDetails.setDcpsPay(payArr);
+					}
+					else if (str
+							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA)) {
+						
+						double dcpsda =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700048",month2,year2,"EMP");
+						dedByTreasury += dcpsda;
+						
+						paybillGenerationTrnDetails.setDcpsDa(dcpsda);
+					}
+					else if (str
 							.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS)) {
 						
 							dcps =  (int) (Math.round((basic + svnDA + DaArr) * 10
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+						/*	
+							
+							double dcpsEmpr = 0;
+							double dcpsdelayed = 0;
+							double dcpsda = 0;
+							double payArr = 0;
+							
+							dcpsEmpr =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700046",month2,year2,"EMP");
+							dcpsdelayed =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700047",month2,year2,"EMP");
+							dcpsda =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700048",month2,year2,"EMP");
+							payArr =paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),"700049",month2,year2,"EMP");
+							
+							int  sumDcps=(int) (dcps+npsEmprAllow+dcpsEmpr+dcpsdelayed+dcpsda+payArr);*/
+							
 						paybillGenerationTrnDetails.setDcps(dcps);
-
 						dedByTreasury += dcps;
 					}
 

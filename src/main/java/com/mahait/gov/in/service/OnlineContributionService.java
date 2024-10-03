@@ -26,7 +26,7 @@ public interface OnlineContributionService {
 
 	DcpContributionModel calculateDcpsArrear(Map<String, String> formData);
 
-	List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId);
+	double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId,String componentName);
 
 	List<CmnLocationMst> findTreasuryList(OrgUserMst messages);
 

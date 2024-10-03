@@ -35,6 +35,17 @@ $("#save").click(function(e){
 	 $("#onlineEntryForm").submit();   
 });
 
+
+$("#btnApprove").click(function(e){
+    //	e.preventDefault();
+     $("#onlineEntryForm").attr("action",contextPath+"/ddoast/viewForwrdedOnlineContriEntry");
+	 $("#onlineEntryForm").submit();   
+});
+
+
+
+
+
 $("#trnDCPSTable").on('blur', ".basicPay", function() {
     var row = $(this).closest("tr");
     var basic = parseFloat(row.find('.basicPay').val());

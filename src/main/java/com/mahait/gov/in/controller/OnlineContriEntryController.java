@@ -242,10 +242,10 @@ public class OnlineContriEntryController extends BaseController {
 	}
 
 	@PostMapping("/findDcpsContribution")
-	public ResponseEntity<List<Object[]>> findSumContribution(@PathVariable String sevaarthId, String paymentType,
+	public ResponseEntity<Double> findSumContribution(@PathVariable String sevaarthId, String paymentType,
 			Integer monthId, Integer yearId) {
-		List<Object[]> lst = onlineContributionService.findSumContribution(sevaarthId, paymentType, monthId, yearId);
-		return ResponseEntity.ok(lst);
+		Double sum = onlineContributionService.findSumContribution(sevaarthId, paymentType, monthId, yearId,"");
+		return ResponseEntity.ok(sum);
 	}
 
 }

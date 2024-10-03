@@ -176,8 +176,8 @@ public class AllowDeducRuleMasterController extends BaseController {
 		return new ModelAndView("redirect:/mdc/loadRuleMaster");
 	}
 
-	@RequestMapping("/permanentDeleteRule/{id}")
-	public ModelAndView permanentDeleteRule(@PathVariable int id,Model model, Locale locale) {
+	@RequestMapping("/permanantDeleteRule/{id}")
+	public ModelAndView permanantDeleteRule(@PathVariable int id,Model model, Locale locale) {
 		AllowanceDeductionRuleMstEntity allowanceDeductionMstEntity = allowDeducRuleMasterService.permanentDeleteRule(id);
 		if (allowanceDeductionMstEntity != null) {
 			model.addAttribute("ddoScreenModel", new DDOScreenModel());

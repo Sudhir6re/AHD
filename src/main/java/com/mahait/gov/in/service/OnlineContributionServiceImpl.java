@@ -269,7 +269,6 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		mstDcpsContriVoucherDtlEntity.setYearId(dcpContributionModel.getFinYearId());
 		mstDcpsContriVoucherDtlEntity.setStatus('1');
 		mstDcpsContriVoucherDtlEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
-
 		Long save = onlineContributionRepo.saveMstDcpsContriVoucherDtlEntity(mstDcpsContriVoucherDtlEntity);
 
 		for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
@@ -295,6 +294,8 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			dcpsContributionEntity.setContributionEmpr(dcpContributionModel1.getEmprContribution().floatValue());
 			dcpsContributionEntity.setRegStatus(2);
 			dcpsContributionEntity.setDbId(99l);
+			dcpsContributionEntity.setDdoCode(orgUserMst.getDdoCode());
+			dcpsContributionEntity.setSevaarthId(dcpContributionModel1.getSevaarthId());
 			dcpsContributionEntity.setCreatedDate(new Timestamp(new Date().getTime()));
 			dcpsContributionEntity.setCreatedPostId(orgUserMst.getPostId());
 			dcpsContributionEntity.setCreatedUserId(orgUserMst.getUserId());
@@ -451,8 +452,8 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	}
 
 	@Override
-	public List<Object[]> findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId) {
-		return paybillHeadMpgRepo.findSumContribution(sevaarthId, paymentType, monthId, yearId);
+	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId,String componentName) {
+		return paybillHeadMpgRepo.findSumContribution(sevaarthId, paymentType, monthId, yearId,componentName);
 	}
 
 	@Override

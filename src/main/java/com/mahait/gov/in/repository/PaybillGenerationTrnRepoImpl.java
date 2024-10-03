@@ -1514,14 +1514,14 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.setParameter("paymentType", paymentType);
 
 		List<Object[]> result = query.list();
-		if (!result.isEmpty()) {
+		if (result.size()>0) {
 			if(component.equals("EMPR")) {
-				return (double) result.get(0)[1];
+				return (double) Float.parseFloat(result.get(0)[1].toString());
 			}else {
 				return (double) result.get(0)[0];
 			}
 		}
-		return 0.0; //
+		return 0.0; 
 
 	}
 
