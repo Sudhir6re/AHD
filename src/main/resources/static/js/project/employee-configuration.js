@@ -1,5 +1,11 @@
 var contextPath = $("#appRootPath").val();
 jQuery(document).ready(function() {
+	
+	   if (enableTyping != undefined) {
+           enableTyping(new Array('fName','mName','employeeFullNameMr'),//Input fiel Name
+                    new Array('fullNameInDevnagri'), 'NAME', 'mr_in'); //Output field Name
+       }
+	
 	contextPath = $("#appRootPath").val();
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});

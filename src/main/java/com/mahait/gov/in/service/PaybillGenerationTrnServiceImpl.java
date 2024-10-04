@@ -162,12 +162,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC, 0);
 
 		int centralpercentageRate[] = new int[3];
-		centralpercentageRate[0] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
+		/*centralpercentageRate[0] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
 				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC);
 		centralpercentageRate[1] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
 				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC);
 		centralpercentageRate[2] = paybillHeadMpgRepo.getDaCentralPercentageByMonthYear(startDate,
-				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC);
+				CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_5PC);*/
 
 		for (MstEmployeeEntity mstEmployeeEntity2 : mstEmployeeEntity) {
 
@@ -613,7 +613,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						
 						paybillGenerationTrnDetails.setNpsEmplrContriDed(npsEmprContri+dcpsEmpr+dcpsdelayed+dcpsda+payArr);
 
-						dedByTreasury += npsEmprContri;
+						dedByTreasury += npsEmprContri+dcpsEmpr+dcpsdelayed+dcpsda+payArr;
 					}
 					
 					else if (str
@@ -1359,4 +1359,20 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		return lstMstEmployeeEntity;
 	}
 
+	
+	
+	private void updatePaybillDetails(PaybillGenerationTrnDetails paybillDetails, String fieldName, Double value) {
+	    if (value == null) value = 0.0; 
+	    try {
+	        Field field = paybillDetails.getClass().getDeclaredField(fieldName);
+	        field.setAccessible(true);
+	        if (field.getType().equals(Double.class)) {
+	            field.set(paybillDetails, value);
+	        } else {
+	            field.set(paybillDetails, value.intValue());
+	        }
+	    } catch (NoSuchFieldException | IllegalAccessException e) {
+	       System.out.println("Error updating field: "+fieldName+e);
+	    }
+	}
 }

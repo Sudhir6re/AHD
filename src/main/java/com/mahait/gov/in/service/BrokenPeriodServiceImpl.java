@@ -657,40 +657,30 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			else if (allEdpList.get(i).getDeptalldetNm()
 					.equalsIgnoreCase(CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW)) {
 
-				BrokenPeriodModel brokenPeriodModel = null;
-				brokenPeriodModel = allEdpList.get(i);
-				if (year == 2023 && month2 >= 8 || year >= 2024 && month2 >= 1) {
+				BrokenPeriodModel brokenPeriodModel = allEdpList.get(i);
+				if ((year2 == 24 && month2 >= 8) || (year2 >= 25 && month2 >= 1)) {
 
-					Double DaArr1 = 0d;
-					Double DaArr2 = 0d;
-					Double DaArrtenpersent = 0d;
-					Double DaArrforteenpersent = 0d;
-					Double totalDaArr = 0d;
-					if (month2 == 11 && year == 2023) {
-						DaArr1 = DaArr / 4;
-						DaArr2 = DaArr - DaArr1;
-						DaArrtenpersent = (DaArr1 * 10 / 100);
-						DaArrforteenpersent = (DaArr2 * 14 / 100);
-						totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-						npsEmprAllow = (double) (Math.round((((basic + svnDA) * 14) / 100) + totalDaArr));
-					} else if (month == 12 && year == 2023) {
-						DaArr1 = DaArr / 5;
-						DaArr2 = DaArr - DaArr1;
-						DaArrtenpersent = (DaArr1 * 10 / 100);
-						DaArrforteenpersent = (DaArr2 * 14 / 100);
-						totalDaArr = DaArrtenpersent + DaArrforteenpersent;
-						npsEmprAllow = (double) (Math.round((((basic + svnDA) * 14) / 100) + totalDaArr));
-					} else {
-						npsEmprAllow = (double) (Math.round((basic + svnDA + DaArr) * 14
-								/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
-					}
+					npsEmprAllow = (double) (Math.round((basic + svnDA + DaArr) * 14
+							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 
 				} else {
-					npsEmprAllow = (double) (Math.round(
-							(basic + svnDA + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+					npsEmprAllow = (double) (Math.round((basic + svnDA + DaArr) * 10
+							/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 				}
 
-				brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprAllow));
+				
+				double dcpsEmpr = 0;
+				double dcpsdelayed = 0;
+				double dcpsda = 0;
+				double payArr = 0;
+				
+				
+				dcpsEmpr =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700046",month2,year2,"EMPR");
+				dcpsdelayed =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700047",month2,year2,"EMPR");
+				dcpsda =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700048",month2,year2,"EMPR");
+				payArr =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700049",month2,year2,"EMPR");
+
+				brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprAllow+dcpsEmpr+dcpsdelayed+dcpsda+payArr));
 				allowEdpList.add(brokenPeriodModel);
 				allowRuleList.add(brokenPeriodModel);
 			}
@@ -738,7 +728,20 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 					npsEmprContri = (double) (Math.round(
 							(basic + svnDA + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 				}
-				brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprContri));
+				
+				
+				double dcpsEmpr = 0;
+				double dcpsdelayed = 0;
+				double dcpsda = 0;
+				double payArr = 0;
+				
+				
+				dcpsEmpr =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700046",month2,year2,"EMPR");
+				dcpsdelayed =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700047",month2,year2,"EMPR");
+				dcpsda =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700048",month2,year2,"EMPR");
+				payArr =paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),"700049",month2,year2,"EMPR");
+
+				brokenPeriodModel.setDeptalldetValue(String.valueOf(npsEmprContri+dcpsEmpr+dcpsdelayed+dcpsda+payArr));
 				deducTyEdpList.add(brokenPeriodModel);
 				dedRuleList.add(brokenPeriodModel);
 			}

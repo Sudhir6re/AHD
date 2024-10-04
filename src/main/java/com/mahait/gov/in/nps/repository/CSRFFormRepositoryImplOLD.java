@@ -17,7 +17,7 @@ import com.mahait.gov.in.nps.entity.FormS1DetailsEntity;
 
 @Repository
 @SuppressWarnings("unchecked")
-public class CSRFFormRepositoryImpl implements CSRFFormRepository {
+public class CSRFFormRepositoryImplOLD implements CSRFFormRepositoryOLD {
 
 	@PersistenceContext
 	EntityManager entityManager;

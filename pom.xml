@@ -311,7 +311,27 @@
 			<version>2.4.1</version>
 		</dependency>
 
-		
+
+		<dependency>
+			<groupId>craFVUSubsReg_ENTITY</groupId>
+			<artifactId>craFVUSubsReg_ENTITY</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>craFVUpaosubcontrUnequal</groupId>
+			<artifactId>craFVUpaosubcontrUnequal</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>jsch</groupId>
+			<artifactId>jsch</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+
+
+
 
 
 	</dependencies>
