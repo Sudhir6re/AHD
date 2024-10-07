@@ -36,11 +36,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 			th:object="${dcpContributionModel}" enctype="multipart/form-data">
 
 			<input type="hidden" th:field="*{useType}" id="Use" value="ViewAll" />
-			<input type="hidden" th:field="*{action}" id="action" /> 
-			<input type="hidden" th:value="${message}" id="message" />
-			
-			
-			<input type="hidden" th:field="*{locId}" id="locId" />
+			<input type="hidden" th:field="*{action}" id="action" /> <input
+				type="hidden" th:value="${message}" id="message" /> <input
+				type="hidden" th:field="*{locId}" id="locId" />
 
 
 
@@ -69,14 +67,14 @@ div#tblEmpDtlsBody\ table-responsive th {
 						<tbody>
 							<tr>
 								<td width="15%"><b>Treasury Name</b></td>
-								<td width="35%"><select  readonly th:field="*{treasuryCode}"
+								<td width="35%"><select readonly th:field="*{treasuryCode}"
 									id="cmbTreasuryCode">
-											
-								     <option th:each="cmnLocationMst : ${lstTreasury}" selected="selected" 
-											th:value="${cmnLocationMst.locId}"
+
+										<option th:each="cmnLocationMst : ${lstTreasury}"
+											selected="selected" th:value="${cmnLocationMst.locId}"
 											th:text="${cmnLocationMst.locName}"></option>
-											
-											
+
+
 								</select> <label class="mandatoryindicator">*</label></td>
 							</tr>
 							<tr>
@@ -85,9 +83,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 								<td width="30%"><select name="ddoCode"
 									th:field="*{ddoCode}" id="ddoCode" readonly
 									class="form-control removeErrorFromDropdown">
-										
+
 										<option th:each="varGetAllddoNameLst : ${ddoNameLst}"
-											selected="selected"  th:value="${varGetAllddoNameLst.ddoCode}"
+											selected="selected" th:value="${varGetAllddoNameLst.ddoCode}"
 											th:text="${language=='mh' ? varGetAllddoNameLst.ddoName : varGetAllddoNameLst.ddoName}"></option>
 								</select></td>
 							</tr>
@@ -248,9 +246,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 					<table class="table bor-0">
 						<tbody>
 							<tr>
-								<td id="go" align="center"><input type="submit"
+								<td id="go" align="center"><input type="button"
 									name="btnGo" id="btnGo" value="GO" class="buttontag btn"
-									onclick="SearchEmployee();"> <input type="button"
+									onclick="SearchEmployee(this);"> <input type="button"
 									name="btnCancel" onclick="history.back()" id="btnCancel"
 									value="Cancel" class="buttontag btn"></td>
 							</tr>
@@ -298,26 +296,30 @@ div#tblEmpDtlsBody\ table-responsive th {
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpsNO}">
 
 									</td>
-									<td width="20%"><input type="date"  th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+									<td width="20%"><input type="date"
+										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:id="${'startDate' + itemStat.index}"
 										class="startDate  removeErrorFromDate"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].startDate}">
 									</td>
-									<td width="20%"><input type="date"  th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+									<td width="20%"><input type="date"
+										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:id="'endDate' + ${itemStat.index}"
 										class="endDate removeErrorFromDate"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].endDate}">
 
 										<input type="hidden"
 										th:id="${'dcpContributionId' + itemStat.index}"
-										class="dcpContributionId endDate"   th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+										class="dcpContributionId endDate"
+										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpContributionId}">
 
 									</td>
 
 									<td width="20%"><select
 										class="form-control  payCommission removeErrorFromDropdown"
-										th:id="${'payCommission' + itemStat.index}"  th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"  
+										th:id="${'payCommission' + itemStat.index}"
+										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].payCommission}">
 											<option th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -327,7 +329,8 @@ div#tblEmpDtlsBody\ table-responsive th {
 									</select></td>
 
 									<td><select onchange="addMonthYearComboForDelayed();"
-										th:id="${'typeOfPayment' + itemStat.index}" th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+										th:id="${'typeOfPayment' + itemStat.index}"
+										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										class="form-control removeErrorFromDropdown typeOfPayment"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].typeOfPayment}">
 											<option selected="selected" th:value="0"
@@ -369,10 +372,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].da}">
 
 
-										<input type="hidden" th:id="${'hidBasic' + itemStat.index}"	class="hidBasic" th:value="${dcpContributionModelRow.basicPay}" />
-
-
-									</td>
+										<input type="hidden" th:id="${'hidBasic' + itemStat.index}"
+										class="hidBasic"
+										th:value="${dcpContributionModelRow.basicPay}" /></td>
 									<td width="20%"><input type="text"
 										th:id="${'contribution' + itemStat.index}"
 										class="contribution"
@@ -453,6 +455,12 @@ div#tblEmpDtlsBody\ table-responsive th {
 							</tr>
 
 							<tr>
+								<td colspan="5" th:if="${isPaybillGenerated}"><span
+									class="text-danger"> The bill is already
+										generated/approved. Please delete/unlock the bill first before
+										making changes in this screen.</span></td>
+							</tr>
+							<tr>
 								<td id="go" align="center"><input type="button"
 									name="btnCancel" onclick="history.back()" id="btnCancel"
 									value="Back" class="buttontag btn"> <input
@@ -461,6 +469,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 
 
 							</tr>
+
+
+
 						</table>
 					</div>
 

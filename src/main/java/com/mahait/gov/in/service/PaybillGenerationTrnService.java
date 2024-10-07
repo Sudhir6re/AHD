@@ -138,6 +138,8 @@ public interface PaybillGenerationTrnService {
 
 	public List<MstEmployeeEntity> checkedBgisAndGisCatNull(String schemeBillGroupId, String userName);
 
+	public Long generatePayBill(@Valid PaybillHeadMpgModel paybillHeadMpgModel);
+
 
 	
 }

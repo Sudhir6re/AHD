@@ -123,7 +123,12 @@ public class PaybillGenerateController  extends BaseController {
 			/*if (paybillHeadMpgModel.getBillTypeId() == 3) { // 1-->Regular,2-->Supplimentory
 				afterSaveId = paybillHeadMpgService.saveSupPaybillHeadMpg(paybillHeadMpgModel);
 			} else { // regular
-*/				afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
+			
+			
+                 			
+*/				//afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
+                afterSaveId = paybillHeadMpgService.generatePayBill(paybillHeadMpgModel);
+
 			///}
 /* * else if(paybillHeadMpgModel.getBillTypeId()==3){ // suspension bill
 				 * afterSaveId =

@@ -43,9 +43,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 
 	@Override
 	public Long savePaybillHeadMpg(PaybillGenerationTrnEntity objEntity) {
-
-		// logger.info("inside the saved method- ");
-
 		Session currentSession = entityManager.unwrap(Session.class);
 		Serializable saveId = currentSession.save(objEntity);
 		return (Long) saveId;
@@ -1022,7 +1019,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		sb.append(
 				"select bppay.emp_id,bppay.sevaarth_id,sum(bppay.basic_pay) basicpay,sum(bppay.net_pay) netpay,bpallded.allow_deduc_code, ");
 		sb.append(
-				"sum(bpallded.allow_deduc_amt) allow_ded_amt , deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_allowdeduc_type_sum ");
+				"sum(bpallded.allow_deduc_amt) allow_ded_amt , deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_allowdeduc_type_sum,deptallmst.is_rule_based,deptallmst.is_non_computation_component,deptallmst.is_non_government ");
 		sb.append(
 				"from broken_period_pay_mst bppay inner join broken_period_allow_deduc_mst bpallded on bppay.broken_period_id=bpallded.broken_period_id ");
 		sb.append(
@@ -1030,7 +1027,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		sb.append("where bppay.sevaarth_id='" + sevaarthid + "' and bppay.month_id=" + monthid + " and bppay.year_id="
 				+ yearid + " and bppay.ddo_code='" + Username + "' ");
 		sb.append(
-				" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_allowdeduc_type_sum order by bppay.emp_id");
+				" group by  bppay.emp_id,bppay.sevaarth_id,bpallded.allow_deduc_code ,deptallmst.department_allowdeduc_col_nm,deptallmst.broken_method_name,deptallmst.is_allowdeduc_type_sum,deptallmst.is_rule_based,deptallmst.is_non_computation_component,deptallmst.is_non_government order by bppay.emp_id");
 		Query query = currentSession.createSQLQuery(sb.toString());
 		return query.list();
 	}
@@ -1049,19 +1046,33 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "FROM AllowanceDeductionRuleMstEntity as t where   t.departmentAllowdeducCode=" + allowDeducCode
+	
+		StringBuilder lSBQuery = new StringBuilder();
+		lSBQuery.append(" FROM AllowanceDeductionRuleMstEntity as t WHERE ");
+		lSBQuery.append(" t.departmentAllowdeducCode="+allowDeducCode);
+		lSBQuery.append(" AND t.isActive='1' and  t.payCommissionCode="+commoncodePaycommission7pc);
+		lSBQuery.append(" AND (to_char(t.startDate,'YY-MM-DD')<='"+ startDate + "'   OR  to_char(t.startDate,'YYYY-MM-DD')<='"+ startDate+"')");
+		lSBQuery.append(" AND (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='"+startDate+"' OR t.endDate is null OR to_char(t.endDate,'YYYY-MM-DD')>='"+startDate+"') ");
+		lSBQuery.append("  ORDER BY t.startDate DESC");
+		
+		
+	/*	String HQL = "FROM AllowanceDeductionRuleMstEntity as t where   t.departmentAllowdeducCode=" + allowDeducCode
 				+ " and t.isActive='1' and  t.payCommissionCode=" + commoncodePaycommission7pc
 				+ "   and to_char(t.startDate,'YY-MM-DD')<='" + startDate + "' "
 				+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
-				+ "')  ORDER BY t.startDate DESC";
+				+ "')  ORDER BY t.startDate DESC";*/
+		
+		
 
 		// getDaPercentageByMonthYear
-		System.out.println("--------------------------------" + HQL);
+		System.out.println("--------------------------------" + lSBQuery);
 
 		List<AllowanceDeductionRuleMstEntity> lstAllowanceDeductionMstEntity = (List<AllowanceDeductionRuleMstEntity>) entityManager
-				.createQuery(HQL).getResultList();
+				.createQuery(lSBQuery.toString()).getResultList();
 		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPercentage()).findFirst().orElse(0);
 		return percentage;
+		
+		
 	}
 
 	@Override
@@ -1505,7 +1516,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		String sql = "SELECT COALESCE(SUM(contribution),0) AS totalContribution, COALESCE(SUM(contribution_empr),0) as totalEmprContribution "
 				+ " FROM TRN_DCPS_CONTRIBUTION  WHERE sevaarth_id = :sevaarthId "
 				+ " AND FIN_YEAR_ID = :yearId AND MONTH_ID = :monthId "
-				+ " AND TYPE_OF_PAYMENT = :paymentType " + "AND REG_STATUS = 2  GROUP BY TYPE_OF_PAYMENT,FIN_YEAR_ID,MONTH_ID";
+				+ " AND TYPE_OF_PAYMENT = :paymentType " + "AND REG_STATUS = 0  GROUP BY TYPE_OF_PAYMENT,FIN_YEAR_ID,MONTH_ID";
 
 		Query query = currentSession.createSQLQuery(sql);
 		query.setParameter("sevaarthId", sevaarthId);

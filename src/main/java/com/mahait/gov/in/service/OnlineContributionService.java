@@ -14,7 +14,7 @@ public interface OnlineContributionService {
 
 	List<CmnLookupMst> getPaymentTypeLst();
 
-	Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId);
+	Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId, String string);
 
 	List<DcpContributionModel> getEmpListForContribution(DcpContributionModel dcpContributionModel,
 			OrgUserMst messages, String startDate);

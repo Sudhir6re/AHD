@@ -29,11 +29,104 @@ $("#DAArrearsDatesDivDisplay").hide();
 $("#PayArrearsDatesDivDisplay").hide();*/
 
 
-$("#save").click(function(e){
-    //	e.preventDefault();
-     $("#onlineEntryForm").attr("action",contextPath+"/ddoast/saveOnlineContriEntry");
-	 $("#onlineEntryForm").submit();   
+
+$('#trnDCPSTable').on('input change', 'input, select', function() {
+    $(this).siblings('.error').remove();
 });
+
+    $('#save').click(function(e) {
+        e.preventDefault(); // Prevent the default form submission
+        $("#onlineEntryForm").attr("action",contextPath+"/ddoast/saveOnlineContriEntry");
+        // Clear previous error messages
+        $('.error').remove();
+
+        // Flag to check if the form is valid
+        let isValid = true;
+
+        // Validate each row in the table
+        $('#trnDCPSTable tr').each(function() {
+            const $row = $(this);
+
+            // Validate required fields
+            const employeeName = $row.find('.employeeName').text().trim();
+            const dcpsNO = $row.find('.dcpsNO').val().trim();
+            const startDate = $row.find('.startDate').val().trim();
+            const endDate = $row.find('.endDate').val().trim();
+            const payCommission = $row.find('.payCommission').val();
+            const typeOfPayment = $row.find('.typeOfPayment').val();
+            const basicPay = $row.find('.basicPay').val().trim();
+            const contribution = $row.find('.contribution').val().trim();
+            const emprContribution = $row.find('.emprContribution').val().trim();
+            const da = $row.find('.da').val().trim();
+
+            // Check if employee name is not empty
+            if (!employeeName) {
+                isValid = false;
+                $row.find('.employeeName').after('<span class="error text-danger">Employee name is required.</span>');
+            }
+
+            // Check if DCPS ID is not empty
+            if (!dcpsNO) {
+                isValid = false;
+                $row.find('.dcpsNO').after('<span class="error text-danger">DCPS ID is required.</span>');
+            }
+
+            // Check if start date is selected
+            if (!startDate) {
+                isValid = false;
+                $row.find('.startDate').after('<span class="error text-danger">Start date is required.</span>');
+            }
+
+            // Check if end date is selected
+            if (!endDate) {
+                isValid = false;
+                $row.find('.endDate').after('<span class="error text-danger">End date is required.</span>');
+            }
+
+            // Check if pay commission is selected
+            if (payCommission === "0") {
+                isValid = false;
+                $row.find('.payCommission').after('<span class="error text-danger">Pay Commission must be selected.</span>');
+            }
+
+            // Check if payment type is selected
+            if (typeOfPayment === "0") {
+                isValid = false;
+                $row.find('.typeOfPayment').after('<span class="error text-danger">Payment type must be selected.</span>');
+            }
+
+            // Check if basic pay is a valid number and not empty
+            if (!basicPay || isNaN(basicPay)) {
+                isValid = false;
+                $row.find('.basicPay').after('<span class="error text-danger">Valid basic pay is required.</span>');
+            }
+
+            // Check if contribution is a valid number and not empty
+            if (!contribution || isNaN(contribution)) {
+                isValid = false;
+                $row.find('.contribution').after('<span class="error text-danger">Valid contribution is required.</span>');
+            }
+
+            // Check if employer contribution is a valid number and not empty
+            if (!emprContribution || isNaN(emprContribution)) {
+                isValid = false;
+                $row.find('.emprContribution').after('<span class="error text-danger">Valid employer contribution is required.</span>');
+            }
+
+            // Check if DA is a valid number and not empty
+            if (!da || isNaN(da)) {
+                isValid = false;
+                $row.find('.da').after('<span class="error text-danger">Valid DA is required.</span>');
+            }
+        });
+
+        // If valid, submit the form
+        if (isValid) {
+        	$("#onlineEntryForm").submit();  
+           // $('form').submit(); // Or use AJAX for submission
+        }
+    });
+
 
 
 $("#btnApprove").click(function(e){
@@ -41,6 +134,12 @@ $("#btnApprove").click(function(e){
      $("#onlineEntryForm").attr("action",contextPath+"/ddoast/viewForwrdedOnlineContriEntry");
 	 $("#onlineEntryForm").submit();   
 });
+
+$("#finYearId").change(function(e){
+    swal("Please select correct Financial Pay Year. For January, February and March - Select 2017-2018 and for April onwards - Select 2018-2019."); 
+});
+
+
 
 
 
@@ -290,7 +389,7 @@ function funDdo1() {
 		removeErrorClass($("#billGroupId"));
 	}
 
-	if (billGroupId != '') {
+	if (parseInt(billGroupId)>0) {
 		$.ajax({
 			type : "GET",
 			url : contextPath+"/ddoast/getSchemeCodeByBillGroupId/" + billGroupId,
@@ -319,39 +418,69 @@ function funDdo1() {
 
 
 
+
+
 var status = false;
 
 function SearchEmployee(e) {
+//	e.preventDefault();
 	
-	$('#action').val('SEARCH_EMP');
-	
-	var paymentType = document.getElementById("typeOfPayment").value;
-	var yearId = document.getElementById("finYearId").value;
-	var monthId = document.getElementById("monthId").value;
-	
-	if(paymentType == "" || paymentType=='0')
-	{
-		swal('Please Select Payment Type');
-		return false;
-	}
-	if(yearId == 0)
-	{
-		swal('Please enter pay year');
-		return false;
-	}
-	if(monthId == 0)
-	{
-		swal('Please enter pay month');
-		return false;
-	}
 	var flag=true;
-		if(flag){
-			$(".trnDCPSTable").empty();
-			$("#onlineEntryForm").submit();   
-			return true;
-		}
 	
+    $('#action').val('SEARCH_EMP');
+
+    var paymentType = $("#typeOfPayment").val();
+    var yearId = $("#finYearId").val();
+    var monthId = $("#monthId").val();
+    var delayedMonthId = $("#delayedMonthId").val();
+    var delayedFinYearId = $("#delayedFinYearId").val();
+    var txtSchemeName =$("#txtSchemeName").val();
+    var billGroupId = $("#billGroupId").val();
+
+    if (paymentType === "" || paymentType === '0') {
+        swal('Please Select Payment Type');
+        flag=false;
+    }
+    if (yearId === "0") {
+        swal('Please select pay year');
+        flag=false;
+    }
+    if (monthId === "0") {
+        swal('Please select pay month');
+        flag=false;
+    }
+    
+    if(paymentType=="700047"){
+    	if (delayedMonthId === "0") {
+            swal('Please select delayed pay month');
+            flag=false;
+        }
+        
+        if (delayedFinYearId === "0") {
+            swal('Please select delayed pay year');
+            flag=false;
+        }
+    }
+    
+    
+    if (txtSchemeName === '') {
+        swal('Scheme name is not blank  ');
+        flag=false;
+    }
+    
+    if (billGroupId === '0') {
+        swal('Please Select Bill Group');
+        flag=false;
+    }
+    
+
+    if (flag) {
+        $(".trnDCPSTable").empty();
+        $("#onlineEntryForm").submit();   
+        return true;
+    }
 }
+
 
 /*
 $(document).ready(function() {

@@ -35,6 +35,10 @@ public class BrokenPeriodModel implements Serializable {
 	private String desgName;
 	private String methodName;
 	private String formulas;
+	private int isNonComputation;
+	private int isNonGovernment;
+	private int isRuleBased;
+	
 	
 	
 	

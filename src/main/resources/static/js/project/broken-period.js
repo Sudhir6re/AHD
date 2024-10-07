@@ -27,7 +27,7 @@ function SearchEmployee(e) {
 		var sevaarthid=searchName;
 		$.ajax({
 			type : "GET",
-			url : "../pension/getSevaarthIdMappedWithPaybill/"+sevaarthid+"/"+monthId+"/"+yearId,
+			url : "../ddoast/getSevaarthIdMappedWithPaybill/"+sevaarthid+"/"+monthId+"/"+yearId,
 			async : false,
 			contentType: "application/json",
 	        dataType: "json",
@@ -170,6 +170,7 @@ function loadSalaryFromRuleEngine(rownumber) {
 		var noOfDays=document.getElementById("txtNoOfDays"+rownumber).value;
 		var empId = document.getElementById("txtEmployeeId").value;
 		var sevaarthid = document.getElementById("txtSevarthId").value;
+		$( "#loaderMainNew").show();
 		$
 		.ajax({
 			type : "GET",
@@ -177,9 +178,11 @@ function loadSalaryFromRuleEngine(rownumber) {
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {
+				$( "#loaderMainNew").hide();
 				swal("Salary not calculated from Rule engine becuase of some error");
 			},
 			success : function(data) {
+				$( "#loaderMainNew").hide();
 				if(data[3].data == 0){
 			    document.getElementById("txtBasicPay"+String(rownumber)).value=data[2].data;
 			    var totalLengthOfAllowances =data[0].data.length;
@@ -495,6 +498,8 @@ function saveBrokenPrdData()
 			}
 		}
 	}
+	$( "#loaderMainNew").show();
+	
 	$
 	.ajax({
 		type : "GET",
@@ -503,10 +508,11 @@ function saveBrokenPrdData()
 		contentType : 'application/json',
 		error : function(data) {
 			alert("Something went wrong...");
+			$( "#loaderMainNew").hide();
 		},
 		success : function(data) {
 		 swal("Broken Period Pays are saved for the employee.");    
-		 
+		 $( "#loaderMainNew").hide();
 		 location.reload();
 		   
 		}

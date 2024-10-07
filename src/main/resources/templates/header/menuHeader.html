@@ -51,10 +51,7 @@
 </head>
 <div id="navbar" th:fragment="varmenuheader">
 	<input type="hidden" name="levelRoleVal" id="levelRoleVal"
-		th:value="${session.levelRoleVal}" /> 
-		
-		
-		<input type="hidden"
+		th:value="${session.levelRoleVal}" /> <input type="hidden"
 		name="appRootPath" id="appRootPath"
 		th:value="${#servletContext.contextPath}" />
 
@@ -119,19 +116,16 @@
 									class="glyphicon glyphicon-home"></span>
 							</a></li>
 
-							<li class="dropdown Menu-item-li"
-								th:each="varMenu : ${menuList}"><a href="#"
-								class="dropdown-toggle" data-toggle="dropdown"
+							<li class="dropdown Menu-item-li" th:each="varMenu : ${menuList}"><a
+								href="#" class="dropdown-toggle" data-toggle="dropdown"
 								th:utext="${varMenu.menuName}"><b class="caret"></b></a>
 
 								<ul class="dropdown-menu">
-									<li th:each="varSubMenu: ${subMenuList}"
-										class="Menu-item-li"><a href="#"
-										th:if="${varMenu.key == varSubMenu.menuKey}"
+									<li th:each="varSubMenu: ${subMenuList}" class="Menu-item-li"><a
+										href="#" th:if="${varMenu.key == varSubMenu.menuKey}"
 										th:utext="${varSubMenu.subMenuName}"
 										th:href="@{${varSubMenu.linkName}}"></a></li>
-								</ul>
-							</li>
+								</ul></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="Menu-item-li"><a href="/user/logOut"
@@ -140,9 +134,19 @@
 							</a>
 								<form style="visibility: hidden" id="form" method="post"
 									action="#" th:action="@{/user/logOut}"></form></li>
-							<li class="Menu-item-li"><a
-								th:href="@{/master/changePassword}" class="chpass">Change
-									Password</a></li>
+							<li class="Menu-item-li"><a th:if="${levelRoleVal == 1}"
+								th:href="@{/mdc/changePassword}" class="chpass">Change
+									Password</a> <a th:if="${levelRoleVal == 2}"
+								th:href="@{/ddo/changePassword}" class="chpass">Change
+									Password</a> <a th:if="${levelRoleVal == 3}"
+								th:href="@{/ddoast/changePassword}" class="chpass">Change
+									Password</a> <a th:if="${levelRoleVal == 4}"
+								th:href="@{/user/changePassword}" class="chpass">Change
+									Password</a> <a th:if="${levelRoleVal == 5}"
+								th:href="@{/super/changePassword}" class="chpass">Change
+									Password</a>
+									
+							</li>
 							<!-- <li class="Menu-item-li"><span th:if="${language == 'en'}">
 									<a class="lang-tit" th:href="@{?lang=mh}">मराठी</a>
 							</span> <span th:if="${language == 'mh'}"> <a class="lang-tit"

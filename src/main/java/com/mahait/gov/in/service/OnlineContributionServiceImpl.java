@@ -3,12 +3,8 @@ package com.mahait.gov.in.service;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,8 +46,8 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	}
 
 	@Override
-	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId) {
-		return onlineContributionRepo.checkIfBillAlreadyGenerated(billGroupId, monthId, finYearId);
+	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId, String ddoCode) {
+		return onlineContributionRepo.checkIfBillAlreadyGenerated(billGroupId, monthId, finYearId, ddoCode);
 	}
 
 	@Override
@@ -68,11 +64,66 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 		if (dcpContributionModel.getTypeOfPayment() != null) {
 			if (dcpContributionModel.getTypeOfPayment().equals("700048")) {
-				newStartDate = dcpContributionModel.getDAArrearStartDate();
-				newEndDate = dcpContributionModel.getDAArrearEndDate();
+				if (dcpContributionModel.getDAArrearStartDate() != null
+						&& dcpContributionModel.getDAArrearEndDate() != null) {
+					newStartDate = dcpContributionModel.getDAArrearStartDate();
+					newEndDate = dcpContributionModel.getDAArrearEndDate();
+				} else {
+					int month2 = dcpContributionModel.getMonthId();
+					int year2 = dcpContributionModel.getFinYearId();
+					
+					if (month2 < 10) {
+						startDate = 20 + String.valueOf((year2 - 1)) + '-' + String.valueOf("0" + month2) + "-01";
+					} else {
+						startDate = 20 + String.valueOf((year2 - 1)) + '-' + String.valueOf(month2) + "-01";
+					}
+					
+					Date date = null;
+					try {
+						date = sdf.parse(startDate);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(date);
+					calendar.add(Calendar.MONTH, -1); 
+					newStartDate = calendar.getTime();
+					
+					calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)); // Set to the
+					newEndDate = calendar.getTime();
+					
+				}
 			} else if (dcpContributionModel.getTypeOfPayment().equals("700049")) {
-				startDate = sdf.format(dcpContributionModel.getPayArrearStartDate());
-				newEndDate = dcpContributionModel.getPayArrearEndDate();
+				if (dcpContributionModel.getDAArrearStartDate() != null
+						&& dcpContributionModel.getDAArrearEndDate() != null) {
+					startDate = sdf.format(dcpContributionModel.getPayArrearStartDate());
+					newEndDate = dcpContributionModel.getPayArrearEndDate();
+				} else {
+					int month2 = dcpContributionModel.getMonthId();
+					int year2 = dcpContributionModel.getFinYearId();
+					
+					if (month2 < 10) {
+						startDate = 20 + String.valueOf((year2 - 1)) + '-' + String.valueOf("0" + month2) + "-01";
+					} else {
+						startDate = 20 + String.valueOf((year2 - 1)) + '-' + String.valueOf(month2) + "-01";
+					}
+					
+					Date date = null;
+					try {
+						date = sdf.parse(startDate);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(date);
+					calendar.add(Calendar.MONTH, -1); 
+					newStartDate = calendar.getTime();
+					
+					calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)); // Set to the
+					newEndDate = calendar.getTime();
+				}
 			} else {
 				Date date = null;
 				try {
@@ -84,7 +135,6 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 				calendar.setTime(date);
 				newStartDate = calendar.getTime();
 				calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)); // Set to the
-																										// last day of
 				newEndDate = calendar.getTime();
 			}
 		}
@@ -189,21 +239,54 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			if (lStrTypeOfPayment.equals("700048")) {
 				if (object[12] != null) {
 					DA = Double.parseDouble(object[12].toString());
+				} else {
+					DA = ((BasicPay + DP) * DARate);
 				}
+
 				if (object[14] != null) {
 					employeeContribution = Double.parseDouble(object[14].toString());
+				} else {
+					employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
 				}
-				if (object[17] != null) {
+
+				if (object[17] != null && !object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
 					emplrContribution = Double.parseDouble(object[17].toString());
+				} else {
+					if ((dcpContributionModel.getFinYearId() <= 20 && dcpContributionModel.getMonthId() <= 3)
+							|| dcpContributionModel.getFinYearId() < 20) { // 2019(Old 32 if ((finYearId <= 32
+						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10;
+					}else {
+						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14;
+					}
 				}
+
 			} else if (lStrTypeOfPayment.equals("700049")) {
 				DA = 0D;
+
+				if (object[12] != null) {
+					DA = Double.parseDouble(object[12].toString());
+				} else {
+					DA = ((BasicPay + DP) * DARate);
+				}
+
 				if (object[14] != null) {
 					employeeContribution = Double.parseDouble(object[14].toString());
+				} else {
+					employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
 				}
-				if (object[17] != null) {
+
+				if (object[17] != null && !object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
 					emplrContribution = Double.parseDouble(object[17].toString());
+				} else {
+					if ((dcpContributionModel.getFinYearId() <= 20 && dcpContributionModel.getMonthId() <= 3)
+							|| dcpContributionModel.getFinYearId() < 20) { // 2019(Old 32 if ((finYearId <= 32
+
+						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10;
+					}else {
+						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14;
+					}
 				}
+
 			} else {
 				if (null != lStrDA && !"".equals(lStrDA)) {
 					DA = Double.parseDouble(lStrDA);
@@ -221,7 +304,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 					}
 				}
 
-				if (!object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
+				if (object[17]!=null && !object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
 					emplrContribution = Double.parseDouble(object[17].toString());
 				} else {
 					if ((dcpContributionModel.getFinYearId() <= 20 && dcpContributionModel.getMonthId() <= 3)
@@ -259,20 +342,30 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	}
 
 	@Override
-	public Long saveOrUpdate(DcpContributionModel dcpContributionModel,OrgUserMst orgUserMst) {
-		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = new MstDcpsContriVoucherDtlEntity();
+	public Long saveOrUpdate(DcpContributionModel dcpContributionModel, OrgUserMst orgUserMst) {
+
+		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionRepo
+				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
 		mstDcpsContriVoucherDtlEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
 		mstDcpsContriVoucherDtlEntity.setCreatedDate(new Timestamp((new Date().getTime())));
 		mstDcpsContriVoucherDtlEntity.setCreatedPostId(dcpContributionModel.getCreatedPostId());
 		mstDcpsContriVoucherDtlEntity.setDdoCode(dcpContributionModel.getDdoCode());
 		mstDcpsContriVoucherDtlEntity.setMonthId(dcpContributionModel.getMonthId());
 		mstDcpsContriVoucherDtlEntity.setYearId(dcpContributionModel.getFinYearId());
-		mstDcpsContriVoucherDtlEntity.setStatus('1');
+		// mstDcpsContriVoucherDtlEntity.setStatus('1');
 		mstDcpsContriVoucherDtlEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
+
+		if(mstDcpsContriVoucherDtlEntity.getMstDcpsContriVoucherDtls()!=null) {
+			mstDcpsContriVoucherDtlEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+			mstDcpsContriVoucherDtlEntity.setUpdatedUserId(orgUserMst.getUserId());
+			mstDcpsContriVoucherDtlEntity.setUpdatedPostId(orgUserMst.getUserId());
+		}
+		
 		Long save = onlineContributionRepo.saveMstDcpsContriVoucherDtlEntity(mstDcpsContriVoucherDtlEntity);
 
 		for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
-			DcpsContributionEntity dcpsContributionEntity = new DcpsContributionEntity();
+			DcpsContributionEntity dcpsContributionEntity = onlineContributionRepo
+					.findDcpsContri(dcpContributionModel.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
 			dcpsContributionEntity.setBasicPay(dcpContributionModel1.getBasicPay());
 			dcpsContributionEntity.setBillGroupId(dcpContributionModel1.getBillGroupId());
 			dcpsContributionEntity.setDa(dcpContributionModel1.getDa());
@@ -292,7 +385,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			dcpsContributionEntity.setPayCommission(dcpContributionModel1.getPayCommission().toString());
 			dcpsContributionEntity.setContribution(dcpContributionModel1.getContribution());
 			dcpsContributionEntity.setContributionEmpr(dcpContributionModel1.getEmprContribution().floatValue());
-			dcpsContributionEntity.setRegStatus(2);
+			dcpsContributionEntity.setRegStatus(0);
 			dcpsContributionEntity.setDbId(99l);
 			dcpsContributionEntity.setDdoCode(orgUserMst.getDdoCode());
 			dcpsContributionEntity.setSevaarthId(dcpContributionModel1.getSevaarthId());
@@ -300,8 +393,14 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			dcpsContributionEntity.setCreatedPostId(orgUserMst.getPostId());
 			dcpsContributionEntity.setCreatedUserId(orgUserMst.getUserId());
 			dcpsContributionEntity.setRltContriVoucherId(save);
+			
+			if(dcpsContributionEntity.getDcpContributionId()!=null) {
+				dcpsContributionEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+				dcpsContributionEntity.setUpdatedUserId(orgUserMst.getUserId());
+				dcpsContributionEntity.setUpdatedPostId(orgUserMst.getUserId());
+			}
+			
 			onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
-
 		}
 		return save;
 	}
@@ -328,19 +427,19 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		String toDateStr = formData.get("endDate");
 		String sevaarthId = formData.get("sevaarthId");
 		String payCommission = formData.get("payCommission");
-		//String monthId = formData.get("monthId");
-	//	String finYearId = formData.get("finYearId");
-		
-		
+		// String monthId = formData.get("monthId");
+		// String finYearId = formData.get("finYearId");
+
 		double basicPay = 0d;
-		Integer allowDeducCode = Integer.parseInt(payCommission)==(CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)
-				? CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE
-				: CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE;
+		Integer allowDeducCode = Integer
+				.parseInt(payCommission) == (CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC)
+						? CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE
+						: CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE;
 
 		DcpContributionModel totalContributionModel = new DcpContributionModel();
 		MstEmployeeEntity employeeEntity = onlineContributionRepo.findEmpDtlBySevaarthId(sevaarthId);
 
-		basicPay = Integer.parseInt(payCommission)==CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
+		basicPay = Integer.parseInt(payCommission) == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC
 				? employeeEntity.getSevenPcBasic()
 				: employeeEntity.getBasicPay();
 
@@ -370,25 +469,26 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 				double oneMonthBasic = (basicPay * daysInRange) / totalDaysInMonth;
 
-				Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(fromDateStr,
-						Integer.parseInt(payCommission), allowDeducCode);
+				Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(fromDateStr,Integer.parseInt(payCommission), allowDeducCode);
 				double daRate = 0.01 * percentageRate.doubleValue();
 				double oneMonthDa = oneMonthBasic * daRate;
 
 				double oneMonthEmployeeContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.10;
-				
+
 				double oneMonthEmployerContribution = 0d;
-				
-				//if ((Integer.parseInt(finYearId) <= 20 && Integer.parseInt(monthId) <= 3) || Integer.parseInt(finYearId) < 20) {
-				
-				if ((endCal.get(Calendar.YEAR) <= 2019 && startCal.get(Calendar.MONTH) <= 3) || endCal.get(Calendar.YEAR) < 2019) {		
+
+				// if ((Integer.parseInt(finYearId) <= 20 && Integer.parseInt(monthId) <= 3) ||
+				// Integer.parseInt(finYearId) < 20) {
+
+				if ((endCal.get(Calendar.YEAR) <= 2019 && startCal.get(Calendar.MONTH) <= 3)
+						|| endCal.get(Calendar.YEAR) < 2019) {
 					oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
-				}else {
+				} else {
 					oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
 				}
-				
+
 				totalContributionModel.setDaRate(percentageRate);
-				
+
 				totalContributionModel.setBasicPay((double) Math.round(oneMonthBasic));
 				totalContributionModel.setDa((double) Math.round(oneMonthDa));
 				totalContributionModel.setEmprContribution((double) Math.round(oneMonthEmployerContribution));
@@ -415,20 +515,22 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 					Integer percentageRate = paybillHeadMpgRepo.getDaPercentageByMonthYear(
 							dateFormat.format(currentCal.getTime()), Integer.parseInt(payCommission), allowDeducCode);
+
 					double daRate = 0.01 * percentageRate.doubleValue();
 					double oneMonthDa = (oneMonthBasic * daRate);
 
 					double oneMonthEmployeeContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.10;
-					
-					
+
 					double oneMonthEmployerContribution = 0d;
-					//if ((Integer.parseInt(finYearId) <= 20 && Integer.parseInt(monthId) <= 3) || Integer.parseInt(finYearId) < 20) {
-					if ((endCal.get(Calendar.YEAR) <= 2019 && startCal.get(Calendar.MONTH) <= 3) || endCal.get(Calendar.YEAR) < 2019) {		
+					// if ((Integer.parseInt(finYearId) <= 20 && Integer.parseInt(monthId) <= 3) ||
+					// Integer.parseInt(finYearId) < 20) {
+					if ((endCal.get(Calendar.YEAR) <= 2019 && startCal.get(Calendar.MONTH) <= 3)
+							|| endCal.get(Calendar.YEAR) < 2019) {
 						oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
-					}else {
+					} else {
 						oneMonthEmployerContribution = (Math.ceil(oneMonthBasic) + Math.round(oneMonthDa)) * 0.14;
 					}
-					
+
 					totalDa = totalDa + oneMonthDa;
 					totalBasicPay = totalBasicPay + oneMonthBasic;
 					totalEmployeeContribution = totalEmployeeContribution + oneMonthEmployeeContribution;
@@ -442,7 +544,6 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 				totalContributionModel.setEmprContribution((double) Math.round(totalEmployerContribution));
 				totalContributionModel.setBasicPay((double) Math.round(totalBasicPay));
 
-
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -452,8 +553,9 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	}
 
 	@Override
-	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId,String componentName) {
-		return paybillHeadMpgRepo.findSumContribution(sevaarthId, paymentType, monthId, yearId,componentName);
+	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId,
+			String componentName) {
+		return paybillHeadMpgRepo.findSumContribution(sevaarthId, paymentType, monthId, yearId, componentName);
 	}
 
 	@Override
@@ -472,7 +574,7 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	@Override
 	public List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus) {
 		// TODO Auto-generated method stub
-		return onlineContributionRepo.findBillgroupList(messages,regStatus);
+		return onlineContributionRepo.findBillgroupList(messages, regStatus);
 	}
 }
 

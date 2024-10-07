@@ -67,7 +67,15 @@
 					id="fName" name="fName" th:field="*{employeeFNameEn}"
 					onblur="getFisrtName();"
 					onkeypress="return onlyAlphabets(event,this);"
-					style="text-transform: uppercase" class="form-control" /></td>
+					style="text-transform: uppercase" class="form-control" />
+					
+					<input type="hidden" id="fNamemr"/>
+					<input type="hidden" id="mNamemr"/>
+					<input type="hidden" id="lNamemr"/>
+					
+					
+					
+					</td>
 			</tr>
 			<tr>
 				<td width="25%"><label><span
@@ -75,7 +83,7 @@
 							color="red" size="4px;">*</font></b></label></td>
 				<td width="25%"><input type="text" size="40%" maxlength="25"
 					style="text-transform: uppercase"
-					onkeypress="return onlyAlphabets(event,this);" id="mName"
+					onkeypress="return onlyAlphabets(event,this);" id="mName" name="employeeMNameEn"
 					th:field="*{employeeMNameEn}" class="form-control" /></td>
 				<td width="25%"><label><span
 						th:utext="#{msg.thymeleaf.pagelabel.lName}"></span>&nbsp;&nbsp;<b><font

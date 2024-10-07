@@ -1,6 +1,7 @@
 package com.mahait.gov.in.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
@@ -14,7 +15,7 @@ public interface OnlineContributionRepo {
 
 	List<CmnLookupMst> getPaymentTypeLst();
 
-	Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId);
+	Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId, String ddoCode);
 
 	List<Object[]> getEmpListForContribution(DcpContributionModel dcpContributionModel, OrgUserMst messages, String startDate);
 
@@ -29,5 +30,10 @@ public interface OnlineContributionRepo {
 	List<Object[]> findTreasuryList(OrgUserMst messages);
 
 	List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus);
+
+	Optional<DcpsContributionEntity> findDcpsContri(Long dcpContributionId);
+
+	Optional<MstDcpsContriVoucherDtlEntity> findMstDcpsContriVoucherDtlEntity(
+			DcpContributionModel dcpContributionModel);
 
 }

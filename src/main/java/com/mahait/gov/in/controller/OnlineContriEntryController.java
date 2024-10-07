@@ -91,17 +91,19 @@ public class OnlineContriEntryController extends BaseController {
 
 			int month2 = dcpContributionModel.getDelayedMonthId();
 			int year2 = dcpContributionModel.getDelayedFinYearId();
+		
 			if (month2 < 10) {
-				startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
+				startDate = 20 + String.valueOf((year2 - 1)) + '-' + String.valueOf("0" + month2) + "-01";
 			} else {
-				startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
+				startDate = 20 + String.valueOf((year2 - 1)) + '-' + String.valueOf(month2) + "-01";
 			}
-
+			
+			
 			dcpContributionModel.setUseType("ViewAll");
 
 			Boolean isPaybillGenerated = onlineContributionService.checkIfBillAlreadyGenerated(
 					dcpContributionModel.getBillGroupId(), dcpContributionModel.getMonthId(),
-					dcpContributionModel.getFinYearId());
+					dcpContributionModel.getFinYearId(),messages.getDdoCode());
 
 			model.addAttribute("isPaybillGenerated", isPaybillGenerated);
 
@@ -181,7 +183,7 @@ public class OnlineContriEntryController extends BaseController {
 
 			Boolean isPaybillGenerated = onlineContributionService.checkIfBillAlreadyGenerated(
 					dcpContributionModel.getBillGroupId(), dcpContributionModel.getMonthId(),
-					dcpContributionModel.getFinYearId());
+					dcpContributionModel.getFinYearId(),dcpContributionModel.getDdoCode());
 
 			model.addAttribute("isPaybillGenerated", isPaybillGenerated);
 

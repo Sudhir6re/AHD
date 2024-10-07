@@ -507,7 +507,7 @@ public class MstEmployeeEntity {
 	@Column(name = "reason_for_change_parent_field_dept ")
 	private String reasonForChngParentFieldDept;
 
-	@Column(name = "pran_no ")
+	@Column(name = "pran_no")
 	private String pranNo;
 
 	@Column(name = "emp_type")

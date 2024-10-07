@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -40,19 +42,20 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	}
 
 	@Override
-	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId) {
+	public Boolean checkIfBillAlreadyGenerated(Long billGroupId, Integer monthId, Integer finYearId, String ddoCode) {
 		Session ghibSession = entityManager.unwrap(Session.class);
 		StringBuilder lSBQuery = new StringBuilder();
 		List<PaybillGenerationTrnEntity> PaybillGenerationTrnEntityLst = new ArrayList<PaybillGenerationTrnEntity>();
 		Boolean flag = false;
 
 		lSBQuery.append(
-				"FROM PaybillGenerationTrnEntity where schemeBillgroupId = :billNo and paybillMonth = :month and paybillYear = :year and isActive in (5,14) ");
+				"FROM PaybillGenerationTrnEntity where ddoCode=:ddoCode and schemeBillgroupId = :billNo and paybillMonth = :month and paybillYear = :year and  isActive not in(8)");
 
 		Query lQuery = ghibSession.createQuery(lSBQuery.toString());
 		lQuery.setParameter("billNo", billGroupId);
 		lQuery.setParameter("month", monthId);
 		lQuery.setParameter("year", finYearId);
+		lQuery.setParameter("ddoCode", ddoCode);
 
 		PaybillGenerationTrnEntityLst = lQuery.getResultList();
 		if (PaybillGenerationTrnEntityLst.size() != 0) {
@@ -100,9 +103,32 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 
 		if (dcpContributionModel.getTypeOfPayment() != null) {
 			if (dcpContributionModel.getTypeOfPayment().equals("700048")) {
-				startDate = sdf.format(dcpContributionModel.getDAArrearStartDate());
+				if (dcpContributionModel.getDAArrearStartDate() != null) {
+					startDate = sdf.format(dcpContributionModel.getDAArrearStartDate());
+				} else {
+					int month2 = dcpContributionModel.getMonthId();
+					int year2 = dcpContributionModel.getFinYearId();
+
+					if (month2 < 10) {
+						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
+					} else {
+						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
+					}
+				}
+
 			} else if (dcpContributionModel.getTypeOfPayment().equals("700049")) {
-				startDate = sdf.format(dcpContributionModel.getPayArrearStartDate());
+				if (dcpContributionModel.getPayArrearStartDate() != null) {
+					startDate = sdf.format(dcpContributionModel.getPayArrearStartDate());
+				} else {
+					int month2 = dcpContributionModel.getMonthId();
+					int year2 = dcpContributionModel.getFinYearId();
+
+					if (month2 < 10) {
+						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
+					} else {
+						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
+					}
+				}
 			}
 		}
 
@@ -348,13 +374,15 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 	@Override
 	public Long saveMstDcpsContriVoucherDtlEntity(MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity) {
 		Session ghibSession = entityManager.unwrap(Session.class);
-		return (Long) ghibSession.save(mstDcpsContriVoucherDtlEntity);
+		MstDcpsContriVoucherDtlEntity mergedEntity = (MstDcpsContriVoucherDtlEntity) ghibSession
+				.merge(mstDcpsContriVoucherDtlEntity);
+		return mergedEntity.getMstDcpsContriVoucherDtls();
 	}
 
 	@Override
 	public void saveDcpsContributionEntity(DcpsContributionEntity dcpsContributionEntity) {
 		Session ghibSession = entityManager.unwrap(Session.class);
-		ghibSession.save(dcpsContributionEntity);
+		ghibSession.saveOrUpdate(dcpsContributionEntity);
 	}
 
 	@Override
@@ -395,38 +423,66 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 
 	@Override
 	public List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus) {
-	    Session currentSession = entityManager.unwrap(Session.class);
-	    List<MstDcpsBillGroup> lstMstDcpsBillGroup = new ArrayList<>();
+		Session currentSession = entityManager.unwrap(Session.class);
+		List<MstDcpsBillGroup> lstMstDcpsBillGroup = new ArrayList<>();
 
-	    // 1 -3 approved 2 forwarded -3 rejected 
-	    
-	    if (messages.getMstRoleEntity().getRoleId() == 2) {
-	        String sql = " SELECT a.bill_group_id, a.description FROM MST_DCPS_BILL_GROUP a " +
-	                     " INNER JOIN TRN_DCPS_CONTRIBUTION b ON a.bill_group_id = b.BILL_GROUP_ID " +
-	                     " WHERE a.ddo_code = :ddoCode AND b.reg_Status = :regStatus " +
-	                     " GROUP BY a.bill_group_id, a.description " +
-	                     " ORDER BY a.description DESC";
+		// 1 -3 approved 2 forwarded -3 rejected
 
-	        Query query = currentSession.createSQLQuery(sql)
-	            .setParameter("ddoCode", messages.getDdoCode())
-	            .setParameter("regStatus", regStatus);
+		if (messages.getMstRoleEntity().getRoleId() == 2) {
+			String sql = " SELECT a.bill_group_id, a.description FROM MST_DCPS_BILL_GROUP a "
+					+ " INNER JOIN TRN_DCPS_CONTRIBUTION b ON a.bill_group_id = b.BILL_GROUP_ID "
+					+ " WHERE a.ddo_code = :ddoCode AND b.reg_Status = :regStatus "
+					+ " GROUP BY a.bill_group_id, a.description " + " ORDER BY a.description DESC";
 
-	        List<Object[]> lstprop = query.list();
+			Query query = currentSession.createSQLQuery(sql).setParameter("ddoCode", messages.getDdoCode())
+					.setParameter("regStatus", regStatus);
 
-	        for (Object[] objLst : lstprop) {
-	            MstDcpsBillGroup mstDcpsBillGroup = new MstDcpsBillGroup();
-	            mstDcpsBillGroup.setDcpsDdoBillGroupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
-	            mstDcpsBillGroup.setDescription(StringHelperUtils.isNullString(objLst[1]));
-	            lstMstDcpsBillGroup.add(mstDcpsBillGroup);
-	        }
-	        return lstMstDcpsBillGroup;
-	    } else {
-	        String HQL = "FROM MstDcpsBillGroup t WHERE t.dcpsDdoCode = :ddoCode ORDER BY t.dcpsDdoBillGroupId";
-	        return (List<MstDcpsBillGroup>) entityManager.createQuery(HQL)
-	            .setParameter("ddoCode", messages.getDdoCode())
-	            .getResultList();
-	    }
+			List<Object[]> lstprop = query.list();
+
+			for (Object[] objLst : lstprop) {
+				MstDcpsBillGroup mstDcpsBillGroup = new MstDcpsBillGroup();
+				mstDcpsBillGroup.setDcpsDdoBillGroupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
+				mstDcpsBillGroup.setDescription(StringHelperUtils.isNullString(objLst[1]));
+				lstMstDcpsBillGroup.add(mstDcpsBillGroup);
+			}
+			return lstMstDcpsBillGroup;
+		} else {
+			String HQL = "FROM MstDcpsBillGroup t WHERE t.dcpsDdoCode = :ddoCode ORDER BY t.dcpsDdoBillGroupId";
+			return (List<MstDcpsBillGroup>) entityManager.createQuery(HQL)
+					.setParameter("ddoCode", messages.getDdoCode()).getResultList();
+		}
 	}
 
+	@Override
+	public Optional<DcpsContributionEntity> findDcpsContri(Long dcpContributionId) {
+		Session ghibSession = entityManager.unwrap(Session.class);
+
+		if (dcpContributionId == null) {
+			return Optional.empty(); // Return empty if the ID is null
+		}
+		DcpsContributionEntity entity = ghibSession.find(DcpsContributionEntity.class, dcpContributionId);
+		return Optional.ofNullable(entity);
+	}
+
+	@Override
+	public Optional<MstDcpsContriVoucherDtlEntity> findMstDcpsContriVoucherDtlEntity(
+			DcpContributionModel dcpContributionModel) {
+		Session ghibSession = entityManager.unwrap(Session.class);
+		StringBuilder lSBQuery = new StringBuilder();
+		lSBQuery.append(
+				"FROM MstDcpsContriVoucherDtlEntity WHERE ddoCode = :ddoCode AND yearId = :yearId AND monthId = :monthId AND treasuryCode = :treasuryCode AND billGroupId = :billGroupId");
+
+		Query<MstDcpsContriVoucherDtlEntity> lQuery = ghibSession.createQuery(lSBQuery.toString(),
+				MstDcpsContriVoucherDtlEntity.class);
+		lQuery.setParameter("yearId", dcpContributionModel.getFinYearId());
+		
+		lQuery.setParameter("monthId", dcpContributionModel.getMonthId());
+		lQuery.setParameter("treasuryCode", dcpContributionModel.getTreasuryCode());
+		lQuery.setParameter("ddoCode", dcpContributionModel.getDdoCode());
+		lQuery.setParameter("billGroupId", dcpContributionModel.getBillGroupId());
+
+		List<MstDcpsContriVoucherDtlEntity> lstMstDcpsContriVoucherDtlEntity = lQuery.getResultList();
+		return lstMstDcpsContriVoucherDtlEntity.stream().findFirst();
+	}
 
 }
