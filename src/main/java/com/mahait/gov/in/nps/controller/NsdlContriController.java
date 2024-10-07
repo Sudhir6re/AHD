@@ -28,7 +28,7 @@ import com.mahait.gov.in.service.PaybillGenerationTrnService;
 import com.mahait.gov.in.service.RegularReportService;
 
 @Controller
-@RequestMapping("/master")
+@RequestMapping("/ddo")
 public class NsdlContriController  extends BaseController{
 
 	@Autowired
