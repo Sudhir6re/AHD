@@ -1823,6 +1823,7 @@ function checkOverlapForRegular(counter)
 				    var dt1  = parseInt(str1.substring(0,2),10); 
 				    var mon1 = parseInt(str1.substring(3,5),10); 
 				    var yr1  = parseInt(str1.substring(6,10),10); 
+				    
 				    var dt2  = parseInt(str2.substring(0,2),10); 
 				    var mon2 = parseInt(str2.substring(3,5),10); 
 				    var yr2  = parseInt(str2.substring(6,10),10); 

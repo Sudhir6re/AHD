@@ -36,4 +36,6 @@ public interface OnlineContributionRepo {
 	Optional<MstDcpsContriVoucherDtlEntity> findMstDcpsContriVoucherDtlEntity(
 			DcpContributionModel dcpContributionModel);
 
+	void deleteContributionIds(List<Long> idsToDelete);
+
 }

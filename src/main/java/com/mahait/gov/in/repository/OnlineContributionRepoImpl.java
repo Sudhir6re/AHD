@@ -158,9 +158,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				}
 			}
 
-			SBQuery.append(
+		/*	SBQuery.append(
 					" LEFT OUTER JOIN mst_dcps_contri_voucher_dtls CV ON CV.treasury_code=CO.TREASURY_CODE AND CV.month_id=CO.MONTH_ID "
-							+ " AND CV.year_id = CO.FIN_YEAR_ID AND CV.bill_group_id=CO.BILL_GROUP_ID AND CV.ddo_code = CO.ddo_code");
+							+ " AND CV.year_id = CO.FIN_YEAR_ID AND CV.bill_group_id=CO.BILL_GROUP_ID AND CV.ddo_code = CO.ddo_code");*/
 
 			SBQuery.append(
 					" LEFT JOIN ALLOWANCE_DEDUCTION_WISE_RULE_MST DA ON DA.PAY_COMMISSION_CODE = EM.PAY_COMMISSION_CODE AND  (('"
@@ -207,7 +207,13 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				SBQuery.append(" WHERE CO.DDO_CODE='" + ddoCode + "'");
 			}
 
-			SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + " OR EM.BILLGROUP_ID=" + billGroupId + ")");
+			if ((roleId == 3)) {
+				SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + ")");
+			}else {
+				SBQuery.append(" AND (EM.BILLGROUP_ID=" + billGroupId + ")");
+			}
+			
+			
 
 			/*
 			 * if((!(lLongbillGroupId.toString().equals(gObjRsrcBndle.getString(
@@ -471,11 +477,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		StringBuilder lSBQuery = new StringBuilder();
 		lSBQuery.append(
 				"FROM MstDcpsContriVoucherDtlEntity WHERE ddoCode = :ddoCode AND yearId = :yearId AND monthId = :monthId AND treasuryCode = :treasuryCode AND billGroupId = :billGroupId");
-
 		Query<MstDcpsContriVoucherDtlEntity> lQuery = ghibSession.createQuery(lSBQuery.toString(),
 				MstDcpsContriVoucherDtlEntity.class);
 		lQuery.setParameter("yearId", dcpContributionModel.getFinYearId());
-		
 		lQuery.setParameter("monthId", dcpContributionModel.getMonthId());
 		lQuery.setParameter("treasuryCode", dcpContributionModel.getTreasuryCode());
 		lQuery.setParameter("ddoCode", dcpContributionModel.getDdoCode());
@@ -485,4 +489,12 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		return lstMstDcpsContriVoucherDtlEntity.stream().findFirst();
 	}
 
+	@Override
+	public void deleteContributionIds(List<Long> idsToDelete) {
+		Session session = entityManager.unwrap(Session.class);
+		String hql = "DELETE FROM DcpsContributionEntity WHERE dcpContributionId IN :idsToDelete";
+		Query query = session.createQuery(hql);
+		query.setParameterList("idsToDelete", idsToDelete);
+		query.executeUpdate();
+	}
 }

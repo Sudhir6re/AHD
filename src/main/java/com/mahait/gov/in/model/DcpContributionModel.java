@@ -127,7 +127,8 @@ public class DcpContributionModel {
 	private Double dp;
     
 	private Double emprContribution;
-    
+	
+	private List<Long> deleteDcpContributionId;  
     
     
     List<DcpContributionModel> lstDcpContributionModel;

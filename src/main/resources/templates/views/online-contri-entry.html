@@ -39,6 +39,8 @@ div#tblEmpDtlsBody\ table-responsive th {
 			<input type="hidden" th:field="*{action}" id="action" /> <input
 				type="hidden" th:value="${message}" id="message" /> <input
 				type="hidden" th:field="*{locId}" id="locId" />
+				
+				<input type="hidden" id="deleteDcpContributionId"  th:field="*{deleteDcpContributionId}" name="deleteDcpContributionId"  />
 
 
 
@@ -393,6 +395,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 										th:data="${itemStat.index}"
 										th:data-dcpsNo="${dcpContributionModelRow.dcpsNO}"
 										th:data-dcpsEmpId="${dcpContributionModelRow.dcpEmpId}"
+										th:data-dcpContributionId="${dcpContributionModelRow.dcpContributionId}"
 										th:data-sevaarthId="${dcpContributionModelRow.sevaarthId}">Delete
 											Row</b></td>
 

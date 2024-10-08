@@ -343,7 +343,11 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 	@Override
 	public Long saveOrUpdate(DcpContributionModel dcpContributionModel, OrgUserMst orgUserMst) {
-
+		
+		  List<Long> idsToDelete = dcpContributionModel.getDeleteDcpContributionId();
+	        if (idsToDelete != null && !idsToDelete.isEmpty()) {
+	            onlineContributionRepo.deleteContributionIds(idsToDelete);
+	        }
 		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionRepo
 				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
 		mstDcpsContriVoucherDtlEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
@@ -363,44 +367,46 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		
 		Long save = onlineContributionRepo.saveMstDcpsContriVoucherDtlEntity(mstDcpsContriVoucherDtlEntity);
 
-		for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
-			DcpsContributionEntity dcpsContributionEntity = onlineContributionRepo
-					.findDcpsContri(dcpContributionModel1.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
-			dcpsContributionEntity.setBasicPay(dcpContributionModel1.getBasicPay());
-			dcpsContributionEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
-			dcpsContributionEntity.setDa(dcpContributionModel1.getDa());
-			dcpsContributionEntity.setDp(dcpContributionModel1.getDp());
-			dcpsContributionEntity.setTypeOfPayment(dcpContributionModel1.getTypeOfPayment());
-			dcpsContributionEntity.setDcpEmpId(dcpContributionModel1.getDcpEmpId());
-			dcpsContributionEntity.setDdoCode(dcpContributionModel1.getDdoCode());
-			dcpsContributionEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
-			dcpsContributionEntity.setDelayedFinYearId(dcpContributionModel.getDelayedFinYearId());
-			dcpsContributionEntity.setDelayedMonthId(dcpContributionModel.getDelayedMonthId());
-			dcpsContributionEntity.setLangId(1l);
-			dcpsContributionEntity.setLocId(dcpContributionModel.getLocId());
-			dcpsContributionEntity.setStartDate(dcpContributionModel1.getStartDate());
-			dcpsContributionEntity.setEndDate(dcpContributionModel1.getEndDate());
-			dcpsContributionEntity.setFinYearId(dcpContributionModel.getFinYearId());
-			dcpsContributionEntity.setMonthId(dcpContributionModel.getMonthId());
-			dcpsContributionEntity.setPayCommission(dcpContributionModel1.getPayCommission().toString());
-			dcpsContributionEntity.setContribution(dcpContributionModel1.getContribution());
-			dcpsContributionEntity.setContributionEmpr(dcpContributionModel1.getEmprContribution().floatValue());
-			dcpsContributionEntity.setRegStatus(0);
-			dcpsContributionEntity.setDbId(99l);
-			dcpsContributionEntity.setDdoCode(orgUserMst.getDdoCode());
-			dcpsContributionEntity.setSevaarthId(dcpContributionModel1.getSevaarthId());
-			dcpsContributionEntity.setCreatedDate(new Timestamp(new Date().getTime()));
-			dcpsContributionEntity.setCreatedPostId(orgUserMst.getPostId());
-			dcpsContributionEntity.setCreatedUserId(orgUserMst.getUserId());
-			dcpsContributionEntity.setRltContriVoucherId(save);
-			
-			if(dcpsContributionEntity.getDcpContributionId()!=null) {
-				dcpsContributionEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
-				dcpsContributionEntity.setUpdatedUserId(orgUserMst.getUserId());
-				dcpsContributionEntity.setUpdatedPostId(orgUserMst.getUserId());
+		if(dcpContributionModel.getLstDcpContributionModel()!=null) {
+			for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
+				DcpsContributionEntity dcpsContributionEntity = onlineContributionRepo
+						.findDcpsContri(dcpContributionModel1.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
+				dcpsContributionEntity.setBasicPay(dcpContributionModel1.getBasicPay());
+				dcpsContributionEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
+				dcpsContributionEntity.setDa(dcpContributionModel1.getDa());
+				dcpsContributionEntity.setDp(dcpContributionModel1.getDp());
+				dcpsContributionEntity.setTypeOfPayment(dcpContributionModel1.getTypeOfPayment());
+				dcpsContributionEntity.setDcpEmpId(dcpContributionModel1.getDcpEmpId());
+				dcpsContributionEntity.setDdoCode(dcpContributionModel1.getDdoCode());
+				dcpsContributionEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
+				dcpsContributionEntity.setDelayedFinYearId(dcpContributionModel.getDelayedFinYearId());
+				dcpsContributionEntity.setDelayedMonthId(dcpContributionModel.getDelayedMonthId());
+				dcpsContributionEntity.setLangId(1l);
+				dcpsContributionEntity.setLocId(dcpContributionModel.getLocId());
+				dcpsContributionEntity.setStartDate(dcpContributionModel1.getStartDate());
+				dcpsContributionEntity.setEndDate(dcpContributionModel1.getEndDate());
+				dcpsContributionEntity.setFinYearId(dcpContributionModel.getFinYearId());
+				dcpsContributionEntity.setMonthId(dcpContributionModel.getMonthId());
+				dcpsContributionEntity.setPayCommission(dcpContributionModel1.getPayCommission().toString());
+				dcpsContributionEntity.setContribution(dcpContributionModel1.getContribution());
+				dcpsContributionEntity.setContributionEmpr(dcpContributionModel1.getEmprContribution().floatValue());
+				dcpsContributionEntity.setRegStatus(0);
+				dcpsContributionEntity.setDbId(99l);
+				dcpsContributionEntity.setDdoCode(orgUserMst.getDdoCode());
+				dcpsContributionEntity.setSevaarthId(dcpContributionModel1.getSevaarthId());
+				dcpsContributionEntity.setCreatedDate(new Timestamp(new Date().getTime()));
+				dcpsContributionEntity.setCreatedPostId(orgUserMst.getPostId());
+				dcpsContributionEntity.setCreatedUserId(orgUserMst.getUserId());
+				dcpsContributionEntity.setRltContriVoucherId(save);
+				
+				if(dcpsContributionEntity.getDcpContributionId()!=null) {
+					dcpsContributionEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+					dcpsContributionEntity.setUpdatedUserId(orgUserMst.getUserId());
+					dcpsContributionEntity.setUpdatedPostId(orgUserMst.getUserId());
+				}
+				
+				onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
 			}
-			
-			onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
 		}
 		return save;
 	}
