@@ -1,5 +1,6 @@
 package com.mahait.gov.in.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public abstract class BaseController  {
 				modelAndView.addObject("levelRoleVal", levelRoleVal);
 			}
 		}
+		modelAndView.addObject("today", new Date());
 	}
 
 	protected void addMenuAndSubMenu(Model model, OrgUserMst messages) {
@@ -39,7 +41,10 @@ public abstract class BaseController  {
 			model.addAttribute("menuList", menuList);
 			model.addAttribute("subMenuList", subMenuList);
 			model.addAttribute("levelRoleVal", levelRoleVal);
+		
+			
 		}
+		model.addAttribute("today", new Date());
 	}
 
 }

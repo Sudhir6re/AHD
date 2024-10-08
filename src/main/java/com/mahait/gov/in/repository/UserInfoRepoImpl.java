@@ -29,7 +29,7 @@ public class UserInfoRepoImpl implements UserInfoRepo {
 		try {
 			
 			String sql = "Select e from " + OrgUserMst.class.getName() + " e " //
-					+ " Where e.userName = :userName and e.appCode ="+appCode;
+					+ " Where e.userName = :userName and e.appCode ="+appCode+" AND e.activateFlag=1";
 			
 			Query query = entityManager.createQuery(sql, OrgUserMst.class);
 			/* Query query = entityManager.createQuery(sql); */

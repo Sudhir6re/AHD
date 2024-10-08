@@ -142,9 +142,23 @@ $('#approve').click(
 					success : function(data) {
 						console.log(data);
 						// alert(data);
-						swal("Approved Successfully", {
+						/*swal("Approved Successfully", {
 							icon : "success",
-						});
+						});*/
+						swal({
+							  title: "Do you want to Approve?",
+							  showDenyButton: true,
+							  showCancelButton: true,
+							  confirmButtonText: "Approve",
+							  denyButtonText: "Cancel"
+							}).then((data) => {
+							  /* Read more about isConfirmed, isDenied below */
+							  if (data.isConfirmed) {
+							    swal("Approved!", "", "success");
+							  } else if (result.isDenied) {
+							    swal("Cancel", "", "info");
+							  }
+							});
 						location.reload();
 
 					}

@@ -220,11 +220,12 @@ $("#txtRepDDOCode").blur(function(){
                      dropdown.append($('<option value="'+value[0]+'"></option>').text(value[1]));
                  });
         	}else{
-        		alert("No Data Found");
+        		swal("No Data Found");
         	}
         },
         error: function(error) {
-           alert('Error fetching DDO data:', error);
+           //alert('Error fetching DDO data:', error);
+        	swal("DDO Not Found")
         }
     });
 });
@@ -508,7 +509,7 @@ function validateDDOName() {
 	var regex = /^[ A-Za-z.-]*$/;
 	if (regex.test(txt)) {
 	} else {
-		alert('Please Enter Valid DDO Name.\nOnly Characters are allowed in DDO Name.');
+		//alert('Please Enter Valid DDO Name.\nOnly Characters are allowed in DDO Name.');
 		document.getElementById("txtDDOName").value = '';
 		if (document.getElementById("radioSalutationShri").checked == true) {
 			//alert('Shree selected');
@@ -527,18 +528,18 @@ function validateMobileNo() {
 	var regex = /^[0-9]*$/;
 	if (regex.test(mobileNo)) {
 	} else {
-		alert('Please enter only digit in Mobile No. field');
+		//alert('Please enter only digit in Mobile No. field');
 		document.getElementById("txtMobileNo").value = '';
 		return false;
 	}
 	if (mobileNo.length != 10) {
-		alert('Please enter complete Mobile No.');
+		//alert('Please enter complete Mobile No.');
 		document.getElementById("txtMobileNo").value = '';
 		return false;
 	}
 	if (!(mobileNo.charAt(0) == 7 || mobileNo.charAt(0) == 8 || mobileNo
 			.charAt(0) == 9)) {
-		alert('Please enter valid mobile No.');
+		//alert('Please enter valid mobile No.');
 		document.getElementById("txtMobileNo").value = '';
 		return false;
 	}

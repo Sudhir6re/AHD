@@ -521,11 +521,11 @@ public class AddNewDDOConfigRepository {
 		Long lLngDdoOrgId = null;
 			RltDdoOrg lObjRltDdoOrg = new RltDdoOrg();
 			// lLngDdoOrgId = IFMSCommonServiceImpl.getNextSeqNum("rlt_ddo_org", inputMap);
-			lLngDdoOrgId = getNextSeqNoLocForRltDdoOrg();
-			lObjRltDdoOrg.setDdoOrgId(lLngDdoOrgId);
+	//		lLngDdoOrgId = getNextSeqNoLocForRltDdoOrg();
+		//	lObjRltDdoOrg.setDdoOrgId(lLngDdoOrgId);
 			lObjRltDdoOrg.setActivateFlag(1l);
 			lObjRltDdoOrg.setCreatedDate(new Timestamp(new Date().getTime()));
-			lObjRltDdoOrg.setCreatedPostId(lLngPostIdCrtd);
+			lObjRltDdoOrg.setCreatedPostId(lLngPostIdCrtd);  
 			lObjRltDdoOrg.setCreatedUserId(lLngUserIdCrtd);
 			lObjRltDdoOrg.setDdoCode(lStrDdoCode);
 			lObjRltDdoOrg.setLocationCode(lStrTrsryCode);
