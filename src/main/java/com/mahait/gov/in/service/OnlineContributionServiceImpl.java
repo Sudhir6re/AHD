@@ -365,9 +365,9 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 		for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
 			DcpsContributionEntity dcpsContributionEntity = onlineContributionRepo
-					.findDcpsContri(dcpContributionModel.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
+					.findDcpsContri(dcpContributionModel1.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
 			dcpsContributionEntity.setBasicPay(dcpContributionModel1.getBasicPay());
-			dcpsContributionEntity.setBillGroupId(dcpContributionModel1.getBillGroupId());
+			dcpsContributionEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
 			dcpsContributionEntity.setDa(dcpContributionModel1.getDa());
 			dcpsContributionEntity.setDp(dcpContributionModel1.getDp());
 			dcpsContributionEntity.setTypeOfPayment(dcpContributionModel1.getTypeOfPayment());

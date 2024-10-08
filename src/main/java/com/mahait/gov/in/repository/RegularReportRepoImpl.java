@@ -49,9 +49,10 @@ public class RegularReportRepoImpl implements RegularReportRepo {
 					" and a.dcps_gpf_flag = 'Y' and c.is_active in (5,6,9,11,14) ";
 			
 		}else {
-			HQL = " select a.basic_pay,a.da,a.contribution,a.nps_emplr_contri_ded,a.month_id,a.fin_year_id,b.employee_full_name_en,b.pran_no " + 
+			
+			HQL="select b.employee_full_name_en,b.pran_no,a.basic_pay,a.da,a.contribution,a.nps_emplr_contri_ded,a.month_id,a.fin_year_id " + 
 					" from trn_dcps_contribution a inner join employee_mst b on a.sevaarth_id=b.sevaarth_id where a.ddo_code ='"+ddoCode+"' and " + 
-					" a.bill_group_id = '"+billGroup+"' and a.month_id = "+monthId+" and a.fin_year_id = "+yearId+" and b.dcps_gpf_flag = 'Y' ";
+					"  a.bill_group_id = '"+billGroup+"' and a.month_id = "+monthId+" and a.fin_year_id = "+yearId+" and b.dcps_gpf_flag = 'Y' and a.reg_status<>-3 ";
 		}
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("HQL:"+HQL);

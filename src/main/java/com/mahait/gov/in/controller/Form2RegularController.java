@@ -11,10 +11,12 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -223,5 +225,19 @@ public class Form2RegularController  extends BaseController{
 		return "/views/reports/form2-regular-report";
 	}
 	
+	
+	
+	@GetMapping(value = "/checktheEntryForForm2Regular/{billNumber}/{monthName}/{yearName}/{allowdedCode}")
+	public ResponseEntity<Integer> checktheEntryForForm2Regular(@PathVariable Long billNumber, @PathVariable Integer monthName,
+			@PathVariable Integer yearName,@PathVariable Long allowdedCode,HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		List<RegularReportModel> entryinfo = regularReportService.findDCPSRegularEmpLst(yearName,monthName,billNumber,
+				messages.getDdoCode(),allowdedCode);
+		
+		return ResponseEntity.ok(entryinfo.size());
+	
+	}
+
 
 }
