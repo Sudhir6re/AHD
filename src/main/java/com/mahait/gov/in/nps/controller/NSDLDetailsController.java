@@ -55,7 +55,7 @@ import com.mahait.gov.in.service.PaybillGenerationTrnService;
 
 import cra.standalone.paosubcontr.PAOFvu;
 @Controller
-@RequestMapping("/master")
+@RequestMapping("/ddo")
 public class NSDLDetailsController  extends BaseController{
 	// protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
@@ -162,7 +162,7 @@ public class NSDLDetailsController  extends BaseController{
 		model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
 
-		return "/views/NSDLinput";
+		return "/views/nps/NSDLinput";
 	}
 
 	@GetMapping(value = "/getNSDLEmpDtls/{month}/{year}")

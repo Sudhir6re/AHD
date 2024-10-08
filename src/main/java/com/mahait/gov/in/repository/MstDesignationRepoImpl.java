@@ -1,5 +1,7 @@
 package com.mahait.gov.in.repository;
 
+import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,7 +12,11 @@ import org.hibernate.Session;
 import org.hibernate.type.LongType;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.MstCadreEntity;
+import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
+import com.mahait.gov.in.model.MstCadreModel;
+import com.mahait.gov.in.model.MstDesnModel;
 
 
 @Repository
@@ -57,20 +63,38 @@ public class MstDesignationRepoImpl implements MstDesignationRepo {
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
-	/*
 	@Override
-	public MstDesignationEntity findMstDesgByDesgId(int designationId) {
+	public List<Object[]> getCadre() {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "select * from cadre_group_mst";
+		Query query = currentSession.createSQLQuery(hql);
+		return (List<Object[]>) query.list();
+	}
+	
+	@Override
+	public int saveDesignationMst(MstDesignationEntity mstDesignationEntity) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Serializable saveId = currentSession.save(mstDesignationEntity);
+		return (Integer) saveId;
+	}
+	
+	@Override
+	public MstDesignationEntity findMstDesgByDesgId(Long designationId) {
 		MstDesignationEntity objCad = null;
 		Session currentSession = entityManager.unwrap(Session.class);
 		objCad = currentSession.get(MstDesignationEntity.class, designationId);
 		return objCad;
 	}
+	
+	
+	
 
-	@Override
+	/*@Override
 	public List<MstCadreEntity> findCadreDescByFldDeptId(int fldDeptId) {
 		String HQL = "FROM MstCadreEntity as t WHERE t.fieldDepartmrnt='"+fldDeptId+"' ";
 		return (List<MstCadreEntity>) entityManager.createQuery(HQL).getResultList();
-	}
+	}*/
 
 	@Override
 	public void updateDesginationStatus(MstDesignationEntity objDesg) {
@@ -90,10 +114,7 @@ public class MstDesignationRepoImpl implements MstDesignationRepo {
 		return lstresult;
 	}
 
-	@Override
-	public List<MstCadreEntity> getCadre() {
-		String HQL = "FROM MstCadreEntity as t  where t.isActive='1' order by t.id";
-		System.out.println(HQL);
-		return (List<MstCadreEntity>) entityManager.createQuery(HQL).getResultList();
-	}*/
+
+
+	
 }
