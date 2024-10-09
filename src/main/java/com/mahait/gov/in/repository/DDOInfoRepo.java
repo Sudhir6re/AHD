@@ -9,6 +9,7 @@ import com.mahait.gov.in.entity.CmnStateMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.OrgPostMst;
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.NewRegDDOModel;
 
 public interface DDOInfoRepo {
@@ -44,5 +45,9 @@ public interface DDOInfoRepo {
 	void updateApproveRejectStatus(DdoOffice ddoOffice);
 
 	List<Object[]> getLstTown();
+
+	OrgUserMst findOrgUserMstByDdoCode(String ddoCode);
+
+	void update(OrgUserMst orgUserMst);
 
 }

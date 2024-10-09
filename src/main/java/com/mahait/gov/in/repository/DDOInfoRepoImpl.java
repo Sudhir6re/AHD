@@ -162,4 +162,21 @@ public class DDOInfoRepoImpl implements DDOInfoRepo {
 	}
 
 
+	
+	@Override
+	public OrgUserMst findOrgUserMstByDdoCode(String ddoCode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String hql = "SELECT orgUserMst FROM OrgUserMst orgUserMst where ddoCode = '"+ddoCode+"'";
+		Query query = currentSession.createQuery(hql);
+		List<OrgUserMst> lstOrgUserMst = currentSession.createQuery(hql).getResultList();
+		return lstOrgUserMst.get(0);
+	}
+
+	@Override
+	public void update(OrgUserMst orgUserMst) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.update(orgUserMst);
+	}
+
+
 }
