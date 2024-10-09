@@ -13,6 +13,41 @@ var contextPath = $(document).ready(function() {
 	}
 
 });
+
+
+function checkSameMonth(toDateObj, counter) {
+	var fromDate = $("#txtFromDate" + counter).val();
+    var toDate = $(toDateObj).val();
+
+    // Convert string dates to Date objects
+    var fromDateObj = new Date(fromDate);
+    var toDateObj = new Date(toDate);
+
+    // Check if both dates are valid
+    if (isNaN(fromDateObj.getTime()) || isNaN(toDateObj.getTime())) {
+        swal("Invalid date format.");
+        $(toDateObj).val("");
+        return false;
+    }
+
+    // Compare year and month
+    if (fromDateObj.getFullYear() !== toDateObj.getFullYear()) {
+        swal("Please Select same year in a row");
+        $(toDateObj).val("");
+        return false;
+    }
+    
+    if (fromDateObj.getMonth() !== toDateObj.getMonth()) {
+        swal("Please Select same month in a row");
+        $(toDateObj).val("");
+        return false;
+    }
+
+    return true;
+}
+}
+
+
 jQuery(document).ready(function($) {
 	var varMessage = $("#message").val();
 	if (varMessage != "" && varMessage != undefined) {
@@ -238,21 +273,29 @@ $("#trnDCPSTable").on(
 			var row = $(this).closest("tr");
 			var startDate = row.find('.startDate').val();
 			var endDate = row.find('.endDate').val();
+			var sevaarthId = row.find('.sevaarthId').val();
+			var typeOfPayment = row.find('.typeOfPayment').val();
+			var payCommission = row.find('.payCommission').val();
 
+			var monthId = $('#monthId').val();
+			var finYearId = $('#finYearId').val();
+			var noOfDays = (new Date(endDate) - new Date(startDate))
+					/ (1000 * 60 * 60 * 24) + 1;
+
+			
+			
 			if (endDate != '' && (startDate > endDate)) {
 				swal('Select start date less than or equal to End Date');
 				row.find('.startDate').val("");
 				row.find('.endDate').val("");
+			}else if(startDate!='' && endDate!=null && !checkSameMonth(row)){
+				 row.find('.startDate').val("");
+				 row.find('.endDate').val("");
+			} else if(startDate!='' && endDate!=null && !checkFutureDate(row)){
+				 row.find('.startDate').val("");
+				 row.find('.endDate').val("");
 			} else {
-				var sevaarthId = row.find('.sevaarthId').val();
-				var typeOfPayment = row.find('.typeOfPayment').val();
-				var payCommission = row.find('.payCommission').val();
-
-				var monthId = $('#monthId').val();
-				var finYearId = $('#finYearId').val();
-				var noOfDays = (new Date(endDate) - new Date(startDate))
-						/ (1000 * 60 * 60 * 24) + 1;
-
+			
 				var params = {
 					startDate : startDate,
 					endDate : endDate,
@@ -583,3 +626,122 @@ function SearchEmployee(e) {
  });
 
  });*/
+
+
+
+
+
+function checkSameMonth(row) {
+	
+	var row = $(this).closest("tr");
+	var startDate = row.find('.startDate').val();
+	var endDate = row.find('.endDate').val();
+	var sevaarthId = row.find('.sevaarthId').val();
+	var typeOfPayment = row.find('.typeOfPayment').val();
+	var payCommission = row.find('.payCommission').val();
+
+	var monthId = $('#monthId').val();
+	var finYearId = $('#finYearId').val();
+	var noOfDays = (new Date(endDate) - new Date(startDate))
+			/ (1000 * 60 * 60 * 24) + 1;
+
+
+    var fromDateObj = new Date(startDate);
+    var toDateObj = new Date(endDate);
+
+    if (isNaN(fromDateObj.getTime()) || isNaN(toDateObj.getTime())) {
+        swal("Invalid date format.");
+        return false;
+    }
+
+    if (fromDateObj.getFullYear() !== toDateObj.getFullYear()) {
+        swal("Please Select same year in a row");
+        return false;
+    }
+    
+    if (fromDateObj.getMonth() !== toDateObj.getMonth()) {
+        swal("Please Select same month in a row");
+        return false;
+    }
+    
+    return true;
+}
+
+
+
+function checkFutureDate(row) {
+	
+	var startDate = row.find('.startDate').val();
+	var endDate = row.find('.endDate').val();
+
+	var monthId = $('#monthId').val();  //1-jan 12 dec
+	var finYearId = $('#finYearId').val();  //24 for 2025  23 for 2024
+
+
+    var fromDateObj = new Date(startDate);
+    var toDateObj = new Date(endDate);
+    var today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to midnight for comparison
+
+    // Create date based on monthId and finYearId (not future)
+    var futureYear = finYearId + 1999; // Adjust to map finYearId to actual year
+    var futureMonth = monthId - 1; // monthId is 1-based, so subtract 1 for Date object
+
+    var monthYearDate = new Date(futureYear, futureMonth);
+    monthYearDate.setHours(0, 0, 0, 0); // Set time to midnight for comparison
+
+    if (isNaN(fromDateObj.getTime()) || isNaN(toDateObj.getTime())) {
+        swal("Invalid date format.");
+        return false;
+    }
+
+    if (fromDateObj > today || toDateObj > today || monthYearDate > today) {
+        swal("Please do not select future dates.");
+        return false;
+    }
+    
+    return true;
+}
+
+
+function checkOverlapForRegular(counter) {
+    var one_day = 1000 * 60 * 60 * 24;
+    var startDateStr = $("#txtStartDate" + counter).val().trim();
+    var endDateStr = $("#txtEndDate" + counter).val().trim();
+
+    if (startDateStr !== "" && endDateStr !== "") {
+        var startDate = new Date(startDateStr);
+        var endDate = new Date(endDateStr);
+
+        var totalRows = $("#hdnCounter").val().trim();
+        
+        for (var i = 1; i <= totalRows; i++) {
+            if ($("#dcpsempId" + counter).val().trim() === $("#dcpsempId" + i).val().trim()) {
+                var otherStartDateStr = $("#txtStartDate" + i).val().trim();
+                var otherEndDateStr = $("#txtEndDate" + i).val().trim();
+
+                if (otherStartDateStr !== "" && otherEndDateStr !== "") {
+                    var otherStartDate = new Date(otherStartDateStr);
+                    var otherEndDate = new Date(otherEndDateStr);
+
+                    // Check for overlap
+                    if (counter !== i && (
+                        (startDate <= otherEndDate && startDate >= otherStartDate) || 
+                        (endDate <= otherEndDate && endDate >= otherStartDate))) {
+                        alert('The dates overlap for Regular Type in the same month.');
+                        $("#txtStartDate" + counter).val("");
+                        $("#txtEndDate" + counter).val("");
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+
+
+
+

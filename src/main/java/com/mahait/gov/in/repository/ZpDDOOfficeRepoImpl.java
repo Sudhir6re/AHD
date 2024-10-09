@@ -61,7 +61,7 @@ public class ZpDDOOfficeRepoImpl implements ZpDDOOfficeRepo {
 	@Override
 	public OrgUserMst findddo(String zpDdoCode) {
 		try {
-			String HQL = "FROM OrgUserMst as  t  where t.userName = '0"+zpDdoCode+"_AST'";
+			String HQL = "FROM OrgUserMst as  t  where t.ddoCode = '"+zpDdoCode+"'";
 			return (OrgUserMst) entityManager.createQuery(HQL).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
