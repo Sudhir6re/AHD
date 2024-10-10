@@ -1,4 +1,4 @@
-
+contextPath = $("#appRootPath").val();
 $('input[type="radio"][name="sameAdd"]').click(function() {
   //  $('#permanent_address').val($('#current_address').val());
 //  $('#presentSamePerm').val($('#presentNotSamePerm').val());
@@ -314,7 +314,14 @@ $("#submit").click(function(){
 			   var noNominee=$("#numNominees").val();
 			   var totalPercentage=0;
 			   for(var i=0;i<parseInt(noNominee);i++){
-				   totalPercentage=parseInt(totalPercentage)+parseInt($("#nomineePercentShare"+i).val());
+				   
+				   
+				   var percentageValue = $("#nomineePercentShare" + i).val();
+		            var percentage = parseInt(percentageValue) || 0; // Default to 0 if input is empty
+		            totalPercentage += percentage;
+		            
+		            
+				   ////totalPercentage=parseInt(totalPercentage)+parseInt($("#nomineePercentShare"+i).val());
 			   }
 			   
 			   if(parseInt(totalPercentage)!=100 ){
@@ -506,7 +513,69 @@ function readFile(input,type){
 	    }
 }
 
+$("#employeeBankName")
+.change(
+		function() {
+			   var bankid=$("#bankCode").val();
+			// alert("DDO CODE is "+departmentId);
+			//  alert("payScale CODE is "+payScale);
 
+			if (bankid != ''  && bankid != '0') {
+				$
+						.ajax({
+							type : "GET",
+							url : contextPath+"/ddoast/fetchbankbranch/" + bankid,
+							async : true,
+							contentType : 'application/json',
+							error : function(data) {
+								// console.log(data);
+							},
+							beforeSend : function(){
+								$( "#loaderMainNew").show();
+								},
+							complete : function(data){
+								$( "#loaderMainNew").hide();
+							},	
+							success : function(data) {
+								// console.log(data);
+								// alert(data);
+								var len = data.length;
+								if (len != 0) {
+									// console.log(data);
+									$('#bankBranchCode').empty();
+									$('#bankBranchCode')
+											.append(
+													"<option value='0'>Please Select</option>");
+									var temp = data;
+									$
+											.each(
+													temp,
+													function(index,
+															value) {
+														console
+																.log(value[1]);
+														$(
+																'#bankBranchCode')
+																.append(
+																		"<option value="
+																				+ value[1]
+																				+ ">"
+																				+ value[1]
+																				+ "</option>");
+															$("#bankBranchName").val(value[1]);
+													});
+								} else {
+									$('#bankBranchCode').empty();
+									$('#bankBranchCode')
+											.append(
+													"<option value='0'>Please Select</option>");
+									swal("Record not found !!!");
+								}
+							}
+						});
+			}
+
+		});
 
 
 /*$(".table").on("change", ".allowCheckBox", function() {

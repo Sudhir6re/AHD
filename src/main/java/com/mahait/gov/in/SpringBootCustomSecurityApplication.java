@@ -26,7 +26,7 @@ import org.springframework.web.WebApplicationInitializer;
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
 @Configuration*/
 @ComponentScan("com.mahait.gov.in")
-@EntityScan(basePackages = { "com.mahait.gov.in.entity","com.mahait.gov.in.nsdl.entity" })
+@EntityScan(basePackages = { "com.mahait.gov.in.entity","com.mahait.gov.in.nps.entity" })
 public class SpringBootCustomSecurityApplication extends SpringBootServletInitializer implements WebApplicationInitializer { 
 	
 //	private static final Logger logger=LoggerFactory.getLogger(SpringBootCustomSecurityApplication.class);

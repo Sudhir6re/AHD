@@ -46,13 +46,13 @@ select.error, textarea.error, input.error {
 		<div class="container csrfformmain">
 			<form method="post" action="" name="NPSForm"
 				enctype="multipart/form-data" id="NPSForm"
-				th:action="@{/level1/saveCSRF}" th:object="${mstEmployeeEntity}">
+				th:action="@{/ddoast/saveCSRF}" th:object="${mstEmployeeEntity}">
 
 
 				<input type="hidden" id="sevaarthId" th:field="*{sevaarthId}">
 				<input type="hidden" id="employeeId" th:field="*{employeeId}">
-
-
+ 				<input type="hidden" id="bankName" th:value="${employeeBankName}" th:field="*{employeeBankName}">
+ 				<input type="hidden" id="bankBranchName" th:value="${employeeBankBranchName}" th:field="*{employeeBankBranchName}">
 				<div class="tabcontentstyle" style="height: 100%;">
 					<!-- Personal Details Page -->
 					<div id="tcontent1" class="tabcontent" style="height: 100%;">
@@ -68,14 +68,10 @@ select.error, textarea.error, input.error {
 											id="cmbSalutation" class="form-control"
 											th:field="*{salutation}">
 												<option value="0">-- Select --</option>
-												<option value="1">SHRI.</option>
-												<option value="2">SMT.</option>
-												<!-- selected="selected" -->
-												<option value="3">KUM.</option>
-												<option value="4">MR.</option>
-												<option value="5">MRS.</option>
-												<option value="6">MAST.</option>
-												<option value="7">DR.</option>
+												<option value="700075">SHRI.</option>
+												<option value="700076">SMT.</option>
+												<option value="700077">KUM.</option>
+												<option value="400016">DR.</option>
 										</select></td>
 										<td width="25%" align="left">First Name</td>
 										<td width="25%" align="left"><input type="text"
@@ -237,8 +233,8 @@ select.error, textarea.error, input.error {
 										</tr>
 										<tr>
 											<td width="25%" align="left">Nominee Name <input
-												type="hidden" id="numNominees"
-												th:value="${itemStat.index+1}" /></td>
+												type="hidden" id="numNominees" th:value="${#lists.size(mstNomineeDetailsEntity)}"
+												 /></td><!-- th:value="${itemStat.index+1}" -->
 											<td width="25%" align="left"><input type="text"
 												name="nominee_name" th:id="'nomineeName'+${itemStat.index}"
 												th:field="*{mstNomineeDetailsEntity[__${itemStat.index}__].nomineename}"
@@ -309,13 +305,14 @@ select.error, textarea.error, input.error {
 									</tbody>
 								</table>
 							</div>
-							<div class="text-right">
+							
+						</fieldset>
+					</div>
+					<div class="text-right">
 								<button class="btn" id="addNomineess">
 									<span>Add Nominee</span>
 								</button>
 							</div>
-						</fieldset>
-					</div>
 					<div id="tcontent2" class="tabcontent" style="height: 100%;">
 
 						<fieldset class="tabstyle">
@@ -327,21 +324,17 @@ select.error, textarea.error, input.error {
 										<td width="25%" align="left"><input type="text"
 											name="bankac_number" th:field="*{bankAcntNo}"
 											id="bankac_number" maxlength="99" class="form-control number"></td>
-										<!-- <td width="25%" align="left">Bank Name</td>
-										<td width="25%" align="left"><input type="text"
-											name="bank_name" 
-											value="" id="bank_name"
-											maxlength="99" class="form-control"></td> -->
 
 										<td width="25%"><label><span
 												th:utext="#{msg.thymeleaf.pagelabel.bankname}"></span>&nbsp;&nbsp;<b><font
 													color="red" size="4px;">*</font></b></label></td>
 										<td width="25%"><select class="form-control"
-											th:field="*{employeeBankName}" id="employeeBankName">
+											th:field="*{bankCode}" id="bankCode">
 												<option selected="selected" th:value="0"
 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 												<option th:each="varAllBankList : ${lstAllBankList}"
-													th:value="${varAllBankList.bankName}"
+													th:value="${varAllBankList.bankCode}"
+													th:data = "${varAllBankList.bankName}"
 													th:text="${language=='mh' ? varAllBankList.bankName : varAllBankList.bankName}"></option>
 										</select> <label id="employeeBankName-error" class="error"
 											for="employeeBankName" style="display: none;">Please
@@ -352,10 +345,18 @@ select.error, textarea.error, input.error {
 									</tr>
 									<tr>
 										<td width="25%" align="left">Branch Name</td>
-										<td width="25%" align="left"><input type="text"
+											<td width="25%"><select class="form-control"
+											th:field="*{bankBranchCode}" id="bankBranchCode">
+												<option th:value="0"
+							th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+						<option th:each="varAllBankbranchList : ${lstAllBankBranch}"
+							th:value="${varAllBankbranchList.bankBranchCode}"
+							th:text="${language=='mh' ? varAllBankbranchList.bankBranchName : varAllBankbranchList.bankBranchName}"></option></select>
+										
+										<!-- <td width="25%" align="left"><input type="text"
 											name="branch_name" value=""
 											th:field="*{employeeBankBranchName}" id="branch_name"
-											maxlength="99" class="form-control"></td>
+											maxlength="99" class="form-control"> --></td>
 
 										<td width="25%" align="left">Branch Address</td>
 										<td width="25%" align="left"><input type="text"
@@ -754,7 +755,7 @@ select.error, textarea.error, input.error {
 	<script th:src="@{/js/jquery.validate.min.js}"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
-	<script th:src="@{/js/project/CSRF-Form.js}"></script>
+	<script th:src="@{/js/nps/CSRF-Form.js}"></script>
 
 
 </body>

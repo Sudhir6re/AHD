@@ -25,11 +25,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 
 	@Override
-	public List<EmployeeStatisticsModel> findEmployeeStatistics(String DDOCode) {
+	public List<EmployeeStatisticsModel> findEmployeeStatistics(String DDOCode,int roleId) {
 
 		
 
-		List<Object[]> lstprop = employeeStatisticsRepo.findEmployeeStatistics(DDOCode);
+		List<Object[]> lstprop = employeeStatisticsRepo.findEmployeeStatistics(DDOCode,roleId);
 		List<EmployeeStatisticsModel> lstObj = new ArrayList<>();
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
