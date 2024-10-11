@@ -25,10 +25,21 @@ public class BrokenPeriodAllowDeducEntity {
 	@ManyToOne
 	@JoinColumn(name = "BROKEN_PERIOD_ID",  nullable=true,insertable = false, updatable = false)
 	BrokenPeriodEntity brokenPeriodEntity;
+	
+	
 	@Column(name ="BROKEN_PERIOD_ID")
 	private Long brokenPeriodId;
+	
+	
 	@Column(name ="allow_deduc_code")
 	private Integer allowDeducCode;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "allow_deduc_code", insertable = false, updatable = false)
+	private DeptEligibilityForAllowAndDeductEntity deptEligibilityForAllowAndDeductEntity;
+	
+	
 	@Column(name ="allow_deduc_amt")
 	private Double allowDeducAmt;
 	@Column(name ="is_type")
