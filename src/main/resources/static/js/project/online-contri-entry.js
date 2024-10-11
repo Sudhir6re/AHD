@@ -11,7 +11,6 @@ var contextPath = $(document).ready(function() {
 	if ($('#ddoCode').length) {
 		$('#ddoCode').select2();
 	}
-
 });
 
 

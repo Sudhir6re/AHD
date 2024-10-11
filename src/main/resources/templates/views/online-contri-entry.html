@@ -404,10 +404,16 @@ div#tblEmpDtlsBody\ table-responsive th {
 											Row</b></td>
 
 									<td width="20%"><span
-										th:switch="${dcpContributionModelRow.status}"> <span
+										th:switch="${dcpContributionModelRow.status}"> 
+										<span
 											th:case='-1'
 											th:class="'label label-danger text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
+                                              	<span th:case="0"
+											th:class="'label label-success text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
 
 											<span th:case="*"
 											th:class="'label label-warning text-center regStatus'"
