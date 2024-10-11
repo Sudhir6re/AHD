@@ -19,7 +19,7 @@ public class MstNomineeDetailsModel {
 	
 	private String dob;
 	
-	private Long percent_share;
+	private Integer percent_share;
 		private String isactive;
 	
 	private Date createddate;

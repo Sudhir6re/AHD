@@ -29,7 +29,10 @@ import lombok.Data;
 @Table(name = "employee_mst", schema = "public")
 public class MstEmployeeEntity {
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "mstEmployeeEntity", orphanRemoval = true)
+	
+	
+	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "mstEmployeeEntity", orphanRemoval = true)*/
+	@Transient
 	private List<MstNomineeDetailsEntity> mstNomineeDetailsEntity;
 
 

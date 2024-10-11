@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface EmployeeStatisticsRepo {
 	
-	public List<Object[]> findEmployeeStatistics(String DDOCode);
+	public List<Object[]> findEmployeeStatistics(String DDOCode,int roleId);
 
 }

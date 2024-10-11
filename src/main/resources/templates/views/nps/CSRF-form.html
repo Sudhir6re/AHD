@@ -12,20 +12,13 @@
 <div class="breadcrumbMain">
 				<nav aria-label="breadcrumb">
 				  <ol class="breadcrumb">
-				<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 				    <li class="breadcrumb-item"><a href="#"><span  th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
 				    <li class="breadcrumb-item active" aria-current="page"><span th:utext="#{msg.thymeleaf.pagelabel.updateCSRFform}"></span></li>
 				  </ol>
 				</nav>
 			</div>
 			<h3 Class="PageHeading"><span  th:utext="#{msg.thymeleaf.pageheading.employeeList}"></span></h3>
-		<!-- <div align="center" class="alert alert-success">
-			<strong><span th:utext="${message}"></span></strong>
-		</div> -->
 		<fieldset class="container">
-			<!-- <legend th:utext="#{msg.thymeleaf.pageheading.departmentmaster}"
-				th:style="${'color: orange;'}"></legend> -->
-
 			<form class="form-horizontal" 
 				th:object="${csrfFormModel}" method="POST"
 				enctype="multipart/form-data">
@@ -53,7 +46,7 @@
 					</thead>
 					<tbody>
 						 <tr th:each="varEmp : ${lstEmpList}">
-							<td><a th:text="${varEmp.sevaarthId}"  th:href="@{${'/ddo/updateCSRFForm/'+varEmp.empId}}"></a></td>
+							<td><a th:text="${varEmp.sevaarthId}"  th:href="@{${'/ddoast/updateCSRFForm/'+varEmp.empId}}"></a></td>
 							<td th:text="${varEmp.empName}"></td>
 							<td th:text="${varEmp.DOJ}"></td>
 							<td th:text="${varEmp.designationName}"></td>

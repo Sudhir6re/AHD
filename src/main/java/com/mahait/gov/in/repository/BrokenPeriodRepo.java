@@ -10,7 +10,7 @@ import com.mahait.gov.in.model.MstEmployeeModel;
 public interface BrokenPeriodRepo {
 	public MstEmployeeModel getEmployeeinfo(String sevaarthid,String ddocode);
 	public String getDesignationName(String strDesignationCode);
-	public List<Object[]> fetchAllowDeducName(String sevaarthid) ;
+	public List<Object[]> fetchAllowDeducName(String sevaarthid, int i) ;
 	public List<Object[]> fetchAllowDeducNameForCalcEmpSalary(String sevaarthid);
 	public List saveBrokenPeriodPay(BrokenPeriodEntity[] lArrMstBrokenPeriodPay, List<BrokenPeriodAllowDeducEntity> lListRltBrokenPeriodAllow,
 			List<BrokenPeriodAllowDeducEntity> lListRltBrokenPeriodDeduc);

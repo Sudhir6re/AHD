@@ -105,7 +105,7 @@ input[type="button" i]:disabled {
 									<td width="15%" align="left" class="ddoinfowdate">With
 										Effect From Date <font color="red" size="4px;">*</font>
 									</td>
-									<td align="left" width="35%"><input type="date"
+									<td align="left" width="35%"><input type="date" th:max="${#dates.format(new java.util.Date(), 'yyyy-MM-dd')}" 
 										th:attr="readonly=${organisationDtlsModel.designationId!=null}? 'true' : 'false'"
 										class="form-control" placeholder="dd/mm/yyyy"
 										th:field="*{startDate}" id="txtWEFDate" /></td>
@@ -115,7 +115,7 @@ input[type="button" i]:disabled {
 								<tr>
 									<td width="15%" align="left">Tan No.</td>
 									<td align="left" width="35%"><input type="text"
-										class="form-control"
+										class="form-control tan"
 										th:attr="readonly=${organisationDtlsModel.designationId!=null}? 'true' : 'false'"
 										id="txtTANNo" style="text-transform: uppercase" size="48"
 										maxlength="10" name="txtTANNo" th:field="*{tanNo}"></td>
@@ -177,7 +177,7 @@ input[type="button" i]:disabled {
 										th:attr="readonly=${organisationDtlsModel.designationId!=null}? 'true' : 'false'"
 										id="txtAccountNo" style="text-transform: uppercase"
 										th:field="*{accountNo}" size="48" maxlength="20"
-										name="txtAccountNo" class="form-control"></td>
+										name="txtAccountNo" class="form-control number"></td>
 								</tr>
 								<tr>
 									<td width="15%" align="left">Remarks</td>
