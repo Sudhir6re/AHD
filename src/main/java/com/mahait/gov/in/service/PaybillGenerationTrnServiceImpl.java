@@ -45,6 +45,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	CommonHomeMethodsService commonHomeMethodsService;
 
 	private final Map<String, Field> fieldCache = new HashMap<>();
+	
+	
+	private final Map<String, String> componValueMap = new HashMap<>();
 
 	@SuppressWarnings("unused")
 	@Override
@@ -1395,6 +1398,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double DaArr = 0d;
 		Double npsEmprAllow = 0d;
 		Double npsEmprContri = 0d;
+	Double payArr =0d;
+		Double dcpsda =0d;
+		Double dcpsdelayed =0d;;
 
 		ddoCode = paybillHeadMpgModel.getDdoCode();
 
@@ -1513,6 +1519,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			npsEmprAllow = 0d;
 			npsEmprContri = 0d;
 			payslipDeduc = 0d;
+			
 			if (count > 0) {
 				int basicpay = 0;
 				int netpay = 0;
@@ -1530,6 +1537,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Name
 					basicpay = ((BigInteger) objects[2]).intValue();
 					netpay = ((BigInteger) objects[3]).intValue();
+					String compName = (String) objects[6];
 					brokenMethodName = (String) objects[7];
 					isType = (int) objects[8];
 					
@@ -1545,29 +1553,103 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						isNonGovernment = (int) objects[11];
 					
 					
-					if (brokenMethodName != null) {
-						Double temp = (objects[5] != null) ? new BigDecimal(objects[5].toString()).doubleValue() : 0d;
-						switch (isType) {
-						case 1:
-							grossAmount += temp;
-							break;
-						case 2:
-							dedByAG += temp;
-							break;
-						case 3:
-							if (isNonGovernment == 1) {
-								payslipDeduc += temp;
-							} else {
-								dedByTreasury += temp;
+					
+					
+					switch (compName.toUpperCase()) {
+					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAY:
+					
+						dcpsdelayed = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),
+								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAYED_CODE, month2, year2, "EMP");
+						dedByTreasury += dcpsdelayed;
+						paybillGenerationTrnDetails.setDcpsDelay(dcpsdelayed);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, dcpsdelayed);
+						break;
+
+					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_PAY:
+
+						
+						
+						payArr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_PAY_ARR_CODE,
+								month2, year2, "EMP");
+						dedByTreasury += payArr;
+
+						paybillGenerationTrnDetails.setDcpsPay(payArr);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, payArr);
+						break;
+
+					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA:
+
+						dcpsda = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA_ARR_CODE,
+								month2, year2, "EMP");
+						dedByTreasury += dcpsda;
+
+						paybillGenerationTrnDetails.setDcpsDa(dcpsda);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, dcpsda);
+						break;
+						
+						
+						default :
+							if (brokenMethodName != null && isNonGovernment !=1) {
+								
+								Double temp = (objects[5] != null) ? new BigDecimal(objects[5].toString()).doubleValue() : 0d;
+								switch (isType) {
+								case 1:
+									grossAmount += temp;
+									break;
+								case 2:
+									dedByAG += temp;
+									break;
+								case 3:
+									if (isNonGovernment == 1) {
+										payslipDeduc += temp;
+									} else if(isNonComputation==1){
+										dedByTreasury += temp;
+									}
+									break;
+								case 4:
+									dedByOthr += temp;
+									break;
+								}
+								
+								setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
+							}else if(isNonGovernment==1) {
+								EmployeeAllowDeducComponentAmtEntity entity = mstEmployeeService
+										.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(), allowdedcode);
+
+								if (entity != null) {
+									Double temp = (double) Math.round(entity.getNetAmt());
+
+									switch (isType) {
+									case 1:
+										grossAmount += temp;
+										break;
+									case 2:
+										dedByAG += temp;
+										break;
+									case 3:
+										if (isNonGovernment == 1) {
+											payslipDeduc += temp;
+										}else if(isNonComputation==1){
+											dedByTreasury += temp;
+										}
+										break;
+									case 4:
+										dedByOthr += temp;
+										break;
+									}
+
+									setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
+								}
+							
+								
 							}
-							break;
-						case 4:
-							dedByOthr += temp;
-							break;
-						}
-						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
+						break;
 					}
 				}
+				
+			
+					
+					
 
 				// END:Fetch Broken Period Allowance and Deduction Data
 
@@ -1608,9 +1690,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			} else {
 				int gradePaynew = 0;
 				double dcpsEmpr = 0;
-				double dcpsdelayed = 0;
-				double dcpsda = 0;
-				double payArr = 0;
 				
 				List<Object[]> object = mstEmployeeService.employeeAllowDeduction(mstEmployeeEntity2.getSevaarthId());
 				paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
@@ -1902,7 +1981,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									case 3:
 										if (isNonGovernment == 1) {
 											payslipDeduc += temp;
-										} else {
+										}else if(isNonComputation==1){
 											dedByTreasury += temp;
 										}
 										break;
@@ -1935,7 +2014,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 										dedByAG += tempVal;
 										break;
 									case 3:
-										dedByTreasury += tempVal;
+										if (isNonGovernment == 1) {
+											payslipDeduc += tempVal;
+										}else if(isNonComputation==1){
+											dedByTreasury += tempVal;
+										}
 										break;
 									case 4:
 										dedByOthr += tempVal;
@@ -1947,6 +2030,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						}
 						break;
 					}
+					
+					
+					System.out.println("Checking Data-----------------"+lstPaybillGenerationTrnDetails);
 				}
 
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
@@ -1982,6 +2068,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}
 
 		}
+		System.out.println("------------componValueMap----------"+componValueMap.toString());
 		grossAmt += grossAmount;
 		netAmt += grossAmount - totaldeduc;
 		objEntity.setBillGrossAmt((double) Math.round(grossAmt));
@@ -1993,6 +2080,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	private void setFieldValue(Object obj, String fieldName, Double value) {
+		
+		componValueMap.put(fieldName, value.toString());
+		
 		Field field = fieldCache.computeIfAbsent(fieldName, key -> {
 			try {
 				Field f = obj.getClass().getDeclaredField(key);
