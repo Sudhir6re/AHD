@@ -24,7 +24,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UpdateDOBService;
 
 @Controller
-@RequestMapping("/ddoast")
+@RequestMapping("/mdc")
 public class UpdateDOBController  extends BaseController {
 	
 	

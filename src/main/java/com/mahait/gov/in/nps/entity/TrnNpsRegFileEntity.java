@@ -29,7 +29,7 @@ public class TrnNpsRegFileEntity {
 	private BigInteger ackNo;
 	
 	@Column(name = "nps_id")
-	private Integer npsId;
+	private Long npsId;
 	
 	@Column(name = "is_active")
 	private String isActive;
@@ -37,11 +37,8 @@ public class TrnNpsRegFileEntity {
 	@Column(name = "ref_seq")
 	private Integer refSeq;
 	
-	
 	@Column(name = "total_emp_in_batch")
 	private Integer totalEmpInBatch;
-	
-	
 	
 	@Column(name = "nsdl_ref_no")
 	private Integer nsdlRefNo;

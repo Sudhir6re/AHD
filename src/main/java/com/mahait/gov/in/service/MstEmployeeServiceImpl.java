@@ -600,7 +600,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 					lObjNomineeDtls.setDob(dtBirthDate);
 					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-					lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+					lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 					lObjNomineeDtls.setRelation(lArrRelationship[i]);
 					lObjNomineeDtls.setCreateddate(new Date());
 					lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());
@@ -1147,7 +1147,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 				lObjNomineeDtls.setDob(dtBirthDate);
 				long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-				lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+				lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 				lObjNomineeDtls.setRelation(lArrRelationship[i]);
 				lObjNomineeDtls.setCreateddate(new Date());
 				lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());
@@ -1773,7 +1773,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					}
 					lObjNomineeDtls.setDob(dtBirthDate);
 					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-					lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+					lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 					lObjNomineeDtls.setRelation(lArrRelationship[i]);
 					lObjNomineeDtls.setCreateddate(new Date());
 					lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());

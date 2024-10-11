@@ -134,6 +134,6 @@ public class DcpContributionModel {
     List<DcpContributionModel> lstDcpContributionModel;
     
     
-
+    private String schemeName;
 
 }

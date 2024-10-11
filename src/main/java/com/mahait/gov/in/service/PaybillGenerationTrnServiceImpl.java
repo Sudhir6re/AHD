@@ -1790,10 +1790,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						dcpsEmpr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), "700046",
 								month2, year2, "EMPR");
 						dcpsdelayed = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),
-								"700047", month2, year2, "EMPR");
-						dcpsda = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), "700048",
+								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAYED_CODE, month2, year2, "EMPR");
+						dcpsda = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA_ARR_CODE,
 								month2, year2, "EMPR");
-						payArr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), "700049",
+						payArr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_PAY_ARR_CODE,
 								month2, year2, "EMPR");
 
 						grossAmount += npsEmprAllow + dcpsEmpr + dcpsdelayed + dcpsda + payArr;

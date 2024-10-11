@@ -2,6 +2,7 @@ package com.mahait.gov.in.nps.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mahait.gov.in.common.StringHelperUtils;
+import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.nps.entity.MstEmployeeNPSEntity;
@@ -37,15 +39,15 @@ public class CSRFFormServiceImpl implements CSRFFormService {
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				CSRFFormModel obj = new CSRFFormModel();
-
 				obj.setSevaarthId(StringHelperUtils.isNullString(objLst[0]));
 				obj.setEmpName(StringHelperUtils.isNullString(objLst[1]));
-				obj.setDOJ(StringHelperUtils.isNullString(objLst[2]));
+				obj.setDOJ(StringHelperUtils.isNullDate(objLst[2]));
 				obj.setDesignationName(StringHelperUtils.isNullString(objLst[3]));
 				obj.setDDOCode(StringHelperUtils.isNullString(objLst[4]));
 				obj.setOfficeName(StringHelperUtils.isNullString(objLst[5]));
 				obj.setDcpsId(StringHelperUtils.isNullString(objLst[6]));
-				obj.setEmpId(StringHelperUtils.isNullLong(objLst[7]));
+				BigInteger empId = (BigInteger)objLst[7];
+				obj.setEmpId(empId);
 
 				lstObj.add(obj);
 			}
@@ -72,7 +74,7 @@ public class CSRFFormServiceImpl implements CSRFFormService {
 	}
 
 	@Override
-	public int saveCSRF(MstEmployeeEntity mstEmployeeEntity, MultipartFile[] files, String ddoLevel2) {
+	public Long saveCSRF(MstEmployeeEntity mstEmployeeEntity, MultipartFile[] files, String ddoLevel2) {
 
 		MstEmployeeNPSEntity mstEmployeeNPSEntity = new MstEmployeeNPSEntity();
 		mstEmployeeNPSEntity.setSevaarthId(mstEmployeeEntity.getSevaarthId());
@@ -102,7 +104,7 @@ public class CSRFFormServiceImpl implements CSRFFormService {
 
 		mstEmployeeNPSEntity.setDdoCode(ddoLevel2);
 
-		mstEmployeeNPSEntity.setNumNominess(mstEmployeeEntity.getMstNomineeDetailsEntity().size());
+		////mstEmployeeNPSEntity.setNumNominess(mstEmployeeEntity.getMstNomineeDetailsEntity().size());
 
 		mstEmployeeNPSEntity.setCountry("IN");
 		mstEmployeeNPSEntity.setEmpPermanentCountry("IN");
@@ -164,7 +166,7 @@ public class CSRFFormServiceImpl implements CSRFFormService {
 		mstEmployeeNPSEntity.setIncomeRange(mstEmployeeEntity.getIncomeRange().intValue());
 		mstEmployeeNPSEntity.setEduQual(mstEmployeeEntity.getEduQual().intValue());
 		mstEmployeeNPSEntity.setDobProof(mstEmployeeEntity.getDobProof().intValue());
-		mstEmployeeNPSEntity.setDisplayNameonPranCard(mstEmployeeEntity.getDisplayNameonPranCard().intValue());
+	////	mstEmployeeNPSEntity.setDisplayNameonPranCard(mstEmployeeEntity.getDisplayNameonPranCard().intValue());
 		mstEmployeeNPSEntity.setCreatedDate(new Date());
 		mstEmployeeNPSEntity.setCreateduserId(1);
 		// mstEmployeeNPSEntity.setEmployeeGender(mstEmployeeEntity.getGender());
@@ -269,7 +271,7 @@ public class CSRFFormServiceImpl implements CSRFFormService {
 			mstEmployeeNPSEntity.setEmployeePhotoAttachment(filePath + photo);
 		}
 
-		int saveId = csrfFormRepo.saveCSRF(mstEmployeeNPSEntity);
+		Long saveId = csrfFormRepo.saveCSRF(mstEmployeeNPSEntity);
 		return saveId;
 
 	}
@@ -291,7 +293,8 @@ public class CSRFFormServiceImpl implements CSRFFormService {
 				obj.setEmpName(StringHelperUtils.isNullString(objLst[1]));
 				obj.setDdoAsst(StringHelperUtils.isNullString(objLst[2]));
 				obj.setDdo(StringHelperUtils.isNullString(objLst[3]));
-				obj.setEmpId(StringHelperUtils.isNullLong(objLst[4]));
+				BigInteger empid = (BigInteger)objLst[4];
+				obj.setEmpId(empid);
 
 				lstObj.add(obj);
 			}
@@ -428,6 +431,30 @@ public class CSRFFormServiceImpl implements CSRFFormService {
 	@Override
 	public void updatemstEmployeeEntity(@Valid MstEmployeeEntity mstEmployeeEntity) {
 		 csrfFormRepo.saveOrUpdate(mstEmployeeEntity);
+	}
+
+	@Override
+	public List<CmnLookupMst> findCityClass() {
+		// TODO Auto-generated method stub
+		return csrfFormRepo.findCityClass();
+	}
+
+	@Override
+	public List<MstNomineeDetailsEntity> findNomineeDtls(Long empId) {
+		// TODO Auto-generated method stub
+		return csrfFormRepo.findNomineeDtls(empId);
+	}
+
+	@Override
+	public String findBankName(Long bankCode) {
+		// TODO Auto-generated method stub
+		return csrfFormRepo.findBankName(bankCode);
+	}
+
+	@Override
+	public String findBankBranchName(Long bankBranchCode) {
+		// TODO Auto-generated method stub
+		return csrfFormRepo.findBankBranchName(bankBranchCode);
 	}
 
 
