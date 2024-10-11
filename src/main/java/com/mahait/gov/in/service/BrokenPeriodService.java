@@ -16,10 +16,4 @@ public interface BrokenPeriodService {
 	public List<BrokenPeriodResponseModel>   saveBrokenPeriodPay(String sevaarthid,List<BrokenPeriodResponseModel>  brokenPeriodResponseModel,Map hmInputParam);
 	public String isEmpMappedWithBillGroup(String sevaarthId);
 	public int getSevaarthIdMappedWithBill(String sevaarthid,int month,int year,String ddoName);
-	public List<BrokenPeriodResponseModel> calculateEmployeeSalaryBasedofBasic(String sevaarthid,
-			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap hmInputParam);
-	public List<BrokenPeriodResponseModel> saveBrokenPeriodDAArrayPay(String sevaarthid,
-			List<BrokenPeriodResponseModel> brokenPeriodResponseModel, HashMap<String, String> hmInputParam);
-	List<BrokenPeriodResponseModel> brokenPeriodDAArray(BrokenPeriodModel brokenPeriodModel,
-			List<BrokenPeriodResponseModel> brokenPeriodResponseModel); 
 }

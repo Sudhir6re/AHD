@@ -476,7 +476,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  "
 				+ " from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code "
-				+ " where UPPER(empalldecmpg.sevaarth_id)=UPPER(:sevaarthId) and  deptallmt.is_type=1  order by  deptallmt.department_allowdeduc_code";
+				+ " where UPPER(empalldecmpg.sevaarth_id)= UPPER(:sevaarthId) and deptallmt.is_type in (1) and deptallmt.is_non_government!=1 and deptallmt.department_allowdeduc_code not in(51,52,46) order by  deptallmt.department_allowdeduc_seq";
 		Query lQuery = currentSession.createSQLQuery(HQL);
 		lQuery.setParameter("sevaarthId", sevaarthId.trim());
 		listAllowances = lQuery.list();
@@ -492,7 +492,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from  "
 				+ " department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code "
-				+ "where UPPER(empalldecmpg.sevaarth_id)=UPPER(:sevaarthId)  and   deptallmt.is_type in (2,3,4)  order by  deptallmt.department_allowdeduc_code";
+				+ " where UPPER(empalldecmpg.sevaarth_id)= UPPER(:sevaarthId) and deptallmt.is_type in (2,4,3) and deptallmt.is_non_government!=1 and deptallmt.department_allowdeduc_code not in(51,52,46) order by  deptallmt.department_allowdeduc_seq";
 		Query lQuery = currentSession.createSQLQuery(HQL);
 		lQuery.setParameter("sevaarthId", sevaarthId.trim());
 		listDeductions = lQuery.list();
