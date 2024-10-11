@@ -275,7 +275,7 @@ $("#trnDCPSTable").on(
 			var typeOfPayment = row.find('.typeOfPayment').val();
 			var payCommission = row.find('.payCommission').val();
 
-			var monthId = $('#monthId').val();
+			var monthId = $('#monthId1').val();
 			var finYearId = $('#finYearId').val();
 			var noOfDays = (new Date(endDate) - new Date(startDate))
 					/ (1000 * 60 * 60 * 24) + 1;
@@ -638,7 +638,7 @@ function checkSameMonth(row) {
 	var typeOfPayment = row.find('.typeOfPayment').val();
 	var payCommission = row.find('.payCommission').val();
 
-	var monthId = $('#monthId').val();
+	var monthId = $('#monthId1').val();
 	var finYearId = $('#finYearId').val();
 	var noOfDays = (new Date(endDate) - new Date(startDate))
 			/ (1000 * 60 * 60 * 24) + 1;
@@ -672,7 +672,7 @@ function checkFutureDate(row) {
 	var startDate = row.find('.startDate').val();
 	var endDate = row.find('.endDate').val();
 
-	var monthId = $('#monthId').val();  //1-jan 12 dec
+	var monthId = $('#monthId1').val();  //1-jan 12 dec
 	var finYearId = $('#finYearId').val();  //24 for 2025  23 for 2024
 
 
