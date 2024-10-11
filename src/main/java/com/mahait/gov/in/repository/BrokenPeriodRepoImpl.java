@@ -7,7 +7,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Query;
@@ -426,7 +430,8 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
      	lSBQuery.append(" FROM BrokenPeriodAllowDeducEntity RA ");
      //	lSBQuery.append(" JOIN RA.deptEligibilityForAllowAndDeductEntity DE "); // Add this line
      	lSBQuery.append(" WHERE RA.brokenPeriodEntity.brokenPeriodId = :brokenPeriodId AND RA.istype = 1 ");
-     	lSBQuery.append(" ORDER BY RA.deptEligibilityForAllowAndDeductEntity.deptAllowDeducSeq "); // Use DE for the ordering
+		lSBQuery.append(" AND   RA.deptEligibilityForAllowAndDeductEntity.isNonGovernment!=1 AND RA.deptEligibilityForAllowAndDeductEntity.departmentAllowdeducCode NOT IN(51,52,46)");
+     	lSBQuery.append(" ORDER BY RA.deptEligibilityForAllowAndDeductEntity.deptAllowDeducSeq  "); // Use DE for the ordering
 
 //		Query lQuery = ghibSession.createQuery(lSBQuery.toString());
 		Query lQuery = currentSession.createQuery(lSBQuery.toString());
@@ -439,6 +444,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 		return finalList;
 	}
+
 	@Override
 	public List getAddedDeductionsForEmp(Long lLongRltBrokenPeriodId)
 	{
@@ -450,6 +456,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		lSBQuery.append(" FROM BrokenPeriodAllowDeducEntity RD");
 	//	lSBQuery.append(" JOIN RA.deptEligibilityForAllowAndDeductEntity DE ");
 		lSBQuery.append(" WHERE   RD.brokenPeriodEntity.brokenPeriodId = :brokenPeriodId  and RD.istype in (2,4) ");
+		lSBQuery.append(" AND   RD.deptEligibilityForAllowAndDeductEntity.isNonGovernment!=1 AND RD.deptEligibilityForAllowAndDeductEntity.departmentAllowdeducCode NOT IN(51,52,46)");
 		lSBQuery.append(" ORDER BY RD.deptEligibilityForAllowAndDeductEntity.deptAllowDeducSeq ");
 //		lSBQuery.append(" AND RD.rltBrokenPeriodId.brokenPeriodId = :brokenPeriodId");
 
