@@ -11,7 +11,6 @@ var contextPath = $(document).ready(function() {
 	if ($('#ddoCode').length) {
 		$('#ddoCode').select2();
 	}
-
 });
 
 
@@ -44,7 +43,6 @@ function checkSameMonth(toDateObj, counter) {
     }
 
     return true;
-}
 }
 
 

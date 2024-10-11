@@ -207,7 +207,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				SBQuery.append(" WHERE CO.DDO_CODE='" + ddoCode + "'");
 			}
 
-			if ((roleId == 3)) {
+			if ((roleId == 2)) {
 				SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + ")");
 			}else {
 				SBQuery.append(" AND (EM.BILLGROUP_ID=" + billGroupId + ")");
