@@ -38,9 +38,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 			<input type="hidden" th:field="*{useType}" id="Use" value="ViewAll" />
 			<input type="hidden" th:field="*{action}" id="action" /> <input
 				type="hidden" th:value="${message}" id="message" /> <input
-				type="hidden" th:field="*{locId}" id="locId" />
-				
-				<input type="hidden" id="deleteDcpContributionId"  th:field="*{deleteDcpContributionId}" name="deleteDcpContributionId"  />
+				type="hidden" th:field="*{locId}" id="locId" /> <input
+				type="hidden" id="deleteDcpContributionId"
+				th:field="*{deleteDcpContributionId}" name="deleteDcpContributionId" />
 
 
 
@@ -422,7 +422,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 										Please press Go button first then set dates.</td>
 								</tr> -->
 
-							<tr>
+							<!-- <tr>
 								<td colspan="5">
 									<fieldset class="tabstyle">
 										<legend>
@@ -455,29 +455,27 @@ div#tblEmpDtlsBody\ table-responsive th {
 
 									</fieldset>
 								</td>
-							</tr>
+							</tr> -->
 
 							<tr>
-								<td colspan="5" th:if="${isPaybillGenerated}"><span
+								<td colspan="13" th:if="${isPaybillGenerated}"><span
 									class="text-danger"> The bill is already
 										generated/approved. Please delete/unlock the bill first before
 										making changes in this screen.</span></td>
 							</tr>
-							<tr>
-								<td id="go" align="center"><input type="button"
-									name="btnCancel" onclick="history.back()" id="btnCancel"
-									value="Back" class="buttontag btn"> <input
-									type="submit" name="save" id="save" value="Save"
-									class="buttontag btn"></td>
-
-
-							</tr>
-
-
 
 						</table>
-					</div>
+						<br />
 
+					</div>
+					<br />
+					<div class="text-center">
+						<input type="button" name="btnCancel" onclick="history.back()"
+							id="btnCancel" value="Back" class="buttontag btn"> <input
+							type="submit" name="save" id="save" value="Save"
+							class="buttontag btn">
+					</div>
+					<br />
 
 				</fieldset>
 			</div>
