@@ -45,7 +45,6 @@ function checkSameMonth(toDateObj, counter) {
 
     return true;
 }
-}
 
 
 jQuery(document).ready(function($) {
