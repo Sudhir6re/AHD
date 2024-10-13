@@ -140,6 +140,9 @@ public interface PaybillGenerationTrnService {
 
 	public Long generatePayBill(@Valid PaybillHeadMpgModel paybillHeadMpgModel);
 
+	public void updateMstDcpsContriVoucherDtlEntity(PaybillGenerationTrnEntity paybillGenerationTrnEntity, String voucherNo, Date vdate);
+
+
 
 	
 }

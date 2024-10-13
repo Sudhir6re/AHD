@@ -303,13 +303,11 @@ div#tblEmpDtlsBody\ table-responsive th {
 
 									</td>
 									<td width="20%"><input type="date"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:id="${'startDate' + itemStat.index}"
 										class="startDate  removeErrorFromDate"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].startDate}">
 									</td>
 									<td width="20%"><input type="date"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:id="'endDate' + ${itemStat.index}"
 										class="endDate removeErrorFromDate"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].endDate}">
@@ -317,7 +315,6 @@ div#tblEmpDtlsBody\ table-responsive th {
 										<input type="hidden"
 										th:id="${'dcpContributionId' + itemStat.index}"
 										class="dcpContributionId endDate"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpContributionId}">
 
 									</td>
@@ -325,7 +322,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 									<td width="20%"><select
 										class="form-control  payCommission removeErrorFromDropdown"
 										th:id="${'payCommission' + itemStat.index}"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
+										
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].payCommission}">
 											<option th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -336,7 +333,6 @@ div#tblEmpDtlsBody\ table-responsive th {
 
 									<td><select onchange="addMonthYearComboForDelayed();" readonly
 										th:id="${'typeOfPayment' + itemStat.index}"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										class="form-control removeErrorFromDropdown typeOfPayment"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].typeOfPayment}">
 											<option selected="selected" th:value="0"
@@ -403,22 +399,40 @@ div#tblEmpDtlsBody\ table-responsive th {
 										th:data-sevaarthId="${dcpContributionModelRow.sevaarthId}">Delete
 											Row</b></td>
 
-									<td width="20%"><span
-										th:switch="${dcpContributionModelRow.status}"> 
-										<span
+									<td width="20%">
+									<span
+										th:switch="${dcpContributionModelRow.regStatus}"> 
+									<span
 											th:case='-1'
 											th:class="'label label-danger text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
 
-                                              	<span th:case="0"
+                                             <span th:case="0"
+											th:class="'label label-info text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
+
+                                           <span th:case="null"
+											th:class="'label label-warning text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
+
+                                        	<span th:case="1"
 											th:class="'label label-success text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
 
-
-											<span th:case="*"
+											<span th:case="-3"
+											th:class="'label label-danger text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+											
+											<span th:case="4"
 											th:class="'label label-warning text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
-									</span></td>
+											
+									</span>
+									
+									
+									</td>
 								</tr>
 
 

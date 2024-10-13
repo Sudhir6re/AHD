@@ -10,6 +10,7 @@
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 	<div class="container min-height-600">
 		<div align="center"> 
+		
 		<p class="error" th:text="${sessionExpMessageMsg}"></p>
 		
 		<p><a th:href="@{/user/login?logOut}">Click to login again</a></p>

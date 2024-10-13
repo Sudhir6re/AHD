@@ -2,10 +2,10 @@ package com.mahait.gov.in.repository;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,9 +20,10 @@ import org.springframework.stereotype.Repository;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.CentralGovtDAMasterEntity;
+import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.EmployeeIncrementEntity;
+import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
-import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
@@ -60,7 +61,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public Long getPaybillGenerationTrnId() {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = " SELECT coalesce(max(ch.paybillGenerationTrnId), 0) FROM PaybillGenerationTrnEntity ch";
+		String hql = "SELECT coalesce(max(ch.paybillGenerationTrnId), 0) FROM PaybillGenerationTrnEntity ch";
 		Query query = currentSession.createQuery(hql);
 		return (Long) query.list().get(0);
 	}
@@ -654,8 +655,9 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 				+ "            designation_mst as deg                                                                             \r\n"
 				+ "                on deg.designation_code=c.designation_code                                              \r\n"
 				+ "        where\r\n" + "            a.is_active<>8                                 \r\n"
-				+ "            and               a.paybill_generation_trn_id = '"+paybillGenerationTrnId+"'                                              \r\n"
-				+ "        union\r\n" + "        all   select\r\n" + "            c.sevaarth_id,\r\n"
+				+ "            and               a.paybill_generation_trn_id = '" + paybillGenerationTrnId
+				+ "'                                              \r\n" + "        union\r\n"
+				+ "        all   select\r\n" + "            c.sevaarth_id,\r\n"
 				+ "            c.employee_full_name_en,\r\n" + "            deg.designation_name,\r\n"
 				+ "            d.year_english as cur_year,\r\n" + "            e.month_id as cur_month ,\r\n"
 				+ "            0  as cur_year,\r\n" + "            0  as cur_month ,\r\n"
@@ -877,8 +879,8 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 				+ "                inner join\r\n"
 				+ "                    month_mst e                                                                                                             \r\n"
 				+ "                        on be.paybill_month = e.month_id                                                                                 \r\n"
-				+ "                where\r\n"
-				+ "                    be.paybill_generation_trn_id = '"+paybillGenerationTrnId+"'                                                           \r\n"
+				+ "                where\r\n" + "                    be.paybill_generation_trn_id = '"
+				+ paybillGenerationTrnId + "'                                                           \r\n"
 				+ "            )                                            \r\n"
 				+ "        ) as temp                          \r\n" + "    group by\r\n"
 				+ "        temp.sevaarth_id,\r\n" + "        temp.employee_full_name_en,\r\n"
@@ -1046,23 +1048,26 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	@Override
 	public int getDaPercentageByMonthYear(String startDate, int commoncodePaycommission7pc, int allowDeducCode) {
 		Session currentSession = entityManager.unwrap(Session.class);
-	
+
 		StringBuilder lSBQuery = new StringBuilder();
 		lSBQuery.append(" FROM AllowanceDeductionRuleMstEntity as t WHERE ");
-		lSBQuery.append(" t.departmentAllowdeducCode="+allowDeducCode);
-		lSBQuery.append(" AND t.isActive='1' and  t.payCommissionCode="+commoncodePaycommission7pc);
-		lSBQuery.append(" AND (to_char(t.startDate,'YY-MM-DD')<='"+ startDate + "'   OR  to_char(t.startDate,'YYYY-MM-DD')<='"+ startDate+"')");
-		lSBQuery.append(" AND (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='"+startDate+"' OR t.endDate is null OR to_char(t.endDate,'YYYY-MM-DD')>='"+startDate+"') ");
+		lSBQuery.append(" t.departmentAllowdeducCode=" + allowDeducCode);
+		lSBQuery.append(" AND t.isActive='1' and  t.payCommissionCode=" + commoncodePaycommission7pc);
+		lSBQuery.append(" AND (to_char(t.startDate,'YY-MM-DD')<='" + startDate
+				+ "'   OR  to_char(t.startDate,'YYYY-MM-DD')<='" + startDate + "')");
+		lSBQuery.append(" AND (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
+				+ "'  OR to_char(t.endDate,'YYYY-MM-DD')>='" + startDate + "') ");
 		lSBQuery.append("  ORDER BY t.startDate DESC");
-		
-		
-	/*	String HQL = "FROM AllowanceDeductionRuleMstEntity as t where   t.departmentAllowdeducCode=" + allowDeducCode
-				+ " and t.isActive='1' and  t.payCommissionCode=" + commoncodePaycommission7pc
-				+ "   and to_char(t.startDate,'YY-MM-DD')<='" + startDate + "' "
-				+ " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate
-				+ "')  ORDER BY t.startDate DESC";*/
-		
-		
+
+		/*
+		 * String HQL =
+		 * "FROM AllowanceDeductionRuleMstEntity as t where   t.departmentAllowdeducCode="
+		 * + allowDeducCode + " and t.isActive='1' and  t.payCommissionCode=" +
+		 * commoncodePaycommission7pc + "   and to_char(t.startDate,'YY-MM-DD')<='" +
+		 * startDate + "' " +
+		 * " and (t.endDate is null OR to_char(t.endDate,'YY-MM-DD')>='" + startDate +
+		 * "')  ORDER BY t.startDate DESC";
+		 */
 
 		// getDaPercentageByMonthYear
 		System.out.println("--------------------------------" + lSBQuery);
@@ -1071,8 +1076,7 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 				.createQuery(lSBQuery.toString()).getResultList();
 		Integer percentage = lstAllowanceDeductionMstEntity.stream().map(m -> m.getPercentage()).findFirst().orElse(0);
 		return percentage;
-		
-		
+
 	}
 
 	@Override
@@ -1510,13 +1514,14 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 	}
 
 	@Override
-	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId,String component) {
+	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId,
+			String component) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		String sql = "SELECT COALESCE(SUM(contribution),0) AS totalContribution, COALESCE(SUM(contribution_empr),0) as totalEmprContribution "
 				+ " FROM TRN_DCPS_CONTRIBUTION  WHERE sevaarth_id = :sevaarthId "
-				+ " AND FIN_YEAR_ID = :yearId AND MONTH_ID = :monthId "
-				+ " AND TYPE_OF_PAYMENT = :paymentType " + "AND REG_STATUS = 0  GROUP BY TYPE_OF_PAYMENT,FIN_YEAR_ID,MONTH_ID";
+				+ " AND FIN_YEAR_ID = :yearId AND MONTH_ID = :monthId " + " AND TYPE_OF_PAYMENT = :paymentType "
+				+ "AND REG_STATUS = 0  GROUP BY TYPE_OF_PAYMENT,FIN_YEAR_ID,MONTH_ID";
 
 		Query query = currentSession.createSQLQuery(sql);
 		query.setParameter("sevaarthId", sevaarthId);
@@ -1525,15 +1530,49 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		query.setParameter("paymentType", paymentType);
 
 		List<Object[]> result = query.list();
-		if (result.size()>0) {
-			if(component.equals("EMPR")) {
+		if (result.size() > 0) {
+			if (component.equals("EMPR")) {
 				return (double) Float.parseFloat(result.get(0)[1].toString());
-			}else {
+			} else {
 				return (double) result.get(0)[0];
 			}
 		}
-		return 0.0; 
+		return 0.0;
 
+	}
+
+	@Override
+	public Optional<MstDcpsContriVoucherDtlEntity> findMstDcpsContriVoucherDtlEntity(
+			PaybillGenerationTrnEntity paybillGenerationTrnEntity) {
+
+		Session ghibSession = entityManager.unwrap(Session.class);
+		StringBuilder lSBQuery = new StringBuilder();
+		lSBQuery.append(
+				"FROM MstDcpsContriVoucherDtlEntity WHERE ddoCode = :ddoCode AND yearId = :yearId AND monthId = :monthId AND billGroupId = :billGroupId");
+		Query<MstDcpsContriVoucherDtlEntity> lQuery = ghibSession.createQuery(lSBQuery.toString(),
+				MstDcpsContriVoucherDtlEntity.class);
+		lQuery.setParameter("yearId", paybillGenerationTrnEntity.getPaybillYear());
+		lQuery.setParameter("monthId", paybillGenerationTrnEntity.getPaybillMonth());
+		lQuery.setParameter("ddoCode", paybillGenerationTrnEntity.getDdoCode());
+		lQuery.setParameter("billGroupId", paybillGenerationTrnEntity.getSchemeBillgroupId());
+
+		List<MstDcpsContriVoucherDtlEntity> lstMstDcpsContriVoucherDtlEntity = lQuery.getResultList();
+		return lstMstDcpsContriVoucherDtlEntity.stream().findFirst();
+
+	}
+
+	@Override
+	public void updateMstDcpsContriVoucherDtlEntity(MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity) {
+		// TODO Auto-generated method stub
+		Session ghibSession = entityManager.unwrap(Session.class);
+		ghibSession.update(mstDcpsContriVoucherDtlEntity);
+	}
+
+	@Override
+	public void updateMstDcpsContriVoucherDtlEntity(DcpsContributionEntity dcpsContributionEntity) {
+		// TODO Auto-generated method stub
+		Session ghibSession = entityManager.unwrap(Session.class);
+		ghibSession.update(dcpsContributionEntity);
 	}
 
 }

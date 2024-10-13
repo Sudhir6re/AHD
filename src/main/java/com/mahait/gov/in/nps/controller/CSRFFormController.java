@@ -81,7 +81,7 @@ import com.mahait.gov.in.service.MstEmployeeService;
 import cra.standalone.subsreg.RunSubsRegFvu;
 
 @Controller
-@RequestMapping("/ddoast")
+@RequestMapping("/ddo")
 @PropertySource(value = { "classpath:application.properties" })
 public class CSRFFormController  extends BaseController{
 	// protected final Log logger = LogFactory.getLog(getClass());

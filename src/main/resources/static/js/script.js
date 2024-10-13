@@ -5,50 +5,33 @@ function setTwoDecimalDigit(number){
 	return number.toFixed(2);
 }
 
-
-function addErrorClass(element,msg){
-	  var elementId=$(element).attr('id');
-  var errorMessageVisible = $("label[class*="+elementId+"-error]").is(":visible");
-  if (errorMessageVisible === false) {
-	  element.after("<br class='errorbr'><label id='"+elementId+"-error'  class='error "+elementId+"-error' >"+msg+".</label>");
-	  element.css("border-color", "red");
+function addErrorClass(element, msg) {
+    var elementId = $(element).attr('id');
+    var errorLabel = $("label#" + elementId + "-error");
+    
+    if (errorLabel.length === 0) { 
+        $(element).after("<br class='errorbr'><label id='" + elementId + "-error' class='error " + elementId + "-error'>" + msg + "</label>");
+        $(element).css("border-color", "red");
     }
 }
 
-function removeErrorClass(element){
-	var elementId=$(element).attr('id');
-	 element.css("border-color", "");
-	   // var errorMessageVisible = $("#"+elementId+"-error").is(":visible");
-	     var errorMessageVisible =  $("label[class*="+elementId+"-error]").is(":visible");
-	     if (errorMessageVisible){
-	        // $("#"+elementId+"-error").remove();
-	    		$("label[class*="+elementId+"-error]").remove();
-	        $("."+elementId+"-error").remove();
-	        $(".errorbr").remove();
-	     }
+function removeErrorClass(element) {
+    var elementId = $(element).attr('id');
+    $(element).css("border-color", "");
+    
+    var errorLabel = $("label#" + elementId + "-error");
+    if (errorLabel.length > 0) {
+        errorLabel.remove();
+        $(".errorbr").remove();
+    }
 }
 
-function showError(element,msg){
-	var elementId=$(element).attr('id');
-	var errorMessageVisible = $("label[class*="+elementId+"-error]").is(":visible");
-	if (errorMessageVisible === false) {
-		element.after("<br class='errorbr'><label id='"+elementId+"-error'  class='error "+elementId+"-error'  >"+msg+".</label>");
-		element.css("border-color", "red");
-	}
+function showError(element, msg) {
+    addErrorClass(element, msg);
 }
 
-function hideError(element){
-	var elementId=$(element).attr('id');
-	element.css("border-color", "");
-// var errorMessageVisible = $("#"+elementId+"-error").is(":visible");
-      var errorMessageVisible =  $("label[class*="+elementId+"-error]").is(":visible");
-	if (errorMessageVisible){
-		// $("#"+elementId+"-error").remove();
-		
-		$("label[class*="+elementId+"-error]").remove();
-		$("."+elementId+"-error").remove();
-		  $(".errorbr").remove();
-	}
+function hideError(element) {
+    removeErrorClass(element);
 }
 
 	
@@ -634,6 +617,17 @@ function isValidEmail(email) {
 	  // Check if the email matches the pattern
 	  return emailRegex.test(email);
 	}
+
+
+
+function isValidDate(date){
+	return date instanceof Date && !isNaN(date);
+}
+
+
+
+
+
 /*
  * $(document).ready(function() { setTimeout(function () {
  * $("select").select2(); }, 200);

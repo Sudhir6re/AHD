@@ -1,5 +1,6 @@
 package com.mahait.gov.in.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -70,6 +71,16 @@ public class OnlineContriEntryController extends BaseController {
 		model.addAttribute("lstBillDesc", listMstDcpsBillGroup);
 		
 		
+		
+		if(dcpContributionModel.getFinYearId()==0) {
+			dcpContributionModel.setFinYearId((new Date().getYear()-99));
+		}
+		
+		
+		if(dcpContributionModel.getMonthId()==0) {
+			dcpContributionModel.setMonthId(4);
+		}
+		
 
 		model.addAttribute("ddoNameLst", regularReportService.getDDOName(messages.getDdoCode()));
 
@@ -133,6 +144,8 @@ public class OnlineContriEntryController extends BaseController {
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model, messages);
+		
+		
 
 		String message = (String) model.asMap().get("message");
 		model.addAttribute("message", message);
@@ -143,23 +156,18 @@ public class OnlineContriEntryController extends BaseController {
 		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
 		
 		if(messages.getMstRoleEntity().getRoleId()==2) {
-			
-			Integer regStatus=2;
-			
+			Integer regStatus=0;
 			List<MstDcpsBillGroup>  ListMstDcpsBillGroup=onlineContributionService.findBillgroupList(messages,regStatus);
 			
+			model.addAttribute("lstBillDesc", ListMstDcpsBillGroup);
 		}
 		
 		
-		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
-
-		model.addAttribute("ddoNameLst", regularReportService.getDDOName(messages.getDdoCode()));
-
+		model.addAttribute("ddoNameLst", onlineContributionService.getAllForwardedDdo(messages));
 		List<OrgDdoMst> lst = regularReportService.getDDOName(messages.getDdoCode());
 		if (lst.size() > 0) {
 			dcpContributionModel.setLocId(Long.valueOf(lst.get(0).getLocationCode()));
 		}
-
 		model.addAttribute("paymentTypeLst", onlineContributionService.getPaymentTypeLst());
 		model.addAttribute("payCommisionLst", mstDesignationService.findAllPayCommission());
 
@@ -202,6 +210,8 @@ public class OnlineContriEntryController extends BaseController {
 		model.addAttribute("dcpContributionModel", dcpContributionModel);
 		List<CmnLocationMst> lstTreasury = onlineContributionService.findTreasuryList(messages);
 		model.addAttribute("lstTreasury", lstTreasury);
+		
+		System.out.println("hhhh"+model.asMap().get("levelRoleVal").toString());
 
 		return "/views/view-forwarded-online-contri-entry";
 	
@@ -230,6 +240,22 @@ public class OnlineContriEntryController extends BaseController {
 		return "redirect:/ddoast/onlineContriEntry";
 	}
 
+	@RequestMapping("/approveOnlineContriEntry")
+	public String approveOnlineContriEntry(
+			@ModelAttribute("dcpContributionModel") DcpContributionModel dcpContributionModel, Model model,
+			RedirectAttributes redirectAttributes, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		dcpContributionModel.setCreatedPostId(messages.getUserId());
+		Long saveId = onlineContributionService.approveOnlineContriEntry(dcpContributionModel, messages);
+
+		redirectAttributes.addFlashAttribute("message", "Contribution Saved Successfully !!!");
+
+		model.addAttribute("message", "SUCCESS");
+		return "redirect:/ddoast/onlineContriEntry";
+	}
+
+	
+	
 	@RequestMapping("/getSchemeCodeByBillGroupId/{billGroupId}")
 	public @ResponseBody List<MstSchemeModel> getSchemeCodeByBillGroupId(@PathVariable String billGroupId, Model model,
 			Locale locale) {
@@ -248,6 +274,13 @@ public class OnlineContriEntryController extends BaseController {
 			Integer monthId, Integer yearId) {
 		Double sum = onlineContributionService.findSumContribution(sevaarthId, paymentType, monthId, yearId,"");
 		return ResponseEntity.ok(sum);
+	}
+	
+	@PostMapping("/addDcpsVoucherDtl")
+	public ResponseEntity<Integer> addDcpsVoucherDtl(@RequestBody Map<String, String> formData,HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		Integer status= onlineContributionService.addDcpsVoucherDtl(formData,messages);
+		return ResponseEntity.ok(status);
 	}
 
 }
