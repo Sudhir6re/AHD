@@ -101,7 +101,7 @@ public class MstEmployeeModel {
 	private Long gradePay;
 	private Long bankId;
 	private String ifscCode;
-	private Long bankAcntNo;
+	private String bankAcntNo;
 	private Long bankBranchId;
 	private String ddoCode;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -120,7 +120,7 @@ public class MstEmployeeModel {
 	private Date dtJoinCurrentPost;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date withEffectFromDate;
-	private Date gradeId;
+	private String gradeId;
 	private String photoAttachmentId;
 	private String signatureAttachmentId;
 	private Long createdUserId;

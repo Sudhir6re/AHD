@@ -43,7 +43,7 @@ public class MstNomineeDetailsHistEntity {
 	
 	
 	@Column(name="percent_share")
-	private Long percent_share;
+	private Integer percent_share;
 	
 	@Column(name="guardian_name")
 	private String guardianName;

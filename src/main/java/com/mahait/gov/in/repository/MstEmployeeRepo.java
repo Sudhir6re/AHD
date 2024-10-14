@@ -138,6 +138,14 @@ public interface MstEmployeeRepo {
 	public MstEmployeeDetailEntity updateEmployeesDetails(Long empid);
 
 	
+	public List<Object[]> findAllEmployeesByDDOName(String userName);
+
+	public List<Object[]> findDraftCaseList(OrgUserMst messages, Long cASE_STATUS);
+
+	public Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst);
+
+	public List<Long> rejectEmployeeConfiguration(String empid);
+
 
 
 //	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId);

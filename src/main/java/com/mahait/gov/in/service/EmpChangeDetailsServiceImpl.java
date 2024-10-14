@@ -43,7 +43,6 @@ import com.mahait.gov.in.repository.EmpChangeDetailsRepo;
 
 @Service
 @Transactional
-
 public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 	@Autowired
 	EmpChangeDetailsRepo empChangeDetailsRepo;
@@ -872,7 +871,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 					lObjNomineeDtls.setDob(dtBirthDate);
 					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-					lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+					lObjNomineeDtls.setPercent_share(Integer.valueOf(lArrPercentShare[i]));
 					lObjNomineeDtls.setRelation(lArrRelationship[i]);
 					lObjNomineeDtls.setCreateddate(new Date());
 					lObjNomineeDtls.setCreatedid(empChangeDetailsModel.getCreatedUserId());
@@ -1443,7 +1442,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 						lObjNomineeDtls.setDob(dtBirthDate);
 						long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-						lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+						lObjNomineeDtls.setPercent_share(Integer.valueOf(lArrPercentShare[i]));
 						lObjNomineeDtls.setRelation(lArrRelationship[i]);
 						lObjNomineeDtls.setCreateddate(new Date());
 						lObjNomineeDtls.setCreatedid(empChangeDetailsModel.getCreatedUserId());

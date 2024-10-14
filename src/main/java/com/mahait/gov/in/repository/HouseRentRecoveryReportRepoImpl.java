@@ -19,7 +19,7 @@ public class HouseRentRecoveryReportRepoImpl implements HouseRentRecoveryReportR
 	public List<Object[]> findHRRDetails(Integer yearId, Integer monthId, Long billGroup, String ddoCode) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = " select a.sevaarth_id || ' - ' || a.employee_full_name_en || '(' ||d.designation_name || ')' ,a.pan_no,b.gross_total_amt,b.hrr" + 
+		String HQL = " select a.sevaarth_id || ' - ' || a.employee_full_name_en || '(' ||d.designation_name || ')' ,a.pan_no,b.gross_amt,b.hrr" + 
 				" from employee_mst a inner join paybill_generation_trn_details b" + 
 				" on a.sevaarth_id=b.sevaarth_id\r\n" + 
 				" inner join paybill_generation_trn c on c.paybill_generation_trn_id=b.paybill_generation_trn_id " + 

@@ -19,7 +19,7 @@
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.pagelabel.updatePanNo}"></span></li>
+						th:utext="#{msg.thymeleaf.pageheading.updateDOB}"></span></li>
 				</ol>
 			</nav>
 		</div>
@@ -48,7 +48,8 @@
 					</thead>
 					<tbody>
 						<tr th:each="att, itemStat : ${updateDOBModel.emplist}">
-							<td><input type="checkbox" name="checkboxid" id="checkboxid"
+							<td>
+							<input type="checkbox" name="checkboxid" id="checkboxid"
 								th:data="'chk'+${itemStat.index}" class="checkbox"
 								th:value="${updateDOBModel.emplist[__${itemStat.index}__].checkboxid}"
 								th:field="${updateDOBModel.emplist[__${itemStat.index}__].checkboxid}" />

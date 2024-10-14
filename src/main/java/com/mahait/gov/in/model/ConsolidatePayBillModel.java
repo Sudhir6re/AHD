@@ -14,7 +14,7 @@ public class ConsolidatePayBillModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer monthName;
-	private Integer billNo;
+	private Long billNo;
 	private Integer yearName;
 	private String schemeCode;
 	private String subSchemeName;

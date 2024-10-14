@@ -179,7 +179,7 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 		
 		
 		Long lLngUserId =orgUserMst.getUserId();
-		Long lLngPostId =orgUserMst.getUserId();//orgPostMstRepository.findMaxPostId()+1;
+		Long lLngPostId =orgPostMstRepository.findMaxPostId()+1; //orgUserMst.getUserId();//o
 
 	//	objZpDDOOfficeMstDAOImpl.insertEmpMst(lLngUserId, lStrDdoPersonalName, gLngUserId, gLngPostId, lStrGender, messages,mobNo,email);
 
@@ -217,6 +217,14 @@ public class CreateAdminOfficeServiceImpl implements CreateAdminOfficeService {
 
 		
 		objZpDDOOfficeMstDAOImpl.insertRltZpDdoMap(lLngUserId, gLngPostId, 0l, 0l, lStrDdoCode, strRepoDDOCode, lstrFinalDDOCode,lstrSpecialDDOCode, lstrLevel,gLngUserId, gLngPostId, messages);
+		
+		
+		try {
+			objZpDDOOfficeMstDAOImpl.insertRltDdoOrg(gLngUserId, gLngPostId, lStrDdoCode, lLngTreasuryCode.toString(), messages);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 /*
 		Long ZP_DDO_POST_ID=lLngPostId;

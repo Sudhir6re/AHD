@@ -25,11 +25,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 
 	@Override
-	public List<EmployeeStatisticsModel> findEmployeeStatistics(String DDOCode) {
+	public List<EmployeeStatisticsModel> findEmployeeStatistics(String DDOCode,int roleId) {
 
 		
 
-		List<Object[]> lstprop = employeeStatisticsRepo.findEmployeeStatistics(DDOCode);
+		List<Object[]> lstprop = employeeStatisticsRepo.findEmployeeStatistics(DDOCode,roleId);
 		List<EmployeeStatisticsModel> lstObj = new ArrayList<>();
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
@@ -46,12 +46,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				obj.setDateofjoining(StringHelperUtils.isNullDate(objLst[8]));
 				obj.setDateofexipry(StringHelperUtils.isNullDate(objLst[9]));
 				obj.setScaledec(StringHelperUtils.isNullString(objLst[10]));
-				if(objLst[11]!=null) {
-					BigDecimal basic=(BigDecimal) objLst[11];
-					obj.setBasicpay(basic.doubleValue());
-				}
-				BigDecimal sevenbasic=(BigDecimal) objLst[12];
-				obj.setSevenbasicpay(sevenbasic.doubleValue());
+				obj.setBasicpay(StringHelperUtils.isNullDouble(objLst[11]));
+				obj.setSevenbasicpay(StringHelperUtils.isNullDouble(objLst[12]));
 				obj.setSevenPcLvl(StringHelperUtils.isNullString(objLst[13]));
 				obj.setPfserives(StringHelperUtils.isNullString(objLst[14]));
 				obj.setGpfdcps(StringHelperUtils.isNullString(objLst[15]));

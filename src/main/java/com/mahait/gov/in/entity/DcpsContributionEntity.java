@@ -27,14 +27,16 @@ public class DcpsContributionEntity  {
     private Long dcpEmpId;
 
     @Column(name = "TREASURY_CODE", nullable = false)
-    private Integer treasuryCode;
+    private Long treasuryCode;
 
     @Column(name = "DDO_CODE", length = 15)
     private String ddoCode;
 
     @Column(name = "BILL_GROUP_ID")
     private Long billGroupId;
+    
 
+    
     @Column(name = "SCHEME_CODE", length = 10)
     private String schemeCode;
 
@@ -117,7 +119,7 @@ public class DcpsContributionEntity  {
     private Date voucherDate;
 
     @Column(name = "VOUCHER_NO", length = 40)
-    private String voucherNo;
+    private Integer voucherNo;
     
     @Column(name = "NPS_EMPLR_CONTRI_DED")
     private Double npsEmplrContriDed;

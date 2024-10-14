@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
- 
+
 <title th:utext="#{menu.mapping.payBillforwardChangeStatement}"></title>
 </head>
 <body class="paybill-forward-change-statement-bill">
@@ -12,7 +12,7 @@
 	<div class="container min-height-600">
 		<div class="breadcrumbMain">
 			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
+				<ol class="breadcrumb"S>
 					<!--   <li class="breadcrumb-item homelinkbd"><a href="#">Home</a></li> -->
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.TransactionBD}"></span></a></li>
@@ -28,7 +28,7 @@
 			<!-- <legend th:utext="#{menu.mapping.payBillforwardChangeStatement}"
 				th:style="${'color: orange;'}"></legend> -->
 			<input type="hidden" value="text" id="radioid" />
-			<form class="form-horizontal"
+			<form class="form-horizontal"  id="viewPaybillFrm"   
 				th:object="${payBillViewApprDelBillModel}" method="POST"
 				enctype="multipart/form-data">
 				<!-- th:action="@{/master/saveBillGrpMain}" -->
@@ -38,7 +38,7 @@
 					id="message" th:value="${message}" /> <input type="hidden"
 					name="roleId" id="roleId" th:value="${roleId}" /> <input
 					type="hidden" name="ddoCode" id="ddoCode" th:value="${ddoCode}" />
-					<input type="hidden"	name="userId" id="userId" th:value="${userId}" />
+				<input type="hidden" name="userId" id="userId" th:value="${userId}" />
 
 
 
@@ -76,15 +76,15 @@
 					<label class="control-label col-sm-2" for="title"><span
 						th:utext="#{msg.thymeleaf.pagelabel.billNumber}"></span></label>
 					<div class="col-sm-2">
-					<select class="form-control" th:field="*{billNumber}"
+						<select class="form-control" th:field="*{billNumber}"
 							id="billNumber">
-								<option selected="selected" th:value="0" th:data="0"
-									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
-								<option th:each="varSchemeBillGroup : ${lstBillGroupLvl2}"
-									th:value="${varSchemeBillGroup.billGrpId}"
-									th:data="${varSchemeBillGroup.billGrpId}"
-									th:text="${language=='mh' ? varSchemeBillGroup.billDesc : varSchemeBillGroup.billDesc}"></option>
-							</select>
+							<option selected="selected" th:value="0" th:data="0"
+								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+							<option th:each="varSchemeBillGroup : ${lstBillGroupLvl2}"
+								th:value="${varSchemeBillGroup.billGrpId}"
+								th:data="${varSchemeBillGroup.billGrpId}"
+								th:text="${language=='mh' ? varSchemeBillGroup.billDesc : varSchemeBillGroup.billDesc}"></option>
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
@@ -100,7 +100,7 @@
 
 				<hr />
 
-				<table id="tblShowPayBill"
+				<table id="tblShowPayBill" 
 					class="table table-striped table-bordered" style="width: 100%">
 					<thead>
 						<tr>
@@ -108,8 +108,8 @@
 							<th th:utext="#{msg.thymeleaf.pagelabel.chngStatmBillDetails}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.payBillDetails}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.billDesc}" />
-							<!-- 							<th th:utext="#{msg.thymeleaf.pagelabel.schemeCode}" /> -->
-							<!-- 							<th th:utext="#{msg.thymeleaf.pagelabel.schemeName}" /> -->
+							<th th:utext="#{msg.thymeleaf.pagelabel.schemeCode}" />
+							<th th:utext="#{msg.thymeleaf.pagelabel.schemeName}" />
 							<!-- <th th:utext="#{msg.thymeleaf.pagelabel.subSchemeCode}" /> -->
 							<th th:utext="#{msg.thymeleaf.pagelabel.noOfEmployee}" />
 							<th th:utext="#{msg.thymeleaf.pagelabel.grossAmount}" />
@@ -135,8 +135,8 @@
 
 
 							<td th:text="${varBillGrp.billDescription}"></td>
-							<!-- 							<td th:text="${varBillGrp.schemeCode}"></td> -->
-							<!-- 							<td th:text="${varBillGrp.schemeName}"></td> -->
+							<td th:text="${varBillGrp.schemeCode}"></td>
+							<td th:text="${varBillGrp.schemeName}"></td>
 							<td th:text="${varBillGrp.noOfEmployee}"></td>
 							<td th:text="${varBillGrp.billGrossAmt}"></td>
 							<td th:text="${varBillGrp.billNetAmt}"></td>
@@ -189,6 +189,8 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				
 				<div class="text-center">
 					<input type="button" value="Approve Change Statement"
 						class="btn btn-primary" id="btnApprChangState" /> &nbsp;&nbsp; <input

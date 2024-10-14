@@ -43,6 +43,7 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
                 obj.setVillage(lstprop.getDcpsDdoOfficeVillage());
                 obj.setAddress(lstprop.getDcpsDdoOfficeAddress1());
                 obj.setPin(lstprop.getDcpsDdoOfficePin());
+                
                 obj.setCityClass(lstprop.getDcpsDdoOfficeCityClass());
                 obj.setInstiNo(lstprop.getDiceCode());
                 obj.setPercGrant(lstprop.getDcpsDdoOfficeGrant());
@@ -182,6 +183,7 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
         lstprop.setDcpsDdoOfficeTelNo2(organisationDtlsModel.getTel2());
         lstprop.setDcpsDdoOfficeFax(organisationDtlsModel.getFax());
         lstprop.setDcpsDdoOfficeEmail(organisationDtlsModel.getEmail());
+        lstprop.setDcpsDdoOfficePin(organisationDtlsModel.getPin());
         lstprop.setStatusFlag(0l);
         lstprop.setDcpsDdoOfficeDdoFlag("YES");
         lstprop.setLangId(1l);

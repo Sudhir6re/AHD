@@ -1,16 +1,14 @@
 jQuery(document)
 		.ready(
 				function($) {
-					
 					// $('#tblShowPayBill').hide();
 					
 					
 					
+					if($('#tblShowPayBill').length){
+						$('#tblShowPayBill').DataTable();
+					}
 					
-				
-					
-					
-
 					var date = new Date();
 					var currentMonth = date.getMonth() + 1;
 					var currentYear = date.getFullYear();
@@ -609,6 +607,30 @@ jQuery(document).ready(function($) {
 		});
 	}
 });
+
+/*
+$("#btnSearch")
+.click(
+		function(e) {
+			e.preventDefault();
+			var roleId= $("#roleId").val();
+			var billNumber= $('option:selected',"#billNumber").attr('data');
+			var yearName = $("#yearName").val();
+			var monthName = $("#monthName").val();
+			if (monthName == "" || monthName == "0") {
+				e.preventDefault();
+				swal("Please select month");
+			} 
+			 else if (yearName == "" || yearName == "0") {
+					e.preventDefault();
+					swal("Please select year");
+				}
+			 else{
+				 $("#action").val("search");
+				  $("#viewPaybillFrm").submit(); 
+			 }
+		});		*/
+
 $("#btnSearch")
 .click(
 		function(e) {
@@ -630,6 +652,8 @@ $("#btnSearch")
 				e.preventDefault();
 				swal("Please select billNumber");
 			} */else  {
+				$("#loaderMainNew").show();
+				
 				var urlCall;
 				
 				if(billNumber == "" || billNumber == "0" || billNumber == undefined){
@@ -658,8 +682,12 @@ $("#btnSearch")
 							async : false,
 							error : function(data) {
 								console.log(data);
+								$("#loaderMainNew").hide();
 							},
+							contentType : 'application/json',
 							success : function(data) {
+								$("#loaderMainNew").hide();
+								console.log(data);
 								
 								$('#tblShowPayBill').show();
 								$('#tblShowPayBill_wrapper').show();
@@ -670,31 +698,30 @@ $("#btnSearch")
 									console.log(data);
 							 $("#tblShowPayBill").dataTable().fnClearTable();
 //									var paybillGenerationTrnId,status,billDescription, schemeCode, schemeName, noOfEmployee,authno, billGrossAmt, billNetAmt, isActive,ddoCode;
-									var paybillGenerationTrnId,status,billDescription,  noOfEmployee,RTGS, billGrossAmt, billNetAmt, isActive,ddoCode;
-									$
-											.each(
-													data,
-													function(i, result) {
-														paybillGenerationTrnId = result[0],
-														billDescription = result[1];
-														console.log(result[0]);
-//														schemeCode = result[2]
-//														schemeName = result[3];
-														noOfEmployee = result[7];
-														//authno=result[8];
-														RTGS=result[0];
-														billGrossAmt = result[4];
-														billNetAmt = result[5];
-														//ddoCode = result[5];
-                                                        status= result[6];
-                                                        console.log(status);
+									var paybillGenerationTrnId,status,billDescription,  noOfEmployee,RTGS, billGrossAmt, billNetAmt, isActive,ddoCode,schemeCode, schemeName;
+									for(var i=0;i<data.length;i++){
+										
+													paybillGenerationTrnId = data[i].paybillGenerationTrnId;
+													billDescription = data[i].billDescription;
+													console.log(data[i].billDescription);
+													schemeCode = data[i].schemeCode;
+													schemeName = data[i].schemeName;
+													noOfEmployee = data[i].noOfEmployee;
+													//authno=result[8];
+													RTGS=data[i].paybillGenerationTrnId;
+													billGrossAmt =data[i].billGrossAmt;
+													billNetAmt = data[i].billNetAmt;
+													//ddoCode = result[5];
+			                                        status= data[i].isActive;
+			                                        authNo= data[i].authno;
+			                                        console.log(status);
                                                         
                                                        var   change1;
                                                        var inner5;
                                                        var RTGS;
-                                                         change1="<a class='paybillGenerationTrnId'>"+paybillGenerationTrnId+"</a>"; 
+                                                         change1="<a    class='paybillGenerationTrnId'>"+paybillGenerationTrnId+"</a>"; 
                                                                   
-                                       inner5="<a  onclick='showinnerreport("+paybillGenerationTrnId+");'>"+paybillGenerationTrnId+"</a></td>";
+                                       inner5="<a   data-bill-number='"+paybillGenerationTrnId+"'  class='showinneRreport' >"+paybillGenerationTrnId+"</a></td>";
                                        
                                        if(RTGS!=null){
                                     	   if(status==14){
@@ -845,8 +872,10 @@ $("#btnSearch")
 																				change1,
 																				inner5,
 																				billDescription,
-//																				schemeCode,
-//																				schemeName,
+																			
+																				schemeCode,
+																				schemeName,
+																				
 																				noOfEmployee,
 																				billGrossAmt,
 																				billNetAmt,
@@ -856,10 +885,10 @@ $("#btnSearch")
 														
 														
 														 $('#tblShowPayBill tr').each(function(row, tr){
-														        $(tr).find('td:eq(5)').text();
-														        $(tr).find('td:eq(6)').text();
-														        $(tr).find('td:eq(5)').text(toPlainString($(tr).find('td:eq(5)').text()));
-														        $(tr).find('td:eq(6)').text(toPlainString($(tr).find('td:eq(6)').text()));
+														        $(tr).find('td:eq(7)').text();
+														        $(tr).find('td:eq(8)').text();
+														        $(tr).find('td:eq(7)').text(toPlainString($(tr).find('td:eq(7)').text()));
+														        $(tr).find('td:eq(8)').text(toPlainString($(tr).find('td:eq(8)').text()));
 														    });         	
 
 
@@ -871,7 +900,9 @@ $("#btnSearch")
 														            : b + c + d + Array(e-d.length+1).join(0);
 														        });
 														    } 
-													});
+														    
+														    
+													}   //loop end
 								}
 								else{
 									swal("No Records Found");
@@ -965,4 +996,38 @@ $("#btnUpdate")
 			$("#loaderMainNew").hide();
 		});
 
+
+	
+	
+$(document).on('click','.showinneRreport', function(event){	
+	var billnm = billNumber;
+	var ddoCode = "1";
+	
+	 var   billNumber = $(this).data('bill-number');     //$(this).attr('bill-number'); 
+
+	$("#loaderMainNew").show();
+
+	$
+			.ajax({
+				type : "GET",
+				url : "../ddoast/getinnerreport/" + billNumber + "/" + 1
+						+ "/" + 1 + "/" + ddoCode,
+				async : true,
+				contentType : 'application/json',
+				error : function(data) {
+					alert("error");
+					console.log(data);
+				},
+				success : function(data) {
+					$("#loaderMainNew").hide();
+					var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
+					var win = window.open("", "", urlstyle);
+					win.document.write(data);
+					win.focus();
+
+					// self.close();
+
+				}
+			});
+});
 

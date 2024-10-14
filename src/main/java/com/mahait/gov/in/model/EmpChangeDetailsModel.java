@@ -104,7 +104,7 @@ public class EmpChangeDetailsModel {
 	private Long gradePay;
 	private Long bankId;
 	private String ifscCode;
-	private Long bankAcntNo;
+	private String bankAcntNo;
 	private Long bankBranchId;
 	private String ddoCode;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -157,7 +157,7 @@ public class EmpChangeDetailsModel {
     private Date membership_date;
     private String nomineename;
     private String nomineeaddress;
-    private Long percent_share;
+    private Integer percent_share;
     private String relation;
     private String indiApproveOrderNo;
    

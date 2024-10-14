@@ -29,7 +29,10 @@ import lombok.Data;
 @Table(name = "employee_mst", schema = "public")
 public class MstEmployeeEntity {
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "mstEmployeeEntity", orphanRemoval = true)
+	
+	
+	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "mstEmployeeEntity", orphanRemoval = true)*/
+	@Transient
 	private List<MstNomineeDetailsEntity> mstNomineeDetailsEntity;
 
 
@@ -377,7 +380,7 @@ public class MstEmployeeEntity {
 	private String ifscCode;
 
 	@Column(name = "BANK_ACNT_NO")
-	private Long bankAcntNo;
+	private String bankAcntNo;
 
 	@Column(name = "BANK_BRANCH_CODE")
 	private Long bankBranchCode;
@@ -417,7 +420,7 @@ public class MstEmployeeEntity {
 	private Date withEffectFromDate;
 
 	@Column(name = "GRADE_ID")
-	private Date gradeId;
+	private String gradeId;
 
 	@Column(name = "PHOTO_ATTACHMENT_ID")
 	private String photoAttachmentId;
@@ -507,7 +510,7 @@ public class MstEmployeeEntity {
 	@Column(name = "reason_for_change_parent_field_dept ")
 	private String reasonForChngParentFieldDept;
 
-	@Column(name = "pran_no ")
+	@Column(name = "pran_no")
 	private String pranNo;
 
 	@Column(name = "emp_type")
@@ -555,6 +558,14 @@ public class MstEmployeeEntity {
 	
 	@Column(name = "MORE_QUALIFICATION")
 	private String morequalification;
+	
+	@Column(name = "is_dcps_generate")
+	private String isDcpsGenerate;
+	
+	
+	
+	
+	
 	}
 
 

@@ -71,7 +71,7 @@ $(document).ready(function(){
      	}
      });
 
-     
+   $("#ddoCode").select2();  
      
      
      
@@ -93,17 +93,19 @@ $(document).ready(function(){
    	 		swal("Please select effective date");
    	 	}
    	 	else if ((selecteditems.length != '') ) {
+   	 	$( "#loaderMainNew").show();
     		 $.ajax({
 			      type: "GET",
 			     /* url: "../master/saveMpgDdoAllowDeduc/"+selecteditems+"/"+input +"/"+action+"/"+serialid+"/"+effectiveDate,*/
-			      
 			      url: context+"/ddo/saveDeptEligibilityAllowDeducAdmin/"+selecteditems+"/"+action+"/"+serialid+"/"+effectiveDate+"/"+ddoCode,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
 			    	  console.log(data);
+			    		$( "#loaderMainNew").hide(); 
 			      },
 			      success: function(data){
+			    		$( "#loaderMainNew").hide();
 			    	 swal("Saved Successfuly !", {
 			    	      icon: "success",
 			    	  });

@@ -46,7 +46,7 @@ table#tblNonGovDuesDeduct th:nth-child(2) {
 			<span th:utext="#{msg.thymeleaf.pageheading.allowdeducrulemaster}"></span>
 		</h3>
 
-		<form class="form-horizontal"
+		<form class="form-horizontal" id="ruleMasterForm"
 			th:action="@{/mdc/saveAllowanceDeductionRulesMaster}"
 			th:object="${allowanceDeductionRuleMstEntity}" method="POST"
 			enctype="multipart/form-data">

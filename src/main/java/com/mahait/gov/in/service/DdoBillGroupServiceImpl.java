@@ -154,7 +154,7 @@ public List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode) {
 			obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
 			obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
 			if (objLst[7] != null && !objLst[7].equals("")) {
-				if (objLst[7].equals('Y')) {
+				if (objLst[7].equals("Y")) {
 					obj.setDcpsgpfflag("DCPS");
 				} else {
 					obj.setDcpsgpfflag("GPF");
@@ -272,9 +272,9 @@ public int deleteEmpMpgDdoAllowDeduc(String sevaarthId) {
 }
 
 @Override
-public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long department_id, Long empId, String sevaarthId,
+public int saveEmpMpgDdoAllowDeduc(Object allow_deduct_id, Long empId, String sevaarthId,
 		String effectiveDate) {
-	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id,department_id, empId,sevaarthId,effectiveDate);
+	ddoBillGroupRepo.saveEmpMpgDdoAllowDeduc(allow_deduct_id, empId,sevaarthId,effectiveDate);
 	return 0;
 }
 

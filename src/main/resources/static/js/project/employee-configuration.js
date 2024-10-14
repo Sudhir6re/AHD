@@ -1,5 +1,20 @@
 var contextPath = $("#appRootPath").val();
 jQuery(document).ready(function() {
+	
+	   if (enableTyping != undefined) {
+           enableTyping(new Array('fName','mName','lName'),//Input fiel Name
+                    new Array('fNamemr','mNamemr','lNamemr'), 'NAME', 'mr_in'); //Output field Name
+           
+          /* var fNamemr = $('#fNamemr').val();
+           var mNamemr = $('#mNamemr').val();
+           var lNamemr = $('#lNamemr').val();
+           if (fNamemr && mNamemr && lNamemr) {
+               $('#fullNameInDevnagri').val(fNamemr + ' ' + mNamemr+''+lNamemr)
+           } */   
+           
+       }
+	
+	contextPath = $("#appRootPath").val();
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});
 	$("#qid").select2();
@@ -200,7 +215,7 @@ if(paycomm != '' && paycomm != undefined){
 		$("#eidNo").prop("disabled",true);
 	});
 	
-	if($("#uid1").val()!='' && $("#uid2").val()!='' && $("#uid3").val()!=''){
+	if ($("#uid1").val() && $("#uid2").val() && $("#uid3").val()) {
 		var UID1 = document.getElementById("uid1").value;
 		var UID2 = document.getElementById("uid2").value;
 		var UID3 = document.getElementById("uid3").value;
@@ -309,9 +324,6 @@ if(paycomm != '' && paycomm != undefined){
 				validAge=true;
 				//swal("Age " + age + " is restrict");
 				
-				
-				
-				
 				document.getElementById("dob").value = "";
 			} 
 		} else {
@@ -384,13 +396,17 @@ if(paycomm != '' && paycomm != undefined){
 	var eidnumbercheck=$('#eidNo').val();
 //	alert("uidnumbercheck="+uidnumbercheck);
 	if(eidnumbercheck!=""||uidnumbercheck!=""){
-	if (uidnumbercheck != "") {
+	if ($('#uidNo').val()) {
 		document.getElementById('eidNo').readOnly = true;
 	}else{
-//		document.getElementById('eidNo').readOnly = true;
-		document.getElementById("uid1").readOnly = true;
-		document.getElementById("uid2").readOnly = true;
-		document.getElementById("uid3").readOnly = true;
+		const fields = ["uid1", "uid2", "uid3"];
+		fields.forEach(field => {
+		    const element = document.getElementById(field);
+		    if (element) {
+		        element.readOnly = true;
+		    } else {
+		    }
+		});
 	}
 	}
 	
@@ -873,13 +889,24 @@ if(paycomm != '' && paycomm != undefined){
 					pattern: /^([0-9])?$/,
 				},
 		},
-		invalidHandler: function(form, validator) {
-			//form.preventDefault();
-			try{
-				$(".error").closest(".collapse").addClass("in");
-			}catch(err){
-			}
-		},
+		 errorPlacement: function(label, element) {
+			    if (element.hasClass('web-select2')) {
+			      label.insertAfter(element.next('.select2-container')).addClass('mt-2 text-danger');
+			      select2label = label
+			    } else {
+			      label.addClass('mt-2 text-danger');
+			      label.insertAfter(element);
+			    }
+			  },
+			  highlight: function(element) {
+			    $(element).parent().addClass('is-invalid')
+			    $(element).addClass('form-control-danger')
+			  },
+			  success: function(label, element) {
+			    $(element).parent().removeClass('is-invalid')
+			    $(element).removeClass('form-control-danger')
+			    label.remove();
+			  },
 		 /*errorPlacement: function (error, element) {
 	          //  console.log('dd', element.attr("name"))
 	            if (element.attr("name") == "client_city") {
@@ -1210,6 +1237,85 @@ if(paycomm != '' && paycomm != undefined){
 	            updateButtonVisibility();
 	        }
 	    });
+	    
+	    
+	    
+	    $('.btnSaveAsDraft').click(function(e) {
+	        var uidNo1 = $('#uid1').val().trim();
+	        var uidNo2 = $('#uid2').val().trim();
+	        var uidNo3 = $('#uid3').val().trim();
+	        var eidNo = $('#eidNo').val().trim();
+	        var dob = $('#dob').val().trim();
+	        var gisApplicable = $('#gisapplicable').val().trim();
+	        var pfDescription = $('#pfdescription').val().trim();
+	        var accountMaintainBy = $('#accountmaintainby').val().trim();
+	        var dcpsGpfFlag = $('input[name="dcpsgpfflag"]:checked').val();
+
+	        if (accountMaintainBy === "700094" && pfDescription === "") {
+	            swal("Please enter PF description.");
+	        } else if ((uidNo1 === "" || uidNo2 === "" || uidNo3 === "") && eidNo === "") {
+	            swal("Please enter UID or EID.");
+	        } else if (uidNo1 && uidNo2 && uidNo3 && (uidNo1.length !== 4 || uidNo2.length !== 4 || uidNo3.length !== 4)) {
+	            swal("Please enter a valid UID.");
+	        }else if ($("#salutation").val().trim() === "0") {
+	            swal("Please select salutation.");
+	        }  else if ($("#fullName").val().trim() === '') {
+	            swal("Please enter employee name.");
+	        } else if ($("#gender").val().trim() === "") {
+	            swal("Please select gender.");
+	        } else if (dob === "") {
+	            swal("Please select date of birth.");
+	        } else if ((gisApplicable === "0" || gisApplicable !== "1") && !checkMembershipDate()) {
+	            swal("Please select membership date.");
+	        } else if ($("#mobileNo2").val().length>10  || $("#mobileNo2").val().length>10) {
+	            swal("Please enter valid mobile number.");
+	        }  else {
+	            /*$('input, textarea, select').removeClass('ignore');
+
+	            $('input[type=text], input[type=email], input[type=date], textarea').each(function() {
+	                if ($(this).val().trim() === "") {
+	                    $(this).addClass('ignore');
+	                }
+	            });
+
+	            $('input[type=checkbox], input[type=radio]').addClass('ignore');
+	            $('select').each(function() {
+	                if ($(this).val() === null || $(this).val() === "" || $(this).val() === "0") {
+	                    $(this).addClass('ignore');
+	                }
+	            });
+	        	
+	        	
+	            if ($("form[name='myForm']").valid()) {
+	                swal({
+	                    title: "Are you sure?",
+	                    text: "Do you want to save this as a draft?",
+	                    icon: "warning",
+	                    buttons: true,
+	                    dangerMode: true,
+	                }).then((willSave) => {
+	                    if (willSave) {
+	                        $("#action").val("saveAsDraft");
+	                        $("form[name='myForm']").submit(); // Submit the form
+	                    }
+	                });
+	            }*/
+	        	
+	            swal({
+	                title: "Are you sure?",
+	                text: "Do you want to save this as a draft?",
+	                icon: "warning",
+	                buttons: true,
+	                dangerMode: true,
+	            }).then((willSave) => {
+	                if (willSave) {
+	                  $('input[type=text], input[type=email], input[type=date], textarea, input[type=checkbox], input[type=radio], select').addClass('ignore');
+	                    $("#action").val("saveAsDraft"); 
+	                    $("#myForm").submit();
+	                }
+	            });
+	        }
+	    }); 
 	
 });
 
@@ -1219,9 +1325,24 @@ var yyyy = today.getFullYear();
 if(dd<10){ dd='0'+dd } 
 if(mm<10){ mm='0'+mm } 
 today = yyyy+'-'+mm+'-'+dd; 
+
+/*
 document.getElementById("dtInitialAppointmentParentInst").setAttribute("max", today);
 document.getElementById("dtJoinCurrentPost").setAttribute("max", today);
 document.getElementById("indiApproDt").setAttribute("max", today);
+*/
+
+const fields = ["dtInitialAppointmentParentInst", "dtJoinCurrentPost", "indiApproDt"];
+
+fields.forEach(field => {
+    const element = document.getElementById(field);
+    if (element) {
+        element.setAttribute("max", today);
+     //   console.log(`Set max attribute for ${field}.`);
+    } else {
+       // console.warn(`Element with ID ${field} not found.`);
+    }
+});
 
 
 
@@ -1242,7 +1363,7 @@ $("#payCommision")
 					
 					
 					
-					if (payCommisionId != '') {
+					if (payCommisionId != '' && payCommisionId != '0') {
 						if (payCommisionId == '700005') {
 //							$('#payScaleSeven').attr("disabled", true); 
 //							$('#basicPay').attr("disabled", true);
@@ -1423,7 +1544,7 @@ $("#payscalelevel")
 					$('#payInPayBand').empty();
 					$('#gradePay').empty();
 
-					if (payScale != '') {
+					if (payScale != ''  && payScale != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -1547,7 +1668,7 @@ $("#designationId")
 					var postdetailid = $("#postdetailid").val();
 				
 					// alert("DDO CODE is "+designationId);
-					if (designationId != '') {
+					if (designationId != '' && designationId != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -1672,7 +1793,7 @@ $("#accountmaintainby")
 					document.getElementById('pfseries').disabled = '';	
 					document.getElementById('pfacno').disabled = '';	
 				///	document.getElementById('pfdescription').disabled = '';	
-					if (accmainby != '') {
+					if (accmainby != '' &&  accmainby != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -2876,6 +2997,8 @@ function getAge() {
 			
 			 showError($( "#dob" ),"Age " + age + " is restrict");
 
+		}else{
+			hideError($("#dob"));
 		} 
 	} else {
 		//swal("please provide your date of birth");
@@ -2887,42 +3010,43 @@ function getAge() {
 }
 
 function getDOJ() {
-	// alert("Method executed");
-	var dateString = document.getElementById("dob").value;
-	var jodString = document.getElementById("serviceJod").value;
-	if (dateString != "") {
-		// var today = new Date();
-		var birthDate = new Date(dateString);
-		var jodDate = new Date(jodString);
-		var age = jodDate.getFullYear() - birthDate.getFullYear();
-		var m = jodDate.getMonth() - birthDate.getMonth();
-		var da = jodDate.getDate() - birthDate.getDate();
-		if (m < 0 || (m === 0 && jodDate.getDate() < birthDate.getDate())) {
-			age--;
-		}
-		if (m < 0) {
-			m += 12;
-		}
-		if (da < 0) {
-			da += 30;
-		}
+    const dateString = $("#dob").val();
 
-		if (age < 18 || age > 100) {
-		//	swal("Please Enter valid Joining Date");
-		//	document.getElementById("serviceJod").value = "";
-			 hideError($( "#doj" ));
-			 showError($( "#doj" ),"Please Enter valid Joining Date");
+    if (!dateString) {
+        hideError($("#dob"));
+        showError($("#dob"), "Please provide  date of birth");
+        return;
+    }
 
-		} else {
+    const birthDate = new Date(dateString);
+    const serviceJodString = $("#serviceJod").val();
 
-			// swal("Age "+age+" is allowed");
-		}
-	} else {
-	//	swal("please provide your date of birth");
-		 hideError($( "#dob" ));
-		 showError($( "#dob" ),"please provide your date of birth");
-	//	document.getElementById("serviceJod").value = "";
-	}
+    if (!serviceJodString) {
+        hideError($("#serviceJod"));
+        showError($("#serviceJod"), "Please provide  joining date");
+        return;
+    }
+
+    const serviceJod = new Date(serviceJodString);
+
+    let age = serviceJod.getFullYear() - birthDate.getFullYear();
+    const monthDifference = serviceJod.getMonth() - birthDate.getMonth();
+    const dayDifference = serviceJod.getDate() - birthDate.getDate();
+
+    if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+        age--;
+    }
+
+    if (age < 18 || age > 100) {
+        hideError($("#serviceJod"));
+        showError($("#serviceJod"), "Please Enter valid Joining Date");
+    }else{
+    	if($("#serviceJod-error").length){
+    		$("#serviceJod-error").hide();
+    	}
+    	
+    	hideError($("#serviceJod"));
+    } 
 }
 
 function ValidateEmail(mail) {
@@ -3133,7 +3257,7 @@ $("#stateCode")
 
 
 
-//for fetching Sub Corporation associates with Corporation
+/*//for fetching Sub Corporation associates with Corporation
 $("#parentFieldDepartmentId")
 		.change(
 				function() {
@@ -3188,13 +3312,13 @@ $("#parentFieldDepartmentId")
 											$('#subCorporationId')
 													.append(
 															"<option value='0'>Please Select</option>");
-											/*swal("Record not found !!!");*/
+											swal("Record not found !!!");
 										}
 									}
 								});
 					}
 
-				});
+				});*/
 
 
 function approveEmpDtls() {
@@ -3391,7 +3515,7 @@ $("#bankId")
 					// alert("DDO CODE is "+departmentId);
 					//  alert("payScale CODE is "+payScale);
 
-					if (bankid != '') {
+					if (bankid != ''  && bankid != '0') {
 						$
 								.ajax({
 									type : "GET",
@@ -3604,7 +3728,7 @@ function checkGisGroup() {
 
 function checkMembershipDate() {
 	var dateString = document.getElementById("membership_date").value;
-	if (dateString != "") {
+	if (dateString) {
 		var today = new Date();
 		var membershipdate = new Date(dateString);
 		var date = membershipdate.getDate();
@@ -3613,11 +3737,7 @@ function checkMembershipDate() {
 			swal("Mebmership date must be 1st of  April");
 			return false;
 		}
-		// alert('Year='+membershipdate.getFullYear());
-		// alert('month='+membershipdate.getMonth());
-		// alert('Date='+membershipdate.getDate());
-		// var mdate = new Date(membershipdate.getFullYear(),0,1);
-		// var d = new Date(year, 0, 1);
+		return true;
 	}
 }
 
@@ -4406,7 +4526,7 @@ $("#postdetailid")
 		function() {
 			var postdetailid = $("#postdetailid").val();
 			//alert("postdetailid"+postdetailid);
-			if (postdetailid != '') {
+			if (postdetailid != '' && postdetailid != '0') {
 				$
 						.ajax({
 							type : "GET",
@@ -4472,8 +4592,8 @@ $("#adminDepartmentId")
 .change(
 		function() {
 			var adminDepartmentId = $("#adminDepartmentId").val();
-			alert("adminDepartmentId"+adminDepartmentId);
-			if (adminDepartmentId != '') {
+	//		alert("adminDepartmentId"+adminDepartmentId);
+			if (adminDepartmentId != '' && adminDepartmentId!="0") {
 				$
 						.ajax({
 							type : "GET",
@@ -4541,7 +4661,10 @@ if (mm1 < 10) {
 }
    
 today1 = yyyy1 + '-' + mm1 + '-' + dd1;
-document.getElementById("serviceJod").setAttribute("max", today1);
+
+if (document.getElementById("serviceJod")) {
+	document.getElementById("serviceJod").setAttribute("max", today1);
+}
 
 
 
@@ -4592,7 +4715,6 @@ function validateBankAccNumUniqe() {
 	if (employeeId == "" || employeeId == null) {
 		employeeId='0';
 	}
-	
 		if (bankAccountNo != '') {
 			$
 					.ajax({
@@ -4628,6 +4750,17 @@ function validateBankAccNumUniqe() {
 					});
 		}
 	}
+
+
+$("#myForm").on('keypress', function(e) {
+    if (e.which === 13) { 
+        e.preventDefault(); 
+        if ($("#myForm").valid()) { 
+            $(this).submit(); 
+        }
+    }
+});
+
 
 
 

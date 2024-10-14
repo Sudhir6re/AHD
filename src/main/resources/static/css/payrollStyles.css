@@ -2477,3 +2477,6 @@ img.newlogo {
 .bor-imp, .bor-imp td, .bor-imp td, .bor-imp tr {
     border: 1px solid #ccc !important;
 }
+* [readonly] {
+    background: #eee !important;
+}

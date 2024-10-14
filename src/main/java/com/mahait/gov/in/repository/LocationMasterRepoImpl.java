@@ -25,7 +25,7 @@ public class LocationMasterRepoImpl implements LocationMasterRepo{
 		Session currentSession = entityManager.unwrap(Session.class);
 		//String hql =  "select a.country_name,b.state_id,b.state_name from country_mst  a inner join state_mst b on a.country_id = b.country_id  where a.is_active = '1' and a.country_id = '"+countryId+"' order by b.state_name asc";
 		//String hql =  "select state_id,state_name from cmn_state_mst where state_id = 15 ";
-		String hql = "select state_id,state_name from cmn_state_mst where state_id = '15' ";
+		String hql = "select state_id,state_name from cmn_state_mst where country_id = '1' ";
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
 	}

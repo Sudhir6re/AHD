@@ -141,10 +141,12 @@ public class TopicController extends BaseController {
 	}
 
 	@RequestMapping("/error")
-	public ModelAndView error() {
+	public ModelAndView error(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		String errorMessage = "You are not authorized for the requested data.";
 		modelAndView.addObject("errorMsg", errorMessage);
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
 		String sessionExpMessage = "Session Expired, Please click below link to login again !!!";
 		modelAndView.addObject("sessionExpMessageMsg", sessionExpMessage);
 		modelAndView.setViewName("error");
@@ -152,19 +154,23 @@ public class TopicController extends BaseController {
 	}
 
 	@RequestMapping("/underConstruction")
-	public ModelAndView underConstruction() {
+	public ModelAndView underConstruction(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		String underConstMessage = "This Page Is Under Constuction !!!";
 		modelAndView.addObject("underConstructionMsg", underConstMessage);
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
 		modelAndView.setViewName("under-construction");
 		return modelAndView;
 	}
 
 	@RequestMapping("/invalidsession")
-	public ModelAndView invalidsession() {
+	public ModelAndView invalidsession(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		String sessionExpMessage = "Session Expired, Please click below link to login again !!!";
 		modelAndView.addObject("sessionExpMessageMsg", sessionExpMessage);
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
 		modelAndView.setViewName("invalid-session");
 		return modelAndView;
 	}

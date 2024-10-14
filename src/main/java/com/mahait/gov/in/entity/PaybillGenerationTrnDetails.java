@@ -130,8 +130,8 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "GPF_ADV")
 	private Double gpfAdv;
 
-	@Column(name = "MISC_RECOV")
-	private Double miscRecov;
+	@Column(name = "MISC")
+	private Double misc;
 
 	@Column(name = "TRN_COUNTER")
 	private Double trnCounter;
@@ -139,8 +139,8 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "DP_GAZZETED")
 	private Double dpGazzeted;
 
-	@Column(name = "PAYBILL_GRP_ID",columnDefinition = "double default 0.0")
-	private Long paybillGrpId;
+	/*@Column(name = "PAYBILL_GRP_ID",columnDefinition = "double default 0.0")
+	private Long paybillGrpId;*/
 
 	@Column(name = "GPF_IV_ADV")
 	private Double gpfIvAdv;
@@ -644,7 +644,7 @@ public class PaybillGenerationTrnDetails  {
 	private String sevaarthId;
 	
 	@Column(name = "bank_account_no")
-	private Long bankAccNo;
+	private String bankAccNo;
 	
 	@Column(name = "bank_id")
 	private Long bankId;
@@ -681,5 +681,45 @@ public class PaybillGenerationTrnDetails  {
 	
 	@Column(name = "credit_soc")
 	private Double creditSoc;
+	
+	@Column(name = "payslip_deduction")
+	private Double payslipDeduc;
+	
+	@Column(name = "payslip_net")
+	private Double payslipNet;
+	
+	@Column(name = "payslip_total_deduction")
+	private Double paysliptotalDeduc;
 
+    // Non-govrrn
+ 	
+	@Column(name = "con_store")
+	private Double conStore;
+	
+		@Column(name = "mantralaya_bank")
+	private Double mantralayaBank;
+	
+	@Column(name = "mis")
+	private Double mis;
+	
+		@Column(name = "mrt_cop_soc")
+	private Double mrtcopSoc;
+	
+		@Column(name = "other_Deduc")
+	private Double otherDeduc;
+	
+	@Column(name = "other_Recovery")
+	private Double otherRecovery;
+	
+	@Column(name = "DA_PERCENT")
+	private Integer daPercent;
+	
+	@Column(name = "HRA_PERCENT")
+	private Integer hraPercent;
+	
+	@Column(name = "remark")
+	private String remark;
+	
+	
+	
 }

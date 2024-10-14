@@ -147,8 +147,6 @@ $('#btninnerreport').click(function() {
 $('#btninnerreportPDF').click(function() {
 	 var billNumber=$('#billno').val();
 	
-	 
-//	 swal("welcome");
 	 if(billNumber == '0'){
 		 swal('Please select the valid Bill Discription');
 		 return false ;
@@ -167,13 +165,8 @@ $('#btninnerreportPDF').click(function() {
 					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
 					 var win = window.open("","",urlstyle);
 			            win.document.write(data);
-//					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//					 	window.open("welcome","",urlstyle);
-//					 swal(data);
 				 },
 				 success : function(data) {
-					// swal("success");
-//					 console.log(data);
 					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
 					 var win = window.open("Inner_report","Inner_report",urlstyle);
 			            win.document.write(data);
@@ -187,184 +180,44 @@ $('#btninnerreportPDF').click(function() {
 	 }
 });
 
-
-/*//year  and  month  code started
-$("#monthName").on('change', function(){	  
-//$('#monthName').click(function() {
-	 var monthname=$('#monthName').val();
-	 var yearname=$('#yearName').val();
+$("#groupAbstractreport").click(function(){
 	
+	 var yearName=$('#yearName').val();
+	 var monthName=$('#monthName').val();
+	 var billNumber=$('#billGroup').val();
 	 
-//	 swal("monthname="+monthname);
-//	 swal("yearname="+yearname);
-	 if(monthname == '0'){
-		 swal('Please select the valid Month');
-		 return false ;
-	 }
-	 
-	 if(yearname == '0'){
-		 swal('Please select the valid Year');
-		 return false ;
-	 }
-	 
-	 if (monthname != '') { // "/paybill/outerreportsearch/0/0"
+	 if (billNumber != '') {
 		 $
 		 .ajax({
 			 type : "GET",
-			 url : "/MJP/paybill/outerreportbilldtls/"
-			 + monthname+"/"+yearname,
+			 
+			 url : context+"/ddoast/btnShowReport/"+yearName+"/"+monthName+"/"
+			 + billNumber,
 				 async : true,
 				 contentType : 'application/json',
 				 error : function(data) {
-					 swal("error");
-//					 console.log(data);
-//					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//					 var win = window.open("","",urlstyle);
-//			            win.document.write(data);
-//					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//					 	window.open("welcome","",urlstyle);
-//					 swal(data);
+					 console.log(data);
 				 },
 				 success : function(data) {
-//					 swal("success");
-					 var len = data.length;
-						if (len != 0) {
-							console
-									.log(data);
-							$('#billNumber')
-							.empty();
-							$('#billNumber')
-							.append(
-									"<option value='0'>Please Select</option>");
-							var temp = data;
-							 var len = data.length;
-							 for( var i = 0; i<len; i++){
-				                    var id = data[i]['paybillgenerationtrnid'];
-				                    var name = data[i]['billdescription'];
-//				                    swal("id"+id);
-//				                    swal("name"+name);
-
-
-				                    
-				                    $("#billNumber").append("<option value='"+id+"'>"+name+"</option>");
-
-				                }
-						} else {
-							$('#billNumber')
-							.empty();
-					$('#billNumber')
-							.append(
-									"<option value='0'>Please Select</option>");
-							
-							swal("Record not found !!!");
-						}
-//					 console.log(data);
-//					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//					 var win = window.open("Outer_report","Outer_report",urlstyle);
-//			            win.document.write(data);
+					 console.log(data);
+					 if(data!=''){
+						 $("#billno").val(data);
+						 
+						 $('#btngroupAbstractreport').click();
+					 }else{
+						 swal("No Data Found");
+					 }
 					
-
 					 
 				 }
 		 });
 	 }
-	 else{
-		 swal('Please select Month Name');
-	 }
+	 
+	
 });
 
-// month code ended
-// year  code started
-$("#yearName").on('change', function(){	  
-	//$('#monthName').click(function() {
-		 var monthname=$('#monthName').val();
-		 var yearname=$('#yearName').val();
-		
-		 
-//		 swal("monthname="+monthname);
-//		 swal("yearname="+yearname);
-		 if(monthname == '0'){
-			 swal('Please select the valid Month');
-			 return false ;
-		 }
-		 
-		 if(yearname == '0'){
-			 swal('Please select the valid Year');
-			 return false ;
-		 }
-		 
-		 if (yearname != '') { // "/paybill/outerreportsearch/0/0"
-			 $
-			 .ajax({
-				 type : "GET",
-				 url : "/MJP/paybill/outerreportbilldtls/"
-				 + monthname+"/"+yearname,
-					 async : true,
-					 contentType : 'application/json',
-					 error : function(data) {
-//						 swal("error");
-//						 console.log(data);
-//						 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//						 var win = window.open("","",urlstyle);
-//				            win.document.write(data);
-//						 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//						 	window.open("welcome","",urlstyle);
-//						 swal(data);
-					 },
-					 success : function(data) {
-						// swal("success");
-						 var len = data.length;
-							if (len != 0) {
-								console
-										.log(data);
-								$('#billNumber')
-								.empty();
-								$('#billNumber')
-								.append(
-										"<option value='0'>Please Select</option>");
-								var temp = data;
-								 var len = data.length;
-								 for( var i = 0; i<len; i++){
-					                    var id = data[i]['paybillgenerationtrnid'];
-					                    var name = data[i]['billdescription'];
-					                 //   swal("id"+id);
-					                  //  swal("name"+name);
 
-
-					                    
-					                    $("#billNumber").append("<option value='"+id+"'>"+name+"</option>");
-
-					                }
-							} else {
-								$('#billNumber')
-								.empty();
-						$('#billNumber')
-								.append(
-										"<option value='0'>Please Select</option>");
-								
-								swal("Record not found !!!");
-							}
-//						 console.log(data);
-//						 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//						 var win = window.open("Outer_report","Outer_report",urlstyle);
-//				            win.document.write(data);
-						
-
-						 
-					 }
-			 });
-		 }
-		 else{
-			 swal('Please select Year Name');
-		 }
-	});
-	
-	
-	
-	
-	
-// year code started
-*/$('#btngroupAbstractreport').click(function() {
+$('#btngroupAbstractreport').click(function() {
 	 var billNumber=$('#billno').val();
 	 var month=$('#monthName').val();
 	 var year=$('#yearName').val();
@@ -375,9 +228,6 @@ $("#yearName").on('change', function(){
 		 ddoCode=1;
 	 }
 	 
-	 
-	 
-//	 swal("welcome");
 	 if(billNumber == '0'){
 		 swal('Please select the valid Bill Discription');
 		 return false ;
@@ -396,13 +246,8 @@ $("#yearName").on('change', function(){
 					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
 					 var win = window.open("","",urlstyle);
 			            win.document.write(data);
-//					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
-//					 	window.open("welcome","",urlstyle);
-//					 swal(data);
 				 },
 				 success : function(data) {
-					// swal("success");
-//					 console.log(data);
 					 var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
 					 var win = window.open("groupAbs_report","group_report",urlstyle);
 			            win.document.write(data);
@@ -424,6 +269,45 @@ function showouter()
 	var urlstyle = 'height=600,width=1400,toolbar=no,minimize=yes,resizable=yes,header=no,status=no,menubar=no,directories=no,fullscreen=no,location=no,scrollbars=yes,top=20,left=200';
 	window.open(urlstring,"",urlstyle);
 }
+
+
+
+$("#bankStatReport").click(function(){
+	
+	 var yearName=$('#yearName').val();
+	 var monthName=$('#monthName').val();
+	 var billNumber=$('#billGroup').val();
+	 
+	 if (billNumber != '') {
+		 $
+		 .ajax({
+			 type : "GET",
+			 
+			 url : context+"/ddoast/btnShowReport/"+yearName+"/"+monthName+"/"
+			 + billNumber,
+				 async : true,
+				 contentType : 'application/json',
+				 error : function(data) {
+					 console.log(data);
+				 },
+				 success : function(data) {
+					 console.log(data);
+					 if(data!=''){
+						 $("#billno").val(data);
+						 
+						 $('#btnbankstatementreport').click();
+					 }else{
+						 swal("No Data Found");
+					 }
+					
+					 
+				 }
+		 });
+	 }
+	 
+	
+});
+
 
 $('#btnbankstatementreport').click(function() {
 	 var yearName=$('#yearName').val();
@@ -484,6 +368,44 @@ $('#btnbankstatementreport').click(function() {
 		 swal('Please select Bill Description');
 	 }
 	});
+
+
+$("#aquittReport").click(function(){
+	
+	 var yearName=$('#yearName').val();
+	 var monthName=$('#monthName').val();
+	 var billNumber=$('#billGroup').val();
+	 
+	 if (billNumber != '') {
+		 $
+		 .ajax({
+			 type : "GET",
+			 
+			 url : context+"/ddoast/btnShowReport/"+yearName+"/"+monthName+"/"
+			 + billNumber,
+				 async : true,
+				 contentType : 'application/json',
+				 error : function(data) {
+					 console.log(data);
+				 },
+				 success : function(data) {
+					 console.log(data);
+					 if(data!=''){
+						 $("#billno").val(data);
+						 
+						 $('#btnaquittancerollreport').click();
+					 }else{
+						 swal("No Data Found");
+					 }
+					
+					 
+				 }
+		 });
+	 }
+	 
+	
+});
+
 
 
 $('#btnaquittancerollreport').click(function() {

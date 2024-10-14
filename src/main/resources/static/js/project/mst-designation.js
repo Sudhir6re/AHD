@@ -44,7 +44,7 @@ function ConfirmDeleteRecord(designationId,isActive) {
 			    if (willDelete) {
 					$.ajax({
 					      type: "GET",
-					      url: "../master/deleteDesg/"+designationId,
+					      url: "../mdc/deleteDesg/"+designationId,
 					      async: true,
 					      error: function(data){
 					    	  console.log(data);

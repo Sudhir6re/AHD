@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mahait.gov.in.CashWordConverter;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.AquittanceRollReportModel;
 import com.mahait.gov.in.model.BankStatementReportModel;
 import com.mahait.gov.in.service.BankStatementReportService;
 import com.mahait.gov.in.service.DisplayInnerReportService;
+import com.mahait.gov.in.service.DisplayOuterReportService;
 import com.mahait.gov.in.service.PaybillGenerationTrnService;
+import com.mahait.gov.in.service.RegularReportService;
 @RequestMapping("/ddoast")
 @Controller
 public class BankStatementReportController  extends BaseController {
@@ -32,6 +37,26 @@ public class BankStatementReportController  extends BaseController {
 	
 	@Autowired
 	DisplayInnerReportService displayInnerReportService;
+	
+	@Autowired
+	RegularReportService regularReportService;
+	
+	@Autowired
+	DisplayOuterReportService displayOuterReportService;
+	
+	
+	@GetMapping("/bankStatement")
+	public String bankStatement(@ModelAttribute("bankStatementReportModel") BankStatementReportModel bankStatementReportModel,
+			Model model, Locale locale, HttpSession session,HttpServletRequest request) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
+		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
+		addMenuAndSubMenu(model,messages);
+		model.addAttribute("context", request.getContextPath());
+		model.addAttribute("bankStatementReportModel",bankStatementReportModel);
+		return "/views/reports/bankStatment";
+	}
 	
 	@GetMapping("/bankStatementreport/{yearName}/{monthName}/{billNumber}/{ddoCode}")
 	public String getbankStatementreport(@ModelAttribute("bankStatementReportModel") BankStatementReportModel bankStatementReportModel,@PathVariable int monthName,@PathVariable int yearName,@PathVariable Long billNumber, Model model, 

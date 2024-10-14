@@ -380,7 +380,7 @@ import lombok.Data;
 		private String ifscCode;
 
 		@Column(name = "BANK_ACNT_NO")
-		private Long bankAcntNo;
+		private String bankAcntNo;
 
 		@Column(name = "BANK_BRANCH_CODE")
 		private Long bankBranchCode;

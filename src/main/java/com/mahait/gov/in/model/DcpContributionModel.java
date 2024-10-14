@@ -16,11 +16,13 @@ public class DcpContributionModel {
 
     private Long dcpEmpId;
     
+    private String sevaarthId;
+    
     private String dcpsNO;
     
     private String employeeName;
 
-    private Integer treasuryCode;
+    private Long treasuryCode;
 
     private String ddoCode;
 
@@ -38,11 +40,16 @@ public class DcpContributionModel {
 
     private int monthId;
 
-    private Double basicPay;
+    private Integer basicPay;
+    
+    
+    private Integer actualBasic;
+    
 
-    private Double da;
+    private Integer da;
+    
 
-    private Double contribution;
+    private Integer contribution;
 
     private Integer regStatus;
 
@@ -109,23 +116,24 @@ public class DcpContributionModel {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date voucherDate;
 
-    private String voucherNo;
+    private Integer voucherNo;
     
     private String action;
     
     private String useType;
     
-    private Double daRate;
+    private Integer daRate;
     
 	private Double dp;
     
-	private Double emprContribution;
-    
+	private Integer emprContribution;
+	
+	private List<Long> deleteDcpContributionId;  
     
     
     List<DcpContributionModel> lstDcpContributionModel;
     
     
-
+    private String schemeName;
 
 }

@@ -7,13 +7,18 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.BrokenPeriodAllowDeducEntity;
 import com.mahait.gov.in.entity.BrokenPeriodEntity;
 import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
@@ -35,7 +40,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public MstEmployeeModel getEmployeeinfo(String sevaarthid,String ddocode) {
+	public MstEmployeeModel getEmployeeinfo(String sevaarthId,String ddocode) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
 		// String hql = "Select
@@ -51,9 +56,13 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		MstEmployeeModel mstEmployeeModel = new MstEmployeeModel();
 
 		try {
-			result = entityManager
-					.createQuery("from MstEmployeeEntity where sevaarthId='" + sevaarthid.trim()+"' and ddoCode='"+ ddocode+"'", MstEmployeeEntity.class)
-					.getResultList();
+			 result = entityManager
+			        .createQuery("FROM MstEmployeeEntity WHERE UPPER(sevaarthId) = UPPER(:sevaarthId) AND ddoCode = :ddoCode", MstEmployeeEntity.class)
+			        .setParameter("sevaarthId", sevaarthId.trim())
+			        .setParameter("ddoCode", ddocode)
+			        .getResultList();
+			
+			//sevaarthId='" + sevaarthid.trim()+"' or
 			
 			
 			for (Iterator iterator = result.iterator(); iterator.hasNext();) {
@@ -125,11 +134,6 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 				mstEmployeeModel.setApprovalByDdoDate(mstEmployeeEntity.getApprovalByDdoDate());
 				mstEmployeeModel.setBillgroupId(mstEmployeeEntity.getBillGroupId());
 				
-			
-				
-				
-				
-				
 				if(mstEmployeeEntity.getPayCommissionCode()==700016)
 				    mstEmployeeModel.setBasicPay(mstEmployeeEntity.getBasicPay());
 				if(mstEmployeeEntity.getPayCommissionCode()==700005)
@@ -165,10 +169,6 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 				mstEmployeeModel.setCityClass(mstEmployeeEntity.getCityClass());
 				
 				
-				
-				
-				
-				
 				System.out.println("mstEmployeeEntity.getSuperAnnDate()------"+mstEmployeeEntity.getSuperAnnDate());
 				
 				mstEmployeeModel
@@ -177,9 +177,10 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 
 			}
 
-			result1 = entityManager
-					.createQuery("from MstDcpsDetailsEntity where sevaarthId='" + sevaarthid+"'", MstDcpsDetailsEntity.class)
-					.getResultList();
+			result1 =  entityManager
+		            .createQuery(" FROM MstDcpsDetailsEntity WHERE UPPER(sevaarthId) = UPPER(:sevaarthId)", MstDcpsDetailsEntity.class)
+		            .setParameter("sevaarthId", sevaarthId.trim())
+		            .getResultList();
 			for (Iterator iterator = result1.iterator(); iterator.hasNext();) {
 				MstDcpsDetailsEntity mstEmployeeEntity = (MstDcpsDetailsEntity) iterator.next();
 				mstEmployeeModel.setDcpsid(mstEmployeeEntity.getDcpsid());
@@ -189,8 +190,11 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 				mstEmployeeModel.setDcpsno(mstEmployeeEntity.getDcpsno());
 			}
 			result2 = entityManager
-					.createQuery("from MstGpfDetailsEntity where sevaarthId='" + sevaarthid+"'", MstGpfDetailsEntity.class)
-					.getResultList();
+		            .createQuery(" FROM MstGpfDetailsEntity WHERE UPPER(sevaarthId) = UPPER(:sevaarthId)", MstGpfDetailsEntity.class)
+		            .setParameter("sevaarthId", sevaarthId.trim())
+		            .getResultList();
+
+			
 			for (Iterator iterator = result2.iterator(); iterator.hasNext();) {
 				MstGpfDetailsEntity mstEmployeeEntity = (MstGpfDetailsEntity) iterator.next();
 
@@ -202,8 +206,9 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 
 			}
 			result3 = entityManager
-					.createQuery("from MstGisdetailsEntity where sevaarthId='" + sevaarthid+"'", MstGisdetailsEntity.class)
-					.getResultList();
+		            .createQuery("FROM MstGisdetailsEntity WHERE UPPER(sevaarthId) = UPPER(:sevaarthId)", MstGisdetailsEntity.class)
+		            .setParameter("sevaarthId", sevaarthId.trim())
+		            .getResultList();
 
 			for (Iterator iterator = result3.iterator(); iterator.hasNext();) {
 				MstGisdetailsEntity mstEmployeeEntity = (MstGisdetailsEntity) iterator.next(); 
@@ -211,17 +216,13 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 				mstEmployeeModel.setGisapplicable(mstEmployeeEntity.getGisapplicable());
 				mstEmployeeModel.setGisgroup(mstEmployeeEntity.getGisgroup());
 				mstEmployeeModel.setMembership_date(mstEmployeeEntity.getMembership_date());
-
 			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
-			
 		}
-
 		return mstEmployeeModel;
 	}
-	
 	
 	@Override
 	public String getDesignationName(String strDesignationCode) {
@@ -233,9 +234,9 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 				       "a.designation_name, "+
 				       "a.designation_short_name, "+
 				       "a.is_active "+ 
-				"FROM   designation_mst a where a.designation_code="+strDesignationCode;
+				"FROM   designation_mst a where a.designation_code = :designationCode";
 				     
-		Query query = currentSession.createSQLQuery(hql);
+		Query query = currentSession.createSQLQuery(hql).setParameter("designationCode",StringHelperUtils.isNullBigInteger(strDesignationCode));
 		List<Object[]> lstres=query.list();
 		for (Iterator iterator = lstres.iterator(); iterator.hasNext();) {
 			Object[] objects = (Object[]) iterator.next();
@@ -246,31 +247,44 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> fetchAllowDeducName(String sevaarthid) {
+	public List<Object[]> fetchAllowDeducName(String sevaarthId,int billTyp) {  //1 -regular ,2 broken
 		Session currentSession = entityManager.unwrap(Session.class);
-
-		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount,deptallmt.method_name,deptallmt.formulas  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_seq ";
-
-		Query query = currentSession.createSQLQuery(HQL);
-		
+		String HQL = null;
+		if(billTyp!=2) {
+			 HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,"
+						+ "cgmst.group_name_en,cgmst.gis_amount,deptallmt.method_name,deptallmt.formulas,deptallmt.is_rule_based,deptallmt.is_non_computation_component,deptallmt.is_non_government"
+						+ "  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id "
+						+ "where UPPER(empalldecmpg.sevaarth_id)s= UPPER(:sevaarthId) and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_seq ";
+		}else {
+			 HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,"
+						+ "cgmst.group_name_en,cgmst.gis_amount,deptallmt.method_name,deptallmt.formulas,deptallmt.is_rule_based,deptallmt.is_non_computation_component,deptallmt.is_non_government"
+						+ "  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id "
+						+ " where UPPER(empalldecmpg.sevaarth_id)= UPPER(:sevaarthId) and deptallmt.is_type in (1,2,4,3) and deptallmt.is_non_government!=1 and deptallmt.department_allowdeduc_code not in(51,52,46) order by  deptallmt.department_allowdeduc_seq ";
+		}
+		Query query = currentSession.createSQLQuery(HQL).setParameter("sevaarthId", sevaarthId.trim());;
 		System.out.println("rqw query>>"+query.getQueryString());	
-		
-		/* List<Object[]> lstprop = query.list(); */
 		return query.list();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> fetchAllowDeducNameForCalcEmpSalary(String sevaarthid) {
-		Session currentSession = entityManager.unwrap(Session.class);
+	public List<Object[]> fetchAllowDeducNameForCalcEmpSalary(String sevaarthId) {
+	    Session currentSession = entityManager.unwrap(Session.class);
 
-		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_seq";
+	    String hql = "SELECT COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) AS allded, "
+	               + "deptallmt.is_type, deptallmt.department_allowdeduc_code, "
+	               + "cgmst.group_name_en, cgmst.gis_amount "
+	               + "FROM department_allowdeduc_mst deptallmt "
+	               + "INNER JOIN employee_allowdeduc_mpg empalldecmpg ON deptallmt.department_allowdeduc_code = empalldecmpg.department_allowdeduc_code "
+	               + "INNER JOIN employee_mst empmst ON empmst.employee_id = empalldecmpg.employee_id "
+	               + "INNER JOIN cadre_group_mst cgmst ON empmst.emp_class = cgmst.id "
+	               + "WHERE UPPER(empalldecmpg.sevaarth_id) = UPPER(:sevaarthId) AND deptallmt.is_type IN (1, 2, 3, 4) "
+	               + "ORDER BY deptallmt.department_allowdeduc_seq";
 
-		Query query = currentSession.createSQLQuery(HQL);
-		/* List<Object[]> lstprop = query.list(); */
-		return query.list();
+	    Query query = currentSession.createSQLQuery(hql);
+	          query.setParameter("sevaarthId", sevaarthId.trim());
+
+	    return query.list();
 	}
 	
 	@Override
@@ -407,10 +421,17 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuilder lSBQuery = new StringBuilder();
 		List<Object[]> finalList = new ArrayList<Object[]>();
-		lSBQuery.append(" SELECT RA.brokenPeriodAllowDeducId,RA.brokenPeriodEntity.brokenPeriodId,RA.allowDeducCode,RA.allowDeducAmt");
+		/*lSBQuery.append(" SELECT RA.brokenPeriodAllowDeducId,RA.brokenPeriodEntity.brokenPeriodId,RA.allowDeducCode,RA.allowDeducAmt");
 		lSBQuery.append(" FROM BrokenPeriodAllowDeducEntity RA ");
 		lSBQuery.append(" WHERE RA.brokenPeriodEntity.brokenPeriodId = :brokenPeriodId and RA.istype=1 ");
-//		lSBQuery.append(" AND RA.rltBrokenPeriodId.brokenPeriodId = :brokenPeriodId");
+     	lSBQuery.append(" ORDER BY RA.deptEligibilityForAllowAndDeductEntity.deptAllowDeducSeq");*/
+     	
+     	lSBQuery.append(" SELECT RA.brokenPeriodAllowDeducId, RA.brokenPeriodEntity.brokenPeriodId, RA.allowDeducCode, RA.allowDeducAmt ");
+     	lSBQuery.append(" FROM BrokenPeriodAllowDeducEntity RA ");
+     //	lSBQuery.append(" JOIN RA.deptEligibilityForAllowAndDeductEntity DE "); // Add this line
+     	lSBQuery.append(" WHERE RA.brokenPeriodEntity.brokenPeriodId = :brokenPeriodId AND RA.istype = 1 ");
+		lSBQuery.append(" AND   RA.deptEligibilityForAllowAndDeductEntity.isNonGovernment!=1 AND RA.deptEligibilityForAllowAndDeductEntity.departmentAllowdeducCode NOT IN(51,52,46)");
+     	lSBQuery.append(" ORDER BY RA.deptEligibilityForAllowAndDeductEntity.deptAllowDeducSeq  "); // Use DE for the ordering
 
 //		Query lQuery = ghibSession.createQuery(lSBQuery.toString());
 		Query lQuery = currentSession.createQuery(lSBQuery.toString());
@@ -423,6 +444,7 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 		return finalList;
 	}
+
 	@Override
 	public List getAddedDeductionsForEmp(Long lLongRltBrokenPeriodId)
 	{
@@ -432,7 +454,10 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 
 		lSBQuery.append(" SELECT RD.brokenPeriodAllowDeducId,RD.brokenPeriodEntity.brokenPeriodId,RD.allowDeducCode,RD.allowDeducAmt");
 		lSBQuery.append(" FROM BrokenPeriodAllowDeducEntity RD");
+	//	lSBQuery.append(" JOIN RA.deptEligibilityForAllowAndDeductEntity DE ");
 		lSBQuery.append(" WHERE   RD.brokenPeriodEntity.brokenPeriodId = :brokenPeriodId  and RD.istype in (2,4) ");
+		lSBQuery.append(" AND   RD.deptEligibilityForAllowAndDeductEntity.isNonGovernment!=1 AND RD.deptEligibilityForAllowAndDeductEntity.departmentAllowdeducCode NOT IN(51,52,46)");
+		lSBQuery.append(" ORDER BY RD.deptEligibilityForAllowAndDeductEntity.deptAllowDeducSeq ");
 //		lSBQuery.append(" AND RD.rltBrokenPeriodId.brokenPeriodId = :brokenPeriodId");
 
 //		Query lQuery = ghibSession.createQuery(lSBQuery.toString());
@@ -450,29 +475,33 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		
 	}
 	@Override
-	public List getAllowancesListForGivenEmp(String sevaarthid)
+	public List getAllowancesListForGivenEmp(String sevaarthId)
 	{
 		Session currentSession = entityManager.unwrap(Session.class);
 		List listAllowances = null;
 		StringBuilder lSBQuery = new StringBuilder();
 		
-		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded   from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and  deptallmt.is_type=1  order by  deptallmt.department_allowdeduc_code";
+		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  "
+				+ " from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code "
+				+ " where UPPER(empalldecmpg.sevaarth_id)= UPPER(:sevaarthId) and deptallmt.is_type in (1) and deptallmt.is_non_government!=1 and deptallmt.department_allowdeduc_code not in(51,52,46) order by  deptallmt.department_allowdeduc_seq";
 		Query lQuery = currentSession.createSQLQuery(HQL);
+		lQuery.setParameter("sevaarthId", sevaarthId.trim());
 		listAllowances = lQuery.list();
        
 		return listAllowances;
 	}
 	@Override
-	public List getDeductionsListForGivenEmp(String sevaarthid)
+	public List getDeductionsListForGivenEmp(String sevaarthId)
 	{
 		Session currentSession = entityManager.unwrap(Session.class);
 		List listDeductions = null;
 		StringBuilder lSBQuery = new StringBuilder();
 		
-		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid + "' and   deptallmt.is_type in (2,3,4)  order by  deptallmt.department_allowdeduc_code";
+		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from  "
+				+ " department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code "
+				+ " where UPPER(empalldecmpg.sevaarth_id)= UPPER(:sevaarthId) and deptallmt.is_type in (2,4,3) and deptallmt.is_non_government!=1 and deptallmt.department_allowdeduc_code not in(51,52,46) order by  deptallmt.department_allowdeduc_seq";
 		Query lQuery = currentSession.createSQLQuery(HQL);
+		lQuery.setParameter("sevaarthId", sevaarthId.trim());
 		listDeductions = lQuery.list();
 
 		return listDeductions;
@@ -490,16 +519,16 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 	
 	
 	@Override
-	public String CheckBrkPrdMonthExitOrNot(String monthyear,String sevaarthId)
+	public String CheckBrkPrdMonthExitOrNot(String monthYear,String sevaarthId)
 	{
-		
-		
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuilder lSBQuery = new StringBuilder();
 		List finalList = new ArrayList();
 		lSBQuery.append(" select count(*) from broken_period_pay_mst ");
-		lSBQuery.append(" where to_char(from_date, 'MM-YYYY') = '"+monthyear+"'  and sevaarth_id ='"+sevaarthId+"'");
+		lSBQuery.append(" where to_char(from_date, 'MM-YYYY') = :monthYear and UPPER(sevaarth_id)=UPPER(:sevaarthId)");
 		Query lQuery = currentSession.createSQLQuery(lSBQuery.toString());
+		lQuery.setParameter("monthYear", monthYear);
+		lQuery.setParameter("sevaarth_id", sevaarthId.trim());
 		String result=(lQuery.list().get(0)).toString();
 		return result;
 	}
@@ -509,65 +538,79 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuilder lSBQuery = new StringBuilder();
 		List finalList = new ArrayList();
-		lSBQuery.append("select coalesce(billgroup_id, 0) from employee_mst where sevaarth_id ='"+sevaarthId+"'");
+		lSBQuery.append("select coalesce(billgroup_id, 0) from employee_mst where UPPER(sevaarth_id)=UPPER(:sevaarthId)");
 		Query lQuery = currentSession.createSQLQuery(lSBQuery.toString());
+		lQuery.setParameter("sevaarth_id", sevaarthId.trim());
 		String result=(lQuery.list().get(0)).toString();
 		return result;
 	}
 	@Override
-	public int getSevaarthIdMappedWithPayBillProcessed(String sevaarthid,int month,int year,String ddoName)
+	public int getSevaarthIdMappedWithPayBillProcessed(String sevaarthId,int month,int year,String ddoCode)
 	{
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = "select count(*) from mst_dcps_bill_group  a\r\n" + 
-				"inner join employee_mst b on a.bill_group_id =  b.billgroup_id and b.ddo_code = '"+ddoName+"'   \r\n" + 
-				"inner join paybill_generation_trn_details c on b.sevaarth_id = c.sevaarth_id and paybill_month ="+month+"  and paybill_year="+year+"\r\n" + 
-				"inner join paybill_generation_trn d on c.paybill_generation_trn_id = d.paybill_generation_trn_id and d.is_active in(5,6) "
-				+ "where b.sevaarth_id='"+sevaarthid.trim()+"'";
+				" inner join employee_mst b on a.bill_group_id =  b.billgroup_id and b.ddo_code = :ddoCode   " + 
+				" inner join paybill_generation_trn_details c on b.sevaarth_id = c.sevaarth_id and paybill_month =:month  and paybill_year=:year " + 
+				" inner join paybill_generation_trn d on c.paybill_generation_trn_id = d.paybill_generation_trn_id and d.is_active in(5,6) "
+				+ " where UPPER(b.sevaarth_id)=UPPER(:sevaarthId)";
 		Query query = currentSession.createSQLQuery(hql);
+		query.setParameter("month", month);	
+		query.setParameter("year", year);	
+		query.setParameter("sevaarthId", sevaarthId.trim());	
+		query.setParameter("ddoCode", ddoCode);	
+		
 		int result=((BigInteger)(query.list().get(0))).intValue();
 		return result;
 	}
 	
 	@Override
-	public int getSevaarthIdMappedWithPayBillInprogress(String sevaarthid,int month,int year,String ddoName)
+	public int getSevaarthIdMappedWithPayBillInprogress(String sevaarthId,int month,int year,String ddoCode)
 	{
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = "select count(*) from mst_dcps_bill_group  a\r\n" + 
-				"inner join employee_mst b on a.bill_group_id =  b.billgroup_id and b.ddo_code = '"+ddoName+"'   \r\n" + 
-				"inner join paybill_generation_trn_details c on b.sevaarth_id = c.sevaarth_id and paybill_month ="+month+"  and paybill_year="+year+"\r\n" + 
-				"inner join paybill_generation_trn d on c.paybill_generation_trn_id = d.paybill_generation_trn_id and d.is_active not in (14,8) "
-				+ "where b.sevaarth_id='"+sevaarthid.trim()+"'";
+				" inner join employee_mst b on a.bill_group_id =  b.billgroup_id    " + 
+				" inner join paybill_generation_trn_details c on b.sevaarth_id = c.sevaarth_id  "+
+				" inner join paybill_generation_trn d on c.paybill_generation_trn_id = d.paybill_generation_trn_id "
+				+ "where UPPER(b.sevaarth_id)=UPPER(:sevaarthId) and d.paybill_month =:month  and d.paybill_year=:year and d.is_active not in (14,8) and b.ddo_code = :ddoCode";
 		Query query = currentSession.createSQLQuery(hql);
+		query.setParameter("month", month);	
+		query.setParameter("year", year);	
+		query.setParameter("sevaarthId", sevaarthId.trim());	
+		query.setParameter("ddoCode", ddoCode);	
 		int result=((BigInteger)(query.list().get(0))).intValue();
 		return result;
 	}
 
 
 	@Override
-	public List<Object[]> fetchAllowDeducNameDaArray(String sevaarthid) {
+	public List<Object[]> fetchAllowDeducNameDaArray(String sevaarthId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-
-		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst    on empmst.emp_class = cgmst.id where empalldecmpg.sevaarth_id='"
-				+ sevaarthid.trim() + "' and deptallmt.department_allowdeduc_code  in (7,82,83,95,200) and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_code ";
-
+		String HQL = "select  COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded , "
+				+ "deptallmt.is_type,deptallmt.department_allowdeduc_code,cgmst.group_name_en,cgmst.gis_amount  from  "
+				+ "department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on"
+				+ " deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code  inner join"
+				+ "  employee_mst empmst on empmst.employee_id = empalldecmpg.employee_id inner join cadre_group_mst  cgmst "
+				+ "   on empmst.emp_class = cgmst.id where UPPER(empalldecmpg.sevaarth_id)=UPPER(:sevaarthId) and deptallmt.department_allowdeduc_code  in (7,82,83,95,200) and deptallmt.is_type in (1,2,4,3) order by  deptallmt.department_allowdeduc_code ";
 		Query query = currentSession.createSQLQuery(HQL);
-		
+		query.setParameter("sevaarthId", sevaarthId.trim());	
 		System.out.println("rqw query>>"+query.getQueryString());	
-		
 		/* List<Object[]> lstprop = query.list(); */
 		return query.list();
 	}
 
 
 	@Override
-	public List getAllowancesListForGivenEmpDAArray(String sevaarthid) {
+	public List getAllowancesListForGivenEmpDAArray(String sevaarthId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		List listAllowances = null;
 		StringBuilder lSBQuery = new StringBuilder();
 		
-		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded   from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid.trim() + "' and  deptallmt.is_type=1 and deptallmt.department_allowdeduc_code  in (7,95) order by  deptallmt.department_allowdeduc_code";
+		String HQL = "select  deptallmt.department_allowdeduc_code, COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded   from"
+				+ "  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on "
+				+ "deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code "
+				+ " where UPPER(empalldecmpg.sevaarth_id)=UPPER(:sevaarthId) and  deptallmt.is_type=1 and deptallmt.department_allowdeduc_code  in (7,95) order by  deptallmt.department_allowdeduc_code";
 		Query lQuery = currentSession.createSQLQuery(HQL);
+		lQuery.setParameter("sevaarthId", sevaarthId.trim());	
 		listAllowances = lQuery.list();
        
 		return listAllowances;
@@ -575,14 +618,17 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 
 
 	@Override
-	public List getDeductionsListForGivenEmpDAArray(String sevaarthid) {
+	public List getDeductionsListForGivenEmpDAArray(String sevaarthId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		List listDeductions = null;
 		StringBuilder lSBQuery = new StringBuilder();
 		
-		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where empalldecmpg.sevaarth_id='"
-				+ sevaarthid.trim() + "' and   deptallmt.is_type in (1,2,3,4) and deptallmt.department_allowdeduc_code  in (82,83) order by  deptallmt.department_allowdeduc_code";
+		String HQL = "select  deptallmt.department_allowdeduc_code,COALESCE(deptallmt.department_allowdeduc_col_nm, deptallmt.department_allowdeduc_name) allded  from"
+				+ "  department_allowdeduc_mst deptallmt inner join employee_allowdeduc_mpg"
+				+ " empalldecmpg on deptallmt.department_allowdeduc_code =  empalldecmpg.department_allowdeduc_code where"
+				+ " UPPER(empalldecmpg.sevaarth_id)=UPPER(:sevaarthId) and   deptallmt.is_type in (1,2,3,4) and deptallmt.department_allowdeduc_code  in (82,83) order by  deptallmt.department_allowdeduc_code";
 		Query lQuery = currentSession.createSQLQuery(HQL);
+		lQuery.setParameter("sevaarthId", sevaarthId.trim());	
 		listDeductions = lQuery.list();
 
 		return listDeductions;
@@ -591,36 +637,22 @@ public class BrokenPeriodRepoImpl implements BrokenPeriodRepo{
 
 	@Override
 	public Object CheckBrkPrdMonthExitOrNot(String monthyear, String sevaarthid, Date fromDate, Date toDate) {
-		
-		List<BrokenPeriodEntity> lstBrokenPeriodEntity=new ArrayList();
 		Session currentSession = entityManager.unwrap(Session.class);
-		StringBuilder lSBQuery = new StringBuilder();
-		List finalList = new ArrayList();
-
-		lSBQuery.append(" SELECT t");
-		lSBQuery.append(" FROM BrokenPeriodEntity as t");
-		lSBQuery.append(" WHERE   t.sevaarthid='"+sevaarthid+"'  and ((t.fromDate>= '"+fromDate+"'  and t.toDate<='"+toDate+"') or t.fromDate  " + 
-			"BETWEEN  '"+fromDate+"' AND '"+toDate+"'  or t.toDate  BETWEEN  '"+fromDate+"' AND '"+toDate+"')");
-	
-		Query lQuery = currentSession.createQuery(lSBQuery.toString());
-	
-		lstBrokenPeriodEntity = lQuery.list();
-		for(BrokenPeriodEntity brokenPeriodEntity:lstBrokenPeriodEntity ) {
-			Date fromDate1=brokenPeriodEntity.getFromDate();
-			Date toDate1=brokenPeriodEntity.getToDate();
-			return "1";
-		}
-		
-		/*
-		Session currentSession = entityManager.unwrap(Session.class);
-		StringBuilder lSBQuery = new StringBuilder();
-		List finalList = new ArrayList();
-		lSBQuery.append(" select count(*) from broken_period_pay_mst ");
-		lSBQuery.append(" where to_char(from_date, 'DD-MM-YYYY') >= '"+fromDate+"'  and sevaarth_id ='"+sevaarthid+"'");
-		Query lQuery = currentSession.createSQLQuery(lSBQuery.toString());
-		String result=(lQuery.list().get(0)).toString();
-		return result;*/
-		return "0";
+	    String hql = "FROM BrokenPeriodEntity t "
+	               + "WHERE t.sevaarthid = :sevaarthid "
+	               + "AND ((t.fromDate >= :fromDate AND t.toDate <= :toDate) "
+	               + "OR t.fromDate BETWEEN :fromDate AND :toDate "
+	               + "OR t.toDate BETWEEN :fromDate AND :toDate)";
+	    
+	    Query query = currentSession.createQuery(hql)
+	            .setParameter("sevaarthid", sevaarthid)
+	            .setParameter("fromDate", fromDate)
+	            .setParameter("toDate", toDate);
+	    
+	    
+	    List<BrokenPeriodEntity> lstBrokenPeriodEntity = query.list();
+	    
+	    return lstBrokenPeriodEntity.size()==0 ? "0" : "1";
 	}
 
 

@@ -182,7 +182,7 @@
 										th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 									<option th:each="varClass : ${ddoOffClass}"
 										th:value="${varClass.lookupDesc}"
-										th:text="${language=='mh' ? varClass.lookupName : varClass.lookupName}"></option>
+										th:text="${language=='mh' ? varClass.lookupDesc : varClass.lookupDesc}"></option>
 							</select> <!-- 	
 												
 												
@@ -344,7 +344,7 @@
 										size="4px;">*</font>
 									</td>
 									<td align="left" width="35%"><select class="form-control"
-										id="cmbDesignation" >
+										id="cmbDesignation" name="cmbDesignation" >
 											<option th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 											<option th:each="varPay : ${lstdesgination}"
@@ -362,9 +362,9 @@
 									<td width="15%" align="left" class="ddoinfowdate">With
 										Effect From Date <font color="red" size="4px;">*</font>
 									</td>
-									<td align="left" width="35%"><input type="date"
+									<td align="left" width="35%"><input type="date" th:max="${#dates.format(new java.util.Date(), 'yyyy-MM-dd')}" 
 										class="form-control" 
-										 id="txtWEFDate" /></td>
+										 id="txtWEFDate" name="txtWEFDate" /></td>
 									<td width="15%">&nbsp;</td>
 									<td width="35%">&nbsp;</td>
 								</tr>
@@ -410,9 +410,9 @@
 										>
 											<option value="-1">-- Select --</option>
 											<option
-												th:each="varAllBankbranchList : ${lstAllBankBranchList}"
-												th:value="${varAllBankbranchList[0]}"
-												th:text="${language=='mh' ? varAllBankbranchList[1] : varAllBankbranchList[1]}"></option>
+												th:each="varAllBankbranchList : ${lstBankBranch}"
+												th:value="${varAllBankbranchList.bankBranchCode}"
+												th:text="${language=='mh' ? varAllBankbranchList.bankBranchName : varAllBankbranchList.bankBranchName}"></option>
 									</select></td>
 								</tr>
 								<tr>
@@ -426,7 +426,7 @@
 									</td>
 									<td align="left" width="35%"><input type="text"
 										id="txtAccountNo" style="text-transform: uppercase"
-										 size="48" maxlength="20"
+										 size="48" maxlength="20" onblur="validateAccNo();"
 										name="txtAccountNo" class="form-control"></td>
 								</tr>
 								<tr>
@@ -458,7 +458,7 @@
 					<tr>
 						<td align="center" colspan="2">
 							<div class="text-center">
-								<input type="button" name="approve" id="approve" value="Approve"
+								<input type="submit" name="approve" id="approve" value="Approve"
 									size="3" maxlength="3" class="buttontag"> <input
 									type="button" name="btnRjct" id="btnRjct" value="Reject"
 									size="3" maxlength="3" class="buttontag"> <input

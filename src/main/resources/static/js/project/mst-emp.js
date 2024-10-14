@@ -141,8 +141,7 @@ $(document)
 									
 									var removeItem = $(this).attr("id");
 
-									departmentId = $(this)
-											.attr("data-serialid");
+								////	departmentId = 15L;
 
 									var rm = $(this).attr("value");
 
@@ -189,7 +188,7 @@ $(document)
 											var sevaarthId = $("#sevaarthId")
 													.val();
 
-											console.log(departmentId);
+										////	console.log(departmentId);
 											console.log("save data");
 											console
 													.log(department_allowdeduc_id);
@@ -199,9 +198,7 @@ $(document)
                                             else if (effectiveDate == ""
 													|| effectiveDate == "undefined") {
 												swal("Please select effective date");
-											} else if ((departmentId.length != '')) {
-												
-												if(department_allowdeduc_id.length>0){
+											}  else if(department_allowdeduc_id.length>0){
 												
 													$(".loaderMainNew").show();
 													
@@ -210,8 +207,6 @@ $(document)
 															type : "GET",
 															url : "../ddoast/saveEmpMpgDdoAllowDeduc/"
 																	+ department_allowdeduc_id
-																	+ "/"
-																	+ departmentId
 																	+ "/"
 																	+ empId
 																	+ "/"
@@ -246,10 +241,7 @@ $(document)
 																		}, 3000);
 															}
 														});
-												}else{
-													swal("Please Select Atleast one Component");
-												}
-											} else {
+												}else {
 												swal("Please Select or De-select Some Component");
 											}
 										} else {
@@ -408,7 +400,7 @@ $(document)
 																				index,
 																				value) {
 
-																			departmentId = value[0];
+																			/////departmentId = value[0];
 																			if (value[4] == '1') {
 																				$(
 																						"#tbl1")
@@ -777,7 +769,7 @@ $(document)
 																									"min",
 																									genDate);
 
-																					departmentId = value[0];
+																					////departmentId = value[0];
 
 																					$(
 																							'input[name="test"][value="'

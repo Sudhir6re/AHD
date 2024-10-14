@@ -13,9 +13,9 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.entity.BillStatusMstEntity;
-import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
@@ -148,9 +148,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	}
 
 	@Override
-	public List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus) {
-		String HQL = "FROM CmnLookupMst as t  WHERE t.lookupName='" + commoncodeStatus + "' ORDER BY t.lookupId ";
-		return (List<CmnLookupMst>) manager.createQuery(HQL).getResultList();
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
+		String HQL = "FROM MstCommonEntity as t  WHERE t.commonCode='" + commoncodeStatus + "' ORDER BY t.commonId ";
+		return (List<MstCommonEntity>) manager.createQuery(HQL).getResultList();
 	}
 
 	@Override
@@ -232,10 +232,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<Object[]> retriveUserdetails(Long userId) {
 		Session currentSession = manager.unwrap(Session.class);
-		String hql = "select a.ddo_code,a.location_code,a.post_id,d.post_detail_id \r\n"
+		String hql = "select a.ddo_code,a.location_code,a.post_id \r\n"
 				+ " from org_ddo_mst a inner join org_post_mst b on a.location_code=b.location_code \r\n"
-				+ " inner join org_user_mst c on c.ddo_code=a.ddo_code left join org_post_details_rlt d \r\n"
-				+ "  on d.post_id=b.post_id where c.user_id=" + userId;
+				+ " inner join org_user_mst c on c.ddo_code=a.ddo_code  where c.user_id=" + userId;
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 	}
@@ -284,7 +283,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	@Override
 	public List<Object[]> findDetailsBillNumber(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "select * from paybill_generation_trn  where paybill_generation_trn_id = '"+billNumber+"'";
+		String HQL = "select paybill_month,paybill_year from paybill_generation_trn  where paybill_generation_trn_id = '"+billNumber+"'";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
@@ -330,13 +329,13 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 	Session currentSession = manager.unwrap(Session.class);
 		if(commoncodeSalutations == "AccountMaintainedByForDCPSEmp")
 		{
-		String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
+		String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name,O1.lookup_desc FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
 				+ " AND O2.LOOKUP_NAME = '"+commoncodeSalutations+"' and O1.lookup_id in (700179,700343,10001198172,700344,10001198187) ORDER BY O1.ORDER_NO desc,O1.LOOKUP_ID";
 		Query query = currentSession.createSQLQuery(hql);
 		return (List<Object[]>) query.list();
 		}else
 		{
-			String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
+			String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name,O1.lookup_desc FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
 					+ " AND O2.LOOKUP_NAME = '"+commoncodeSalutations+"' ORDER BY O1.ORDER_NO desc,O1.LOOKUP_ID";
 			Query query = currentSession.createSQLQuery(hql);
 			return (List<Object[]>) query.list();
@@ -409,6 +408,13 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		if (list != null && list.size() > 0)
 			rtnStr = list.get(0).toString();
 		return rtnStr;
+	}
+
+	@Override
+	public List<MstBankBranchEntity> findbankBranch() {
+		// TODO Auto-generated method stub
+		String HQL = "FROM MstBankBranchEntity as t";
+		return (List<MstBankBranchEntity>) manager.createQuery(HQL).getResultList();
 	}
 
 }

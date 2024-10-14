@@ -58,8 +58,8 @@ public class BrokenPeriodReportController extends BaseController{
 	        Long yer=0l;
 	        List<Object[]> createdate = commonHomeMethodsService.findDetailsBillNumber(billno);
 	        for (Object[] objects : createdate) {
-	        	mon=Long.parseLong(objects[22].toString());
-	        	yer=Long.parseLong(objects[23].toString());
+	        	mon=Long.parseLong(objects[0].toString());
+	        	yer=Long.parseLong(objects[1].toString());
 			}
 	        
 	        BigInteger bigInteger = BigInteger.valueOf(mon);

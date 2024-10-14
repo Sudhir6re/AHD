@@ -1,5 +1,6 @@
 package com.mahait.gov.in.model;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -57,4 +58,17 @@ public class RegularReportModel {
 	private  Double HRR;
 	private  Double professionalTax;
 	private  Long allowdedCode;
+	private Long gisAllowDeducCode;
+	private BigInteger countGisEmp;
+	private String cadreGroup;
+	private Double gisAmount;
+	private String gisRateType;
+	private Integer gisRate;
+	private String pfSeries;
+	private Double subsAmt;
+	private Double payDaArrMrg;
+	private Double refundAmt;
+	private BigInteger countGPFEmp;
+	private Double totalAmt;
+	private Double daArr;
 }

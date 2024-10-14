@@ -174,6 +174,14 @@ public class DDOInfoServiceImpl implements DDOInfoService{
 			}
 
 			ddoInfoRepo.updateApproveRejectStatus(ddoOffice);
+			
+			
+			OrgUserMst orgUserMst=ddoInfoRepo.findOrgUserMstByDdoCode(ddoCode);
+			orgUserMst.setActivateFlag(1l);
+			ddoInfoRepo.update(orgUserMst);
+			
+			
+			
 		}
 		return ddoOffice;
 

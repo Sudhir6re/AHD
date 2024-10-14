@@ -33,18 +33,18 @@ import com.mahait.gov.in.service.CreateAdminOfficeService;
 
 @RequestMapping("/mdc")
 @Controller
-public class CreateAdminOfficeController  extends BaseController {
+public class CreateAdminOfficeController extends BaseController {
 
 	@Autowired
 	CreateAdminOfficeService createAdminOfficeService;
 
 	@GetMapping("/createAdminOffice")
-	public String CreateAdminOffice(Model model, Locale locale, HttpSession session,@ModelAttribute("zpRltDdoMapModel") ZpRltDdoMapModel zpRltDdoMapModel) {
+	public String CreateAdminOffice(Model model, Locale locale, HttpSession session,
+			@ModelAttribute("zpRltDdoMapModel") ZpRltDdoMapModel zpRltDdoMapModel) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		List<ZpAdminNameMst> lstZpAdminNameMst = createAdminOfficeService.fetchAllOfficeList(messages);
 		List<CmnTalukaMst> lstCmnTalukaMst = createAdminOfficeService.findAllTalukaList(messages);
 		List<CmnDistrictMst> lstCmnDistrctMst = createAdminOfficeService.findAllDistrictList(messages);
-
 
 		String districtName = null;
 		String talukaNametName = null;
@@ -66,8 +66,8 @@ public class CreateAdminOfficeController  extends BaseController {
 			String uniqueId = (String) model.asMap().get("ddoCode");
 			model.addAttribute("ddoCode", uniqueId);
 		}
-		
-		addMenuAndSubMenu(model,messages);	
+
+		addMenuAndSubMenu(model, messages);
 
 		return "/views/create-admin-office";
 	}
@@ -100,7 +100,7 @@ public class CreateAdminOfficeController  extends BaseController {
 		model.addAttribute("lstZpRltDdoMapRlt", lstZpRltDdoMapRlt);
 		model.addAttribute("lstCmnTalukaMst", lstCmnTalukaMst);
 		model.addAttribute("lstCmnDistrctMst", lstCmnDistrctMst);
-		addMenuAndSubMenu(model,messages);	
+		addMenuAndSubMenu(model, messages);
 		return "/views/create-office";
 	}
 
@@ -224,11 +224,5 @@ public class CreateAdminOfficeController  extends BaseController {
 		List<MstDesignationEntity> response1 = createAdminOfficeService.findDesignation(txtDDODsgn);
 		return ResponseEntity.ok(response1);
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

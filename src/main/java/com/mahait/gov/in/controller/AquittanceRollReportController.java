@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.mahait.gov.in.CashWordConverter;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.AquittanceRollReportModel;
+import com.mahait.gov.in.model.RegularReportModel;
 import com.mahait.gov.in.service.AquittanceRollReportService;
+import com.mahait.gov.in.service.DisplayOuterReportService;
 import com.mahait.gov.in.service.PaybillGenerationTrnService;
 import com.mahait.gov.in.service.RegularReportService;
 
@@ -36,6 +39,23 @@ public class AquittanceRollReportController  extends BaseController {
 	
 	@Autowired
 	RegularReportService regularReportService;
+	
+	@Autowired
+	DisplayOuterReportService displayOuterReportService;
+	
+	@GetMapping("/aquittanceRoll")
+	public String aquittanceRoll(@ModelAttribute("aquittanceRollReportModel") AquittanceRollReportModel aquittanceRollReportModel,
+			Model model, Locale locale, HttpSession session,HttpServletRequest request) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
+		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
+		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
+		addMenuAndSubMenu(model,messages);
+		model.addAttribute("context", request.getContextPath());
+		model.addAttribute("aquittanceRollReportModel",aquittanceRollReportModel);
+		return "/views/reports/aquittanceRoll";
+	}
+	
 	
 	@GetMapping("/aquittancereport/{yearName}/{monthName}/{billNumber}/{ddoCode}")
 	public String getAquittancereport(@ModelAttribute("aquittanceRollReportModel") AquittanceRollReportModel aquittanceRollReportModel,@PathVariable int monthName,@PathVariable int yearName, 
@@ -131,19 +151,4 @@ public class AquittanceRollReportController  extends BaseController {
 	
 	
 	
-	
-/*	
-	@GetMapping("/aquittancereportsearch")
-	public String aquittancereportsearch(Model model, Locale locale, HttpSession session) {
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		addMenuAndSubMenu(model,messages);	
-		return "/views/reports/aquittance-roll-report";
-	}
-
-	@GetMapping("/aquittanceRoll")
-	public String aquittanceRoll(Model model, Locale locale, HttpSession session) {
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		addMenuAndSubMenu(model,messages);	
-		return "/views/reports/aquittance-roll";
-	}*/
 }

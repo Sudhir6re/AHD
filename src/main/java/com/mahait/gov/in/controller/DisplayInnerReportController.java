@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mahait.gov.in.configuration.PdfGenaratorUtil;
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.model.DisplayInnerReportModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.DisplayInnerReportService;
@@ -62,8 +63,6 @@ public class DisplayInnerReportController  extends BaseController{
 			ddoCode=ddoCode;
 		}
 		
-		
-		
 		Page<DisplayInnerReportModel> innerrptPage = displayInnerReportService
 				.findPaginated(PageRequest.of(currentPage - 1, pageSize), billNumber, ddoCode.toString());
 
@@ -75,13 +74,17 @@ public class DisplayInnerReportController  extends BaseController{
 			model.addAttribute("pageNumbers", pageNumbers);
 		}
 
+		
+		
+		
+		PaybillGenerationTrnEntity paybillGenerationTrnEntity=displayInnerReportService.findPayBilldetailByPaybillid(billNumber);
+		
 		Long mon = 0l;
 		Long yer = 0l;
-		List<Object[]> createdate = commonHomeMethodsService.findDetailsBillNumber(billNumber);
-		for (Object[] objects : createdate) {
-			
-			mon = Long.parseLong(objects[22].toString());
-			yer = Long.parseLong(objects[23].toString());
+	//	List<Object[]> createdate = commonHomeMethodsService.findDetailsBillNumber(billNumber);
+		if (paybillGenerationTrnEntity!=null) {
+			mon = paybillGenerationTrnEntity.getPaybillMonth().longValue();
+			yer = paybillGenerationTrnEntity.getPaybillYear().longValue();
 		}
 
 		BigInteger monthcurr = BigInteger.valueOf(mon);
@@ -104,7 +107,7 @@ public class DisplayInnerReportController  extends BaseController{
 		
 		String officeDetails = commonHomeMethodsService.getOffice(ddoCode);
 
-		Date createdateded = displayInnerReportService.findbillCreateDate(billNumber);
+		Date createdateded = paybillGenerationTrnEntity.getCreatedDate();
 		
 		model.addAttribute("createddate", sdf.format(createdateded));
 		model.addAttribute("currmonyer", monname + " " + curryear);
@@ -113,6 +116,7 @@ public class DisplayInnerReportController  extends BaseController{
 		model.addAttribute("ddoname", ddoCode);
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
+		model.addAttribute("roleId", messages.getMstRoleEntity().getRoleId());
 		
 		
 		addMenuAndSubMenu(model,messages);	
@@ -166,10 +170,15 @@ public class DisplayInnerReportController  extends BaseController{
 		model.addAttribute("currmonyer", monname + " " + curryear);
 		model.addAttribute("officeDetails", officeDetails);
 		model.addAttribute("ddoname", messages.getUserName());
+		
+		
+		
+		
 		model.addAttribute("billNumber", billNumber);
 		model.addAttribute("systemdate", sdf.format(new Date()));
 		String billDetails = displayInnerReportService.getbillDetails(billNumber);
 		model.addAttribute("billDetails", billDetails);
+		model.addAttribute("roleId", messages.getMstRoleEntity().getRoleId());
 
 		String ddoname = null;
 		Map<String, String> data = new HashMap<String, String>();
@@ -252,7 +261,7 @@ public class DisplayInnerReportController  extends BaseController{
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
 		
 		if (ddoCode.equals("1")) {
-			ddoCode = messages.getUserName();
+			ddoCode = messages.getDdoCode();
 		} else {
 			ddoCode = ddoCode;
 		}
@@ -284,8 +293,6 @@ public class DisplayInnerReportController  extends BaseController{
 		}
 
 		displayInnerReportModel.setLstDisplayInnerReportModel(listDisplayInnerReportModel);
-		
-		
 		
 		
 		model.addAttribute("listDisplayInnerReportModel", listDisplayInnerReportModel);

@@ -27,7 +27,7 @@ import com.mahait.gov.in.service.EmpChangeBasicdtlsService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class EmpChangeBasicDtlsController {
+public class EmpChangeBasicDtlsController extends BaseController {
 	
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
@@ -40,11 +40,10 @@ public class EmpChangeBasicDtlsController {
 	@GetMapping("/getBasicDetails")
 	public String getBasicDetails(  @ModelAttribute("changeBasicDtlsModel") ChangeBasicDtlsModel changeBasicDtlsModel,
 			Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model,messages);
 
 		String message = (String) model.asMap().get("message");
-
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		// model.addAttribute("brokenPeriodModel", brokenPeriodModel);
 
 		if (message != null && message.equals("SUCCESS")) {
 			if (locale != null && locale.getLanguage().equalsIgnoreCase("en")) {
@@ -56,7 +55,7 @@ public class EmpChangeBasicDtlsController {
 		model.addAttribute("language", locale.getLanguage());
 		
 		
-		changeBasicDtlsModelsList = empchangeBasicDtls.findEmpChangeBasicDtls(messages.getUserName());
+		changeBasicDtlsModelsList = empchangeBasicDtls.findEmpChangeBasicDtls(messages.getDdoCode());
 		
 		changeBasicDtlsModel.setChangeBasicDtlsModelsList(changeBasicDtlsModelsList);
 		

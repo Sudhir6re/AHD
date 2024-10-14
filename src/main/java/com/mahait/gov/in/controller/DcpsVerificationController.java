@@ -14,7 +14,10 @@ public class DcpsVerificationController extends BaseController {
 	public String dcpsVerification( Model model, Locale locale,
 			HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		addMenuAndSubMenu(model,messages);	
+		
+		addMenuAndSubMenu(model,messages);
+		model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
+		model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
 		return "/views/dcps-verifivcation";
 	}
 

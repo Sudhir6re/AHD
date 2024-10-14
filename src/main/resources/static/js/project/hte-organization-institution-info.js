@@ -6,6 +6,11 @@ $(document).ready(function() {
 	$("#cmbDesignation").select2();
 });
 
+//instituteType
+$("#instituteType").select2();
+$("#cmbBankName").select2();
+$("#cmbBranchName").select2();
+
 $("#btnedit").click(function(){
 	var contextPath = $("#appRootPath").val();
 	$('form *').prop('readonly', false); 

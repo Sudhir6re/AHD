@@ -17,12 +17,13 @@ import com.mahait.gov.in.common.JsonResponseHelper;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.BillStatusMstEntity;
 import com.mahait.gov.in.entity.CmnLookupMst;
+import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstMonthEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.MstYearEntity;
 import com.mahait.gov.in.entity.ReligionMstEntity;
-import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstDesnModel;
 import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstMenuModel;
@@ -245,8 +246,8 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	}
 
 	@Override
-	public List<CmnLookupMst> findCommonMstByCommonCode(String commoncodeStatus) {
-		return (List<CmnLookupMst>) commonHomeMethodsRepo.findCommonMstByCommonCode(commoncodeStatus);
+	public List<MstCommonEntity> findCommonMstByCommonCode(String commoncodeStatus) {
+		return (List<MstCommonEntity>) commonHomeMethodsRepo.findCommonMstByCommonCode(commoncodeStatus);
 	}
 
 	@Override
@@ -459,6 +460,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 				CmnLookupMst obj = new CmnLookupMst();
 				obj.setLookupId(StringHelperUtils.isNullBigInteger(objLst[0]).longValue());
 				obj.setLookupName(StringHelperUtils.isNullString(objLst[1]));
+				obj.setLookupDesc(StringHelperUtils.isNullString(objLst[2]));
 
 				lstObj.add(obj);
 			}
@@ -523,5 +525,11 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	public String findbillGrpname(Long billNumber) {
 		// TODO Auto-generated method stub
 		return commonHomeMethodsRepo.findbillGrpname(billNumber);
+	}
+
+	@Override
+	public List<MstBankBranchEntity> findbankBranch() {
+		// TODO Auto-generated method stub
+		return commonHomeMethodsRepo.findbankBranch();
 	}
 }

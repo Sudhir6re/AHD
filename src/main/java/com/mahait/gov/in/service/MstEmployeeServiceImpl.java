@@ -25,6 +25,7 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,6 @@ import com.mahait.gov.in.repository.MstEmployeeRepo;
 import com.mahait.gov.in.repository.MstRoleRepo;
 import com.mahait.gov.in.repository.OrgPostMstRepository;
 
-
 @Service
 @Transactional
 @PropertySource(value = { "classpath:application.properties" })
@@ -89,17 +89,17 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 	public DdoOffice findAllGroup(String ddoCode) {
 		return mstEmployeeRepo.findAllGroup(ddoCode);
 	}
+
 	@Override
 	public List<MstEmployeeEntity> findAllWorkingEmployeeByDDOCodeAndBillGroup(String ddoCode, Long billGroupId,
 			int month, int year) {
 		return mstEmployeeRepo.findAllWorkingEmployeeByDDOCodeAndBillGroup(ddoCode, billGroupId, month, year);
 	}
-	
+
 	public EmployeeAllowDeducComponentAmtEntity findGRPComponentsData(String sevaarthId, int allowDedCode) {
 		return mstEmployeeRepo.findGRPComponentsData(sevaarthId, allowDedCode);
 	}
-	
-	
+
 	@Override
 	public LoanEmployeeDtlsEntity findGPFADetails(String sevaarthid, int commoncodeComponentGpfaCode) {
 		return mstEmployeeRepo.findGPFADetails(sevaarthid, commoncodeComponentGpfaCode);
@@ -109,18 +109,18 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 	public LoanEmployeeDtlsEntity findGPFAdvDetails(String sevaarthid, int commoncodeComponentGpfaCode) {
 		return mstEmployeeRepo.findGPFAdvDetails(sevaarthid, commoncodeComponentGpfaCode);
 	}
-	
+
 	@Override
 	public int getpayCommissionAgainstEmployee(String sevaarthId) {
 		return mstEmployeeRepo.getpayCommissionAgainstEmployee(sevaarthId);
 	}
+
 	@Override
 	public List<Object[]> employeeAllowDeduction(String sevaarthId) {
 		return mstEmployeeRepo.findEmployeeAllowanceDeduction(sevaarthId);
 
 	}
-	
-	
+
 	@Override
 	public List<DDOScreenModel> findDDOScreenDataTable(String locale, long loc_id) {
 		List<Object[]> lstprop = null;
@@ -135,22 +135,22 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			for (Object[] objLst : lstprop) {
 				DDOScreenModel obj = new DDOScreenModel();
 				obj.setSubDepartmentId(StringHelperUtils.isNullInt(objLst[0]));
-                obj.setSubDeptName(StringHelperUtils.isNullString(objLst[1]));
-				
+				obj.setSubDeptName(StringHelperUtils.isNullString(objLst[1]));
+
 				lstObj.add(obj);
 			}
 		}
 		return lstObj;
 	}
+
 	@Override
 	public List<Object[]> getInstitueDtls(String ddocode) {
 		List<Object[]> lstprop = mstEmployeeRepo.getInstitueDtls(ddocode);
 		return lstprop;
 	}
 
-
 	@Override
-	public List<MstCadreModel> getCadreMstData(String locale,long loc_id) {
+	public List<MstCadreModel> getCadreMstData(String locale, long loc_id) {
 		long fielddeptId = mstEmployeeRepo.getFieldDeptId(loc_id);
 		List<Object[]> lstprop = mstEmployeeRepo.getCadreMstData(fielddeptId);
 		List<MstCadreModel> lstObj = new ArrayList<>();
@@ -164,6 +164,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return lstObj;
 	}
+
 	@Override
 	public List<Object[]> getAccountMaintainby() {
 		List<Object[]> result = new ArrayList<Object[]>();
@@ -175,15 +176,12 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		object1[0] = "2";
 		object1[1] = "A.G  Nagpur";
 		result.add(object1);
-		
-		
-		/*Object[] object2 = new Object[2];
-		object2[0] = "3";
-		object2[1] = "Zilla Parishad";
-		result.add(object2);*/
-		
-		
-		
+
+		/*
+		 * Object[] object2 = new Object[2]; object2[0] = "3"; object2[1] =
+		 * "Zilla Parishad"; result.add(object2);
+		 */
+
 		Object[] object3 = new Object[2];
 		object3[0] = "3";
 		object3[1] = "MJP";
@@ -192,41 +190,40 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		object4[0] = "4";
 		object4[1] = "Not Applicable";
 		result.add(object4);
-		
+
 		Object[] object5 = new Object[2];
 		object5[0] = "5";
 		object5[1] = "Others";
 		result.add(object5);
 		return result;
 	}
+
 	// protected final Log logger = LogFactory.getLog(getClass());
 	@Override
 	public List<Object[]> getDcpsAccnMaintainby() {
 		List<Object[]> result = new ArrayList<Object[]>();
-		
-		
-		/*Object[] object = new Object[2];
-		object[0] = "1";
-		object[1] = "a/C Maintained by Zilla Parishad";
-		result.add(object);
-		*/
+
+		/*
+		 * Object[] object = new Object[2]; object[0] = "1"; object[1] =
+		 * "a/C Maintained by Zilla Parishad"; result.add(object);
+		 */
 		Object[] object2 = new Object[2];
 		object2[0] = "1";
 		object2[1] = "a/C Maintained by MJP";
 		result.add(object2);
-		
+
 		Object[] object1 = new Object[2];
 		object1[0] = "2";
 		object1[1] = "a/C Maintained by Others";
 		result.add(object1);
 		return result;
 	}
-	
+
 	@Override
 	public List<MstCadreGroupEntity> getGISGroup() {
 		return mstEmployeeRepo.getGISGroup();
 	}
-	
+
 	@Override
 	public List<Object[]> getGISApplicable() {
 		List<Object[]> result = new ArrayList<Object[]>();
@@ -241,7 +238,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public List<Object[]> getRelation() {
 		List<Object[]> result = new ArrayList<Object[]>();
@@ -254,29 +251,35 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return result;
 	}
+
 	@Override
 	public List<Object[]> findEmployeeConfigurationGetSixPayScale(int payCommission) {
 		// TODO Auto-generated method stub
 		return mstEmployeeRepo.findEmployeeConfigurationGetSixPayScale(payCommission);
 	}
+
 	@Override
 	public List<Object[]> findEmployeeConfigurationGetpayscale(int payCommission) {
 		// TODO Auto-generated method stub
 		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo.getSvnPayscale();
 		return deptEligibilityForAllowAndDeductEntity;
 	}
+
 	@Override
-	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String ddocode,String currpostcode,long loc_id) {
+	public List<Object[]> findEmployeeConfigurationGetCurrentPost(Long designationId, String ddocode,
+			String currpostcode, long loc_id) {
 		// TODO Auto-generated method stub
 		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo
-				.findEmployeeConfigurationGetCurrentPost(designationId, ddocode, currpostcode,loc_id);
+				.findEmployeeConfigurationGetCurrentPost(designationId, ddocode, currpostcode, loc_id);
 		return deptEligibilityForAllowAndDeductEntity;
 	}
+
 	@Override
 	public List<Object[]> getCadreGroupMstData(String locale, String strCadreId) {
 		List<Object[]> lstprop = mstEmployeeRepo.getgroupname(strCadreId);
 		return lstprop;
 	}
+
 	@Override
 	public List<MstEmployeeModel> getCadreGroupMstDataNew(String cadreid, String dob) {
 		List<MstEmployeeModel> lstlstDeptEligibilityForAllowAndDeductEntity = new ArrayList<>();
@@ -324,7 +327,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 						calendar.set(Calendar.DATE, 28);
 					}
 				} else {
-					calendar.set(Calendar.MONTH, dobt.getMonth()-1);
+					calendar.set(Calendar.MONTH, dobt.getMonth() - 1);
 					int day = calendar.getActualMaximum(Calendar.DATE);
 					calendar.set(Calendar.DATE, day);
 				}
@@ -359,20 +362,24 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return lstlstDeptEligibilityForAllowAndDeductEntity;
 	}
+
 	@Override
 	public List<Object[]> findEmployeeConfigurationpayScaleSeven(int payScaleSeven) {
 		return mstEmployeeRepo.findEmployeeConfigurationpayScaleSeven(payScaleSeven);
 	}
+
 	@Override
 	public List<AppoinmentEntity> getAppoitnment(String language) {
 		// TODO Auto-generated method stub
 		return mstEmployeeRepo.getAppoitnment(language);
 	}
+
 	@Override
 	public List<Object[]> findEmployeeConfigurationGetsvnbasicpay(String payscale) {
 		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo.getSvnPcData(payscale);
 		return deptEligibilityForAllowAndDeductEntity;
 	}
+
 	@Override
 	public List<MstDesignationEntity> getDesignationMstData(String locale, long locId) {
 		// TODO Auto-generated method stub
@@ -389,51 +396,52 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		return lstObj;
 	}
+
 	@Override
-	public List<Object[]> employeeConfigurationGetCurrenOffice(long postdetailid, String userName,
-			long locId) {
+	public List<Object[]> employeeConfigurationGetCurrenOffice(long postdetailid, String userName, long locId) {
 		// TODO Auto-generated method stub
 		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo
-				.employeeConfigurationGetCurrenOffice(postdetailid, userName,locId);
+				.employeeConfigurationGetCurrenOffice(postdetailid, userName, locId);
 		return deptEligibilityForAllowAndDeductEntity;
 	}
+
 	@Override
 	public List<Object[]> employeeConfigurationGetCurrenOfficeAddress(long adminDepartmentId, String userName,
 			long locId) {
 		// TODO Auto-generated method stub
 		List<Object[]> deptEligibilityForAllowAndDeductEntity = mstEmployeeRepo
-				.employeeConfigurationGetCurrenOfficeAddress(adminDepartmentId, userName,locId);
+				.employeeConfigurationGetCurrenOfficeAddress(adminDepartmentId, userName, locId);
 		return deptEligibilityForAllowAndDeductEntity;
 	}
+
 	@Override
 	public List<Object[]> getBankBranch(String bankid) {
 		// TODO Auto-generated method stub
 		List<Object[]> lstbranchname = mstEmployeeRepo.getBankBranch(bankid);
 		return lstbranchname;
 	}
+
 	@Override
 	public List<Object[]> getPfSeries(String accmainby) {
 		// TODO Auto-generated method stub
 		List<Object[]> getPfSeries = mstEmployeeRepo.getPfSeries(accmainby);
 		return getPfSeries;
 	}
-//	@Override
-//	public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId) {
-//		// TODO Auto-generated method stub
-//		return mstEmployeeRepo.getIfscCodeByBranchId(branchId);
-//	}
-	
+	// @Override
+	// public List<MstBankBranchEntity> getIfscCodeByBranchId(int branchId) {
+	// // TODO Auto-generated method stub
+	// return mstEmployeeRepo.getIfscCodeByBranchId(branchId);
+	// }
+
 	@Override
 	public long updateEmployeeConfiguration(MstEmployeeModel mstEmployeeModel, MultipartFile[] files) {
 		MstEmployeeEntity objEntity = new MstEmployeeEntity();
-		if(mstEmployeeModel.getEmployeeId() != null)
-		{
-		 objEntity = mstEmployeeRepo.findbyemplid(mstEmployeeModel.getEmployeeId());
+		if (mstEmployeeModel.getEmployeeId() != null) {
+			objEntity = mstEmployeeRepo.findbyemplid(mstEmployeeModel.getEmployeeId());
 		}
-		
-		else
-		{
-		 objEntity = new MstEmployeeEntity();
+
+		else {
+			objEntity = new MstEmployeeEntity();
 		}
 		Session currentSession = entityManager.unwrap(Session.class);
 		// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());
@@ -455,13 +463,13 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setEmployeeMotherName(mstEmployeeModel.getEmployeeMotherName());
 			objEntity.setBuckleNo(mstEmployeeModel.getBuckleNo());
 			objEntity.setGender(mstEmployeeModel.getGender());
-//			if (mstEmployeeModel.getGender() == '1') {
-//				objEntity.setGender('M');
-//			} else if (mstEmployeeModel.getGender() == '2') {
-//				objEntity.setGender('F');
-//			} else {
-//				objEntity.setGender('T');
-//			}
+			// if (mstEmployeeModel.getGender() == '1') {
+			// objEntity.setGender('M');
+			// } else if (mstEmployeeModel.getGender() == '2') {
+			// objEntity.setGender('F');
+			// } else {
+			// objEntity.setGender('T');
+			// }
 			objEntity.setReligionCode(mstEmployeeModel.getReligionCode());
 			objEntity.setMaritalStatus(mstEmployeeModel.getMaritalStatus());
 			objEntity.setEmployeeMNameMr(mstEmployeeModel.getEmployeeMNameMr());
@@ -485,7 +493,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			// Employee Details End
 
 			// Department Details Start
-//			objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
+			// objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
 			objEntity.setParentFieldDepartmentId(mstEmployeeModel.getParentFieldDepartmentId());
 			objEntity.setIsChangeParentDepartment(mstEmployeeModel.getIsChangeParentDepartment());
 			objEntity.setReasonForChngParentFieldDept(mstEmployeeModel.getReasonForChngParentFieldDept());
@@ -493,7 +501,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setEmpClass(mstEmployeeModel.getEmpClass());
 			objEntity.setSuperAnnAge(mstEmployeeModel.getSuperannuationage());
 			objEntity.setEmpServiceEndDate(mstEmployeeModel.getSuperAnnDate()); // by default set to retirement date
-			objEntity.setPercentageOfBasic(100l);														// added by sudhir
+			objEntity.setPercentageOfBasic(100l); // added by sudhir
 			objEntity.setSuperAnnDate(mstEmployeeModel.getSuperAnnDate());
 			objEntity.setPayCommissionCode(mstEmployeeModel.getPayCommissionCode());
 			objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
@@ -542,7 +550,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setAccountmaintainby(mstEmployeeModel.getAccountmaintainby());
 			objEntity.setPfseries(mstEmployeeModel.getPfseries());
 			objEntity.setPfacno(mstEmployeeModel.getPfacno());
-			System.out.println("pfdescription---------"+mstEmployeeModel.getPfdescription());
+			System.out.println("pfdescription---------" + mstEmployeeModel.getPfdescription());
 			objEntity.setPfdescription(mstEmployeeModel.getPfdescription());
 
 			// Bank/DCPS/NPS/GPF Details End
@@ -590,7 +598,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 					lObjNomineeDtls.setDob(dtBirthDate);
 					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-					lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+					lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 					lObjNomineeDtls.setRelation(lArrRelationship[i]);
 					lObjNomineeDtls.setCreateddate(new Date());
 					lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());
@@ -602,7 +610,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					lArrNomineeDtls[i] = lObjNomineeDtls;
 				}
 
-			} 
+			}
 
 			// DCPS/NPS Nominee Details End
 
@@ -727,47 +735,48 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 		Serializable id = mstEmployeeRepo.updateEmployeeConfiguration(objEntity, mstEmployeeModel, lArrNomineeDtls);
 
-//		EmployeeIncrementEntity employeeIncrementEntity = new EmployeeIncrementEntity();
-//
-//		boolean incrementOrderExists = mstEmployeeRepo.annualIncrementExists(objEntity.getEmployeeId());
-//
-//		if (!incrementOrderExists) {
-//			// Annual Increment entry for employee Start
-//			employeeIncrementEntity.setSevaarthId(objEntity.getSevaarthId());
-//			employeeIncrementEntity.setEmployeeId(objEntity.getEmployeeId());
-//			employeeIncrementEntity.setCurrentBasicPay(0);
-//			employeeIncrementEntity.setCurrentBasicLevelId(0);
-//			employeeIncrementEntity.setPreBasicPay(0);
-//			employeeIncrementEntity.setIncrementOrderNo("0");
-//			employeeIncrementEntity.setIncrementOrderDate(new Date());
-//			if (objEntity.getPayCommissionCode() == 8) {
-//				employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getSevenPcBasic().intValue());
-//			} else {
-//				employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getBasicPay().intValue());
-//			}
-//			employeeIncrementEntity.setIncrementBasicLevelId(mstEmployeeModel.getSvnthpaybasic());
-//			employeeIncrementEntity.setEffective_from_date(new Date());
-//			employeeIncrementEntity.setTo_increment_date(new Date());
-//			employeeIncrementEntity.setCreatedDate(new Date());
-//			employeeIncrementEntity.setUpdatedDate(new Date());
-//			employeeIncrementEntity.setRemark(null);
-//			employeeIncrementEntity.setIsActive('1');
-//			employeeIncrementEntity.setMonth(1);
-//			employeeIncrementEntity.setCreatedUserId(1);
-//			employeeIncrementEntity.setUpdatedUserId(1);
-//			employeeIncrementEntity.setDdoCode(objEntity.getDdoCode());
-//			// Annual Increment entry for employee End
-//
-//			mstEmployeeRepo.saveEmployeeIncrement(employeeIncrementEntity);
-//		}
+		// EmployeeIncrementEntity employeeIncrementEntity = new
+		// EmployeeIncrementEntity();
+		//
+		// boolean incrementOrderExists =
+		// mstEmployeeRepo.annualIncrementExists(objEntity.getEmployeeId());
+		//
+		// if (!incrementOrderExists) {
+		// // Annual Increment entry for employee Start
+		// employeeIncrementEntity.setSevaarthId(objEntity.getSevaarthId());
+		// employeeIncrementEntity.setEmployeeId(objEntity.getEmployeeId());
+		// employeeIncrementEntity.setCurrentBasicPay(0);
+		// employeeIncrementEntity.setCurrentBasicLevelId(0);
+		// employeeIncrementEntity.setPreBasicPay(0);
+		// employeeIncrementEntity.setIncrementOrderNo("0");
+		// employeeIncrementEntity.setIncrementOrderDate(new Date());
+		// if (objEntity.getPayCommissionCode() == 8) {
+		// employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getSevenPcBasic().intValue());
+		// } else {
+		// employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getBasicPay().intValue());
+		// }
+		// employeeIncrementEntity.setIncrementBasicLevelId(mstEmployeeModel.getSvnthpaybasic());
+		// employeeIncrementEntity.setEffective_from_date(new Date());
+		// employeeIncrementEntity.setTo_increment_date(new Date());
+		// employeeIncrementEntity.setCreatedDate(new Date());
+		// employeeIncrementEntity.setUpdatedDate(new Date());
+		// employeeIncrementEntity.setRemark(null);
+		// employeeIncrementEntity.setIsActive('1');
+		// employeeIncrementEntity.setMonth(1);
+		// employeeIncrementEntity.setCreatedUserId(1);
+		// employeeIncrementEntity.setUpdatedUserId(1);
+		// employeeIncrementEntity.setDdoCode(objEntity.getDdoCode());
+		// // Annual Increment entry for employee End
+		//
+		// mstEmployeeRepo.saveEmployeeIncrement(employeeIncrementEntity);
+		// }
 
 		return (int) id;
 	}
 
-
 	private String getCrearteSevaartIh(MstEmployeeModel mstEmployeeModel) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy");
-		
+
 		String dept = mstEmployeeRepo.getCmnLocationMst(mstEmployeeModel.getDdoCode());
 		String lStrOfficeName = dept.substring(0, 3).toUpperCase();
 		String adminOfficeMst = mstEmployeeModel.getDdoCode();
@@ -786,20 +795,20 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		}
 		String name = String.valueOf(fname) + String.valueOf(mname) + String.valueOf(lname);
 		String gender = mstEmployeeModel.getGender().toString();
-//		if (gender.equals("1")) {
-//			gender = "M";
-//		} else if (gender.equals("2")) {
-//			gender = "F";
-//		} else if (gender.equals("3")) {
-//			gender = "T";
-//		} else {
-			gender = mstEmployeeModel.getGender().toString();
-		//}
+		// if (gender.equals("1")) {
+		// gender = "M";
+		// } else if (gender.equals("2")) {
+		// gender = "F";
+		// } else if (gender.equals("3")) {
+		// gender = "T";
+		// } else {
+		gender = mstEmployeeModel.getGender().toString();
+		// }
 		String year = sdf.format(mstEmployeeModel.getDob());
 		String index = "01";
 		String sevaarth = adminOfficeMst + lStrOfficeName + name.toUpperCase() + gender + year;
 
-		//String sevaarth = dept + name.toUpperCase() + gender + year + index;
+		// String sevaarth = dept + name.toUpperCase() + gender + year + index;
 		BigInteger indexnew = null;
 		if (sevaarth != null) {
 			indexnew = mstEmployeeRepo.findbySevaarthCount(sevaarth);
@@ -812,12 +821,12 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 				index = indexnew.add(BigInteger.valueOf(1)).toString();
 			}
 			sevaarth = adminOfficeMst + lStrOfficeName + name.toUpperCase() + gender + year + index;
-		}else if(indexnew.equals(BigInteger.valueOf(0))) {
-			sevaarth=sevaarth+index;
+		} else if (indexnew.equals(BigInteger.valueOf(0))) {
+			sevaarth = sevaarth + index;
 		}
 		return sevaarth;
 	}
-	
+
 	@Override
 	public String[] savePhotoSignature(MultipartFile[] files, String DeptNm, Long long1, String existphotpath,
 			String existsignpath) {
@@ -956,13 +965,17 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 		// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());
 		// objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
-		if (mstEmployeeModel.getSevaarthId() == null || mstEmployeeModel.getSevaarthId().equalsIgnoreCase(""))
-			if (mstEmployeeModel.getSevaarthId() == null) {
-				String sevaarthGenration = getCrearteSevaartIh(mstEmployeeModel);
-				objEntity.setSevaarthId(sevaarthGenration);
-			} else {
-				objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
-			}
+
+		if (!mstEmployeeModel.getAction().equals("saveAsDraft")) {
+			if (mstEmployeeModel.getSevaarthId() == null || mstEmployeeModel.getSevaarthId().equalsIgnoreCase(""))
+				if (mstEmployeeModel.getSevaarthId() == null) {
+					String sevaarthGenration = getCrearteSevaartIh(mstEmployeeModel);
+					objEntity.setSevaarthId(sevaarthGenration);
+				} else {
+					objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
+				}
+		}
+
 		// Employee Details Start
 		objEntity.setUidNo(mstEmployeeModel.getUidNo());
 		objEntity.setEidNo(mstEmployeeModel.getEidNo());
@@ -977,15 +990,15 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setEmployeeMotherName(mstEmployeeModel.getEmployeeMotherName());
 		objEntity.setGender(mstEmployeeModel.getGender());
 		objEntity.setPercentageOfBasic(100l);
-		
+
 		objEntity.setBuckleNo(mstEmployeeModel.getBuckleNo());
-//		if (mstEmployeeModel.getGender() == '1') {
-//			objEntity.setGender('M');
-//		} else if (mstEmployeeModel.getGender() == '2') {
-//			objEntity.setGender('F');
-//		} else {
-//			objEntity.setGender('T');
-//		}
+		// if (mstEmployeeModel.getGender() == '1') {
+		// objEntity.setGender('M');
+		// } else if (mstEmployeeModel.getGender() == '2') {
+		// objEntity.setGender('F');
+		// } else {
+		// objEntity.setGender('T');
+		// }
 		objEntity.setReligionCode(mstEmployeeModel.getReligionCode());
 		objEntity.setMaritalStatus(mstEmployeeModel.getMaritalStatus());
 		objEntity.setEmployeeMNameMr(mstEmployeeModel.getEmployeeMNameMr());
@@ -1005,17 +1018,18 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setMobileNo1(mstEmployeeModel.getMobileNo1());
 		objEntity.setEmailId(mstEmployeeModel.getEmailId());
 		objEntity.setPanNo(mstEmployeeModel.getPanNo().toUpperCase());
-//		objEntity.setQualification(mstEmployeeModel.getQualification());
+		// objEntity.setQualification(mstEmployeeModel.getQualification());
 		objEntity.setSecqualification(mstEmployeeModel.getSecqualification());
 		objEntity.setMorequalification(mstEmployeeModel.getMorequalification());
-		
 
 		// Employee Details End
 
 		// Department Details Start
-//		objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
+		// objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
 		objEntity.setParentFieldDepartmentId(mstEmployeeModel.getParentFieldDepartmentId());
 //		objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId().intValue());
+		// objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId().intValue());
+		objEntity.setSubCorporationId(mstEmployeeModel.getSubCorporationId());
 		objEntity.setAdminDepartmentCode(mstEmployeeModel.getParentAdminDepartmentId());
 		objEntity.setFieldDepartmentCode(mstEmployeeModel.getFieldDepartmentId());
 		objEntity.setIsChangeParentDepartment(mstEmployeeModel.getIsChangeParentDepartment());
@@ -1025,7 +1039,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		if (mstEmployeeModel.getSuperannuationage() != null)
 			objEntity.setSuperAnnAge(Long.valueOf(mstEmployeeModel.getSuperannuationage()));
 		objEntity.setEmpServiceEndDate(mstEmployeeModel.getSuperAnnDate()); // by default set to retirement date added
-		objEntity.setCurrentOfficeCode(mstEmployeeModel.getCurrentOfficeId());																	// by sudhir
+		objEntity.setCurrentOfficeCode(mstEmployeeModel.getCurrentOfficeId()); // by sudhir
 		objEntity.setSuperAnnDate(mstEmployeeModel.getSuperAnnDate());
 		objEntity.setPayCommissionCode(mstEmployeeModel.getPayCommissionCode());
 		objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
@@ -1067,7 +1081,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setIndiApproveOrderNo(mstEmployeeModel.getIndiApproveOrderNo());
 		objEntity.setApprovalByDdoDate(mstEmployeeModel.getApprovalByDdoDate());
 		objEntity.setHraBasic(mstEmployeeModel.getHraBasic());
-//		objEntity.setAppointment(mstEmployeeModel.getAppointment());
+		// objEntity.setAppointment(mstEmployeeModel.getAppointment());
 		objEntity.setTeaching(mstEmployeeModel.getTeaching());
 		// Department Details End
 
@@ -1131,7 +1145,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 				lObjNomineeDtls.setDob(dtBirthDate);
 				long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-				lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+				lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 				lObjNomineeDtls.setRelation(lArrRelationship[i]);
 				lObjNomineeDtls.setCreateddate(new Date());
 				lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());
@@ -1151,12 +1165,17 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setIsMappedWithNps('0');
 		objEntity.setDdoCode(mstEmployeeModel.getDdoCode());
 		objEntity.setBillGroupId(mstEmployeeModel.getBillgroupId());
-		objEntity.setIsActive(3l);
+		objEntity.setEmpClass(mstEmployeeModel.getEmpClass());
+
+		if (!mstEmployeeModel.getAction().equals("saveAsDraft")) {
+			objEntity.setIsActive(3l);
+		} else {
+			objEntity.setIsActive(0l);
+		}
 		objEntity.setSignatureAttachmentId(mstEmployeeModel.getSignatureAttachmentId());
 		objEntity.setCreatedUserId(mstEmployeeModel.getCreatedUserId());
 		objEntity.setCreatedDate(new Date());
 
-		
 		List reuslt = mstEmployeeRepo.saveEmployeeConfiguration(objEntity, mstEmployeeModel, lArrNomineeDtls);
 
 		String[] saveimage = savePhotoSignature(files, mstEmployeeModel.getDeptNm(), (Long) reuslt.get(1));
@@ -1165,8 +1184,38 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 		Serializable id = (Long) reuslt.get(0);
 
+		// Annual Increment entry for employee Start
+		// EmployeeIncrementEntity employeeIncrementEntity = new
+		// EmployeeIncrementEntity();
+		// employeeIncrementEntity.setSevaarthId(objEntity.getSevaarthId());
+		// employeeIncrementEntity.setEmployeeId(objEntity.getEmployeeId());
+		// employeeIncrementEntity.setCurrentBasicPay(0);
+		// employeeIncrementEntity.setCurrentBasicLevelId(0);
+		// employeeIncrementEntity.setPreBasicPay(0);
+		// employeeIncrementEntity.setIncrementOrderNo("0");
+		// employeeIncrementEntity.setIncrementOrderDate(new Date());
+		// if (objEntity.getPayCommissionCode() == 8) {
+		// employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getSevenPcBasic().intValue());
+		// } else {
+		// employeeIncrementEntity.setIncrementBasicPaySal(objEntity.getBasicPay().intValue());
+		// }
+		// employeeIncrementEntity.setIncrementBasicLevelId(mstEmployeeModel.getSvnthpaybasic());
+		// employeeIncrementEntity.setEffective_from_date(new Date());
+		// employeeIncrementEntity.setTo_increment_date(new Date());
+		// employeeIncrementEntity.setCreatedDate(new Date());
+		// employeeIncrementEntity.setUpdatedDate(new Date());
+		// employeeIncrementEntity.setRemark(null);
+		// employeeIncrementEntity.setIsActive('1');
+		// employeeIncrementEntity.setMonth(1);
+		// employeeIncrementEntity.setCreatedUserId(1);
+		// employeeIncrementEntity.setUpdatedUserId(1);
+		// employeeIncrementEntity.setDdoCode(objEntity.getDdoCode());
+		// // Annual Increment entry for employee End
+		// mstEmployeeRepo.saveEmployeeIncrement(employeeIncrementEntity);
+
 		return (long) id;
 	}
+
 	@Override
 	public String[] savePhotoSignature(MultipartFile[] files, String DeptNm, Long empid) {
 		// department name/photo/employee_id/photo.jpg
@@ -1181,24 +1230,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					BufferedImage image = null;
 					File f = null;
 					InputStream in = new ByteArrayInputStream(bytes);
-					//    //read image
-					////    try{
-					////      f = new File(strmagepath); //image file path
 					image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 					image = ImageIO.read(in);
-					////      logger.info("Reading complete.");
-					////    }catch(IOException e){
-					////      logger.info("Error: "+e);
-					////    }
-					//  //write image
-					// String stroutputimagepath="D:\\Image\\Output.jpg";
-					//
-					// f = new File(stroutputimagepath);
-					// ImageIO.write(image, "jpg", f);
-					// logger.info("Writing complete.");
-
-					// Creating the directory to store file
-					// String rootPath = System.getProperty("catalina.home");
 					String key = "";
 					String rootPath = "";
 					String strOSName = System.getProperty("os.name");
@@ -1215,7 +1248,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 						dir.mkdirs();
 
 					String name = "photo.jpg";
-					// Create the file on server
 					File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 					stream.write(bytes);
@@ -1244,24 +1276,8 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					int width = 963;
 					int height = 640;
 					InputStream in = new ByteArrayInputStream(bytes);
-					//    //read image
-					////    try{
-					////      f = new File(strmagepath); //image file path
 					image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 					image = ImageIO.read(in);
-					// BufferedImage scaleimg = Scalr
-					////      logger.info("Reading complete.");
-					////    }catch(IOException e){
-					////      logger.info("Error: "+e);
-					////    }
-					//  //write image
-					// String stroutputimagepath="D:\\Image\\Signature.jpg";
-
-					// f = new File(stroutputimagepath);
-					// ImageIO.write(image, "jpg", f);
-					// logger.info("Writing complete.");
-					// Creating the directory to store file
-					// String rootPath = System.getProperty("catalina.home");
 					String key = "";
 					String rootPath = "";
 					String strOSName = System.getProperty("os.name");
@@ -1296,13 +1312,14 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		// signature code ended
 		return res;
 	}
+
 	@Override
-	public List<MstEmployeeModel> getApproveEmployeeDetails(String strddo, String language,long locid) {
+	public List<MstEmployeeModel> getApproveEmployeeDetails(String strddo, String language, long locid) {
 		List<MstEmployeeEntity> listempentity = mstEmployeeRepo.getApproveEmployeeDetails(strddo);
 		List<MstEmployeeModel> result = new ArrayList<MstEmployeeModel>();
 		String DeptName = "";
 		String SubDeptName = "";
-		List<DDOScreenModel> lstDepartment = findDDOScreenDataTable(language,locid);
+		List<DDOScreenModel> lstDepartment = findDDOScreenDataTable(language, locid);
 		for (Iterator iterator = lstDepartment.iterator(); iterator.hasNext();) {
 			DDOScreenModel ddoScreenModel = (DDOScreenModel) iterator.next();
 			DeptName = ddoScreenModel.getDeptName();
@@ -1327,31 +1344,36 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return result;
 
 	}
+
 	@Override
 	public MstEmployeeModel getEmployeeinfo(Long employeeId) {
 		// TODO Auto-generated method stub
 		return mstEmployeeRepo.getEmployeeinfo(employeeId);
 	}
+
 	@Override
 	public List<MstNomineeDetailsEntity> getNominees(String empId) {
 		List<MstNomineeDetailsEntity> result = mstEmployeeRepo.getNominees(empId);
 		return result;
 	}
+
 	@Override
-	public List<Object[]> GetCurrentPostByLvlTwo(long designationId, String ddocode,long locId) {
+	public List<Object[]> GetCurrentPostByLvlTwo(long designationId, String ddocode, long locId) {
 		// TODO Auto-generated method stub
-		List<Object[]> result = mstEmployeeRepo.GetCurrentPostByLvlTwo(designationId, ddocode,locId);
+		List<Object[]> result = mstEmployeeRepo.GetCurrentPostByLvlTwo(designationId, ddocode, locId);
 		return result;
 	}
+
 	@Override
 	public long getLocationCode(String getLocationCode) {
 		// TODO Auto-generated method stub
 		return mstEmployeeRepo.getLocationCode(getLocationCode);
 	}
+
 	@Override
 	public void saveGpfDetails(MstGpfDetailsEntity mstGpfDetailsEntity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -1359,11 +1381,12 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		long res = mstEmployeeRepo.getCount(tempSevarthEmpCode);
 		return res;
 	}
+
 	@Override
 	public List<Long> approveEmployeeConfiguration(String empid, String sevaarthid, String dcpsgpfflg) {
 		return mstEmployeeRepo.approveEmployeeConfiguration(empid, sevaarthid, dcpsgpfflg);
 	}
-	
+
 	@Override
 	public int getSevaarthid(String sevaarthid) {
 		return mstEmployeeRepo.getSevaarthid(sevaarthid);
@@ -1374,6 +1397,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		// TODO Auto-generated method stub
 		return mstEmployeeRepo.checkSevaarthIdExistInGpfDetailMst(sevaarthid);
 	}
+
 	@Override
 	public List<QualificationEntity> getQualification(String language) {
 		// TODO Auto-generated method stub
@@ -1386,7 +1410,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		List<MstEmployeeEntity> listempentity = mstEmployeeRepo.getDcpsEmployeeDetails(strddo);
 		List<MstEmployeeModel> result = new ArrayList<MstEmployeeModel>();
 		String DeptName = "";
-		List<DDOScreenModel> lstDepartment = findDDOScreenDataTable(language,locId);
+		List<DDOScreenModel> lstDepartment = findDDOScreenDataTable(language, locId);
 		for (Iterator iterator = lstDepartment.iterator(); iterator.hasNext();) {
 			DDOScreenModel ddoScreenModel = (DDOScreenModel) iterator.next();
 			DeptName = ddoScreenModel.getDeptName();
@@ -1403,7 +1427,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					.toUpperCase());
 			mstEmployeeModel.setDdoCode(mstEmployeeEntity.getDdoCode());
 			mstEmployeeModel.setDepartmentNameEn(DeptName);
-			
+
 			result.add(mstEmployeeModel);
 		}
 		// List<MstEmployeeEntisty>
@@ -1412,6 +1436,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return result;
 
 	}
+
 	@Override
 	public Character getLastDigit(String lStrDCPSId) {
 
@@ -1482,53 +1507,48 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return MappingData;
 	}
 
-	;;
-	
 	@Override
 	public List<Long> approveDcpsEmployeeConfiguration(String empid, String Dcpsnumber, String sevaarthid,
 			String dcpsgpfflg) {
 		List<Long> result = mstEmployeeRepo.approveDcpsEmployeeConfiguration(empid, Dcpsnumber, sevaarthid, dcpsgpfflg);
 		return result;
 	}
+
 	@Override
-	public String createNewUser(String sevaarthId,OrgUserMst message,MstEmployeeModel mstEmployeeModel) {
-		    OrgUserMst lObjUserMst  = new OrgUserMst();
-		    CmnLookupMst lObjCmnLookupMst =cmnLookupMstRepository.findByLookupId(1l);
+	public String createNewUser(String sevaarthId, OrgUserMst message, MstEmployeeModel mstEmployeeModel) {
+		OrgUserMst lObjUserMst = new OrgUserMst();
+		CmnLookupMst lObjCmnLookupMst = cmnLookupMstRepository.findByLookupId(1l);
 
-		    Session ghibSession = entityManager.unwrap(Session.class);     
-	
-		    	Long lLngUserId = null;
-				CmnLocationMst lObjCmnLocationMst = new CmnLocationMst();
+		Session ghibSession = entityManager.unwrap(Session.class);
 
-				lObjUserMst.setUserName(sevaarthId);
-				lObjUserMst.setDdoCode(sevaarthId);
-				lObjUserMst.setPassword(passwordEncoder.encode("ifms123"));
-				Optional<MstRoleEntity> findById = mstRoleRepo.findById(4);
-				lObjUserMst.setMstRoleEntity(findById.get());
-				lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
+		Long lLngUserId = null;
+		CmnLocationMst lObjCmnLocationMst = new CmnLocationMst();
 
-				
-				lObjUserMst.setStartDate(new Timestamp(new Date().getTime()));
-				lObjUserMst.setActivateFlag(0l);
-				lObjUserMst.setAppCode(1);
-				
-				lObjUserMst.setCreatedDate(new Timestamp(new Date().getTime()));
-				
-				
-				lObjUserMst.setCreatedBy(message.getCreatedBy());
-				lObjUserMst.setCreatedByPost(message.getCreatedByPost());
-				lObjUserMst.setSecretQueCode("Secret_Other");
-				lObjUserMst.setSecretQueOther("Secret_Other");// TODO -- Needs to Change
-				lObjUserMst.setSecretAnswer("ifms");
-				//Serializable save = ghibSession.save(lObjUserMst);
-				
-				
-				
-		//Serializable save = ghibSession.save(lObjUserMst);
-       OrgUserMst savedetails = mstEmployeeRepo.saveUserInfo(lObjUserMst);
-    	OrgPostMst orgpostmst = orgPostMstRepository.findByPostId(mstEmployeeModel.getPostdetailid());
+		lObjUserMst.setUserName(sevaarthId);
+		lObjUserMst.setDdoCode(sevaarthId);
+		lObjUserMst.setPassword(passwordEncoder.encode("ifms123"));
+		Optional<MstRoleEntity> findById = mstRoleRepo.findById(4);
+		lObjUserMst.setMstRoleEntity(findById.get());
+		lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
+
+		lObjUserMst.setStartDate(new Timestamp(new Date().getTime()));
+		lObjUserMst.setActivateFlag(0l);
+		lObjUserMst.setAppCode(1);
+
+		lObjUserMst.setCreatedDate(new Timestamp(new Date().getTime()));
+
+		lObjUserMst.setCreatedBy(message.getCreatedBy());
+		lObjUserMst.setCreatedByPost(message.getCreatedByPost());
+		lObjUserMst.setSecretQueCode("Secret_Other");
+		lObjUserMst.setSecretQueOther("Secret_Other");// TODO -- Needs to Change
+		lObjUserMst.setSecretAnswer("ifms");
+		// Serializable save = ghibSession.save(lObjUserMst);
+
+		// Serializable save = ghibSession.save(lObjUserMst);
+		OrgUserMst savedetails = mstEmployeeRepo.saveUserInfo(lObjUserMst);
+		OrgPostMst orgpostmst = orgPostMstRepository.findByPostId(mstEmployeeModel.getPostdetailid());
 		OrgUserpostRlt lObjOrgUserpostRlt = new OrgUserpostRlt();
-	
+
 		lObjOrgUserpostRlt.setOrgUserMst(savedetails);
 		lObjOrgUserpostRlt.setStartDate(new Timestamp(new Date().getTime()));
 		lObjOrgUserpostRlt.setActivateFlag(1l);
@@ -1537,19 +1557,13 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		lObjOrgUserpostRlt.setCreatedBy(message);
 		lObjOrgUserpostRlt.setCreatedDate(new Timestamp(new Date().getTime()));
 		lObjOrgUserpostRlt.setCmnLookupUserPostType(lObjCmnLookupMst);
-	//	lObjOrgUserpostRlt.setCmnLocationMst(postId.getLookupId());
+		// lObjOrgUserpostRlt.setCmnLocationMst(postId.getLookupId());
 		ghibSession.save(lObjOrgUserpostRlt);
-		
+
 		long user_id = savedetails.getUserId();
-		
-   	   String save = mstEmployeeRepo.saveUserId(sevaarthId,user_id);
-		
+
+		String save = mstEmployeeRepo.saveUserId(sevaarthId, user_id);
 		return sevaarthId;
-	
-		
-		
-      
-		
 	}
 	@Override
 	public MstEmployeeDetailEntity updateEmployeeDetails(Long empid) {
@@ -1557,7 +1571,348 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		return mstEmployeeRepo.updateEmployeesDetails(empid);
 	}
 	
+
+	@Override
+	public Object findAllEmployeesByDDOName(String userName) {
+		List<Object[]> lstprop = mstEmployeeRepo.findAllEmployeesByDDOName(userName);
+		List<MstEmployeeModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				MstEmployeeModel obj = new MstEmployeeModel();
+				obj.setSevaarthId(StringHelperUtils.isNullString(objLst[0]));
+				obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
+				obj.setDesignationName(StringHelperUtils.isNullString(objLst[2]));
+				obj.setDepartmentNameEn(StringHelperUtils.isNullString(objLst[3]));
+				obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[4]));
+				obj.setPayCommissionCode(StringHelperUtils.isNullLong(objLst[5]));
+				obj.setPayCommissionName(StringHelperUtils.isNullString(objLst[6]));
+				obj.setEmpServiceEndDate(StringHelperUtils.isNullDate(objLst[8]));
+				obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
+				if (objLst[7] != null && !objLst[7].equals("")) {
+					if (objLst[7].equals('Y')) {
+						obj.setDcpsgpfflag("DCPS");
+					} else {
+						obj.setDcpsgpfflag("GPF");
+					}
+				}
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	}
+
+	@Override
+	public List<MstEmployeeModel> findDraftCaseList(OrgUserMst messages, Long CASE_STATUS) {
+		List<Object[]> lstprop = mstEmployeeRepo.findDraftCaseList(messages, CASE_STATUS);
+		List<MstEmployeeModel> lstObj = new ArrayList<>();
+		if (!lstprop.isEmpty()) {
+			for (Object[] objLst : lstprop) {
+				MstEmployeeModel obj = new MstEmployeeModel();
+				obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[0]));
+				obj.setDob(StringHelperUtils.isNullDate(objLst[1]));
+				if (objLst[2] instanceof BigInteger) {
+					obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[2]).longValue());
+				}else {
+					obj.setEmployeeId(StringHelperUtils.isNullLong(objLst[2]));
+				}
+				obj.setRemark(StringHelperUtils.isNullString(objLst[3]));
+				if (objLst[4] instanceof Integer) {
+				    obj.setIsActive(StringHelperUtils.isNullLong(Long.valueOf((Integer) objLst[4])));
+				} else if (objLst[4] instanceof BigInteger) {
+				    obj.setIsActive(StringHelperUtils.isNullBigInteger((BigInteger) objLst[4]).longValue());
+				} else {
+				    obj.setIsActive(StringHelperUtils.isNullLong(objLst[4]));
+				}
+
+				lstObj.add(obj);
+			}
+		}
+		return lstObj;
+	}
+
+	@Override
+	public long updateDraftCase(@Valid MstEmployeeModel mstEmployeeModel, MultipartFile[] files) {
+		MstEmployeeEntity objEntity = new MstEmployeeEntity();
+		if (mstEmployeeModel.getEmployeeId() != null) {
+			objEntity = mstEmployeeRepo.findbyemplid(mstEmployeeModel.getEmployeeId());
+		}
+
+		Session currentSession = entityManager.unwrap(Session.class);
+		MstNomineeDetailsEntity lObjNomineeDtls = null;
+		MstNomineeDetailsEntity[] lArrNomineeDtls = null;
+		if (objEntity != null) {
+			objEntity.setUidNo(mstEmployeeModel.getUidNo());
+			objEntity.setEidNo(mstEmployeeModel.getEidNo());
+			objEntity.setSalutation(mstEmployeeModel.getSalutation());
+			objEntity.setEmployeeFullNameEn(mstEmployeeModel.getEmployeeFullNameEn().toUpperCase());
+			objEntity.setEmployeeFNameEn(mstEmployeeModel.getEmployeeFNameEn().toUpperCase());
+			objEntity.setEmployeeMNameEn(mstEmployeeModel.getEmployeeMNameEn().toUpperCase());
+			objEntity.setEmployeeLNameEn(mstEmployeeModel.getEmployeeLNameEn().toUpperCase());
+			objEntity.setEmployeeFullNameMr(mstEmployeeModel.getEmployeeFullNameMr());
+			objEntity.setEmployeeFNameMr(mstEmployeeModel.getEmployeeFNameMr());
+			objEntity.setEmployeeLNameMr(mstEmployeeModel.getEmployeeLNameMr());
+			objEntity.setEmployeeMotherName(mstEmployeeModel.getEmployeeMotherName());
+			objEntity.setBuckleNo(mstEmployeeModel.getBuckleNo());
+			objEntity.setGender(mstEmployeeModel.getGender());
+			objEntity.setReligionCode(mstEmployeeModel.getReligionCode());
+			objEntity.setMaritalStatus(mstEmployeeModel.getMaritalStatus());
+			objEntity.setEmployeeMNameMr(mstEmployeeModel.getEmployeeMNameMr());
+			objEntity.setDob(mstEmployeeModel.getDob());
+			objEntity.setDoj(mstEmployeeModel.getDoj());
+			objEntity.setAddress1(mstEmployeeModel.getAddress1().toUpperCase());
+			objEntity.setAddress2(mstEmployeeModel.getAddress2().toUpperCase());
+			objEntity.setStateCode(mstEmployeeModel.getStateCode());
+			objEntity.setDistrictCode(mstEmployeeModel.getDistrictCode());
+			objEntity.setPinCode(mstEmployeeModel.getPinCode());
+			objEntity.setPhysicallyHandicapped(mstEmployeeModel.getPhysicallyHandicapped());
+			objEntity.setMobileNo1(mstEmployeeModel.getMobileNo1());
+			objEntity.setEmailId(mstEmployeeModel.getEmailId());
+			objEntity.setPanNo(mstEmployeeModel.getPanNo().toUpperCase());
+
+			// Employee Details End
+
+			// Department Details Start
+			objEntity.setParentFieldDepartmentId(mstEmployeeModel.getParentFieldDepartmentId());
+			objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId());
+			objEntity.setIsChangeParentDepartment(mstEmployeeModel.getIsChangeParentDepartment());
+			objEntity.setReasonForChngParentFieldDept(mstEmployeeModel.getReasonForChngParentFieldDept());
+			objEntity.setCadreCode(mstEmployeeModel.getCadreId());
+			objEntity.setEmpClass(mstEmployeeModel.getEmpClass());
+			objEntity.setSuperAnnAge(mstEmployeeModel.getSuperannuationage());
+			objEntity.setEmpServiceEndDate(mstEmployeeModel.getSuperAnnDate()); // by default set to retirement date
+			objEntity.setPercentageOfBasic(100l);
+			objEntity.setSuperAnnDate(mstEmployeeModel.getSuperAnnDate());
+			objEntity.setPayCommissionCode(mstEmployeeModel.getPayCommissionCode());
+			objEntity.setFirstDesignationCode(mstEmployeeModel.getFirstDesignationId());
+			objEntity.setDesignationCode(mstEmployeeModel.getDesignationId());
+			objEntity.setPayscalelevelId(mstEmployeeModel.getPayscalelevelId());
+			if (mstEmployeeModel.getPayscalelevelId() != null)
+				objEntity.setSevenPcLevel(Long.valueOf(mstEmployeeModel.getPayscalelevelId()));
+			else
+				objEntity.setSevenPcLevel(0l);
+			objEntity.setSvnthpaybasic(mstEmployeeModel.getSvnthpaybasic());
+			objEntity.setPayScaleCode(mstEmployeeModel.getPayScaleCode());
+			objEntity.setPayInPayBand(mstEmployeeModel.getPayInPayBand());
+			objEntity.setGradePay(mstEmployeeModel.getGradePay());
+
+			if (objEntity.getPayCommissionCode() == 700016) {
+				objEntity.setBasicPay(
+						mstEmployeeModel.getBasicPay() == null ? 0 : mstEmployeeModel.getBasicPay().doubleValue());
+			} else {
+				objEntity.setSevenPcBasic(mstEmployeeModel.getSevenPcBasic() == null ? 0
+						: mstEmployeeModel.getSevenPcBasic().doubleValue());
+			}
+
+			objEntity.setPostdetailid(mstEmployeeModel.getPostdetailid());
+			objEntity.setDepartmentNameEn(mstEmployeeModel.getDepartmentNameEn());
+			objEntity.setDtInitialAppointmentParentInst(mstEmployeeModel.getDtInitialAppointmentParentInst());
+			objEntity.setInstituteAdd(mstEmployeeModel.getInstituteAdd());
+			objEntity.setInstName(mstEmployeeModel.getInstName());
+			objEntity.setMobileNo2(mstEmployeeModel.getMobileNo2());
+			objEntity.setInstemail(mstEmployeeModel.getInstemail());
+			objEntity.setDtJoinCurrentPost(mstEmployeeModel.getDtJoinCurrentPost());
+			objEntity.setRemark(mstEmployeeModel.getRemark());
+			objEntity.setCityClass(mstEmployeeModel.getCityClass());
+			objEntity.setIndiApproveOrderNo(mstEmployeeModel.getIndiApproveOrderNo());
+			objEntity.setApprovalByDdoDate(mstEmployeeModel.getApprovalByDdoDate());
+			objEntity.setHraBasic(mstEmployeeModel.getHraBasic());
+			// Department Details End
+
+			// Bank/DCPS/NPS/GPF Details Start
+			objEntity.setBankCode(mstEmployeeModel.getBankId());
+			objEntity.setIfscCode(mstEmployeeModel.getIfscCode());
+			objEntity.setBankAcntNo(mstEmployeeModel.getBankAcntNo());
+			objEntity.setBankBranchCode(mstEmployeeModel.getBankBranchId());
+			objEntity.setDcpsgpfflag(mstEmployeeModel.getDcpsgpfflag());
+			objEntity.setDcpsaccountmaintainby(mstEmployeeModel.getDcpsaccountmaintainby());
+			objEntity.setPranNo(mstEmployeeModel.getPranNo());
+			objEntity.setAccountmaintainby(mstEmployeeModel.getAccountmaintainby());
+			objEntity.setPfseries(mstEmployeeModel.getPfseries());
+			objEntity.setPfacno(mstEmployeeModel.getPfacno());
+			objEntity.setPfdescription(mstEmployeeModel.getPfdescription());
+
+			// Bank/DCPS/NPS/GPF Details End
+
+			// GIS Details Start
+			objEntity.setGisapplicable(mstEmployeeModel.getGisapplicable());
+			objEntity.setGisgroup(mstEmployeeModel.getGisgroup());
+			objEntity.setMembership_date(mstEmployeeModel.getMembership_date());
+			objEntity.setGisRemark(mstEmployeeModel.getGisRemark());
+			objEntity.setGiscatagory(mstEmployeeModel.getGiscatagory());
+			objEntity.setBegisCatg(mstEmployeeModel.getBegisCatg());
+			// GIS Details End
+
+			// DCPS/NPS Nominee Details Start
+
+			String[] lArrNomName = mstEmployeeModel.getStrArrNomineeName().split("~");
+			String[] lArrAddress1 = mstEmployeeModel.getStrArrAddress().split("~");
+			String[] lArrDateOfBirth = mstEmployeeModel.getStrArrDob().split("~");
+			String[] lArrPercentShare = mstEmployeeModel.getStrArrPercentShare().split("~");
+			String[] lArrRelationship = mstEmployeeModel.getStrArrRelationship().split("~");
+
+			lArrNomineeDtls = new MstNomineeDetailsEntity[lArrNomName.length];
+
+			for (int i = 0; i < lArrNomName.length; i++) {
+				if (!lArrNomName[i].equals("")) {
+					lObjNomineeDtls = new MstNomineeDetailsEntity();
+
+					// lObjNomineeDtls.setDcpsEmpId(lObjEmpData);
+					lObjNomineeDtls.setNomineename(lArrNomName[i]);
+					lObjNomineeDtls.setNomineeaddress(lArrAddress1[i]);
+					Date dtBirthDate = null;
+
+					if (mstEmployeeModel.getStrArrDob() != null && !"".equals(mstEmployeeModel.getStrArrDob().trim())) {
+						MstEmployeeModel mstEmployeeModel1 = new MstEmployeeModel();
+						// String pattern = "yyyy-MM-dd";
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+						try {
+							Date date = formatter.parse(lArrDateOfBirth[i]);
+							mstEmployeeModel1.setRdob(date);
+							dtBirthDate = mstEmployeeModel1.getRdob();
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+						}
+
+					}
+					lObjNomineeDtls.setDob(dtBirthDate);
+					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
+					lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
+					lObjNomineeDtls.setRelation(lArrRelationship[i]);
+					lObjNomineeDtls.setCreateddate(new Date());
+					lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());
+					lObjNomineeDtls.setIsactive("Y");
+					lObjNomineeDtls.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+					lObjNomineeDtls.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+					lObjNomineeDtls.setEmployeeId(objEntity.getEmployeeId());
+					lArrNomineeDtls[i] = lObjNomineeDtls;
+				}
+
+			}
+
+			// DCPS/NPS Nominee Details End
+
+			
+			
+			objEntity.setEmpType("1");
+			objEntity.setIsMappedWithNps('0');
+			objEntity.setBillGroupId(mstEmployeeModel.getBillgroupId());
+			if (mstEmployeeModel.getAction().equals("saveAsDraft")) {
+				objEntity.setIsActive(0l);
+			}else {
+				objEntity.setIsActive(3l);
+			}
+		
+			objEntity.setSignatureAttachmentId(mstEmployeeModel.getSignatureAttachmentId());
+			objEntity.setCreatedUserId(mstEmployeeModel.getCreatedUserId());
+			objEntity.setCreatedDate(new Date());
+
+			if (mstEmployeeModel.getSevaarthId() == null || mstEmployeeModel.getSevaarthId().equals("")) {
+				String sevaarthGenration = getCrearteSevaartIh(mstEmployeeModel);
+				objEntity.setSevaarthId(sevaarthGenration);
+			}
+
+		}
+
+		if (mstEmployeeModel.getDcpsid() != null) {
+			MstDcpsDetailsEntity objEntity1 = mstEmployeeRepo.findbyDcpsid(mstEmployeeModel.getDcpsid());
+			objEntity1.setIsactive(mstEmployeeModel.getDcpsgpfflag());
+			objEntity1.setAccountmaintainby(mstEmployeeModel.getDcpsaccountmaintainby());
+			objEntity1.setCreateddate(new Date());
+			objEntity1.setCreatedid(1l);
+			objEntity1.setPfacno(mstEmployeeModel.getPfacno());
+			objEntity1.setEmployeeId(objEntity.getEmployeeId());
+			currentSession.update(objEntity1);
+		} else if (mstEmployeeModel.getDcpsaccountmaintainby() != null)
+			if (!mstEmployeeModel.getDcpsaccountmaintainby().equals("0")) {
+				MstDcpsDetailsEntity objEntity1 = new MstDcpsDetailsEntity();
+				objEntity1.setIsactive(mstEmployeeModel.getDcpsgpfflag());
+				objEntity1.setAccountmaintainby(mstEmployeeModel.getDcpsaccountmaintainby());
+				objEntity1.setCreateddate(new Date());
+				objEntity1.setCreatedid(1l);
+				objEntity1.setPfacno(mstEmployeeModel.getPfacno());
+				objEntity1.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.save(objEntity1);
+			}
+
+		if (mstEmployeeModel.getGpf_id() != null) {
+			MstGpfDetailsEntity objEntity2 = mstEmployeeRepo.findbyGPFid(mstEmployeeModel.getGpf_id());
+			objEntity2.setAccountmaintainby(mstEmployeeModel.getAccountmaintainby());
+			objEntity2.setCreateddate(new Date());
+			objEntity2.setCreatedid(1l);
+			objEntity2.setIsactive(mstEmployeeModel.getDcpsgpfflag());
+			objEntity2.setPfacno(mstEmployeeModel.getPfacno());
+			objEntity2.setPfdescription(mstEmployeeModel.getPfdescription());
+			objEntity2.setCreatedid(mstEmployeeModel.getUpdatedUserId());
+			objEntity2.setCreateddate(new Date());
+			objEntity2.setEmployeeId(objEntity.getEmployeeId());
+			currentSession.update(objEntity2);
+		} else if (mstEmployeeModel.getAccountmaintainby() != null && mstEmployeeModel.getPfacno() != null
+				&& mstEmployeeModel.getPfseries() != null)
+			if (!mstEmployeeModel.getAccountmaintainby().equals("0") && !mstEmployeeModel.getPfacno().equals("")
+					&& !mstEmployeeModel.getPfseries().equals("0")) {
+				MstGpfDetailsEntity objEntity2 = new MstGpfDetailsEntity();
+				objEntity2.setAccountmaintainby(mstEmployeeModel.getAccountmaintainby());
+				objEntity2.setCreateddate(new Date());
+				objEntity2.setCreatedid(1l);
+				objEntity2.setIsactive(mstEmployeeModel.getDcpsgpfflag());
+				objEntity2.setPfacno(mstEmployeeModel.getPfacno());
+				objEntity2.setPfdescription(mstEmployeeModel.getPfseries());
+				objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity2.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.save(objEntity2);
+			}
+		if (mstEmployeeModel.getGisid() != null) {
+			MstGisdetailsEntity objEntity3 = mstEmployeeRepo.findbyGisid(mstEmployeeModel.getGisid());
+			objEntity3.setCreateddate(new Date());
+			objEntity3.setCreatedid(1l);
+			objEntity3.setGisapplicable(mstEmployeeModel.getGisapplicable());
+			objEntity3.setGisgroup(mstEmployeeModel.getGisgroup());
+			objEntity3.setIsactive("Y");
+			objEntity3.setMembership_date(mstEmployeeModel.getMembership_date());
+			objEntity3.setEmployeeId(objEntity.getEmployeeId());
+			currentSession.update(objEntity3);
+		} else if (mstEmployeeModel.getGisapplicable() != null && mstEmployeeModel.getGisgroup() != null
+				&& mstEmployeeModel.getMembership_date() != null)
+			if (!mstEmployeeModel.getGisapplicable().equals("0") && !mstEmployeeModel.getGisgroup().equals("0")
+					&& !mstEmployeeModel.getMembership_date().equals("0")) {
+			
+				MstGisdetailsEntity objEntity3 = new MstGisdetailsEntity();
+				objEntity3.setCreateddate(new Date());
+				objEntity3.setCreatedid(mstEmployeeModel.getCreatedUserId());
+				objEntity3.setGisapplicable(mstEmployeeModel.getGisapplicable());
+				objEntity3.setGisgroup(mstEmployeeModel.getGisgroup());
+				objEntity3.setIsactive("Y");
+				objEntity3.setMembership_date(mstEmployeeModel.getMembership_date());
+				objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity3.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.save(objEntity3);
+			}
+		String[] saveimage = savePhotoSignature(files, mstEmployeeModel.getDeptNm(), mstEmployeeModel.getEmployeeId(),
+				mstEmployeeModel.getPhotoAttachmentId(), mstEmployeeModel.getSignatureAttachmentId());
+		objEntity.setPhotoAttachmentId(saveimage[0].toString());
+		objEntity.setSignatureAttachmentId(saveimage[1]);
+
+		Serializable id = mstEmployeeRepo.updateEmployeeConfiguration(objEntity, mstEmployeeModel, lArrNomineeDtls);
+
+		return (int) id;
+	}
+
 	
 
+	@Override
+	public Integer deleteEmployeesByIds(List<Long> employeeIds, OrgUserMst orgUserMst) {
+		return mstEmployeeRepo.deleteEmployeesByIds(employeeIds, orgUserMst);
+	}
 
+	@Override
+	public List<Long> rejectEmployeeConfiguration(String empid) {
+		return mstEmployeeRepo.rejectEmployeeConfiguration(empid);
+	}
+
+	
+	
+	
 }

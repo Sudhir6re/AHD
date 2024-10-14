@@ -74,16 +74,15 @@ public class DeptEligibilityForAllowAndDeductController  extends BaseController{
 		return deptEligibilityForAllowAndDeductEntity;
 	}
 	
-	@GetMapping(value = "/saveEmpMpgDdoAllowDeduc/{department_allowdeduc_id}/{departmentId}/{empId}/{sevaarthId}/{effectiveDate}", consumes = {
+	@GetMapping(value = "/saveEmpMpgDdoAllowDeduc/{department_allowdeduc_id}/{empId}/{sevaarthId}/{effectiveDate}", consumes = {
 	"application/json" }, produces = { "application/json" })
-      public @ResponseBody List<MstEmployeeEntity> mutlip123(@PathVariable Object[] department_allowdeduc_id, @PathVariable Long departmentId,
-	@PathVariable Long empId, @PathVariable String sevaarthId,@PathVariable String effectiveDate, Locale locale) {
+      public @ResponseBody List<MstEmployeeEntity> mutlip123(@PathVariable Object[] department_allowdeduc_id,@PathVariable Long empId, @PathVariable String sevaarthId,@PathVariable String effectiveDate, Locale locale) {
      try {
       Date date=new SimpleDateFormat("yyyy-MM-dd").parse(effectiveDate);
           int i =0;
           ddoBillGroupService.deleteEmpMpgDdoAllowDeduc(sevaarthId);
       for (Object object : department_allowdeduc_id) {
-    	  ddoBillGroupService.saveEmpMpgDdoAllowDeduc(object,departmentId,empId,sevaarthId,effectiveDate);
+    	  ddoBillGroupService.saveEmpMpgDdoAllowDeduc(object,empId,sevaarthId,effectiveDate);
           	i++;
           }
          }catch(Exception e) {

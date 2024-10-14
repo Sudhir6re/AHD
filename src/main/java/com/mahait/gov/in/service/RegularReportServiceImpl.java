@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +18,11 @@ import com.mahait.gov.in.repository.RegularReportRepo;
 
 @Service
 @Transactional
-public class RegularReportServiceImpl implements RegularReportService{
-	
+public class RegularReportServiceImpl implements RegularReportService {
+
 	@Autowired
 	RegularReportRepo regularReportRepo;
-	
+
 	@Autowired
 	CommonHomeMethodsRepo commonHomeMethodsRepo;
 
@@ -32,33 +33,68 @@ public class RegularReportServiceImpl implements RegularReportService{
 	}
 
 	@Override
-	public List<RegularReportModel> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,String ddoCode,Long allowdeducId) {
+	public List<RegularReportModel> findDCPSRegularEmpLst(Integer yearId, Integer monthId, Long billGroup,
+			String ddoCode, Long allowdeducId) {
 
-		
-
-		List<Object[]> lstprop = regularReportRepo.findDCPSRegularEmpLst(yearId,monthId,billGroup,ddoCode,allowdeducId);
+		List<Object[]> lstprop = regularReportRepo.findDCPSRegularEmpLst(yearId, monthId, billGroup, ddoCode,
+				allowdeducId);
 		List<RegularReportModel> lstObj = new ArrayList<>();
-		
-		Double sum=0d;
+
+		Double sum = 0d;
 		if (!lstprop.isEmpty()) {
 			for (Object[] objLst : lstprop) {
 				RegularReportModel obj = new RegularReportModel();
-				/*a.employee_full_name_en,a.pran_no,b.basic_pay,b.dearness_pay,case when a.pay_commission_code =700005 then " + 
-						"b.svn_pc_da else da end as DA, b.dcps_regular,nps_empr_deduct,c.created_date
-*/				
 				obj.setName(StringHelperUtils.isNullString(objLst[0]));
 				obj.setPran(StringHelperUtils.isNullString(objLst[1]));
-				obj.setBasicpay(StringHelperUtils.isNullDouble(objLst[2]));
-				obj.setDp(StringHelperUtils.isNullDouble(objLst[3]));
-				obj.setSvnpcda(StringHelperUtils.isNullDouble(objLst[4]));
-				obj.setDcpsReg(StringHelperUtils.isNullDouble(objLst[5]));
-				obj.setNpsEmployerDedu(StringHelperUtils.isNullDouble(objLst[6]));
-				
+
+				if (objLst[2] instanceof BigInteger) {
+					obj.setBasicpay(StringHelperUtils.isNullBigInteger(objLst[2]).doubleValue());
+				} else {
+					obj.setBasicpay(StringHelperUtils.isNullDouble(objLst[2]));
+				}
+
+				if (objLst[3] != null) {
+					obj.setDp(StringHelperUtils.isNullDouble(objLst[3]));
+				} else {
+					obj.setDp(0d);
+				}
+				if (objLst[4] != null) {
+					if (objLst[4] instanceof BigInteger) {
+						obj.setSvnpcda(StringHelperUtils.isNullBigInteger(objLst[4]).doubleValue());
+					} else {
+						obj.setSvnpcda(StringHelperUtils.isNullDouble(objLst[4]));
+					}
+
+				} else {
+					obj.setSvnpcda(0d);
+				}
+				if (objLst[5] != null) {
+					if (objLst[5] instanceof Integer) {
+						obj.setDcpsReg((double) StringHelperUtils.isNullInt(objLst[5]));
+					} else {
+						obj.setDcpsReg(StringHelperUtils.isNullDouble(objLst[5]));
+					}
+				} else {
+					obj.setDcpsReg(0d);
+				}
+
+				if (objLst[6] != null) {
+					if (objLst[6] instanceof BigInteger) {
+						obj.setNpsEmployerDedu(StringHelperUtils.isNullBigInteger(objLst[6]).doubleValue());
+					}else if (objLst[6] instanceof Integer) {
+						obj.setNpsEmployerDedu((double)StringHelperUtils.isNullInt(objLst[6]));
+					}else {
+						obj.setNpsEmployerDedu(StringHelperUtils.isNullDouble(objLst[6]));
+					}
+				} else {
+					obj.setNpsEmployerDedu(0d);
+				}
+
 				lstObj.add(obj);
 			}
 		}
 		return lstObj;
-	
+
 	}
 
 	@Override
@@ -70,7 +106,7 @@ public class RegularReportServiceImpl implements RegularReportService{
 	@Override
 	public List<Object[]> findpaybill(Long billNumber, int monthName, int yearName, String ddo) {
 		// TODO Auto-generated method stub
-		return regularReportRepo.findpaybill(billNumber,monthName,yearName,ddo);
+		return regularReportRepo.findpaybill(billNumber, monthName, yearName, ddo);
 	}
 
 	@Override
@@ -82,7 +118,7 @@ public class RegularReportServiceImpl implements RegularReportService{
 	@Override
 	public List<Object[]> checktheEntryForForm2Regular(int billNumber, int monthName, int yearName, String userName) {
 		// TODO Auto-generated method stub
-		return regularReportRepo.checktheEntryForForm2Regular(billNumber,monthName,yearName,userName);
+		return regularReportRepo.checktheEntryForForm2Regular(billNumber, monthName, yearName, userName);
 	}
 
 	@Override

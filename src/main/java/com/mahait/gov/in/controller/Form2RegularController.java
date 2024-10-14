@@ -11,10 +11,12 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -55,20 +57,6 @@ public class Form2RegularController  extends BaseController{
 		addMenuAndSubMenu(model,messages);
 		return "/views/form2-report";
 	}
-	/*@RequestMapping(value = "/form2Regular", method = { RequestMethod.GET , RequestMethod.POST})
-	public String form2Regular(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel,
-			Model model, Locale locale, HttpSession session) {
-		
-		String message = (String) model.asMap().get("message");
-		
-		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES"); 
-		model.addAttribute("lstMonths", commonHomeMethodsService.lstGetAllMonths());
-		model.addAttribute("lstYears", commonHomeMethodsService.lstGetAllYears());
-		model.addAttribute("lstBillDesc", regularReportService.lstBillDesc(messages.getDdoCode()));
-		addMenuAndSubMenu(model,messages);
-		return "/views/form2-regular";
-	}
-	*/
 	@RequestMapping("/form2RegularReport")
 	public String form2RegularReport(@ModelAttribute("regularReportModel") RegularReportModel regularReportModel, Model model, Locale locale,
 			HttpSession session) {
@@ -95,7 +83,7 @@ public class Form2RegularController  extends BaseController{
 		
 		List<Object[]>  yearinfo = commonHomeMethodsService.findyearinfo(BigInteger.valueOf(year));
 		for (Object[] yearLst : yearinfo) {
-			curryear = yearLst[9].toString();
+			curryear = yearLst[4].toString();
 			currFinancialYr = yearLst[3].toString();
 			
 		}
@@ -121,17 +109,19 @@ public class Form2RegularController  extends BaseController{
 			
 		}
 		
-
+		String totalContrinword = null;
 		
 		List<RegularReportModel> entryinfo = regularReportService.findDCPSRegularEmpLst(regularReportModel.getYearId(),regularReportModel.getMonthId(),regularReportModel.getBillGroup(),
 				messages.getDdoCode(),regularReportModel.getAllowdedCode());
         BigInteger bigInteger = BigInteger.valueOf(regularReportModel.getMonthId());
         
+        if(entryinfo!=null || entryinfo.size()>0) {
+        	double dcpsReg = entryinfo.stream().mapToDouble(RegularReportModel::getDcpsReg).sum();
+            double npsEmprdeduc = entryinfo.stream().mapToDouble(RegularReportModel::getNpsEmployerDedu).sum();
+            double totalSum = dcpsReg + npsEmprdeduc;
+            totalContrinword=CashWordConverter.doubleConvert(totalSum);
+        }
         
-        double dcpsReg = entryinfo.stream().mapToDouble(RegularReportModel::getDcpsReg).sum();
-        double npsEmprdeduc = entryinfo.stream().mapToDouble(RegularReportModel::getNpsEmployerDedu).sum();
-        double totalSum = dcpsReg + npsEmprdeduc;
-        String totalContrinword=CashWordConverter.doubleConvert(totalSum);
         
         
 		String monname="";
@@ -235,5 +225,19 @@ public class Form2RegularController  extends BaseController{
 		return "/views/reports/form2-regular-report";
 	}
 	
+	
+	
+	@GetMapping(value = "/checktheEntryForForm2Regular/{billNumber}/{monthName}/{yearName}/{allowdedCode}")
+	public ResponseEntity<Integer> checktheEntryForForm2Regular(@PathVariable Long billNumber, @PathVariable Integer monthName,
+			@PathVariable Integer yearName,@PathVariable Long allowdedCode,HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		List<RegularReportModel> entryinfo = regularReportService.findDCPSRegularEmpLst(yearName,monthName,billNumber,
+				messages.getDdoCode(),allowdedCode);
+		
+		return ResponseEntity.ok(entryinfo.size());
+	
+	}
+
 
 }

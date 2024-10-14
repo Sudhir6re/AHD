@@ -2,7 +2,6 @@ package com.mahait.gov.in.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,8 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -141,6 +139,9 @@ public class OrgUserMst implements Serializable {
     
     
     
+  
+  
+    
 
     @OneToMany(mappedBy = "orgUserMst",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrgUserpostRlt> orgUserpostRlts;
@@ -172,6 +173,16 @@ public class OrgUserMst implements Serializable {
     private Set<OrgEmpMst> orgEmpMstsForUpdatedBy;
 */
 	
+
+    @Transient
+  	private Long locId;
+    
+    
+    @Transient
+  	private Long postId;
+    
+ 
+    
 
     
 }

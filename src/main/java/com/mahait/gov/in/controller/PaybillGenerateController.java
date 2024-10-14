@@ -123,7 +123,12 @@ public class PaybillGenerateController  extends BaseController {
 			/*if (paybillHeadMpgModel.getBillTypeId() == 3) { // 1-->Regular,2-->Supplimentory
 				afterSaveId = paybillHeadMpgService.saveSupPaybillHeadMpg(paybillHeadMpgModel);
 			} else { // regular
-*/				afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
+			
+			
+                 			
+*/				//afterSaveId = paybillHeadMpgService.savePaybillHeadMpg(paybillHeadMpgModel);
+                afterSaveId = paybillHeadMpgService.generatePayBill(paybillHeadMpgModel);
+
 			///}
 /* * else if(paybillHeadMpgModel.getBillTypeId()==3){ // suspension bill
 				 * afterSaveId =
@@ -188,10 +193,7 @@ public class PaybillGenerateController  extends BaseController {
 	public ResponseEntity<String> PaybillValidation(@PathVariable BigInteger billNumber, @PathVariable int monthName,
 			@PathVariable int yearName, HttpSession session) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-
-		String split[] = messages.getUserName().split("_");
-		String ddoCode = split[0];
-		List<Object[]> paybillgen = paybillHeadMpgService.findpaybill(billNumber, monthName, yearName, ddoCode);
+		List<Object[]> paybillgen = paybillHeadMpgService.findpaybill(billNumber, monthName, yearName, messages.getDdoCode());
 		Integer existingData = paybillgen.size();
 		String resJson = existingData.toString();
 		return ResponseEntity.ok(resJson);

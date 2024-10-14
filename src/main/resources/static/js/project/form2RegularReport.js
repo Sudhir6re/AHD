@@ -25,12 +25,14 @@
 	*/
 
 
+
+
 	function checkIsPaybillInProcess(billNumber,monthName,yearName) ///CheckPaybill/{billNumber}/{monthName}/{yearName}
 	{
 		flag=0;
 		 $.ajax({
 		      type: "GET",
-		      url: "../ddoast/CheckPaybill/"+billNumber+"/"+monthName +"/"+yearName,
+		      url: "../ddoast/PaybillValidation/"+billNumber+"/"+monthName +"/"+yearName,
 		      async: false,
 		      dataType : 'json',
 		    // contentType:'application/json',
@@ -52,12 +54,12 @@
 		 return flag;
 	}
 	
-	function checktheEntryForForm2Regular(billNumber,monthName,yearName) ///CheckPaybill/{billNumber}/{monthName}/{yearName}
+	function checktheEntryForForm2Regular(billNumber,monthName,yearName,allowdedCode) ///CheckPaybill/{billNumber}/{monthName}/{yearName}
 	{
 		flag=0;
 		 $.ajax({
 		      type: "GET",
-		      url: "../master/checktheEntryForForm2Regular/"+billNumber+"/"+monthName +"/"+yearName,
+		      url: "../ddoast/checktheEntryForForm2Regular/"+billNumber+"/"+monthName +"/"+yearName+"/"+allowdedCode,
 		      async: false,
 		      dataType : 'json',
 		    // contentType:'application/json',
@@ -84,6 +86,7 @@
  	 	 var month = $('#monthId').val();
  	 	 var year = $('#yearId').val(); 
  	 	 var billGroup = $('#billGroup').val(); 
+ 	 	 var allowdedCode = $('#allowdedCode').val(); 
  	 	 
  	 	removeErrorClass($('#monthId'));
  	 	removeErrorClass($('#yearId'));
@@ -116,7 +119,7 @@
  	 			e.preventDefault();
  	 			}else
  	 				{
- 	 				var isdatapresent = checktheEntryForForm2Regular(billGroup,month,year);
+ 	 				var isdatapresent = checktheEntryForForm2Regular(billGroup,month,year,allowdedCode);
  	 	 	 		if(isdatapresent == 0)
  	 	 	 			{
  	 	 	 			swal.fire("Record not found!");

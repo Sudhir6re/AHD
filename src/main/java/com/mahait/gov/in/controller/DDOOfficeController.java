@@ -23,6 +23,7 @@ import com.mahait.gov.in.entity.CmnStateMst;
 import com.mahait.gov.in.entity.CmnTalukaMst;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.InstituteType;
+import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.MstDesnModel;
@@ -56,10 +57,11 @@ public class DDOOfficeController  extends BaseController{
 		List<CmnDistrictMst> lstDistrict=  ddoInfoService.getDistrictlst(15L);
 		List<MstDesnModel> lstdesgination = new ArrayList<>();
 		List<MstBankEntity> bankName = new ArrayList<>();
+		List<MstBankBranchEntity> lstBankBranch = new ArrayList<>();
 		
-		List<CmnLookupMst> dcpsOfficeClassId=commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS);
-		List<CmnLookupMst>ddoOffClass=ddoInfoService.findDDOOffClass(dcpsOfficeClassId.get(0).getLookupId());
-		///model.addAttribute("lstAdvance", commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS));
+		//List<CmnLookupMst> dcpsOfficeClassId=commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS);
+		//List<CmnLookupMst>ddoOffClass=ddoInfoService.findDDOOffClass(dcpsOfficeClassId.get(0).getLookupId());
+		model.addAttribute("ddoOffClass", commonHomeMethodsService.findCommonMstByLookupname(CommonConstants.COMMONMSTTABLE.DCPS_OFFICE_CLASS));
 		List<DdoOffice> lLstSavedOffices = ddoInfoService.getAllOffices(ddoCode);
 		if(lLstSavedOffices!=null) {
 			if(lLstSavedOffices.get(0).getDcpsDdoOfficeDdoFlag()=="Yes") {
@@ -67,6 +69,7 @@ public class DDOOfficeController  extends BaseController{
 			}
 		}
 		bankName = commonHomeMethodsService.findBankName();
+		lstBankBranch = commonHomeMethodsService.findbankBranch();
 		lstdesgination = commonHomeMethodsService.findDesignation(messages.getUserName());
 		String districtID=ddoInfoService.getDistrictId(ddoCode);
 		List<CmnTalukaMst> lstTaluka=  ddoInfoService.getTalukalst();
@@ -83,12 +86,14 @@ public class DDOOfficeController  extends BaseController{
 		if (newRegDDOModel.getBankName() != null) {
 			model.addAttribute("lstAllBankBranchList",
 					commonHomeMethodsService.getBankBranch(newRegDDOModel.getBankName()));
+			System.out.println("testingggg");
 		}
 		List<InstituteType> lstInstituteType = organizationInstInfoService.lstInstType();
 		model.addAttribute("lstState", lstState);
 		model.addAttribute("bankName", bankName);
+		model.addAttribute("lstBankBranch", lstBankBranch);
 		model.addAttribute("newRegDDOModel", newRegDDOModel);
-		model.addAttribute("ddoOffClass", ddoOffClass);
+	//	model.addAttribute("ddoOffClass", ddoOffClass);
 		model.addAttribute("lstDistrict", lstDistrict);
 		model.addAttribute("lstInstituteType", lstInstituteType);
 		model.addAttribute("lstTaluka", lstTaluka);

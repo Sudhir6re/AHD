@@ -122,8 +122,8 @@ public class PayslipReportController extends BaseController {
 		List<Object[]> lstEmp = payslipReportService.getEmployeeData1(payslipReportModel.getSchemeBillgroupId(),
 				payslipReportModel.getPaybillMonth(), payslipReportModel.getPaybillYear(), messages.getDdoCode());
 
-		Integer hraPercent = null;
-		Integer daPercent = null;
+		BigInteger hraPercent = null;
+		BigInteger daPercent = null;
 		allowEdpList.clear();
 		deducAgEdpList.clear();
 		nongovdeducEdpList.clear();
@@ -171,7 +171,9 @@ public class PayslipReportController extends BaseController {
 				}
 				payslipModel.setDdoCode(StringHelperUtils.isNullString(object[11]));
 
-				payslipModel.setGrossTotalAmt(StringHelperUtils.isNullDouble(object[12]));
+				
+				BigInteger gross = (BigInteger)object[12];
+				payslipModel.setGrossTotalAmt(gross.doubleValue());
 				payslipModel.setTotalDeduction(StringHelperUtils.isNullDouble(object[13]));
 				payslipModel.setTotalNetAmt(StringHelperUtils.isNullDouble(object[14]));
 
@@ -182,14 +184,14 @@ public class PayslipReportController extends BaseController {
 
 				payslipModel.setBillGroupName(StringHelperUtils.isNullString(object[16]));
 				payslipModel.setDor(StringHelperUtils.isNullDate(object[17]));
-				payslipModel.setHraPercent(StringHelperUtils.isNullInt(object[18]));
+				/*payslipModel.setHraPercent(StringHelperUtils.isNullInt(object[18]));*/
 				/// hraPercent = (Integer) object[20];
-				payslipModel.setDaPercent(StringHelperUtils.isNullInt(object[19]));
+			///	payslipModel.setDaPercent(StringHelperUtils.isNullInt(object[18]));
 				//// daPercent = StringHelperUtils.isNullInt(object[21]);
-				if (object[20] != null) {
-					BigInteger sevenPcLvl = (BigInteger) object[20];
+				if (object[18] != null) {
+					BigInteger sevenPcLvl = (BigInteger) object[18];
 					payslipModel.setSevenPcLvl(sevenPcLvl.longValue());
-					payslipModel.setLvl("S_" + object[20]);
+					payslipModel.setLvl("S_" + object[18]);
 				}
 
 				if (payCommissionCode.equals(700005)) {
@@ -202,10 +204,11 @@ public class PayslipReportController extends BaseController {
 				 * BigDecimal basic = (BigDecimal) object[21]; Double basicPay =
 				 * basic.doubleValue();
 				 */
-				payslipModel.setBasic(StringHelperUtils.isNullDouble(object[21]));
-				payslipModel.setVoucherNo(StringHelperUtils.isNullString(object[22]));
-				payslipModel.setVoucherDate(StringHelperUtils.isNullDate(object[23]));
-				BigInteger billNo = (BigInteger) object[24];
+				BigInteger basic = (BigInteger) object[19];
+				payslipModel.setBasic(basic.doubleValue());
+				payslipModel.setVoucherNo(StringHelperUtils.isNullString(object[20]));
+				payslipModel.setVoucherDate(StringHelperUtils.isNullDate(object[21]));
+				BigInteger billNo = (BigInteger) object[22];
 				payslipModel.setBillNo(billNo.longValue());
 				ltsPayslipModel.add(payslipModel);
 			}
@@ -218,8 +221,8 @@ public class PayslipReportController extends BaseController {
 		for (Object[] objects : lstEmp) {
 			savaarthid = objects[0].toString();
 			payCommCode = (BigInteger) objects[7];
-			daPercent = (Integer) (objects[19]);
-			hraPercent = (Integer) (objects[18]);
+			daPercent = (BigInteger) (objects[19]);
+			hraPercent = (BigInteger) (objects[18]);
 
 			allEdpList = payslipReportService.getAllDataForinnernew(savaarthid);
 			lstempdetails1 = payslipReportService.getempDetails(payslipReportModel.getSchemeBillgroupId(),
@@ -344,24 +347,24 @@ public class PayslipReportController extends BaseController {
 			Double algrosstotalSum = 0d;
 
 			Map<String, Object> map2 = (Map<String, Object>) iteratorgrosstotal.next();
-			algrosstotal.add(map2.get("gross_total_amt").toString());
-			algrosstotalSum += Double.parseDouble(map2.get("gross_total_amt").toString());
+			algrosstotal.add(map2.get("gross_amt").toString());
+			algrosstotalSum += Double.parseDouble(map2.get("gross_amt").toString());
 
 			alnetamt = new ArrayList<>();
 			Iterator iteratornetamt = lstempdetails1.iterator();
 			Double alnetamtSum = 0d;
 
 			Map<String, Object> map3 = (Map<String, Object>) iteratornetamt.next();
-			alnetamt.add(map3.get("total_net_amt").toString());
-			alnetamtSum += Double.parseDouble(map3.get("total_net_amt").toString());
+			alnetamt.add(map3.get("payslip_net").toString());
+			alnetamtSum += Double.parseDouble(map3.get("payslip_net").toString());
 
 			dedtotal = new ArrayList<>();
 			Iterator iteratordedtotal = lstempdetails1.iterator();
 			Double dedtotalSum = 0d;
 
 			Map<String, Object> map4 = (Map<String, Object>) iteratordedtotal.next();
-			dedtotal.add(map4.get("total_deduction").toString());
-			dedtotalSum += Double.parseDouble(map4.get("total_deduction").toString());
+			dedtotal.add(map4.get("payslip_total_deduction").toString());
+			dedtotalSum += Double.parseDouble(map4.get("payslip_total_deduction").toString());
 
 			String SalaryInWords = PayslipReportController.convertToIndianCurrency(alnetamtSum.toString());
 

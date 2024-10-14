@@ -24,7 +24,7 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.UpdateDOBService;
 
 @Controller
-@RequestMapping("/ddoast")
+@RequestMapping("/mdc")
 public class UpdateDOBController  extends BaseController {
 	
 	
@@ -44,11 +44,11 @@ public class UpdateDOBController  extends BaseController {
 		
 		
 		//model.addAttribute("", getDesignation())
-    	emplist = updateDOBService.findAllEmployee(messages.getUserName());
+    	emplist = updateDOBService.findAllEmployee(messages.getDdoCode());
     	updateDOBModel.setEmplist(emplist);
 	
 		
-				
+    	addMenuAndSubMenu(model,messages);		
 		model.addAttribute("updateDOBModel", updateDOBModel);
 		model.addAttribute("message", message);
 		

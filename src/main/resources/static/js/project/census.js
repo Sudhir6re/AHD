@@ -1,6 +1,6 @@
 $(document).ready(function(){
 		  				 // alert("DDO CODE is "+departmentId);
-	            var countryId=1;
+	            /*var countryId=1;
 		  			    	 if (countryId != '') 
 		  			    	 {
 		  			    		 $.ajax({
@@ -34,7 +34,7 @@ $(document).ready(function(){
 		 						    		  }
 		  						    	}
 		  						 });	
-		  			    	 }
+		  			    	 }*/
 		  			    		
 	     
 	     
@@ -126,19 +126,34 @@ $(document).ready(function(){
 		  			    		
 		  			});
 	     
-	     
-	     $("#fName").keyup(function(){
+	
+	    	 
+	    	 $("#fName, #mName, #lName").keyup(function(){
 	    	  var fname=$("#fName").val();
 	    	  var mname=$("#mName").val();
 	    	  var lname=$("#lName").val();
 //	    	  $("#fName").val().toUpperCase()
 	    	  
-	    	  $("#fullName").val("");
-	    	  $("#fullName").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
-	    	  $("#fullNameInDevnagri").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
+	    	  
+	    	  
+	    	  setTimeout(() => {
+			    	 var fNamemr = $('#fNamemr').val();
+			           var mNamemr = $('#mNamemr').val();
+			           var lNamemr = $('#lNamemr').val();
+			           if (fNamemr || mNamemr || lNamemr) {
+			               $('#fullNameInDevnagri').val(fNamemr + ' ' + mNamemr+' '+lNamemr)
+			           } 
+			           $("#fullName").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
+			    	}, 2000); 
+	    	  
+	    	  
+	    	  
+	    	  
+	    	  
+	    	//  $("#fullNameInDevnagri").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
 	    	  });
 	   
-	     
+	     /*
 	     $("#mName").keyup(function()	 {
 
 	    	  var fname=$("#fName").val();
@@ -149,7 +164,15 @@ $(document).ready(function(){
 	    	  
 	    	  $("#fullName").val("");
 	    	  $("#fullName").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
-	    	  $("#fullNameInDevnagri").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
+	    	
+	    	   var fNamemr = $('#fNamemr').val();
+	           var mNamemr = $('#mNamemr').val();
+	           var lNamemr = $('#lNamemr').val();
+	           if (fNamemr || mNamemr || lNamemr) {
+	               $('#fullNameInDevnagri').val(fNamemr + ' ' + mNamemr+''+lNamemr)
+	           } 
+	    	  
+	    	  //$("#fullNameInDevnagri").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
 	    	    
 	    	    
 	    	  })
@@ -163,10 +186,17 @@ $(document).ready(function(){
 	    	  
 	    	  $("#fullName").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
 	    	  
-	    	  $("#fullNameInDevnagri").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
+	    	   var fNamemr = $('#fNamemr').val();
+	           var mNamemr = $('#mNamemr').val();
+	           var lNamemr = $('#lNamemr').val();
+	           if (fNamemr || mNamemr || lNamemr) {
+	               $('#fullNameInDevnagri').val(fNamemr + ' ' + mNamemr+''+lNamemr)
+	           } 
+	    	  
+	    	//  $("#fullNameInDevnagri").val(fname.toUpperCase()+" "+mname.toUpperCase()+" "+lname.toUpperCase());
 	    	  });
 	     
-	     
+*/	     
 	     
 	     $("#bankId").change(function() 
 	    		 {

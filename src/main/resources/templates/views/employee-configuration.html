@@ -16,6 +16,8 @@
 </script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script src="https://gisttrans.maharashtra.gov.in/Transliteration/js/CDAC-Typing.min.js" type="text/javascript"></script>
 <!-- <input class="phone_us" maxlength="12"> -->
 <style type="text/css">
 input[type="Date"] {
@@ -103,9 +105,13 @@ input#uid1, input#uid2, input#uid3 {
 					id="uidNo" th:field="*{uidNo}" class="form-control" /> <input
 					type="hidden" name="ddoCode" id="ddoCode" th:field="*{ddoCode}"
 					class="form-control" /> <input type="hidden" name="employeeId"
-					id="employeeId" th:field="*{employeeId}" class="form-control" /> <input
+					id="employeeId" th:field="*{employeeId}" class="form-control" />
+					 <input
 					type="hidden" name="action" id="action" th:field="*{action}"
-					class="form-control" /> <input type="hidden" name="isActive"
+					class="form-control" />
+					
+					
+					 <input type="hidden" name="isActive"
 					id="isActive" th:field="*{isActive}" /> <input type="hidden"
 					name="language" id="language" th:value="${language}" /> <input
 					type="hidden" name="message" id="message" th:value="${message}" />
@@ -269,9 +275,12 @@ input#uid1, input#uid2, input#uid3 {
 						type="button" class="btn btn-primary rejectbtnn"
 						th:value="#{msg.thymeleaf.pagelabel.back}"
 						th:onclick="'backlvlEmpDtls();'" />
-					</span> <input type="button" id="btnSave" class="btn btn-primary"
-						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}"
-						th:onclick="'saveAsDraft();'" /> <input type="reset"
+					</span>
+					
+					 <input type="button" id="btnSaveAsdraft" class="btn btn-primary btnSaveAsDraft" 
+						th:value="#{msg.thymeleaf.pagelabel.saveAsDraft}" />
+						
+						 <input type="reset"
 						id="btnReset" class="btn btn-primary"
 						th:value="#{msg.thymeleaf.pagelabel.btnReset}" /> <a
 						th:href="@{/user/home}" class="btn"><span
@@ -294,6 +303,12 @@ input#uid1, input#uid2, input#uid3 {
 	<script th:src="@{/js/project/employee-configuration.js}"></script>
 	<script th:src="@{/js/project/census.js}"></script>
 	<script th:src="@{/js/validated.js}"></script>
+	<script th:src="@{/js/pramukhlib.js}"></script>
+	<script>
+		var pph = new PramukhPhoneticHandler();
+		pph.convertToIndicIME("fullNameInDevnagri", document
+				.getElementById('txtNameInDevanagari'), 'devanagari');
+	</script>
 
 	<script>
 		$(document).ready(function() {

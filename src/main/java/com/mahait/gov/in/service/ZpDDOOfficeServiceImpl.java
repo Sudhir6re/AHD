@@ -61,24 +61,18 @@ public class ZpDDOOfficeServiceImpl implements ZpDDOOfficeService {
 
 	@Override
 	public OrgUserMst approveddoDtls(String zpDdoCode, int flag) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub`
 	
 
 
 		OrgUserMst objOrgUserMst = zpDDOOfficeRepo
 				.findddo(zpDdoCode);
+		
 		ZpRltDdoMap zpRltDdoMap = zpDDOOfficeRepo
 				.findddoinZPRlt(zpDdoCode);
 		if (objOrgUserMst != null) {
-			
-			if(flag==1) {
 				objOrgUserMst.setActivateFlag(1L); 
-			}else {
-				objOrgUserMst.setActivateFlag(0L); 	
-			}
-
 			zpDDOOfficeRepo.updateApproveStatus(objOrgUserMst);
-			//Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
 		}if(zpRltDdoMap!=null) {
 			if(flag==1) {
 				zpRltDdoMap.setStatus(1L);
