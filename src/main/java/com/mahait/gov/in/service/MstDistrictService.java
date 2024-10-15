@@ -1,15 +1,19 @@
 package com.mahait.gov.in.service;
 
-public interface MstDistrictService {/*
+import java.util.List;
+
+import com.mahait.gov.in.entity.CmnDistrictMst;
+
+public interface MstDistrictService {
 	
-	public List<MstDistrictEntity> findAllDistrict();
+	public List<CmnDistrictMst> findAllDistrict();
 	
-	public MstDistrictEntity saveDistrict(MstDistrictEntity mstDistrictEntity);
+	public CmnDistrictMst saveDistrict(CmnDistrictMst mstDistrictEntity);
 	
 	//added for state list
 	
-	public List<MstStateModel> fetchStateByCountry(int countryId);
+	//public List<MstStateModel> fetchStateByCountry(int countryId);
 
 	public List<Long> validateDistrictname(String districtname);
 	
-*/}
+}

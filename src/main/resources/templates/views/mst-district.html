@@ -42,7 +42,7 @@ select.error, textarea.error, input.error {
 		
 <!-- 		<h1 th:utext="#{common.label.title}"></h1> -->
 		
-		<form class="form-horizontal" th:action="@{/admin/master/saveDistrictMst}"
+		<form class="form-horizontal" th:action="@{/mdc/saveDistrictMst}"
 			th:object="${mstDistrictEntity}" method="POST" name="mstDistrict" enctype="multipart/form-data">
 			
 			<input type="hidden" name="language" id="language" th:value="${language}"/>
@@ -52,7 +52,7 @@ select.error, textarea.error, input.error {
 					<label class="control-label col-sm-2" for="title"
 						th:utext="#{msg.thymeleaf.pageheading.addcountry}"></label>
 					<div class="col-sm-3">
-						<select class="form-control"  id="countryId" th:field = "*{countryCode}">
+						<select class="form-control"  id="countryId" >
 							
 								<option value="1">India</option>
 						</select>
@@ -64,9 +64,10 @@ select.error, textarea.error, input.error {
 					<label class="control-label col-sm-2" for="title"
 						th:utext="#{msg.thymeleaf.pagelabel.state}"></label>
 					<div class="col-sm-3">
-						<select class="form-control" id="state" th:field = "*{stateCode}">
+						<select class="form-control" id="state" th:field = "*{stateId}">
 							<option selected="selected" th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+								<option value="15">Maharashtra</option>
 							
 						</select>
 					</div>
@@ -75,11 +76,7 @@ select.error, textarea.error, input.error {
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="title" ><span th:utext="#{msg.thymeleaf.pagelabel.DistrictnameEn}"></span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control alphacharspace checkFirstChar"  id ="districtNameEn"  onblur="validateDistrictName1(this);" th:field="*{districtNameEn}" style="text-transform: uppercase"></input>
-				</div>
-				<label class="control-label col-sm-2" for="title" ><span th:utext="#{msg.thymeleaf.pagelabel.DistrictnameMr}"></span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control "  id ="districtNameMr" th:field="*{districtNameMr}" ></input>
+					<input type="text" class="form-control alphacharspace checkFirstChar"  id ="districtNameEn"  onblur="validateDistrictName1(this);" th:field="*{districtName}" style="text-transform: uppercase"></input>
 				</div>
 				
 			</div>
@@ -113,8 +110,8 @@ select.error, textarea.error, input.error {
 							<th th:utext="#{msg.thymeleaf.datatablelabel.countrycode}"></th> -->
 							<th
 								th:utext="#{msg.thymeleaf.datatablelabel.DistrictnameEn}"></th>
-							<th
-								th:utext="#{msg.thymeleaf.datatablelabel.DistrictnameMr}"></th>
+							<!-- <th
+								th:utext="#{msg.thymeleaf.datatablelabel.DistrictnameMr}"></th> -->
 								<!-- <th
 								th:utext="#{msg.thymeleaf.datatablelabel.statenameEn}"></th>
 							<th
@@ -134,18 +131,18 @@ select.error, textarea.error, input.error {
 							<!-- <td th:text="${VarDistrict.DistrictCode}"></td>
 							<td th:text="${VarDistrict.stateCode}"></td>
 							<td th:text="${VarDistrict.countryCode}"></td> -->
-							<td th:text="${VarDistrict.DistrictNameEn}"></td>
-							<td th:text="${VarDistrict.DistrictNameMr}"></td>
+							<td th:text="${VarDistrict.districtName}"></td>
+							<!-- <td th:text="${VarDistrict.DistrictNameMr}"></td> -->
 							
 							<!--  <td th:text="${VarDistrict.stateNameEn}"></td>
 							<td th:text="${VarDistrict.stateNameMr}"></td>
 							<td th:text="${VarDistrict.countryNameEn}"></td>
 							<td th:text="${VarDistrict.countryNameMr}"></td>  -->
 							
-							<td class="text-center"><span th:if="${VarDistrict.isActive} == '1'"> <span
+							<td class="text-center"><span th:if="${VarDistrict.activateFlag} == '1'"> <span
 									class="label label-success"
 									th:utext="#{msg.thymeleaf.status.active}"></span>
-							</span> <span th:if="${VarDistrict.isActive} =='0'"> <span
+							</span> <span th:if="${VarDistrict.activateFlag} =='0'"> <span
 									class="label label-danger"
 									th:utext="#{msg.thymeleaf.status.inactive}"></span>
 							</span></td>
