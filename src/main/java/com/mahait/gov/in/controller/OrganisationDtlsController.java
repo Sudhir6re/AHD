@@ -88,8 +88,22 @@ public class OrganisationDtlsController   extends BaseController {
 			modelAndView.addObject("lsttaluka", response1.get("talukaList"));
 			modelAndView.addObject("lstcity", response1.get("cityList"));
 		}
+		
+		
+		
 		modelAndView.setViewName("/views/org-detail-com-info");
+		
+		
+		
+		if(organisationDtlsModel.getCityClass()==null  && organisationDtlsModel.getCity()!=null) {
+			organisationDtlsModel.setCityClass(organisationDtlsModel.getCity());
+		}
+		
+		
 		modelAndView.addObject("organisationDtlsModel", organisationDtlsModel);
+		
+		
+		
 		modelAndView.addObject("language", locale.getLanguage());
 		model.addAttribute("bankName", bankName);
 		model.addAttribute("lstInstituteType", lstInstituteType);
