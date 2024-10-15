@@ -149,8 +149,31 @@ public class TopicController extends BaseController {
 		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
 		String sessionExpMessage = "Session Expired, Please click below link to login again !!!";
 		modelAndView.addObject("sessionExpMessageMsg", sessionExpMessage);
+
+		String url = "";
+
+		switch (messages.getMstRoleEntity().getRoleId()) {
+		case 1:
+			url = "/mdc/home";
+			break;
+		case 2:
+			url = "/ddo/home";
+			break;
+		case 3:
+			url = "/ddoast/home";
+			break;
+		case 4:
+			url = "/user/home";
+			break;
+		case 5:
+			url = "/super/home";
+			break;
+		}
+
+		modelAndView.addObject("url", url);
 		modelAndView.setViewName("error");
 		return modelAndView;
+
 	}
 
 	@RequestMapping("/underConstruction")
@@ -160,6 +183,31 @@ public class TopicController extends BaseController {
 		modelAndView.addObject("underConstructionMsg", underConstMessage);
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
+
+		String url = "";
+		
+		
+		switch (messages.getMstRoleEntity().getRoleId()) {
+		case 1:
+			url = "/mdc/home";
+			break;
+		case 2:
+			url = "/ddo/home";
+			break;
+		case 3:
+			url = "/ddoast/home";
+			break;
+		case 4:
+			url = "/user/home";
+			break;
+		case 5:
+			url = "/super/home";
+			break;
+		}
+
+
+		modelAndView.addObject("url", url);
+
 		modelAndView.setViewName("under-construction");
 		return modelAndView;
 	}
@@ -171,6 +219,30 @@ public class TopicController extends BaseController {
 		modelAndView.addObject("sessionExpMessageMsg", sessionExpMessage);
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
+
+		String url = "";
+
+		switch (messages.getMstRoleEntity().getRoleId()) {
+		case 1:
+			url = "/mdc/home";
+			break;
+		case 2:
+			url = "/ddo/home";
+			break;
+		case 3:
+			url = "/ddoast/home";
+			break;
+		case 4:
+			url = "/user/home";
+			break;
+		case 5:
+			url = "/super/home";
+			break;
+		}
+
+
+		modelAndView.addObject("url", url);
+
 		modelAndView.setViewName("invalid-session");
 		return modelAndView;
 	}

@@ -135,7 +135,14 @@
 							</a>
 							
 							
-								<a th:href="@{/super/home}"  th:if="${levelRoleVal == 5}"
+						    <a th:href="@{/super/home}"  th:if="${levelRoleVal == 5}"
+								id="payrollLink1" class="homemenu1">
+								 <span
+									class="glyphicon glyphicon-home"></span>
+							</a>
+							
+							
+						    <a th:href="@{${url}}"  th:if="${levelRoleVal == null}"
 								id="payrollLink1" class="homemenu1">
 								 <span
 									class="glyphicon glyphicon-home"></span>

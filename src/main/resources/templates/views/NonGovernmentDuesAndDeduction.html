@@ -32,7 +32,7 @@ table#tblNonGovDuesDeduct th:nth-child(2){
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="#"><span
-							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
+							th:utext="#{msg.thymeleaf.pagelabel.payrollBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
 						th:utext="#{msg.thymeleaf.pageheading.nonGovDuesDed}"></span></li>
 				</ol>
@@ -134,7 +134,11 @@ table#tblNonGovDuesDeduct th:nth-child(2){
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<!-- <script th:src="@{/js/project/NonGovDuesAndDeduction.js}"></script> -->
 	<script th:src="@{/js/project/NonComputationalDuesAndDeduction.js}"></script>
-	
+	<script>
+	$(document).ready(function(){ 
+		$("#componentId").select2();
+	})
+	</script>
 
 </body>
 </html>

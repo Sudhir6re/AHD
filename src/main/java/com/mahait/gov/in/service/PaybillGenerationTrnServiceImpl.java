@@ -1220,7 +1220,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				obj.setFa(StringHelperUtils.isNullDouble(objLst[3]));
 				obj.setRecovery(StringHelperUtils.isNullDouble(objLst[4]));
 				obj.setGPF(StringHelperUtils.isNullDouble(objLst[5]));
-				obj.setDcpsreg(StringHelperUtils.isNullDouble(objLst[6]));
+				BigInteger dcpsReg = (BigInteger) objLst[6];
+				obj.setDcpsreg(dcpsReg.doubleValue());
 				obj.setDcpsdel(StringHelperUtils.isNullDouble(objLst[7]));
 				obj.setDcpsPay(StringHelperUtils.isNullDouble(objLst[8]));
 				obj.setDcpsda(StringHelperUtils.isNullDouble(objLst[9]));
@@ -2027,11 +2028,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 										dedByAG += tempVal;
 										break;
 									case 3:
-										if (isNonGovernment == 1) {
-											payslipDeduc += tempVal;
-										}else{
 											dedByTreasury += tempVal;
-										}
 										break;
 									case 4:
 										dedByOthr += tempVal;
