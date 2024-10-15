@@ -1587,7 +1587,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						dedByTreasury += payArr;
 
 						paybillGenerationTrnDetails.setDcpsPay(payArr);
-					//	setFieldValue(paybillGenerationTrnDetails, brokenMethodName, payArr);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, payArr);
 						break;
 
 					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA:
@@ -1597,7 +1597,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						dedByTreasury += dcpsda;
 
 						paybillGenerationTrnDetails.setDcpsDa(dcpsda);
-					//	setFieldValue(paybillGenerationTrnDetails, brokenMethodName, dcpsda);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, dcpsda);
 						break;
 						
 						
@@ -2092,38 +2092,6 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		return val;
 	}
 
-	
-	
-	private void setFieldValue(Object obj, String fieldName, Double value) {
-	    componValueMap.put(fieldName, value.toString());
-
-	    Field field = null;
-
-	    // Iterate through all declared fields to find a match ignoring case
-	    for (Field f : obj.getClass().getDeclaredFields()) {
-	        if (f.getName().equalsIgnoreCase(fieldName)) {
-	            field = f;
-	            break;
-	        }
-	    }
-
-	    if (field != null) {
-	        try {
-	            field.setAccessible(true); // Set accessible once the field is found
-	            
-	            if (field.getType().equals(Double.class)) {
-	                field.set(obj, value);
-	            } else {
-	                field.set(obj, value == null ? 0 : value.intValue());
-	            }
-	        } catch (IllegalAccessException e) {
-	            System.err.println("Unable to set field value for: " + fieldName);
-	        }
-	    } else {
-	        System.err.println("Field not found: " + fieldName);
-	    }
-	}
-/*
 	private void setFieldValue(Object obj, String fieldName, Double value) {
 		
 		componValueMap.put(fieldName, value.toString());
@@ -2151,7 +2119,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}
 		}
 	}
-*/
+
 	@Override
 	public void updateMstDcpsContriVoucherDtlEntity(PaybillGenerationTrnEntity paybillGenerationTrnEntity,String voucherNo, Date vdate) {
 		// TODO Auto-generated method stub
