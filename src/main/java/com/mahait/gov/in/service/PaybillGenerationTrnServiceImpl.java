@@ -2027,11 +2027,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 										dedByAG += tempVal;
 										break;
 									case 3:
-										if (isNonGovernment == 1) {
-											payslipDeduc += tempVal;
-										}else{
 											dedByTreasury += tempVal;
-										}
 										break;
 									case 4:
 										dedByOthr += tempVal;
