@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,10 @@ public class RevenueStampReportServiceImpl implements RevenueStampReportService{
 				/// '('|| emp.sevaarth_id ||')'|| employee_full_name_en ||' ('|| designation_name ||')' as employee,pan_no,gross_total_amt,revenue_stamp 
 				obj.setEmpName(StringHelperUtils.isNullString(objLst[0]));
 				obj.setPanNo(StringHelperUtils.isNullString(objLst[1]));
-				obj.setGross(StringHelperUtils.isNullDouble(objLst[2]));
-				obj.setRevenueStamp(StringHelperUtils.isNullDouble(objLst[3]));
+				BigInteger gross = (BigInteger)objLst[2];
+				obj.setGross(gross.doubleValue());
+				BigInteger revenueStamp = (BigInteger)objLst[3];
+				obj.setRevenueStamp(revenueStamp.doubleValue());
 				
 				lstObj.add(obj);
 			}
