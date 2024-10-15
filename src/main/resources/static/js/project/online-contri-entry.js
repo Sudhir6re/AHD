@@ -1,4 +1,5 @@
-var contextPath = $(document).ready(function() {
+var contextPath = "";
+	$(document).ready(function() {
 	contextPath = $("#appRootPath").val();
 	if ($('#cmbSchemeName').length) {
 		$('#cmbSchemeName').select2();
@@ -38,8 +39,14 @@ $('#save')
 		.click(
 				function(e) {
 					e.preventDefault(); // Prevent the default form submission
-					$("#onlineEntryForm").attr("action",
-							contextPath + "/ddoast/saveOnlineContriEntry");
+					var roleId=$("#levelRoleVal").val();
+				
+					if(roleId=="2"){
+						$("#onlineEntryForm").attr("action",contextPath + "/ddo/saveOnlineContriEntry");
+					}else{
+						$("#onlineEntryForm").attr("action",contextPath + "/ddoast/saveOnlineContriEntry");
+					}
+					
 					// Clear previous error messages
 					$('.error').remove();
 

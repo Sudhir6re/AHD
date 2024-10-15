@@ -11,12 +11,10 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-
-
 @Data
 @Entity
 @Table(name = "PAYBILL_GENERATION_TRN_DETAILS", schema = "public")
-public class PaybillGenerationTrnDetails  {
+public class PaybillGenerationTrnDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -139,8 +137,10 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "DP_GAZZETED")
 	private Double dpGazzeted;
 
-	/*@Column(name = "PAYBILL_GRP_ID",columnDefinition = "double default 0.0")
-	private Long paybillGrpId;*/
+	/*
+	 * @Column(name = "PAYBILL_GRP_ID",columnDefinition = "double default 0.0")
+	 * private Long paybillGrpId;
+	 */
 
 	@Column(name = "GPF_IV_ADV")
 	private Double gpfIvAdv;
@@ -175,7 +175,7 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "OTHER_TRN_CNTR")
 	private Double otherTrnCntr;
 
-	@Column(name = "GPAY",columnDefinition = "double default 0.0")
+	@Column(name = "GPAY", columnDefinition = "double default 0.0")
 	private Double gpay;
 
 	@Column(name = "TECH_ALLOW")
@@ -571,155 +571,153 @@ public class PaybillGenerationTrnDetails  {
 	@Column(name = "BASIC_ARR")
 	private Double basicArr;
 
-	@Column(name = "DA_ON_TA",columnDefinition = "double default 0.0")
+	@Column(name = "DA_ON_TA", columnDefinition = "double default 0.0")
 	private Double daOnTa;
 
-	@Column(name = "SCALE_ID",columnDefinition = "double default 0.0")
+	@Column(name = "SCALE_ID", columnDefinition = "double default 0.0")
 	private Long scaleId;
 
-	@Column(name = "TRANS_ARREAR",columnDefinition = "double default 0.0")
+	@Column(name = "TRANS_ARREAR", columnDefinition = "double default 0.0")
 	private Double transArrear;
 
-	@Column(name = "OVERTIME_ALLOW",columnDefinition = "double default 0.0")
+	@Column(name = "OVERTIME_ALLOW", columnDefinition = "double default 0.0")
 	private Double overtimeAllow;
 
-	@Column(name = "CPF_CONTRIBUTION",columnDefinition = "double default 0.0")
+	@Column(name = "CPF_CONTRIBUTION", columnDefinition = "double default 0.0")
 	private Double cpfContribution;
 
-	@Column(name = "CPF_EMPLOYEE",columnDefinition = "double default 0.0")
+	@Column(name = "CPF_EMPLOYEE", columnDefinition = "double default 0.0")
 	private Double cpfEmployee;
 
-	@Column(name = "CPF_EMPLOYER",columnDefinition = "double default 0.0")
+	@Column(name = "CPF_EMPLOYER", columnDefinition = "double default 0.0")
 	private Double cpfEmployer;
 
-	@Column(name = "ACC_POLICY",columnDefinition = "double default 0.0")
+	@Column(name = "ACC_POLICY", columnDefinition = "double default 0.0")
 	private Double accPolicy;
 
-	@Column(name = "SVNPC_DA",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_DA", columnDefinition = "double default 0.0")
 	private Double svnpcDa;
 
-	@Column(name = "GROSS_NEW",columnDefinition = "double default 0.0")
+	@Column(name = "GROSS_NEW", columnDefinition = "double default 0.0")
 	private Double grossNew;
 
-	@Column(name = "TOTAL_DED_NEW",columnDefinition = "double default 0.0")
+	@Column(name = "TOTAL_DED_NEW", columnDefinition = "double default 0.0")
 	private Double totalDedNew;
 
-	@Column(name = "GROSS_SAL",columnDefinition = "double default 0.0")
+	@Column(name = "GROSS_SAL", columnDefinition = "double default 0.0")
 	private Double grossSal;
 
-	@Column(name = "SVNPC_TA",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_TA", columnDefinition = "double default 0.0")
 	private Double svnpcTa;
 
-	@Column(name = "SVNPC_GPF_ARR",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_GPF_ARR", columnDefinition = "double default 0.0")
 	private Double svnpcGpfArr;
 
-	@Column(name = "SVNPC_DCPS_ARR",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_DCPS_ARR", columnDefinition = "double default 0.0")
 	private Double svnpcDcpsArr;
 
-	@Column(name = "SVNPC_TA_ARR",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_TA_ARR", columnDefinition = "double default 0.0")
 	private Double svnpcTaArr;
 
-	@Column(name = "SVNPC_GPF_ARR_DEDU",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_GPF_ARR_DEDU", columnDefinition = "double default 0.0")
 	private Double svnpcGpfArrDedu;
 
-	@Column(name = "SVNPC_GPF_RECO",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_GPF_RECO", columnDefinition = "double default 0.0")
 	private Double svnpcGpfReco;
 
-	@Column(name = "SVNPC_DCPS_RECO",columnDefinition = "double default 0.0")
+	@Column(name = "SVNPC_DCPS_RECO", columnDefinition = "double default 0.0")
 	private Double svnpcDcpsReco;
 
-	@Column(name = "NPS_EMPLR",columnDefinition = "double default 0.0")
+	@Column(name = "NPS_EMPLR", columnDefinition = "double default 0.0")
 	private Double npsEmplr;
 
-	@Column(name = "NPS_EMPLR_CONTRI_DED",columnDefinition = "double default 0.0")
+	@Column(name = "NPS_EMPLR_CONTRI_DED", columnDefinition = "double default 0.0")
 	private Double npsEmplrContriDed;
 
-	@Column(name = "REVENUE_STAMP",columnDefinition = "double default 0.0")
+	@Column(name = "REVENUE_STAMP", columnDefinition = "double default 0.0")
 	private Double revenueStamp;
-	
+
 	@Column(name = "desg_code")
 	private Long desgCode;
-	
+
 	@Column(name = "sevaarth_id")
 	private String sevaarthId;
-	
+
 	@Column(name = "bank_account_no")
 	private String bankAccNo;
-	
+
 	@Column(name = "bank_id")
 	private Long bankId;
-	
+
 	@Column(name = "bank_branch_id")
 	private Long bankBranchId;
-	
+
 	@Column(name = "basic_pay")
 	private Double basicPay;
-	
+
 	@Column(name = "pay_commission_code")
 	private Long payCommissionCode;
-	
+
 	@Column(name = "seven_pc_lvl")
 	private Long SevenPcLevel;
-	
+
 	@Column(name = "pay_band")
 	private Long payBand;
-	
+
 	@Column(name = "deduc_adj_ag")
 	private Double dedAdjAg;
-	
+
 	@Column(name = "DEDUCT_ADJ_OTR")
 	private Double dedAdjOtr;
-	
+
 	@Column(name = "lic")
 	private Double lic;
-	
+
 	@Column(name = "COP_Bank")
 	private Double copBank;
-	
+
 	@Column(name = "Recurring_deposite")
 	private Double reccDeposit;
-	
+
 	@Column(name = "credit_soc")
 	private Double creditSoc;
-	
+
 	@Column(name = "payslip_deduction")
 	private Double payslipDeduc;
-	
+
 	@Column(name = "payslip_net")
 	private Double payslipNet;
-	
+
 	@Column(name = "payslip_total_deduction")
 	private Double paysliptotalDeduc;
 
-    // Non-govrrn
- 	
+	// Non-govrrn
+
 	@Column(name = "con_store")
 	private Double conStore;
-	
-		@Column(name = "mantralaya_bank")
+
+	@Column(name = "mantralaya_bank")
 	private Double mantralayaBank;
-	
+
 	@Column(name = "mis")
 	private Double mis;
-	
-		@Column(name = "mrt_cop_soc")
+
+	@Column(name = "mrt_cop_soc")
 	private Double mrtcopSoc;
-	
-		@Column(name = "other_Deduc")
+
+	@Column(name = "other_Deduc")
 	private Double otherDeduc;
-	
+
 	@Column(name = "other_Recovery")
 	private Double otherRecovery;
-	
+
 	@Column(name = "DA_PERCENT")
 	private Integer daPercent;
-	
+
 	@Column(name = "HRA_PERCENT")
 	private Integer hraPercent;
-	
+
 	@Column(name = "remark")
 	private String remark;
-	
-	
-	
+
 }

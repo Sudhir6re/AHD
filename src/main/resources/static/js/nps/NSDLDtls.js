@@ -21,6 +21,14 @@ function removeErrorClass(element){
 }
 */
 
+
+var context ="";
+$(document).ready(function() {
+	context = $("#appRootPath").val();
+});
+
+
+
 $("#Search").click(function(e){
     	
    	 	 var month = $('#monthId').val();
@@ -56,7 +64,7 @@ $("#Search").click(function(e){
 			$("#loaderMainNew").show();
     		 $.ajax({
 			      type: "GET",
-			      url: "../master/getNSDLEmpDtls/"+month+"/"+year,
+			      url: "../ddo/getNSDLEmpDtls/"+month+"/"+year,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -145,14 +153,14 @@ $("#Search").click(function(e){
 	function showreport(filename) {
 		//alert("filename--"+filename);
 		 var test=window.location.href;
-		 var pathArray = test.split("/master");
+		 var pathArray = test.split("/ddo");
 
 		console.log(pathArray[0]);
 		
-		var path=pathArray[0]+"/master/NSDLEmpWiseReport/"+filename;
+		var path=pathArray[0]+"/ddo/NSDLEmpWiseReport/"+filename;
 		console.log(path);
 
-		window.location.href=pathArray[0]+"/master/NSDLEmpWiseReport/"+filename;
+		window.location.href=pathArray[0]+"/ddo/NSDLEmpWiseReport/"+filename;
 
 
 }
@@ -165,9 +173,72 @@ $(document).on('click', '.filename', function(e){
 });	
 
 
+
+
+
+
+$("#btnSearch").click(function(e) {
+
+	var month = $('#monthId').val();
+	var year = $('#yearId').val();
+	var cmbTr = $('#cmbTr').val();
+
+	removeErrorClass($('#monthId'));
+	removeErrorClass($('#yearId'));
+
+	if (month == "0") {
+		addErrorClass($('#monthId'), "Please select Month !!!");
+	}else if (year == "0") {
+		addErrorClass($('#yearId'), "Please select Year !!!");
+	}else if(year==16 && (monthId==1 || monthId==2 || monthId==3)){
+		swal('NSDL file can not be generated for selected Month and Year.');
+	}else{
+		var dataTable= $("#tblDataTable").dataTable().fnClearTable();
+		  $("#loaderMainNew").show();
+		$.ajax({
+			type : "GET",
+		    //url: context+"/ddo/searchDdoWiseContribution",
+		    url: context+"/ddo/searchDdoWiseContribution/"+month+"/"+year,
+			async : true,
+			//data: { ddoCode1: ddoCode1 ,BillNo:BillNo,Dsgn:Dsgn,lPostName:""},
+			contentType : 'application/json',
+			error : function(data) {
+				 console.log(data);
+				 $("#loaderMainNew").hide();
+			},
+			beforeSend : function(){
+				$( "#loaderMainNew").show();
+				},
+			complete : function(data){
+				$( "#loaderMainNew").hide();
+			},	
+			success : function(data) {
+				 console.log(data);
+				 $("#loaderMainNew").hide();
+				var len = data.length;
+					var srNo, ddoCode,grossAmt, netAmt, empAmt,ddoRegNo, emprAmt,totalAmt;
+					$("#loaderMainNew").hide();
+					j=1;
+					
+					if(len>0){
+						 dataTable.fnClearTable();
+						for (var i = 0; i < data.length; i++) {
+							 dataTable.fnAddData([j,data[i].ddocode,data[i].empCountWithPran,data[i].empCountWithNoPran,data[i].totalEmpContri,data[i].ddoCode,data[i].totalEmprContri,data[i].totalAmount]);
+							 j++;
+						}
+					}
+					if(data.length==0){
+						dataTable.fnClearTable();
+						swal("No data found");
+					}
+			}
+		});
+}
+});
+
 	
 	
-	$("#btnSearch").click(function(e){
+	$("#btnSearchOld").click(function(e){
     	
   	 	 var month = $('#monthId').val();
   	 	 var year = $('#yearId').val(); 
@@ -198,7 +269,7 @@ $(document).on('click', '.filename', function(e){
   	 		$("#loaderMainNew").show();
    		 $.ajax({
 			      type: "GET",
-			      url: "../master/getNSDLEmpDtlsForGenerate/"+month+"/"+year,
+			      url: "../ddo/getNSDLEmpDtlsForGenerate/"+month+"/"+year,
 			      async: true,
 			      contentType:'application/json',
 			      error: function(data){
@@ -267,14 +338,14 @@ $(document).on('click', '.filename', function(e){
 	function showreportagainstDDO(ddoCode) {
 		alert("ddoCode--"+ddoCode);
 		 var test=window.location.href;
-		 var pathArray = test.split("/master");
+		 var pathArray = test.split("/ddo");
 
 		console.log(pathArray[0]);
 		
-		var path=pathArray[0]+"/master/NSDLDDOWiseReport/"+ddoCode;
+		var path=pathArray[0]+"/ddo/NSDLDDOWiseReport/"+ddoCode;
 		console.log(path);
 
-		window.location.href=pathArray[0]+"/master/NSDLDDOWiseReport/"+ddoCode;
+		window.location.href=pathArray[0]+"/ddo/NSDLDDOWiseReport/"+ddoCode;
 
 
 }
@@ -308,7 +379,7 @@ $(document).on('click', '.filename', function(e){
 			$("#loaderMainNew").show();
 			  $.ajax({
 			        type: 'GET',
-			        url: "../master/viewAndSaveFile/"+month+"/"+year+"/"+treasuryId+"/"+fileId,
+			        url: "../ddo/viewAndSaveFile/"+month+"/"+year+"/"+treasuryId+"/"+fileId,
 			        xhrFields: {
 				           responseType: 'blob'
 				       },
@@ -355,7 +426,7 @@ $(document).on('click', '.filename', function(e){
 			swal("Please Select Atleast one batch file !!!");
 			event.preventDefault();
 		}else{
-			$("#contributionList").attr("action", "/MJP/master/sendContriFile");
+			$("#contributionList").attr("action", "/MJP/ddo/sendContriFile");
 		}		
 	});
 	
@@ -365,7 +436,7 @@ $(document).on('click', '.filename', function(e){
 			swal("Please Select Atleast one batch file !!!");
 			event.preventDefault();
 		}else{
-			$("#contributionList").attr("action", "/MJP/master/getNpsFileContriTranId");
+			$("#contributionList").attr("action", "/MJP/ddo/getNpsFileContriTranId");
 		}	
 	});
 	
