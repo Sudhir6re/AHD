@@ -1,5 +1,6 @@
 package com.mahait.gov.in.nps.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.nps.entity.NSDLBHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLDHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLSDDtlsEntity;
@@ -251,10 +253,14 @@ public class NSDLDetailsRepoImpl implements NSDLDetailsRepo {
 		query1.executeUpdate();
 	}
 
+	
+	
+	
 	@Override
 	public List<Object[]> getNsdlEmpDataLevelwise(int month, int year, String userName) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select sum(a.gross_total_amt) as gross_amt,sum(a.total_net_amt) as net_amt,sum(a.nps_empr_allow) as emp_amt,  sum(nps_emp_contri) as empr_amt,"
+		
+		String HQL = "select sum(a.GROSS_AMT) as gross_amt,sum(a.NET_TOTAL) as net_amt,sum(a.NPS_EMPLR) as emp_amt,  sum(dcps) as empr_amt,"
 				+ " c.ddo_reg_no,d.ddo_code_level1  from paybill_generation_trn_details a \r\n"
 				+ " inner join employee_mst b on a.sevaarth_id=b.sevaarth_id\r\n"
 				+ " inner join ddo_reg_mst c on b.ddo_code=c.ddo_code\r\n"
@@ -295,6 +301,174 @@ public class NSDLDetailsRepoImpl implements NSDLDetailsRepo {
 			System.out.println("Error occer in  getEmployeeList ---------" + e);
 		}
 		return null;
+	}
+
+	@Override
+	public List<Object[]> searchDdoWiseContribution(int year, int month, OrgUserMst messages) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String strLocationCode = messages.getDdoCode().substring(0, 4);
+		/*StringBuilder empNotPran = new StringBuilder();
+		empNotPran.append("SELECT count(pay.EMP_ID) FROM paybill_generation_trn_details AS pay ")
+		        .append(" INNER JOIN paybill_generation_trn AS billmpg ON pay.paybill_generation_trn_id = billmpg.paybill_generation_trn_id ")
+		        .append(" INNER JOIN ORG_DDO_MST AS ddo ON billmpg.LOC_ID = CAST(ddo.location_code AS bigint) ")
+		        .append(" INNER JOIN employee_mst AS mstemp ON mstemp.employee_id = pay.EMP_ID ")
+		        .append(" WHERE billmpg.PAYBILL_YEAR ="+year)
+		        .append(" AND billmpg.VOUCHER_NO IS NOT NULL AND billmpg.VOUCHER_DATE IS NOT NULL AND billmpg.PAYBILL_MONTH ="+month)
+		        .append(" AND mstemp.PRAN_NO IS NULL AND ddo.DDO_CODE = temp.ZP_DDO_CODE AND (pay.dcps <> 0 AND pay.NPS_EMPLR_CONTRI_DED <> 0)");*/
+		
+		
+		
+		String empNotPran="select\r\n" + 
+				"        count(pay.emp_id) \r\n" + 
+				"    from\r\n" + 
+				"        paybill_generation_trn_details as pay  \r\n" + 
+				"    inner join\r\n" + 
+				"        paybill_generation_trn as billmpg \r\n" + 
+				"            on pay.paybill_generation_trn_id = billmpg.paybill_generation_trn_id  \r\n" + 
+				"    inner join\r\n" + 
+				"        org_ddo_mst as ddo \r\n" + 
+				"            on billmpg.loc_id = cast(ddo.location_code as bigint)  \r\n" + 
+				"    inner join\r\n" + 
+				"        employee_mst as mstemp \r\n" + 
+				"            on mstemp.employee_id = pay.emp_id  \r\n" + 
+				"    where\r\n" + 
+				"        billmpg.paybill_year = 24 \r\n" + 
+				"        and billmpg.voucher_no is not null \r\n" + 
+				"        and billmpg.voucher_date is not null \r\n" + 
+				"        and billmpg.paybill_month = 7 \r\n" + 
+				"        and mstemp.pran_no is null \r\n" + 
+				"        and ddo.ddo_code = temp.zp_ddo_code \r\n" + 
+				"        and (\r\n" + 
+				"            pay.dcps <> 0 \r\n" + 
+				"            and pay.nps_emplr_contri_ded <> 0\r\n" + 
+				"        )";
+		
+		
+		String empWithPran="select\r\n" + 
+				"        count(pay.emp_id) \r\n" + 
+				"    from\r\n" + 
+				"        paybill_generation_trn_details as pay  \r\n" + 
+				"    inner join\r\n" + 
+				"        paybill_generation_trn as billmpg \r\n" + 
+				"            on pay.paybill_generation_trn_id = billmpg.paybill_generation_trn_id  \r\n" + 
+				"    inner join\r\n" + 
+				"        org_ddo_mst as ddo \r\n" + 
+				"            on billmpg.loc_id = cast(ddo.location_code as bigint)  \r\n" + 
+				"    inner join\r\n" + 
+				"        employee_mst as mstemp \r\n" + 
+				"            on mstemp.employee_id = pay.emp_id  \r\n" + 
+				"    where\r\n" + 
+				"        billmpg.paybill_year = 24 \r\n" + 
+				"        and billmpg.voucher_no is not null \r\n" + 
+				"        and billmpg.voucher_date is not null \r\n" + 
+				"        and billmpg.paybill_month = 7 \r\n" + 
+				"        and mstemp.pran_no is not null \r\n" + 
+				"        and ddo.ddo_code = temp.zp_ddo_code \r\n" + 
+				"        and (\r\n" + 
+				"            pay.dcps <> 0 \r\n" + 
+				"            and pay.nps_emplr_contri_ded <> 0\r\n" + 
+				"        )";
+	/*	
+		StringBuilder empWithPran = new StringBuilder();
+		empWithPran.append("SELECT count(pay.EMP_ID) FROM paybill_generation_trn_details AS pay ")
+		        .append(" INNER JOIN paybill_generation_trn AS billmpg ON pay.paybill_generation_trn_id = billmpg.paybill_generation_trn_id ")
+		        .append(" INNER JOIN ORG_DDO_MST AS ddo ON billmpg.LOC_ID = CAST(ddo.location_code AS bigint) ")
+		        .append(" INNER JOIN employee_mst AS mstemp ON mstemp.employee_id = pay.EMP_ID ")
+		        .append(" WHERE billmpg.PAYBILL_YEAR ="+year)
+		        .append(" AND billmpg.VOUCHER_NO IS NOT NULL AND billmpg.VOUCHER_DATE IS NOT NULL AND billmpg.PAYBILL_MONTH ="+month)
+		        .append(" AND mstemp.PRAN_NO IS NOT NULL AND ddo.DDO_CODE = temp.ZP_DDO_CODE AND (pay.dcps <> 0 AND pay.NPS_EMPLR_CONTRI_DED <> 0)");*/
+
+		
+		StringBuilder sb2 = new StringBuilder();
+		sb2.append(" select temp.ZP_DDO_CODE,(" + empNotPran.toString() + ") as empnotpran,(" + empWithPran.toString()+ ") as empWithPran ,sum(temp.CONTRIBUTION) as contribution,sum(temp.EmprContri) as EmprContri from ");
+		sb2.append("\r\n" + 
+				"    (select\r\n" + 
+				"        rlt.zp_ddo_code,\r\n" + 
+				"        sum(e.dcps_da) + sum(e.dcps) + sum(e.dcps_delay) + sum(e.dcps_pay) as contribution,\r\n" + 
+				"        sum(e.nps_emplr_contri_ded) as emprcontri  \r\n" + 
+				"    from\r\n" + 
+				"        paybill_generation_trn b \r\n" + 
+				"    left join\r\n" + 
+				"        paybill_generation_trn_details e \r\n" + 
+				"            on b.paybill_generation_trn_id = e.paybill_generation_trn_id \r\n" + 
+				"    left join\r\n" + 
+				"        org_ddo_mst ddo \r\n" + 
+				"            on b.ddo_code = ddo.ddo_code  \r\n" + 
+				"    left join\r\n" + 
+				"        rlt_zp_ddo_map rlt \r\n" + 
+				"            on rlt.zp_ddo_code = ddo.ddo_code \r\n" + 
+				"    left join\r\n" + 
+				"        employee_mst mstemp \r\n" + 
+				"            on e.sevaarth_id = mstemp.sevaarth_id  \r\n" + 
+				"    left outer join\r\n" + 
+				"        (\r\n" + 
+				"            select\r\n" + 
+				"                sd.sd_pran_no,\r\n" + 
+				"                cast(sum(coalesce(sd.sd_emp_amount, 0)) as double precision) as sd_amnt,\r\n" + 
+				"                cast(sum(coalesce(sd.sd_emplr_amount, 0)) as double precision) as sd_amnt_emplr,\r\n" + 
+				"                bh.year,\r\n" + 
+				"                bh.month \r\n" + 
+				"            from\r\n" + 
+				"                nsdl_sd sd \r\n" + 
+				"            inner join\r\n" + 
+				"                nsdl_bh bh \r\n" + 
+				"                    on bh.file_name = sd.file_name \r\n" + 
+				"                    and bh.status != '-1'  \r\n" + 
+				"                    and bh.year = 24    \r\n" + 
+				"                    and bh.month = 7   \r\n" + 
+				"                    and bh.file_name like '%2222%' \r\n" + 
+				"                    and sd.is_legacy_data = 'N' \r\n" + 
+				"            group by\r\n" + 
+				"                sd.sd_pran_no,\r\n" + 
+				"                bh.year,\r\n" + 
+				"                bh.month \r\n" + 
+				"        ) a \r\n" + 
+				"            on a.sd_pran_no = mstemp.pran_no  \r\n" + 
+				"    where\r\n" + 
+				"        b.paybill_month = 7 \r\n" + 
+				"        and b.paybill_year = 24 \r\n" + 
+				"        and b.is_active = 14 \r\n" + 
+				"        and e.dcps > 0 \r\n" + 
+				"        and e.nps_emplr_contri_ded > 0 \r\n" + 
+				"        and rlt.rept_ddo_code = '2222222222' \r\n" + 
+				"        and mstemp.ddo_code is not null \r\n" + 
+				"        and mstemp.pran_active = 1 \r\n" + 
+				"        and mstemp.pran_no is not null \r\n" + 
+				"        and mstemp.dcps_gpf_flag = 'Y' \r\n" + 
+				"    group by\r\n" + 
+				"        rlt.zp_ddo_code) as temp \r\n" + 
+				"group by\r\n" + 
+				"    temp.zp_ddo_code \r\n" + 
+				"having\r\n" + 
+				"    (\r\n" + 
+				"        sum(temp.contribution) > 0  \r\n" + 
+				"        and sum(temp.emprcontri) > 0\r\n" + 
+				"    );\r\n" + 
+				"");
+		
+	/*	sb2.append(
+				" (select rlt.ZP_DDO_CODE,sum(e.DCPS_DA)+sum(e.DCPS)+sum(e.DCPS_DELAY)+sum(e.DCPS_PAY) as CONTRIBUTION,sum(e.NPS_EMPLR_CONTRI_DED) as EmprContri ");
+		sb2.append(" FROM paybill_generation_trn b LEFT JOIN paybill_generation_trn_details e ON b.paybill_generation_trn_id = e.paybill_generation_trn_id LEFT JOIN ORG_DDO_MST ddo ON b.ddo_code = ddo.ddo_code ");
+		sb2.append(" LEFT JOIN RLT_ZP_DDO_MAP rlt ON rlt.ZP_DDO_CODE = ddo.DDO_CODE LEFT JOIN employee_mst mstemp ON e.sevaarth_id = mstemp.sevaarth_id ");
+		sb2.append(" left outer join (SELECT sd.SD_PRAN_NO,cast(sum(COALESCE(sd.SD_EMP_AMOUNT,0)) as double precision) as sd_amnt , cast(sum(COALESCE(sd.SD_EMPLR_AMOUNT,0)) as double precision) as sd_amnt_emplr, ");
+		sb2.append(" bh.YEAR,bh.MONTH FROM NSDL_SD sd inner join NSDL_BH bh on bh.FILE_NAME=sd.FILE_NAME and bh.STATUS!='-1' ");
+		sb2.append(" and bh.YEAR=" + year + "    and bh.MONTH="+ month +"   and bh.file_name like '%"+ strLocationCode+ "%' and sd.IS_LEGACY_DATA='N' group by sd.SD_PRAN_NO,bh.YEAR,bh.MONTH ) a on a.SD_PRAN_NO=mstemp.pran_no ");
+		sb2.append(" WHERE b.PAYBILL_MONTH = " + month + " AND ");
+		sb2.append(" b.PAYBILL_YEAR =" + year + " AND ");
+		sb2.append(" b.is_active = 14 AND ");
+		sb2.append(" e.DCPS > 0 AND ");
+		sb2.append(" e.NPS_EMPLR_CONTRI_DED > 0 AND ");
+		sb2.append(" rlt.REPT_DDO_CODE = '" + messages.getDdoCode() + "' AND ");
+		sb2.append(" mstemp.DDO_CODE is not null AND ");
+		sb2.append(" mstemp.PRAN_ACTIVE = 1 AND ");
+		sb2.append(" mstemp.PRAN_NO is not null AND ");
+		sb2.append(" mstemp.dcps_gpf_flag = 'Y' group by rlt.ZP_DDO_CODE ) as temp group by temp.ZP_DDO_CODE having (sum(temp.CONTRIBUTION)>0  and sum(temp.EmprContri)>0) ");
+
+		*/
+		System.out.println(sb2.toString());
+		
+		Query selectQuery2 = currentSession.createSQLQuery(sb2.toString());
+		return selectQuery2.list();
 	}
 
 }

@@ -130,7 +130,7 @@ public class DeptEligibilityForAllowAndDeductRepoImpl implements DeptEligibility
 	@Override
 	public List<DeptEligibilityForAllowAndDeductEntity> findDeptNonGovDeductList() {
 		//String HQL = "FROM DeptEligibilityForAllowAndDeductEntity as t where t.departmentAllowdeducCode in (48,49,50,52,71,74,75)   ORDER BY t.departmentAllowdeducName ASC"; //changed from departmentAllowdeducId to departmentAllowdeducCode
-		String HQL = "FROM DeptEligibilityForAllowAndDeductEntity as t where (t.isNonComputationComponent=1 or t.isNonGovernment=1)  ORDER BY t.departmentAllowdeducName ASC"; //changed from departmentAllowdeducId to departmentAllowdeducCode
+		String HQL = "FROM DeptEligibilityForAllowAndDeductEntity as t where t.isNonComputationComponent=1   ORDER BY t.departmentAllowdeducName ASC"; //changed from departmentAllowdeducId to departmentAllowdeducCode
 		return (List<DeptEligibilityForAllowAndDeductEntity>) entityManager.createQuery(HQL).getResultList();
 	}
 
