@@ -6,11 +6,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -21,14 +23,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
+import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
+import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
 import com.mahait.gov.in.entity.PaybillGenerationTrnEntity;
 import com.mahait.gov.in.entity.PaybillStatusEntity;
 import com.mahait.gov.in.model.AbstractReportModel;
 import com.mahait.gov.in.model.PaybillHeadMpgModel;
+import com.mahait.gov.in.repository.OnlineContributionRepo;
 import com.mahait.gov.in.repository.PaybillGenerationTrnRepo;
 
 @Service
@@ -43,8 +48,18 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 	@Autowired
 	CommonHomeMethodsService commonHomeMethodsService;
+	
+	
+	@Autowired
+	OnlineContributionRepo onlineContributionRepo;
 
+	
+	
+	
 	private final Map<String, Field> fieldCache = new HashMap<>();
+	
+	
+	private final Map<String, String> componValueMap = new HashMap<>();
 
 	@SuppressWarnings("unused")
 	@Override
@@ -1392,9 +1407,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double gisAmount = 0d;
 		Double groupAccPolicy = 0d;
 		int isNonGovernment = 0;
-		Double DaArr = 0d;
-		Double npsEmprAllow = 0d;
-		Double npsEmprContri = 0d;
+		
 
 		ddoCode = paybillHeadMpgModel.getDdoCode();
 
@@ -1477,8 +1490,14 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			dedByOthr = 0d;
 			dedByTreasury = 0d;
 			netAmount = 0d;
-
 			dcps = 0;
+			Double DaArr = 0d;
+			Double npsEmprAllow = 0d;
+			Double npsEmprContri = 0d;
+	      	Double payArr =0d;
+			Double dcpsda =0d;
+			Double dcpsdelayed =0d;;
+			
 
 			int count = paybillHeadMpgRepo.isBrokenPeriodEmpty(mstEmployeeEntity2.getSevaarthId().trim(),
 					String.valueOf(paybillHeadMpgModel.getPaybillMonth()),
@@ -1513,6 +1532,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			npsEmprAllow = 0d;
 			npsEmprContri = 0d;
 			payslipDeduc = 0d;
+			
 			if (count > 0) {
 				int basicpay = 0;
 				int netpay = 0;
@@ -1530,6 +1550,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					// Name
 					basicpay = ((BigInteger) objects[2]).intValue();
 					netpay = ((BigInteger) objects[3]).intValue();
+					String compName = (String) objects[6];
 					brokenMethodName = (String) objects[7];
 					isType = (int) objects[8];
 					
@@ -1545,29 +1566,103 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						isNonGovernment = (int) objects[11];
 					
 					
-					if (brokenMethodName != null) {
-						Double temp = (objects[5] != null) ? new BigDecimal(objects[5].toString()).doubleValue() : 0d;
-						switch (isType) {
-						case 1:
-							grossAmount += temp;
-							break;
-						case 2:
-							dedByAG += temp;
-							break;
-						case 3:
-							if (isNonGovernment == 1) {
-								payslipDeduc += temp;
-							} else {
-								dedByTreasury += temp;
+					
+					
+					switch (compName.toUpperCase()) {
+					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAY:
+					
+						dcpsdelayed = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),
+								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAYED_CODE, month2, year2, "EMP");
+						dedByTreasury += dcpsdelayed;
+						paybillGenerationTrnDetails.setDcpsDelay(dcpsdelayed);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, dcpsdelayed);
+						break;
+
+					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_PAY:
+
+						
+						
+						payArr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_PAY_ARR_CODE,
+								month2, year2, "EMP");
+						dedByTreasury += payArr;
+
+						paybillGenerationTrnDetails.setDcpsPay(payArr);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, payArr);
+						break;
+
+					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA:
+
+						dcpsda = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA_ARR_CODE,
+								month2, year2, "EMP");
+						dedByTreasury += dcpsda;
+
+						paybillGenerationTrnDetails.setDcpsDa(dcpsda);
+						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, dcpsda);
+						break;
+						
+						
+						default :
+							if (brokenMethodName != null && isNonGovernment !=1) {
+								
+								Double temp = (objects[5] != null) ? new BigDecimal(objects[5].toString()).doubleValue() : 0d;
+								switch (isType) {
+								case 1:
+									grossAmount += temp;
+									break;
+								case 2:
+									dedByAG += temp;
+									break;
+								case 3:
+									if (isNonGovernment == 1) {
+										payslipDeduc += temp;
+									} else{
+										dedByTreasury += temp;
+									}
+									break;
+								case 4:
+									dedByOthr += temp;
+									break;
+								}
+								
+								setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
+							}else if(isNonGovernment==1) {
+								EmployeeAllowDeducComponentAmtEntity entity = mstEmployeeService
+										.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(), allowdedcode);
+
+								if (entity != null) {
+									Double temp = (double) Math.round(entity.getNetAmt());
+
+									switch (isType) {
+									case 1:
+										grossAmount += temp;
+										break;
+									case 2:
+										dedByAG += temp;
+										break;
+									case 3:
+										if (isNonGovernment == 1) {
+											payslipDeduc += temp;
+										}else{
+											dedByTreasury += temp;
+										}
+										break;
+									case 4:
+										dedByOthr += temp;
+										break;
+									}
+
+									setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
+								}
+							
+								
 							}
-							break;
-						case 4:
-							dedByOthr += temp;
-							break;
-						}
-						setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
+						break;
 					}
 				}
+				
+			
+					
+					
 
 				// END:Fetch Broken Period Allowance and Deduction Data
 
@@ -1601,16 +1696,12 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				lstPaybillGenerationTrnDetails.add(paybillGenerationTrnDetails);
 
 				grossAmt += grossAmount;
-
 				netAmt += grossAmount - totaldeduc;
 				objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 				objEntity.setBillNetAmount((double) Math.round(netAmt));
 			} else {
 				int gradePaynew = 0;
 				double dcpsEmpr = 0;
-				double dcpsdelayed = 0;
-				double dcpsda = 0;
-				double payArr = 0;
 				
 				List<Object[]> object = mstEmployeeService.employeeAllowDeduction(mstEmployeeEntity2.getSevaarthId());
 				paybillGenerationTrnDetails.setDesgCode(mstEmployeeEntity2.getDesignationCode());
@@ -1816,10 +1907,10 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						dcpsEmpr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), "700046",
 								month2, year2, "EMPR");
 						dcpsdelayed = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),
-								"700047", month2, year2, "EMPR");
-						dcpsda = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), "700048",
+								CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAYED_CODE, month2, year2, "EMPR");
+						dcpsda = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DA_ARR_CODE,
 								month2, year2, "EMPR");
-						payArr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(), "700049",
+						payArr = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_PAY_ARR_CODE,
 								month2, year2, "EMPR");
 
 						paybillGenerationTrnDetails
@@ -1832,6 +1923,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 						dcpsdelayed = paybillHeadMpgRepo.findSumContribution(mstEmployeeEntity2.getSevaarthId(),
 								"700047", month2, year2, "EMP");
+						
 						dedByTreasury += dcpsdelayed;
 
 						paybillGenerationTrnDetails.setDcpsDelay(dcpsdelayed);
@@ -1902,7 +1994,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									case 3:
 										if (isNonGovernment == 1) {
 											payslipDeduc += temp;
-										} else {
+										}else {
 											dedByTreasury += temp;
 										}
 										break;
@@ -1935,7 +2027,11 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 										dedByAG += tempVal;
 										break;
 									case 3:
-										dedByTreasury += tempVal;
+										if (isNonGovernment == 1) {
+											payslipDeduc += tempVal;
+										}else{
+											dedByTreasury += tempVal;
+										}
 										break;
 									case 4:
 										dedByOthr += tempVal;
@@ -1947,6 +2043,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						}
 						break;
 					}
+					
+					
+					System.out.println("Checking Data-----------------"+lstPaybillGenerationTrnDetails);
 				}
 
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
@@ -1982,6 +2081,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}
 
 		}
+		System.out.println("------------componValueMap----------"+componValueMap.toString());
 		grossAmt += grossAmount;
 		netAmt += grossAmount - totaldeduc;
 		objEntity.setBillGrossAmt((double) Math.round(grossAmt));
@@ -1993,6 +2093,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 	}
 
 	private void setFieldValue(Object obj, String fieldName, Double value) {
+		
+		componValueMap.put(fieldName, value.toString());
+		
 		Field field = fieldCache.computeIfAbsent(fieldName, key -> {
 			try {
 				Field f = obj.getClass().getDeclaredField(key);
@@ -2016,4 +2119,38 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 			}
 		}
 	}
-}
+
+	@Override
+	public void updateMstDcpsContriVoucherDtlEntity(PaybillGenerationTrnEntity paybillGenerationTrnEntity,String voucherNo, Date vdate) {
+		// TODO Auto-generated method stub
+		Optional<MstDcpsContriVoucherDtlEntity> optionalMstDcpsContriVoucherDtlEntity=paybillHeadMpgRepo.findMstDcpsContriVoucherDtlEntity(paybillGenerationTrnEntity);
+		if(optionalMstDcpsContriVoucherDtlEntity.isPresent()) {
+			MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity=optionalMstDcpsContriVoucherDtlEntity.get();
+			mstDcpsContriVoucherDtlEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+			mstDcpsContriVoucherDtlEntity.setUpdatedUserId(paybillGenerationTrnEntity.getUpdatedUserId());
+			mstDcpsContriVoucherDtlEntity.setUpdatedPostId(paybillGenerationTrnEntity.getUpdatedUserId());
+			mstDcpsContriVoucherDtlEntity.setStatus('1');
+			mstDcpsContriVoucherDtlEntity.setVoucherNo(Long.valueOf(voucherNo));
+			mstDcpsContriVoucherDtlEntity.setVoucherDate(new Timestamp(vdate.getTime()));
+			paybillHeadMpgRepo.updateMstDcpsContriVoucherDtlEntity(mstDcpsContriVoucherDtlEntity);
+		}
+		
+		//findDcpsContributionEntity
+		
+		Optional<DcpsContributionEntity> optionalDcpsContributionEntity=onlineContributionRepo.findDcpsContributionEntity(paybillGenerationTrnEntity);
+		if(optionalDcpsContributionEntity.isPresent()) {
+			DcpsContributionEntity dcpsContributionEntity=optionalDcpsContributionEntity.get();
+			dcpsContributionEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+			dcpsContributionEntity.setUpdatedUserId(paybillGenerationTrnEntity.getUpdatedUserId());
+			dcpsContributionEntity.setUpdatedPostId(paybillGenerationTrnEntity.getUpdatedUserId());
+			dcpsContributionEntity.setRegStatus(1);
+			dcpsContributionEntity.setVoucherDate(new Timestamp(vdate.getTime()));
+			dcpsContributionEntity.setVoucherNo(Integer.parseInt(voucherNo));
+			paybillHeadMpgRepo.updateMstDcpsContriVoucherDtlEntity(dcpsContributionEntity);
+		}
+		
+		
+		
+		
+	}
+	}

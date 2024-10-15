@@ -3728,7 +3728,7 @@ function checkGisGroup() {
 
 function checkMembershipDate() {
 	var dateString = document.getElementById("membership_date").value;
-	if (dateString != "") {
+	if (dateString) {
 		var today = new Date();
 		var membershipdate = new Date(dateString);
 		var date = membershipdate.getDate();

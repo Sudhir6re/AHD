@@ -346,7 +346,6 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
    
 	
 		$(document).ready(function() {
-		/* 	 openLoginWindow("HTESEVAARTH"); */
 			$("span.fa.fa-eye-slash.iccn").hide();
 			$('.iccn').on('click', function() {
 				var passInput = $("#password");
@@ -356,8 +355,8 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 					passInput.attr('type', 'password');
 				}
 				$(".iccn").toggle(300);
-			})
-		})
+			});
+		});
 	</script>
 	<script th:src="@{/js/captcha.js}"></script>
 </body>

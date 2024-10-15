@@ -27,9 +27,9 @@ public abstract class BaseController  {
 			if (modelAndView != null) {
 				modelAndView.addObject("menuList", menuList);
 				modelAndView.addObject("subMenuList", subMenuList);
-				modelAndView.addObject("levelRoleVal", levelRoleVal);
 			}
 		}
+		modelAndView.addObject("levelRoleVal", levelRoleVal);
 		modelAndView.addObject("today", new Date());
 	}
 
@@ -40,10 +40,8 @@ public abstract class BaseController  {
 			List<TopicModel> subMenuList = commonHomeMethodsService.findSubMenuByRoleID(levelRoleVal, "en");
 			model.addAttribute("menuList", menuList);
 			model.addAttribute("subMenuList", subMenuList);
-			model.addAttribute("levelRoleVal", levelRoleVal);
-		
-			
 		}
+		model.addAttribute("levelRoleVal", levelRoleVal);
 		model.addAttribute("today", new Date());
 	}
 

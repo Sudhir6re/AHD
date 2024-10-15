@@ -40,16 +40,16 @@ public class DcpContributionModel {
 
     private int monthId;
 
-    private Double basicPay;
+    private Integer basicPay;
     
     
-    private Double actualBasic;
-    
-
-    private Double da;
+    private Integer actualBasic;
     
 
-    private Double contribution;
+    private Integer da;
+    
+
+    private Integer contribution;
 
     private Integer regStatus;
 
@@ -126,7 +126,7 @@ public class DcpContributionModel {
     
 	private Double dp;
     
-	private Double emprContribution;
+	private Integer emprContribution;
 	
 	private List<Long> deleteDcpContributionId;  
     

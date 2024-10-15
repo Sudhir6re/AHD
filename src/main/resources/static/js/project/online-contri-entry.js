@@ -1,4 +1,5 @@
-var contextPath = $(document).ready(function() {
+var contextPath = "";
+	$(document).ready(function() {
 	contextPath = $("#appRootPath").val();
 	if ($('#cmbSchemeName').length) {
 		$('#cmbSchemeName').select2();
@@ -14,36 +15,7 @@ var contextPath = $(document).ready(function() {
 });
 
 
-function checkSameMonth(toDateObj, counter) {
-	var fromDate = $("#txtFromDate" + counter).val();
-    var toDate = $(toDateObj).val();
 
-    // Convert string dates to Date objects
-    var fromDateObj = new Date(fromDate);
-    var toDateObj = new Date(toDate);
-
-    // Check if both dates are valid
-    if (isNaN(fromDateObj.getTime()) || isNaN(toDateObj.getTime())) {
-        swal("Invalid date format.");
-        $(toDateObj).val("");
-        return false;
-    }
-
-    // Compare year and month
-    if (fromDateObj.getFullYear() !== toDateObj.getFullYear()) {
-        swal("Please Select same year in a row");
-        $(toDateObj).val("");
-        return false;
-    }
-    
-    if (fromDateObj.getMonth() !== toDateObj.getMonth()) {
-        swal("Please Select same month in a row");
-        $(toDateObj).val("");
-        return false;
-    }
-
-    return true;
-}
 
 
 jQuery(document).ready(function($) {
@@ -67,8 +39,14 @@ $('#save')
 		.click(
 				function(e) {
 					e.preventDefault(); // Prevent the default form submission
-					$("#onlineEntryForm").attr("action",
-							contextPath + "/ddoast/saveOnlineContriEntry");
+					var roleId=$("#levelRoleVal").val();
+				
+					if(roleId=="2"){
+						$("#onlineEntryForm").attr("action",contextPath + "/ddo/saveOnlineContriEntry");
+					}else{
+						$("#onlineEntryForm").attr("action",contextPath + "/ddoast/saveOnlineContriEntry");
+					}
+					
 					// Clear previous error messages
 					$('.error').remove();
 
@@ -231,6 +209,7 @@ $("#trnDCPSTable").on('blur', ".basicPay", function() {
 	}
 
 	var DARate = parseFloat(row.find('.daRate').val());
+	DARate=0.01 *DARate;
 	var DA = ((basic + DP) * DARate).toFixed(2);
 	var tempContribution = basic + Math.round(DA) + DP;
 	var contribution = (tempContribution * 0.10).toFixed(2);
@@ -275,13 +254,11 @@ $("#trnDCPSTable").on(
 			var typeOfPayment = row.find('.typeOfPayment').val();
 			var payCommission = row.find('.payCommission').val();
 
-			var monthId = $('#monthId').val();
+			var monthId = $('#monthId1').val();
 			var finYearId = $('#finYearId').val();
 			var noOfDays = (new Date(endDate) - new Date(startDate))
 					/ (1000 * 60 * 60 * 24) + 1;
 
-			
-			
 			if (endDate != '' && (startDate > endDate)) {
 				swal('Select start date less than or equal to End Date');
 				row.find('.startDate').val("");
@@ -292,7 +269,7 @@ $("#trnDCPSTable").on(
 			} else if(startDate!='' && endDate!=null && !checkFutureDate(row)){
 				 row.find('.startDate').val("");
 				 row.find('.endDate').val("");
-			} else {
+			} else if(isValidDate(new Date(startDate)) && isValidDate(new Date(endDate)) ) {
 			
 				var params = {
 					startDate : startDate,
@@ -316,14 +293,16 @@ $("#trnDCPSTable").on(
 							success : function(data) {
 								console.log(data);
 								if (data.length !== 0) {
-									row.find('.basicPay').val(
-											data.basicPay.toFixed(2));
-									row.find('.da').val(data.da.toFixed(2));
-									row.find('.daRate').val(data.daRate);
-									row.find('.contribution').val(
-											data.contribution.toFixed(2));
-									row.find('.emprContribution').val(
-											data.emprContribution.toFixed(2));
+									
+									row.find('.basicPay').val(Math.round(data.basicPay));
+									
+									row.find('.da').val(Math.round(data.da));
+									
+									row.find('.daRate').val(Math.round(data.daRate));
+									
+									row.find('.contribution').val(Math.round(data.contribution));
+									
+									row.find('.emprContribution').val(Math.round(data.emprContribution));
 								}
 							}
 						});
@@ -409,6 +388,7 @@ $(document).on('click', '.deleteRow', function() {
     var dcpsempId = $(this).attr("data-dcpContributionId");
     
     // SweetAlert confirmation
+    
     swal({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -419,9 +399,13 @@ $(document).on('click', '.deleteRow', function() {
         if (willDelete) {
             // Append the ID to the hidden input
             var currentIds = $("#deleteDcpContributionId").val();
-            if (!currentIds.split(",").includes(dcpsempId)) {
-                $("#deleteDcpContributionId").val(currentIds + dcpsempId + ",");
+            
+            if(currentIds && currentIds!=null  && currentIds!=undefined){
+            	 if (!currentIds.split(",").includes(dcpsempId)) {
+                     $("#deleteDcpContributionId").val(currentIds + dcpsempId + ",");
+                 }
             }
+           
 
             // Remove the row from the table
             $(this).closest('tr').remove();
@@ -430,6 +414,8 @@ $(document).on('click', '.deleteRow', function() {
             swal("Deleted!", "Your contribution has been deleted.", "success");
         }
     });
+    
+    
 });
 
 /*$(document).on('click', '.deleteRow', function() {
@@ -480,10 +466,17 @@ function funDdo1() {
 	}
 
 	if (parseInt(billGroupId) > 0) {
+		
+		var roleId=$("#levelRoleVal").val();
+		var url=contextPath + "/ddoast/getSchemeCodeByBillGroupId/"+ billGroupId;
+		if(roleId=="2"){
+			url=contextPath + "/ddo/getSchemeCodeByBillGroupId/"+ billGroupId;
+		}else{
+			url=contextPath + "/ddoast/getSchemeCodeByBillGroupId/"+ billGroupId;
+		}
 		$.ajax({
 			type : "GET",
-			url : contextPath + "/ddoast/getSchemeCodeByBillGroupId/"
-					+ billGroupId,
+			url : url,
 			async : true,
 			contentType : 'application/json',
 			error : function(data) {
@@ -518,7 +511,7 @@ function SearchEmployee(e) {
 
 	var paymentType = $("#typeOfPayment").val();
 	var yearId = $("#finYearId").val();
-	var monthId = $("#monthId").val();
+	var monthId = $("#monthId1").val();
 	var delayedMonthId = $("#delayedMonthId").val();
 	var delayedFinYearId = $("#delayedFinYearId").val();
 	var txtSchemeName = $("#txtSchemeName").val();
@@ -545,6 +538,30 @@ function SearchEmployee(e) {
 
 		if (delayedFinYearId === "0") {
 			swal('Please select delayed pay year');
+			flag = false;
+		}
+		
+		var currentMonthAndYearDate = new Date();
+		var yearCode = parseInt(yearId) + 1999;
+		if (monthId == 1 || monthId == 2 || monthId == 3) {
+			yearCode = Number(yearCode) + 1;
+		}
+		currentMonthAndYearDate.setFullYear(yearCode, monthId, 1);
+		currentMonthAndYearDate.setMonth(currentMonthAndYearDate.getMonth() - 1);
+
+		var delayedMonthAndYearDate = new Date();
+		var DelayedYearCode = parseInt(delayedFinYearId) + 1999;
+		if (delayedMonthId == 1 || delayedMonthId == 2 || delayedMonthId == 3) {
+			DelayedYearCode = Number(DelayedYearCode) + 1;
+		}
+		delayedMonthAndYearDate.setFullYear(DelayedYearCode, delayedMonthId, 1);
+		delayedMonthAndYearDate.setMonth(delayedMonthAndYearDate.getMonth() - 1);
+
+		if (delayedMonthAndYearDate.getTime() >= currentMonthAndYearDate.getTime()) {
+			swal('Delayed date must not be a future date. Please select past month and year.');
+			
+		$("#delayedMonthId").val("");
+		$("#delayedFinYearId").val("");
 			flag = false;
 		}
 	}
@@ -631,14 +648,14 @@ function SearchEmployee(e) {
 
 function checkSameMonth(row) {
 	
-	var row = $(this).closest("tr");
+//	var row = $(this).closest("tr");
 	var startDate = row.find('.startDate').val();
 	var endDate = row.find('.endDate').val();
 	var sevaarthId = row.find('.sevaarthId').val();
 	var typeOfPayment = row.find('.typeOfPayment').val();
 	var payCommission = row.find('.payCommission').val();
 
-	var monthId = $('#monthId').val();
+	var monthId = $('#monthId1').val();
 	var finYearId = $('#finYearId').val();
 	var noOfDays = (new Date(endDate) - new Date(startDate))
 			/ (1000 * 60 * 60 * 24) + 1;
@@ -647,23 +664,35 @@ function checkSameMonth(row) {
     var fromDateObj = new Date(startDate);
     var toDateObj = new Date(endDate);
 
-    if (isNaN(fromDateObj.getTime()) || isNaN(toDateObj.getTime())) {
-        swal("Invalid date format.");
-        return false;
-    }
+    if(isValidDate(fromDateObj) && isValidDate(toDateObj)){
+    	if (isNaN(fromDateObj.getTime()) && isNaN(toDateObj.getTime())) {
+            swal("Invalid date format.");
+            return false;
+        }
 
-    if (fromDateObj.getFullYear() !== toDateObj.getFullYear()) {
-        swal("Please Select same year in a row");
-        return false;
+    	
+    	if($('#typeOfPayment').val()=="700047"){  
+    		if (fromDateObj.getFullYear() !== toDateObj.getFullYear()) {
+                swal("Please Select same year in a row");
+            	row.find('.startDate').val("");
+            	row.find('.endDate').val("");
+                return false;
+            }
+            
+            if (fromDateObj.getMonth() !== toDateObj.getMonth()) {
+                swal("Please Select same month in a row");
+                return false;
+            }
+    	}
+        
     }
     
-    if (fromDateObj.getMonth() !== toDateObj.getMonth()) {
-        swal("Please Select same month in a row");
-        return false;
-    }
+    
     
     return true;
 }
+
+
 
 
 
@@ -672,31 +701,35 @@ function checkFutureDate(row) {
 	var startDate = row.find('.startDate').val();
 	var endDate = row.find('.endDate').val();
 
-	var monthId = $('#monthId').val();  //1-jan 12 dec
+	var monthId = $('#monthId1').val();  //1-jan 12 dec
 	var finYearId = $('#finYearId').val();  //24 for 2025  23 for 2024
 
 
     var fromDateObj = new Date(startDate);
     var toDateObj = new Date(endDate);
-    var today = new Date();
-    today.setHours(0, 0, 0, 0); // Set time to midnight for comparison
+  
 
     // Create date based on monthId and finYearId (not future)
-    var futureYear = finYearId + 1999; // Adjust to map finYearId to actual year
-    var futureMonth = monthId - 1; // monthId is 1-based, so subtract 1 for Date object
+    var futureYear = parseInt(finYearId) + 1999; // Adjust to map finYearId to actual year 
+    var futureMonth = parseInt(monthId) - 1; // monthId is 1-based, so subtract 1 for Date object
 
     var monthYearDate = new Date(futureYear, futureMonth);
     monthYearDate.setHours(0, 0, 0, 0); // Set time to midnight for comparison
 
-    if (isNaN(fromDateObj.getTime()) || isNaN(toDateObj.getTime())) {
-        swal("Invalid date format.");
-        return false;
-    }
+    if(isValidDate(fromDateObj) && isValidDate(toDateObj)){
+    	  if (isNaN(fromDateObj.getTime()) && isNaN(toDateObj.getTime())) {
+    	        swal("Invalid date format.");
+    	        return false;
+    	    }
 
-    if (fromDateObj > today || toDateObj > today || monthYearDate > today) {
-        swal("Please do not select future dates.");
-        return false;
+    	    if (fromDateObj.getTime() > monthYearDate.getTime() || toDateObj.getTime() > monthYearDate.getTime()) {
+    	        swal("Please do not select future dates.");
+    	        row.find('.startDate').val("");
+            	row.find('.endDate').val("");
+    	        return false;
+    	    }
     }
+  
     
     return true;
 }
@@ -711,7 +744,7 @@ function checkOverlapForRegular(counter) {
         var startDate = new Date(startDateStr);
         var endDate = new Date(endDateStr);
 
-        var totalRows = $("#hdnCounter").val().trim();
+        var totalRows = $('#trnDCPSTable>tr').length;
         
         for (var i = 1; i <= totalRows; i++) {
             if ($("#dcpsempId" + counter).val().trim() === $("#dcpsempId" + i).val().trim()) {
@@ -726,7 +759,7 @@ function checkOverlapForRegular(counter) {
                     if (counter !== i && (
                         (startDate <= otherEndDate && startDate >= otherStartDate) || 
                         (endDate <= otherEndDate && endDate >= otherStartDate))) {
-                        alert('The dates overlap for Regular Type in the same month.');
+                        swal('The dates overlap for Regular Type in the same month.');
                         $("#txtStartDate" + counter).val("");
                         $("#txtEndDate" + counter).val("");
                         return false;
@@ -735,11 +768,77 @@ function checkOverlapForRegular(counter) {
             }
         }
     }
-
     return true;
 }
 
 
 
+$("#save")
+.click(
+		function(e) {
+			
+			$("#btnUpdate").attr("disabled", true); 
+			$("#loaderMainNew").show();
+			var voucherNo=$("#txtVoucherNo").val();
+			var voucherDate=$("#txtVoucherDate").val();
+			
+			var monthId = $('#monthId1').val();
+			var finYearId = $('#finYearId').val();
+			var delayedFinYearId = $('#delayedFinYearId').val();
+			var delayedMonthId = $('#delayedMonthId').val();
+			var billGroupId = $('#billGroupId').val();
+			var typeOfPayment = $('#typeOfPayment').val();
+			var ddoCode = $('#ddoCode').val();
+			var cmbTreasuryCode = $('#cmbTreasuryCode').val();
+			
+			if (voucherNo == "" || voucherNo == "0") {
+				e.preventDefault();
+				swal("Please Enter Voucher Number");
+			} else if (voucherDate == "" || voucherDate == "0") {
+				e.preventDefault();
+				swal("Please Enter Voucher Date");
+			}
+			else{
 
+				
+				var params = {
+					voucherNo : voucherNo,
+					voucherDate : voucherDate,
+					monthId : monthId,
+					finYearId : finYearId,
+					delayedFinYearId : delayedFinYearId,
+					delayedMonthId : delayedMonthId,
+					billGroupId : billGroupId,
+					typeOfPayment : typeOfPayment,
+					ddoCode : ddoCode,
+					cmbTreasuryCode : cmbTreasuryCode
+			 	};
+
+				$.ajax({
+							type : "POST",
+							url : contextPath + '/ddo/addDcpsVoucherDtl',
+							data : JSON.stringify(params),
+							contentType : 'application/json',
+							error : function(xhr, status, error) {
+								console.error('Error occurred:', error);
+							},
+							success : function(data) {
+								console.log(data);
+								if (data.length !== 0) {
+									
+
+									 swal("Voucher Detail Added Successfully");
+									 setTimeout(
+												function() {
+													location
+															.reload(true);
+												}, 1000);
+								}
+							}
+						});
+			
+				
+				}
+			$("#loaderMainNew").hide();
+		});
 

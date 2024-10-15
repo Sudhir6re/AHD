@@ -85,11 +85,12 @@ div#tblEmpDtlsBody\ table-responsive th {
 								<td width="30%"><select name="ddoCode"
 									th:field="*{ddoCode}" id="ddoCode" readonly
 									class="form-control removeErrorFromDropdown">
-										
 										<option th:each="varGetAllddoNameLst : ${ddoNameLst}"
 											selected="selected"  th:value="${varGetAllddoNameLst.ddoCode}"
-											th:text="${language=='mh' ? varGetAllddoNameLst.ddoName : varGetAllddoNameLst.ddoName}"></option>
-								</select></td>
+												th:text="${varGetAllddoNameLst.ddoCode} + ' (' + ${varGetAllddoNameLst.ddoName} + ')'"
+											></option>
+								</select>
+								</td>
 							</tr>
 							<tr>
 								<td width="15%"><b>Bill Group</b></td>
