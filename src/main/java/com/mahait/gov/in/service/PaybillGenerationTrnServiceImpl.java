@@ -835,7 +835,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 				totaldeduc = dedByAG + dedByTreasury + dedByOthr;
 
 				grossAmount += basic;
-				netAmt = grossAmount - totaldeduc;
+				//netAmt = grossAmount - totaldeduc;
 				paybillGenerationTrnDetails.setBasicPay(basic);
 				paySlipTotalDeduc = totaldeduc + payslipDeduc;
 				payslipNet = grossAmount - paySlipTotalDeduc;
@@ -866,13 +866,15 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 				// Serializable id12 =
 				// paybillHeadMpgRepo.saveHrPayPaybill(paybillGenerationTrnDetails);
+				
+				grossAmt += grossAmount;
+
+				netAmt += grossAmount - totaldeduc;
 
 			}
 
 		}
-		grossAmt += grossAmount;
-
-		netAmt += grossAmount - totaldeduc;
+	
 
 		objEntity.setBillGrossAmt((double) Math.round(grossAmt));
 		objEntity.setBillNetAmount((double) Math.round(netAmt));

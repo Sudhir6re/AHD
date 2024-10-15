@@ -3797,9 +3797,12 @@ $("#cadre")
 																// value="+value[0]+">"
 																// + value[1] +
 																// "</option>");
-																$("#empClass")
-																		.val(
-																				value[0]);
+															
+																
+																$("#empClass").val(value[0]);
+																
+																
+																
 																$(
 																		"#superannuationage")
 																		.val(
