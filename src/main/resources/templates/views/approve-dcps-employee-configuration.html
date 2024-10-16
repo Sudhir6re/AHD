@@ -22,10 +22,12 @@ input[type="Date"] {
 	padding-left: 20px;
 	border-color: green;
 }
-input#uid1, input#uid2, input#uid3 {
-    width: 28% !important;
 
-ul.nav.nav-tabs li.active a, .nav-tabs>li>a:hover {
+input#uid1, input#uid2, input#uid3 {
+	width: 28% !important;
+}
+
+.nav.nav-tabs li.active	a, .nav-tabs>li>a:hover {
 	background: #ffbb55 !important;
 }
 
@@ -45,9 +47,7 @@ input#uid1, input#uid2, input#uid3 {
 }
 </style>
 </head>
-<body ng-app="empConfigurationApp"
-	ng-controller="empConfigurationController"
-	class="approve-dcps-employee-configuration">
+<body class="approve-dcps-employee-configuration">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
@@ -163,100 +163,30 @@ input#uid1, input#uid2, input#uid3 {
 								<legend> Photo/Signature</legend>
 							</fieldset>
 							<div th:replace="views/approve-emp-config-tabs ::PhotoSignature "></div>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion"
-									href="#collapse6"><b><span
-										th:utext="#{msg.thymeleaf.pagelabl.photosign}"></span></b></a>
-							</h4>
-						</div>
-						<div id="collapse6" class="panel-collapse collapse">
-							<div class="panel-body">
-								<table class="table table-bordered">
-									<tr>
-										<td width="10%"><label><span
-												th:utext="#{msg.thymeleaf.pagelabl.filedesc}"></span>
-												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>
-										<td width="25%"><input Type="text" size="40%"
-											placeholder="Photo" disabled="disabled" ng-model="fileDesc" id="photodesc" name="photodesc" 
-											class="form-control" /></td>
-										<td width="10%"><label><span
-												th:utext="#{msg.thymeleaf.pagelabl.attachfile}"></span>&nbsp;&nbsp;<b><font
-													color="red" size="4px;">*</font></b></label></td>
-										<td width="25%">
-											<!-- 										<input Type="file" ng-model="attachFile" id="photo" /> -->
-											<input Type="file" ng-model="attachFile" id="files"
-											onchange="getimage(this);" disabled="disabled" name="files" />
-										</td>
-										<!-- 										<td width="10%"><label class="btn btn-info"><span -->
-										<!-- 												th:utext="#{msg.thymeleaf.pagelabl.uploadphoto}" -->
-										<!-- 												ng-click="uploadPhoto();"></span></label></td> -->
-										<td width="10%">
-											<!-- 										<img id="photoView" src="#" onerror="" width="100" height="100" /> -->
-										 <img id="imagePath"
-											th:src="@{${'/ddoast/viewFilephoto/' + mstEmployeeModel.employeeId}}"
-											width="100" height="100" />
-										</td>
-									</tr>
-									<tr>
-										<td width="10%"><label><span
-												th:utext="#{msg.thymeleaf.pagelabl.signDesc}"></span>&nbsp;&nbsp;<b><font
-													color="red" size="4px;">*</font></b></label></td>
-										<td width="25%"><input Type="text" size="40%"
-											placeholder="Signature" disabled="disabled" id="signaturedesc" name="signaturedesc"  
-											ng-model="signature" class="form-control" /></td>
-										<td width="10%"><label><span
-												th:utext="#{msg.thymeleaf.pagelabl.attachfile}"></span>&nbsp;&nbsp;<b><font
-													color="red" size="4px;">*</font></b></label></td>
-										<td width="25%">
-											<!-- 										<input Type="file" ng-model="attachFile1" id="signature" th:field="*{photoAttachmentId}"  /> -->
-											<input Type="file" ng-model="attachFile1" id="files"
-											onchange="getimagesign(this);" disabled="disabled"
-											name="files" />
-										</td>
-										<!-- 										<td width="10%"><label class="btn btn-info"><span -->
-										<!-- 												th:utext="#{msg.thymeleaf.pagelabl.uploadphoto}" -->
-										<!-- 												ng-click="uploadPhoto1();"></span></label></td> -->
-										<td width="10%">
-											<!-- 										<img id="blah" src="#" width="100" height="100" onerror="" /> -->
-											<img id="imagePathSign"
-											th:src="@{${'/ddoast/viewFileSign/' + mstEmployeeModel.employeeId}}"
-											width="100" height="100" />
-										</td>
-									</tr>
-
-								</table>
-							</div>
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
 						</div>
 					</div>
 					<hr />
 					<div class="form-group text-center">
-						</div>
 						<hr />
-						<div class="form-group text-center">
-							<hr />
-							<input type="button" id="btnPrevious" name="btnPrevious"
-								value="Previous" class="btn" /> <input type="button"
-								id="btnNext" name="btnNext" value="Next" class="btn" /> <input
-								type="button" id="btnSave" class="btn btn-primary"
-								th:value="#{msg.thymeleaf.pagelabel.approve}"
-								th:onclick="'approveDcpsEmpDtls();'" />
-							<!-- 							ng-click="saveAsDraft();" /> -->
-							<input type="button" class="btn btn-primary rejectbtnn"
-								th:value="#{msg.thymeleaf.pagelabel.reject}"
-								th:onclick="'rejectEmpDtls();'" /> <span
-								th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}"> <input
-								type="button" class="btn btn-primary"
-								th:value="#{msg.thymeleaf.pagelabel.printformone}"
-								th:onclick="'empDtlsReport();'" />
-							</span> <input type="button" name="btnCancel" onclick="history.back()"
-								id="btnCancel" value="Cancel" class="buttontag">
+						<input type="button" id="btnPrevious" name="btnPrevious"
+							value="Previous" class="btn" /> <input type="button"
+							id="btnNext" name="btnNext" value="Next" class="btn" /> <input
+							type="button" id="btnSave" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.approve}"
+							th:onclick="'approveDcpsEmpDtls();'" />
+						<!-- 							ng-click="saveAsDraft();" /> -->
+						<input type="button" class="btn btn-primary rejectbtnn"
+							th:value="#{msg.thymeleaf.pagelabel.reject}"
+							th:onclick="'rejectEmpDtls();'" /> <span
+							th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}"> <input
+							type="button" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.printformone}"
+							th:onclick="'empDtlsReport();'" />
+						</span> <input type="button" name="btnCancel" onclick="history.back()"
+							id="btnCancel" value="Cancel" class="buttontag">
 
-						</div>
-						<input type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" />
 					</div>
 				</div>
 			</form>
