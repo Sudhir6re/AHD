@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mahait.gov.in.entity.ChangeDtlsHst;
+import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -722,11 +723,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 	@Override
 	public long updateEmployeeChangeDetails(@Valid EmpChangeDetailsModel empChangeDetailsModel, MultipartFile[] files) {
 		// TODO Auto-generated method stub
-		MstEmployeeDetailEntity objEntity = new MstEmployeeDetailEntity();
-		if(empChangeDetailsModel.getEmployeeId() != null)
-		{
-		 objEntity = empChangeDetailsRepo.findbyemplidForChangeDetails(empChangeDetailsModel.getEmployeeId());
-		}
+		MstEmployeeDetailEntity objEntity = empChangeDetailsRepo
+				.findbyemplidForChangeDetails(empChangeDetailsModel.getEmployeeId()).orElseGet(MstEmployeeDetailEntity::new);
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());

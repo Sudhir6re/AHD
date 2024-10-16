@@ -364,7 +364,7 @@ public class EmpChangeDetailsController  extends BaseController{
 		return "/views/edit-employee-configuration";
 	}
 	
-	@GetMapping("/viewFilephoto/{employeeId}")
+	/*@GetMapping("/viewFilephoto/{employeeId}")
 	void viewFilephoto(HttpServletResponse response, @PathVariable Long employeeId) throws IOException {
 		try {
 			if (employeeId != null) {
@@ -441,7 +441,7 @@ public class EmpChangeDetailsController  extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	@RequestMapping(value = "/saveEmployeeChangeDetails", method = { RequestMethod.POST })
 	public String saveEmployeeConfigurationChangeDetails(
