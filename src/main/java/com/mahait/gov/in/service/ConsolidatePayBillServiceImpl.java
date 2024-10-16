@@ -124,11 +124,13 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 					BigInteger it = (BigInteger) obj[0];
 						incomeTax = (it.doubleValue());
 						totalITamt+=incomeTax;
-							
+						BigInteger dcpsArr =null;
+						if(obj[1]!=null) {
+							dcpsArr = (BigInteger) obj[1];
+							dcpsarr=(dcpsArr.doubleValue());
+							totaldcpsArr+=dcpsarr;
+						}
 						
-						BigInteger dcpsArr = (BigInteger) obj[1];
-						dcpsarr=(dcpsArr.doubleValue());
-						totaldcpsArr+=dcpsarr;
 							
 						BigDecimal gisVal = null;
 						if(obj[2]!=null) {

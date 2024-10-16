@@ -54,7 +54,7 @@ public class PageWiseAbstractReportRepoImpl implements PageWiseAbstractReportRep
 	public List<Map<String, Object>> getempDetails(String billNo) {
 		Session currentSession = manager.unwrap(Session.class);
 		// TODO Auto-generated method stub
-	String HQL = " select " + 
+	String HQL = " select sum(temp1.basic_pay) as basic_pay," + 
 			"        sum(temp1.SPL_PAY)as SPL_PAY, " + 
 			"        sum(temp1.PO)as PO, " + 
 			"        sum(temp1.D_PAY)as D_PAY, " + 

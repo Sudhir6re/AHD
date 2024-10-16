@@ -47,56 +47,46 @@ import com.mahait.gov.in.repository.EmpChangeDetailsRepo;
 public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 	@Autowired
 	EmpChangeDetailsRepo empChangeDetailsRepo;
-	
+
 	@Autowired
 	private Environment environment;
-	
-	
 
 	@Autowired
 	EmployeeIncrementService annualIncrementService;
 
 	@PersistenceContext
 	EntityManager entityManager;
+
 	@Override
 	public List<EmpChangeDetailsModel> findEmpforChangeDtls(String userName) {
 		// TODO Auto-generated method stub
-		
-		
+
 		List<EmpChangeDetailsModel> lstObj = new ArrayList<>();
 		List<Object[]> lstGenerateBillDetails = empChangeDetailsRepo.findEmpforChangeDtls(userName);
 		lstObj = new ArrayList<>();
 
-		
-		//employee_full_name_en,sevaarth_id,seven_pc_basic
-		if (!lstGenerateBillDetails.isEmpty()) {/*
-			for (Object[] objLst : lstGenerateBillDetails) {
-				EmpChangeDetailsModel obj = new EmpChangeDetailsModel();
-				 if(objLst[0]!=null) {
-					 obj.setEmpName(StringHelperUtils.isNullString(objLst[0]));
-				 }
-				 if(objLst[1]!=null) {
-					 obj.setSevaarthId(StringHelperUtils.isNullString(objLst[1]));
-				 }else {
-					 obj.setSevaarthId("");
-				 }
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-				String DOB  = dateFormat.format(objLst[2]);
-				obj.setDOB(StringHelperUtils.isNullString(DOB));
-				obj.setGender(StringHelperUtils.isNullChar(objLst[3]));
-				obj.setEmpId(StringHelperUtils.isNullInt(objLst[4]));
-				
-				
-			
-				
-				
-				lstObj.add(obj);
-			}
-		*/}
+		// employee_full_name_en,sevaarth_id,seven_pc_basic
+		if (!lstGenerateBillDetails.isEmpty()) {
+			/*
+			 * for (Object[] objLst : lstGenerateBillDetails) { EmpChangeDetailsModel obj =
+			 * new EmpChangeDetailsModel(); if(objLst[0]!=null) {
+			 * obj.setEmpName(StringHelperUtils.isNullString(objLst[0])); }
+			 * if(objLst[1]!=null) {
+			 * obj.setSevaarthId(StringHelperUtils.isNullString(objLst[1])); }else {
+			 * obj.setSevaarthId(""); } SimpleDateFormat dateFormat = new
+			 * SimpleDateFormat("dd-MM-yyyy"); String DOB = dateFormat.format(objLst[2]);
+			 * obj.setDOB(StringHelperUtils.isNullString(DOB));
+			 * obj.setGender(StringHelperUtils.isNullChar(objLst[3]));
+			 * obj.setEmpId(StringHelperUtils.isNullInt(objLst[4]));
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * lstObj.add(obj); }
+			 */}
 		return lstObj;
 	}
-
-	
 
 	@Override
 	public MstEmployeeModel getEmpData(int empId) {
@@ -104,448 +94,455 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		return empChangeDetailsRepo.getEmpData(empId);
 	}
 
-
-
 	@Override
 	public List<Object[]> getEmpSignPhoto(Long employeeId) {
 		// TODO Auto-generated method stub
 		return empChangeDetailsRepo.getEmpSignPhoto(employeeId);
 	}
 
-
-
-	/*@Override
-	public List<MstSevenMatrixEntity> getsevenPCBasic(int payscaleId) {
-		// TODO Auto-generated method stub
-		return empChangeDetailsRepo.getsevenPCBasic(payscaleId);
-	}
-
-
-
-	@Override
-	public List<MstEmployeeEntity> findEmpLst(String ddocode) {
-		// TODO Auto-generated method stub
-		return empChangeDetailsRepo.findEmpLst(ddocode);
-	}
-
-
-
-	@Override
-	public MstEmployeeEntity getEmployeeData(int empId) {
-		// TODO Auto-generated method stub
-		return empChangeDetailsRepo.getEmployeeData(empId);
-	}
-	public List<Object[]> GetCurrentPost(int designationId, String ddocode){
-		List<Object[]> result=empChangeDetailsRepo.GetCurrentPost(designationId, ddocode);
-		return result;
-	}*/
-
-
+	/*
+	 * @Override public List<MstSevenMatrixEntity> getsevenPCBasic(int payscaleId) {
+	 * // TODO Auto-generated method stub return
+	 * empChangeDetailsRepo.getsevenPCBasic(payscaleId); }
+	 * 
+	 * 
+	 * 
+	 * @Override public List<MstEmployeeEntity> findEmpLst(String ddocode) { // TODO
+	 * Auto-generated method stub return empChangeDetailsRepo.findEmpLst(ddocode); }
+	 * 
+	 * 
+	 * 
+	 * @Override public MstEmployeeEntity getEmployeeData(int empId) { // TODO
+	 * Auto-generated method stub return
+	 * empChangeDetailsRepo.getEmployeeData(empId); } public List<Object[]>
+	 * GetCurrentPost(int designationId, String ddocode){ List<Object[]>
+	 * result=empChangeDetailsRepo.GetCurrentPost(designationId, ddocode); return
+	 * result; }
+	 */
 
 	@Override
-	public int updateChangeEmpDtls(/*@Valid MstEmployeeEntity mstEmployeeEntity, MultipartFile[] files, int roleid,UserInfo userInfo*/) {
-		return 0;/*
-		
-		if(files.length!=0)
-		{
-			String[] saveimage = savePhotoSignature(files, mstEmployeeEntity.getFieldDepartmentCode(), mstEmployeeEntity.getEmployeeId(),
-					mstEmployeeEntity.getPhotoAttachmentId(), mstEmployeeEntity.getSignatureAttachmentId());
-			
-		mstEmployeeEntity.setPhotoAttachmentId(saveimage[0].toString());
-		mstEmployeeEntity.setSignatureAttachmentId(saveimage[1]);
-		}
-		
-		
-		MstEmployeeEntity mstEmployeeEntity2 = empChangeDetailsRepo.findempid(mstEmployeeEntity.getEmployeeId());
-		
-		
-		
-		
-		
-		
-		if(roleid==1) {
-			//add entry into annual increment
-			try {
-				Calendar cal = Calendar.getInstance();
-				Date today = cal.getTime();
-				cal.add(Calendar.YEAR, 1); // to get previous year add -1
-				cal.set(Calendar.DATE, 1);
-				Date nextYear = cal.getTime();
-			
-				Date date1 =new Date();
-				date1.setDate(1);
-				
-				Date toIncDate =nextYear;
-				
-				Integer oldBasic=0;
-	            Integer newBasic=0;
-				
-				if(mstEmployeeEntity2.getPayCommissionCode()==2) {
-					 oldBasic=mstEmployeeEntity2.getBasicPay().intValue();
-		             newBasic=mstEmployeeEntity.getBasicPay().intValue();
-				}else if(mstEmployeeEntity2.getPayCommissionCode()==8) {
-					 oldBasic=mstEmployeeEntity2.getSevenPcBasic().intValue();
-		             newBasic=mstEmployeeEntity.getSevenPcBasic().intValue();
-				}
-	            
-				
-				Integer currentBasicLevelId =Integer.parseInt(mstEmployeeEntity2.getPayscalelevelId());
-
-				Integer incrementBasicLevelId = Integer.parseInt(mstEmployeeEntity.getPayscalelevelId());
-
-				EmployeeIncrementEntity employeeIncrementEntity = new EmployeeIncrementEntity();
-				
-
-				// employeeIncrementEntity.setBasicPayIncrementId(basicPayIncrementId1);
-				employeeIncrementEntity.setCurrentBasicPay(oldBasic);
-				employeeIncrementEntity.setEffective_from_date(date1);
-				employeeIncrementEntity.setEmployeeId(mstEmployeeEntity.getEmployeeId());
-				employeeIncrementEntity.setIncrementBasicPaySal(newBasic);
-				employeeIncrementEntity.setIncrementOrderDate(date1);
-				employeeIncrementEntity.setIncrementOrderNo("");
-				employeeIncrementEntity.setPreBasicPay(oldBasic);
-				employeeIncrementEntity.setRemark("");
-				employeeIncrementEntity.setSevaarthId(mstEmployeeEntity.getSevaarthId());
-				employeeIncrementEntity.setCreatedDate(new Date());
-				employeeIncrementEntity.setMonth(today.getMonth()+1);
-				employeeIncrementEntity.setIsActive('3');
-				employeeIncrementEntity.setDdoCode(mstEmployeeEntity.getDdoCode());
-				employeeIncrementEntity.setTo_increment_date(nextYear);
-				employeeIncrementEntity.setCurrentBasicLevelId(currentBasicLevelId);
-				employeeIncrementEntity.setIncrementBasicLevelId(incrementBasicLevelId);
-
-				EmployeeIncrementEntity previousIncrementDtlsObj = annualIncrementService.getPreIncDtsByempId(mstEmployeeEntity.getEmployeeId());
-				if (previousIncrementDtlsObj != null) {
-				 	previousIncrementDtlsObj.setTo_increment_date(nextYear);
-					annualIncrementService.updateEmpIncrementToDate(previousIncrementDtlsObj,userInfo);
-				}
-
-				annualIncrementService.saveAnnualIncrement(employeeIncrementEntity);
-				
-				//annualIncrementService.saveAnnualIncrementBasicMst(mstEmployeeEntity);
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			//end annula increment entry
-		}else if(roleid==2) {
-			EmployeeIncrementEntity employeeIncrementEntity=annualIncrementService.findOldAnnualIncrement(mstEmployeeEntity.getEmployeeId());
-			if(employeeIncrementEntity!=null) {
-				employeeIncrementEntity.setIsActive('1');
-				annualIncrementService.updateEmpIncrementToDate(employeeIncrementEntity,userInfo);
-			}
-		}
-		
-		
-		ChangeDtlsHst changeDtlsHst = new ChangeDtlsHst();
-		
-		
-		
-		if(roleid==1)
-		{
-		if(mstEmployeeEntity2!=null) {
-			
-			
-			
-			
-			//History maintainance start//
-			changeDtlsHst.setEmployeeId(mstEmployeeEntity2.getEmployeeId());
-			changeDtlsHst.setUidNo(mstEmployeeEntity2.getUidNo());
-			changeDtlsHst.setEidNo(mstEmployeeEntity2.getEidNo());
-			changeDtlsHst.setSalutation(mstEmployeeEntity2.getSalutation());
-			changeDtlsHst.setSevaarthId(mstEmployeeEntity2.getSevaarthId());
-			changeDtlsHst.setEmployeeFullNameEn(mstEmployeeEntity2.getEmployeeFullNameEn());
-			changeDtlsHst.setEmployeeFNameEn(mstEmployeeEntity2.getEmployeeFNameEn().toUpperCase());
-			changeDtlsHst.setEmployeeMNameEn(mstEmployeeEntity2.getEmployeeMNameEn().toUpperCase());
-			changeDtlsHst.setEmployeeLNameEn(mstEmployeeEntity2.getEmployeeLNameEn().toUpperCase());
-			changeDtlsHst.setEmployeeFullNameMr(mstEmployeeEntity2.getEmployeeFullNameMr());
-			changeDtlsHst.setEmployeeFNameMr(mstEmployeeEntity2.getEmployeeFNameMr());
-			changeDtlsHst.setEmployeeLNameMr(mstEmployeeEntity2.getEmployeeLNameMr());
-			changeDtlsHst.setEmployeeMotherName(mstEmployeeEntity2.getEmployeeMotherName());
-			changeDtlsHst.setBuckleNo(mstEmployeeEntity2.getBuckleNo());
-			changeDtlsHst.setGender(mstEmployeeEntity2.getGender());
-			changeDtlsHst.setReligionCode(mstEmployeeEntity2.getReligionCode());
-			changeDtlsHst.setMaritalStatus(mstEmployeeEntity2.getMaritalStatus());
-			changeDtlsHst.setEmployeeMNameMr(mstEmployeeEntity2.getEmployeeMNameMr());
-			changeDtlsHst.setDob(mstEmployeeEntity2.getDob());
-			changeDtlsHst.setDoj(mstEmployeeEntity2.getDoj());
-			changeDtlsHst.setAddress1(mstEmployeeEntity2.getAddress1().toUpperCase());
-			changeDtlsHst.setAddress2(mstEmployeeEntity2.getAddress2().toUpperCase());
-//			changeDtlsHst.setAddress3(mstEmployeeEntity2.getAddress3().toUpperCase());
-//			changeDtlsHst.setLocality(mstEmployeeEntity2.getLocality());
-			changeDtlsHst.setStateCode(mstEmployeeEntity2.getStateCode());
-			changeDtlsHst.setDistrictCode(mstEmployeeEntity2.getDistrictCode());
-//			changeDtlsHst.setVillageName(mstEmployeeEntity2.getVillageName().toUpperCase());
-			changeDtlsHst.setPinCode(mstEmployeeEntity2.getPinCode());
-			changeDtlsHst.setPhysicallyHandicapped(mstEmployeeEntity2.getPhysicallyHandicapped());
-			changeDtlsHst.setMobileNo1(mstEmployeeEntity2.getMobileNo1());
-			changeDtlsHst.setEmailId(mstEmployeeEntity2.getEmailId());
-			changeDtlsHst.setPanNo(mstEmployeeEntity2.getPanNo());
-			changeDtlsHst.setCreatedDate(new Date());
-			changeDtlsHst.setRemark(mstEmployeeEntity2.getRemark());
-			
-			//Employee Details End
-			
-			
-			//Department Details Start
-			changeDtlsHst.setParentAdminDepartmentId(mstEmployeeEntity2.getParentAdminDepartmentCode());
-			changeDtlsHst.setParentFieldDepartmentId(mstEmployeeEntity2.getParentFieldDepartmentCode());
-			changeDtlsHst.setSubDeptId(mstEmployeeEntity2.getSubDeptId());
-			changeDtlsHst.setSubCorporationId(mstEmployeeEntity2.getSubCorporationId());
-			changeDtlsHst.setAdminDepartmentCode(mstEmployeeEntity2.getParentAdminDepartmentCode());
-			changeDtlsHst.setFieldDepartmentCode(mstEmployeeEntity2.getFieldDepartmentCode());
-			changeDtlsHst.setIsChangeParentDepartment(mstEmployeeEntity2.getIsChangeParentDepartment());
-			changeDtlsHst.setReasonForChngParentFieldDept(mstEmployeeEntity2.getReasonForChngParentFieldDept());
-			changeDtlsHst.setCadreCode(mstEmployeeEntity2.getCadreCode());
-			changeDtlsHst.setEmpClass(mstEmployeeEntity2.getEmpClass());
-			if(mstEmployeeEntity2.getSuperAnnAge()!=null)
-			changeDtlsHst.setSuperAnnAge(Integer.valueOf(mstEmployeeEntity2.getSuperAnnAge()));
-			changeDtlsHst.setEmpServiceEndDate(mstEmployeeEntity2.getSuperAnnDate()); //by default set to retirement date added by sudhir
-			changeDtlsHst.setSuperAnnDate(mstEmployeeEntity2.getSuperAnnDate());
-			changeDtlsHst.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode());
-			changeDtlsHst.setFirstDesignationCode(mstEmployeeEntity2.getFirstDesignationCode());
-			changeDtlsHst.setDesignationCode(mstEmployeeEntity2.getDesignationCode());
-			changeDtlsHst.setPayscalelevelId(mstEmployeeEntity2.getPayscalelevelId());
-			changeDtlsHst.setBegisCatg(mstEmployeeEntity2.getBegisCatg());
-			
-			if(mstEmployeeEntity2.getPayscalelevelId()!=null)
-				changeDtlsHst.setSevenPcLevel(Integer.parseInt(mstEmployeeEntity2.getPayscalelevelId()));
-			else
-			changeDtlsHst.setSevenPcLevel(0);
-			
-			
-			changeDtlsHst.setSvnthpaybasic(mstEmployeeEntity2.getSvnthpaybasic());
-			
-			if (mstEmployeeEntity2.getPayCommissionCode() == 2) {
-				changeDtlsHst.setBasicPay(
-						mstEmployeeEntity2.getBasicPay() == null ? 0 : mstEmployeeEntity2.getBasicPay().doubleValue());
-				changeDtlsHst.setGradePay(mstEmployeeEntity2.getGradePay());
-			} else {
-				changeDtlsHst.setSevenPcBasic(mstEmployeeEntity2.getSevenPcBasic() == null ? 0
-						: mstEmployeeEntity2.getSevenPcBasic().doubleValue());
-			}
-
-			changeDtlsHst.setPayScaleCode(mstEmployeeEntity2.getPayScaleCode());
-			changeDtlsHst.setPayInPayBand(mstEmployeeEntity2.getPayInPayBand());
-//			changeDtlsHst.setBasicPay(mstEmployeeEntity2.getBasicPay() == null ? 0 : mstEmployeeEntity2.getBasicPay().doubleValue());
-			
-			changeDtlsHst.setPostdetailid(mstEmployeeEntity2.getPostdetailid());
-			changeDtlsHst.setDepartmentNameEn(mstEmployeeEntity2.getDepartmentNameEn());
-			changeDtlsHst.setDtInitialAppointmentParentInst(mstEmployeeEntity2.getDtInitialAppointmentParentInst());
-			changeDtlsHst.setInstituteAdd(mstEmployeeEntity2.getInstituteAdd());
-			changeDtlsHst.setInstName(mstEmployeeEntity2.getInstName());
-			changeDtlsHst.setMobileNo2(mstEmployeeEntity2.getMobileNo2());
-			changeDtlsHst.setInstemail(mstEmployeeEntity2.getInstemail());
-			changeDtlsHst.setDtJoinCurrentPost(mstEmployeeEntity2.getDtJoinCurrentPost());
-			changeDtlsHst.setRemark(mstEmployeeEntity2.getRemark());
-			changeDtlsHst.setCityClass(mstEmployeeEntity2.getCityClass());
-			changeDtlsHst.setIndiApproveOrderNo(mstEmployeeEntity2.getIndiApproveOrderNo());
-			changeDtlsHst.setApprovalByDdoDate(mstEmployeeEntity2.getApprovalByDdoDate());
-			changeDtlsHst.setHraBasic(mstEmployeeEntity2.getHraBasic());
-			//Department Details End
-			
-			
-			
-			//Bank/DCPS/NPS/GPF Details Start
-			changeDtlsHst.setBankCode(mstEmployeeEntity2.getBankCode());
-			changeDtlsHst.setIfscCode(mstEmployeeEntity2.getIfscCode());
-			changeDtlsHst.setBankAcntNo(mstEmployeeEntity2.getBankAcntNo());
-			changeDtlsHst.setBankBranchCode(mstEmployeeEntity2.getBankBranchCode());
-			changeDtlsHst.setDcpsgpfflag(mstEmployeeEntity2.getDcpsgpfflag());
-			changeDtlsHst.setDcpsaccountmaintainby(mstEmployeeEntity2.getDcpsaccountmaintainby());
-			changeDtlsHst.setPranNo(mstEmployeeEntity2.getPranNo());
-			changeDtlsHst.setAccountmaintainby(mstEmployeeEntity2.getAccountmaintainby());
-			changeDtlsHst.setPfseries(mstEmployeeEntity2.getPfseries());
-			changeDtlsHst.setPfacno(mstEmployeeEntity2.getPfacno());
-			changeDtlsHst.setPfdescription(mstEmployeeEntity2.getPfdescription());
-			
-			//Bank/DCPS/NPS/GPF Details End
-			
-			
-			//GIS Details Start
-			changeDtlsHst.setGisapplicable(mstEmployeeEntity2.getGisapplicable());
-			changeDtlsHst.setGisgroup(mstEmployeeEntity2.getGisgroup());
-			changeDtlsHst.setMembership_date(mstEmployeeEntity2.getMembership_date());
-			changeDtlsHst.setGisRemark(mstEmployeeEntity2.getGisRemark());
-			changeDtlsHst.setGiscatagory(mstEmployeeEntity2.getGiscatagory());
-			//GIS Details End
-			
-			
-			///History maintainance end//
-			
-			
-			
-			
-			mstEmployeeEntity2.setUidNo(mstEmployeeEntity.getUidNo());
-			mstEmployeeEntity2.setEidNo(mstEmployeeEntity.getEidNo());
-			mstEmployeeEntity2.setSalutation(mstEmployeeEntity.getSalutation());
-			mstEmployeeEntity2.setEmployeeFullNameEn(mstEmployeeEntity.getEmployeeFullNameEn());
-			mstEmployeeEntity2.setEmployeeFNameEn(mstEmployeeEntity.getEmployeeFNameEn().toUpperCase());
-			mstEmployeeEntity2.setEmployeeMNameEn(mstEmployeeEntity.getEmployeeMNameEn().toUpperCase());
-			mstEmployeeEntity2.setEmployeeLNameEn(mstEmployeeEntity.getEmployeeLNameEn().toUpperCase());
-			mstEmployeeEntity2.setEmployeeFullNameMr(mstEmployeeEntity.getEmployeeFullNameMr());
-			mstEmployeeEntity2.setEmployeeFNameMr(mstEmployeeEntity.getEmployeeFNameMr());
-			mstEmployeeEntity2.setEmployeeLNameMr(mstEmployeeEntity.getEmployeeLNameMr());
-			mstEmployeeEntity2.setEmployeeMotherName(mstEmployeeEntity.getEmployeeMotherName());
-			mstEmployeeEntity2.setBuckleNo(mstEmployeeEntity.getBuckleNo());
-			mstEmployeeEntity2.setGender(mstEmployeeEntity.getGender());
-			mstEmployeeEntity2.setReligionCode(mstEmployeeEntity.getReligionCode());
-			mstEmployeeEntity2.setMaritalStatus(mstEmployeeEntity.getMaritalStatus());
-			mstEmployeeEntity2.setEmployeeMNameMr(mstEmployeeEntity.getEmployeeMNameMr());
-			mstEmployeeEntity2.setDob(mstEmployeeEntity.getDob());
-			mstEmployeeEntity2.setDoj(mstEmployeeEntity.getDoj());
-			mstEmployeeEntity2.setAddress1(mstEmployeeEntity.getAddress1().toUpperCase());
-			mstEmployeeEntity2.setAddress2(mstEmployeeEntity.getAddress2().toUpperCase());
-//			mstEmployeeEntity2.setAddress3(mstEmployeeEntity.getAddress3().toUpperCase());
-//			mstEmployeeEntity2.setLocality(mstEmployeeEntity.getLocality());
-			mstEmployeeEntity2.setStateCode(mstEmployeeEntity.getStateCode());
-			mstEmployeeEntity2.setDistrictCode(mstEmployeeEntity.getDistrictCode());
-//			mstEmployeeEntity2.setVillageName(mstEmployeeEntity.getVillageName().toUpperCase());
-			mstEmployeeEntity2.setPinCode(mstEmployeeEntity.getPinCode());
-			mstEmployeeEntity2.setPhysicallyHandicapped(mstEmployeeEntity.getPhysicallyHandicapped());
-			mstEmployeeEntity2.setMobileNo1(mstEmployeeEntity.getMobileNo1());
-			mstEmployeeEntity2.setEmailId(mstEmployeeEntity.getEmailId());
-			mstEmployeeEntity2.setPanNo(mstEmployeeEntity.getPanNo());
-			
-			//Employee Details End
-			
-			
-			//Department Details Start
-			mstEmployeeEntity2.setParentAdminDepartmentId(mstEmployeeEntity.getParentAdminDepartmentCode());
-			mstEmployeeEntity2.setParentFieldDepartmentId(mstEmployeeEntity.getParentFieldDepartmentCode());
-			mstEmployeeEntity2.setSubDeptId(mstEmployeeEntity.getSubDeptId());
-			mstEmployeeEntity2.setSubCorporationId(mstEmployeeEntity.getSubCorporationId());
-			mstEmployeeEntity2.setAdminDepartmentCode(mstEmployeeEntity.getParentAdminDepartmentCode());
-			mstEmployeeEntity2.setFieldDepartmentCode(mstEmployeeEntity.getFieldDepartmentCode());
-			mstEmployeeEntity2.setIsChangeParentDepartment(mstEmployeeEntity.getIsChangeParentDepartment());
-			mstEmployeeEntity2.setReasonForChngParentFieldDept(mstEmployeeEntity.getReasonForChngParentFieldDept());
-			mstEmployeeEntity2.setCadreCode(mstEmployeeEntity.getCadreCode());
-			mstEmployeeEntity2.setEmpClass(mstEmployeeEntity.getEmpClass());
-			mstEmployeeEntity2.setSuperAnnAge(Integer.valueOf(mstEmployeeEntity.getSuperAnnAge()));
-			mstEmployeeEntity2.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); //by default set to retirement date added by sudhir
-			mstEmployeeEntity2.setSuperAnnDate(mstEmployeeEntity.getSuperAnnDate());
-			mstEmployeeEntity2.setPayCommissionCode(mstEmployeeEntity.getPayCommissionCode());
-			mstEmployeeEntity2.setFirstDesignationCode(mstEmployeeEntity.getFirstDesignationCode());
-			mstEmployeeEntity2.setDesignationCode(mstEmployeeEntity.getDesignationCode());
-			mstEmployeeEntity2.setPayscalelevelId(mstEmployeeEntity.getPayscalelevelId());
-			if(mstEmployeeEntity.getPayscalelevelId()!=null)
-				mstEmployeeEntity2.setSevenPcLevel(Integer.parseInt(mstEmployeeEntity.getPayscalelevelId()));
-			else
-			mstEmployeeEntity2.setSevenPcLevel(0);
-			
-			
-			mstEmployeeEntity2.setSvnthpaybasic(mstEmployeeEntity.getSvnthpaybasic());
-			
-			if (mstEmployeeEntity.getPayCommissionCode() == 2) {
-				mstEmployeeEntity2.setBasicPay(
-						mstEmployeeEntity.getBasicPay() == null ? 0 : mstEmployeeEntity.getBasicPay().doubleValue());
-				mstEmployeeEntity2.setGradePay(mstEmployeeEntity.getGradePay());
-			} else {
-				mstEmployeeEntity2.setSevenPcBasic(mstEmployeeEntity.getSevenPcBasic() == null ? 0
-						: mstEmployeeEntity.getSevenPcBasic().doubleValue());
-			}
-
-			mstEmployeeEntity2.setPayScaleCode(mstEmployeeEntity.getPayScaleCode());
-			mstEmployeeEntity2.setPayInPayBand(mstEmployeeEntity.getPayInPayBand());
-//			mstEmployeeEntity2.setBasicPay(mstEmployeeEntity.getBasicPay() == null ? 0 : mstEmployeeEntity.getBasicPay().doubleValue());
-			
-			mstEmployeeEntity2.setPostdetailid(mstEmployeeEntity.getPostdetailid());
-			mstEmployeeEntity2.setDepartmentNameEn(mstEmployeeEntity.getDepartmentNameEn());
-			mstEmployeeEntity2.setDtInitialAppointmentParentInst(mstEmployeeEntity.getDtInitialAppointmentParentInst());
-			mstEmployeeEntity2.setInstituteAdd(mstEmployeeEntity.getInstituteAdd());
-			mstEmployeeEntity2.setInstName(mstEmployeeEntity.getInstName());
-			mstEmployeeEntity2.setMobileNo2(mstEmployeeEntity.getMobileNo2());
-			mstEmployeeEntity2.setInstemail(mstEmployeeEntity.getInstemail());
-			mstEmployeeEntity2.setDtJoinCurrentPost(mstEmployeeEntity.getDtJoinCurrentPost());
-			mstEmployeeEntity2.setRemark(mstEmployeeEntity.getRemark());
-			mstEmployeeEntity2.setCityClass(mstEmployeeEntity.getCityClass());
-			mstEmployeeEntity2.setIndiApproveOrderNo(mstEmployeeEntity.getIndiApproveOrderNo());
-			mstEmployeeEntity2.setApprovalByDdoDate(mstEmployeeEntity.getApprovalByDdoDate());
-			mstEmployeeEntity2.setHraBasic(mstEmployeeEntity.getHraBasic());
-			//Department Details End
-			
-			
-			
-			//Bank/DCPS/NPS/GPF Details Start
-			mstEmployeeEntity2.setBankCode(mstEmployeeEntity.getBankCode());
-			mstEmployeeEntity2.setIfscCode(mstEmployeeEntity.getIfscCode());
-			mstEmployeeEntity2.setBankAcntNo(mstEmployeeEntity.getBankAcntNo());
-			mstEmployeeEntity2.setBankBranchCode(mstEmployeeEntity.getBankBranchCode());
-			mstEmployeeEntity2.setDcpsgpfflag(mstEmployeeEntity.getDcpsgpfflag());
-			mstEmployeeEntity2.setDcpsaccountmaintainby(mstEmployeeEntity.getDcpsaccountmaintainby());
-			mstEmployeeEntity2.setPranNo(mstEmployeeEntity.getPranNo());
-			mstEmployeeEntity2.setAccountmaintainby(mstEmployeeEntity.getAccountmaintainby());
-			mstEmployeeEntity2.setPfseries(mstEmployeeEntity.getPfseries());
-			mstEmployeeEntity2.setPfacno(mstEmployeeEntity.getPfacno());
-			mstEmployeeEntity2.setPfdescription(mstEmployeeEntity.getMstGpfDetailsEntity().getPfdescription());
-			
-			//Bank/DCPS/NPS/GPF Details End
-			
-			
-			//GIS Details Start
-			mstEmployeeEntity2.setGisapplicable(mstEmployeeEntity.getGisapplicable());
-			mstEmployeeEntity2.setGisgroup(mstEmployeeEntity.getGisgroup());
-			mstEmployeeEntity2.setMembership_date(mstEmployeeEntity.getMembership_date());
-			mstEmployeeEntity2.setGisRemark(mstEmployeeEntity.getGisRemark());
-			mstEmployeeEntity2.setGiscatagory(mstEmployeeEntity.getGiscatagory());
-			//GIS Details End
-		
-			
-			
-
-			}
-		
-		
-	}
-		
-		
-		
-		
-		mstEmployeeEntity2.setDtInitialAppointmentParentInst(StringHelperUtils.isNullDate(mstEmployeeEntity.getDtInitialAppointmentParentInst()));
-		mstEmployeeEntity2.setOrderDate(StringHelperUtils.isNullDate(mstEmployeeEntity.getOrderDate()));
-		if(roleid==1)
-		{
-			mstEmployeeEntity2.setIsActive(5);
-		}
-		else
-		{
-			if(mstEmployeeEntity.getGender()=='1')
-			{
-				mstEmployeeEntity2.setGender('M');
-			}
-			else if(mstEmployeeEntity.getGender()=='2')
-			{
-				mstEmployeeEntity2.setGender('F');
-			}
-			else
-			{
-				mstEmployeeEntity2.setGender('T');
-			}
-			mstEmployeeEntity2.setIsActive(1);
-		}
-		mstEmployeeEntity2.setUpdatedDate(new Date());
-		mstEmployeeEntity2.setParentFieldDepartmentCode(BigInteger.valueOf(51));
-		int updated=0;
-		if(mstEmployeeEntity!=null) {
-			empChangeDetailsRepo.updateChangeEmpDtls(mstEmployeeEntity2);
-			if(roleid==1)
-			empChangeDetailsRepo.updateChangeEmpHstDtls(changeDtlsHst);
-			updated=1;
-		}
-		
-		
-	
-		
-		
-		
-		
-		return  updated;
-	*/}
+	public int updateChangeEmpDtls(/*
+									 * @Valid MstEmployeeEntity mstEmployeeEntity, MultipartFile[] files, int
+									 * roleid,UserInfo userInfo
+									 */) {
+		return 0;
+		/*
+		 * 
+		 * if(files.length!=0) { String[] saveimage = savePhotoSignature(files,
+		 * mstEmployeeEntity.getFieldDepartmentCode(),
+		 * mstEmployeeEntity.getEmployeeId(), mstEmployeeEntity.getPhotoAttachmentId(),
+		 * mstEmployeeEntity.getSignatureAttachmentId());
+		 * 
+		 * mstEmployeeEntity.setPhotoAttachmentId(saveimage[0].toString());
+		 * mstEmployeeEntity.setSignatureAttachmentId(saveimage[1]); }
+		 * 
+		 * 
+		 * MstEmployeeEntity mstEmployeeEntity2 =
+		 * empChangeDetailsRepo.findempid(mstEmployeeEntity.getEmployeeId());
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * if(roleid==1) { //add entry into annual increment try { Calendar cal =
+		 * Calendar.getInstance(); Date today = cal.getTime(); cal.add(Calendar.YEAR,
+		 * 1); // to get previous year add -1 cal.set(Calendar.DATE, 1); Date nextYear =
+		 * cal.getTime();
+		 * 
+		 * Date date1 =new Date(); date1.setDate(1);
+		 * 
+		 * Date toIncDate =nextYear;
+		 * 
+		 * Integer oldBasic=0; Integer newBasic=0;
+		 * 
+		 * if(mstEmployeeEntity2.getPayCommissionCode()==2) {
+		 * oldBasic=mstEmployeeEntity2.getBasicPay().intValue();
+		 * newBasic=mstEmployeeEntity.getBasicPay().intValue(); }else
+		 * if(mstEmployeeEntity2.getPayCommissionCode()==8) {
+		 * oldBasic=mstEmployeeEntity2.getSevenPcBasic().intValue();
+		 * newBasic=mstEmployeeEntity.getSevenPcBasic().intValue(); }
+		 * 
+		 * 
+		 * Integer currentBasicLevelId
+		 * =Integer.parseInt(mstEmployeeEntity2.getPayscalelevelId());
+		 * 
+		 * Integer incrementBasicLevelId =
+		 * Integer.parseInt(mstEmployeeEntity.getPayscalelevelId());
+		 * 
+		 * EmployeeIncrementEntity employeeIncrementEntity = new
+		 * EmployeeIncrementEntity();
+		 * 
+		 * 
+		 * // employeeIncrementEntity.setBasicPayIncrementId(basicPayIncrementId1);
+		 * employeeIncrementEntity.setCurrentBasicPay(oldBasic);
+		 * employeeIncrementEntity.setEffective_from_date(date1);
+		 * employeeIncrementEntity.setEmployeeId(mstEmployeeEntity.getEmployeeId());
+		 * employeeIncrementEntity.setIncrementBasicPaySal(newBasic);
+		 * employeeIncrementEntity.setIncrementOrderDate(date1);
+		 * employeeIncrementEntity.setIncrementOrderNo("");
+		 * employeeIncrementEntity.setPreBasicPay(oldBasic);
+		 * employeeIncrementEntity.setRemark("");
+		 * employeeIncrementEntity.setSevaarthId(mstEmployeeEntity.getSevaarthId());
+		 * employeeIncrementEntity.setCreatedDate(new Date());
+		 * employeeIncrementEntity.setMonth(today.getMonth()+1);
+		 * employeeIncrementEntity.setIsActive('3');
+		 * employeeIncrementEntity.setDdoCode(mstEmployeeEntity.getDdoCode());
+		 * employeeIncrementEntity.setTo_increment_date(nextYear);
+		 * employeeIncrementEntity.setCurrentBasicLevelId(currentBasicLevelId);
+		 * employeeIncrementEntity.setIncrementBasicLevelId(incrementBasicLevelId);
+		 * 
+		 * EmployeeIncrementEntity previousIncrementDtlsObj =
+		 * annualIncrementService.getPreIncDtsByempId(mstEmployeeEntity.getEmployeeId())
+		 * ; if (previousIncrementDtlsObj != null) {
+		 * previousIncrementDtlsObj.setTo_increment_date(nextYear);
+		 * annualIncrementService.updateEmpIncrementToDate(previousIncrementDtlsObj,
+		 * userInfo); }
+		 * 
+		 * annualIncrementService.saveAnnualIncrement(employeeIncrementEntity);
+		 * 
+		 * //annualIncrementService.saveAnnualIncrementBasicMst(mstEmployeeEntity); }
+		 * catch (Exception e) { System.out.println(e.getMessage()); } //end annula
+		 * increment entry }else if(roleid==2) { EmployeeIncrementEntity
+		 * employeeIncrementEntity=annualIncrementService.findOldAnnualIncrement(
+		 * mstEmployeeEntity.getEmployeeId()); if(employeeIncrementEntity!=null) {
+		 * employeeIncrementEntity.setIsActive('1');
+		 * annualIncrementService.updateEmpIncrementToDate(employeeIncrementEntity,
+		 * userInfo); } }
+		 * 
+		 * 
+		 * ChangeDtlsHst changeDtlsHst = new ChangeDtlsHst();
+		 * 
+		 * 
+		 * 
+		 * if(roleid==1) { if(mstEmployeeEntity2!=null) {
+		 * 
+		 * 
+		 * 
+		 * 
+		 * //History maintainance start//
+		 * changeDtlsHst.setEmployeeId(mstEmployeeEntity2.getEmployeeId());
+		 * changeDtlsHst.setUidNo(mstEmployeeEntity2.getUidNo());
+		 * changeDtlsHst.setEidNo(mstEmployeeEntity2.getEidNo());
+		 * changeDtlsHst.setSalutation(mstEmployeeEntity2.getSalutation());
+		 * changeDtlsHst.setSevaarthId(mstEmployeeEntity2.getSevaarthId());
+		 * changeDtlsHst.setEmployeeFullNameEn(mstEmployeeEntity2.getEmployeeFullNameEn(
+		 * )); changeDtlsHst.setEmployeeFNameEn(mstEmployeeEntity2.getEmployeeFNameEn().
+		 * toUpperCase());
+		 * changeDtlsHst.setEmployeeMNameEn(mstEmployeeEntity2.getEmployeeMNameEn().
+		 * toUpperCase());
+		 * changeDtlsHst.setEmployeeLNameEn(mstEmployeeEntity2.getEmployeeLNameEn().
+		 * toUpperCase());
+		 * changeDtlsHst.setEmployeeFullNameMr(mstEmployeeEntity2.getEmployeeFullNameMr(
+		 * ));
+		 * changeDtlsHst.setEmployeeFNameMr(mstEmployeeEntity2.getEmployeeFNameMr());
+		 * changeDtlsHst.setEmployeeLNameMr(mstEmployeeEntity2.getEmployeeLNameMr());
+		 * changeDtlsHst.setEmployeeMotherName(mstEmployeeEntity2.getEmployeeMotherName(
+		 * )); changeDtlsHst.setBuckleNo(mstEmployeeEntity2.getBuckleNo());
+		 * changeDtlsHst.setGender(mstEmployeeEntity2.getGender());
+		 * changeDtlsHst.setReligionCode(mstEmployeeEntity2.getReligionCode());
+		 * changeDtlsHst.setMaritalStatus(mstEmployeeEntity2.getMaritalStatus());
+		 * changeDtlsHst.setEmployeeMNameMr(mstEmployeeEntity2.getEmployeeMNameMr());
+		 * changeDtlsHst.setDob(mstEmployeeEntity2.getDob());
+		 * changeDtlsHst.setDoj(mstEmployeeEntity2.getDoj());
+		 * changeDtlsHst.setAddress1(mstEmployeeEntity2.getAddress1().toUpperCase());
+		 * changeDtlsHst.setAddress2(mstEmployeeEntity2.getAddress2().toUpperCase()); //
+		 * changeDtlsHst.setAddress3(mstEmployeeEntity2.getAddress3().toUpperCase()); //
+		 * changeDtlsHst.setLocality(mstEmployeeEntity2.getLocality());
+		 * changeDtlsHst.setStateCode(mstEmployeeEntity2.getStateCode());
+		 * changeDtlsHst.setDistrictCode(mstEmployeeEntity2.getDistrictCode()); //
+		 * changeDtlsHst.setVillageName(mstEmployeeEntity2.getVillageName().toUpperCase(
+		 * )); changeDtlsHst.setPinCode(mstEmployeeEntity2.getPinCode());
+		 * changeDtlsHst.setPhysicallyHandicapped(mstEmployeeEntity2.
+		 * getPhysicallyHandicapped());
+		 * changeDtlsHst.setMobileNo1(mstEmployeeEntity2.getMobileNo1());
+		 * changeDtlsHst.setEmailId(mstEmployeeEntity2.getEmailId());
+		 * changeDtlsHst.setPanNo(mstEmployeeEntity2.getPanNo());
+		 * changeDtlsHst.setCreatedDate(new Date());
+		 * changeDtlsHst.setRemark(mstEmployeeEntity2.getRemark());
+		 * 
+		 * //Employee Details End
+		 * 
+		 * 
+		 * //Department Details Start
+		 * changeDtlsHst.setParentAdminDepartmentId(mstEmployeeEntity2.
+		 * getParentAdminDepartmentCode());
+		 * changeDtlsHst.setParentFieldDepartmentId(mstEmployeeEntity2.
+		 * getParentFieldDepartmentCode());
+		 * changeDtlsHst.setSubDeptId(mstEmployeeEntity2.getSubDeptId());
+		 * changeDtlsHst.setSubCorporationId(mstEmployeeEntity2.getSubCorporationId());
+		 * changeDtlsHst.setAdminDepartmentCode(mstEmployeeEntity2.
+		 * getParentAdminDepartmentCode());
+		 * changeDtlsHst.setFieldDepartmentCode(mstEmployeeEntity2.
+		 * getFieldDepartmentCode());
+		 * changeDtlsHst.setIsChangeParentDepartment(mstEmployeeEntity2.
+		 * getIsChangeParentDepartment());
+		 * changeDtlsHst.setReasonForChngParentFieldDept(mstEmployeeEntity2.
+		 * getReasonForChngParentFieldDept());
+		 * changeDtlsHst.setCadreCode(mstEmployeeEntity2.getCadreCode());
+		 * changeDtlsHst.setEmpClass(mstEmployeeEntity2.getEmpClass());
+		 * if(mstEmployeeEntity2.getSuperAnnAge()!=null)
+		 * changeDtlsHst.setSuperAnnAge(Integer.valueOf(mstEmployeeEntity2.
+		 * getSuperAnnAge()));
+		 * changeDtlsHst.setEmpServiceEndDate(mstEmployeeEntity2.getSuperAnnDate());
+		 * //by default set to retirement date added by sudhir
+		 * changeDtlsHst.setSuperAnnDate(mstEmployeeEntity2.getSuperAnnDate());
+		 * changeDtlsHst.setPayCommissionCode(mstEmployeeEntity2.getPayCommissionCode())
+		 * ; changeDtlsHst.setFirstDesignationCode(mstEmployeeEntity2.
+		 * getFirstDesignationCode());
+		 * changeDtlsHst.setDesignationCode(mstEmployeeEntity2.getDesignationCode());
+		 * changeDtlsHst.setPayscalelevelId(mstEmployeeEntity2.getPayscalelevelId());
+		 * changeDtlsHst.setBegisCatg(mstEmployeeEntity2.getBegisCatg());
+		 * 
+		 * if(mstEmployeeEntity2.getPayscalelevelId()!=null)
+		 * changeDtlsHst.setSevenPcLevel(Integer.parseInt(mstEmployeeEntity2.
+		 * getPayscalelevelId())); else changeDtlsHst.setSevenPcLevel(0);
+		 * 
+		 * 
+		 * changeDtlsHst.setSvnthpaybasic(mstEmployeeEntity2.getSvnthpaybasic());
+		 * 
+		 * if (mstEmployeeEntity2.getPayCommissionCode() == 2) {
+		 * changeDtlsHst.setBasicPay( mstEmployeeEntity2.getBasicPay() == null ? 0 :
+		 * mstEmployeeEntity2.getBasicPay().doubleValue());
+		 * changeDtlsHst.setGradePay(mstEmployeeEntity2.getGradePay()); } else {
+		 * changeDtlsHst.setSevenPcBasic(mstEmployeeEntity2.getSevenPcBasic() == null ?
+		 * 0 : mstEmployeeEntity2.getSevenPcBasic().doubleValue()); }
+		 * 
+		 * changeDtlsHst.setPayScaleCode(mstEmployeeEntity2.getPayScaleCode());
+		 * changeDtlsHst.setPayInPayBand(mstEmployeeEntity2.getPayInPayBand()); //
+		 * changeDtlsHst.setBasicPay(mstEmployeeEntity2.getBasicPay() == null ? 0 :
+		 * mstEmployeeEntity2.getBasicPay().doubleValue());
+		 * 
+		 * changeDtlsHst.setPostdetailid(mstEmployeeEntity2.getPostdetailid());
+		 * changeDtlsHst.setDepartmentNameEn(mstEmployeeEntity2.getDepartmentNameEn());
+		 * changeDtlsHst.setDtInitialAppointmentParentInst(mstEmployeeEntity2.
+		 * getDtInitialAppointmentParentInst());
+		 * changeDtlsHst.setInstituteAdd(mstEmployeeEntity2.getInstituteAdd());
+		 * changeDtlsHst.setInstName(mstEmployeeEntity2.getInstName());
+		 * changeDtlsHst.setMobileNo2(mstEmployeeEntity2.getMobileNo2());
+		 * changeDtlsHst.setInstemail(mstEmployeeEntity2.getInstemail());
+		 * changeDtlsHst.setDtJoinCurrentPost(mstEmployeeEntity2.getDtJoinCurrentPost())
+		 * ; changeDtlsHst.setRemark(mstEmployeeEntity2.getRemark());
+		 * changeDtlsHst.setCityClass(mstEmployeeEntity2.getCityClass());
+		 * changeDtlsHst.setIndiApproveOrderNo(mstEmployeeEntity2.getIndiApproveOrderNo(
+		 * ));
+		 * changeDtlsHst.setApprovalByDdoDate(mstEmployeeEntity2.getApprovalByDdoDate())
+		 * ; changeDtlsHst.setHraBasic(mstEmployeeEntity2.getHraBasic()); //Department
+		 * Details End
+		 * 
+		 * 
+		 * 
+		 * //Bank/DCPS/NPS/GPF Details Start
+		 * changeDtlsHst.setBankCode(mstEmployeeEntity2.getBankCode());
+		 * changeDtlsHst.setIfscCode(mstEmployeeEntity2.getIfscCode());
+		 * changeDtlsHst.setBankAcntNo(mstEmployeeEntity2.getBankAcntNo());
+		 * changeDtlsHst.setBankBranchCode(mstEmployeeEntity2.getBankBranchCode());
+		 * changeDtlsHst.setDcpsgpfflag(mstEmployeeEntity2.getDcpsgpfflag());
+		 * changeDtlsHst.setDcpsaccountmaintainby(mstEmployeeEntity2.
+		 * getDcpsaccountmaintainby());
+		 * changeDtlsHst.setPranNo(mstEmployeeEntity2.getPranNo());
+		 * changeDtlsHst.setAccountmaintainby(mstEmployeeEntity2.getAccountmaintainby())
+		 * ; changeDtlsHst.setPfseries(mstEmployeeEntity2.getPfseries());
+		 * changeDtlsHst.setPfacno(mstEmployeeEntity2.getPfacno());
+		 * changeDtlsHst.setPfdescription(mstEmployeeEntity2.getPfdescription());
+		 * 
+		 * //Bank/DCPS/NPS/GPF Details End
+		 * 
+		 * 
+		 * //GIS Details Start
+		 * changeDtlsHst.setGisapplicable(mstEmployeeEntity2.getGisapplicable());
+		 * changeDtlsHst.setGisgroup(mstEmployeeEntity2.getGisgroup());
+		 * changeDtlsHst.setMembership_date(mstEmployeeEntity2.getMembership_date());
+		 * changeDtlsHst.setGisRemark(mstEmployeeEntity2.getGisRemark());
+		 * changeDtlsHst.setGiscatagory(mstEmployeeEntity2.getGiscatagory()); //GIS
+		 * Details End
+		 * 
+		 * 
+		 * ///History maintainance end//
+		 * 
+		 * 
+		 * 
+		 * 
+		 * mstEmployeeEntity2.setUidNo(mstEmployeeEntity.getUidNo());
+		 * mstEmployeeEntity2.setEidNo(mstEmployeeEntity.getEidNo());
+		 * mstEmployeeEntity2.setSalutation(mstEmployeeEntity.getSalutation());
+		 * mstEmployeeEntity2.setEmployeeFullNameEn(mstEmployeeEntity.
+		 * getEmployeeFullNameEn());
+		 * mstEmployeeEntity2.setEmployeeFNameEn(mstEmployeeEntity.getEmployeeFNameEn().
+		 * toUpperCase());
+		 * mstEmployeeEntity2.setEmployeeMNameEn(mstEmployeeEntity.getEmployeeMNameEn().
+		 * toUpperCase());
+		 * mstEmployeeEntity2.setEmployeeLNameEn(mstEmployeeEntity.getEmployeeLNameEn().
+		 * toUpperCase()); mstEmployeeEntity2.setEmployeeFullNameMr(mstEmployeeEntity.
+		 * getEmployeeFullNameMr());
+		 * mstEmployeeEntity2.setEmployeeFNameMr(mstEmployeeEntity.getEmployeeFNameMr())
+		 * ;
+		 * mstEmployeeEntity2.setEmployeeLNameMr(mstEmployeeEntity.getEmployeeLNameMr())
+		 * ; mstEmployeeEntity2.setEmployeeMotherName(mstEmployeeEntity.
+		 * getEmployeeMotherName());
+		 * mstEmployeeEntity2.setBuckleNo(mstEmployeeEntity.getBuckleNo());
+		 * mstEmployeeEntity2.setGender(mstEmployeeEntity.getGender());
+		 * mstEmployeeEntity2.setReligionCode(mstEmployeeEntity.getReligionCode());
+		 * mstEmployeeEntity2.setMaritalStatus(mstEmployeeEntity.getMaritalStatus());
+		 * mstEmployeeEntity2.setEmployeeMNameMr(mstEmployeeEntity.getEmployeeMNameMr())
+		 * ; mstEmployeeEntity2.setDob(mstEmployeeEntity.getDob());
+		 * mstEmployeeEntity2.setDoj(mstEmployeeEntity.getDoj());
+		 * mstEmployeeEntity2.setAddress1(mstEmployeeEntity.getAddress1().toUpperCase())
+		 * ;
+		 * mstEmployeeEntity2.setAddress2(mstEmployeeEntity.getAddress2().toUpperCase())
+		 * ; //
+		 * mstEmployeeEntity2.setAddress3(mstEmployeeEntity.getAddress3().toUpperCase())
+		 * ; // mstEmployeeEntity2.setLocality(mstEmployeeEntity.getLocality());
+		 * mstEmployeeEntity2.setStateCode(mstEmployeeEntity.getStateCode());
+		 * mstEmployeeEntity2.setDistrictCode(mstEmployeeEntity.getDistrictCode()); //
+		 * mstEmployeeEntity2.setVillageName(mstEmployeeEntity.getVillageName().
+		 * toUpperCase());
+		 * mstEmployeeEntity2.setPinCode(mstEmployeeEntity.getPinCode());
+		 * mstEmployeeEntity2.setPhysicallyHandicapped(mstEmployeeEntity.
+		 * getPhysicallyHandicapped());
+		 * mstEmployeeEntity2.setMobileNo1(mstEmployeeEntity.getMobileNo1());
+		 * mstEmployeeEntity2.setEmailId(mstEmployeeEntity.getEmailId());
+		 * mstEmployeeEntity2.setPanNo(mstEmployeeEntity.getPanNo());
+		 * 
+		 * //Employee Details End
+		 * 
+		 * 
+		 * //Department Details Start
+		 * mstEmployeeEntity2.setParentAdminDepartmentId(mstEmployeeEntity.
+		 * getParentAdminDepartmentCode());
+		 * mstEmployeeEntity2.setParentFieldDepartmentId(mstEmployeeEntity.
+		 * getParentFieldDepartmentCode());
+		 * mstEmployeeEntity2.setSubDeptId(mstEmployeeEntity.getSubDeptId());
+		 * mstEmployeeEntity2.setSubCorporationId(mstEmployeeEntity.getSubCorporationId(
+		 * )); mstEmployeeEntity2.setAdminDepartmentCode(mstEmployeeEntity.
+		 * getParentAdminDepartmentCode());
+		 * mstEmployeeEntity2.setFieldDepartmentCode(mstEmployeeEntity.
+		 * getFieldDepartmentCode());
+		 * mstEmployeeEntity2.setIsChangeParentDepartment(mstEmployeeEntity.
+		 * getIsChangeParentDepartment());
+		 * mstEmployeeEntity2.setReasonForChngParentFieldDept(mstEmployeeEntity.
+		 * getReasonForChngParentFieldDept());
+		 * mstEmployeeEntity2.setCadreCode(mstEmployeeEntity.getCadreCode());
+		 * mstEmployeeEntity2.setEmpClass(mstEmployeeEntity.getEmpClass());
+		 * mstEmployeeEntity2.setSuperAnnAge(Integer.valueOf(mstEmployeeEntity.
+		 * getSuperAnnAge()));
+		 * mstEmployeeEntity2.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate());
+		 * //by default set to retirement date added by sudhir
+		 * mstEmployeeEntity2.setSuperAnnDate(mstEmployeeEntity.getSuperAnnDate());
+		 * mstEmployeeEntity2.setPayCommissionCode(mstEmployeeEntity.
+		 * getPayCommissionCode());
+		 * mstEmployeeEntity2.setFirstDesignationCode(mstEmployeeEntity.
+		 * getFirstDesignationCode());
+		 * mstEmployeeEntity2.setDesignationCode(mstEmployeeEntity.getDesignationCode())
+		 * ;
+		 * mstEmployeeEntity2.setPayscalelevelId(mstEmployeeEntity.getPayscalelevelId())
+		 * ; if(mstEmployeeEntity.getPayscalelevelId()!=null)
+		 * mstEmployeeEntity2.setSevenPcLevel(Integer.parseInt(mstEmployeeEntity.
+		 * getPayscalelevelId())); else mstEmployeeEntity2.setSevenPcLevel(0);
+		 * 
+		 * 
+		 * mstEmployeeEntity2.setSvnthpaybasic(mstEmployeeEntity.getSvnthpaybasic());
+		 * 
+		 * if (mstEmployeeEntity.getPayCommissionCode() == 2) {
+		 * mstEmployeeEntity2.setBasicPay( mstEmployeeEntity.getBasicPay() == null ? 0 :
+		 * mstEmployeeEntity.getBasicPay().doubleValue());
+		 * mstEmployeeEntity2.setGradePay(mstEmployeeEntity.getGradePay()); } else {
+		 * mstEmployeeEntity2.setSevenPcBasic(mstEmployeeEntity.getSevenPcBasic() ==
+		 * null ? 0 : mstEmployeeEntity.getSevenPcBasic().doubleValue()); }
+		 * 
+		 * mstEmployeeEntity2.setPayScaleCode(mstEmployeeEntity.getPayScaleCode());
+		 * mstEmployeeEntity2.setPayInPayBand(mstEmployeeEntity.getPayInPayBand()); //
+		 * mstEmployeeEntity2.setBasicPay(mstEmployeeEntity.getBasicPay() == null ? 0 :
+		 * mstEmployeeEntity.getBasicPay().doubleValue());
+		 * 
+		 * mstEmployeeEntity2.setPostdetailid(mstEmployeeEntity.getPostdetailid());
+		 * mstEmployeeEntity2.setDepartmentNameEn(mstEmployeeEntity.getDepartmentNameEn(
+		 * )); mstEmployeeEntity2.setDtInitialAppointmentParentInst(mstEmployeeEntity.
+		 * getDtInitialAppointmentParentInst());
+		 * mstEmployeeEntity2.setInstituteAdd(mstEmployeeEntity.getInstituteAdd());
+		 * mstEmployeeEntity2.setInstName(mstEmployeeEntity.getInstName());
+		 * mstEmployeeEntity2.setMobileNo2(mstEmployeeEntity.getMobileNo2());
+		 * mstEmployeeEntity2.setInstemail(mstEmployeeEntity.getInstemail());
+		 * mstEmployeeEntity2.setDtJoinCurrentPost(mstEmployeeEntity.
+		 * getDtJoinCurrentPost());
+		 * mstEmployeeEntity2.setRemark(mstEmployeeEntity.getRemark());
+		 * mstEmployeeEntity2.setCityClass(mstEmployeeEntity.getCityClass());
+		 * mstEmployeeEntity2.setIndiApproveOrderNo(mstEmployeeEntity.
+		 * getIndiApproveOrderNo());
+		 * mstEmployeeEntity2.setApprovalByDdoDate(mstEmployeeEntity.
+		 * getApprovalByDdoDate());
+		 * mstEmployeeEntity2.setHraBasic(mstEmployeeEntity.getHraBasic()); //Department
+		 * Details End
+		 * 
+		 * 
+		 * 
+		 * //Bank/DCPS/NPS/GPF Details Start
+		 * mstEmployeeEntity2.setBankCode(mstEmployeeEntity.getBankCode());
+		 * mstEmployeeEntity2.setIfscCode(mstEmployeeEntity.getIfscCode());
+		 * mstEmployeeEntity2.setBankAcntNo(mstEmployeeEntity.getBankAcntNo());
+		 * mstEmployeeEntity2.setBankBranchCode(mstEmployeeEntity.getBankBranchCode());
+		 * mstEmployeeEntity2.setDcpsgpfflag(mstEmployeeEntity.getDcpsgpfflag());
+		 * mstEmployeeEntity2.setDcpsaccountmaintainby(mstEmployeeEntity.
+		 * getDcpsaccountmaintainby());
+		 * mstEmployeeEntity2.setPranNo(mstEmployeeEntity.getPranNo());
+		 * mstEmployeeEntity2.setAccountmaintainby(mstEmployeeEntity.
+		 * getAccountmaintainby());
+		 * mstEmployeeEntity2.setPfseries(mstEmployeeEntity.getPfseries());
+		 * mstEmployeeEntity2.setPfacno(mstEmployeeEntity.getPfacno());
+		 * mstEmployeeEntity2.setPfdescription(mstEmployeeEntity.getMstGpfDetailsEntity(
+		 * ).getPfdescription());
+		 * 
+		 * //Bank/DCPS/NPS/GPF Details End
+		 * 
+		 * 
+		 * //GIS Details Start
+		 * mstEmployeeEntity2.setGisapplicable(mstEmployeeEntity.getGisapplicable());
+		 * mstEmployeeEntity2.setGisgroup(mstEmployeeEntity.getGisgroup());
+		 * mstEmployeeEntity2.setMembership_date(mstEmployeeEntity.getMembership_date())
+		 * ; mstEmployeeEntity2.setGisRemark(mstEmployeeEntity.getGisRemark());
+		 * mstEmployeeEntity2.setGiscatagory(mstEmployeeEntity.getGiscatagory()); //GIS
+		 * Details End
+		 * 
+		 * 
+		 * 
+		 * 
+		 * }
+		 * 
+		 * 
+		 * }
+		 * 
+		 * 
+		 * 
+		 * 
+		 * mstEmployeeEntity2.setDtInitialAppointmentParentInst(StringHelperUtils.
+		 * isNullDate(mstEmployeeEntity.getDtInitialAppointmentParentInst()));
+		 * mstEmployeeEntity2.setOrderDate(StringHelperUtils.isNullDate(
+		 * mstEmployeeEntity.getOrderDate())); if(roleid==1) {
+		 * mstEmployeeEntity2.setIsActive(5); } else {
+		 * if(mstEmployeeEntity.getGender()=='1') { mstEmployeeEntity2.setGender('M'); }
+		 * else if(mstEmployeeEntity.getGender()=='2') {
+		 * mstEmployeeEntity2.setGender('F'); } else {
+		 * mstEmployeeEntity2.setGender('T'); } mstEmployeeEntity2.setIsActive(1); }
+		 * mstEmployeeEntity2.setUpdatedDate(new Date());
+		 * mstEmployeeEntity2.setParentFieldDepartmentCode(BigInteger.valueOf(51)); int
+		 * updated=0; if(mstEmployeeEntity!=null) {
+		 * empChangeDetailsRepo.updateChangeEmpDtls(mstEmployeeEntity2); if(roleid==1)
+		 * empChangeDetailsRepo.updateChangeEmpHstDtls(changeDtlsHst); updated=1; }
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * return updated;
+		 */}
 
 	public String[] savePhotoSignature(MultipartFile[] files, Long long1, Long long2, String existphotpath,
 			String existsignpath) {
 		// department name/photo/employee_id/photo.jpg
-		
-		System.out.println("Image Uploading-----"+files.length);
+
+		System.out.println("Image Uploading-----" + files.length);
 		String[] res = new String[2];
 		if (files.length != 0) {
 			int width = 963;
@@ -674,43 +671,39 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		return res;
 	}
 
-
-
 	@Override
 	public List<Object[]> GetCurrentPostDesigation(Integer postdetailid) {
-		List<Object[]> result=empChangeDetailsRepo.GetCurrentPostDesigation(postdetailid);
+		List<Object[]> result = empChangeDetailsRepo.GetCurrentPostDesigation(postdetailid);
 		return result;
 	}
 
-
-
 	@Override
 	public List<MstEmployeeEntity> getEmployeeDetails(String ddoCode, String language) {
-//		List<MstEmployeeEntity> listempentity = empChangeDetailsRepo.getEmployeeDetails(ddoCode);
-//		List<EmpChangeDetailsModel> result = new ArrayList<EmpChangeDetailsModel>();
-//		
-//		for (Iterator iterator = listempentity.iterator(); iterator.hasNext();) {
-//			MstEmployeeEntity mstEmployeeEntity = (MstEmployeeEntity) iterator.next();
-//			EmpChangeDetailsModel emmpChangeDetailsModel = new EmpChangeDetailsModel();
-//			emmpChangeDetailsModel.setEmployeeId(mstEmployeeEntity.getEmployeeId());
-//			emmpChangeDetailsModel.setEmployeeFullName(mstEmployeeEntity.getEmployeeFullNameEn().toUpperCase());
-//			emmpChangeDetailsModel.setSevaarthId(mstEmployeeEntity.getSevaarthId());
-//			emmpChangeDetailsModel.setDesignationName(empChangeDetailsRepo.getDesignationName(
-//					mstEmployeeEntity.getDesignationCode() != null ? mstEmployeeEntity.getDesignationCode().toString()
-//							: "0".toString())
-//					.toUpperCase());
-//	
-//		
-//			result.add(emmpChangeDetailsModel);
-//		}
-//	
-//
-//		return result;
-		
+		// List<MstEmployeeEntity> listempentity =
+		// empChangeDetailsRepo.getEmployeeDetails(ddoCode);
+		// List<EmpChangeDetailsModel> result = new ArrayList<EmpChangeDetailsModel>();
+		//
+		// for (Iterator iterator = listempentity.iterator(); iterator.hasNext();) {
+		// MstEmployeeEntity mstEmployeeEntity = (MstEmployeeEntity) iterator.next();
+		// EmpChangeDetailsModel emmpChangeDetailsModel = new EmpChangeDetailsModel();
+		// emmpChangeDetailsModel.setEmployeeId(mstEmployeeEntity.getEmployeeId());
+		// emmpChangeDetailsModel.setEmployeeFullName(mstEmployeeEntity.getEmployeeFullNameEn().toUpperCase());
+		// emmpChangeDetailsModel.setSevaarthId(mstEmployeeEntity.getSevaarthId());
+		// emmpChangeDetailsModel.setDesignationName(empChangeDetailsRepo.getDesignationName(
+		// mstEmployeeEntity.getDesignationCode() != null ?
+		// mstEmployeeEntity.getDesignationCode().toString()
+		// : "0".toString())
+		// .toUpperCase());
+		//
+		//
+		// result.add(emmpChangeDetailsModel);
+		// }
+		//
+		//
+		// return result;
+
 		return empChangeDetailsRepo.getEmployeeDetails(ddoCode);
 	}
-
-
 
 	@Override
 	public EmpChangeDetailsModel getEmployeeinfo(Long employeeId) {
@@ -718,14 +711,13 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		return empChangeDetailsRepo.getEmployeeinfo(employeeId);
 	}
 
-
-
 	@Override
 	public long updateEmployeeChangeDetails(@Valid EmpChangeDetailsModel empChangeDetailsModel, MultipartFile[] files) {
 		// TODO Auto-generated method stub
 		MstEmployeeDetailEntity objEntity = empChangeDetailsRepo
-				.findbyemplidForChangeDetails(empChangeDetailsModel.getEmployeeId()).orElseGet(MstEmployeeDetailEntity::new);
-		
+				.findbyemplidForChangeDetails(empChangeDetailsModel.getEmployeeId())
+				.orElseGet(MstEmployeeDetailEntity::new);
+
 		Session currentSession = entityManager.unwrap(Session.class);
 		// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());
 		// objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
@@ -753,7 +745,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setDoj(empChangeDetailsModel.getDoj());
 			objEntity.setAddress1(empChangeDetailsModel.getAddress1().toUpperCase());
 			objEntity.setAddress2(empChangeDetailsModel.getAddress2().toUpperCase());
-	
+
 			objEntity.setStateCode(empChangeDetailsModel.getStateCode());
 			objEntity.setDistrictCode(empChangeDetailsModel.getDistrictCode());
 			// objEntity.setVillageName(mstEmployeeModel.getVillageName().toUpperCase());
@@ -770,8 +762,9 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setCadreCode(empChangeDetailsModel.getCadreId());
 			objEntity.setEmpClass(empChangeDetailsModel.getEmpClass());
 			objEntity.setSuperAnnAge(empChangeDetailsModel.getSuperannuationage());
-			objEntity.setEmpServiceEndDate(empChangeDetailsModel.getSuperAnnDate()); // by default set to retirement date
-																				// added by sudhir
+			objEntity.setEmpServiceEndDate(empChangeDetailsModel.getSuperAnnDate()); // by default set to retirement
+																						// date
+			// added by sudhir
 			objEntity.setSuperAnnDate(empChangeDetailsModel.getSuperAnnDate());
 			objEntity.setPayCommissionCode(empChangeDetailsModel.getPayCommissionCode());
 			objEntity.setFirstDesignationCode(empChangeDetailsModel.getFirstDesignationId());
@@ -787,8 +780,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setGradePay(empChangeDetailsModel.getGradePay());
 
 			if (objEntity.getPayCommissionCode() == 700016) {
-				objEntity.setBasicPay(
-						empChangeDetailsModel.getBasicPay() == null ? 0 : empChangeDetailsModel.getBasicPay().doubleValue());
+				objEntity.setBasicPay(empChangeDetailsModel.getBasicPay() == null ? 0
+						: empChangeDetailsModel.getBasicPay().doubleValue());
 			} else {
 				objEntity.setSevenPcBasic(empChangeDetailsModel.getSevenPcBasic() == null ? 0
 						: empChangeDetailsModel.getSevenPcBasic().doubleValue());
@@ -807,7 +800,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setIndiApproveOrderNo(empChangeDetailsModel.getIndiApproveOrderNo());
 			objEntity.setApprovalByDdoDate(empChangeDetailsModel.getApprovalByDdoDate());
 			objEntity.setHraBasic(empChangeDetailsModel.getHraBasic());
-	
+
 			// Department Details End
 
 			// Bank/DCPS/NPS/GPF Details Start
@@ -821,7 +814,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
 			objEntity.setPfseries(empChangeDetailsModel.getPfseries());
 			objEntity.setPfacno(empChangeDetailsModel.getPfacno());
-			System.out.println("pfdescription---------"+empChangeDetailsModel.getPfdescription());
+			System.out.println("pfdescription---------" + empChangeDetailsModel.getPfdescription());
 			objEntity.setPfdescription(empChangeDetailsModel.getPfdescription());
 
 			// Bank/DCPS/NPS/GPF Details End
@@ -852,7 +845,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 					lObjNomineeDtls.setNomineeaddress(lArrAddress1[i]);
 					Date dtBirthDate = null;
 
-					if (empChangeDetailsModel.getStrArrDob() != null && !"".equals(empChangeDetailsModel.getStrArrDob().trim())) {
+					if (empChangeDetailsModel.getStrArrDob() != null
+							&& !"".equals(empChangeDetailsModel.getStrArrDob().trim())) {
 						EmpChangeDetailsModel empChangeDetailsModel1 = new EmpChangeDetailsModel();
 						// String pattern = "yyyy-MM-dd";
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -877,13 +871,13 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 					lObjNomineeDtls.setUpdatedate(empChangeDetailsModel.getUpdatedDate());
 					lObjNomineeDtls.setUpdateid(empChangeDetailsModel.getUpdatedUserId());
 					lObjNomineeDtls.setSevaarthId(empChangeDetailsModel.getSevaarthId());
-					
+
 					// lObjNomineeDtls.setEmployeeId(objEntity.getEmployeeId());
 
 					lArrNomineeDtls[i] = lObjNomineeDtls;
 				}
 
-			} 
+			}
 
 			// DCPS/NPS Nominee Details End
 
@@ -899,28 +893,42 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 		}
 
-	
-
 		if (empChangeDetailsModel.getGpf_id() != null) {
 			MstGpfDetailsHistEntity objEntity2 = empChangeDetailsRepo.findbyGPFid(empChangeDetailsModel.getGpf_id());
-			if(objEntity2 != null)
+			if (objEntity2 != null)
 			// objEntity2.setGpf_id(mstEmployeeModel.getGpf_id());
-			{objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
-			objEntity2.setCreateddate(new Date());
-			objEntity2.setCreatedid(1l);
-			objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
-			objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
-			objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
-			// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
-			objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
-			objEntity2.setCreateddate(new Date());
-			// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
-			objEntity2.setEmployeeId(objEntity.getEmployeeId());
-			currentSession.update(objEntity2);
+			{
+				objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
+				objEntity2.setCreateddate(new Date());
+				objEntity2.setCreatedid(1l);
+				objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
+				objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
+				objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
+				// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
+				objEntity2.setCreateddate(new Date());
+				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity2.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.update(objEntity2);
+			}else {
+				objEntity2=new MstGpfDetailsHistEntity();
+				objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
+				objEntity2.setCreateddate(new Date());
+				objEntity2.setCreatedid(1l);
+				objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
+				objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
+				objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
+				// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
+				objEntity2.setCreateddate(new Date());
+				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity2.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.save(objEntity2);
 			}
 		} else if (empChangeDetailsModel.getAccountmaintainby() != null && empChangeDetailsModel.getPfacno() != null
 				&& empChangeDetailsModel.getPfseries() != null)
-			if (!empChangeDetailsModel.getAccountmaintainby().equals("0") && !empChangeDetailsModel.getPfacno().equals("")
+			if (!empChangeDetailsModel.getAccountmaintainby().equals("0")
+					&& !empChangeDetailsModel.getPfacno().equals("")
 					&& !empChangeDetailsModel.getPfseries().equals("0")) {
 				MstGpfDetailsHistEntity objEntity2 = new MstGpfDetailsHistEntity();
 				objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
@@ -937,21 +945,33 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		if (empChangeDetailsModel.getGisid() != null) {
 			MstGisdetailsHistEntity objEntity3 = empChangeDetailsRepo.findbyGisid(empChangeDetailsModel.getGisid());
 			// objEntity3.setGisid(mstEmployeeModel.getGisid());
-			if(objEntity3 != null) {
-			objEntity3.setCreateddate(new Date());
-			objEntity3.setCreatedid(1l);
-			objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
-			objEntity3.setGisgroup(empChangeDetailsModel.getGisgroup());
-			objEntity3.setIsactive("Y");
-			objEntity3.setMembership_date(empChangeDetailsModel.getMembership_date());
-			// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
-			// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
-			objEntity3.setEmployeeId(objEntity.getEmployeeId());
-			currentSession.update(objEntity3);
-		}
+			if (objEntity3 != null) {
+				objEntity3.setCreateddate(new Date());
+				objEntity3.setCreatedid(1l);
+				objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
+				objEntity3.setGisgroup(empChangeDetailsModel.getGisgroup());
+				objEntity3.setIsactive("Y");
+				objEntity3.setMembership_date(empChangeDetailsModel.getMembership_date());
+				// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity3.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.update(objEntity3);
+			}else {
+				objEntity3.setCreateddate(new Date());
+				objEntity3.setCreatedid(1l);
+				objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
+				objEntity3.setGisgroup(empChangeDetailsModel.getGisgroup());
+				objEntity3.setIsactive("Y");
+				objEntity3.setMembership_date(empChangeDetailsModel.getMembership_date());
+				// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity3.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.save(objEntity3);
+			}
 		} else if (empChangeDetailsModel.getGisapplicable() != null && empChangeDetailsModel.getGisgroup() != null
 				&& empChangeDetailsModel.getMembership_date() != null)
-			if (!empChangeDetailsModel.getGisapplicable().equals("0") && !empChangeDetailsModel.getGisgroup().equals("0")
+			if (!empChangeDetailsModel.getGisapplicable().equals("0")
+					&& !empChangeDetailsModel.getGisgroup().equals("0")
 					&& !empChangeDetailsModel.getMembership_date().equals("0")) {
 				MstGisdetailsHistEntity objEntity3 = new MstGisdetailsHistEntity();
 				objEntity3.setCreateddate(new Date());
@@ -972,18 +992,20 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		 * String departmentNameEn;
 		 */
 
-		String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getDeptNm(), empChangeDetailsModel.getEmployeeId(),
-				empChangeDetailsModel.getPhotoAttachmentId(), empChangeDetailsModel.getSignatureAttachmentId());
+		String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getDeptNm(),
+				empChangeDetailsModel.getEmployeeId(), empChangeDetailsModel.getPhotoAttachmentId(),
+				empChangeDetailsModel.getSignatureAttachmentId());
 		objEntity.setPhotoAttachmentId(saveimage[0].toString());
 		objEntity.setSignatureAttachmentId(saveimage[1]);
 
 		// Serializable id=(Integer)reuslt.get(0);
 
-		Serializable id = empChangeDetailsRepo.updateEmployeeConfiguration(objEntity, empChangeDetailsModel, lArrNomineeDtls);
-
+		Serializable id = empChangeDetailsRepo.updateEmployeeConfiguration(objEntity, empChangeDetailsModel,
+				lArrNomineeDtls);
 
 		return (long) id;
 	}
+
 	@Override
 	public String[] savePhotoSignature(MultipartFile[] files, String DeptNm, Long long1, String existphotpath,
 			String existsignpath) {
@@ -1116,23 +1138,17 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		return res;
 	}
 
-
-
 	@Override
 	public List<MstEmployeeDetailEntity> findEmpLstforApprovChngDtls(String ddoCode) {
 		// TODO Auto-generated method stub
 		return empChangeDetailsRepo.findEmpLstforApprovChngDtls(ddoCode);
 	}
 
-
-
 	@Override
 	public EmpChangeDetailsModel getEmployeeinfofordetails(long empId) {
 		// TODO Auto-generated method stub
 		return empChangeDetailsRepo.getEmployeeinfofordetails(empId);
 	}
-
-
 
 	@Override
 	public List<MstNomineeDetailsHistEntity> getNominees(String empId) {
@@ -1141,29 +1157,25 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		return result;
 	}
 
-
-
 	@Override
 	public long updateChangeEmpDtls(@Valid EmpChangeDetailsModel empChangeDetailsModel, MultipartFile[] files) {
 		// TODO Auto-generated method stub
-		if(files.length!=0)
-		{
-			String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getParentFieldDepartmentId(), empChangeDetailsModel.getEmployeeId(),
-					empChangeDetailsModel.getPhotoAttachmentId(), empChangeDetailsModel.getSignatureAttachmentId());
-			
+		if (files.length != 0) {
+			String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getParentFieldDepartmentId(),
+					empChangeDetailsModel.getEmployeeId(), empChangeDetailsModel.getPhotoAttachmentId(),
+					empChangeDetailsModel.getSignatureAttachmentId());
+
 			empChangeDetailsModel.setPhotoAttachmentId(saveimage[0].toString());
 			empChangeDetailsModel.setSignatureAttachmentId(saveimage[1]);
 		}
-		
+
 		Session currentSession = entityManager.unwrap(Session.class);
 		MstEmployeeEntity mstEmployeeEntity = empChangeDetailsRepo.findempid(empChangeDetailsModel.getEmployeeId());
-		
-		
+
 		ChangeDtlsHst changeDtlsHst = new ChangeDtlsHst();
-		
-		
-		if(mstEmployeeEntity!=null) {
-	
+
+		if (mstEmployeeEntity != null) {
+
 			changeDtlsHst.setEmployeeId(mstEmployeeEntity.getEmployeeId());
 			changeDtlsHst.setUidNo(mstEmployeeEntity.getUidNo());
 			changeDtlsHst.setEidNo(mstEmployeeEntity.getEidNo());
@@ -1186,11 +1198,11 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			changeDtlsHst.setDoj(mstEmployeeEntity.getDoj());
 			changeDtlsHst.setAddress1(mstEmployeeEntity.getAddress1().toUpperCase());
 			changeDtlsHst.setAddress2(mstEmployeeEntity.getAddress2().toUpperCase());
-//			changeDtlsHst.setAddress3(mstEmployeeEntity2.getAddress3().toUpperCase());
-//			changeDtlsHst.setLocality(mstEmployeeEntity2.getLocality());
+			// changeDtlsHst.setAddress3(mstEmployeeEntity2.getAddress3().toUpperCase());
+			// changeDtlsHst.setLocality(mstEmployeeEntity2.getLocality());
 			changeDtlsHst.setStateCode(mstEmployeeEntity.getStateCode());
 			changeDtlsHst.setDistrictCode(mstEmployeeEntity.getDistrictCode());
-//			changeDtlsHst.setVillageName(mstEmployeeEntity2.getVillageName().toUpperCase());
+			// changeDtlsHst.setVillageName(mstEmployeeEntity2.getVillageName().toUpperCase());
 			changeDtlsHst.setPinCode(mstEmployeeEntity.getPinCode());
 			changeDtlsHst.setPhysicallyHandicapped(mstEmployeeEntity.getPhysicallyHandicapped());
 			changeDtlsHst.setMobileNo1(mstEmployeeEntity.getMobileNo1());
@@ -1200,10 +1212,9 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			changeDtlsHst.setRemark(mstEmployeeEntity.getRemark());
 			changeDtlsHst.setSecqualification(mstEmployeeEntity.getSecqualification());
 			changeDtlsHst.setMorequalification(mstEmployeeEntity.getMorequalification());
-			//Employee Details End
-			
-			
-			//Department Details Start
+			// Employee Details End
+
+			// Department Details Start
 			changeDtlsHst.setParentFieldDepartmentId(mstEmployeeEntity.getParentFieldDepartmentCode());
 			changeDtlsHst.setSubDeptId(mstEmployeeEntity.getSubDeptId());
 			changeDtlsHst.setSubCorporationId(mstEmployeeEntity.getSubCorporationId());
@@ -1213,9 +1224,10 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			changeDtlsHst.setReasonForChngParentFieldDept(mstEmployeeEntity.getReasonForChngParentFieldDept());
 			changeDtlsHst.setCadreCode(mstEmployeeEntity.getCadreCode());
 			changeDtlsHst.setEmpClass(mstEmployeeEntity.getEmpClass());
-			if(mstEmployeeEntity.getSuperAnnAge()!=null)
-			changeDtlsHst.setSuperAnnAge(mstEmployeeEntity.getSuperAnnAge());
-			changeDtlsHst.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); //by default set to retirement date added by sudhir
+			if (mstEmployeeEntity.getSuperAnnAge() != null)
+				changeDtlsHst.setSuperAnnAge(mstEmployeeEntity.getSuperAnnAge());
+			changeDtlsHst.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); // by default set to retirement
+																						// date added by sudhir
 			changeDtlsHst.setSuperAnnDate(mstEmployeeEntity.getSuperAnnDate());
 			changeDtlsHst.setPayCommissionCode(mstEmployeeEntity.getPayCommissionCode());
 			changeDtlsHst.setFirstDesignationCode(mstEmployeeEntity.getFirstDesignationCode());
@@ -1225,14 +1237,13 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			changeDtlsHst.setQualification(mstEmployeeEntity.getQualification().toString());
 			changeDtlsHst.setAppointment(mstEmployeeEntity.getAppointment());
 			changeDtlsHst.setTeaching(mstEmployeeEntity.getTeaching());
-			if(mstEmployeeEntity.getPayscalelevelId()!=null)
+			if (mstEmployeeEntity.getPayscalelevelId() != null)
 				changeDtlsHst.setSevenPcLevel(Long.valueOf(mstEmployeeEntity.getPayscalelevelId()));
 			else
-			changeDtlsHst.setSevenPcLevel(0l);
-			
-			
+				changeDtlsHst.setSevenPcLevel(0l);
+
 			changeDtlsHst.setSvnthpaybasic(mstEmployeeEntity.getSvnthpaybasic());
-			
+
 			if (mstEmployeeEntity.getPayCommissionCode() == 700016) {
 				changeDtlsHst.setBasicPay(
 						mstEmployeeEntity.getBasicPay() == null ? 0 : mstEmployeeEntity.getBasicPay().doubleValue());
@@ -1244,8 +1255,9 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 			changeDtlsHst.setPayScaleCode(mstEmployeeEntity.getPayScaleCode());
 			changeDtlsHst.setPayInPayBand(mstEmployeeEntity.getPayInPayBand());
-//			changeDtlsHst.setBasicPay(mstEmployeeEntity2.getBasicPay() == null ? 0 : mstEmployeeEntity2.getBasicPay().doubleValue());
-			
+			// changeDtlsHst.setBasicPay(mstEmployeeEntity2.getBasicPay() == null ? 0 :
+			// mstEmployeeEntity2.getBasicPay().doubleValue());
+
 			changeDtlsHst.setPostdetailid(mstEmployeeEntity.getPostdetailid());
 			changeDtlsHst.setDepartmentNameEn(mstEmployeeEntity.getDepartmentNameEn());
 			changeDtlsHst.setDtInitialAppointmentParentInst(mstEmployeeEntity.getDtInitialAppointmentParentInst());
@@ -1259,11 +1271,9 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			changeDtlsHst.setIndiApproveOrderNo(mstEmployeeEntity.getIndiApproveOrderNo());
 			changeDtlsHst.setApprovalByDdoDate(mstEmployeeEntity.getApprovalByDdoDate());
 			changeDtlsHst.setHraBasic(mstEmployeeEntity.getHraBasic());
-			//Department Details End
-			
-			
-			
-			//Bank/DCPS/NPS/GPF Details Start
+			// Department Details End
+
+			// Bank/DCPS/NPS/GPF Details Start
 			changeDtlsHst.setBankCode(mstEmployeeEntity.getBankCode());
 			changeDtlsHst.setIfscCode(mstEmployeeEntity.getIfscCode());
 			changeDtlsHst.setBankAcntNo(mstEmployeeEntity.getBankAcntNo());
@@ -1275,27 +1285,23 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			changeDtlsHst.setPfseries(mstEmployeeEntity.getPfseries());
 			changeDtlsHst.setPfacno(mstEmployeeEntity.getPfacno());
 			changeDtlsHst.setPfdescription(mstEmployeeEntity.getPfdescription());
-			
-			//Bank/DCPS/NPS/GPF Details End
-			
-			
-			//GIS Details Start
+
+			// Bank/DCPS/NPS/GPF Details End
+
+			// GIS Details Start
 			changeDtlsHst.setGisapplicable(mstEmployeeEntity.getGisapplicable());
 			changeDtlsHst.setGisgroup(mstEmployeeEntity.getGisgroup());
 			changeDtlsHst.setMembership_date(mstEmployeeEntity.getMembership_date());
 			changeDtlsHst.setGisRemark(mstEmployeeEntity.getGisRemark());
 			changeDtlsHst.setGiscatagory(mstEmployeeEntity.getGiscatagory());
 			currentSession.save(changeDtlsHst);
-			//GIS Details End
-			
-			
+			// GIS Details End
+
 			MstEmployeeEntity objEntity = new MstEmployeeEntity();
-			if(empChangeDetailsModel.getEmployeeId() != null)
-			{
-				 objEntity = empChangeDetailsRepo.findempid(empChangeDetailsModel.getEmployeeId());
+			if (empChangeDetailsModel.getEmployeeId() != null) {
+				objEntity = empChangeDetailsRepo.findempid(empChangeDetailsModel.getEmployeeId());
 			}
-			
-			
+
 			// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());
 			// objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
 			// objEntity.setSevaarthId("0");
@@ -1322,7 +1328,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setDoj(empChangeDetailsModel.getDoj());
 				objEntity.setAddress1(empChangeDetailsModel.getAddress1().toUpperCase());
 				objEntity.setAddress2(empChangeDetailsModel.getAddress2().toUpperCase());
-		
+
 				objEntity.setStateCode(empChangeDetailsModel.getStateCode());
 				objEntity.setDistrictCode(empChangeDetailsModel.getDistrictCode());
 				// objEntity.setVillageName(mstEmployeeModel.getVillageName().toUpperCase());
@@ -1336,16 +1342,17 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setIsChangeParentDepartment(empChangeDetailsModel.getIsChangeParentDepartment());
 				objEntity.setReasonForChngParentFieldDept(empChangeDetailsModel.getReasonForChngParentFieldDept());
 				objEntity.setCadreCode(empChangeDetailsModel.getCadreId());
-				System.out.println("aaa"+empChangeDetailsModel.getCadreId());
+				System.out.println("aaa" + empChangeDetailsModel.getCadreId());
 				objEntity.setEmpClass(empChangeDetailsModel.getEmpClass());
 				objEntity.setSuperAnnAge(empChangeDetailsModel.getSuperannuationage());
-				objEntity.setEmpServiceEndDate(empChangeDetailsModel.getSuperAnnDate()); // by default set to retirement date
-																					// added by sudhir
+				objEntity.setEmpServiceEndDate(empChangeDetailsModel.getSuperAnnDate()); // by default set to retirement
+																							// date
+				// added by sudhir
 				objEntity.setSuperAnnDate(empChangeDetailsModel.getSuperAnnDate());
 				objEntity.setPayCommissionCode(empChangeDetailsModel.getPayCommissionCode());
 				objEntity.setFirstDesignationCode(empChangeDetailsModel.getFirstDesignationId());
 				objEntity.setDesignationCode(empChangeDetailsModel.getDesignationId());
-				System.out.println("setDesignationCode"+empChangeDetailsModel.getDesignationId());
+				System.out.println("setDesignationCode" + empChangeDetailsModel.getDesignationId());
 				objEntity.setPayscalelevelId(empChangeDetailsModel.getPayscalelevelId());
 				if (empChangeDetailsModel.getPayscalelevelId() != null)
 					objEntity.setSevenPcLevel(Long.valueOf(empChangeDetailsModel.getPayscalelevelId()));
@@ -1357,8 +1364,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setGradePay(empChangeDetailsModel.getGradePay());
 
 				if (objEntity.getPayCommissionCode() == 700016) {
-					objEntity.setBasicPay(
-							empChangeDetailsModel.getBasicPay() == null ? 0 : empChangeDetailsModel.getBasicPay().doubleValue());
+					objEntity.setBasicPay(empChangeDetailsModel.getBasicPay() == null ? 0
+							: empChangeDetailsModel.getBasicPay().doubleValue());
 				} else {
 					objEntity.setSevenPcBasic(empChangeDetailsModel.getSevenPcBasic() == null ? 0
 							: empChangeDetailsModel.getSevenPcBasic().doubleValue());
@@ -1374,11 +1381,11 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setDtJoinCurrentPost(empChangeDetailsModel.getDtJoinCurrentPost());
 				objEntity.setRemark(empChangeDetailsModel.getRemark());
 				objEntity.setCityClass(empChangeDetailsModel.getCityClass());
-				
+
 				objEntity.setIndiApproveOrderNo(empChangeDetailsModel.getIndiApproveOrderNo());
 				objEntity.setApprovalByDdoDate(empChangeDetailsModel.getApprovalByDdoDate());
 				objEntity.setHraBasic(empChangeDetailsModel.getHraBasic());
-		
+
 				// Department Details End
 
 				// Bank/DCPS/NPS/GPF Details Start
@@ -1392,9 +1399,9 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				objEntity.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
 				objEntity.setPfseries(empChangeDetailsModel.getPfseries());
 				objEntity.setPfacno(empChangeDetailsModel.getPfacno());
-				System.out.println("pfdescription---------"+empChangeDetailsModel.getPfdescription());
+				System.out.println("pfdescription---------" + empChangeDetailsModel.getPfdescription());
 				objEntity.setPfdescription(empChangeDetailsModel.getPfdescription());
-				System.out.println("setDesignationCode"+empChangeDetailsModel.getCityClass());
+				System.out.println("setDesignationCode" + empChangeDetailsModel.getCityClass());
 				// Bank/DCPS/NPS/GPF Details End
 
 				// GIS Details Start
@@ -1423,7 +1430,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 						lObjNomineeDtls.setNomineeaddress(lArrAddress1[i]);
 						Date dtBirthDate = null;
 
-						if (empChangeDetailsModel.getStrArrDob() != null && !"".equals(empChangeDetailsModel.getStrArrDob().trim())) {
+						if (empChangeDetailsModel.getStrArrDob() != null
+								&& !"".equals(empChangeDetailsModel.getStrArrDob().trim())) {
 							EmpChangeDetailsModel empChangeDetailsModel1 = new EmpChangeDetailsModel();
 							// String pattern = "yyyy-MM-dd";
 							SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -1448,13 +1456,13 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 						lObjNomineeDtls.setUpdatedate(empChangeDetailsModel.getUpdatedDate());
 						lObjNomineeDtls.setUpdateid(empChangeDetailsModel.getUpdatedUserId());
 						lObjNomineeDtls.setSevaarthId(empChangeDetailsModel.getSevaarthId());
-						
+
 						// lObjNomineeDtls.setEmployeeId(objEntity.getEmployeeId());
 
 						lArrNomineeDtls[i] = lObjNomineeDtls;
 					}
 
-				} 
+				}
 
 				// DCPS/NPS Nominee Details End
 
@@ -1467,28 +1475,29 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 			}
 
-		
-
 			if (empChangeDetailsModel.getGpf_id() != null) {
-				MstGpfDetailsEntity objEntity2 = empChangeDetailsRepo.findbyGPFiddeatils(empChangeDetailsModel.getGpf_id());
-				if(objEntity2 != null)
+				MstGpfDetailsEntity objEntity2 = empChangeDetailsRepo
+						.findbyGPFiddeatils(empChangeDetailsModel.getGpf_id());
+				if (objEntity2 != null)
 				// objEntity2.setGpf_id(mstEmployeeModel.getGpf_id());
-				{objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
-				objEntity2.setCreateddate(new Date());
-				objEntity2.setCreatedid(1l);
-				objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
-				objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
-				objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
-				// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
-				objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
-				objEntity2.setCreateddate(new Date());
-				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
-				objEntity2.setEmployeeId(objEntity.getEmployeeId());
-				currentSession.update(objEntity2);
+				{
+					objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
+					objEntity2.setCreateddate(new Date());
+					objEntity2.setCreatedid(1l);
+					objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
+					objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
+					objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
+					// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+					objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
+					objEntity2.setCreateddate(new Date());
+					// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+					objEntity2.setEmployeeId(objEntity.getEmployeeId());
+					currentSession.update(objEntity2);
 				}
 			} else if (empChangeDetailsModel.getAccountmaintainby() != null && empChangeDetailsModel.getPfacno() != null
 					&& empChangeDetailsModel.getPfseries() != null)
-				if (!empChangeDetailsModel.getAccountmaintainby().equals("0") && !empChangeDetailsModel.getPfacno().equals("")
+				if (!empChangeDetailsModel.getAccountmaintainby().equals("0")
+						&& !empChangeDetailsModel.getPfacno().equals("")
 						&& !empChangeDetailsModel.getPfseries().equals("0")) {
 					MstGpfDetailsEntity objEntity2 = new MstGpfDetailsEntity();
 					objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
@@ -1503,23 +1512,25 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 					currentSession.update(objEntity2);
 				}
 			if (empChangeDetailsModel.getGisid() != null) {
-				MstGisdetailsEntity objEntity3 = empChangeDetailsRepo.findbyGisiddetails(empChangeDetailsModel.getGisid());
+				MstGisdetailsEntity objEntity3 = empChangeDetailsRepo
+						.findbyGisiddetails(empChangeDetailsModel.getGisid());
 				// objEntity3.setGisid(mstEmployeeModel.getGisid());
-				if(objEntity3 != null) {
-				objEntity3.setCreateddate(new Date());
-				objEntity3.setCreatedid(1l);
-				objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
-				objEntity3.setGisgroup(empChangeDetailsModel.getGisgroup());
-				objEntity3.setIsactive("Y");
-				objEntity3.setMembership_date(empChangeDetailsModel.getMembership_date());
-				// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
-				// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
-				objEntity3.setEmployeeId(objEntity.getEmployeeId());
-				currentSession.update(objEntity3);
-			}
+				if (objEntity3 != null) {
+					objEntity3.setCreateddate(new Date());
+					objEntity3.setCreatedid(1l);
+					objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
+					objEntity3.setGisgroup(empChangeDetailsModel.getGisgroup());
+					objEntity3.setIsactive("Y");
+					objEntity3.setMembership_date(empChangeDetailsModel.getMembership_date());
+					// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+					// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+					objEntity3.setEmployeeId(objEntity.getEmployeeId());
+					currentSession.update(objEntity3);
+				}
 			} else if (empChangeDetailsModel.getGisapplicable() != null && empChangeDetailsModel.getGisgroup() != null
 					&& empChangeDetailsModel.getMembership_date() != null)
-				if (!empChangeDetailsModel.getGisapplicable().equals("0") && !empChangeDetailsModel.getGisgroup().equals("0")
+				if (!empChangeDetailsModel.getGisapplicable().equals("0")
+						&& !empChangeDetailsModel.getGisgroup().equals("0")
 						&& !empChangeDetailsModel.getMembership_date().equals("0")) {
 					MstGisdetailsEntity objEntity3 = new MstGisdetailsEntity();
 					objEntity3.setCreateddate(new Date());
@@ -1539,33 +1550,30 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			 * private String employeeFullName; private String designationName; private
 			 * String departmentNameEn;
 			 */
-if(empChangeDetailsModel.getPhotoAttachmentId() != null)
-{
-			String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getDeptNm(), empChangeDetailsModel.getEmployeeId(),
-					empChangeDetailsModel.getPhotoAttachmentId(), empChangeDetailsModel.getSignatureAttachmentId());
-			objEntity.setPhotoAttachmentId(saveimage[0].toString());
-			objEntity.setSignatureAttachmentId(saveimage[1]);
+			if (empChangeDetailsModel.getPhotoAttachmentId() != null) {
+				String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getDeptNm(),
+						empChangeDetailsModel.getEmployeeId(), empChangeDetailsModel.getPhotoAttachmentId(),
+						empChangeDetailsModel.getSignatureAttachmentId());
+				objEntity.setPhotoAttachmentId(saveimage[0].toString());
+				objEntity.setSignatureAttachmentId(saveimage[1]);
 
-			// Serializable id=(Integer)reuslt.get(0);
-}
+				// Serializable id=(Integer)reuslt.get(0);
+			}
 
-			Serializable id = empChangeDetailsRepo.updateChangeDetails(objEntity, empChangeDetailsModel, lArrNomineeDtls);
+			Serializable id = empChangeDetailsRepo.updateChangeDetails(objEntity, empChangeDetailsModel,
+					lArrNomineeDtls);
 
-
-		
-			
-		
-		return (long) id;
+			return (long) id;
 
 		}
 		return 1;
-}
-	
-	public String[] savePhotoSignature(MultipartFile[] files, BigInteger bigInteger, Integer empid, String existphotpath,
-			String existsignpath) {
+	}
+
+	public String[] savePhotoSignature(MultipartFile[] files, BigInteger bigInteger, Integer empid,
+			String existphotpath, String existsignpath) {
 		// department name/photo/employee_id/photo.jpg
-		
-		System.out.println("Image Uploading-----"+files.length);
+
+		System.out.println("Image Uploading-----" + files.length);
 		String[] res = new String[2];
 		if (files.length != 0) {
 			int width = 963;
@@ -1694,15 +1702,11 @@ if(empChangeDetailsModel.getPhotoAttachmentId() != null)
 		return res;
 	}
 
-
-
 	@Override
 	public List<Object[]> GetCurrentPostByLvlTwoDetails(long designationId, String ddocode, long locId) {
 		// TODO Auto-generated method stub
-		List<Object[]> result = empChangeDetailsRepo.GetCurrentPostByLvlTwoDetails(designationId, ddocode,locId);
+		List<Object[]> result = empChangeDetailsRepo.GetCurrentPostByLvlTwoDetails(designationId, ddocode, locId);
 		return result;
 	}
-
-
 
 }

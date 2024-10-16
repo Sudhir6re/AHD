@@ -1776,6 +1776,9 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 						if (payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_6PC) {
 							da = (double) (Math.round((basic * percentageRate[1])
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							
+							svnDA=da;
+							
 							paybillGenerationTrnDetails.setDa((double) Math.round((da)));
 							grossAmount += da;
 						}
@@ -1869,13 +1872,20 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW:
 
+						 Double da1=0d;
+							if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+								da1=svnDA;
+							}else {
+								da1=da;
+							}
+						
 						if ((year2 == 24 && month2 >= 8) || (year2 >= 25 && month2 >= 1)) {
 
-							npsEmprAllow = (double) (Math.round((basic + svnDA + DaArr) * 14
+							npsEmprAllow = (double) (Math.round((basic + da1 + DaArr) * 14
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 
 						} else {
-							npsEmprAllow = (double) (Math.round((basic + svnDA + DaArr) * 10
+							npsEmprAllow = (double) (Math.round((basic + da1 + DaArr) * 10
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
 
@@ -1899,11 +1909,18 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 
 					case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT:
 
+						  da1=0d;
+							if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+								da1=svnDA;
+							}else {
+								da1=da;
+							}
+						
 						if (year2 == 24 && month2 >= 8 || year2 >= 25 && month2 >= 1) {
-							npsEmprContri = (double) (Math.round((basic + svnDA + DaArr) * 14
+							npsEmprContri = (double) (Math.round((basic + da1 + DaArr) * 14
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						} else {
-							npsEmprContri = (double) (Math.round((basic + svnDA + DaArr) * 10
+							npsEmprContri = (double) (Math.round((basic + da1 + DaArr) * 10
 									/ CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 						}
 
