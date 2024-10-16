@@ -63,25 +63,20 @@
 				<thead>
 					<tr style="text-align: center;">
 						<th th:utext="#{msg.thymeleaf.pagelabel.empid}"
-							style="text-align: center;" />
+							style="text-align: center;"></th>
 
 						<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"
-							style="text-align: center;" />
+							style="text-align: center;"></th>
 
-							<th th:utext="#{msg.thymeleaf.datatablelabel.ddocode}"
-								style="text-align: center;" />
+						<th th:utext="#{msg.thymeleaf.datatablelabel.ddocode}"
+							style="text-align: center;"></th>
 						<th th:utext="#{msg.thymeleaf.pagelabel.departmentName}"
-							style="text-align: center;" />
-<<<<<<< HEAD
-				
-=======
-
->>>>>>> b3c496acdf23cd691c89d44ce003cc4dc910ea76
+							style="text-align: center;"></th>
 						<th th:utext="#{msg.thymeleaf.pagelabel.designationName}"
-							style="text-align: center;" />
+							style="text-align: center;"></th>
 
 						<th th:utext="#{msg.thymeleaf.pagelabel.sevaarthId}"
-							style="text-align: center;" />
+							style="text-align: center;"></th>
 
 
 						<th th:utext="#{msg.thymeleaf.datatablelabel.action}"
@@ -90,38 +85,25 @@
 				</thead>
 
 				<tbody>
-		
 
 
-						<tr th:each="varempdtls : ${employeedetails}">
-							<td th:text="${varempdtlsStat.index+1}"></td>
-							<td th:text="${varempdtls.employeeFullName}"></td>
-							
-							<td th:text="${varempdtls.ddoCode}"></td>
-								<td th:text="${varempdtls.departmentNameEn}"></td>
-							<td th:text="${varempdtls.designationName}"></td>
-							<td th:text="${varempdtls.sevaarthId}"></td>
-<<<<<<< HEAD
-<!-- 					<tr th:each="varempdtls : ${employeedetails}"> -->
-<!-- 						<td th:text="${varempdtlsStat.index+1}"></td> -->
-<!-- 						<td th:text="${varempdtls.employeeFullName}"></td> -->
-<!-- 						<td th:text="${varempdtls.departmentNameEn}"></td> -->
-<!-- 						<td th:text="${varempdtls.designationName}"></td> -->
-<!-- 						<td th:text="${varempdtls.sevaarthId}"></td> -->
 
-<!-- 						<td> -->
-=======
+					<tr th:each="varempdtls : ${employeedetails}">
+						<td th:text="${varempdtlsStat.index+1}"></td>
+						<td th:text="${varempdtls.employeeFullName}"></td>
 
->>>>>>> b3c496acdf23cd691c89d44ce003cc4dc910ea76
-					
-				     	<td>
+						<td th:text="${varempdtls.ddoCode}"></td>
+						<td th:text="${varempdtls.departmentNameEn}"></td>
+						<td th:text="${varempdtls.designationName}"></td>
+						<td th:text="${varempdtls.sevaarthId}"></td>
+						<td>
 							<div class="form-group text-center">
 								<a data-toggle="tooltip" title="Edit"
 									th:onclick="|editempconfig(${varempdtls.employeeId})|"> <span
 									class="glyphicon glyphicon-edit"></span>
 								</a>
-								</div>
-							
+							</div>
+
 						</td>
 
 					</tr>
