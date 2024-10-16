@@ -910,6 +910,20 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
 				objEntity2.setEmployeeId(objEntity.getEmployeeId());
 				currentSession.update(objEntity2);
+			}else {
+				objEntity2=new MstGpfDetailsHistEntity();
+				objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
+				objEntity2.setCreateddate(new Date());
+				objEntity2.setCreatedid(1l);
+				objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
+				objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
+				objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
+				// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
+				objEntity2.setCreateddate(new Date());
+				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity2.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.save(objEntity2);
 			}
 		} else if (empChangeDetailsModel.getAccountmaintainby() != null && empChangeDetailsModel.getPfacno() != null
 				&& empChangeDetailsModel.getPfseries() != null)
@@ -942,6 +956,17 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
 				objEntity3.setEmployeeId(objEntity.getEmployeeId());
 				currentSession.update(objEntity3);
+			}else {
+				objEntity3.setCreateddate(new Date());
+				objEntity3.setCreatedid(1l);
+				objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
+				objEntity3.setGisgroup(empChangeDetailsModel.getGisgroup());
+				objEntity3.setIsactive("Y");
+				objEntity3.setMembership_date(empChangeDetailsModel.getMembership_date());
+				// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity3.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.save(objEntity3);
 			}
 		} else if (empChangeDetailsModel.getGisapplicable() != null && empChangeDetailsModel.getGisgroup() != null
 				&& empChangeDetailsModel.getMembership_date() != null)
