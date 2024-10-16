@@ -249,7 +249,7 @@ public class CSRFFormController  extends BaseController{
 		}
 		// model.addAttribute("lstDeptDataTable",
 		// mstDepartmentService.findAllDepartment());
-		return "redirect:/ddoast/mstCSRFForm"; /* redirects to controller URL */
+		return "redirect:/ddo/mstCSRFForm"; /* redirects to controller URL */
 	}
 
 	@GetMapping("/ApprovedCSRFFormEmp")

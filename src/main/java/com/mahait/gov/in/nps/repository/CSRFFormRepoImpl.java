@@ -39,10 +39,12 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 		// TODO Auto-generated method stub
 
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = " select a.sevaarth_id,a.employee_full_name_en,a.doj,b.designation_name,a.ddo_code,c.off_name, "
-				+ " a.dcps_no,a.employee_id from employee_mst a inner join designation_mst b on b.designation_code = a.designation_code "
-				+ " inner join mst_dcps_ddo_office c on c.ddo_code = a.ddo_code  "
-				+ " where a.ddo_code = :ddoCode and a.dcps_gpf_flag = 'Y' and a.employee_id not in (select employee_id from employee_nps_mst) "; //
+		String hql = " select a.sevaarth_id,a.employee_full_name_en,a.doj,b.designation_name,a.ddo_code,c.off_name, " + 
+				" a.dcps_no,a.employee_id from employee_mst a inner join designation_mst b on b.designation_code = a.designation_code " + 
+				" inner join mst_dcps_ddo_office c on c.ddo_code = a.ddo_code   " + 
+				" inner join rlt_zp_ddo_map d on a.ddo_code=d.zp_ddo_code " + 
+				" where d.rept_ddo_code = :ddoCode and a.dcps_gpf_flag = 'Y'  " + 
+				" and a.employee_id not in (select employee_id from employee_nps_mst) "; //
 
 		Query query = currentSession.createSQLQuery(hql);
 		query.setParameter("ddoCode", ddoCode); // Use a parameterized query
@@ -53,9 +55,6 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 	@Override
 	public MstEmployeeEntity findEmployeeBySevaarthId(Long empId) {
 
-		// TypedQuery<MstEmployeeEntity> query = entityManager.createQuery( "SELECT e
-		// FROM MstEmployeeEntity e JOIN e.mstNomineeDetailsEntity ph ",
-		// MstEmployeeEntity.class);
 		TypedQuery<MstEmployeeEntity> query = entityManager.createQuery(
 				"SELECT a FROM MstEmployeeEntity a where a.employeeId=" + empId,
 				MstEmployeeEntity.class);

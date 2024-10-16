@@ -46,7 +46,7 @@
 					</thead>
 					<tbody>
 						 <tr th:each="varEmp : ${lstEmpList}">
-							<td><a th:text="${varEmp.sevaarthId}"  th:href="@{${'/ddoast/updateCSRFForm/'+varEmp.empId}}"></a></td>
+							<td><a th:text="${varEmp.sevaarthId}"  th:href="@{${'/ddo/updateCSRFForm/'+varEmp.empId}}"></a></td>
 							<td th:text="${varEmp.empName}"></td>
 							<td th:text="${varEmp.DOJ}"></td>
 							<td th:text="${varEmp.designationName}"></td>
