@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +17,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mahait.gov.in.common.StringHelperUtils;
-import com.mahait.gov.in.entity.DdoOffice;
+import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
@@ -478,12 +479,19 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 //		objDept = currentSession.get(MstEmployeeDetailEntity.class, employeeId);
 //		return objDept;
 //	}
+	
+	
 	@Override
-	public MstEmployeeDetailEntity findbyemplidForChangeDetails(Long employeeId) {
-		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "FROM MstEmployeeDetailEntity as  t  where  t.employeeId = '" + employeeId + "'";
-		return (MstEmployeeDetailEntity) manager.createQuery(HQL).getSingleResult();
+	public Optional<MstEmployeeDetailEntity> findbyemplidForChangeDetails(Long employeeId) {
+		Session ghibSession = manager.unwrap(Session.class);
+
+		if (employeeId == null) {
+			return Optional.empty(); // Return empty if the ID is null
+		}
+		MstEmployeeDetailEntity entity = ghibSession.find(MstEmployeeDetailEntity.class, employeeId);
+		return Optional.ofNullable(entity);
 	}
+	
 
 	@Override
 	public long updateChangeEmployeeDetails(MstEmployeeDetailEntity objEntity,

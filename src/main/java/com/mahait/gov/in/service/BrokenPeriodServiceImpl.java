@@ -663,6 +663,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 									deducTyEdpList.add(brokenPeriodModel);
 									dedRuleList.add(brokenPeriodModel);
 								}
+							}else {
+								brokenPeriodModel.setDeptalldetValue("0");
+								if (allEdpList.get(i).getType() == 1) {
+									allowEdpList.add(brokenPeriodModel);
+									allowRuleList.add(brokenPeriodModel);
+								} else {
+									deducTyEdpList.add(brokenPeriodModel);
+									dedRuleList.add(brokenPeriodModel);
+								}
 							}
 						}
 
@@ -678,17 +687,16 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 								} else {
 									tempVal = (double) Math.round(rule.getAmount());
 								}
+							}
+							
+							brokenPeriodModel.setDeptalldetValue(String.valueOf(tempVal));
 
-								brokenPeriodModel.setDeptalldetValue(String.valueOf(tempVal));
-
-								if (allEdpList.get(i).getType() == 1) {
-									allowEdpList.add(brokenPeriodModel);
-									allowRuleList.add(brokenPeriodModel);
-								} else {
-									deducTyEdpList.add(brokenPeriodModel);
-									dedRuleList.add(brokenPeriodModel);
-								}
-
+							if (allEdpList.get(i).getType() == 1) {
+								allowEdpList.add(brokenPeriodModel);
+								allowRuleList.add(brokenPeriodModel);
+							} else {
+								deducTyEdpList.add(brokenPeriodModel);
+								dedRuleList.add(brokenPeriodModel);
 							}
 						}
 					}else {

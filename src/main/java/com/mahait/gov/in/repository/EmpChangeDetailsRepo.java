@@ -2,6 +2,7 @@ package com.mahait.gov.in.repository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -46,7 +47,7 @@ public interface EmpChangeDetailsRepo {
 
 	EmpChangeDetailsModel getEmployeeinfo(Long employeeId);
 
-	MstEmployeeDetailEntity findbyemplidForChangeDetails(Long employeeId);
+	Optional<MstEmployeeDetailEntity> findbyemplidForChangeDetails(Long employeeId);
 
 	public long updateChangeEmployeeDetails(MstEmployeeDetailEntity objEntity,
 			@Valid EmpChangeDetailsModel empChangeDetailsModel, MstNomineeDetailsEntity[] lArrNomineeDtls);

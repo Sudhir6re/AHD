@@ -244,7 +244,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	@Override
 	public List<Object[]> getgroupname(String caderid) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "SELECT lookup.LOOKUP_NAME,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"
+		String hql = "SELECT lookup.LOOKUP_ID,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"
 				+ caderid + "'";
 
 		Query query = currentSession.createSQLQuery(hql);
