@@ -22,7 +22,7 @@ public class UpdateDOBRepoImpl implements UpdateDOBRepo {
 	public List<Object[]> findAllEmployee(String userName) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = "select a.employee_id,a.sevaarth_id, a.employee_full_name_en,a.dob,b.designation_name from employee_mst\r\n" + 
-				     "a inner join designation_mst b on b.designation_code=a.designation_code where ddo_code ='" +userName+ "'";
+				     "a inner join designation_mst b on b.designation_code=a.designation_code where a.is_active = '1'";
 		System.out.println("HQL:"+hql);
 		Query query = currentSession.createSQLQuery(hql);
 		return query.list();

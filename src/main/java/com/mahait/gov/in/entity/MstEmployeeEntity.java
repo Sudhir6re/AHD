@@ -408,7 +408,8 @@ public class MstEmployeeEntity {
 
 	@Column(name = "IS_ACTIVE")
 	private Long isActive;
-
+	
+	
 	@Column(name = "EMP_SERVICE_END_DATE")
 	private Date empServiceEndDate;
 
@@ -561,6 +562,10 @@ public class MstEmployeeEntity {
 	
 	@Column(name = "is_dcps_generate")
 	private String isDcpsGenerate;
+	
+	@Column(name = "PRAN_ACTIVE")
+	private Integer pranActive;
+	
 	
 	
 	

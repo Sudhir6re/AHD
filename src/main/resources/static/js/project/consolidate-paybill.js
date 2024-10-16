@@ -1,3 +1,4 @@
+
 /*jQuery(document).ready(function($) {
 	$('#tblConsolidatePayBill').hide();
 	$('#tblShowPayBill').hide();
@@ -91,3 +92,26 @@ $('#btnRejectConsolidatePaybill')
 			
 			
 		});
+
+
+
+$("#btnSearch").click(function (e){
+	
+	var schemeBillGroupId= $("#schemeCode").val();
+	var yearName = $("#paybillYear").val();
+	var monthName = $("#paybillMonth").val();
+	
+	else if (yearName == "" || yearName == "0") {
+		e.preventDefault();
+		swal.fire("Please select paybill year");
+	}
+	else if (monthName == "" || monthName == "0") {
+		e.preventDefault();
+		swal.fire("Please select paybill month");
+	} 
+	 else if (schemeBillGroupId == "" || schemeBillGroupId == "0") {
+		e.preventDefault();
+		swal.fire("Please select Bill Group");
+	} 
+	
+});

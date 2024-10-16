@@ -125,7 +125,9 @@ public class ConsolidatePayBillServiceImpl implements ConsolidatePayBillService 
 						incomeTax = (it.doubleValue());
 						totalITamt+=incomeTax;
 							
-						dcpsarr=(StringHelperUtils.isNullDouble(obj[1]));
+						
+						BigInteger dcpsArr = (BigInteger) obj[1];
+						dcpsarr=(dcpsArr.doubleValue());
 						totaldcpsArr+=dcpsarr;
 							
 						BigDecimal gisVal = null;

@@ -315,7 +315,35 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 			evt.currentTarget.className += " active"; */
 	</script>
 	<script>
-    
+	/* 
+     function openLoginWindow(wname) {
+         var urlToOpen = "/DCPS/user/login"; // URL of the login page
+         var mwname = 'IFMS';
+
+         // If wname is provided, use it; otherwise, create a unique name
+         if (wname) {
+             mwname = wname;
+         } else {
+             mwname += new Date().getMilliseconds();
+         }
+
+         // Define window properties
+         var prop = 'width=' + screen.availWidth + ',height=' + screen.availHeight +
+                    ',top=0,left=0,resizable=no,menubar=no,scrollbars=yes,toolbar=no,' +
+                    'location=no,status=no';
+
+         // Open the new window
+         var child = window.open(urlToOpen, mwname, prop);
+         if (child) {
+             child.moveTo(0, 0);
+             child.resizeTo(screen.availWidth, screen.availHeight);
+             child.focus();
+         } else {
+             alert("Please allow popups for this website.");
+         }
+     } */
+
+   
 	
 		$(document).ready(function() {
 			$("span.fa.fa-eye-slash.iccn").hide();
@@ -327,8 +355,8 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 					passInput.attr('type', 'password');
 				}
 				$(".iccn").toggle(300);
-			})
-		})
+			});
+		});
 	</script>
 	<script th:src="@{/js/captcha.js}"></script>
 </body>
