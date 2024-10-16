@@ -207,6 +207,8 @@ public class MstEmployeeModel {
 	private String qualification;
 	private String teaching;
 	
+	private String reasonForChangedtls;
+	
 	private List<MstNomineeDetailsModel> lstMstNomineeDetails;
 	
 	public List<MstEmployeeModel> mstEmployeeModelList=new ArrayList<>();

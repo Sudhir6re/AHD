@@ -116,7 +116,7 @@ public class NSDLDetailsController  extends BaseController{
 		model.addAttribute("nsdlDetailsModel", nsdlDetailsModel);
 		addMenuAndSubMenu(model, messages);
 		model.addAttribute("language", locale.getLanguage());
-		return "/views/NSDLDetails";
+		return "/views/nps/NSDLDetails";
 	}
 
 	@GetMapping("/NSDLEmpWiseReport/{filename}")

@@ -587,15 +587,21 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				break;
 
 			case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_ALLOW:
+				Double da1=0d;
+				if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+					da1=svnDA;
+				}else {
+					da1=da;
+				}
 
 				if ((year2 == 24 && month2 >= 8) || (year2 >= 25 && month2 >= 1)) {
 
 					npsEmprAllow = (double) (Math.round(
-							(basic + svnDA + DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							(basic + da1 + DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 
 				} else {
 					npsEmprAllow = (double) (Math.round(
-							(basic + svnDA + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							(basic + da1 + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 				}
 
 				dcpsdelayed = paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),
@@ -613,14 +619,21 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 			case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_NPS_EMPR_DEDUCT:
 
+				 da1=0d;
+				if(payCommission == CommonConstants.PAYBILLDETAILS.COMMONCODE_PAYCOMMISSION_7PC) {
+					da1=svnDA;
+				}else {
+					da1=da;
+				}
+				
 				if ((year2 == 24 && month2 >= 8) || (year2 >= 25 && month2 >= 1)) {
 
 					npsEmprAllow = (double) (Math.round(
-							(basic + svnDA + DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							(basic + da1 + DaArr) * 14 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 
 				} else {
 					npsEmprAllow = (double) (Math.round(
-							(basic + svnDA + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
+							(basic + da1 + DaArr) * 10 / CommonConstants.PAYBILLDETAILS.COMMONCODE_PERCENTAGE_100));
 				}
 				dcpsdelayed = paybillHeadMpgRepo.findSumContribution(mstEmployeeModel.getSevaarthId(),
 						CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_DCPS_DELAYED_CODE, month2, year2, "EMPR");
@@ -663,6 +676,15 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 									deducTyEdpList.add(brokenPeriodModel);
 									dedRuleList.add(brokenPeriodModel);
 								}
+							}else {
+								brokenPeriodModel.setDeptalldetValue("0");
+								if (allEdpList.get(i).getType() == 1) {
+									allowEdpList.add(brokenPeriodModel);
+									allowRuleList.add(brokenPeriodModel);
+								} else {
+									deducTyEdpList.add(brokenPeriodModel);
+									dedRuleList.add(brokenPeriodModel);
+								}
 							}
 						}
 
@@ -678,17 +700,16 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 								} else {
 									tempVal = (double) Math.round(rule.getAmount());
 								}
+							}
+							
+							brokenPeriodModel.setDeptalldetValue(String.valueOf(tempVal));
 
-								brokenPeriodModel.setDeptalldetValue(String.valueOf(tempVal));
-
-								if (allEdpList.get(i).getType() == 1) {
-									allowEdpList.add(brokenPeriodModel);
-									allowRuleList.add(brokenPeriodModel);
-								} else {
-									deducTyEdpList.add(brokenPeriodModel);
-									dedRuleList.add(brokenPeriodModel);
-								}
-
+							if (allEdpList.get(i).getType() == 1) {
+								allowEdpList.add(brokenPeriodModel);
+								allowRuleList.add(brokenPeriodModel);
+							} else {
+								deducTyEdpList.add(brokenPeriodModel);
+								dedRuleList.add(brokenPeriodModel);
 							}
 						}
 					}else {
@@ -697,6 +718,10 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 						dedRuleList.add(brokenPeriodModel);
 					}
 					break;
+				}else {
+					brokenPeriodModel.setDeptalldetValue(String.valueOf("0"));
+					deducTyEdpList.add(brokenPeriodModel); // Adjust by Treasury
+					dedRuleList.add(brokenPeriodModel);
 				}
 
 			}

@@ -1,5 +1,7 @@
 package com.mahait.gov.in.service;
 
+import java.util.List;
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -9,12 +11,12 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.EmpLoanModel;
 
 public interface EmployeeLoanDetailsService {
-
+	
+	List<EmpLoanModel> findAllEmpLoanDtls(String ddoCode);
 	Long saveEmployeeLoanDtls(EmpLoanModel empLoanModel);
 
 	List<EmpLoanModel> getEmpInfoBySevaarthId(String sevaarthId, String ddoCode);
 
-	List<EmpLoanModel> findAllEmpLoanDtls(String string);
 
 	Integer checkloanAlreadyTaken(BigInteger empId, BigInteger advId);
 
