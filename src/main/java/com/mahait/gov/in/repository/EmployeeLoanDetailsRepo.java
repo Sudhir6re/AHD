@@ -1,5 +1,6 @@
 package com.mahait.gov.in.repository;
 
+import java.util.List;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.mahait.gov.in.model.EmpLoanModel;
 
 public interface EmployeeLoanDetailsRepo {
 
+	
 	Long saveEmployeeLoanDtls(LoanEmployeeDtlsEntity loanEmployeeDtlsEntity);
 
 	List<Object[]> getEmpInfoBySevaarthId(String sevaarthId, String ddoCode);

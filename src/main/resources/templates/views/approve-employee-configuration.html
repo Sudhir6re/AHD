@@ -22,6 +22,8 @@ input[type="Date"] {
 	padding-left: 20px;
 	border-color: green;
 }
+input#uid1, input#uid2, input#uid3 {
+    width: 28% !important;
 
 ul.nav.nav-tabs li.active a, .nav-tabs>li>a:hover {
 	background: #ffbb55 !important;
@@ -122,6 +124,552 @@ input#uid1, input#uid2, input#uid3 {
 					</ul>
 					<div class="tab-content">
 
+					<div id="menu1" class="tab-pane fade in active">
+						<br />
+						<fieldset>
+							<legend>Employee Details </legend>
+						</fieldset>
+						<div th:replace="views/approve-emp-config-tabs :: EmployeeDetails"></div>
+					</div>
+					<div id="menu2" class="tab-pane fade">
+						<br />
+						<fieldset>
+							<legend>Department Details </legend>
+						</fieldset>
+						<div
+							th:replace="views/approve-emp-config-tabs :: DepartmentDetails"></div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion"
+									href="#collapse2"><b><span
+										th:utext="#{msg.thymeleaf.pagelabel.departmentdetails}"></span></b></a>
+							</h4>
+						</div>
+						<div id="collapse2" class="panel-collapse collapse">
+							<div class="panel-body">
+								<table class="table table-bordered">
+
+									<tr>
+<!-- 										<td width="25%"><label>Department&nbsp;&nbsp;<b><font -->
+<!-- 													color="red" size="4px;">*</font></b> -->
+<!-- 										</label></td> -->
+<!-- 										<td width="25%"><select disabled="disabled" -->
+<!-- 											class="form-control" id="parentAdminDepartmentId" -->
+<!-- 											th:field="*{parentAdminDepartmentId}"> -->
+<!-- 												<option selected="selected" th:value="0" -->
+<!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
+<!-- 												<option th:each="varAdminOfficeMst : ${lstAdminOfficeMst}" -->
+<!-- 													th:value="${varAdminOfficeMst.departmentId}" -->
+<!-- 													th:text="${language=='mh' ? varAdminOfficeMst.deptName : varAdminOfficeMst.deptName}"></option> -->
+<!-- 										</select></td> -->
+
+										<td width="15%" colspan="1"><label>Parent field department / HOD
+										</label>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></td>
+										<td width="30%"><select class="form-control"
+											id="parentFieldDepartmentId" disabled="disabled"
+											th:field="*{parentFieldDepartmentId}">
+												<option selected="selected" th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varFieldOfficeMst : ${lstAdminOfficeMst}"
+													th:value="${varFieldOfficeMst.subDepartmentId}"
+													th:text="${language=='mh' ? varFieldOfficeMst.subDeptName : varFieldOfficeMst.subDeptName}"></option>
+										</select></td>
+
+									</tr>
+									
+									
+<!-- 									<tr> -->
+<!-- 										<td width="25%"><label>Sub -->
+<!-- 												Division/Department/Entity&nbsp;&nbsp;<b><font -->
+<!-- 													color="red" size="4px;"></font></b> -->
+<!-- 										</label></td> -->
+<!-- 										<td width="25%"><select class="form-control" disabled="disabled" -->
+<!-- 											id="subCorporationId" th:field="*{subCorporationId}"> -->
+<!-- 												<option th:selected="selected" th:value="0" -->
+<!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
+
+<!-- 												<option th:each="varAdminOfficeMst : ${listsubCorporation}" -->
+<!-- 													th:value="${varAdminOfficeMst.subCorporationId}" -->
+<!-- 													th:text="${language=='mh' ? varAdminOfficeMst.subCorporationNameEn : varAdminOfficeMst.subCorporationNameMr}"></option> -->
+<!-- 										</select></td> -->
+<!-- 									<tr> -->
+<!-- 									</tr> -->
+									
+									
+									
+
+									<tr>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.changeParentDepartment}"></span>
+												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input Type="checkbox"
+											th:field="*{isChangeParentDepartment}"  disabled="disabled" th:value='0' />
+											</br></td>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.reasonForChangeParentDepartment}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input type="text" class="form-control"
+											th:field="*{reasonForChngParentFieldDept}" disabled="disabled" /></td>
+									</tr>
+
+									<tr>
+										<td width="25%"><label>Cadre&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b>
+										</label></td>
+
+										<!-- <td width="25%"><select disabled="disabled" class="form-control" id="sel1">
+												<option th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+										</select> </td> -->
+										<td width="25%"><select disabled="disabled"
+											class="form-control" ng-change="getCadre();" id="cadre"
+											ng-model="cadreValue" th:field="*{cadreId}">
+												<option selected="selected" th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varCadreGrp : ${lstCadreMst}"
+													th:value="${varCadreGrp.cadreId}"
+													th:text="${language=='mh' ? varCadreGrp.cadreDescription : varCadreGrp.cadreDescription}"></option>
+										</select></td>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.group}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><select disabled="disabled"
+											class="form-control" id="empClass" readonly
+											th:field="*{empClass}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varGISGroup : ${lstGISGroup}"
+													th:value="${varGISGroup.id}"
+													th:text="${language=='mh' ? varGISGroup.group_name_mh : varGISGroup.group_name_en}"></option>
+										</select></td>
+									</tr>
+									<tr>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.superannutationage}"></span>
+												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><input Type="text" size="40%"
+											disabled="disabled" id="superannuationage"
+											th:field="*{superannuationage}" class="form-control" /></td>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.superannuationretiringage}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input Type="date" size="40%"
+											id="superAnnDate" disabled="disabled" ng-model="superAnnDate"
+											th:field="*{superAnnDate}" class="input-style" /></td>
+									</tr>
+									<tr>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.paycommission}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><select disabled="disabled"
+											class="form-control" id="payCommision"
+											th:field="*{payCommissionCode}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstddcPayCommission}"
+													th:value="${varPay.id}"
+													th:text="${language=='mh' ? varPay.commission_name_mh : varPay.commission_name_en}"></option>
+										</select></td>
+										
+										
+											<td width="15%"><label>Appointment&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><select class="form-control"
+											id="appointmentId" th:field="*{appointmentId}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstAppointment}"
+													th:value="${varPay.appointmentId}"
+													th:text="${language=='mh' ? varPay.appointmentId : varPay.appointmentName}"></option>
+										</select></td>
+										
+									
+									</tr>
+									<tr>
+									
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.designation}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><select disabled="disabled"
+											class="form-control" id="designation"
+											th:field="*{designationId}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstDesignation}"
+													th:value="${varPay.desginationId}"
+													th:text="${language=='mh' ? varPay.desginationId : varPay.desgination}"></option>
+										</select></td>
+									</tr>
+									<tr>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.payscalelevel}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><select disabled="disabled"
+											class="form-control" id="payscalelevel"
+											th:field="*{payscalelevelId}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstpayscalelevel}"
+													th:value="${varPay[4]}" th:text="${varPay[3]}"></option>
+										</select></td>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.svnthpaybasic}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><select disabled="disabled"
+											class="form-control" id="svnthpaybasic"
+											th:field="*{svnthpaybasic}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstsvnbasicpay}"
+													th:value="${varPay[0]}" th:text="${varPay[1]}"></option>
+										</select></td>
+									</tr>
+									<tr>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.payscale}"
+												id="payscaleLevels"></span> &nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><select disabled="disabled"
+											class="form-control" id="payScale" th:field="*{payScaleId}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstsixpayscalelevel}"
+													th:value="${varPay[4]}" th:text="${varPay[3]}"></option>
+										</select></td>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.payInPayBand}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input Type="text" size="40%"
+											id="payInPayBand" th:field="*{payInPayBand}"
+											disabled="disabled" class="form-control" /></td>
+									</tr>
+									<tr>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.gradePay}"
+												id="payscaleLevels"></span> &nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><input Type="text" size="40%"
+											id="gradePay" th:field="*{gradePay}"
+											disabled="disabled" class="form-control" /></td>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.basicpay}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input Type="text" size="40%"
+											id="basicPay" th:field="*{basicPay}" disabled="disabled"
+											class="form-control" readonly /></td>
+									</tr>
+									<tr>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.hraBasic}"></span>
+												&nbsp;&nbsp;</label></td>
+										<td width="25%"><input type="text" size="40%"
+											ng-model="hraBasic" id="hraBasic"
+											name="hraBasic" class="form-control" th:field="*{hraBasic}" /></td>
+											<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabelcurrentpost}"></span>
+												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><select class="form-control"
+											disabled="disabled" id="postdetailid"
+											th:field="*{postdetailid}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstCurrentPost}"
+													th:value="${varPay[0]}" th:text="${varPay[1]}"></option>
+										</select></td>
+									</tr>
+<!-- 									<tr> -->
+<!-- 										<td width="25%"><label><span -->
+<!-- 												th:utext="#{msg.thymeleaf.pagelabel.giscatagory}"></span>&nbsp;&nbsp;<b><font -->
+<!-- 													color="red" size="4px;">*</font></b></label></td> -->
+<!-- 										<td width="25%"><select class="form-control" -->
+<!-- 											id="giscatagory" name="giscatagory" th:field="*{giscatagory}"> -->
+<!-- 												<option th:value="0" -->
+<!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
+<!-- 												<option th:each="varCommon : ${lstCommonMstGIS}" -->
+<!-- 													th:value="${varCommon.lookupId}" -->
+<!-- 													th:text="${language=='mh' ? varCommon.lookupNam : varCommon.lookupName}"></option> -->
+<!-- 										</select></td> -->
+										
+
+										
+<!-- 										<td width="25%"><label><span -->
+<!-- 												th:utext="#{msg.thymeleaf.pagelabel.begis}"></span>&nbsp;&nbsp;</label></td> -->
+<!-- 										<td width="25%"><select class="form-control" -->
+<!-- 											id="Category" th:field="*{begisCatg}"> -->
+<!-- 												<option th:value="0" -->
+<!-- 													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option> -->
+<!-- 												<option value="CL1">CL1</option> -->
+<!-- 												<option value="CL2">CL2</option> -->
+<!-- 												<option value="CL3">CL3</option> -->
+<!-- 												<option value="CL4">CL4</option> -->
+<!-- 										</select> -->
+<!-- 									</tr> -->
+									<tr>
+										
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.currentdept}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><select class="form-control"
+											disabled="disabled" id="adminDepartmentId"
+											th:field="*{adminDepartmentId}">
+												<option th:value="0"
+													th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
+												<option th:each="varPay : ${lstCurntDepartment}"
+													th:value="${varPay.departmentId}"
+													th:text="${varPay.deptName}"></option>
+										</select></td>
+										<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.nameofpostdesg}"></span>
+												&nbsp;&nbsp;</label></td>
+										<td width="25%"><input Type="text" size="40%"
+											id="nameOfPostDesg" th:field="*{departmentNameEn}"
+											disabled="disabled" class="form-control" /></td>
+									</tr>
+
+									</tr>
+
+									<tr>
+										
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.dtinitialappointmentparentinst}" ></span>&nbsp;&nbsp;</label></td>
+										<td width="30%"><input Type="date" size="40%"
+											id="dtInitialAppointmentParentInst"
+											th:field="*{dtInitialAppointmentParentInst}" disabled="disabled"
+											class="form-control" /></td>
+											<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.institutionAdd}"></span>
+												&nbsp;&nbsp;</label></td>
+										<td width="25%"><input Type="text" size="40%"
+											disabled="disabled" id="instituteAdd" ng-model="instituteAdd"
+											th:field="*{instituteAdd}" class="form-control" /></td>
+									</tr>
+									<tr>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.mobile}"></span>&nbsp;&nbsp;</label></td>
+										<td width="30%"><input Type="text" size="40%" id="mobile"
+											ng-model="mobile" th:field="*{mobileNo2}" disabled="disabled"
+											class="form-control" /></td>
+											<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.InstEmailId}"></span>
+												&nbsp;&nbsp;</label></td>
+										<td width="25%"><input Type="email" size="40%"
+											disabled="disabled" id="instEmailId" ng-model="instEmailId"
+											th:field="*{instemail}" class="form-control" /></td>
+									</tr>
+									<tr>
+										
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.cityClass}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="30%"><input Type="text" size="40%"
+											id="cityClass" ng-model="cityClass"
+											th:field="*{cityClass}" disabled="disabled"
+											class="form-control" /></td>
+											<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.dtofJoinCurrentPost}"></span>
+												&nbsp;&nbsp;</label></td>
+										<td width="25%"><input Type="date" size="40%"
+											ng-model="dtJoinCurrentPost" id="dtJoinCurrentPost"
+											th:field="*{dtJoinCurrentPost}" disabled="disabled"
+											class="form-control" /></td>
+									</tr>
+									<tr>
+										
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.Remark}"></span>&nbsp;&nbsp;</label></td>
+										<td width="30%"><input Type="text" size="40%"
+											disabled="disabled" ng-model="remark" id="remark"
+											th:field="*{remark}" class="form-control" /></td>
+											
+												
+												<td width="15%"><label>Type of Teaching<b><font
+													color="red" size="4px;">*</font></b></label></td>
+									 <td width="30%"><input type="radio" size="2" id="Teaching" name="Teaching" ng-model="Teaching" th:field="*{Teaching}" 
+										 th:value="Teaching"/> <label>Teaching</label>  
+										  <input type="radio" id="Teaching" name="Teaching" ng-model="Teaching" th:field="*{Teaching}"
+										   th:value="NonTeaching"/>
+										    <label>Non Teaching</label> 
+										  </td>  
+												
+									</tr>
+									<tr>
+									<td width="25%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.indiApproOrdNo}"></span>
+												&nbsp;&nbsp;</label></td>
+										<td width="25%"><input Type="text" size="40%"
+											ng-model="indiApproveOrderNo" id="indiApproveOrderNo"
+											th:field="*{indiApproveOrderNo}" disabled="disabled"
+											class="form-control" /></td>
+										<td width="15%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabel.indiApproDt}"></span>&nbsp;&nbsp;</label></td>
+										<td width="30%"><input Type="date" size="40%"
+											ng-model="indiApproDt" id="indiApproDt"
+											th:field="*{approvalByDdoDate}" disabled="disabled"
+											class="form-control" /></td>
+									</tr>
+									
+								</table>
+							</div>
+						</div>
+					<div id="menu3" class="tab-pane fade">
+						<br />
+						<fieldset>
+							<legend>Bank/DCPS/NPS/GPF Details </legend>
+						</fieldset>
+						<div th:replace="views/approve-emp-config-tabs :: BankDetails"></div>
+					</div>
+					<div id="menu4" class="tab-pane fade">
+						<br />
+						<fieldset>
+							<legend>GIS Details </legend>
+						</fieldset>
+						<div th:replace="views/approve-emp-config-tabs :: GISDetails"></div>
+					</div>
+					<div id="menu5" class="tab-pane fade">
+						<br />
+						<fieldset>
+							<legend>DCPS/NPS Nominee Details </legend>
+						</fieldset>
+						<div th:replace="views/approve-emp-config-tabs :: NomineeDetails"></div>
+					</div>
+					<div id="menu6" class="tab-pane fade">
+						<br />
+						<fieldset>
+							<legend> Photo/Signature</legend>
+						</fieldset>
+						<div th:replace="views/approve-emp-config-tabs ::PhotoSignature "></div>
+						<hr />
+						<div class="text-=center">
+						
+								<input type="button" id="btnPrevious" name="btnPrevious"
+							value="Previous" class="btn" /> 
+							<input type="button"
+							id="btnNext" name="btnNext" value="Next" class="btn" />
+						
+							<span th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}"> <input
+								type="button" id="btnSave" class="btn btn-primary"
+								th:value="#{msg.thymeleaf.pagelabel.forwardtolevelthree}"
+								th:onclick="'forwardLvlThreeEmpDtls();'" />
+
+							</span> <span th:if="${mstEmployeeModel.dcpsgpfflag == 'N'}"> <input
+								type="button" id="btnSave" class="btn btn-primary"
+								th:value="#{msg.thymeleaf.pagelabel.approve}"
+								th:onclick="'approveEmpDtls();'" />
+
+							</span> <input type="button" class="btn btn-primary rejectbtnn"
+								th:value="#{msg.thymeleaf.pagelabel.reject}"
+								th:onclick="'rejectEmpDtls();'" /> <span
+								th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}"> <input
+								type="button" class="btn btn-primary"
+								th:value="#{msg.thymeleaf.pagelabel.printformone}"
+								th:onclick="'empDtlsReport();'" /></span>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion"
+									href="#collapse6"><b><span
+										th:utext="#{msg.thymeleaf.pagelabl.photosign}"></span></b></a>
+							</h4>
+						</div>
+						<div id="collapse6" class="panel-collapse collapse">
+							<div class="panel-body">
+								<table class="table table-bordered">
+									<tr>
+										<td width="10%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabl.filedesc}"></span>
+												&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b> </label></td>
+										<td width="25%"><input Type="text" size="40%"
+											placeholder="Photo" disabled="disabled" ng-model="fileDesc" id="photodesc" name="photodesc" 
+											class="form-control" /></td>
+										<td width="10%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabl.attachfile}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="25%">
+											<!-- 										<input Type="file" ng-model="attachFile" id="photo" /> -->
+											<input Type="file" ng-model="attachFile" id="files"
+											onchange="getimage(this);" disabled="disabled" name="files" />
+										</td>
+										<!-- 										<td width="10%"><label class="btn btn-info"><span -->
+										<!-- 												th:utext="#{msg.thymeleaf.pagelabl.uploadphoto}" -->
+										<!-- 												ng-click="uploadPhoto();"></span></label></td> -->
+										<td width="10%">
+											<!-- 										<img id="photoView" src="#" onerror="" width="100" height="100" /> -->
+											 <img id="imagePath"
+											th:src="@{${'/ddo/viewFilephoto/' + mstEmployeeModel.employeeId}}"
+											width="100" height="100" />
+										</td>
+									</tr>
+									<tr>
+										<td width="10%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabl.signDesc}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="25%"><input Type="text" size="40%"
+											placeholder="Signature" disabled="disabled" id="signaturedesc" name="signaturedesc"  
+											ng-model="signature" class="form-control" /></td>
+										<td width="10%"><label><span
+												th:utext="#{msg.thymeleaf.pagelabl.attachfile}"></span>&nbsp;&nbsp;<b><font
+													color="red" size="4px;">*</font></b></label></td>
+										<td width="25%">
+											<!-- 										<input Type="file" ng-model="attachFile1" id="signature" th:field="*{photoAttachmentId}"  /> -->
+											<input Type="file" ng-model="attachFile1" id="files"
+											onchange="getimagesign(this);" disabled="disabled"
+											name="files" />
+										</td>
+										<!-- 										<td width="10%"><label class="btn btn-info"><span -->
+										<!-- 												th:utext="#{msg.thymeleaf.pagelabl.uploadphoto}" -->
+										<!-- 												ng-click="uploadPhoto1();"></span></label></td> -->
+										<td width="10%">
+											<!-- 										<img id="blah" src="#" width="100" height="100" onerror="" /> -->
+											<!-- <img id="imagePathSign"
+											th:src="@{${'/images/' + mstEmployeeModel.imagePathSign}}"
+											width="100" height="100" /> -->
+											
+											<img id="imagePathSign"
+											th:src="@{${'/ddo/viewFileSign/' + mstEmployeeModel.employeeId}}"
+											width="100" height="100" />
+										</td>
+									</tr>
+
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="form-group text-center">
+					<hr />
+					<span th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}">
+					
+						<input type="button" id="btnSave" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.forwardtolevelthree}"
+							th:onclick="'forwardLvlThreeEmpDtls();'" />
+							
+							</span>
+								<span th:if="${mstEmployeeModel.dcpsgpfflag == 'N'}">
+					
+						<input type="button" id="btnSave" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.approve}"
+							th:onclick="'approveEmpDtls();'" />
+							
+							</span>
+						<input type="button" class="btn btn-primary rejectbtnn"
+							th:value="#{msg.thymeleaf.pagelabel.reject}"
+							th:onclick="'rejectEmpDtls();'" />
+					<span th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}">
+						<input type="button" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.printformone}"
+							th:onclick="'empDtlsReport();'" />
+							</span>
+					<br />
+						<input type="button" class="btn btn-primary rejectbtnn"
+							th:value="#{msg.thymeleaf.pagelabel.back}"
+							th:onclick="'backEmpDtls();'" />
 						<div id="menu1" class="tab-pane fade in active">
 							<br />
 							<fieldset>
