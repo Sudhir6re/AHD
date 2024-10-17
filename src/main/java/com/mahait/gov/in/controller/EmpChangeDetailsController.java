@@ -120,6 +120,9 @@ public class EmpChangeDetailsController  extends BaseController{
 		model.addAttribute("mstEmployeeEntity", empChangeDetailsModel);
 		model.addAttribute("roleId", messages.getMstRoleEntity().getRoleId());
 		
+		
+		addMenuAndSubMenu(model, messages);
+		
 		return "/views/changeDetails";
 	}
 
@@ -360,6 +363,8 @@ public class EmpChangeDetailsController  extends BaseController{
 		model.addAttribute("lstpfSeries", lstpfSeries);
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("roleId", messages.getMstRoleEntity().getRoleId());
+		
+		addMenuAndSubMenu(model, messages);
 		//return "/views/approve-employee-configuration";
 		return "/views/edit-employee-configuration";
 	}
@@ -456,6 +461,7 @@ public class EmpChangeDetailsController  extends BaseController{
 		}
 		if (strAction.equals("Edit")) {
 			empChangeDetailsModel.setUpdatedUserId(messages.getUserId());
+			empChangeDetailsModel.setDdoCode(messages.getDdoCode());
 			long afterSaveId = empChangeDetailsService.updateEmployeeChangeDetails(empChangeDetailsModel, files);
 			// int result=
 			// mstEmployeeService.savePhotoSignature(files,mstEmployeeModel.getDeptNm(),mstEmployeeModel.getEmployeeId());

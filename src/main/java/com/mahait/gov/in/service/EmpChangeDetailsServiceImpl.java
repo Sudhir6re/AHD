@@ -719,8 +719,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				.orElseGet(MstEmployeeDetailEntity::new);
 
 		Session currentSession = entityManager.unwrap(Session.class);
-		// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());
-		// objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
+		objEntity.setEmployeeId(empChangeDetailsModel.getEmployeeId());
+		 objEntity.setSevaarthId(empChangeDetailsModel.getSevaarthId());
 		// objEntity.setSevaarthId("0");
 		MstNomineeDetailsHistEntity lObjNomineeDtls = null;
 		MstNomineeDetailsHistEntity[] lArrNomineeDtls = null;
@@ -887,7 +887,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			// objEntity.setDdoCode(mstEmployeeModel.getDdoCode());
 			objEntity.setBillGroupId(empChangeDetailsModel.getBillgroupId());
 			objEntity.setFormstatus(5l);
-			objEntity.setDdoCode(objEntity.getDdoCode());
+			objEntity.setDdoCode(empChangeDetailsModel.getDdoCode());
 			empChangeDetailsModel.setIsActive(5l);
 			objEntity.setSignatureAttachmentId(empChangeDetailsModel.getSignatureAttachmentId());
 			objEntity.setCreatedUserId(empChangeDetailsModel.getCreatedUserId());
@@ -899,7 +899,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			MstGpfDetailsHistEntity objEntity2 = empChangeDetailsRepo.findbyGPFid(empChangeDetailsModel.getGpf_id());
 			
 			
-			if (objEntity2 != null)
+			if (objEntity2 == null)
 			// objEntity2.setGpf_id(mstEmployeeModel.getGpf_id());
 			{
 				 objEntity2 =new MstGpfDetailsHistEntity();
@@ -940,7 +940,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			MstGisdetailsHistEntity objEntity3 = empChangeDetailsRepo.findbyGisid(empChangeDetailsModel.getGisid());
 			// objEntity3.setGisid(mstEmployeeModel.getGisid());
 			
-			if (objEntity3 != null)
+			if (objEntity3 == null)
 				// objEntity2.setGpf_id(mstEmployeeModel.getGpf_id());
 				{
 				objEntity3 =new MstGisdetailsHistEntity();
