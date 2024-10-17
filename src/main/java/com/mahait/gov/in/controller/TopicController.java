@@ -79,13 +79,15 @@ public class TopicController extends BaseController {
 		// logger.info(""+messages.getFullName());
 		modelAndView.addObject("userName", messages.getUserName());
 		int levelRoleVal = messages.getMstRoleEntity().getRoleId();
-		if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_MDC")) {
-			return new ModelAndView("redirect:/admin/home");
-		} else if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_DDO_AST")) {
+		if (levelRoleVal==1) {
+			return new ModelAndView("redirect:/mdc/home");
+		} else if (levelRoleVal==3) {
 			return new ModelAndView("redirect:/ddoast/home");
-		} else if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_DDO")) {
+		} else if (levelRoleVal==2) {
 			return new ModelAndView("redirect:/ddo/home");
-		} else if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_SUPERADMIN")) {
+		}else if (levelRoleVal==4) {
+			return new ModelAndView("redirect:/user/home");
+		}else if (levelRoleVal==5) {
 			return new ModelAndView("redirect:/super/home");
 		} else {
 
