@@ -816,6 +816,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setPfacno(empChangeDetailsModel.getPfacno());
 			System.out.println("pfdescription---------" + empChangeDetailsModel.getPfdescription());
 			objEntity.setPfdescription(empChangeDetailsModel.getPfdescription());
+			objEntity.setFormstatus(5l);
 
 			// Bank/DCPS/NPS/GPF Details End
 
