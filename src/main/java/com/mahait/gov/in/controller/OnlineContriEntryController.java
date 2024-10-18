@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
+import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
@@ -123,6 +124,15 @@ public class OnlineContriEntryController extends BaseController {
 
 			dcpContributionModel.setLstDcpContributionModel(dcpContributionModelLst);
 			model.addAttribute("dcpContributionModelLst", dcpContributionModelLst);
+			
+			
+			MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionService.findMstDcpsContriVoucherDtlEntity(dcpContributionModel);
+			if(mstDcpsContriVoucherDtlEntity!=null) {
+				dcpContributionModel.setVoucherDate(mstDcpsContriVoucherDtlEntity.getVoucherDate());
+				dcpContributionModel.setVoucherNo(mstDcpsContriVoucherDtlEntity.getVoucherNo());
+			}
+			
+			
 
 		}
 
@@ -200,6 +210,12 @@ public class OnlineContriEntryController extends BaseController {
 
 			dcpContributionModel.setLstDcpContributionModel(dcpContributionModelLst);
 			model.addAttribute("dcpContributionModelLst", dcpContributionModelLst);
+			
+			MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionService.findMstDcpsContriVoucherDtlEntity(dcpContributionModel);
+			if(mstDcpsContriVoucherDtlEntity!=null) {
+				dcpContributionModel.setVoucherDate(mstDcpsContriVoucherDtlEntity.getVoucherDate());
+				dcpContributionModel.setVoucherNo(mstDcpsContriVoucherDtlEntity.getVoucherNo());
+			}
 
 		}
 

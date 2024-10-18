@@ -238,7 +238,7 @@ public class PayslipReportController extends BaseController {
 			obj.setDeptallowdeducid(1);
 			obj.setTempvalue("0.00");
 			obj.setTempempty("0.00");
-			allowEdpList.add(obj);
+			allEdpList.add(0, obj);
 
 			// for allowances
 			allowance = new ArrayList();

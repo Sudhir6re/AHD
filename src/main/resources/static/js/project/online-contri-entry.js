@@ -583,6 +583,56 @@ function SearchEmployee(e) {
 	}
 }
 
+
+
+var status = false;
+
+function searchDetailsForApprove(e) {
+	//	e.preventDefault();
+
+	var flag = true;
+
+	$('#action').val('SEARCH_EMP');
+
+	var paymentType = $("#typeOfPayment").val();
+	var yearId = $("#finYearId").val();
+	var monthId = $("#monthId1").val();
+	var delayedMonthId = $("#delayedMonthId").val();
+	var delayedFinYearId = $("#delayedFinYearId").val();
+	var txtSchemeName = $("#txtSchemeName").val();
+	var billGroupId = $("#billGroupId").val();
+
+	if (paymentType === "" || paymentType === '0') {
+		swal('Please Select Payment Type');
+		flag = false;
+	}
+	if (yearId === "0") {
+		swal('Please select pay year');
+		flag = false;
+	}
+	if (monthId === "0") {
+		swal('Please select pay month');
+		flag = false;
+	}
+
+
+	if (txtSchemeName === '') {
+		swal('Scheme name is not blank  ');
+		flag = false;
+	}
+
+	if (billGroupId === '0') {
+		swal('Please Select Bill Group');
+		flag = false;
+	}
+
+	if (flag) {
+		$(".trnDCPSTable").empty();
+		$("#onlineEntryForm").submit();
+		return true;
+	}
+}
+
 /*
  $(document).ready(function() {
  $("form[name='onlineEntryForm']").validate({
