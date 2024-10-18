@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
@@ -21,7 +22,9 @@ import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.CentralGovtDAMasterEntity;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
+import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.EmployeeIncrementEntity;
+import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
@@ -1360,15 +1363,6 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 				+ "  CASE WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) >1 THEN p.premium_amount else  p.amount end else p.premium_amount  "
 				+ "  END AS selected_amount from allowance_deduction_wise_rule_mst p WHERE city_group = :groupName and   is_Active='1'  and department_allowdeduc_code=:allowD";
 
-		/*
-		 * String sql = "select  CASE  " //WHEN DATE_PART('month',cast(:doj as date)) =
-		 * 1 AND DATE_PART('day',cast( :doj as date))=1 THEN p.amount +
-		 * " WHEN EXTRACT(YEAR FROM AGE(cast(:startDate as date), cast(:doj as date))) <1 THEN p.premium_amount  else p.amount "
-		 * +
-		 * " END AS selected_amount from allowance_deduction_wise_rule_mst p WHERE city_group = :groupName and   is_Active='1'  and department_allowdeduc_code=:allowD"
-		 * ;
-		 */
-
 		NativeQuery<Double> query = currentSession.createNativeQuery(sql);
 		query.setParameter("doj", doj);
 		query.setParameter("groupName", gisgroup);
@@ -1573,6 +1567,17 @@ public class PaybillGenerationTrnRepoImpl implements PaybillGenerationTrnRepo {
 		// TODO Auto-generated method stub
 		Session ghibSession = entityManager.unwrap(Session.class);
 		ghibSession.update(dcpsContributionEntity);
+	}
+
+	@Override
+	public LoanEmployeeDtlsEntity fetchLoanDtls(String sevaarthId, int allowDeducCode) {
+		try {
+			String HQL = "FROM LoanEmployeeDtlsEntity as  t  where t.sevaarthid = '" + sevaarthId
+					+ "' and t.departmentallowdeduccode = " + allowDeducCode + " and t.totalRecoveredInst < loanprininstno";
+			return (LoanEmployeeDtlsEntity) entityManager.createQuery(HQL).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 }

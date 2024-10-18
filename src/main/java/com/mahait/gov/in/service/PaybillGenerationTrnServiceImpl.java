@@ -26,6 +26,7 @@ import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
+import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
@@ -1410,6 +1411,7 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 		Double gisAmount = 0d;
 		Double groupAccPolicy = 0d;
 		int isNonGovernment = 0;
+		int isLoanAdv = 0;
 		
 
 		ddoCode = paybillHeadMpgModel.getDdoCode();
@@ -1628,7 +1630,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 								}
 								
 								setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
-							}else if(isNonGovernment==1) {
+							}
+							if(isNonGovernment==1) {
 								EmployeeAllowDeducComponentAmtEntity entity = mstEmployeeService
 										.findGRPComponentsData(mstEmployeeEntity2.getSevaarthId(), allowdedcode);
 
@@ -1657,6 +1660,33 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
 								}
 							
+								
+							}
+							if(isLoanAdv == 1) {
+								LoanEmployeeDtlsEntity loanEmployeeDtlsEntity = paybillHeadMpgRepo.fetchLoanDtls(mstEmployeeEntity2.getSevaarthId(),allowdedcode);
+								if(loanEmployeeDtlsEntity!=null) {
+
+									Double temp = (double) Math.round(loanEmployeeDtlsEntity.getLoanprinemiamt());
+
+									switch (isType) {
+									case 1:
+										grossAmount += temp;
+										break;
+									case 2:
+										dedByAG += temp;
+										break;
+									case 3:
+											dedByTreasury += temp;
+										break;
+									case 4:
+										dedByOthr += temp;
+										break;
+									}
+
+									setFieldValue(paybillGenerationTrnDetails, brokenMethodName, temp);
+								
+								}
+								
 								
 							}
 						break;
@@ -1754,6 +1784,8 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 					isNonGovernment = 0;
 					if (object12[16] != null)
 						isNonGovernment = (int) object12[16];
+					if (object12[17] != null)
+						isLoanAdv = (int) object12[17];
 
 					Double svnPcBasic = 0d;
 					
@@ -2055,6 +2087,33 @@ public class PaybillGenerationTrnServiceImpl implements PaybillGenerationTrnServ
 									}
 									setFieldValue(paybillGenerationTrnDetails, methodName, tempVal);
 								}
+							}
+							if(isLoanAdv == 1) {
+								LoanEmployeeDtlsEntity loanEmployeeDtlsEntity = paybillHeadMpgRepo.fetchLoanDtls(mstEmployeeEntity2.getSevaarthId(),allowDeducCode);
+								if(loanEmployeeDtlsEntity!=null) {
+
+									Double temp = (double) Math.round(loanEmployeeDtlsEntity.getLoanprinemiamt());
+
+									switch (isTypeforSum) {
+									case 1:
+										grossAmount += temp;
+										break;
+									case 2:
+										dedByAG += temp;
+										break;
+									case 3:
+											dedByTreasury += temp;
+										break;
+									case 4:
+										dedByOthr += temp;
+										break;
+									}
+
+									setFieldValue(paybillGenerationTrnDetails, methodName, temp);
+								
+								}
+								
+								
 							}
 						}
 						break;

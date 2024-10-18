@@ -35,12 +35,8 @@
 </head>
 <body class="addEmployeeLoanDetails">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
-<<<<<<< HEAD
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
-=======
-	<div th:replace="header/menuHeader :: varmenuheader"></div> 
->>>>>>> b3c496acdf23cd691c89d44ce003cc4dc910ea76
 	<div class="container min-height-600">
 		<div class="breadcrumbMain">
 			<nav aria-label="breadcrumb">
@@ -67,16 +63,10 @@
 				<span>Search Employee</span>
 			</h3>
 			<form class="form-horizontal" id="form1"
-				th:action="@{/level1/saveEmployeeLoanDtls}" name="form1"
+				th:action="@{/ddoast/saveEmployeeLoanDtls}" name="form1"
 				th:object="${empLoanModel}" method="POST"
 				enctype="multipart/form-data">
 
-<<<<<<< HEAD
-				<!-- <form class="form-horizontal"  id="form2"
-				th:action="@{/master/saveEmployeeLoanDtls}"
-				th:object="${empLoanModel}" method="POST"
-				enctype="multipart/form-data"> -->
-				<!-- 			<form class="form-horizontal"> -->
 				<input type="hidden" name="ddocode" id="ddocode"
 					th:value="${ddocode}" class="form-control" /> 
 					<input type="hidden"
@@ -139,16 +129,16 @@
 				</p>
 				
 				
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="control-label col-sm-3" for="t+itle"><span>Application Number</span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
 					<div class="col-sm-3">
-						<!-- <input type="text" id="loanAdvName" th:field="*{loanAdvName}" readonly class="form-control"></input> -->
+						<input type="text" id="loanAdvName" th:field="*{loanAdvName}" readonly class="form-control"></input>
 						<select class="form-control" name="appNo" id="appNo"  th:field="*{appNo}"
 							>
 						<option value="0">Please select</option>
 						</select>
 					</div>
-				</div>
+				</div> -->
 				
 				
 				<div class="form-group">
@@ -157,12 +147,12 @@
 					<div class="col-sm-3">
 						<!-- <input type="text" id="loanAdvName" th:field="*{loanAdvName}" readonly class="form-control"></input> -->
 						<select class="form-control" name="loanAdvName" id="loanAdvName"
-							th:field="*{loanAdvName}">
+							th:field="*{deptAllowdeducCode}">
 							<option th:value="0"
 								th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
 							<option th:each="varCommon : ${lstCommonMstLoanAndAdvance}"
-								th:value="${varCommon.commonValue+'-'+varCommon.commonValue}"
-								th:text="${language=='mh' ? varCommon.commonValMarathi : varCommon.commonValEnglish}"></option>
+								th:value="${varCommon.departmentAllowdeducCode}"
+								th:text="${language=='mh' ? varCommon.departmentAllowdeducName : varCommon.departmentAllowdeducName}"></option>
 						</select>
 					</div>
 					<label class="control-label col-sm-3" for="title"><span>Principal
@@ -315,7 +305,7 @@
 
 				<div class="form-group">
 					<div class="text-center">
-						<input type="submit" class="btn btn-primary" value="Add"
+						<input type="submit" class="btn btn-primary" value="Save"
 							id="addloaddetailsbtn" />
 					</div>
 				</div>
@@ -364,9 +354,6 @@
 								<!-- <td th:text="${varLstEmp.loansancorderno}"></td> -->
 								<td th:text="${varLstEmp.loansancorderdate}" ></td>
 								
-							<!-- 	<td th:if="${varLstEmp.loanDate!=null}" th:text="${#dates.format(varLstEmp.loanDate, 'dd-MM-yyyy')}" ></td>
-								
-								<td th:if="${varLstEmp.loanDate==null}" th:text="${#dates.format(standardDate, 'dd-MM-yyyy')}" ></td> -->
 									<td th:text="${varLstEmp.loanDate}"></td>
 								
 								<td th:text="${varLstEmp.loanprinemiamt}"></td>
@@ -377,24 +364,11 @@
 								<td th:text="${varLstEmp.Oddinstamt}"></td>
 								
 								<td th:text="${varLstEmp.voucherno}"></td>
-							<!-- 	<td th:text="${#dates.format(varLstEmp.voucherdate, 'dd-MM-yyyy')}" ></td> -->
 								
 									<td th:text="${varLstEmp.voucherdate}"></td>
 							
 								
 							
-								<!-- <td>
-									<div class="form-group flex text-center">
-										<a data-toggle="tooltipEdit" title="Edit" id="editState"
-											th:href="@{'/user/underConstruction/'}"><span
-											class="glyphicon glyphicon-edit"></span></a>
-										th:href="@{'/master/editState/' + ${VarState.Id}}"><span
-										<a data-toggle="tooltipDelete" title="Delete"
-											th:href="@{'/admin/master/deleteState/'+${varLstEmp.loanEmpAdvId}}"
-											class="delete"> <span class="glyphicon glyphicon-trash "></span></a>
-
-									</div>
-								</td> -->
 							</tr>
 
 
@@ -402,19 +376,10 @@
 						</tbody>
 					</table>
 				</div>
-				<!-- <div class="form-group text-center">
-				<br/>
-						<input type="submit" id="btnSave" class="btn btn-primary"
-							th:value="#{msg.thymeleaf.pagelabel.btnSave}" />
-						<input type="button" class="btn btn-info" value="Reset"
-							onclick="reset();" />
-						<input type="button" class="btn btn-info" value="Close" />
-				</div> -->
 			</form>
 
 		</fieldset>
-=======
-		<div class="formMainwithNoborTb container">
+		<!-- <div class="formMainwithNoborTb container">
 			<div id="tcontent1">
 				<form class="form-horizontal" id="form1"
 					th:action="@{/ddoast/saveEmployeeLoanDtls}" name="form1"
@@ -482,7 +447,7 @@
 						<label class="control-label col-sm-3" for="t+itle"><span>Loan
 								Name</span>&nbsp;&nbsp;<b><font color="red" size="4px;">*</font></b></label>
 						<div class="col-sm-3">
-							<!-- <input type="text" id="loanAdvName" th:field="*{loanAdvName}" readonly class="form-control"></input> -->
+							<input type="text" id="loanAdvName" th:field="*{loanAdvName}" readonly class="form-control"></input>
 							<select class="form-control" name="loanAdvName" id="loanAdvName" th:field="*{deptAllowdeducCode}">
 								<option th:value="0"
 									th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -647,132 +612,19 @@
 				</div>
 				</form>
 			</div>
-		</div>
+		</div> -->
 		<div align="center" >
 		
 		<div th:switch="${status}">
-	<!-- 	<div th:case="1">
-			<input type="button" name="Save" onclick="submitForm()" id="Save"
-				value="Save" style="text-align: center;" size="3" maxlength="3"
-				class="btn"> 
-				</div> -->
 				<input type="button" name="btnClose1"
 				onclick="history.back()" id="btnClose1" value="Close"
 				style="text-align: center;" size="3" maxlength="3" class="btn">
 		</div>
 		</div>
 		<br />
->>>>>>> b3c496acdf23cd691c89d44ce003cc4dc910ea76
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-<<<<<<< HEAD
-	<!-- <script>
-		$(document)
-				.ready(
-						function() {
-							$("#addloaddetailsbtn")
-									.click(
-											function(e) {
-												/*  alert("ok3");  */
-												e.preventDefault();
-												var loanName = $("#loanName")
-														.val();
-												var PriAmount = $("#PriAmount")
-														.val();
-												var intAmount = $("#intAmount")
-														.val();
-												var loanstartdate = $(
-														"#loanstartdate").val();
-												var preInstNo = $("#preInstNo")
-														.val();
-												var intInstNo = $("#intInstNo")
-														.val();
-												var accNo = $("#accNo").val();
-												var preEMIAmount = $(
-														"#preEMIAmount").val();
-												var intEMIAmount = $(
-														"#intEMIAmount").val();
-												var sectionOrderNo = $(
-														"#sectionOrderNo")
-														.val();
-												var preRecovAmount = $(
-														"#preRecovAmount")
-														.val();
-												var intRecovAmount = $(
-														"#intRecovAmount")
-														.val();
-												var sectionOrderDate = $(
-														"#sectionOrderDate")
-														.val();
-												var priRecovInsta = $(
-														"#priRecovInsta").val();
-												var intrecovInsta = $(
-														"#intrecovInsta").val();
-												var voucherNo = $("#voucherNo")
-														.val();
-												var oddIstaNo = $("#oddIstaNo")
-														.val();
-												var voucherDate = $(
-														"#voucherDate").val();
-												var oddIstaAmount = $(
-														"#oddIstaAmount").val();
-
-$(".tbodyloaddetailtbl")
-.append(
-		"<tr><td>"
-				+ loanName
-				+ "<input type='hidden' name='loantypeid' value='"+loanName+"' id='loantypeid' th:field='*{loantypeid}' class='form-control' /></td><td>"
-				+ PriAmount
-				+ "<input type='hidden' name='loanprinamt' value='"+PriAmount+"' id='loanprinamt' th:field='*{loanprinamt}' class='form-control' /></td><td>"
-				+ preInstNo
-				+ "<input type='hidden' name='loanprininstno' value='"+preInstNo+"' id='loanprininstno' th:field='*{loanprininstno}' class='form-control' /></td><td>"
-				+ preEMIAmount
-				+ "<input type='hidden' name='loanprinemiamt' value='"+preEMIAmount+"' id='loanprinemiamt' th:field='*{loanprinemiamt}' class='form-control' /></td><td>"
-				+ intAmount
-				+ "<input type='hidden' name='loaninterestamt' value='"+intAmount+"' id='loaninterestamt' th:field='*{loaninterestamt}' class='form-control' /></td><td>"
-				+ intInstNo
-				+ "<input type='hidden' name='loanintinstno' value='"+intInstNo+"' id='loanintinstno' th:field='*{loanintinstno}' class='form-control' /></td> <td>"
-				+ intEMIAmount
-				+ "<input type='hidden' name='loanintemiamt' value='"+intEMIAmount+"' id='loanintemiamt' th:field='*{loanintemiamt}' class='form-control' /></td> <td>"
-				+ accNo
-				+ "<input type='hidden' name='loanaccountno' value='"+accNo+"' id='loanaccountno' th:field='*{loanaccountno}' class='form-control' /></td><td>"
-				+ sectionOrderNo
-				+ "<input type='hidden' name='loansancorderno' value='"+sectionOrderNo+"' id='loansancorderno' th:field='*{loansancorderno}' class='form-control' /></td><td>"
-				+ sectionOrderDate
-				+ "<input type='hidden' name='loansancorderdate' value='"+sectionOrderDate+"' id='loansancorderdate' th:field='*{loansancorderdate}' class='form-control' /></td><td>"
-				+ loanstartdate
-				+ "<input type='hidden' name='startdate' value='"+loanstartdate+"' id='startdate' th:field='*{startdate}' class='form-control' /><input type='hidden' name='loandate' value='"+loanstartdate+"' id='loandate' th:field='*{loandate}' class='form-control' /></td><td>"
-				+ preRecovAmount
-				+ "<input type='hidden' name='multiamtrecvd' value='"+preRecovAmount+"' id='multiamtrecvd' th:field='*{multiamtrecvd}' class='form-control' /></td> <td>"
-				+ priRecovInsta
-				+ "<input type='hidden' name='multiinstrecvd' value='"+priRecovInsta+"' id='multiinstrecvd' th:field='*{multiinstrecvd}' class='form-control' /></td> <td>"
-				+ intRecovAmount
-				+ "<input type='hidden' name='trncounter' value='"+intRecovAmount+"' id='trncounter' th:field='*{trncounter}' class='form-control' /></td><td>"
-				+ intrecovInsta
-				+ "<input type='hidden' name='loanrectype' value='"+intrecovInsta+"' id='loanrectype' th:field='*{loanrectype}' class='form-control' /></td><td>"
-				+ oddIstaNo
-				+ "<input type='hidden' name='oddinstno' value='"+oddIstaNo+"' id='oddinstno' th:field='*{oddinstno}' class='form-control' /></td><td>"
-				+ oddIstaAmount
-				+ "<input type='hidden' name='oddinstamt' value='"+oddIstaAmount+"' id='oddinstamt' th:field='*{oddinstamt}' class='form-control' /></td><td>"
-				+ voucherNo
-				+ "<input type='hidden' name='voucherno' value='"+voucherNo+"' id='voucherno1' th:field='*{voucherno}' class='form-control' /></td><td>"
-				+ voucherDate
-				+ "<input type='hidden' name='voucherdate' value='"+voucherDate+"' id='voucherdate' th:field='*{voucherdate}' class='form-control' /></td></tr>"
-
-														);
-												/* swal("Record Added Successfully..); */
-												var inputs = $(
-														'input, textarea, select, option')
-														.not(
-																':input[type=button], :input[type=submit], :input[type=reset], :input[type=hidden]');
-												$(this).closest('form').find(
-														inputs).val("");
-											});
-
-						});
-	</script>
-	 -->
 	<script type="text/javascript">
 		jQuery(document)
 				.ready(

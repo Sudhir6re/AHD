@@ -50,17 +50,19 @@ EmployeeLoanDetailsService employeeLoanDetailsService;
 //		model.addAttribute("lstCommonMstLoanAndAdvance",
 //				commonHomeMethodsService.findCommonMstByCommonCode(CommonConstants.COMMONMSTTABLE.GPFLOAN_ADVANCE));
 				
-		List<EmpLoanModel> lstEmpLoanModel=new ArrayList<>();
 		
-	 	lstEmpLoanModel=employeeLoanDetailsService.findAllEmpLoanDtls(messages.getDdoCode());
+	 	
+		List<EmpLoanModel> lstEmp=new ArrayList<>();
+		lstEmp=employeeLoanDetailsService.findAllEmpLoanDtls(messages.getDdoCode());
 		
-		model.addAttribute("lstEmpLoanModel", lstEmpLoanModel);
+		model.addAttribute("lstEmp", lstEmp);
+		
 		model.addAttribute("language", locale.getLanguage());
 		model.addAttribute("standardDate", new Date());
 		
 		return "/views/emp-loan-details";
 	}
-	@GetMapping("addLoan")
+	/*@GetMapping("addLoan")
 	public String addLoan(@ModelAttribute("empLoanModel") EmpLoanModel empLoanModel,Model model, Locale locale, HttpSession session){
 		String message = (String) model.asMap().get("message");
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
@@ -88,7 +90,7 @@ EmployeeLoanDetailsService employeeLoanDetailsService;
 		model.addAttribute("standardDate", new Date());
 		////return "/views/addEmployeeLoanDetails";
 		return "/views/emp-loan-details";
-	}
+	}*/
 	@RequestMapping("addLoan")
 	public String addLoan(@ModelAttribute("empLoanModel") EmpLoanModel empLoanModel,Model model, Locale locale, HttpSession session,RedirectAttributes redirectAttributes) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");

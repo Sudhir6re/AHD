@@ -30,6 +30,7 @@ import com.mahait.gov.in.entity.BrokenPeriodEntity;
 import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
+import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.model.BrokenPeriodModel;
 import com.mahait.gov.in.model.BrokenPeriodPayCustomModel;
 import com.mahait.gov.in.model.BrokenPeriodResponseModel;
@@ -413,7 +414,9 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			cityClass = spilt[0];
 			mstEmployeeModel.setCityClass(cityClass);
 		}
-
+		String cadre = null;
+		cadre = paybillHeadMpgRepo.getEmpCadre(mstEmployeeModel.getSevaarthId(),
+				mstEmployeeModel.getEmpClass());
 	
 		logger.info(" payCommission " + payCommission + "cityClass " + cityClass);
 
@@ -432,9 +435,10 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 				obj.setGisAmount(StringHelperUtils.isNullDouble(objLst[4]));
 				obj.setMethodName(StringHelperUtils.isNullString(objLst[5]));
 				obj.setFormulas(StringHelperUtils.isNullString(objLst[6]));
+				obj.setIsRuleBased(StringHelperUtils.isNullInt(objLst[7]));
 				obj.setIsNonComputation(StringHelperUtils.isNullInt(objLst[8]));
 				obj.setIsNonGovernment(StringHelperUtils.isNullInt(objLst[9]));
-				obj.setIsRuleBased(StringHelperUtils.isNullInt(objLst[7]));
+				obj.setIsLoanAdv(StringHelperUtils.isNullInt(objLst[10]));
 				lstObj.add(obj);
 			}
 		}
@@ -459,6 +463,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			logger.info("allEdpList.get(i).getDeptalldetNm()=" + allEdpList.get(i).getDeptalldetNm());
 			logger.info("allEdpList.get(i).getDeptallowdeducid()=" + allEdpList.get(i).getDeptallowdeducid());
 			logger.info("svnDAloop=" + svnDA);
+			logger.info("getIsLoanAdv=" + allEdpList.get(i).getIsLoanAdv());
 			String name = allEdpList.get(i).getDeptalldetNm();
 
 			String temp = name;
@@ -569,7 +574,7 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 			case CommonConstants.PAYBILLDETAILS.COMMONCODE_COMPONENT_Accidential_Policy:
 
 				groupAccPolicy = (double) Math.round(paybillHeadMpgRepo.fetchAccidentialPilocyDtls(startDate,
-						mstEmployeeModel.getCadreName(), allEdpList.get(i).getDeptallowdeducid()));
+						cadre, allEdpList.get(i).getDeptallowdeducid()));
 
 				brokenPeriodModel.setDeptalldetValue(String.valueOf(groupAccPolicy));
 				deducTyEdpList.add(brokenPeriodModel); // Adjust by Treasury
@@ -711,6 +716,25 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 								deducTyEdpList.add(brokenPeriodModel);
 								dedRuleList.add(brokenPeriodModel);
 							}
+						}
+						if(allEdpList.get(i).getIsLoanAdv() == 1) {
+							LoanEmployeeDtlsEntity loanEmployeeDtlsEntity = paybillHeadMpgRepo.fetchLoanDtls(mstEmployeeModel.getSevaarthId(),allEdpList.get(i).getDeptallowdeducid());
+							if(loanEmployeeDtlsEntity!=null) {
+
+								brokenPeriodModel.setDeptalldetValue(String.valueOf(loanEmployeeDtlsEntity.getLoanprinemiamt()));
+
+								if (allEdpList.get(i).getType() == 1) {
+									allowEdpList.add(brokenPeriodModel);
+									allowRuleList.add(brokenPeriodModel);
+								} else {
+									deducTyEdpList.add(brokenPeriodModel);
+									dedRuleList.add(brokenPeriodModel);
+								}
+
+							
+							}
+							
+							
 						}
 					}else {
 						brokenPeriodModel.setDeptalldetValue(String.valueOf("0"));
