@@ -40,7 +40,7 @@
 			<form th:action="@{/transaction/approveAnnualIncrement}"
 				th:object="${annualIncrementModel}" method="POST"
 				name="approveAnnualIncrement" enctype="multipart/form-data"
-				class="form-horizontal">
+				class="form-horizontal container">
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="title"><span>Year</span>&nbsp;&nbsp;<b>
 							<font color="red" size="4px;">*</font>
@@ -81,11 +81,20 @@
 									th:field="*{orderNo}"></td>
 								<!-- <td class="collapse-item"><span th:text="${varEmp.orderNo}"></span></td> -->
 
-								<td th:if="${#numbers.isNumber(varEmp.orderNo)}"
-									th:text="${#numbers.formatDecimal(varEmp.orderNo, 0, 2)}">
+
+								<td>
+									<!-- Using JavaScript to handle the conversion for scientific notation -->
+									<span th:text="${varEmp.orderNo}"
+									th:if="${varEmp.orderNo.matches('[0-9.Ee]+')}"> </span> 
+<script>
+    const number = parseFloat([[${varEmp.orderNo}]]);
+    if (!isNaN(number)) {
+      document.write(number.toLocaleString('fullwide', {useGrouping:false}));
+    }
+</script> <!-- If not a number, show the string --> <span
+									th:if="${not varEmp.orderNo.matches('[0-9.Ee]+')}"
+									th:text="${varEmp.orderNo}"> </span>
 								</td>
-								<td th:if="${not #numbers.isNumber(varEmp.orderNo)}"
-									th:text="${varEmp.orderNo}"></td>
 
 
 

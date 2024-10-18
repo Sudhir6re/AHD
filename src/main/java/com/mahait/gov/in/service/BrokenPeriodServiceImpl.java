@@ -1,6 +1,5 @@
 package com.mahait.gov.in.service;
 
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -11,10 +10,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +22,6 @@ import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
 import com.mahait.gov.in.entity.BrokenPeriodAllowDeducEntity;
 import com.mahait.gov.in.entity.BrokenPeriodEntity;
-import com.mahait.gov.in.entity.CLAMstEntity;
 import com.mahait.gov.in.entity.DdoOffice;
 import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;

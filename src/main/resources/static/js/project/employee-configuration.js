@@ -1026,6 +1026,12 @@ if(paycomm != '' && paycomm != undefined){
 			payInPayBand :"Please enter Pay In Pay Band ",
 			
 		},
+		invalidHandler: function(event, validator) {
+            var firstError = validator.errorList[0].element;
+            var $errorTab = $(firstError).closest('.tab-pane');
+            var index = $('.tab-pane').index($errorTab);
+            $('.nav-tabs a').eq(index).tab('show');
+        },
 		// Make sure the form is submitted to the destination defined
 		// in the "action" attribute of the form when valid
 		submitHandler : function(form,event) {

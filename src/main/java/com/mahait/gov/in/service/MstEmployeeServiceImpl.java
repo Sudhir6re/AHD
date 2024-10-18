@@ -1532,7 +1532,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
 
 		lObjUserMst.setStartDate(new Timestamp(new Date().getTime()));
-		lObjUserMst.setActivateFlag(0l);
+		lObjUserMst.setActivateFlag(1l);
 		lObjUserMst.setAppCode(1);
 
 		lObjUserMst.setCreatedDate(new Timestamp(new Date().getTime()));
