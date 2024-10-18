@@ -579,7 +579,11 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 
 				gisAmount = paybillHeadMpgRepo.findGisComponentValue(citygroup, mstEmployeeModel.getDoj(),
 						"20" + startDate, allEdpList.get(i).getDeptallowdeducid());
-				brokenPeriodModel.setDeptalldetValue(String.valueOf(gisAmount));
+				if(gisAmount!=null) {
+					brokenPeriodModel.setDeptalldetValue(String.valueOf(gisAmount));
+				}else {
+					brokenPeriodModel.setDeptalldetValue(String.valueOf("0"));
+				}
 				deducTyEdpList.add(brokenPeriodModel); // Adjust by Treasury
 				dedRuleList.add(brokenPeriodModel);
 
@@ -675,15 +679,6 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 									deducTyEdpList.add(brokenPeriodModel);
 									dedRuleList.add(brokenPeriodModel);
 								}
-							}else {
-								brokenPeriodModel.setDeptalldetValue("0");
-								if (allEdpList.get(i).getType() == 1) {
-									allowEdpList.add(brokenPeriodModel);
-									allowRuleList.add(brokenPeriodModel);
-								} else {
-									deducTyEdpList.add(brokenPeriodModel);
-									dedRuleList.add(brokenPeriodModel);
-								}
 							}
 						}
 
@@ -730,28 +725,22 @@ public class BrokenPeriodServiceImpl implements BrokenPeriodService {
 							
 							
 						}
-					}else {
+					}
+					
+					
+					if(brokenPeriodModel.getDeptalldetValue()==null || brokenPeriodModel.getDeptalldetValue().equals("")) {
 						brokenPeriodModel.setDeptalldetValue(String.valueOf("0"));
-						deducTyEdpList.add(brokenPeriodModel); // Adjust by Treasury
-						dedRuleList.add(brokenPeriodModel);
+						if (allEdpList.get(i).getType() == 1) {
+							allowEdpList.add(brokenPeriodModel);
+							allowRuleList.add(brokenPeriodModel);
+						} else {
+							deducTyEdpList.add(brokenPeriodModel);
+							dedRuleList.add(brokenPeriodModel);
+						}
 					}
-				
-				}else {
-					brokenPeriodModel.setDeptalldetValue(String.valueOf("0"));
-					deducTyEdpList.add(brokenPeriodModel); // Adjust by Treasury
-					dedRuleList.add(brokenPeriodModel);
+					
 				}
-				
-				if(brokenPeriodModel.getDeptalldetValue()==null || brokenPeriodModel.getDeptalldetValue().equals("")) {
-					brokenPeriodModel.setDeptalldetValue(String.valueOf("0"));
-					if (allEdpList.get(i).getType() == 1) {
-						allowEdpList.add(brokenPeriodModel);
-						allowRuleList.add(brokenPeriodModel);
-					} else {
-						deducTyEdpList.add(brokenPeriodModel);
-						dedRuleList.add(brokenPeriodModel);
-					}
-				}
+			
 				
 				break;
 
