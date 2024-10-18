@@ -86,23 +86,13 @@ public class TopicController extends BaseController {
 		} else if (levelRoleVal==2) {
 			return new ModelAndView("redirect:/ddo/home");
 		}else if (levelRoleVal==4) {
-			return new ModelAndView("redirect:/user/home");
+
+			addMenuAndSubMenu(modelAndView, messages);
+			modelAndView.setViewName("topics");
+			//return new ModelAndView("redirect:/user/home");
 		}else if (levelRoleVal==5) {
 			return new ModelAndView("redirect:/super/home");
 		} else {
-
-			List<TopicModel> menuList = new ArrayList<>();
-			List<TopicModel> subMenuList = new ArrayList<>();
-
-			menuList = commonHomeMethodsService.findMenuNameByRoleID(levelRoleVal, locale.getLanguage());
-			subMenuList = commonHomeMethodsService.findSubMenuByRoleID(levelRoleVal, locale.getLanguage());
-
-			modelAndView.addObject("menuList", menuList);
-			modelAndView.addObject("subMenuList", subMenuList);
-
-			modelAndView.addObject("levelRoleVal", levelRoleVal);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-			SimpleDateFormat sd = new SimpleDateFormat("MM");
 
 			addMenuAndSubMenu(modelAndView, messages);
 
