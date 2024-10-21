@@ -27,7 +27,7 @@
 			<!-- <legend th:utext="#{menu.mapping.consolidatePayBill}"
 				th:style="${'color: orange;'}"></legend> -->
 
-			<form class="form-horizontal" th:object="${consolidatePayBillModel}"
+			<form class="form-horizontal container" th:object="${consolidatePayBillModel}"
 				method="POST" enctype="multipart/form-data"
 				th:action="@{/ddo/approveConsolidateBill}">
 
@@ -37,8 +37,8 @@
 					name="userId" id="userId" th:value="${userId}" />
 
 				
-				<div class="form-group">
-					<div class="col-sm-9">
+				<div class="">
+					<div class="">
 						<table class="table table-bordered"> 
 							<thead>
 						<tr>
