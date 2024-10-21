@@ -43,6 +43,8 @@ public interface OnlineContributionService {
 
 	MstDcpsContriVoucherDtlEntity findMstDcpsContriVoucherDtlEntity(DcpContributionModel dcpContributionModel);
 
+	Integer rejectContribution(Map<String, String> formData, OrgUserMst messages);
+
 
 
 

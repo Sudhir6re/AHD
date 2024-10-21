@@ -685,6 +685,11 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		return onlineContributionRepo
 				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
 	}
+
+	@Override
+	public Integer rejectContribution(Map<String, String> formData, OrgUserMst messages) {
+		return onlineContributionRepo.rejectContribution(formData,messages);
+	}
 }
 
 /*

@@ -49,7 +49,7 @@ $(document)
 							function() {
 								// code here
 								if ($(this).is(":checked")) {
-									// departmentId.push($(this).attr("value"));
+									// departmentId.push($(this).attr("value"));5
 
 									console.log("before  adding element"
 											+ department_allowdeduc_id);

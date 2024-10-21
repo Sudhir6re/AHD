@@ -182,13 +182,13 @@ $('#save')
 					}
 				});
 
-$("#btnApprove").click(
+/*$("#btnApprove").click(
 		function(e) {
 			//	e.preventDefault();
 			$("#onlineEntryForm").attr("action",
 					contextPath + "/ddoast/viewForwrdedOnlineContriEntry");
 			$("#onlineEntryForm").submit();
-		});
+		});*/
 
 $("#finYearId")
 		.change(
@@ -502,6 +502,91 @@ function funDdo1() {
 
 var status = false;
 
+
+
+
+function searchRejectedContri(e) {
+	//	e.preventDefault();
+
+	var flag = true;
+
+	$('#action').val('SEARCH_EMP');
+
+	var paymentType = $("#typeOfPayment").val();
+	var yearId = $("#finYearId").val();
+	var monthId = $("#monthId1").val();
+	var delayedMonthId = $("#delayedMonthId").val();
+	var delayedFinYearId = $("#delayedFinYearId").val();
+	var txtSchemeName = $("#txtSchemeName").val();
+	var billGroupId = $("#billGroupId").val();
+
+	if (paymentType === "" || paymentType === '0') {
+		swal('Please Select Payment Type');
+		flag = false;
+	}
+	if (yearId === "0") {
+		swal('Please select pay year');
+		flag = false;
+	}
+	if (monthId === "0") {
+		swal('Please select pay month');
+		flag = false;
+	}
+
+	if (paymentType == "700047") {
+		if (delayedMonthId === "0") {
+			swal('Please select delayed pay month');
+			flag = false;
+		}
+
+		if (delayedFinYearId === "0") {
+			swal('Please select delayed pay year');
+			flag = false;
+		}
+		
+		var currentMonthAndYearDate = new Date();
+		var yearCode = parseInt(yearId) + 1999;
+		if (monthId == 1 || monthId == 2 || monthId == 3) {
+			yearCode = Number(yearCode) + 1;
+		}
+		currentMonthAndYearDate.setFullYear(yearCode, monthId, 1);
+		currentMonthAndYearDate.setMonth(currentMonthAndYearDate.getMonth() - 1);
+
+		var delayedMonthAndYearDate = new Date();
+		var DelayedYearCode = parseInt(delayedFinYearId) + 1999;
+		if (delayedMonthId == 1 || delayedMonthId == 2 || delayedMonthId == 3) {
+			DelayedYearCode = Number(DelayedYearCode) + 1;
+		}
+		delayedMonthAndYearDate.setFullYear(DelayedYearCode, delayedMonthId, 1);
+		delayedMonthAndYearDate.setMonth(delayedMonthAndYearDate.getMonth() - 1);
+
+		if (delayedMonthAndYearDate.getTime() >= currentMonthAndYearDate.getTime()) {
+			swal('Delayed date must not be a future date. Please select past month and year.');
+			
+		$("#delayedMonthId").val("");
+		$("#delayedFinYearId").val("");
+			flag = false;
+		}
+	}
+
+	if (txtSchemeName === '') {
+		swal('Scheme name is not blank  ');
+		flag = false;
+	}
+
+	if (billGroupId === '0') {
+		swal('Please Select Bill Group');
+		flag = false;
+	}
+
+	if (flag) {
+		$(".trnDCPSTable").empty();
+		$("#onlineEntryForm").submit();
+		return true;
+	}
+}
+
+
 function SearchEmployee(e) {
 	//	e.preventDefault();
 
@@ -602,10 +687,6 @@ function searchDetailsForApprove(e) {
 	var txtSchemeName = $("#txtSchemeName").val();
 	var billGroupId = $("#billGroupId").val();
 
-	if (paymentType === "" || paymentType === '0') {
-		swal('Please Select Payment Type');
-		flag = false;
-	}
 	if (yearId === "0") {
 		swal('Please select pay year');
 		flag = false;
@@ -823,11 +904,11 @@ function checkOverlapForRegular(counter) {
 
 
 
-$("#save")
+$("#btnApprove")
 .click(
 		function(e) {
-			
-			$("#btnUpdate").attr("disabled", true); 
+			e.preventDefault();
+			$("#btnApprove").attr("disabled", true); 
 			$("#loaderMainNew").show();
 			var voucherNo=$("#txtVoucherNo").val();
 			var voucherDate=$("#txtVoucherDate").val();
@@ -849,7 +930,7 @@ $("#save")
 				swal("Please Enter Voucher Date");
 			}
 			else{
-
+				$("#loaderMainNew").show();
 				
 				var params = {
 					voucherNo : voucherNo,
@@ -871,13 +952,18 @@ $("#save")
 							contentType : 'application/json',
 							error : function(xhr, status, error) {
 								console.error('Error occurred:', error);
+								$("#loaderMainNew").hide();
 							},
 							success : function(data) {
+								$("#loaderMainNew").hide();
 								console.log(data);
 								if (data.length !== 0) {
-									
-
-									 swal("Voucher Detail Added Successfully");
+									 swal("Dcps detail Approved Successfully");
+									 
+									$("#txtVoucherNo").val("");
+									$("#txtVoucherDate").val("");
+										
+									 
 									 setTimeout(
 												function() {
 													location
@@ -891,4 +977,67 @@ $("#save")
 				}
 			$("#loaderMainNew").hide();
 		});
+
+
+
+
+$("#btnReject").click(function(e) {
+			e.preventDefault();
+			$("#btnApprove").attr("disabled", true); 
+			$("#loaderMainNew").show();
+			
+			var monthId = $('#monthId1').val();
+			var finYearId = $('#finYearId').val();
+			var billGroupId = $('#billGroupId').val();
+			var ddoCode = $('#ddoCode').val();
+			var cmbTreasuryCode = $('#cmbTreasuryCode').val();
+           			
+			if (finYearId == "" || finYearId == "0") {
+				e.preventDefault();
+				swal("Please Select Financial year");
+			} else if (monthId == "" || monthId == "0") {
+				e.preventDefault();
+				swal("Please select Financial month");
+			}
+			else{
+				$("#loaderMainNew").show();
+				
+				var params = {
+					monthId : monthId,
+					finYearId : finYearId,
+					billGroupId : billGroupId,
+					ddoCode : ddoCode,
+					cmbTreasuryCode : cmbTreasuryCode
+			 	};
+
+				$.ajax({
+							type : "POST",
+							url : contextPath + '/ddo/rejectContribution',
+							data : JSON.stringify(params),
+							contentType : 'application/json',
+							error : function(xhr, status, error) {
+								console.error('Error occurred:', error);
+								$("#loaderMainNew").hide();
+							},
+							success : function(data) {
+								$("#loaderMainNew").hide();
+								console.log(data);
+								if (data.length !== 0) {
+									 swal("Dcps Contribution rejected Successfully");
+										
+									 
+									 setTimeout(
+												function() {
+													location
+															.reload(true);
+												}, 1000);
+								}
+							}
+						});
+			
+				
+				}
+			$("#loaderMainNew").hide();
+		});
+
 
