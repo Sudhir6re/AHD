@@ -1,6 +1,7 @@
 var contextPath = $("#appRootPath").val();
 jQuery(document).ready(function() {
 	
+	
 	   if (enableTyping != undefined) {
            enableTyping(new Array('fName','mName','lName'),//Input fiel Name
                     new Array('fNamemr','mNamemr','lNamemr'), 'NAME', 'mr_in'); //Output field Name
@@ -1322,6 +1323,7 @@ if(paycomm != '' && paycomm != undefined){
 	            });
 	        }
 	    }); 
+	    fetchPayScale();
 	
 });
 
@@ -4773,7 +4775,177 @@ $("#myForm").on('keypress', function(e) {
 
 
 
+function fetchPayScale(){
 
+
+	var payCommisionId = $("#payCommision").val();
+	// alert("DDO CODE is "+departmentId);
+	//   alert("payCommisionId CODE is "+payCommisionId);
+	
+	$("#payScaleSeven").val("0");
+	$("#payInPayBand").val("");
+	$("#gradePay").val("");
+	$("#basicPay").val("");
+	
+	
+	
+	if (payCommisionId != '' && payCommisionId != '0') {
+		if (payCommisionId == '700005') {
+//			$('#payScaleSeven').attr("disabled", true); 
+//			$('#basicPay').attr("disabled", true);
+			
+			$('#payscalelevel').attr("disabled", false); 
+			$('#svnthpaybasic').attr("disabled", false);
+			$('#payscalelevel').removeClass("ignore");
+			$('#svnthpaybasic').removeClass("ignore");
+			$('#basicPay').empty();
+			$('#payScaleSeven').addClass("readonlydropdown");
+			$("#payScaleSeven").attr("readonly", true);
+			$('#payScaleSeven').empty();
+			$('#payScaleSeven').addClass("ignore");
+			$('#payScaleSeven').removeClass("error");
+			$('#payInPayBand').removeClass("error");
+			$('#payInPayBand').addClass("ignore");
+			$('#payInPayBand').empty();
+			$('#gradePay').empty();
+			
+			$
+					.ajax({
+						type : "GET",
+						url : contextPath+"/ddoast/fetchPayscale/" + payCommisionId,
+						async : true,
+						contentType : 'application/json',
+						error : function(data) {
+							// console.log(data);
+						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
+						success : function(data) {
+							 console.log(data);
+							// alert(data);
+							var len = data.length;
+							if (len != 0) {
+								// document.getElementById('payScale').readOnly
+								// = true;
+								document.getElementById('payInPayBand').readOnly = true;
+								document.getElementById('basicPay').readOnly = true;
+								
+								
+								$('#payInPayBand').addClass("ignore");
+								$('#basicPay').addClass("ignore");
+								
+
+								// console.log(data);
+								$('#payscalelevel').empty();
+								$('#payscalelevel')
+										.append(
+												"<option value='0'>Please Select</option>");
+								var temp = data;
+								$
+										.each(
+												temp,
+												function(index,
+														value) {
+													
+													$('#gradePay').val(value[2]);
+													console
+															.log(value[2]);
+													$(
+															'#payscalelevel')
+															.append(
+																	"<option value="
+																			+ value[4]
+																			+ ">"
+																			+ value[3]
+																			+ "</option>");
+												});
+							} else {
+								$('#payscalelevel').empty();
+								$('#svnthpaybasic').empty();
+								
+								$('#payscalelevel')
+										.append(
+												"<option value='0'>Please Select</option>");
+								$('#svnthpaybasic')
+								.append(
+										"<option value='0'>Please Select</option>");
+								
+								swal("Record not found !!!");
+							}
+						}
+					});
+		} 
+		else if (payCommisionId == '700016') {
+			$('#payscalelevel').attr("disabled", true); 
+			$('#svnthpaybasic').attr("disabled", true); 
+			$('#payScaleSeven').attr("disabled", false); 
+			$('#payScaleSeven').attr("readonly", false); 
+			$('#payscalelevel').addClass("ignore");
+			$('#svnthpaybasic').addClass("ignore");
+			$('#payscalelevel').removeClass("error");
+			$('#svnthpaybasic').removeClass("error");
+			$("#payScaleSeven").removeClass("ignore");
+			$("#payInPayBand").removeClass("ignore");
+			$("#payScaleSeven").removeClass("readonlydropdown");
+			$("#payInPayBand").attr("readonly", false); 
+			$('#payscalelevel').empty(); 
+			$('#svnthpaybasic').empty(); 
+			$('#basicPay').empty(); 
+			$.ajax({
+						type : "GET",
+						url : contextPath+"/ddoast/fetchPayscale/" + payCommisionId,
+						async : true,
+						contentType : 'application/json',
+						error : function(data) {
+							console.log("error in 6 pc "+data);
+						},
+						beforeSend : function(){
+							$( "#loaderMainNew").show();
+							},
+						complete : function(data){
+							$( "#loaderMainNew").hide();
+						},	
+						success : function(data) {
+							console.log("success in 6 pc "+data);
+							var len = data.length;
+							if (len != 0) {
+								document.getElementById('payInPayBand').readOnly = false;
+								$('#payScaleSeven').empty();
+								$('#payScaleSeven')
+										.append("<option value='0'>Please Select</option>");
+								var temp = data;
+								$.each(temp,function(index,value) {
+													console.log(value[2]);
+													
+													$('#payScaleSeven').append("<option value="+ value[4]+ ">"	+ value[3]+ "</option>");
+													});
+							} else {
+								$('#payScaleSeven').empty();
+								$('#payScaleSeven')
+										.append(
+												"<option value='0'>Please Select</option>");
+								swal("Record not found !!!");
+							}
+						}
+					});
+		}
+		else {
+			$('#payScaleSeven').attr("disabled", false); 
+			$('#payscalelevel').empty();
+			$('#svnthpaybasic').empty();
+			$('#payscalelevel').append("<option value='0'>Please Select</option>");
+			$('#svnthpaybasic').append(
+			"<option value='0'>Please Select</option>");
+			swal("Record not found !!!");
+		}
+	}
+
+
+}
 
 
 

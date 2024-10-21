@@ -64,11 +64,10 @@
 
 				<div class="text-center">
 					<input type="submit" name="btnSave"
-						id="btnSave" value="Save" size="3" maxlength="3"
+						id="btnSave" value="Save" 
 						class="buttontag"> <input type="button" name="Close"
-						id="Close" value="Close" size="3" maxlength="3" class="buttontag"  >
-					<input type="reset" name="Reset" id="Reset" value="Reset" size="3"
-						maxlength="3" class="buttontag">
+						id="Close" value="Close" class="buttontag"  >
+					<input type="reset" name="Reset" id="Reset" value="Reset" class="buttontag">
 				</div>
 
 			</form>
@@ -76,5 +75,8 @@
 	</div>
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<script th:src="@{/js/project/mst-bankBranch.js}"></script>
+	<script>
+	$("#bankID").select2();
+	</script>
 </body>
 </html>
