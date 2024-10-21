@@ -757,7 +757,7 @@ public class EmpChangeDetailsController  extends BaseController{
 			redirectAttributes.addFlashAttribute("message","SUCCESS");
 			redirectAttributes.addFlashAttribute("message", "Change detail approved");
 		}
-		return "redirect:/ddo/Approve-Emp-Change-Dtls"; /*redirects to controller URL*/
+		return "redirect:/ddo/ApprovOrRejectChngdtls"; /*redirects to controller URL*/
 	}
 	
 }

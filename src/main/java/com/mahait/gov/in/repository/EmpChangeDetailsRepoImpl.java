@@ -698,8 +698,12 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 				if (mstEmployeeEntity.getSuperAnnAge() != null)
 					mstEmployeeModel.setSuperannuationage(mstEmployeeEntity.getSuperAnnAge());
 				mstEmployeeModel.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); // by default set to
-																							// retirement date added by
-				mstEmployeeModel.setAppointmentId(Long.valueOf(mstEmployeeEntity.getAppointment()));
+								
+				// retirement date added by
+				if(mstEmployeeEntity.getAppointment()!=null) {
+					mstEmployeeModel.setAppointmentId(Long.valueOf(mstEmployeeEntity.getAppointment()));	
+				}
+				
 				// mstEmployeeModel.setQid(Long.valueOf(mstEmployeeEntity.getQualification()));//
 				// sudhir
 				mstEmployeeModel.setQualification(mstEmployeeEntity.getQualification());
@@ -728,11 +732,11 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 				 * mstEmployeeModel.setBasicPay(basic); }
 				 */
 
-				if (mstEmployeeModel.getPayCommissionCode() == 700005) {
+				if (mstEmployeeEntity.getPayCommissionCode() == 700005) {
 					Integer basic = mstEmployeeEntity.getSevenPcBasic().intValue();
 					mstEmployeeModel.setBasicPay(basic.doubleValue());
 				}
-				if (mstEmployeeModel.getPayCommissionCode() == 700016) {
+				if (mstEmployeeEntity.getPayCommissionCode() == 700016) {
 					Integer basic = mstEmployeeEntity.getBasicPay().intValue();
 					mstEmployeeModel.setBasicPay(basic.doubleValue());
 				}
