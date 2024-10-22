@@ -57,6 +57,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 	@PersistenceContext
 	EntityManager entityManager;
 
+	private EmpChangeDetailsModel employeeinfofordetails;
+
 	@Override
 	public List<EmpChangeDetailsModel> findEmpforChangeDtls(String userName) {
 		// TODO Auto-generated method stub
@@ -1547,6 +1549,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 				// Serializable id=(Integer)reuslt.get(0);
 			}
+			
 
 			Serializable id = empChangeDetailsRepo.updateChangeDetails(objEntity, empChangeDetailsModel,
 					lArrNomineeDtls);
@@ -1554,6 +1557,11 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			return (long) id;
 
 		}
+		
+		
+		//MstEmployeeDetailEntity mstEmployeeDetailEntity = empChangeDetailsRepo.findChangeDetailEntity(empChangeDetailsModel.getEmployeeId());
+		
+		
 		return 1;
 	}
 

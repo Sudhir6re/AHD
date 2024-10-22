@@ -1323,7 +1323,7 @@ if(paycomm != '' && paycomm != undefined){
 	            });
 	        }
 	    }); 
-	    fetchPayScale();
+	//    fetchPayScale();
 	
 });
 

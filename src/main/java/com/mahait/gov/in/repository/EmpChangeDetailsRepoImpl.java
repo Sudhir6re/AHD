@@ -893,8 +893,8 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 		// TODO Auto-generated method stub
 		Session currentSession = manager.unwrap(Session.class);
 		objEntity.setDcpsgpfflag(empChangeDetailsModel.getDcpsgpfflag());
-		// currentSession.update(objEntity);
-		currentSession.save(objEntity);
+	    currentSession.update(objEntity);
+		//currentSession.save(objEntity);
 
 		long resNmnDtls = deleteNomineeDtls(objEntity.getEmployeeId());
 		if (lArrNomineeDtls != null)

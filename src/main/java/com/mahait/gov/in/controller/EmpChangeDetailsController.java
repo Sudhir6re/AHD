@@ -709,14 +709,20 @@ public class EmpChangeDetailsController  extends BaseController{
 			List<Object[]> lstsixpayscalelevel = new ArrayList<Object[]>();
 			List<Object[]> lstsvnbasicpay = new ArrayList<Object[]>();
 			List<Object[]> lstpfSeries = new ArrayList<Object[]>();
-					
-			if (empChangeDetailsModel.getPayCommissionCode() != null && !empChangeDetailsModel.getPayCommissionCode().equals(2500347))
-				lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
-			if(empChangeDetailsModel.getPayCommissionCode().equals(2500347)) {
-				lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
-			}
-			if(empChangeDetailsModel.getPayCommissionCode().equals(2500347)) {
-				payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(2500347);
+		
+			
+			if(empChangeDetailsModel.getPayCommissionCode()!=null) {
+				
+				if(empChangeDetailsModel.getPayCommissionCode().equals(2500347)    || empChangeDetailsModel.getPayCommissionCode()!=700016) {
+					lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
+				}
+				
+				if(empChangeDetailsModel.getPayCommissionCode().equals(2500347)    || empChangeDetailsModel.getPayCommissionCode()==700016) {
+					lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
+				}
+				if(empChangeDetailsModel.getPayCommissionCode().equals(2500347)  || empChangeDetailsModel.getPayCommissionCode()==700005)  {
+					payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(empChangeDetailsModel.getPayCommissionCode().intValue());
+				}
 			}
 
 			if (empChangeDetailsModel.getPayscalelevelId() != null)
