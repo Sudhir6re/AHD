@@ -480,6 +480,8 @@ public class EmpChangeDetailsController  extends BaseController{
 		String message = (String) model.asMap().get("message");
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		addMenuAndSubMenu(model, messages);
 
 
 		if (message != null && message.equals("SUCCESS")) {
