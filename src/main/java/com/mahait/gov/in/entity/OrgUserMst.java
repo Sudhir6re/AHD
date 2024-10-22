@@ -2,6 +2,7 @@ package com.mahait.gov.in.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -181,7 +182,15 @@ public class OrgUserMst implements Serializable {
     @Transient
   	private Long postId;
     
- 
+    @Column(name = "reset_token")
+    private String resetToken;
+    
+    @Column(name = "reset_token_expiry", length = 1)
+    private LocalDateTime resetTokenExpiry;
+    
+    
+    @Transient
+  	private String emailId;
     
 
     
