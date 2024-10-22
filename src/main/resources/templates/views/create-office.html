@@ -47,7 +47,7 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 							<tbody>
 								<tr>
 									<td width="20%"><label class="captionTag"
-										id="ZPDDOOFFICE_ZPADMINOFFICE">Admin Office</label></td>
+										id="ZPDDOOFFICE_ZPADMINOFFICE">Admin Office</label>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
 									<td width="30%"><select name="cmbAdminOffice"
 										id="cmbAdminOffice" th:field="*{cmbAdminOffice}"
 										class="selecttag mandatorycontrol">
@@ -55,14 +55,14 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 											<option th:each="zpAdminNameMst : ${lstZpAdminNameMst}"
 												th:value="${zpAdminNameMst.adminCode}"
 												th:text="${zpAdminNameMst.adminName}"></option>
-									</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label>
+									</select>
 
 
 										<p th:if="${#fields.hasErrors('cmbAdminOffice')}"
 											th:class="error" th:errors="*{cmbAdminOffice}" /></td>
 
 									<td width="20%"><label class="captionTag"
-										id="ZPDDOOFFICE_ZPDISTRICTOFFICE">District Office</label></td>
+										id="ZPDDOOFFICE_ZPDISTRICTOFFICE">District Office</label>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
 									<td width="30%"><select name="cmbDistrict"
 										id="cmbDistrict" th:field="*{cmbDistOffice}"
 										style="width: 85%, display: inline;">
@@ -78,42 +78,43 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 								</tr>
 								<tr>
 									<td><label class="captionTag"
-										id="ZPDDOOOFFICE_FINAL_LEVEL">Final Level</label></td>
+										id="ZPDDOOOFFICE_FINAL_LEVEL">Final Level</label>2&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
 									<td><input type="radio" th:field="*{radioFinalLevel}"
 										value="2" onclick="checkforHirechy();" id="radioFinalLevel2"
 										class="radiobuttontag mandatorycontrol" th:checked="true">&nbsp;Level
-										2&nbsp;&nbsp;<label class="mandatoryindicator">*</label> <label
+										 <label
 										id="radioFinalLevel-error" class="error" for="radioFinalLevel"></label>
 										<p th:if="${#fields.hasErrors('radioFinalLevel')}"
 											th:class="error" th:errors="*{radioFinalLevel}" /></td>
 
 									<td><label class="captionTag"
-										id="ZPDDOOOFFICE_REPDDO_CODE">DDO Code Level 2 </label></td>
+										id="ZPDDOOOFFICE_REPDDO_CODE">DDO Code Level 2 </label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="text" name="txtRepDDOCode"
 										th:field="*{txtRepDDOCode}" id="txtRepDDOCode"
-										class="numbertag mandatorycontrol" value="" maxlength="10/">&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label>
+										class="numbertag mandatorycontrol" value="" maxlength="10/">
 
 										<p th:if="${#fields.hasErrors('txtRepDDOCode')}"
 											th:class="error" th:errors="*{txtRepDDOCode}" /></td>
 								</tr>
 								<tr style="display: none;">
 									<td><label class="captionTag"
-										id="ZPDDOOOFFICE_FINALDDO_CODE">DDO Code Level 3 </label></td>
+										id="ZPDDOOOFFICE_FINALDDO_CODE">DDO Code Level 3 </label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="text" name="txtFinalDDOCode"
 										th:field="*{txtFinalDDOCode}" id="txtFinalDDOCode"
-										class="numbertag mandatorycontrol" value="" maxlength="10/">&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label>
+										class="numbertag mandatorycontrol" value="" maxlength="10/">
 
 										<p th:if="${#fields.hasErrors('txtFinalDDOCode')}"
 											th:class="error" th:errors="*{txtFinalDDOCode}" /></td>
 
 									<td><label class="captionTag"
-										id="ZPDDOOOFFICE_SPECIALDDO_CODE">DDO Code Level 4</label></td>
+										id="ZPDDOOOFFICE_SPECIALDDO_CODE">DDO Code Level 4</label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label>
+										</td>
 									<td><input type="text" name="txtSpecialDDOCode"
 										th:field="*{txtSpecialDDOCode}" id="txtSpecialDDOCode"
-										class="numbertag mandatorycontrol" value="" maxlength="10/">&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label>
+										class="numbertag mandatorycontrol" value="" maxlength="10/">
 
 										<p th:if="${#fields.hasErrors('txtSpecialDDOCode')}"
 											th:class="error" th:errors="*{txtSpecialDDOCode}" /></td>
@@ -121,12 +122,12 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 								<tr>
 									<td><label class="captionTag"
 										id="ZPDDOOOFFICE_EMP_NAME_SALUTATION">DDO Name
-											Salutation</label></td>
+											Salutation</label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="radio" name="radioSalutation"
 										th:field="*{radioSalutation}" value="radioSalutationShri"
 										onclick="addSalutationToName();" id="radioSalutationShri"
-										th:checked="true" class="radiobuttontag mandatorycontrol">&nbsp;Shri&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label> <input type="radio"
+										th:checked="true" class="radiobuttontag mandatorycontrol">&nbsp;Shri <input type="radio"
 										th:field="*{radioSalutation}" onclick="addSalutationToName();"
 										name="radioSalutation" value="radioSalutationShri"
 										id="radioSalutationSmt" class="radiobuttontag">&nbsp;Smt
@@ -138,11 +139,11 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 										<p th:if="${#fields.hasErrors('radioSalutation')}"
 											th:class="error" th:errors="*{radioSalutation}" /></td>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_EMP_NAME">DDO
-											Name</label></td>
+											Name</label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="text" name="txtDDOName" id="txtDDOName"
 										th:field="*{txtDDOName}" class="texttag mandatorycontrol"
-										value="Shri." onblur="validateDDOName();" maxlength="100/">&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label>
+										value="Shri." onblur="validateDDOName();" maxlength="100/">
 
 										<p th:if="${#fields.hasErrors('txtDDOName')}" th:class="error"
 											th:errors="*{txtDDOName}" /></td>
@@ -187,12 +188,12 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 											th:class="error" th:errors="*{txtTreasuryCode}" /></td>
 
 									<td><label class="captionTag"
-										id="ZPDDOOOFFICE_SUB_TREASURY">Sub Treasury Name</label></td>
+										id="ZPDDOOOFFICE_SUB_TREASURY">Sub Treasury Name</label>&nbsp;&nbsp;<label class="mandatoryindicator">*</label></td>
 									<td><select name="cmbSubTreasury" id="cmbSubTreasury"
 										th:field="*{cmbSubTreasury}"
 										class="selecttag mandatorycontrol">
 											<option value="-1">Select</option>
-									</select>&nbsp;&nbsp;<label class="mandatoryindicator">*</label>
+									</select>
 
 
 										<p th:if="${#fields.hasErrors('cmbSubTreasury')}"
@@ -200,7 +201,8 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 								</tr>
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_DDO_Dsgn">DDO
-											Designation</label></td>
+											Designation</label><label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="text" name="txtDDODsgn" id="txtDDODsgn"
 										th:field="*{txtDDODsgn}" class="texttag mandatorycontrol"
 										value="" maxlength="50/" autocomplete="off">
@@ -213,8 +215,7 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 										<div id="searchDiv"
 											style="display: none; width: 293.047px !important;"></div> <!-- 
 										<div id="ajaxAuto_txtDDODsgn" class="autocomplete"
-											style="display: none;"></div>&nbsp;&nbsp; --> <label
-										class="mandatoryindicator">*</label><br />
+											style="display: none;"></div>&nbsp;&nbsp; --> <br />
 										<table>
 											<tbody>
 												<tr>
@@ -228,11 +229,11 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 										</table></td>
 
 									<td><label class="captionTag"
-										id="ZPDDOOOFFICE_OFFICE_NAME">Institute Name</label></td>
+										id="ZPDDOOOFFICE_OFFICE_NAME">Institute Name</label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="text" name="txtOfficeName"
 										th:field="*{txtOfficeName}" id="txtOfficeName"
-										class="texttag mandatorycontrol" value="" maxlength="500/">&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label>
+										class="texttag mandatorycontrol" value="" maxlength="500/">
 
 										<p th:if="${#fields.hasErrors('txtOfficeName')}"
 											th:class="error" th:errors="*{txtOfficeName}" /></td>
@@ -247,22 +248,22 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 										<p th:if="${#fields.hasErrors('txtDDOCode')}" th:class="error"
 											th:errors="*{txtDDOCode}" /></td>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_MOBILE_NO">Mobile
-											No.</label></td>
+											No.</label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="text" name="txtMobileNo" id="txtMobileNo"
 										th:field="*{txtMobileNo}" class="texttag mandatorycontrol"
-										onblur="validateMobileNo();" value="" maxlength="10/">&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label>
+										onblur="validateMobileNo();" value="" maxlength="10/">
 
 										<p th:if="${#fields.hasErrors('txtMobileNo')}"
 											th:class="error" th:errors="*{txtMobileNo}" /></td>
 								</tr>
 								<tr>
 									<td><label class="captionTag" id="ZPDDOOOFFICE_EMAIL_ID">Email
-											Id</label></td>
+											Id</label>&nbsp;&nbsp;<label
+										class="mandatoryindicator">*</label></td>
 									<td><input type="text" name="txtEmailId" id="txtEmailId"
 										th:field="*{txtEmailId}" class="texttag mandatorycontrol"
-										value="" maxlength="100/">&nbsp;&nbsp;<label
-										class="mandatoryindicator">*</label>
+										value="" maxlength="100/">
 
 										<p th:if="${#fields.hasErrors('txtEmailId')}" th:class="error"
 											th:errors="*{txtEmailId}" /></td>

@@ -53,6 +53,8 @@ private long empuserId;
 	
 	private String subjectName;
 	
+	private Long activateFlag;
+	
 
 
 
