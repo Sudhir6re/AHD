@@ -698,12 +698,12 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 				if (mstEmployeeEntity.getSuperAnnAge() != null)
 					mstEmployeeModel.setSuperannuationage(mstEmployeeEntity.getSuperAnnAge());
 				mstEmployeeModel.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); // by default set to
-								
+
 				// retirement date added by
-				if(mstEmployeeEntity.getAppointment()!=null) {
-					mstEmployeeModel.setAppointmentId(Long.valueOf(mstEmployeeEntity.getAppointment()));	
+				if (mstEmployeeEntity.getAppointment() != null) {
+					mstEmployeeModel.setAppointmentId(Long.valueOf(mstEmployeeEntity.getAppointment()));
 				}
-				
+
 				// mstEmployeeModel.setQid(Long.valueOf(mstEmployeeEntity.getQualification()));//
 				// sudhir
 				mstEmployeeModel.setQualification(mstEmployeeEntity.getQualification());
@@ -893,8 +893,8 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 		// TODO Auto-generated method stub
 		Session currentSession = manager.unwrap(Session.class);
 		objEntity.setDcpsgpfflag(empChangeDetailsModel.getDcpsgpfflag());
-	    currentSession.update(objEntity);
-		//currentSession.save(objEntity);
+		currentSession.update(objEntity);
+		// currentSession.save(objEntity);
 
 		long resNmnDtls = deleteNomineeDtls(objEntity.getEmployeeId());
 		if (lArrNomineeDtls != null)
@@ -940,6 +940,19 @@ public class EmpChangeDetailsRepoImpl implements EmpChangeDetailsRepo {
 
 		Query query = currentSession.createSQLQuery(hql.toString());
 		return query.list();
+	}
+
+	@Override
+	public void updateFormStatus(Long employeeId) {
+		Session currentSession = manager.unwrap(Session.class);
+		long result = 0l;
+		try {
+			String hql4 = "update employee_mst_details set form_status=1 where employee_id = " + employeeId;
+			Query query4 = currentSession.createSQLQuery(hql4);
+			result = query4.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -1032,11 +1032,26 @@ if(paycomm != '' && paycomm != undefined){
             var $errorTab = $(firstError).closest('.tab-pane');
             var index = $('.tab-pane').index($errorTab);
             $('.nav-tabs a').eq(index).tab('show');
+            
+            
+
+			$('html, body')
+					.animate(
+							{
+								scrollTop : $(
+										"#tabContainer")
+										.offset().top
+							},
+							2000);
+			
+			
         },
 		// Make sure the form is submitted to the destination defined
 		// in the "action" attribute of the form when valid
 		submitHandler : function(form,event) {
 			  var dcpsflag=$('input[name="dcpsgpfflag"]:checked').val();
+			  
+			  var formSubmit=true;
 			  if(dcpsflag=='Y'){
 				var nmnname=document.getElementsByName("txtNameValue");
 //				alert("nmnname="+nmnname);
@@ -1045,40 +1060,39 @@ if(paycomm != '' && paycomm != undefined){
 					{
 					swal("Nominee Details  cannot be empty");
 				     event.preventDefault();
+				     formSubmit=false;
 					}
 				var nomineename = $("#txtNameValue").val();
 				if (nomineename == "") {
 					swal("Nominee name  cannot be empty");
-					
-
 				      $('#nomineename').style.borderColor = "red";
-
 				        $('#nomineename').after("<span class='txtNameValueErr' style='color:red;'>Nominee Name is required.</span>");
+				        formSubmit=false;
 					 event.preventDefault();
 				}
 				var nomineeaddress = $("#txtNomAddr1").val();
 				if (nomineeaddress == "") {
 					swal("Nominee Address  cannot be empty");
 					 event.preventDefault();
-
+					 formSubmit=false;
 				}
 				var rdob = $("#txtDateOfBirthValue").val();
 				if (rdob == "") {
 					swal("Nominee Date of Birth  cannot be empty");
 					 event.preventDefault();
-
+					 formSubmit=false;
 				}
 				var relation = $("#txtRelationshipValue").val();
 				if (relation == "0") {
 					swal("Relation  cannot be empty");
 					 event.preventDefault();
-
+					 formSubmit=false;
 				}
 				var percent_share = $("#txtPercentShareValue").val();
 				if (percent_share == "") {
 					swal("Percent Share  cannot be empty");
 					 event.preventDefault();
-
+					 formSubmit=false;
 				}
 				/*if ($('#imagePath').attr('src') == '/MJP/images/null') {
 					swal('Please Upload Photo');
@@ -1175,12 +1189,23 @@ if(paycomm != '' && paycomm != undefined){
 			  }
 				// Nominee code ended Nov 27 2020
 
-			  form.submit();
-			
-			
-			
-			
-			
+			  if(formSubmit){
+				  var roleId=$("#levelRoleVal").val();
+				  var msg="";
+				  
+				  
+				  if($("#action").val()=="saveAsDraft"){
+					  msg="for Save AS Draft ???";
+				  }else{
+					  if(parseInt(roleId)==3){
+						  msg="forward to DDO ???";
+					  }else if(parseInt(roleId)){
+						  msg="Approve Details ???";
+					  }
+				  }
+				
+				  ConfirmBeforeSubRecord(msg,form);
+			  }
 		}	
 //		forwardToDDo();
 	});
@@ -1277,6 +1302,9 @@ if(paycomm != '' && paycomm != undefined){
 	        } else if ($("#mobileNo2").val().length>10  || $("#mobileNo2").val().length>10) {
 	            swal("Please enter valid mobile number.");
 	        }  else {
+	        	 $('input[type=text], input[type=email], input[type=date], textarea, input[type=checkbox], input[type=radio], select').addClass('ignore');
+                 $("#action").val("saveAsDraft"); 
+                 $("#myForm").submit();
 	            /*$('input, textarea, select').removeClass('ignore');
 
 	            $('input[type=text], input[type=email], input[type=date], textarea').each(function() {
@@ -1307,8 +1335,7 @@ if(paycomm != '' && paycomm != undefined){
 	                    }
 	                });
 	            }*/
-	        	
-	            swal({
+	            /*swal({
 	                title: "Are you sure?",
 	                text: "Do you want to save this as a draft?",
 	                icon: "warning",
@@ -1320,11 +1347,14 @@ if(paycomm != '' && paycomm != undefined){
 	                    $("#action").val("saveAsDraft"); 
 	                    $("#myForm").submit();
 	                }
-	            });
+	            });*/
 	        }
 	    }); 
-	//    fetchPayScale();
-	
+
+	    
+	 
+	    
+	    
 });
 
 var today = new Date(); var dd = today.getDate(); 

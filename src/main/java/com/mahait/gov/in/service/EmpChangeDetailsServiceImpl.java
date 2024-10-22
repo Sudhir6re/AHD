@@ -1540,6 +1540,11 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			 * private String employeeFullName; private String designationName; private
 			 * String departmentNameEn;
 			 */
+			
+
+			Serializable id = empChangeDetailsRepo.updateChangeDetails(objEntity, empChangeDetailsModel,
+					lArrNomineeDtls);
+
 			if (empChangeDetailsModel.getPhotoAttachmentId() != null) {
 				String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getDeptNm(),
 						empChangeDetailsModel.getEmployeeId(), empChangeDetailsModel.getPhotoAttachmentId(),
@@ -1550,18 +1555,11 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				// Serializable id=(Integer)reuslt.get(0);
 			}
 			
-
-			Serializable id = empChangeDetailsRepo.updateChangeDetails(objEntity, empChangeDetailsModel,
-					lArrNomineeDtls);
+			
+			 empChangeDetailsRepo.updateFormStatus(empChangeDetailsModel.getEmployeeId());
 
 			return (long) id;
-
 		}
-		
-		
-		//MstEmployeeDetailEntity mstEmployeeDetailEntity = empChangeDetailsRepo.findChangeDetailEntity(empChangeDetailsModel.getEmployeeId());
-		
-		
 		return 1;
 	}
 

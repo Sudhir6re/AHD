@@ -78,6 +78,8 @@ public interface EmpChangeDetailsRepo {
 
 		List<Object[]> GetCurrentPostByLvlTwoDetails(long designationId, String ddocode, long locId);
 
+		void updateFormStatus(Long employeeId);
+
 		
 	
 	/*void updateChangeEmpHstDtls(ChangeDtlsHst changeDtlsHst);
