@@ -46,6 +46,7 @@ import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstCadreGroupEntity;
 import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGisdetailsEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
@@ -494,7 +495,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			// Department Details Start
 			// objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
 			objEntity.setParentFieldDepartmentId(mstEmployeeModel.getParentFieldDepartmentId());
-			objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId());
 			objEntity.setIsChangeParentDepartment(mstEmployeeModel.getIsChangeParentDepartment());
 			objEntity.setReasonForChngParentFieldDept(mstEmployeeModel.getReasonForChngParentFieldDept());
 			objEntity.setCadreCode(mstEmployeeModel.getCadreId());
@@ -560,8 +560,6 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 			objEntity.setGisgroup(mstEmployeeModel.getGisgroup());
 			objEntity.setMembership_date(mstEmployeeModel.getMembership_date());
 			objEntity.setGisRemark(mstEmployeeModel.getGisRemark());
-			objEntity.setGiscatagory(mstEmployeeModel.getGiscatagory());
-			objEntity.setBegisCatg(mstEmployeeModel.getBegisCatg());
 			// GIS Details End
 
 			// DCPS/NPS Nominee Details Start
@@ -600,7 +598,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 					lObjNomineeDtls.setDob(dtBirthDate);
 					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-					lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+					lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 					lObjNomineeDtls.setRelation(lArrRelationship[i]);
 					lObjNomineeDtls.setCreateddate(new Date());
 					lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());
@@ -1029,6 +1027,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		// Department Details Start
 		// objEntity.setParentAdminDepartmentId(mstEmployeeModel.getParentAdminDepartmentId());
 		objEntity.setParentFieldDepartmentId(mstEmployeeModel.getParentFieldDepartmentId());
+//		objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId().intValue());
 		// objEntity.setSubDeptId(mstEmployeeModel.getParentFieldDepartmentId().intValue());
 		objEntity.setSubCorporationId(mstEmployeeModel.getSubCorporationId());
 		objEntity.setAdminDepartmentCode(mstEmployeeModel.getParentAdminDepartmentId());
@@ -1106,8 +1105,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		objEntity.setGisgroup(mstEmployeeModel.getGisgroup());
 		objEntity.setMembership_date(mstEmployeeModel.getMembership_date());
 		objEntity.setGisRemark(mstEmployeeModel.getGisRemark());
-		objEntity.setGiscatagory(mstEmployeeModel.getGiscatagory());
-		objEntity.setBegisCatg(mstEmployeeModel.getBegisCatg());
+
 
 		// GIS Details End
 
@@ -1147,7 +1145,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 
 				lObjNomineeDtls.setDob(dtBirthDate);
 				long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-				lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+				lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 				lObjNomineeDtls.setRelation(lArrRelationship[i]);
 				lObjNomineeDtls.setCreateddate(new Date());
 				lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());
@@ -1534,7 +1532,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		lObjUserMst.setCmnLookupMst(lObjCmnLookupMst);
 
 		lObjUserMst.setStartDate(new Timestamp(new Date().getTime()));
-		lObjUserMst.setActivateFlag(0l);
+		lObjUserMst.setActivateFlag(1l);
 		lObjUserMst.setAppCode(1);
 
 		lObjUserMst.setCreatedDate(new Timestamp(new Date().getTime()));
@@ -1567,6 +1565,12 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 		String save = mstEmployeeRepo.saveUserId(sevaarthId, user_id);
 		return sevaarthId;
 	}
+	@Override
+	public MstEmployeeDetailEntity updateEmployeeDetails(Long empid) {
+		// TODO Auto-generated method stub
+		return mstEmployeeRepo.updateEmployeesDetails(empid);
+	}
+	
 
 	@Override
 	public Object findAllEmployeesByDDOName(String userName) {
@@ -1773,7 +1777,7 @@ public class MstEmployeeServiceImpl implements MstEmployeeService {
 					}
 					lObjNomineeDtls.setDob(dtBirthDate);
 					long lLngPercentShare = Long.parseLong(lArrPercentShare[i]);
-					lObjNomineeDtls.setPercent_share(Long.valueOf(lArrPercentShare[i]));
+					lObjNomineeDtls.setPercent_share(Integer.parseInt(lArrPercentShare[i]));
 					lObjNomineeDtls.setRelation(lArrRelationship[i]);
 					lObjNomineeDtls.setCreateddate(new Date());
 					lObjNomineeDtls.setCreatedid(mstEmployeeModel.getCreatedUserId());

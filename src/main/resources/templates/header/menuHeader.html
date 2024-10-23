@@ -51,9 +51,14 @@
 </head>
 <div id="navbar" th:fragment="varmenuheader">
 	<input type="hidden" name="levelRoleVal" id="levelRoleVal"
-		th:value="${session.levelRoleVal}" /> <input type="hidden"
+		th:value="${levelRoleVal}" />
+		
+		 <input type="hidden"
 		name="appRootPath" id="appRootPath"
-		th:value="${#servletContext.contextPath}" />
+			th:value="${#servletContext.contextPath != '' ? #servletContext.contextPath : appRootPath}"
+		/>
+		<!-- th:value="${#servletContext.contextPath}"  -->
+	
 
 	<div class="loaderMainNew" id="loaderMainNew">
 		<div class="loader1">
@@ -105,10 +110,48 @@
 						<ul class="nav navbar-nav navbar-left">
 
 
-							<li class="Menu-item-li first-li"><a th:href="@{/user/home}"
-								id="payrollLink1" class="homemenu1"> <span
+							<li class="Menu-item-li first-li">
+							<a th:href="@{/mdc/home}"  th:if="${levelRoleVal == 1}"
+								id="payrollLink1" class="homemenu1">
+								 <span
 									class="glyphicon glyphicon-home"></span>
-							</a></li>
+							</a>
+							
+								<a th:href="@{/ddo/home}"    th:if="${levelRoleVal == 2}"
+								id="payrollLink1" class="homemenu1">
+								 <span
+									class="glyphicon glyphicon-home"></span>
+							</a>
+							
+							
+								<a th:href="@{/ddoast/home}"  th:if="${levelRoleVal == 3}"
+								id="payrollLink1" class="homemenu1">
+								 <span
+									class="glyphicon glyphicon-home"></span>
+							</a>
+							
+							
+								<a th:href="@{/user/home}"  th:if="${levelRoleVal == 4}"
+								id="payrollLink1" class="homemenu1">
+								 <span
+									class="glyphicon glyphicon-home"></span>
+							</a>
+							
+							
+						    <a th:href="@{/super/home}"  th:if="${levelRoleVal == 5}"
+								id="payrollLink1" class="homemenu1">
+								 <span
+									class="glyphicon glyphicon-home"></span>
+							</a>
+							
+							
+						    <a th:href="@{/user/home}"  th:if="${levelRoleVal == null}"
+								id="payrollLink1" class="homemenu1">
+								 <span
+									class="glyphicon glyphicon-home"></span>
+							</a>
+							
+							</li>
 
 							<li class="dropdown Menu-item-li" th:each="varMenu : ${menuList}"><a
 								href="#" class="dropdown-toggle" data-toggle="dropdown"

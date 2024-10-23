@@ -6,7 +6,7 @@
 <style type="text/css">
 table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 	padding-left: 50px;
-}
+} 
 </style>
 </head>
 <body class="add-posts">
@@ -177,7 +177,7 @@ table.table.bor-0 td:first-child, table.table.bor-0 td:nth-child(3) {
 								<td class="fieldLabel" ><b><label
 										class="captionTag" id="admin.SancFromDt">Sanctioned
 											From Date</label></b></td>
-								<td class="fieldLabel"><input type="date"
+								<td class="fieldLabel"><input type="date" th:max="${#dates.format(new java.util.Date(), 'yyyy-MM-dd')}" 
 									th:field="*{startDate}" size="10" id="startDate">
 									&nbsp;<label class="mandatoryindicator">*</label></td>
 								<td class="fieldLabel" ><b><label

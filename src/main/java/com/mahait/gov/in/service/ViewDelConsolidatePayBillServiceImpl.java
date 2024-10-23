@@ -1,5 +1,6 @@
 package com.mahait.gov.in.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +30,28 @@ public class ViewDelConsolidatePayBillServiceImpl implements ViewDelConsolidateP
 				
 				for (Object[] objLst : lstConsolidatedBillList) {
 					LstConsolidatedPayBillModel obj = new LstConsolidatedPayBillModel();
-					obj.setConsolidatePayBillTrnId(StringHelperUtils.isNullInt(objLst[0]));
+					obj.setConsolidatePayBillTrnId(StringHelperUtils.isNullBigInteger(objLst[0]));
 					obj.setSchemeCode(StringHelperUtils.isNullString(objLst[1]));
 					obj.setSchemeName(StringHelperUtils.isNullString(objLst[2]));
-					obj.setBillGrossAmt(StringHelperUtils.isNullDouble(objLst[3]));
-					obj.setBillNetAmount(StringHelperUtils.isNullDouble(objLst[4]));
-					obj.setIsActive(StringHelperUtils.isNullChar(objLst[5]));
+					
+					if(objLst[3] instanceof BigDecimal) {
+						BigDecimal gross = (BigDecimal)objLst[3];
+						obj.setBillGrossAmt(gross.doubleValue());
+					}else if(objLst[3] instanceof Double) {
+						obj.setBillGrossAmt(StringHelperUtils.isNullDouble(objLst[3]));
+					}
+					if(objLst[4] instanceof BigDecimal) {
+						BigDecimal net = (BigDecimal)objLst[4];
+						obj.setBillNetAmount(net.doubleValue());
+					}else if(objLst[3] instanceof Double) {
+						obj.setBillNetAmount(StringHelperUtils.isNullDouble(objLst[4]));
+					}
+					if(objLst[5] instanceof Character) {
+						obj.setIsActive(StringHelperUtils.isNullChar(objLst[5]));
+					}else if(objLst[3] instanceof Integer) {
+						obj.setIsActiveInt(StringHelperUtils.isNullInt(objLst[5]));
+					}
+				
 					lstObj.add(obj);
 				}
 			}		

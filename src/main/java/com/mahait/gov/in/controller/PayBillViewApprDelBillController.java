@@ -3860,6 +3860,17 @@ public class PayBillViewApprDelBillController extends BaseController {
 		paybillStatusEntity.setMacId(namePIp);
 		Serializable id3 = paybillHeadMpgRepo.savePaybillStatus(paybillStatusEntity);
 
+		
+		
+		// update voucher detail in mst
+		
+		paybillGenerationTrnService.updateMstDcpsContriVoucherDtlEntity(paybillGenerationTrnEntity,voucherNo, vdate);
+		
+	//	MstDcpsContriVoucherDtlEntity MstDcpsContriVoucherDtlEntity 
+		
+		
+		
+		
 		/*
 		 * List<PaybillGenerationTrnDetails> paybillGenerationTrnDetails =
 		 * bdsintegrationservice.getPaybillSevaarthid(paybillGenerationTrnId); for

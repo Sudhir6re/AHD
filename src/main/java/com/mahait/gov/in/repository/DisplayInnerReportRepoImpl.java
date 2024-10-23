@@ -33,33 +33,8 @@ public class DisplayInnerReportRepoImpl implements DisplayInnerReportRepo {
 		String HQL = "select distinct COALESCE(d.department_allowdeduc_col_nm, d.department_allowdeduc_name) allded, d.is_type,d.department_allowdeduc_id,'0' tempvalue,' ' tempempty,department_allowdeduc_col_nm,d.is_allowdeduc_type_sum "
 				+ " from employee_mst a inner join employee_allowdeduc_mpg b ON b.sevaarth_id=a.sevaarth_id inner join paybill_generation_trn_details c ON c.sevaarth_id=a.sevaarth_id "
 				+ " inner join department_allowdeduc_mst d ON b.department_allowdeduc_code=d.department_allowdeduc_code where a.ddo_code= '"
-				+ strddo + "' and paybill_generation_trn_id  = '" + billNumber + "'  " // and
-																						// d.department_allowdeduc_col_nm
-																						// <> 'LIC'
-				+ "   and d.is_active='1' and d.is_non_government <> 1 order by department_allowdeduc_col_nm  ";// and
-																												// d.department_allowdeduc_col_nm
-																												// <>
-																												// 'COP_BANK'
-																												// and
-																												// d.department_allowdeduc_col_nm
-																												// <>
-																												// 'COP_Bank'
-																												// and
-																												// d.department_allowdeduc_col_nm
-																												// <>
-																												// 'CREDIT_SOC'
-																												// and
-																												// d.department_allowdeduc_col_nm
-																												// <>
-																												// 'RECURRING_DEP'
-																												// and
-																												// d.department_allowdeduc_col_nm
-																												// <>
-																												// 'RD'
-																												// and
-																												// d.department_allowdeduc_col_nm
-																												// <>
-																												// 'MISC'
+				+ strddo + "' and paybill_generation_trn_id  = '" + billNumber + "'  " 
+				+ "   and d.is_active='1' and d.is_non_government <> 1 order by department_allowdeduc_col_nm  ";
 		Query query = currentSession.createSQLQuery(HQL);
 
 		List<Object[]> lstprop = query.list();

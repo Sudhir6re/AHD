@@ -25,9 +25,12 @@ import com.mahait.gov.in.entity.EmployeeAllowDeducComponentAmtEntity;
 import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
 import com.mahait.gov.in.entity.MstCadreGroupEntity;
 import com.mahait.gov.in.entity.MstDcpsDetailsEntity;
+import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstGisdetailsEntity;
+import com.mahait.gov.in.entity.MstGisdetailsHistEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
+import com.mahait.gov.in.entity.MstGpfDetailsHistEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstRoleEntity;
 import com.mahait.gov.in.entity.OrgPostDetailsRlt;
@@ -88,7 +91,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public List<Object[]> findEmployeeAllowanceDeduction(String sevaarthId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = " Select a.sevaarth_id,a.department_code,a.department_allowdeduc_code,b.employee_full_name_en,c.department_allowdeduc_name,c.is_type,c.department_allowdeduc_col_nm,"
-				+ "cc.group_name_en,cc.gis_amount,b.grade_pay,b.pyhical_handicapped,ccc.group_name_en as gisgroup, c.method_name,c.is_allowdeduc_type_sum,c.is_rule_based,c.is_non_computation_component,c.is_non_government from employee_allowdeduc_mpg a inner join  employee_mst b on b.employee_id = a.employee_id "
+				+ "cc.group_name_en,cc.gis_amount,b.grade_pay,b.pyhical_handicapped,ccc.group_name_en as gisgroup, c.method_name,c.is_allowdeduc_type_sum,c.is_rule_based,c.is_non_computation_component,c.is_non_government,c.is_loan_adv from employee_allowdeduc_mpg a inner join  employee_mst b on b.employee_id = a.employee_id "
 				+ " inner join department_allowdeduc_mst c on a.department_allowdeduc_code = c.department_allowdeduc_code  inner join cadre_group_mst  cc    on b.emp_class = cc.id left outer join cadre_group_mst  ccc    on CAST(b.gisgroup AS integer)  = ccc.id  "
 				+ " where UPPER(a.sevaarth_id)= UPPER(:sevaarthId)  and c.is_active='1' ORDER BY c.is_type,c.department_allowdeduc_seq ASC  ";
 		Query query = currentSession.createSQLQuery(hql);
@@ -241,7 +244,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	@Override
 	public List<Object[]> getgroupname(String caderid) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "SELECT lookup.LOOKUP_NAME,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"
+		String hql = "SELECT lookup.LOOKUP_ID,cad.SUPER_ANTUN_AGE FROM mst_dcps_cadre cad inner join CMN_LOOKUP_MST lookup on lookup.LOOKUP_ID = cad.GROUP_ID where cad.CADRE_ID = '"
 				+ caderid + "'";
 
 		Query query = currentSession.createSQLQuery(hql);
@@ -754,8 +757,6 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setLocality(mstEmployeeEntity.getLocality());
 				mstEmployeeModel.setStateCode(mstEmployeeEntity.getStateCode());
 				mstEmployeeModel.setDistrictCode(mstEmployeeEntity.getDistrictCode());
-				if (mstEmployeeEntity.getVillageName() != null)
-					mstEmployeeModel.setVillageName(mstEmployeeEntity.getVillageName().toUpperCase());
 				mstEmployeeModel.setPinCode(mstEmployeeEntity.getPinCode());
 				mstEmployeeModel.setPhysicallyHandicapped(mstEmployeeEntity.getPhysicallyHandicapped());
 				mstEmployeeModel.setMobileNo1(mstEmployeeEntity.getMobileNo1());
@@ -860,11 +861,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 				mstEmployeeModel.setGisgroup(mstEmployeeEntity.getGisgroup());
 				mstEmployeeModel.setMembership_date(mstEmployeeEntity.getMembership_date());
 				mstEmployeeModel.setGisRemark(mstEmployeeEntity.getGisRemark());
-				mstEmployeeModel.setGiscatagory(mstEmployeeEntity.getGiscatagory());
 				mstEmployeeModel.setDesignationId(mstEmployeeEntity.getDesignationCode());
-				mstEmployeeModel.setBegisCatg(mstEmployeeEntity.getBegisCatg());
-				mstEmployeeModel.setGiscatagory(mstEmployeeEntity.getGiscatagory());
-
 				// GIS Details End
 
 			}
@@ -1061,6 +1058,12 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		Query query3 = currentSession.createSQLQuery(hql3);
 		Integer result3 = query3.executeUpdate();
 
+		String hql4 = "update employee_mst_details set is_active=1 , sevaarth_id='" + sevaarthid + "' where employee_id = "
+				+ empid;
+		Query query4 = currentSession.createSQLQuery(hql4);
+		Integer result4 = query4.executeUpdate();
+
+
 		List<Long> res = new ArrayList<Long>();
 		res.add((long) result);
 		return res;
@@ -1187,7 +1190,10 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 
 		Query query3 = currentSession.createSQLQuery(hql3);
 		Integer result3 = query3.executeUpdate();
-
+		String hql4 = "update employee_mst_details set is_active=1, dcps_no = '"+Dcpsnumber+"',sevaarth_id='" + sevaarthid
+				+ "'  where employee_id = " + empid;
+		Query query4 = currentSession.createSQLQuery(hql4);
+		Integer result4 = query4.executeUpdate();
 		// logger.info("Query1 String=" + query1.getQueryString());
 		// Integer result1 = query1.executeUpdate();
 		List<Long> res = new ArrayList<Long>();
@@ -1221,10 +1227,212 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 		String hql = "update employee_mst set user_id = " + user_id + " where sevaarth_id = '" + sevaarthId + "'";
 		Query query = currentSession.createSQLQuery(hql);
 		query.executeUpdate();
+		
+		
+		String hql1 = "update employee_mst_details set user_id = " + user_id + " where sevaarth_id = '" + sevaarthId
+				+ "'";
+		Query query1 = currentSession.createSQLQuery(hql1);
+		query1.executeUpdate();
+		
 		return "save";
 	}
 
 	@Override
+	public MstEmployeeDetailEntity updateEmployeesDetails(Long empid) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		List<MstEmployeeEntity> result = null;
+		List<MstDcpsDetailsEntity> result1 = null;
+		List<MstGpfDetailsEntity> result2 = null;
+		List<MstGisdetailsEntity> result3 = null;
+		List<MstNomineeDetailsEntity> result4 = null;
+		MstGpfDetailsHistEntity mstGpfDetailsHistEntity = new MstGpfDetailsHistEntity();
+		MstEmployeeDetailEntity mstEmployeeDetailEntity = new MstEmployeeDetailEntity();
+		MstGisdetailsHistEntity mstGisdetailsHistEntity = new MstGisdetailsHistEntity();
+
+		try {
+			result = entityManager
+					.createQuery("from MstEmployeeEntity where employeeId=" + empid, MstEmployeeEntity.class)
+					.getResultList();
+			for (Iterator iterator = result.iterator(); iterator.hasNext();) {
+				MstEmployeeEntity mstEmployeeEntity = (MstEmployeeEntity) iterator.next();
+				// Employee Details Start
+				mstEmployeeDetailEntity.setUidNo3(mstEmployeeEntity.getUidNo());
+				mstEmployeeDetailEntity.setSevaarthId(mstEmployeeEntity.getSevaarthId());
+				mstEmployeeDetailEntity.setEmployeeId(mstEmployeeEntity.getEmployeeId());
+				mstEmployeeDetailEntity.setEidNo(mstEmployeeEntity.getEidNo());
+				mstEmployeeDetailEntity.setSalutation(mstEmployeeEntity.getSalutation());
+				mstEmployeeDetailEntity.setEmployeeFullNameEn(mstEmployeeEntity.getEmployeeFullNameEn());
+				mstEmployeeDetailEntity.setEmployeeFNameEn(mstEmployeeEntity.getEmployeeFNameEn().toUpperCase());
+				if (mstEmployeeEntity.getEmployeeMNameEn() != null)
+					mstEmployeeDetailEntity.setEmployeeMNameEn(mstEmployeeEntity.getEmployeeMNameEn().toUpperCase());
+				mstEmployeeDetailEntity.setEmployeeLNameEn(mstEmployeeEntity.getEmployeeLNameEn().toUpperCase());
+				mstEmployeeDetailEntity.setEmployeeFullNameMr(mstEmployeeEntity.getEmployeeFullNameMr());
+				mstEmployeeDetailEntity.setEmployeeFNameMr(mstEmployeeEntity.getEmployeeFNameMr());
+				mstEmployeeDetailEntity.setEmployeeLNameMr(mstEmployeeEntity.getEmployeeLNameMr());
+				mstEmployeeDetailEntity.setEmployeeMotherName(mstEmployeeEntity.getEmployeeMotherName());
+				mstEmployeeDetailEntity.setBuckleNo(mstEmployeeEntity.getBuckleNo());
+				mstEmployeeDetailEntity.setIsActive(mstEmployeeEntity.getIsActive());
+//				if (mstEmployeeEntity.getGender() == 'M') {
+//					mstEmployeeModel.setGender('1');
+//				} else if (mstEmployeeEntity.getGender() == 'F') {
+//					mstEmployeeModel.setGender('2');
+//				} else {
+//					mstEmployeeModel.setGender('3');
+//				}
+				mstEmployeeDetailEntity.setGender(mstEmployeeEntity.getGender());
+				mstEmployeeDetailEntity.setReligionCode(mstEmployeeEntity.getReligionCode());
+				mstEmployeeDetailEntity.setMaritalStatus(mstEmployeeEntity.getMaritalStatus());
+				mstEmployeeDetailEntity.setEmployeeMNameMr(mstEmployeeEntity.getEmployeeMNameMr());
+				mstEmployeeDetailEntity.setDob(mstEmployeeEntity.getDob());
+				mstEmployeeDetailEntity.setDoj(mstEmployeeEntity.getDoj());
+				if (mstEmployeeEntity.getAddress1() != null)
+					mstEmployeeDetailEntity.setAddress1(mstEmployeeEntity.getAddress1().toUpperCase());
+				if (mstEmployeeEntity.getAddress2() != null)
+					mstEmployeeDetailEntity.setAddress2(mstEmployeeEntity.getAddress2().toUpperCase());
+				if (mstEmployeeEntity.getAddress3() != null)
+					mstEmployeeDetailEntity.setAddress3(mstEmployeeEntity.getAddress3().toUpperCase());
+				mstEmployeeDetailEntity.setLocality(mstEmployeeEntity.getLocality());
+				mstEmployeeDetailEntity.setStateCode(mstEmployeeEntity.getStateCode());
+				mstEmployeeDetailEntity.setDistrictCode(mstEmployeeEntity.getDistrictCode());
+				mstEmployeeDetailEntity.setPinCode(mstEmployeeEntity.getPinCode());
+				mstEmployeeDetailEntity.setPhysicallyHandicapped(mstEmployeeEntity.getPhysicallyHandicapped());
+				mstEmployeeDetailEntity.setMobileNo1(mstEmployeeEntity.getMobileNo1());
+				mstEmployeeDetailEntity.setEmailId(mstEmployeeEntity.getEmailId());
+				mstEmployeeDetailEntity.setPanNo(mstEmployeeEntity.getPanNo());
+				mstEmployeeDetailEntity.setDdoCode(mstEmployeeEntity.getDdoCode());
+				mstEmployeeDetailEntity.setMorequalification(mstEmployeeEntity.getMorequalification());
+				mstEmployeeDetailEntity.setSecqualification(mstEmployeeEntity.getSecqualification());
+
+				// Employee Details End
+
+				// Department Details Start
+				
+				mstEmployeeDetailEntity.setIsChangeParentDepartment(mstEmployeeEntity.getIsChangeParentDepartment());
+				mstEmployeeDetailEntity.setReasonForChngParentFieldDept(mstEmployeeEntity.getReasonForChngParentFieldDept());
+				mstEmployeeDetailEntity.setCadreCode(mstEmployeeEntity.getCadreCode());
+				mstEmployeeDetailEntity.setEmpClass(mstEmployeeEntity.getEmpClass());
+				if (mstEmployeeEntity.getSuperAnnAge() != null)
+					mstEmployeeDetailEntity.setSuperAnnAge(mstEmployeeEntity.getSuperAnnAge());
+				mstEmployeeDetailEntity.setEmpServiceEndDate(mstEmployeeEntity.getSuperAnnDate()); // by default set to
+																							// retirement date added by
+				mstEmployeeDetailEntity.setAppointment(mstEmployeeEntity.getAppointment());
+				//mstEmployeeModel.setQid(Long.valueOf(mstEmployeeEntity.getQualification()));// sudhir
+				mstEmployeeDetailEntity.setQualification(mstEmployeeEntity.getQualification());
+				mstEmployeeDetailEntity.setSuperAnnDate(mstEmployeeEntity.getSuperAnnDate());
+				mstEmployeeDetailEntity.setPayCommissionCode(mstEmployeeEntity.getPayCommissionCode());
+				mstEmployeeDetailEntity.setFirstDesignationCode(mstEmployeeEntity.getFirstDesignationCode());
+				mstEmployeeDetailEntity.setDesignationCode(mstEmployeeEntity.getDesignationCode());
+				mstEmployeeDetailEntity.setPayscalelevelId(mstEmployeeEntity.getPayscalelevelId());
+
+				mstEmployeeDetailEntity.setSvnthpaybasic(mstEmployeeEntity.getSvnthpaybasic());
+
+				mstEmployeeDetailEntity.setPayScaleCode(mstEmployeeEntity.getPayScaleCode());
+				mstEmployeeDetailEntity.setPayInPayBand(mstEmployeeEntity.getPayInPayBand());
+				mstEmployeeDetailEntity.setGradePay(mstEmployeeEntity.getGradePay());
+				mstEmployeeDetailEntity.setTeaching(mstEmployeeEntity.getTeaching());
+				mstEmployeeDetailEntity.setPayCommissionCode(mstEmployeeEntity.getPayCommissionCode());
+				mstEmployeeDetailEntity.setBasicPay(mstEmployeeEntity.getBasicPay());
+				mstEmployeeDetailEntity.setSevenPcBasic(mstEmployeeEntity.getSevenPcBasic());
+				mstEmployeeDetailEntity.setSevenPcLevel(mstEmployeeEntity.getSevenPcLevel());
+	
+				mstEmployeeDetailEntity.setPostdetailid(mstEmployeeEntity.getPostdetailid());
+				mstEmployeeDetailEntity.setUserId(mstEmployeeEntity.getUserId());
+				mstEmployeeDetailEntity.setDepartmentNameEn(mstEmployeeEntity.getDepartmentNameEn());
+				mstEmployeeDetailEntity
+						.setDtInitialAppointmentParentInst(mstEmployeeEntity.getDtInitialAppointmentParentInst());
+				mstEmployeeDetailEntity.setInstituteAdd(mstEmployeeEntity.getInstituteAdd());
+				mstEmployeeDetailEntity.setInstName(mstEmployeeEntity.getInstName());
+				if (mstEmployeeEntity.getMobileNo2() != null)
+					mstEmployeeDetailEntity.setMobileNo2(mstEmployeeEntity.getMobileNo2().longValue());
+				mstEmployeeDetailEntity.setInstemail(mstEmployeeEntity.getInstemail());
+				mstEmployeeDetailEntity.setDtJoinCurrentPost(mstEmployeeEntity.getDtJoinCurrentPost());
+				mstEmployeeDetailEntity.setRemark(mstEmployeeEntity.getRemark());
+				mstEmployeeDetailEntity.setCityClass(mstEmployeeEntity.getCityClass());
+				mstEmployeeDetailEntity.setIndiApproveOrderNo(mstEmployeeEntity.getIndiApproveOrderNo());
+				mstEmployeeDetailEntity.setApprovalByDdoDate(mstEmployeeEntity.getApprovalByDdoDate());
+				mstEmployeeDetailEntity.setDcpsgpfflag(mstEmployeeEntity.getDcpsgpfflag());
+				mstEmployeeDetailEntity.setHraBasic(mstEmployeeEntity.getHraBasic());
+				// Department Details End
+
+				// Bank/DCPS/NPS/GPF Details Start
+				mstEmployeeDetailEntity.setBankCode(mstEmployeeEntity.getBankCode());
+				mstEmployeeDetailEntity.setIfscCode(mstEmployeeEntity.getIfscCode());
+				mstEmployeeDetailEntity.setBankAcntNo(mstEmployeeEntity.getBankAcntNo());
+				mstEmployeeDetailEntity.setBankBranchCode(mstEmployeeEntity.getBankBranchCode());
+				mstEmployeeDetailEntity.setDcpsgpfflag(mstEmployeeEntity.getDcpsgpfflag());
+				mstEmployeeDetailEntity.setDcpsaccountmaintainby(mstEmployeeEntity.getDcpsaccountmaintainby());
+				mstEmployeeDetailEntity.setPranNo(mstEmployeeEntity.getPranNo());
+				mstEmployeeDetailEntity.setAccountmaintainby(mstEmployeeEntity.getAccountmaintainby());
+				mstEmployeeDetailEntity.setPfseries(mstEmployeeEntity.getPfseries());
+				mstEmployeeDetailEntity.setPfacno(mstEmployeeEntity.getPfacno());
+				mstEmployeeDetailEntity.setPfdescription(mstEmployeeEntity.getPfdescription());
+
+				// Bank/DCPS/NPS/GPF Details End
+
+				// GIS Details Start
+				mstEmployeeDetailEntity.setGisapplicable(mstEmployeeEntity.getGisapplicable());
+				mstEmployeeDetailEntity.setGisgroup(mstEmployeeEntity.getGisgroup());
+				mstEmployeeDetailEntity.setMembership_date(mstEmployeeEntity.getMembership_date());
+				mstEmployeeDetailEntity.setGisRemark(mstEmployeeEntity.getGisRemark());
+				mstEmployeeDetailEntity.setDesignationCode(mstEmployeeEntity.getDesignationCode());
+				currentSession.save(mstEmployeeDetailEntity);
+
+				// GIS Details End
+
+			}
+
+			result2 = entityManager
+					.createQuery("from MstGpfDetailsEntity where employeeId=" + empid, MstGpfDetailsEntity.class)
+					.getResultList();
+			for (Iterator iterator = result2.iterator(); iterator.hasNext();) {
+				MstGpfDetailsEntity mstEmployeeEntity = (MstGpfDetailsEntity) iterator.next();
+
+				mstGpfDetailsHistEntity.setGpf_id(mstEmployeeEntity.getGpf_id());
+				mstGpfDetailsHistEntity.setAccountmaintainby(mstEmployeeEntity.getAccountmaintainby());
+				mstGpfDetailsHistEntity.setCreateddate(mstEmployeeEntity.getCreateddate());
+				mstGpfDetailsHistEntity.setCreatedid(mstEmployeeEntity.getCreatedid());
+				mstGpfDetailsHistEntity.setEmployeeId(mstEmployeeEntity.getEmployeeId());
+				mstGpfDetailsHistEntity.setPfacno(mstEmployeeEntity.getPfacno());
+				mstGpfDetailsHistEntity.setPfdescription(mstEmployeeEntity.getPfdescription());
+				mstGpfDetailsHistEntity.setIsactive(mstEmployeeEntity.getIsactive());
+				mstGpfDetailsHistEntity.setSevaarthId(mstEmployeeEntity.getSevaarthId());
+				mstGpfDetailsHistEntity.setUpdatedate(mstEmployeeEntity.getUpdatedate());
+				mstGpfDetailsHistEntity.setUpdateid(mstEmployeeEntity.getUpdateid());
+				currentSession.save(mstGpfDetailsHistEntity);
+
+			}
+			result3 = entityManager
+					.createQuery("from MstGisdetailsEntity where employeeId=" + empid, MstGisdetailsEntity.class)
+					.getResultList();
+
+			for (Iterator iterator = result3.iterator(); iterator.hasNext();) {
+				MstGisdetailsEntity mstEmployeeEntity = (MstGisdetailsEntity) iterator.next();
+				mstGisdetailsHistEntity.setGisid(mstEmployeeEntity.getGisid());
+				mstGisdetailsHistEntity.setGisapplicable(mstEmployeeEntity.getGisapplicable());
+				mstGisdetailsHistEntity.setGisgroup(mstEmployeeEntity.getGisgroup());
+				mstGisdetailsHistEntity.setMembership_date(mstEmployeeEntity.getMembership_date());
+				mstGisdetailsHistEntity.setCreateddate(mstEmployeeEntity.getCreateddate());
+				mstGisdetailsHistEntity.setCreatedid(mstEmployeeEntity.getCreatedid());
+				mstGisdetailsHistEntity.setEmployeeId(mstEmployeeEntity.getEmployeeId());
+				mstGisdetailsHistEntity.setIsactive(mstEmployeeEntity.getIsactive());
+				mstGisdetailsHistEntity.setUpdatedate(mstEmployeeEntity.getUpdatedate());
+				mstGisdetailsHistEntity.setUpdateid(mstEmployeeEntity.getUpdateid());
+				mstGisdetailsHistEntity.setSevaarthId(mstEmployeeEntity.getSevaarthId());
+				currentSession.save(mstGisdetailsHistEntity);
+
+			}
+		
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			// logger.info("stack trace exceptionend");
+		}
+
+		return mstEmployeeDetailEntity;
+	}
 	public List<Object[]> findAllEmployeesByDDOName(String userName) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		// String hql = "Select a.ddo_code,a.sevaarth_id,a.employee_full_name_en FROM

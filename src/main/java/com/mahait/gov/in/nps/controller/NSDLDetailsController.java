@@ -40,22 +40,24 @@ import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.controller.BaseController;
+import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.OrgUserMst;
-import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.nps.entity.NSDLBHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLDHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLSDDtlsEntity;
+import com.mahait.gov.in.nps.model.DdoWiseNpsContriModel;
 import com.mahait.gov.in.nps.model.NSDLDetailsModel;
 import com.mahait.gov.in.nps.service.CSRFFormService;
 import com.mahait.gov.in.nps.service.NSDLDetailsService;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.MstEmployeeService;
 import com.mahait.gov.in.service.MstTalukaService;
+import com.mahait.gov.in.service.OnlineContributionService;
 import com.mahait.gov.in.service.PaybillGenerationTrnService;
 
 import cra.standalone.paosubcontr.PAOFvu;
 @Controller
-@RequestMapping("/master")
+@RequestMapping("/ddo")
 public class NSDLDetailsController  extends BaseController{
 	// protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
@@ -78,6 +80,10 @@ public class NSDLDetailsController  extends BaseController{
 	
 	@Autowired
 	CSRFFormService csrfFormService;
+	
+	
+	@Autowired
+	OnlineContributionService onlineContributionService;
 
 	List<NSDLDetailsModel> nsdlDetailsModel1 = new ArrayList<>();
 
@@ -110,7 +116,7 @@ public class NSDLDetailsController  extends BaseController{
 		model.addAttribute("nsdlDetailsModel", nsdlDetailsModel);
 		addMenuAndSubMenu(model, messages);
 		model.addAttribute("language", locale.getLanguage());
-		return "/views/NSDLDetails";
+		return "/views/nps/NSDLDetails";
 	}
 
 	@GetMapping("/NSDLEmpWiseReport/{filename}")
@@ -161,8 +167,10 @@ public class NSDLDetailsController  extends BaseController{
 		addMenuAndSubMenu(model, messages);
 		model.addAttribute("lstGetAllMonths", commonHomeMethodsService.lstGetAllMonths());
 		model.addAttribute("lstGetAllYear", commonHomeMethodsService.lstGetAllYears());
-
-		return "/views/NSDLinput";
+		
+		List<CmnLocationMst> lstTreasury = onlineContributionService.findTreasuryList(messages);
+		model.addAttribute("lstTreasury", lstTreasury);
+		return "/views/nps/NSDLinput";
 	}
 
 	@GetMapping(value = "/getNSDLEmpDtls/{month}/{year}")
@@ -172,7 +180,17 @@ public class NSDLDetailsController  extends BaseController{
 		List<Object[]> consolatedFilterList = nsdlDetailsService.getNsdlEmpData(month, year,messages.getUserName());
 		return consolatedFilterList;
 	}
-
+	
+	
+	@GetMapping(value = "/searchDdoWiseContribution/{month}/{year}")
+	public ResponseEntity<List<DdoWiseNpsContriModel>> searchDdoWiseContribution(@PathVariable int month, @PathVariable int year,
+			Model model, Locale locale, HttpSession session) {
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		List<DdoWiseNpsContriModel>  consolatedFilterList = nsdlDetailsService.searchDdoWiseContribution(month, year,messages);
+		return ResponseEntity.ok(consolatedFilterList);
+	}
+	
+	
 	@GetMapping(value = "/getNSDLEmpDtlsForGenerate/{month}/{year}")
 	public @ResponseBody List<Object[]> getNSDLEmpDtlsForGenerate(@PathVariable int month, @PathVariable int year,
 			Model model, Locale locale, HttpSession session) {

@@ -3,6 +3,7 @@ package com.mahait.gov.in.service;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class MstMenuServiceImpl implements MstMenuService {
 	@Autowired
 	MstMenuRepo mstMenuRepo;
 
+	//@CacheEvict(value = "menus", allEntries = true)
 	@Override
 	public int saveMenu(MstMenuModel mstMenuModel, OrgUserMst messages) {
 		MstMenuEntity objMenuEntity = new MstMenuEntity();
@@ -59,6 +61,7 @@ public class MstMenuServiceImpl implements MstMenuService {
 		return objMenu;
 	}
 
+//	@CacheEvict(value = "menus", allEntries = true)
 	@Override
 	public String saveEditMenu(MstMenuEntity mstMenuEntity,OrgUserMst orgUserMst) {
 		MstMenuEntity objMenu = mstMenuRepo.findMenuByKeyForEdit(mstMenuEntity.getMenuId());

@@ -24,6 +24,7 @@ import com.mahait.gov.in.entity.DcpsContributionEntity;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
 import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
+import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
 import com.mahait.gov.in.model.MstSchemeModel;
@@ -142,15 +143,15 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		for (Object object[] : lstobject) {
 
 			Integer lInt2 = 0;
-			Double BasicPay = 0d;
+			Integer BasicPay = 0;
 			Double DP = 0D;
 			String lStrDP = "";
 			Double DARate = 0d;
 			String lStrTypeOfPayment = "";
 			Double DA = 0D;
-			Double employeeContribution = 0D;
+			Integer employeeContribution = 0;
 			String lStrDA = "";
-			Double emplrContribution = 0D;
+			Integer emplrContribution = 0;
 
 			// Object[] object = (Object[]) empList.get(lInt1);
 			DcpContributionModel dcpContributionModel1 = new DcpContributionModel();
@@ -161,12 +162,14 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			dcpContributionModel1.setPayCommission(StringHelperUtils.isNullBigInteger(object[3]).longValue());
 
 			if (object[4] instanceof Double) {
-				dcpContributionModel1.setBasicPay(StringHelperUtils.isNullDouble(object[4]));
-			} else if (object[4] instanceof Integer) {
-				dcpContributionModel1.setBasicPay(StringHelperUtils.isNullBigInteger(object[4]).doubleValue());
+				dcpContributionModel1.setBasicPay(StringHelperUtils.isNullDouble(object[4]).intValue());
+			} else if (object[4] instanceof BigInteger) {
+				dcpContributionModel1.setBasicPay(StringHelperUtils.isNullBigInteger(object[4]).intValue());
+			}else if (object[4] instanceof Integer) {
+				dcpContributionModel1.setBasicPay(StringHelperUtils.isNullInt(object[4]));
 			}
 
-			BasicPay = dcpContributionModel1.getBasicPay();
+			BasicPay = dcpContributionModel1.getBasicPay().intValue();
 
 			dcpContributionModel1.setDcpContributionId(StringHelperUtils.isNullBigInteger(object[5]).longValue());
 			dcpContributionModel1.setTypeOfPayment(StringHelperUtils.isNullString(object[6]));
@@ -191,10 +194,9 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 			if (object[10] != null) {
 				dcpContributionModel1.setRegStatus(StringHelperUtils.isNullInt(object[10]));
-			} else {
-				dcpContributionModel1.setRegStatus(0);
-			}
-
+			} 
+			
+			
 			dcpContributionModel1.setDoj(StringHelperUtils.isNullDate(object[11]));
 
 			if (object[15] != null) {
@@ -220,15 +222,15 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 				if (null != lStrDP && !"".equals(lStrDP)) {
 					DP = Double.parseDouble(lStrDP);
 				} else {
-					DP = BasicPay / 2;
+					DP = (double) ((BasicPay) / 2);
 				}
 			}
 
 			DARate = 0.01 * Double.parseDouble(object[9].toString());
 			lStrTypeOfPayment = object[6].toString();
 			DA = 0D;
-			employeeContribution = 0D;
-			emplrContribution = 0D;
+			employeeContribution = 0;
+			emplrContribution = 0;
 
 			lStrDA = "";
 
@@ -244,19 +246,29 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 				}
 
 				if (object[14] != null) {
-					employeeContribution = Double.parseDouble(object[14].toString());
+					if (object[14] instanceof Double) {
+						employeeContribution = StringHelperUtils.isNullDouble(object[14]).intValue();
+					}else {
+						employeeContribution = Integer.parseInt(object[14].toString());
+					}
+					
+					
 				} else {
-					employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
+					employeeContribution = (int) (((int) Math.ceil(BasicPay) + Math.round(DA)) * 0.10);
 				}
 
 				if (object[17] != null && !object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
-					emplrContribution = Double.parseDouble(object[17].toString());
+					if (object[17] instanceof Double) {
+						emplrContribution =  StringHelperUtils.isNullDouble(object[17]).intValue();
+					}else {
+						emplrContribution =  Integer.parseInt(object[17].toString());
+					}
 				} else {
 					if ((dcpContributionModel.getFinYearId() <= 20 && dcpContributionModel.getMonthId() <= 3)
 							|| dcpContributionModel.getFinYearId() < 20) { // 2019(Old 32 if ((finYearId <= 32
-						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10;
+						emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10);
 					}else {
-						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14;
+						emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14);
 					}
 				}
 
@@ -270,56 +282,74 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 				}
 
 				if (object[14] != null) {
-					employeeContribution = Double.parseDouble(object[14].toString());
+					if (object[14] instanceof Double) {
+						employeeContribution = StringHelperUtils.isNullDouble(object[14]).intValue();
+					}else {
+						employeeContribution = Integer.parseInt(object[14].toString());
+					}
 				} else {
-					employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
+					employeeContribution = (int) (((int) Math.ceil(BasicPay) + Math.round(DA)) * 0.10);
 				}
 
 				if (object[17] != null && !object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
-					emplrContribution = Double.parseDouble(object[17].toString());
+					if (object[17] instanceof Double) {
+						emplrContribution =  StringHelperUtils.isNullDouble(object[17]).intValue();
+					}else {
+						emplrContribution =  Integer.parseInt(object[17].toString());
+					}
+					
 				} else {
 					if ((dcpContributionModel.getFinYearId() <= 20 && dcpContributionModel.getMonthId() <= 3)
 							|| dcpContributionModel.getFinYearId() < 20) { // 2019(Old 32 if ((finYearId <= 32
 
-						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10;
+						emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10);
 					}else {
-						emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14;
+						emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14);
 					}
 				}
 
 			} else {
-				if (null != lStrDA && !"".equals(lStrDA)) {
+				if (null != lStrDA && !"".equals(lStrDA)  && !lStrDA.equals("0.0")) {
 					DA = Double.parseDouble(lStrDA);
 				} else {
 					DA = ((BasicPay + DP) * DARate);
 				}
 
 				if (null != object[14]) {
-					employeeContribution = Double.parseDouble(object[14].toString());
+					if (object[14] instanceof Double) {
+						employeeContribution = StringHelperUtils.isNullDouble(object[14]).intValue();
+					}else {
+						employeeContribution = Integer.parseInt(object[14].toString());
+					}
 				} else {
 					if (object[3].toString().equals("700015")) {
-						employeeContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10;
+						employeeContribution = (int) (((int) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10);
 					} else {
-						employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
+						employeeContribution = (int) (((int) Math.ceil(BasicPay) + Math.round(DA)) * 0.10);
 					}
 				}
 
 				if (object[17]!=null && !object[17].toString().equals("0.0") && !object[17].toString().equals("0")) {
-					emplrContribution = Double.parseDouble(object[17].toString());
+					if (object[17] instanceof Double) {
+						emplrContribution =  StringHelperUtils.isNullDouble(object[17]).intValue();
+					}else {
+						emplrContribution =  Integer.parseInt(object[17].toString());
+					}
+					
 				} else {
 					if ((dcpContributionModel.getFinYearId() <= 20 && dcpContributionModel.getMonthId() <= 3)
 							|| dcpContributionModel.getFinYearId() < 20) { // 2019(Old 32 if ((finYearId <= 32
 
 						if (object[3].toString().equals("700015")) {
-							emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10;
+							emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.10);
 						} else {
-							emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10;
+							emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.round(DA)) * 0.10);
 						}
 					} else {
 						if (object[3].toString().equals("700015")) {
-							emplrContribution = ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14;
+							emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) * 0.14);
 						} else {
-							emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.14;
+							emplrContribution = (int) (((int) Math.ceil(BasicPay) + Math.round(DA)) * 0.14);
 						}
 
 					}
@@ -327,13 +357,13 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 			}
 			DA = (double) Math.round(DA);
 
-			employeeContribution = (double) Math.round(employeeContribution);
-			emplrContribution = (double) Math.round(emplrContribution);
+			employeeContribution = (int) Math.round(employeeContribution);
+			emplrContribution = (int) Math.round(emplrContribution);
 
 			dcpContributionModel1.setDp(DP);
-			dcpContributionModel1.setDa(DA);
-			dcpContributionModel1.setEmprContribution(emplrContribution);
-			dcpContributionModel1.setContribution(employeeContribution);
+			dcpContributionModel1.setDa(DA.intValue());
+			dcpContributionModel1.setEmprContribution(emplrContribution.intValue());
+			dcpContributionModel1.setContribution(employeeContribution.intValue());
 
 			dcpContributionModelLst.add(dcpContributionModel1);
 		}
@@ -343,7 +373,11 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 	@Override
 	public Long saveOrUpdate(DcpContributionModel dcpContributionModel, OrgUserMst orgUserMst) {
-
+		
+		  List<Long> idsToDelete = dcpContributionModel.getDeleteDcpContributionId();
+	        if (idsToDelete != null && !idsToDelete.isEmpty()) {
+	            onlineContributionRepo.deleteContributionIds(idsToDelete);
+	        }
 		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionRepo
 				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
 		mstDcpsContriVoucherDtlEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
@@ -363,44 +397,46 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		
 		Long save = onlineContributionRepo.saveMstDcpsContriVoucherDtlEntity(mstDcpsContriVoucherDtlEntity);
 
-		for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
-			DcpsContributionEntity dcpsContributionEntity = onlineContributionRepo
-					.findDcpsContri(dcpContributionModel1.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
-			dcpsContributionEntity.setBasicPay(dcpContributionModel1.getBasicPay());
-			dcpsContributionEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
-			dcpsContributionEntity.setDa(dcpContributionModel1.getDa());
-			dcpsContributionEntity.setDp(dcpContributionModel1.getDp());
-			dcpsContributionEntity.setTypeOfPayment(dcpContributionModel1.getTypeOfPayment());
-			dcpsContributionEntity.setDcpEmpId(dcpContributionModel1.getDcpEmpId());
-			dcpsContributionEntity.setDdoCode(dcpContributionModel1.getDdoCode());
-			dcpsContributionEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
-			dcpsContributionEntity.setDelayedFinYearId(dcpContributionModel.getDelayedFinYearId());
-			dcpsContributionEntity.setDelayedMonthId(dcpContributionModel.getDelayedMonthId());
-			dcpsContributionEntity.setLangId(1l);
-			dcpsContributionEntity.setLocId(dcpContributionModel.getLocId());
-			dcpsContributionEntity.setStartDate(dcpContributionModel1.getStartDate());
-			dcpsContributionEntity.setEndDate(dcpContributionModel1.getEndDate());
-			dcpsContributionEntity.setFinYearId(dcpContributionModel.getFinYearId());
-			dcpsContributionEntity.setMonthId(dcpContributionModel.getMonthId());
-			dcpsContributionEntity.setPayCommission(dcpContributionModel1.getPayCommission().toString());
-			dcpsContributionEntity.setContribution(dcpContributionModel1.getContribution());
-			dcpsContributionEntity.setContributionEmpr(dcpContributionModel1.getEmprContribution().floatValue());
-			dcpsContributionEntity.setRegStatus(0);
-			dcpsContributionEntity.setDbId(99l);
-			dcpsContributionEntity.setDdoCode(orgUserMst.getDdoCode());
-			dcpsContributionEntity.setSevaarthId(dcpContributionModel1.getSevaarthId());
-			dcpsContributionEntity.setCreatedDate(new Timestamp(new Date().getTime()));
-			dcpsContributionEntity.setCreatedPostId(orgUserMst.getPostId());
-			dcpsContributionEntity.setCreatedUserId(orgUserMst.getUserId());
-			dcpsContributionEntity.setRltContriVoucherId(save);
-			
-			if(dcpsContributionEntity.getDcpContributionId()!=null) {
-				dcpsContributionEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
-				dcpsContributionEntity.setUpdatedUserId(orgUserMst.getUserId());
-				dcpsContributionEntity.setUpdatedPostId(orgUserMst.getUserId());
+		if(dcpContributionModel.getLstDcpContributionModel()!=null) {
+			for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
+				DcpsContributionEntity dcpsContributionEntity = onlineContributionRepo
+						.findDcpsContri(dcpContributionModel1.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
+				dcpsContributionEntity.setBasicPay(dcpContributionModel1.getBasicPay().doubleValue());
+				dcpsContributionEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
+				dcpsContributionEntity.setDa(dcpContributionModel1.getDa().doubleValue());
+				dcpsContributionEntity.setDp(dcpContributionModel1.getDp());
+				dcpsContributionEntity.setTypeOfPayment(dcpContributionModel1.getTypeOfPayment());
+				dcpsContributionEntity.setDcpEmpId(dcpContributionModel1.getDcpEmpId());
+				dcpsContributionEntity.setDdoCode(dcpContributionModel1.getDdoCode());
+				dcpsContributionEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
+				dcpsContributionEntity.setDelayedFinYearId(dcpContributionModel.getDelayedFinYearId());
+				dcpsContributionEntity.setDelayedMonthId(dcpContributionModel.getDelayedMonthId());
+				dcpsContributionEntity.setLangId(1l);
+				dcpsContributionEntity.setLocId(dcpContributionModel.getLocId());
+				dcpsContributionEntity.setStartDate(dcpContributionModel1.getStartDate());
+				dcpsContributionEntity.setEndDate(dcpContributionModel1.getEndDate());
+				dcpsContributionEntity.setFinYearId(dcpContributionModel.getFinYearId());
+				dcpsContributionEntity.setMonthId(dcpContributionModel.getMonthId());
+				dcpsContributionEntity.setPayCommission(dcpContributionModel1.getPayCommission().toString());
+				dcpsContributionEntity.setContribution(dcpContributionModel1.getContribution().doubleValue());
+				dcpsContributionEntity.setContributionEmpr(dcpContributionModel1.getEmprContribution().floatValue());
+				dcpsContributionEntity.setRegStatus(0);
+				dcpsContributionEntity.setDbId(99l);
+				dcpsContributionEntity.setDdoCode(orgUserMst.getDdoCode());
+				dcpsContributionEntity.setSevaarthId(dcpContributionModel1.getSevaarthId());
+				dcpsContributionEntity.setCreatedDate(new Timestamp(new Date().getTime()));
+				dcpsContributionEntity.setCreatedPostId(orgUserMst.getPostId());
+				dcpsContributionEntity.setCreatedUserId(orgUserMst.getUserId());
+				dcpsContributionEntity.setRltContriVoucherId(save);
+				
+				if(dcpsContributionEntity.getDcpContributionId()!=null) {
+					dcpsContributionEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+					dcpsContributionEntity.setUpdatedUserId(orgUserMst.getUserId());
+					dcpsContributionEntity.setUpdatedPostId(orgUserMst.getUserId());
+				}
+				
+				onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
 			}
-			
-			onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
 		}
 		return save;
 	}
@@ -489,10 +525,10 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 
 				totalContributionModel.setDaRate(percentageRate);
 
-				totalContributionModel.setBasicPay((double) Math.round(oneMonthBasic));
-				totalContributionModel.setDa((double) Math.round(oneMonthDa));
-				totalContributionModel.setEmprContribution((double) Math.round(oneMonthEmployerContribution));
-				totalContributionModel.setContribution((double) Math.round(oneMonthEmployeeContribution));
+				totalContributionModel.setBasicPay((int) Math.round(oneMonthBasic));
+				totalContributionModel.setDa((int) Math.round(oneMonthDa));
+				totalContributionModel.setEmprContribution((int) Math.round(oneMonthEmployerContribution));
+				totalContributionModel.setContribution((int) Math.round(oneMonthEmployeeContribution));
 
 			} else {
 				Calendar currentCal = (Calendar) startCal.clone();
@@ -539,10 +575,10 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 					currentCal.add(Calendar.MONTH, 1);
 				}
 
-				totalContributionModel.setDa((double) Math.round(totalDa));
-				totalContributionModel.setContribution((double) Math.round(totalEmployeeContribution));
-				totalContributionModel.setEmprContribution((double) Math.round(totalEmployerContribution));
-				totalContributionModel.setBasicPay((double) Math.round(totalBasicPay));
+				totalContributionModel.setDa((int) Math.round(totalDa));
+				totalContributionModel.setContribution((int) Math.round(totalEmployeeContribution));
+				totalContributionModel.setEmprContribution((int) Math.round(totalEmployerContribution));
+				totalContributionModel.setBasicPay((int) Math.round(totalBasicPay));
 
 			}
 		} catch (ParseException e) {
@@ -575,6 +611,84 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 	public List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus) {
 		// TODO Auto-generated method stub
 		return onlineContributionRepo.findBillgroupList(messages, regStatus);
+	}
+
+	@Override
+	public List<OrgDdoMst> getAllForwardedDdo(OrgUserMst messages) {
+		List<Object[]> lst = onlineContributionRepo.getAllForwardedDdo(messages);
+		List<OrgDdoMst> lstOrgDdoMst = new ArrayList<>();
+		for (Object object[] : lst) {
+			OrgDdoMst orgDdoMst = new OrgDdoMst();
+			orgDdoMst.setDdoCode(object[0].toString());
+			orgDdoMst.setDdoName(object[1].toString());
+			lstOrgDdoMst.add(orgDdoMst);
+		}
+		return lstOrgDdoMst;
+	}
+
+	@Override
+	public Long approveOnlineContriEntry(DcpContributionModel dcpContributionModel, OrgUserMst messages) {
+		  List<Long> idsToDelete = dcpContributionModel.getDeleteDcpContributionId();
+	        if (idsToDelete != null && !idsToDelete.isEmpty()) {
+	            onlineContributionRepo.deleteContributionIds(idsToDelete);
+	        }
+		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionRepo
+				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
+		mstDcpsContriVoucherDtlEntity.setBillGroupId(dcpContributionModel.getBillGroupId());
+		mstDcpsContriVoucherDtlEntity.setCreatedDate(new Timestamp((new Date().getTime())));
+		mstDcpsContriVoucherDtlEntity.setCreatedPostId(dcpContributionModel.getCreatedPostId());
+		mstDcpsContriVoucherDtlEntity.setDdoCode(dcpContributionModel.getDdoCode());
+		mstDcpsContriVoucherDtlEntity.setMonthId(dcpContributionModel.getMonthId());
+		mstDcpsContriVoucherDtlEntity.setYearId(dcpContributionModel.getFinYearId());
+		// mstDcpsContriVoucherDtlEntity.setStatus('1');
+		mstDcpsContriVoucherDtlEntity.setTreasuryCode(dcpContributionModel.getTreasuryCode());
+
+		if(mstDcpsContriVoucherDtlEntity.getMstDcpsContriVoucherDtls()!=null) {
+			mstDcpsContriVoucherDtlEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+			mstDcpsContriVoucherDtlEntity.setUpdatedUserId(messages.getUserId());
+			mstDcpsContriVoucherDtlEntity.setUpdatedPostId(messages.getUserId());
+		}
+		
+		Long save = onlineContributionRepo.saveMstDcpsContriVoucherDtlEntity(mstDcpsContriVoucherDtlEntity);
+
+		if(dcpContributionModel.getLstDcpContributionModel()!=null) {
+			for (DcpContributionModel dcpContributionModel1 : dcpContributionModel.getLstDcpContributionModel()) {
+				DcpsContributionEntity dcpsContributionEntity = onlineContributionRepo
+						.findDcpsContri(dcpContributionModel1.getDcpContributionId()).orElseGet(DcpsContributionEntity::new);
+			
+				dcpsContributionEntity.setRegStatus(1);
+				if(dcpsContributionEntity.getDcpContributionId()!=null) {
+					dcpsContributionEntity.setUpdatedDate(new Timestamp(new Date().getTime()));
+					dcpsContributionEntity.setUpdatedUserId(messages.getUserId());
+					dcpsContributionEntity.setUpdatedPostId(messages.getUserId());
+				}
+				onlineContributionRepo.saveDcpsContributionEntity(dcpsContributionEntity);
+			}
+		}
+		return save;
+	}
+
+	@Override
+	public Integer addDcpsVoucherDtl(Map<String, String> formData, OrgUserMst messages) {
+		// TODO Auto-generated method stub
+		onlineContributionRepo.addMstDcpsContriVoucherDtlEntityVoucherDtl(formData,messages);
+		onlineContributionRepo.addDcpsContributionEntityVoucherDtl(formData,messages);
+		return 1;
+	}
+
+	@Override
+	public MstDcpsContriVoucherDtlEntity findMstDcpsContriVoucherDtlEntity(
+			DcpContributionModel dcpContributionModel) {
+		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionRepo
+				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
+		
+		return onlineContributionRepo
+				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
+	}
+
+	@Override
+	public Integer rejectContribution(Map<String, String> formData, OrgUserMst messages) {
+		return onlineContributionRepo.rejectContribution(formData,messages);
 	}
 }
 

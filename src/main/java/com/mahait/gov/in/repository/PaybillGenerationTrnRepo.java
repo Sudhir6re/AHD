@@ -4,8 +4,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.mahait.gov.in.entity.AllowanceDeductionRuleMstEntity;
+import com.mahait.gov.in.entity.DcpsContributionEntity;
+import com.mahait.gov.in.entity.LoanEmployeeDtlsEntity;
+import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.PaybillGenerationTrnDetails;
@@ -75,6 +79,11 @@ public interface PaybillGenerationTrnRepo {
 	public String getEmpCadre(String sevaarthId, Long empClass);
 	public Long saveBulkPaybillDetail(List<PaybillGenerationTrnDetails> lstPaybillGenerationTrnDetails);
 	public double findSumContribution(String sevaarthId, String paymentType, Integer monthId, Integer yearId, String string);
+	public Optional<MstDcpsContriVoucherDtlEntity> findMstDcpsContriVoucherDtlEntity(
+			PaybillGenerationTrnEntity paybillGenerationTrnEntity);
+	public void updateMstDcpsContriVoucherDtlEntity(MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity);
+	public void updateMstDcpsContriVoucherDtlEntity(DcpsContributionEntity dcpsContributionEntity);
+	public LoanEmployeeDtlsEntity fetchLoanDtls(String sevaarthId, int allowDeducCode);
 	
 /*	public void saveFaDtlsTrn(FaLoanDtlsTrnEntity faLoanDtlsTrnEntity);
 	public void saveCaDtlsTrn(CaLoanDtlsTrnEntity caLoanDtlsTrnEntity);

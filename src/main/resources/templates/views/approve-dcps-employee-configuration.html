@@ -23,7 +23,11 @@ input[type="Date"] {
 	border-color: green;
 }
 
-ul.nav.nav-tabs li.active a, .nav-tabs>li>a:hover {
+input#uid1, input#uid2, input#uid3 {
+	width: 28% !important;
+}
+
+.nav.nav-tabs li.active	a, .nav-tabs>li>a:hover {
 	background: #ffbb55 !important;
 }
 
@@ -43,9 +47,7 @@ input#uid1, input#uid2, input#uid3 {
 }
 </style>
 </head>
-<body ng-app="empConfigurationApp"
-	ng-controller="empConfigurationController"
-	class="approve-dcps-employee-configuration">
+<body class="approve-dcps-employee-configuration">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 
@@ -161,31 +163,30 @@ input#uid1, input#uid2, input#uid3 {
 								<legend> Photo/Signature</legend>
 							</fieldset>
 							<div th:replace="views/approve-emp-config-tabs ::PhotoSignature "></div>
-
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
 						</div>
+					</div>
+					<hr />
+					<div class="form-group text-center">
 						<hr />
-						<div class="form-group text-center">
-							<hr />
-							<input type="button" id="btnPrevious" name="btnPrevious"
-								value="Previous" class="btn" /> <input type="button"
-								id="btnNext" name="btnNext" value="Next" class="btn" /> <input
-								type="button" id="btnSave" class="btn btn-primary"
-								th:value="#{msg.thymeleaf.pagelabel.approve}"
-								th:onclick="'approveDcpsEmpDtls();'" />
-							<!-- 							ng-click="saveAsDraft();" /> -->
-							<input type="button" class="btn btn-primary rejectbtnn"
-								th:value="#{msg.thymeleaf.pagelabel.reject}"
-								th:onclick="'rejectEmpDtls();'" /> <span
-								th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}"> <input
-								type="button" class="btn btn-primary"
-								th:value="#{msg.thymeleaf.pagelabel.printformone}"
-								th:onclick="'empDtlsReport();'" />
-							</span> <input type="button" name="btnCancel" onclick="history.back()"
-								id="btnCancel" value="Cancel" class="buttontag">
+						<input type="button" id="btnPrevious" name="btnPrevious"
+							value="Previous" class="btn" /> <input type="button"
+							id="btnNext" name="btnNext" value="Next" class="btn" /> <input
+							type="button" id="btnSave" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.approve}"
+							th:onclick="'approveDcpsEmpDtls();'" />
+						<!-- 							ng-click="saveAsDraft();" /> -->
+						<input type="button" class="btn btn-primary rejectbtnn"
+							th:value="#{msg.thymeleaf.pagelabel.reject}"
+							th:onclick="'rejectEmpDtls();'" /> <span
+							th:if="${mstEmployeeModel.dcpsgpfflag == 'Y'}"> <input
+							type="button" class="btn btn-primary"
+							th:value="#{msg.thymeleaf.pagelabel.printformone}"
+							th:onclick="'empDtlsReport();'" />
+						</span> <input type="button" name="btnCancel" onclick="history.back()"
+							id="btnCancel" value="Cancel" class="buttontag">
 
-						</div>
-						<input type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" />
 					</div>
 				</div>
 			</form>
@@ -195,6 +196,7 @@ input#uid1, input#uid2, input#uid3 {
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 
 	<script th:src="@{/js/project/employee-configuration.js}"></script>
+	<script th:src="@{/js/tab-pre-next.js}"></script>
 	<script th:src="@{/js/project/census.js}"></script>
 
 	<script>

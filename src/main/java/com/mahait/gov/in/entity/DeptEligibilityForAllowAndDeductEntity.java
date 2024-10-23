@@ -69,6 +69,12 @@ public class DeptEligibilityForAllowAndDeductEntity {
 	@Column(name="formulas")
 	private String formulas;
 	
+	@Column(name="is_non_government")
+	private Integer isNonGovernment;
+	
+	@Column(name="is_Loan_Adv")
+	private Integer isLoanAdv;
+	
 	
 
 	

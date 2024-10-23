@@ -34,7 +34,8 @@
 								<table>
 									<tbody>
 										<tr>
-											<td align="left">Name of the Organization/Institution</td>
+											<td align="left" width="30%">Name of the
+												Organization/Institution</td>
 											<td align="left"><input type="text" size="100%"
 												name="txtNameOfOffice" id="txtNameOfOffice"
 												th:attr="readonly=${organisationDtlsModel.officeName!=null}? 'true' : 'false'"
@@ -109,7 +110,7 @@
 												class="mandatoryindicator">*</label></td>
 											<td width="15%" align="left">PIN</td>
 											<td width="35%"><input type="text" size="48"
-												th:field="*{pin}"
+												th:field="*{pin}" class="number"
 												th:attr="readonly=${organisationDtlsModel.pin!=null}? 'true' : 'false'"
 												name="txtPin" id="txtPin" maxlength="6"> <label
 												class="mandatoryindicator">*</label></td>
@@ -127,7 +128,7 @@
 											<td width="15%" align="left">Institution Number</td>
 											<td width="35%"><input type="text" size="48"
 												name="txtdiceCode" id="txtdiceCode" maxlength="11"
-												th:field="*{instiNo}"
+												th:field="*{instiNo}" class="number"
 												th:attr="readonly=${organisationDtlsModel.instiNo!=null}? 'true' : 'false'"></td>
 											<td width="15%" align="left">Percentage Of Grant
 												Applicable</td>
@@ -187,6 +188,7 @@
 							</fieldset>
 						</td>
 					</tr>
+					
 					<tr>
 						<td valign="top" align="center">
 							<table class="table bor-0">

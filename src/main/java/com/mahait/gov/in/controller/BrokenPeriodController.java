@@ -192,8 +192,8 @@ public class BrokenPeriodController  extends BaseController {
 
 		List<BrokenPeriodResponseModel> brokenPeriodResponseModel = new ArrayList<BrokenPeriodResponseModel>();
 
-		brokenPeriodResponseModel = brokenPeriodService.saveBrokenPeriodDAArrayPay(sevaarthid, brokenPeriodResponseModel,hmInputParam);
-//		brokenPeriodResponseModel = brokenPeriodService.saveBrokenPeriodPay(sevaarthid, brokenPeriodResponseModel,hmInputParam);
+		///brokenPeriodResponseModel = brokenPeriodService.saveBrokenPeriodDAArrayPay(sevaarthid, brokenPeriodResponseModel,hmInputParam);
+	brokenPeriodResponseModel = brokenPeriodService.saveBrokenPeriodPay(sevaarthid, brokenPeriodResponseModel,hmInputParam);
 		// brokenPeriodResponseModel =
 		// brokenPeriodService.brokenPeriod(sevaarthid,brokenPeriodResponseModel);
 		brokenPeriodResponseModel = null;
@@ -220,7 +220,7 @@ public class BrokenPeriodController  extends BaseController {
 		return brokenPeriodService.getSevaarthIdMappedWithBill(sevaarthid, monthName, yearName, messages.getUserName());
 	}
 
-	@RequestMapping("/calculateEmployeeSalaryBasedofBasic/{sevaarthid}/{empId}/{month}/{year}/{noOfDays}/{paybillMonth}/{paybillYear}/{basicForCalculation}/{fromDate}/{toDate}")
+	/*@RequestMapping("/calculateEmployeeSalaryBasedofBasic/{sevaarthid}/{empId}/{month}/{year}/{noOfDays}/{paybillMonth}/{paybillYear}/{basicForCalculation}/{fromDate}/{toDate}")
 	public @ResponseBody List<BrokenPeriodResponseModel> calculateEmployeeSalaryBasedofBasic(
 			@PathVariable String sevaarthid, @PathVariable String empId, @PathVariable String month,
 			@PathVariable String year, @PathVariable String noOfDays, @PathVariable String paybillMonth,
@@ -246,6 +246,6 @@ public class BrokenPeriodController  extends BaseController {
 		brokenPeriodResponseModel = brokenPeriodService.calculateEmployeeSalaryBasedofBasic(sevaarthid,
 				brokenPeriodResponseModel, hmInputParam);
 		return brokenPeriodResponseModel;
-	}
+	}*/
 
 }

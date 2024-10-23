@@ -14,6 +14,8 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.entity.CmnLookupMst;
+import com.mahait.gov.in.entity.MstCommonEntity;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstStateEntity;
@@ -37,27 +39,24 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 		// TODO Auto-generated method stub
 
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "select a.sevaarth_id,a.employee_full_name_en,to_char(a.doj,'dd/MM/YYYY') as DOJ, c.designation_name,d.ddo_code_level2,e.office_name,f.dcps_no,a.employee_id from employee_mst a      \r\n" + 
-				"    inner join designation_mst c on c.designation_code = a.designation_code      \r\n" + 
-				"    inner join ddo_map_rlt d on d.ddo_code_level1 = a.ddo_code      \r\n" + 
-				"    inner join ddo_reg_mst e on d.ddo_code_level1=e.ddo_code  \r\n" + 
-//				 "  inner join nominee_details_mst g on g.employee_id=a.employee_id    \r\n" + 
-				"    left join dcps_details_mst f on a.sevaarth_id=f.sevaarth_id and f.is_active='Y'       \r\n" + 
-				"     where a.billgroup_id is not null   and  dcps_gpf_flag ='Y' and a.is_mapped_with_nps='0' and a.is_active='1'\r\n" + 
-				"     and a.ddo_code='"+ddoCode+"' and a.employee_id not in (select employee_id from employee_nps_mst)order by a.employee_full_name_en"; //
-		Query query = currentSession.createSQLQuery(hql);  //and a.is_mapped_with_nps='0'
-		System.out.println("--hql-"+hql);
+		String hql = " select a.sevaarth_id,a.employee_full_name_en,a.doj,b.designation_name,a.ddo_code,c.off_name, " + 
+				" a.dcps_no,a.employee_id from employee_mst a inner join designation_mst b on b.designation_code = a.designation_code " + 
+				" inner join mst_dcps_ddo_office c on c.ddo_code = a.ddo_code   " + 
+				" inner join rlt_zp_ddo_map d on a.ddo_code=d.zp_ddo_code " + 
+				" where d.rept_ddo_code = :ddoCode and a.dcps_gpf_flag = 'Y'  " + 
+				" and a.employee_id not in (select employee_id from employee_nps_mst) "; //
+
+		Query query = currentSession.createSQLQuery(hql);
+		query.setParameter("ddoCode", ddoCode); // Use a parameterized query
+		System.out.println("--hql-" + hql);
 		return query.list();
 	}
 
 	@Override
 	public MstEmployeeEntity findEmployeeBySevaarthId(Long empId) {
 
-		// TypedQuery<MstEmployeeEntity> query = entityManager.createQuery( "SELECT e
-		// FROM MstEmployeeEntity e JOIN e.mstNomineeDetailsEntity ph ",
-		// MstEmployeeEntity.class);
 		TypedQuery<MstEmployeeEntity> query = entityManager.createQuery(
-				"SELECT a FROM MstEmployeeEntity a INNER JOIN a.mstNomineeDetailsEntity b  where a.employeeId=" + empId,
+				"SELECT a FROM MstEmployeeEntity a where a.employeeId=" + empId,
 				MstEmployeeEntity.class);
 		List<MstEmployeeEntity> resultList = query.getResultList();
 
@@ -83,10 +82,10 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 	}
 
 	@Override
-	public int saveCSRF(MstEmployeeNPSEntity mstEmployeeNPSEntity) {
-		int saveId=0;
+	public Long saveCSRF(MstEmployeeNPSEntity mstEmployeeNPSEntity) {
+		Long saveId = 0l;
 		Session currentSession = entityManager.unwrap(Session.class);
-		saveId=(int) currentSession.save(mstEmployeeNPSEntity);
+		saveId = (Long) currentSession.save(mstEmployeeNPSEntity);
 		return saveId;
 	}
 
@@ -129,7 +128,8 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 	@Override
 	public List<MstEmployeeNPSEntity> getEmpDataForTextFile(String userName, int countEmp) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "FROM MstEmployeeNPSEntity as t where t.pranNo is null and  t.ddoCode='" + userName + "'ORDER BY t.createdDate ";
+		String HQL = "FROM MstEmployeeNPSEntity as t where t.pranNo is null and  t.ddoCode='" + userName
+				+ "'ORDER BY t.createdDate ";
 		List<MstEmployeeNPSEntity> lstMstEmployeeNPSEntity = (List<MstEmployeeNPSEntity>) entityManager.createQuery(HQL)
 				.setMaxResults(countEmp).getResultList();
 		return lstMstEmployeeNPSEntity;
@@ -142,8 +142,8 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 		// '"+userName+"'";
 		String hql = "From ZpRltDdoMap as t where t.zpDdoCode='" + userName + "'";
 		Query query = currentSession.createSQLQuery(hql);
-		List<ZpRltDdoMap> lstWorkflowCharterAssignWithDDOEntity = (List<ZpRltDdoMap>) entityManager
-				.createQuery(hql).getResultList();
+		List<ZpRltDdoMap> lstWorkflowCharterAssignWithDDOEntity = (List<ZpRltDdoMap>) entityManager.createQuery(hql)
+				.getResultList();
 		String strDDO = lstWorkflowCharterAssignWithDDOEntity.stream().map(m -> m.getReptDdoCode()).findFirst()
 				.orElse("0");
 		return strDDO;
@@ -167,15 +167,14 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		// String hql = "SELECT ddo_code_level2 FROM ddo_map_rlt where ddo_code_level1 =
 		// '"+userName+"'";
-		String hql = "select basic_pay,seven_pc_basic,seven_pc_level,case when a.pay_commission_code=8 then pay_in_payband else b.scale_desc end as scale_desc,c.group_name_en from employee_mst a " + 
-				"left join pay_scale_sixpc_mst b on a.pay_scale_code=b.pay_scale_code " + 
-				"left join payband_gp_state_7pc d on d.level_id=a.seven_pc_level " + 
-				"inner join cadre_group_mst c on c.id=a.emp_class where a.sevaarth_id='"
-				+ sevaarthId +"'";
-		
+		String hql = "select basic_pay,seven_pc_basic,seven_pc_level,case when a.pay_commission_code=8 then pay_in_payband else b.scale_desc end as scale_desc,c.group_name_en from employee_mst a "
+				+ "left join pay_scale_sixpc_mst b on a.pay_scale_code=b.pay_scale_code "
+				+ "left join payband_gp_state_7pc d on d.level_id=a.seven_pc_level "
+				+ "inner join cadre_group_mst c on c.id=a.emp_class where a.sevaarth_id='" + sevaarthId + "'";
+
 		System.out.println("getempData--------" + hql);
 		Query query = currentSession.createSQLQuery(hql);
-	
+
 		return query.list();
 	}
 
@@ -212,13 +211,14 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 		return count;
 	}
 
-	//finding single object with non-primary key column
+	// finding single object with non-primary key column
 	@Override
 	public MstEmployeeNPSEntity getEmployeeNPSEntity(Integer employeeId) {
 		System.out.println(employeeId);
 		MstEmployeeNPSEntity mstEmployeeNPSEntity;
 		Session currentSession = entityManager.unwrap(Session.class);
-	//	String HQL = "FROM MstEmployeeNPSEntity as t where sevaarthId='" + sevaarthId + "'";
+		// String HQL = "FROM MstEmployeeNPSEntity as t where sevaarthId='" + sevaarthId
+		// + "'";
 		Query<MstEmployeeNPSEntity> query = currentSession.createQuery(
 				"FROM MstEmployeeNPSEntity as t where t.employeeId=:employeeId", MstEmployeeNPSEntity.class);
 		query.setParameter("employeeId", employeeId);
@@ -230,25 +230,42 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 	public int saveTrnNpsRegFile(TrnNpsRegFileEntity trnNpsRegFile) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		Serializable saveId = currentSession.save(trnNpsRegFile);
 		return (Integer) saveId;
 	}
 
+	
 	@Override
 	public String getPayScale(Long payScaleCode) {
-		// TODO Auto-generated method stub
-		Session currentSession = entityManager.unwrap(Session.class);
-		List list = new ArrayList();
-		String  rtnStr = null;
-		StringBuffer query = new StringBuffer();
-		query.append("select scale_desc from pay_scale_sixpc_mst  where pay_scale_code="+payScaleCode);
-		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
-		list = hsqlQuery.list();
-		if (list != null && list.size() >= 0)
-			rtnStr = (String) list.get(0);
-		return rtnStr;
+	    Session currentSession = entityManager.unwrap(Session.class);
+	    String rtnStr = null;
+
+	    // First query to get the scale description based on pay_scale_code
+	    String query = "SELECT scale_desc FROM pay_scale_sixpc_mst WHERE pay_scale_code = :payScaleCode";
+	    Query hsqlQuery = currentSession.createSQLQuery(query);
+	    hsqlQuery.setParameter("payScaleCode", payScaleCode);
+	    
+	    List<String> list = hsqlQuery.list();
+
+	    // If no result found, attempt to get the scale description using scale_id_old
+	    if (list.isEmpty()) {
+	        String query1 = "SELECT scale_desc FROM pay_scale_sixpc_mst WHERE scale_id_old = :payScaleCode";
+	        Query hsqlQuery1 = currentSession.createSQLQuery(query1);
+	        hsqlQuery1.setParameter("payScaleCode", payScaleCode);
+	        
+	        List<String> list1 = hsqlQuery1.list();
+	        
+	        if (!list1.isEmpty()) {
+	            rtnStr = list1.get(0);
+	        }
+	    } else {
+	        rtnStr = list.get(0);
+	    }
+	    
+	    return rtnStr;
 	}
+
 
 	@Override
 	public TrnNpsRegFileEntity findTrnNpsFileEntityById(Integer id) {
@@ -266,8 +283,8 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 	@Override
 	public List<Object[]> findNpsIdByAckNo(String ackNo) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "select nps_id,id from trn_nps_reg_file where   ack_no='"+ackNo+"'"; //
-		Query query = currentSession.createSQLQuery(hql);  
+		String hql = "select nps_id,id from trn_nps_reg_file where   ack_no='" + ackNo + "'"; //
+		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
 	}
 
@@ -302,9 +319,7 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 				MstEmployeeEntity.class);
 		List<MstEmployeeEntity> resultList = query.getResultList();
 
-	
-		
-		for(MstEmployeeEntity mstEmployeeEntity:resultList) {
+		for (MstEmployeeEntity mstEmployeeEntity : resultList) {
 			MstEmployeeNPSModel mstEmployeeNPSModel = new MstEmployeeNPSModel();
 			mstEmployeeNPSModel.setEmployeeId(mstEmployeeEntity.getEmployeeId());
 			mstEmployeeNPSModel.setDdoCode(mstEmployeeEntity.getDdoCode());
@@ -338,54 +353,53 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 			mstEmployeeNPSModel.setEmpMobileNo(mstEmployeeEntity.getMobileNo1().toString());
 			mstEmployeeNPSModel.setEmpEmailId(mstEmployeeEntity.getEmailId());
 			mstEmployeeNPSModel.setEmployeeMaritalStatus(mstEmployeeEntity.getMaritalStatus().toString());
-			mstEmployeeNPSModel.setCountry(mstEmployeeEntity.getCountry()); 
-			mstEmployeeNPSModel.setEmployeeGender(mstEmployeeEntity.getGender()); 
+			mstEmployeeNPSModel.setCountry(mstEmployeeEntity.getCountry());
+			mstEmployeeNPSModel.setEmployeeGender(mstEmployeeEntity.getGender());
 			mstEmployeeNPSModel.setEmployeeSpouseName(mstEmployeeEntity.getEmployeeSpouseName());
 			mstEmployeeNPSModel.setEmployeeAadhar(mstEmployeeEntity.getUidNo());
 			mstEmployeeNPSModel.setAddress1(mstEmployeeEntity.getAddress1());
 			mstEmployeeNPSModel.setAddress2(mstEmployeeEntity.getAddress2());
-			
+
 			return mstEmployeeNPSModel;
 		}
-		
+
 		return null;
 
-	
 	}
 
 	@Override
 	public String getStateName(String empState) {
 		// TODO Auto-generated method stub.
 		Session currentSession = entityManager.unwrap(Session.class);
-	/*	Query<MstStateEntity> query = currentSession.createQuery(
-				"FROM MstStateEntity as t where t.StateId=:empState", MstStateEntity.class);*/
-		
+		/*
+		 * Query<MstStateEntity> query = currentSession.createQuery(
+		 * "FROM MstStateEntity as t where t.StateId=:empState", MstStateEntity.class);
+		 */
+
 		String HQL = "FROM CmnStateMst as t where t.stateId='" + empState + "' ";
-		
-		List<MstStateEntity> lstMstNomineeDetailsEntity = (List<MstStateEntity>) entityManager
-				.createQuery(HQL).getResultList();
-	     return 	lstMstNomineeDetailsEntity.get(0).getStateNameEn();
-		
-		
-	
+
+		List<MstStateEntity> lstMstNomineeDetailsEntity = (List<MstStateEntity>) entityManager.createQuery(HQL)
+				.getResultList();
+		return lstMstNomineeDetailsEntity.get(0).getStateNameEn();
+
 	}
 
 	@Override
 	public List<Object[]> viewCSRFPhotoSign(int empId) {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
-		String hql = "select employee_photo_attachment,employee_sign_attachment from employee_nps_mst where   employee_id="+empId; //
-		Query query = currentSession.createSQLQuery(hql);  
+		String hql = "select employee_photo_attachment,employee_sign_attachment from employee_nps_mst where   employee_id="
+				+ empId; //
+		Query query = currentSession.createSQLQuery(hql);
 		return query.list();
-		
-	}
 
+	}
 
 	@Override
 	public Long getNextSeqNum(String seqName) {
 		// TODO Auto-generated method stub
-		Long value = Long
-				.parseLong(entityManager.createNativeQuery("select nextval('" + seqName + "')").getSingleResult().toString());
+		Long value = Long.parseLong(
+				entityManager.createNativeQuery("select nextval('" + seqName + "')").getSingleResult().toString());
 		return value;
 	}
 
@@ -398,7 +412,7 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 				.getSingleResult().toString());
 		return value;
 	}
-	
+
 	@Override
 	public String getDtoRegNumber(String ddoLevel2) {
 		// TODO Auto-generated method stub
@@ -422,7 +436,6 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 
 	}
 
-	
 	@Override
 	public NSDLBHDtlsEntity findBHEntityById(Integer bhId) {
 		// TODO Auto-generated method stub
@@ -442,12 +455,13 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 		List list = new ArrayList();
 		int rtnStr = 0;
 		StringBuffer query = new StringBuffer();
-		query.append("select treasury_office_id from ddo_reg_mst where  ddo_code ='"+userName+"'");
+		query.append("select treasury_office_id from ddo_reg_mst where  ddo_code ='" + userName + "'");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)
 			rtnStr = (int) list.get(0);
-		return rtnStr;}
+		return rtnStr;
+	}
 
 	@Override
 	public Object saveOrUpdate(@Valid MstEmployeeEntity mstEmployeeEntity) {
@@ -456,5 +470,50 @@ public class CSRFFormRepoImpl implements CSRFFormRepo {
 		return null;
 	}
 
+	@Override
+	public List<CmnLookupMst> findCityClass() {
+		String HQL = "FROM CmnLookupMst as t  WHERE t.parentLookupId='700017' ORDER BY t.lookupId ";
+		return (List<CmnLookupMst>) entityManager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<MstNomineeDetailsEntity> findNomineeDtls(Long employeeId) {
+		String HQL = "FROM MstNomineeDetailsEntity as t  WHERE t.employeeId='"+employeeId+"' ORDER BY t.nomineeid ";
+		return (List<MstNomineeDetailsEntity>) entityManager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public String findBankName(Long bankCode) {
+		// TODO Auto-generated method stub
+
+		Session currentSession = entityManager.unwrap(Session.class);
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select bank_name from bank_mst where bank_code = '"+bankCode+"'");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+		if (list != null && list.size() > 0)
+			rtnStr = (String) list.get(0);
+		return rtnStr;
+
+	}
+
+	@Override
+	public String findBankBranchName(Long bankBranchCode) {
+		// TODO Auto-generated method stub
+
+		Session currentSession = entityManager.unwrap(Session.class);
+		List list = new ArrayList();
+		String rtnStr = null;
+		StringBuffer query = new StringBuffer();
+		query.append("select bank_branch_name from bank_branch_mst where bank_branch_code = '"+bankBranchCode+"'");
+		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
+		list = hsqlQuery.list();
+		if (list != null && list.size() > 0)
+			rtnStr = (String) list.get(0);
+		return rtnStr;
+
+	}
 
 }

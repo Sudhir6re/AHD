@@ -25,7 +25,7 @@ public class MstEmployeeNPSEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="employee_nps_id")
-	private Integer employeeNPSId;
+	private Long employeeNPSId;
 	
 
 	@Column(name="employee_id")

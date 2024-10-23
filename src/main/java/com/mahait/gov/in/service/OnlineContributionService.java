@@ -2,10 +2,13 @@ package com.mahait.gov.in.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.mahait.gov.in.entity.CmnLocationMst;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstDcpsBillGroup;
+import com.mahait.gov.in.entity.MstDcpsContriVoucherDtlEntity;
+import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.DcpContributionModel;
 import com.mahait.gov.in.model.MstSchemeModel;
@@ -31,6 +34,16 @@ public interface OnlineContributionService {
 	List<CmnLocationMst> findTreasuryList(OrgUserMst messages);
 
 	List<MstDcpsBillGroup> findBillgroupList(OrgUserMst messages, Integer regStatus);
+
+	List<OrgDdoMst> getAllForwardedDdo(OrgUserMst messages);
+
+	Long approveOnlineContriEntry(DcpContributionModel dcpContributionModel, OrgUserMst messages);
+
+	Integer addDcpsVoucherDtl(Map<String, String> formData, OrgUserMst messages);
+
+	MstDcpsContriVoucherDtlEntity findMstDcpsContriVoucherDtlEntity(DcpContributionModel dcpContributionModel);
+
+	Integer rejectContribution(Map<String, String> formData, OrgUserMst messages);
 
 
 

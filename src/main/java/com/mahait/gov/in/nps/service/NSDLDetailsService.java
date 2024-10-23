@@ -2,10 +2,12 @@ package com.mahait.gov.in.nps.service;
 
 import java.util.List;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.nps.entity.MstEmployeeNPSEntity;
 import com.mahait.gov.in.nps.entity.NSDLBHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLDHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLSDDtlsEntity;
+import com.mahait.gov.in.nps.model.DdoWiseNpsContriModel;
 import com.mahait.gov.in.nps.model.NSDLDetailsModel;
 
 public interface NSDLDetailsService {
@@ -32,6 +34,7 @@ public interface NSDLDetailsService {
 	void updateBatchId(String batchId, List finalNpdId);
 	List<Object[]> getNsdlEmpDataLevelwise(int month, int year, String userName);
 	List<NSDLDetailsModel> getEmployeeListNsdl1(Integer year, Integer month, String ddoCode);
+	List<DdoWiseNpsContriModel> searchDdoWiseContribution(int month, int year, OrgUserMst messages);
 	
 	
 

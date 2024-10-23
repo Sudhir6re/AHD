@@ -63,12 +63,12 @@ import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.controller.BaseController;
-import com.mahait.gov.in.entity.MstCommonEntity;
+import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
+import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstStateModel;
-import com.mahait.gov.in.model.TopicModel;
 import com.mahait.gov.in.nps.entity.MstEmployeeNPSEntity;
 import com.mahait.gov.in.nps.entity.TrnNpsRegFileEntity;
 import com.mahait.gov.in.nps.model.CSRFFormModel;
@@ -144,17 +144,14 @@ public class CSRFFormController  extends BaseController{
 			}
 		}
 		model.addAttribute("language", locale.getLanguage());
-		model.addAttribute("lstEmpList", csrfFormService.findAllEmployees(messages.getUserName()));
-		return "/views/CSRF-form";
+		model.addAttribute("lstEmpList", csrfFormService.findAllEmployees(messages.getDdoCode()));
+		return "/views/nps/CSRF-form";
 	}
 
 	@GetMapping("/updateCSRFForm/{empId}")
 	public ModelAndView updateCSRFForm(HttpServletRequest request, Model model, HttpServletResponse response,
 			Locale locale, HttpSession session,
 			@ModelAttribute("mstEmployeeEntity") MstEmployeeEntity mstEmployeeEntity, @PathVariable Long empId) {
-		
-	
-		
 		
 		
 		String message = (String) model.asMap().get("message");
@@ -164,13 +161,9 @@ public class CSRFFormController  extends BaseController{
 
 		addMenuAndSubMenu(model, messages);
 		
-	//	modelAndView.addObject("sessionMessages", messages.getUser_id());
-	//	modelAndView.addObject("userName", messages.getFullName());
 		modelAndView.addObject("context", request.getContextPath());
 	
-
-		List<MstCommonEntity> cityClassList = new ArrayList<>();
-		cityClassList = commonHomeMethodsService.findCommonMstByCommonCode("CITYCLASS");
+		List<CmnLookupMst> cityClassList = csrfFormService.findCityClass();
 		model.addAttribute("cityClassList", cityClassList);
 
 		model.addAttribute("lstGISGroup", mstEmployeeService.getGISGroup());
@@ -180,9 +173,9 @@ public class CSRFFormController  extends BaseController{
 		for (Iterator iterator = listState.iterator(); iterator.hasNext();) {
 			Object[] objects = (Object[]) iterator.next();
 			MstStateModel mstStateModel = new MstStateModel();
-			if (objects[3] != null)
-				mstStateModel.setStateCode(Integer.parseInt(String.valueOf(objects[3])));
-			mstStateModel.setStateNameEn(String.valueOf(objects[2]));
+			if (objects[0] != null)
+				mstStateModel.setStateCode(Integer.parseInt(String.valueOf(objects[0])));
+			mstStateModel.setStateNameEn(String.valueOf(objects[1]));
 			listStatemdl.add(mstStateModel);
 		}
 
@@ -190,7 +183,7 @@ public class CSRFFormController  extends BaseController{
 		mstEmployeeEntity = csrfFormService.findEmployeeBySevaarthId(empId);
 		System.out.println("--------------" + mstEmployeeEntity);
 		String payScaleDesc = null;
-		if (mstEmployeeEntity.getPayCommissionCode() == 8) {
+		if (mstEmployeeEntity.getPayCommissionCode() == 700005) {
 			payScaleDesc = "S_" + mstEmployeeEntity.getSevenPcLevel();
 		} else {
 			payScaleDesc = csrfFormService.getPayScale(mstEmployeeEntity.getPayScaleCode());
@@ -214,40 +207,10 @@ public class CSRFFormController  extends BaseController{
 		}
 		model.addAttribute("lstAllDistrict", listDistrictemdl);
 		model.addAttribute("lstAllBankList", mstBankService.lstAllBank());
+		model.addAttribute("lstAllBankBranch", commonHomeMethodsService.findbankBranch());
 
-		MstEmployeeNPSEntity mstEmployeeNPSEntity = csrfFormService.findEmployeeDtlsBySevaarthId(empId);
-
-		if (mstEmployeeNPSEntity != null) {
-			mstEmployeeEntity.setBuildingName(mstEmployeeNPSEntity.getBuildingName());
-			mstEmployeeEntity.setFlatUnitNo(mstEmployeeNPSEntity.getFlatUnitNo());
-			mstEmployeeEntity.setLocality(mstEmployeeNPSEntity.getLocality());
-			mstEmployeeEntity.setDistrict(mstEmployeeNPSEntity.getDistrict());
-			mstEmployeeEntity.setState(mstEmployeeNPSEntity.getState());
-			mstEmployeeEntity.setPinCode(mstEmployeeNPSEntity.getPinCode());
-			mstEmployeeEntity.setEmpPermanentBuildingName(mstEmployeeNPSEntity.getEmpPermanentBuildingName());
-			mstEmployeeEntity.setEmpPermanentFlatUnitNo(mstEmployeeNPSEntity.getEmpPermanentFlatUnitNo());
-			mstEmployeeEntity.setEmpPermanentLocality(mstEmployeeNPSEntity.getEmpPermanentLocality());
-			mstEmployeeEntity.setEmpPermanentDistrict(mstEmployeeNPSEntity.getEmpPermanentDistrict());
-			mstEmployeeEntity.setEmpPermanentState(mstEmployeeNPSEntity.getEmpPermanentState());
-			mstEmployeeEntity.setEmpPermanentPinCode(mstEmployeeNPSEntity.getEmpPermanentPinCode());
-			mstEmployeeEntity.setEmployeeBankName(mstEmployeeNPSEntity.getEmployeeBankName());
-			mstEmployeeEntity.setEmployeeBankBranchName(mstEmployeeNPSEntity.getEmployeeBankBranchName());
-			mstEmployeeEntity.setEmployeeBankBankAddress(mstEmployeeNPSEntity.getEmployeeBankBankAddress());
-			mstEmployeeEntity.setEmployeeBankPinCode(mstEmployeeNPSEntity.getEmployeeBankPinCode());
-			mstEmployeeEntity.setIfscCode(mstEmployeeNPSEntity.getIFSCCode());
-			mstEmployeeEntity.setEmployeeMotherName(mstEmployeeNPSEntity.getEmployeeMotherName());
-			mstEmployeeEntity.setEmployeeFatherHubandName(mstEmployeeNPSEntity.getEmployeeFatherHubandName());
-			mstEmployeeEntity.setEmployeeBirthPlace(mstEmployeeNPSEntity.getEmployeeBirthPlace());
-			mstEmployeeEntity.setEmployeeSpouseName(mstEmployeeNPSEntity.getEmployeeSpouseName());
-			mstEmployeeEntity.setPpanNo(mstEmployeeNPSEntity.getPpanNo());
-		}
-		if (mstEmployeeEntity.getGender() == '1') {
-			mstEmployeeEntity.setGender('M');
-		} else if (mstEmployeeEntity.getGender() == '2') {
-			mstEmployeeEntity.setGender('F');
-		} else if (mstEmployeeEntity.getGender() == '3') {
-			mstEmployeeEntity.setGender('T');
-		}
+		List<MstNomineeDetailsEntity> mstNomineeDetailsEntity = csrfFormService.findNomineeDtls(empId);
+		mstEmployeeEntity.setMstNomineeDetailsEntity(mstNomineeDetailsEntity);
 
 		if (mstEmployeeEntity.getPayCommissionCode() == 8) {
 			model.addAttribute("basicsalary", mstEmployeeEntity.getSevenPcBasic());
@@ -256,10 +219,16 @@ public class CSRFFormController  extends BaseController{
 					mstEmployeeEntity.getBasicPay() + mstEmployeeEntity.getGradePay().doubleValue());
 
 		}
+		
+		String bankName = csrfFormService.findBankName(mstEmployeeEntity.getBankCode());
+		String bankBranchName = csrfFormService.findBankBranchName(mstEmployeeEntity.getBankBranchCode());
 		model.addAttribute("lstAllDistrict", listDistrictemdl);
 		model.addAttribute("paycomission", mstEmployeeEntity.getPayCommissionCode());
 		modelAndView.addObject("mstEmployeeEntity", mstEmployeeEntity);
-		modelAndView.setViewName("/views/UpdateCSRF-Form");
+		modelAndView.addObject("mstNomineeDetailsEntity", mstNomineeDetailsEntity);
+		modelAndView.addObject("employeeBankName", bankName);
+		modelAndView.addObject("employeeBankBranchName", bankBranchName);
+		modelAndView.setViewName("/views/nps/UpdateCSRF-Form");
 		return modelAndView;
 	}
 
@@ -269,8 +238,8 @@ public class CSRFFormController  extends BaseController{
 			Locale locale, @RequestParam("files") MultipartFile[] files) {
 
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		String ddoLevel2 = csrfFormService.getDDOLevel2FromDDO1(messages.getUserName());
-		int mstEmployeeNPSResponse = csrfFormService.saveCSRF(mstEmployeeEntity, files, ddoLevel2);
+		String ddoLevel2 = csrfFormService.getDDOLevel2FromDDO1(messages.getDdoCode());
+		Long mstEmployeeNPSResponse = csrfFormService.saveCSRF(mstEmployeeEntity, files, ddoLevel2);
 
 		/* if(afterSaveId > 0) { */
 		if (mstEmployeeNPSResponse > 0) {
@@ -282,7 +251,7 @@ public class CSRFFormController  extends BaseController{
 		}
 		// model.addAttribute("lstDeptDataTable",
 		// mstDepartmentService.findAllDepartment());
-		return "redirect:/level1/mstCSRFForm"; /* redirects to controller URL */
+		return "redirect:/ddo/mstCSRFForm"; /* redirects to controller URL */
 	}
 
 	@GetMapping("/ApprovedCSRFFormEmp")

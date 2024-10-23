@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.nps.entity.MstEmployeeNPSEntity;
@@ -23,7 +24,7 @@ public interface CSRFFormService {
 
 	public List<MstNomineeDetailsEntity> findNomineeBySevaarthId(int sevaarthId);
 
-	public int saveCSRF(MstEmployeeEntity mstEmployeeEntity,MultipartFile[] files,String ddoLevel2);
+	public Long saveCSRF(MstEmployeeEntity mstEmployeeEntity,MultipartFile[] files,String ddoLevel2);
 
 	public MstEmployeeNPSEntity findEmployeeDtlsBySevaarthId(Long empId);
 
@@ -74,6 +75,14 @@ public interface CSRFFormService {
 	public int gettrano(String userName);
 
 	public void updatemstEmployeeEntity(@Valid MstEmployeeEntity mstEmployeeEntity);
+
+	public List<CmnLookupMst> findCityClass();
+
+	public List<MstNomineeDetailsEntity> findNomineeDtls(Long empId);
+
+	public String findBankName(Long bankCode);
+
+	public String findBankBranchName(Long bankBranchCode);
 
 	
 }

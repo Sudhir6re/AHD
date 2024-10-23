@@ -29,15 +29,15 @@ public class ViewConsolidatePayBillRepoImpl implements ViewConsolidatePayBillRep
 		
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		String HQL = "select cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,sum (a.bill_gross_amt) as bill_gross_amt,sum (a.bill_net_amount) as bill_net_amount,\r\n" + 
-				"cpt.is_active from consolidate_paybill_trn cpt inner join consolidate_paybill_trn_mpg cptm on cpt.consolidate_paybill_trn_id = cptm.consolidate_paybill_trn_id\r\n" + 
-				"inner join paybill_generation_trn a on cptm.paybill_generation_trn_id = a.paybill_generation_trn_id \r\n" + 
-				"inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id \r\n" + 
-				"inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code \r\n" + 
-				"inner join org_ddo_mst cccc on a.ddo_code = cccc.ddo_code where c.rept_ddo_code ='"+ddoCode+"'\r\n" + 
-				"and a.is_active in (9) and cpt.is_active not in (13) and cpt.paybill_year ="+yearName+"  and cpt.paybill_month ="+monthName+"  \r\n" + 
-				"group by cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,cpt.is_active \r\n" + 
-				"order by cpt.consolidate_paybill_trn_id desc" ;
+		String HQL = " select cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,  sum (cpt.gross_amt) as gross_amt,sum (cpt.net_amt) as net_amt, " + 
+				" cpt.is_active from consolidate_paybill_trn cpt inner join consolidate_paybill_trn_mpg cptm on cpt.consolidate_paybill_trn_id = cptm.consolidate_paybill_trn_id " + 
+				" inner join paybill_generation_trn a on cptm.paybill_generation_trn_id = a.paybill_generation_trn_id  " + 
+				" inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id  " + 
+				" inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code  " + 
+				" inner join org_ddo_mst cccc on a.ddo_code = cccc.ddo_code where c.rept_ddo_code ='"+ddoCode+"' " + 
+				" and a.is_active in (9,11,14) and cpt.is_active not in (13) and cpt.paybill_year ="+yearName+"  and cpt.paybill_month ="+monthName+"   " + 
+				" group by cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,cpt.is_active  " + 
+				" order by cpt.consolidate_paybill_trn_id desc" ;
 				
 		Query query = currentSession.createSQLQuery(HQL);
 		System.out.println("-------findAllConsolidatedPaybillList--"+query);
@@ -110,7 +110,7 @@ public class ViewConsolidatePayBillRepoImpl implements ViewConsolidatePayBillRep
 				" inner join mst_dcps_bill_group b on a.scheme_billgroup_id = b.bill_group_id " + 
 				" inner join rlt_zp_ddo_map c on b.ddo_code = c.zp_ddo_code " + 
 				" inner join org_ddo_mst cccc on a.ddo_code = cccc.ddo_code where c.rept_ddo_code ='"+ddoCode+"'" + 
-				" and a.is_active in (9) and cpt.is_active not in (13) and cpt.paybill_year ="+yearName+"  and cpt.paybill_month ="+monthName+"  " + 
+				" and a.is_active in (9,11,14) and cpt.is_active not in (13) and cpt.paybill_year ="+yearName+"  and cpt.paybill_month ="+monthName+"  " + 
 				" group by cpt.consolidate_paybill_trn_id,b.scheme_code,b.scheme_name,cpt.is_active " + 
 				" order by cpt.consolidate_paybill_trn_id desc";
 		

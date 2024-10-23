@@ -38,7 +38,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 			<input type="hidden" th:field="*{useType}" id="Use" value="ViewAll" />
 			<input type="hidden" th:field="*{action}" id="action" /> <input
 				type="hidden" th:value="${message}" id="message" /> <input
-				type="hidden" th:field="*{locId}" id="locId" />
+				type="hidden" th:field="*{locId}" id="locId" /> <input
+				type="hidden" id="deleteDcpContributionId"
+				th:field="*{deleteDcpContributionId}" name="deleteDcpContributionId" />
 
 
 
@@ -104,9 +106,14 @@ div#tblEmpDtlsBody\ table-responsive th {
 								</select></td>
 								<td width="15%"><b>Scheme</b></td>
 								<td width="35%"><input type="hidden" name="schemeCode"
-									th:field="*{schemeCode}" id="schemeCode"> <input
-									type="text" name="txtSchemeName" id="txtSchemeName"> <label
-									class="mandatoryindicator">*</label></td>
+									th:field="*{schemeCode}" id="schemeCode">
+									
+									 <input
+									type="text" name="txtSchemeName"   
+									th:field="*{schemeName}" id="txtSchemeName"> <label
+									class="mandatoryindicator"   >*</label>
+									
+									</td>
 							</tr>
 							<!-- 	<tr>
 								<td width="15%"><b>Sub Scheme</b></td>
@@ -116,8 +123,9 @@ div#tblEmpDtlsBody\ table-responsive th {
 							</tr> -->
 							<tr>
 								<td width="15%"><b>Pay Month</b></td>
-								<td width="30%"><select name="monthId"
-									th:field="*{monthId}" id="monthId"
+								<td width="30%">
+								<select name="monthId"
+									th:field="*{monthId}" id="monthId1"
 									class="form-control removeErrorFromDropdown">
 										<option selected="selected" th:value="0"
 											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -297,13 +305,11 @@ div#tblEmpDtlsBody\ table-responsive th {
 
 									</td>
 									<td width="20%"><input type="date"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:id="${'startDate' + itemStat.index}"
 										class="startDate  removeErrorFromDate"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].startDate}">
 									</td>
 									<td width="20%"><input type="date"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:id="'endDate' + ${itemStat.index}"
 										class="endDate removeErrorFromDate"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].endDate}">
@@ -311,7 +317,6 @@ div#tblEmpDtlsBody\ table-responsive th {
 										<input type="hidden"
 										th:id="${'dcpContributionId' + itemStat.index}"
 										class="dcpContributionId endDate"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpContributionId}">
 
 									</td>
@@ -319,7 +324,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 									<td width="20%"><select
 										class="form-control  payCommission removeErrorFromDropdown"
 										th:id="${'payCommission' + itemStat.index}"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
+										
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].payCommission}">
 											<option th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -328,9 +333,8 @@ div#tblEmpDtlsBody\ table-responsive th {
 												th:text="${language=='mh' ? varPay.commission_name_mh : varPay.commission_name_en}"></option>
 									</select></td>
 
-									<td><select onchange="addMonthYearComboForDelayed();"
+									<td><select onchange="addMonthYearComboForDelayed();" readonly
 										th:id="${'typeOfPayment' + itemStat.index}"
-										th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"
 										class="form-control removeErrorFromDropdown typeOfPayment"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].typeOfPayment}">
 											<option selected="selected" th:value="0"
@@ -393,19 +397,44 @@ div#tblEmpDtlsBody\ table-responsive th {
 										th:data="${itemStat.index}"
 										th:data-dcpsNo="${dcpContributionModelRow.dcpsNO}"
 										th:data-dcpsEmpId="${dcpContributionModelRow.dcpEmpId}"
+										th:data-dcpContributionId="${dcpContributionModelRow.dcpContributionId}"
 										th:data-sevaarthId="${dcpContributionModelRow.sevaarthId}">Delete
 											Row</b></td>
 
-									<td width="20%"><span
-										th:switch="${dcpContributionModelRow.status}"> <span
+									<td width="20%">
+									<span
+										th:switch="${dcpContributionModelRow.regStatus}"> 
+									<span
 											th:case='-1'
 											th:class="'label label-danger text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
 
-											<span th:case="*"
+                                             <span th:case="0"
+											th:class="'label label-info text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
+
+                                           <span th:case="null"
 											th:class="'label label-warning text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
-									</span></td>
+
+
+                                        	<span th:case="1"
+											th:class="'label label-success text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
+											<span th:case="-3"
+											th:class="'label label-danger text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+											
+											<span th:case="4"
+											th:class="'label label-warning text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+											
+									</span>
+									
+									
+									</td>
 								</tr>
 
 
@@ -419,7 +448,7 @@ div#tblEmpDtlsBody\ table-responsive th {
 										Please press Go button first then set dates.</td>
 								</tr> -->
 
-							<tr>
+							<!-- <tr>
 								<td colspan="5">
 									<fieldset class="tabstyle">
 										<legend>
@@ -452,29 +481,27 @@ div#tblEmpDtlsBody\ table-responsive th {
 
 									</fieldset>
 								</td>
-							</tr>
+							</tr> -->
 
 							<tr>
-								<td colspan="5" th:if="${isPaybillGenerated}"><span
+								<td colspan="13" th:if="${isPaybillGenerated}"><span
 									class="text-danger"> The bill is already
 										generated/approved. Please delete/unlock the bill first before
 										making changes in this screen.</span></td>
 							</tr>
-							<tr>
-								<td id="go" align="center"><input type="button"
-									name="btnCancel" onclick="history.back()" id="btnCancel"
-									value="Back" class="buttontag btn"> <input
-									type="submit" name="save" id="save" value="Save"
-									class="buttontag btn"></td>
-
-
-							</tr>
-
-
 
 						</table>
-					</div>
+						<br />
 
+					</div>
+					<br />
+					<div class="text-center">
+						<input type="button" name="btnCancel" onclick="history.back()"
+							id="btnCancel" value="Back" class="buttontag btn"> <input
+							type="submit" name="save" id="save" value="Save"
+							class="buttontag btn">
+					</div>
+					<br />
 
 				</fieldset>
 			</div>

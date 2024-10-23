@@ -2,6 +2,7 @@ package com.mahait.gov.in.nps.repository;
 
 import java.util.List;
 
+import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.nps.entity.NSDLBHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLDHDtlsEntity;
 import com.mahait.gov.in.nps.entity.NSDLSDDtlsEntity;
@@ -32,5 +33,6 @@ public interface NSDLDetailsRepo {
 	void updateBatchId(String batchId, List dcpsId);
 	List<Object[]> getNsdlEmpDataLevelwise(int month, int year, String userName);
 	List<Object[]> getEmployeeListNsdl1(Integer year, Integer month, String ddoCode);
+	List<Object[]> searchDdoWiseContribution(int year, int month, OrgUserMst messages);
 	
 }

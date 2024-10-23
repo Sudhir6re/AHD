@@ -79,28 +79,20 @@ public class TopicController extends BaseController {
 		// logger.info(""+messages.getFullName());
 		modelAndView.addObject("userName", messages.getUserName());
 		int levelRoleVal = messages.getMstRoleEntity().getRoleId();
-		if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_MDC")) {
-			return new ModelAndView("redirect:/admin/home");
-		} else if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_DDO_AST")) {
+		if (levelRoleVal==1) {
+			return new ModelAndView("redirect:/mdc/home");
+		} else if (levelRoleVal==3) {
 			return new ModelAndView("redirect:/ddoast/home");
-		} else if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_DDO")) {
+		} else if (levelRoleVal==2) {
 			return new ModelAndView("redirect:/ddo/home");
-		} else if (commonHomeMethodsService.findRole(levelRoleVal).getRoleName().equalsIgnoreCase("ROLE_SUPERADMIN")) {
+		}else if (levelRoleVal==4) {
+
+			addMenuAndSubMenu(modelAndView, messages);
+			modelAndView.setViewName("topics");
+			//return new ModelAndView("redirect:/user/home");
+		}else if (levelRoleVal==5) {
 			return new ModelAndView("redirect:/super/home");
 		} else {
-
-			List<TopicModel> menuList = new ArrayList<>();
-			List<TopicModel> subMenuList = new ArrayList<>();
-
-			menuList = commonHomeMethodsService.findMenuNameByRoleID(levelRoleVal, locale.getLanguage());
-			subMenuList = commonHomeMethodsService.findSubMenuByRoleID(levelRoleVal, locale.getLanguage());
-
-			modelAndView.addObject("menuList", menuList);
-			modelAndView.addObject("subMenuList", subMenuList);
-
-			modelAndView.addObject("levelRoleVal", levelRoleVal);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-			SimpleDateFormat sd = new SimpleDateFormat("MM");
 
 			addMenuAndSubMenu(modelAndView, messages);
 
@@ -141,30 +133,108 @@ public class TopicController extends BaseController {
 	}
 
 	@RequestMapping("/error")
-	public ModelAndView error() {
+	public ModelAndView error(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		String errorMessage = "You are not authorized for the requested data.";
 		modelAndView.addObject("errorMsg", errorMessage);
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
 		String sessionExpMessage = "Session Expired, Please click below link to login again !!!";
 		modelAndView.addObject("sessionExpMessageMsg", sessionExpMessage);
+
+		String url = "";
+
+		switch (messages.getMstRoleEntity().getRoleId()) {
+		case 1:
+			url = "/mdc/home";
+			break;
+		case 2:
+			url = "/ddo/home";
+			break;
+		case 3:
+			url = "/ddoast/home";
+			break;
+		case 4:
+			url = "/user/home";
+			break;
+		case 5:
+			url = "/super/home";
+			break;
+		}
+
+		modelAndView.addObject("url", url);
 		modelAndView.setViewName("error");
 		return modelAndView;
+
 	}
 
 	@RequestMapping("/underConstruction")
-	public ModelAndView underConstruction() {
+	public ModelAndView underConstruction(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		String underConstMessage = "This Page Is Under Constuction !!!";
 		modelAndView.addObject("underConstructionMsg", underConstMessage);
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
+
+		String url = "";
+		
+		
+		switch (messages.getMstRoleEntity().getRoleId()) {
+		case 1:
+			url = "/mdc/home";
+			break;
+		case 2:
+			url = "/ddo/home";
+			break;
+		case 3:
+			url = "/ddoast/home";
+			break;
+		case 4:
+			url = "/user/home";
+			break;
+		case 5:
+			url = "/super/home";
+			break;
+		}
+
+
+		modelAndView.addObject("url", url);
+
 		modelAndView.setViewName("under-construction");
 		return modelAndView;
 	}
 
 	@RequestMapping("/invalidsession")
-	public ModelAndView invalidsession() {
+	public ModelAndView invalidsession(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		String sessionExpMessage = "Session Expired, Please click below link to login again !!!";
 		modelAndView.addObject("sessionExpMessageMsg", sessionExpMessage);
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		modelAndView.addObject("levelRoleVal", messages.getMstRoleEntity().getRoleId());
+
+		String url = "";
+
+		switch (messages.getMstRoleEntity().getRoleId()) {
+		case 1:
+			url = "/mdc/home";
+			break;
+		case 2:
+			url = "/ddo/home";
+			break;
+		case 3:
+			url = "/ddoast/home";
+			break;
+		case 4:
+			url = "/user/home";
+			break;
+		case 5:
+			url = "/super/home";
+			break;
+		}
+
+
+		modelAndView.addObject("url", url);
+
 		modelAndView.setViewName("invalid-session");
 		return modelAndView;
 	}

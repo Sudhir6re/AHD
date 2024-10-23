@@ -179,7 +179,7 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 													<span class="fa fa-sign-in"> Login</span>
 												</button>
 											</form>
-											<a href="/forgot-pass/resetPassword"
+											<a href="/forgotPassword"
 												th:href="@{/forgotPassword}" class="forgorpasslink">Forgot
 												Password</a>
 										</div>
@@ -315,8 +315,7 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 			evt.currentTarget.className += " active"; */
 	</script>
 	<script>
-	
-	 <script>
+	/* 
      function openLoginWindow(wname) {
          var urlToOpen = "/DCPS/user/login"; // URL of the login page
          var mwname = 'IFMS';
@@ -342,12 +341,11 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
          } else {
              alert("Please allow popups for this website.");
          }
-     }
+     } */
 
    
 	
 		$(document).ready(function() {
-			 openLoginWindow("HTESEVAARTH");
 			$("span.fa.fa-eye-slash.iccn").hide();
 			$('.iccn').on('click', function() {
 				var passInput = $("#password");
@@ -357,8 +355,8 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 					passInput.attr('type', 'password');
 				}
 				$(".iccn").toggle(300);
-			})
-		})
+			});
+		});
 	</script>
 	<script th:src="@{/js/captcha.js}"></script>
 </body>

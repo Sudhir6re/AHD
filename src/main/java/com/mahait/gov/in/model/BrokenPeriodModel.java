@@ -38,6 +38,7 @@ public class BrokenPeriodModel implements Serializable {
 	private int isNonComputation;
 	private int isNonGovernment;
 	private int isRuleBased;
+	private int isLoanAdv;
 	
 	
 	

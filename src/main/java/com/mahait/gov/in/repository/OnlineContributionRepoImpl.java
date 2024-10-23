@@ -1,11 +1,14 @@
 package com.mahait.gov.in.repository;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.Column;
@@ -70,66 +73,38 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		Session ghibSession = entityManager.unwrap(Session.class);
 		Integer roleId = messages.getMstRoleEntity().getRoleId(); // 2 DDO 3 DDOAST
 		String useType = dcpContributionModel.getUseType();
+
 		String lStrTypeOfPaymentMaster = dcpContributionModel.getTypeOfPayment();
 		int delayedFinYearId = dcpContributionModel.getDelayedFinYearId();
 		int delayedMonthId = dcpContributionModel.getDelayedMonthId();
 		int finYearId = dcpContributionModel.getFinYearId();
 		int monthId = dcpContributionModel.getMonthId();
 		Long billGroupId = dcpContributionModel.getBillGroupId();
-		String ddoCode = messages.getDdoCode();
+
+		String ddoCode = roleId == 3 ? messages.getDdoCode() : dcpContributionModel.getDdoCode();
+
 		StringBuilder SBQuery = new StringBuilder();
-		Double lDoubleDefaultDArateForNon5th6thPC = 0d;
-
+		Double lDoubleDefaultDArateForNon5th6thPC = 58d;
 		List empList = null;
-		List finalList = new ArrayList();
-
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		Date date = null;
-		try {
-			date = sdf.parse(startDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-
-		Date newStartDate = calendar.getTime();
-
-		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)); // Set to the last day of
-																								// the month
-		Date newEndDate = calendar.getTime();
-		String endDate = sdf.format(newEndDate);
-
-		if (dcpContributionModel.getTypeOfPayment() != null) {
-			if (dcpContributionModel.getTypeOfPayment().equals("700048")) {
-				if (dcpContributionModel.getDAArrearStartDate() != null) {
-					startDate = sdf.format(dcpContributionModel.getDAArrearStartDate());
-				} else {
-					int month2 = dcpContributionModel.getMonthId();
-					int year2 = dcpContributionModel.getFinYearId();
-
-					if (month2 < 10) {
-						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
-					} else {
-						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
-					}
-				}
-
-			} else if (dcpContributionModel.getTypeOfPayment().equals("700049")) {
-				if (dcpContributionModel.getPayArrearStartDate() != null) {
-					startDate = sdf.format(dcpContributionModel.getPayArrearStartDate());
-				} else {
-					int month2 = dcpContributionModel.getMonthId();
-					int year2 = dcpContributionModel.getFinYearId();
-
-					if (month2 < 10) {
-						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
-					} else {
-						startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
-					}
+		if (roleId == 3) {
+			String paymentType = dcpContributionModel.getTypeOfPayment();
+			if (paymentType != null) {
+				switch (paymentType) {
+				case "700048":
+					startDate = getStartDate(dcpContributionModel.getDAArrearStartDate(), monthId, finYearId, sdf);
+					break;
+				case "700049":
+					startDate = getStartDate(dcpContributionModel.getPayArrearStartDate(), monthId, finYearId, sdf);
+					break;
+				default:
+					startDate = createStartDate(delayedMonthId, delayedFinYearId);
+					break;
 				}
 			}
+		} else {
+			startDate = createStartDate(monthId, finYearId);
 		}
 
 		try {
@@ -140,16 +115,21 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 					+ "        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" + "    END AS BASIC_PAY,"
 					+ "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
 					+ dcpContributionModel.getTypeOfPayment()
-					+ "') as TYPE_OF_PAYMENT,COALESCE(CO.MONTH_ID,0) as MONTH_ID,COALESCE(CO.FIN_YEAR_ID,0) as FIN_YEAR_ID,"
-					+ " COALESCE(DA.percentage," + lDoubleDefaultDArateForNon5th6thPC + ") as percentage,"
-					+ "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
+					+ "') as TYPE_OF_PAYMENT,COALESCE(CO.MONTH_ID,0) as MONTH_ID,COALESCE(CO.FIN_YEAR_ID,0) as FIN_YEAR_ID,");
 
-			SBQuery.append(" CO.startDate StartDate");
+			SBQuery.append(" COALESCE(CASE WHEN DA.percentage = 0 THEN NULL ELSE DA.percentage END, "
+					+ lDoubleDefaultDArateForNon5th6thPC + ") AS percentage, ");
+			SBQuery.append("CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
+
 			SBQuery.append(
-					",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED,Em.sevaarth_id FROM employee_mst EM ");
+					" CO.startDate StartDate,CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as NPS_EMPLR_CONTRI_DED,Em.sevaarth_id FROM employee_mst EM ");
 
 			SBQuery.append(" LEFT OUTER JOIN TRN_DCPS_CONTRIBUTION CO ON EM.employee_id=CO.DCPS_EMP_ID AND CO.MONTH_ID="
 					+ monthId + "" + " AND CO.FIN_YEAR_ID=" + finYearId + " AND CO.DDO_CODE = '" + ddoCode + "'");
+
+			if (roleId == 3) {
+				SBQuery.append(" AND CO.TYPE_OF_PAYMENT = '" + lStrTypeOfPaymentMaster.trim() + "'");
+			}
 
 			if ((roleId == 3 && (useType.equals("ViewAll")) && lStrTypeOfPaymentMaster.equals("700047"))) {
 				if (delayedMonthId != 0 && delayedFinYearId != 0) {
@@ -166,7 +146,6 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 					" LEFT JOIN ALLOWANCE_DEDUCTION_WISE_RULE_MST DA ON DA.PAY_COMMISSION_CODE = EM.PAY_COMMISSION_CODE AND  (('"
 							+ startDate + "' BETWEEN DA.start_date AND DA.end_date) OR ('" + startDate
 							+ "' >= DA.start_date and DA.end_date IS NULL))"
-
 							+ " AND DA.department_allowdeduc_code = (CASE WHEN EM.PAY_COMMISSION_CODE = 700005 THEN "
 							+ CommonConstants.PAYBILLDETAILS.SVNPC_ALLOW_DEDUC_CODE + " ELSE "
 							+ CommonConstants.PAYBILLDETAILS.SIXPC_ALLOW_DEDUC_CODE + " END)");
@@ -207,15 +186,11 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				SBQuery.append(" WHERE CO.DDO_CODE='" + ddoCode + "'");
 			}
 
-			SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + " OR EM.BILLGROUP_ID=" + billGroupId + ")");
-
-			/*
-			 * if((!(lLongbillGroupId.toString().equals(gObjRsrcBndle.getString(
-			 * "DCPS.BGIdForContriThruChallan")))) && (lStrUser.equals("DDOAsst") ||
-			 * lStrUser.equals("ATO")) && (lStrUse.equals("ViewAll")) ) {
-			 * SBQuery.append(" AND EM.BILLGROUP_ID=" + lLongbillGroupId); } else {
-			 * SBQuery.append(" AND CO.BILL_GROUP_ID=" + lLongbillGroupId); }
-			 */
+			if ((roleId == 2)) {
+				SBQuery.append(" AND (CO.BILL_GROUP_ID=" + billGroupId + ")");
+			} else {
+				SBQuery.append(" AND (EM.BILLGROUP_ID=" + billGroupId + ")");
+			}
 
 			// Code Added to show employees of valid post and service and date of joining
 			// and DCPS employee only for first online contribution entry
@@ -224,27 +199,20 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 				SBQuery.append(
 						" AND ( EM.EMP_SERVICE_END_DATE is null or EM.EMP_SERVICE_END_DATE > '" + startDate + "' )");
 				SBQuery.append(" AND (EM.SUPER_ANN_DATE is null or EM.SUPER_ANN_DATE >'" + startDate + "' )");
-				SBQuery.append(" AND (OP.END_DATE is null or OP.END_DATE > '" + startDate + "' )");
+				SBQuery.append(
+						" AND (OP.END_DATE is null or OP.END_DATE > '" + startDate + "' ) AND OP.ACTIVATE_FLAG = 1 ");
 			}
 
-			if (!((useType.equals("ATO") || roleId == 2 || roleId == 3) && useType.equals("ViewAll"))) {
-
-				if (roleId == 2 && useType.equals("ViewForwarded")) {
-					SBQuery.append(" AND CO.REG_STATUS = 2"); // for Online
-				}
-
-				if (roleId == 2 && useType.equals("ViewApproved")) {
-					SBQuery.append(" AND CO.REG_STATUS in (1,3)"); // for Online
-				}
-
-				if (roleId == 3 && useType.equals("ViewRejected")) {
-					SBQuery.append(" AND CO.REG_STATUS = -3"); // 3 for Online
-				}
-
-			} else {
+			if (useType.equals("ViewAll")) {
 				SBQuery.append(" AND (CO.REG_STATUS IS NULL OR CO.REG_STATUS = 0) ");
+			} else if (roleId == 2 && useType.equals("ViewForwarded")) {
+				SBQuery.append(" AND CO.REG_STATUS = 0"); // for Online
+			} else if (roleId == 2 && useType.equals("ViewApproved")) {
+				SBQuery.append(" AND CO.REG_STATUS in (1,3)"); // for Online
 			}
-
+			if (roleId == 3 && useType.equals("ViewRejected")) {
+				SBQuery.append(" AND CO.REG_STATUS = -3"); // 3 for Online
+			}
 			SBQuery.append(" Order By \n");
 
 			SBQuery.append(" EM.employee_full_name_en ASC");
@@ -252,122 +220,10 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 			Query stQuery = ghibSession.createSQLQuery(SBQuery.toString());
 
 			empList = stQuery.list();
-			Integer lInt2 = 0;
-			Double BasicPay = 0d;
-			Double DP = 0D;
-			String lStrDP = "";
-			Double DARate = 0d;
-			String lStrTypeOfPayment = "";
-			Double DA = 0D;
-			Double employeeContribution = 0D;
-			String lStrDA = "";
-			Double emplrContribution = 0D; // [34, d1235555, PALLAVI RAJ THAKRE, 700005, 39600.0, 0, 700047, 0, 0, 46,
-											// null, 2017-01-01, null, null, null, null, null, 0.0]
-
-			/*
-			 * SBQuery.
-			 * append("select Em.employee_id,Em.dcps_no,Em.employee_full_name_en,Em.pay_commission_code,"
-			 * + " CASE " +
-			 * "        WHEN Em.pay_commission_code = '"+CommonConstants.PAYBILLDETAILS.
-			 * COMMONCODE_PAYCOMMISSION_7PC+"' THEN COALESCE(CO.BASIC_PAY, EM.seven_pc_basic)\r\n"
-			 * + "        ELSE COALESCE(CO.BASIC_PAY, EM.BASIC_PAY)\r\n" +
-			 * "    END AS BASIC_PAY," +
-			 * "COALESCE(CO.DCPS_CONTRIBUTION_ID,0) as DCPS_CONTRIBUTION_ID,COALESCE(CO.TYPE_OF_PAYMENT,'"
-			 * + dcpContributionModel.getTypeOfPayment() +
-			 * "') as TYPE_OF_PAYMENT,COALESCE(CO.MONTH_ID,0) as MONTH_ID,COALESCE(CO.FIN_YEAR_ID,0) as FIN_YEAR_ID,"
-			 * + " COALESCE(DA.percentage," + lDoubleDefaultDArateForNon5th6thPC +
-			 * ") as percentage," + "CO.REG_STATUS,EM.DOJ,CO.DA,CO.DP,CO.CONTRIBUTION,");
-			 * 
-			 * SBQuery.append(" CO.startDate StartDate");
-			 * SBQuery.append(",CO.endDate,COALESCE(CO.NPS_EMPLR_CONTRI_DED,0) as
-			 * NPS_EMPLR_CONTRI_DED
-			 * 
-			 * Em.employee_id 0
-			 * 
-			 * 
-			 */
-
-			// calculation start here
-
-			/*
-			 * for (Integer lInt1 = 0; lInt1 < empList.size(); lInt1++) { Object[]
-			 * tempObjectList = (Object[]) empList.get(lInt1); Object[] newList = new
-			 * Object[tempObjectList.length + 4]; lInt2 = 0; emplrContribution =
-			 * Math.ceil(Double.parseDouble(tempObjectList[17].toString())); lInt2 =
-			 * tempObjectList.length; for (lInt2 = 0; lInt2 < tempObjectList.length - 1;
-			 * lInt2++) {
-			 * 
-			 * // Changes Basic pay to Integer value if (lInt2 == 4) { if
-			 * (tempObjectList[lInt2] == null) { tempObjectList[lInt2] = 0; } else {
-			 * tempObjectList[lInt2] = (int)
-			 * Math.ceil(Double.parseDouble(tempObjectList[lInt2].toString())); } }
-			 * newList[lInt2] = tempObjectList[lInt2]; } BasicPay =
-			 * Double.parseDouble(tempObjectList[4].toString());
-			 * 
-			 * DP = 0D; lStrDP = ""; if (null != tempObjectList[13]) { lStrDP =
-			 * tempObjectList[13].toString(); } if (newList[3].toString().equals("700015")
-			 * || newList[3].toString().equals("700345")) { if (null != lStrDP &&
-			 * !"".equals(lStrDP)) { DP = Double.parseDouble(lStrDP); } else { DP = BasicPay
-			 * / 2; } }
-			 * 
-			 * DARate = 0.01 * Double.parseDouble(tempObjectList[9].toString());
-			 * lStrTypeOfPayment = tempObjectList[6].toString(); DA = 0D;
-			 * employeeContribution = 0D; emplrContribution = 0D;
-			 * 
-			 * lStrDA = "";
-			 * 
-			 * if (null != tempObjectList[12]) { lStrDA = tempObjectList[12].toString(); }
-			 * 
-			 * if (lStrTypeOfPayment.equals("700048")) { if (tempObjectList[12] != null) {
-			 * DA = Double.parseDouble(tempObjectList[12].toString()); } if
-			 * (tempObjectList[14] != null) { employeeContribution =
-			 * Double.parseDouble(tempObjectList[14].toString()); } if (tempObjectList[17]
-			 * != null) { emplrContribution =
-			 * Double.parseDouble(tempObjectList[17].toString()); } } else if
-			 * (lStrTypeOfPayment.equals("700049")) { DA = 0D; if (tempObjectList[14] !=
-			 * null) { employeeContribution =
-			 * Double.parseDouble(tempObjectList[14].toString()); } if (tempObjectList[17]
-			 * != null) { emplrContribution =
-			 * Double.parseDouble(tempObjectList[17].toString()); } } else { if (null !=
-			 * lStrDA && !"".equals(lStrDA)) { DA = Double.parseDouble(lStrDA); } else { DA
-			 * = ((BasicPay + DP) * DARate); }
-			 * 
-			 * if (null != tempObjectList[14]) { employeeContribution =
-			 * Double.parseDouble(tempObjectList[14].toString()); } else { if
-			 * (newList[3].toString().equals("700015")) { employeeContribution = ((double)
-			 * Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) 0.10; } else {
-			 * employeeContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) *
-			 * 0.10; } }
-			 * 
-			 * if (!tempObjectList[17].toString().equals("0.0") &&
-			 * !tempObjectList[17].toString().equals("0")) { emplrContribution =
-			 * Double.parseDouble(tempObjectList[17].toString()); } else { if ((finYearId <=
-			 * 20 && monthId <= 3) || finYearId < 20) { //2019(Old 32 if ((finYearId <= 32
-			 * && finYearId <= 3) || finYearId < 32) ) if
-			 * (newList[3].toString().equals("700015")) { emplrContribution = ((double)
-			 * Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) 0.10; } else {
-			 * emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.10; }
-			 * } else { if (newList[3].toString().equals("700015")) { emplrContribution =
-			 * ((double) Math.ceil(BasicPay) + Math.ceil(DP) + Math.round(DA)) 0.14; } else
-			 * { emplrContribution = ((double) Math.ceil(BasicPay) + Math.round(DA)) * 0.14;
-			 * }
-			 * 
-			 * } } } DA = (double) Math.round(DA);
-			 * 
-			 * employeeContribution = (double) Math.round(employeeContribution);
-			 * 
-			 * newList[lInt2] = (int) Math.ceil(DP); newList[lInt2 + 1] = (int)
-			 * Math.round(DA); newList[lInt2 + 2] = (int) Math.round(employeeContribution);
-			 * newList[lInt2 + 3] = DARate; newList[lInt2 + 4] = (int)
-			 * Math.round(emplrContribution);
-			 * 
-			 * finalList.add(newList); }
-			 */
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// return finalList;
 		return empList;
 	}
 
@@ -431,7 +287,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		if (messages.getMstRoleEntity().getRoleId() == 2) {
 			String sql = " SELECT a.bill_group_id, a.description FROM MST_DCPS_BILL_GROUP a "
 					+ " INNER JOIN TRN_DCPS_CONTRIBUTION b ON a.bill_group_id = b.BILL_GROUP_ID "
-					+ " WHERE a.ddo_code = :ddoCode AND b.reg_Status = :regStatus "
+					+ " WHERE a.ddo_code in(select zp_ddo_code from rlt_zp_ddo_map where rept_ddo_code= :ddoCode) AND b.reg_Status = :regStatus "
 					+ " GROUP BY a.bill_group_id, a.description " + " ORDER BY a.description DESC";
 
 			Query query = currentSession.createSQLQuery(sql).setParameter("ddoCode", messages.getDdoCode())
@@ -464,6 +320,7 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		return Optional.ofNullable(entity);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Optional<MstDcpsContriVoucherDtlEntity> findMstDcpsContriVoucherDtlEntity(
 			DcpContributionModel dcpContributionModel) {
@@ -471,11 +328,9 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 		StringBuilder lSBQuery = new StringBuilder();
 		lSBQuery.append(
 				"FROM MstDcpsContriVoucherDtlEntity WHERE ddoCode = :ddoCode AND yearId = :yearId AND monthId = :monthId AND treasuryCode = :treasuryCode AND billGroupId = :billGroupId");
-
 		Query<MstDcpsContriVoucherDtlEntity> lQuery = ghibSession.createQuery(lSBQuery.toString(),
 				MstDcpsContriVoucherDtlEntity.class);
 		lQuery.setParameter("yearId", dcpContributionModel.getFinYearId());
-		
 		lQuery.setParameter("monthId", dcpContributionModel.getMonthId());
 		lQuery.setParameter("treasuryCode", dcpContributionModel.getTreasuryCode());
 		lQuery.setParameter("ddoCode", dcpContributionModel.getDdoCode());
@@ -483,6 +338,188 @@ public class OnlineContributionRepoImpl implements OnlineContributionRepo {
 
 		List<MstDcpsContriVoucherDtlEntity> lstMstDcpsContriVoucherDtlEntity = lQuery.getResultList();
 		return lstMstDcpsContriVoucherDtlEntity.stream().findFirst();
+	}
+
+	@Override
+	public void deleteContributionIds(List<Long> idsToDelete) {
+		Session session = entityManager.unwrap(Session.class);
+		String hql = "DELETE FROM DcpsContributionEntity WHERE dcpContributionId IN :idsToDelete";
+		Query query = session.createQuery(hql);
+		query.setParameterList("idsToDelete", idsToDelete);
+		query.executeUpdate();
+	}
+
+	@SuppressWarnings("deprecation")
+	public Optional<DcpsContributionEntity> findDcpsContributionEntity(
+			PaybillGenerationTrnEntity paybillGenerationTrnEntity) {
+		Session ghibSession = entityManager.unwrap(Session.class);
+		StringBuilder lSBQuery = new StringBuilder();
+		lSBQuery.append(
+				"FROM DcpsContributionEntity WHERE ddoCode = :ddoCode AND finYearId = :yearId AND monthId = :monthId AND billGroupId = :billGroupId");
+		Query<DcpsContributionEntity> lQuery = ghibSession.createQuery(lSBQuery.toString(),
+				DcpsContributionEntity.class);
+		lQuery.setParameter("yearId", paybillGenerationTrnEntity.getPaybillYear());
+		lQuery.setParameter("monthId", paybillGenerationTrnEntity.getPaybillMonth());
+		lQuery.setParameter("ddoCode", paybillGenerationTrnEntity.getDdoCode());
+		lQuery.setParameter("billGroupId", paybillGenerationTrnEntity.getSchemeBillgroupId());
+
+		List<DcpsContributionEntity> lstDcpsContributionEntity = lQuery.getResultList();
+		return lstDcpsContributionEntity.stream().findFirst();
+	}
+
+	@Override
+	public List<Object[]> getAllForwardedDdo(OrgUserMst messages) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT DISTINCT DM.ddo_Code,DM.ddo_Name FROM  Org_Ddo_Mst DM  ");
+		sb.append(" JOIN  Rlt_Ddo_Org RO ON RO.ddo_Code = DM.ddo_Code ");
+		sb.append(" JOIN  cmn_location_mst LM ON LM.location_Code = DM.location_Code ");
+		sb.append(" JOIN Trn_Dcps_Contribution VC ON VC.ddo_Code = DM.ddo_Code WHERE   DM.ddo_Code IN ");
+		sb.append("(SELECT  ZP_DDO_CODE FROM  Rlt_zp_Ddo_Map WHERE ");
+		if (messages.getMstRoleEntity().getRoleId() == 2) {
+			sb.append(" rept_ddo_code=:reptDdoCode)  ");
+		}
+		sb.append("  AND DM.ddo_Name IS NOT NULL   ");
+		sb.append("  AND VC.reg_Status IN  (0,1,3,4) ");
+		sb.append(" AND VC.ddo_Code = DM.ddo_Code ");
+		sb.append(" order by DM.ddo_Code ASC ");
+		Query query = currentSession.createSQLQuery(sb.toString());
+		query.setParameter("reptDdoCode", messages.getDdoCode());
+		return query.list();
+	}
+
+	@Override
+	public void addDcpsContributionEntityVoucherDtl(Map<String, String> formData, OrgUserMst messages) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Long billGroupId = Long.valueOf(formData.get("billGroupId"));
+		Long voucherNo = Long.valueOf(formData.get("voucherNo"));
+		Long yearId = Long.valueOf(formData.get("finYearId"));
+		Long monthId = Long.valueOf(formData.get("monthId"));
+		String ddoCode = formData.get("ddoCode");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date;
+		try {
+			date = sdf.parse(formData.get("voucherDate"));
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("Invalid start date format", e);
+		}
+		Timestamp voucherDate = new Timestamp(date.getTime());
+
+		StringBuilder lSBQuery = new StringBuilder();
+		lSBQuery.append(
+				" update TRN_DCPS_CONTRIBUTION set VOUCHER_NO = :voucherNo , VOUCHER_DATE = :voucherDate,reg_status='1'  where BILL_GROUP_ID = :billGroupId and MONTH_ID = :monthId");
+		lSBQuery.append(" and FIN_YEAR_ID = :yearId and DDO_CODE = :ddoCode");
+
+		Query lQuery = currentSession.createSQLQuery(lSBQuery.toString());
+		lQuery.setParameter("billGroupId", billGroupId);
+		lQuery.setParameter("monthId", monthId);
+		lQuery.setParameter("yearId", yearId);
+		lQuery.setParameter("ddoCode", ddoCode);
+		lQuery.setParameter("voucherNo", voucherNo);
+		lQuery.setParameter("voucherDate", voucherDate);
+		// lQuery.setParameter("regStatus", 1);
+		lQuery.executeUpdate();
+	}
+
+	@Override
+	public void addMstDcpsContriVoucherDtlEntityVoucherDtl(Map<String, String> formData, OrgUserMst messages) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Long billGroupId = Long.valueOf(formData.get("billGroupId"));
+		Long voucherNo = Long.valueOf(formData.get("voucherNo"));
+		Integer yearId = Integer.valueOf(formData.get("finYearId"));
+		Integer monthId = Integer.valueOf(formData.get("monthId"));
+		String ddoCode = formData.get("ddoCode");
+
+		Timestamp updateDdate = new Timestamp(new Date().getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date;
+		try {
+			date = sdf.parse(formData.get("voucherDate"));
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("Invalid start date format", e);
+		}
+		Timestamp voucherDate = new Timestamp(date.getTime());
+		Timestamp updatedDate = new Timestamp(new Date().getTime());
+
+		StringBuilder lSBQuery = new StringBuilder();
+		lSBQuery.append(
+				" update MST_DCPS_CONTRI_VOUCHER_DTLS SET VOUCHER_NO = :voucherNo , VOUCHER_DATE = :voucherDate,status='1',voucher_status=1,UPDATED_USER_ID=:updatedUserId,UPDATED_DATE=:updatedDate   ");
+		lSBQuery.append(
+				"  WHERE BILL_GROUP_ID = :billGroupId and MONTH_ID = :monthId and YEAR_ID = :yearId and DDO_CODE = :ddoCode ");
+
+		Query lQuery = currentSession.createSQLQuery(lSBQuery.toString());
+		lQuery.setParameter("billGroupId", billGroupId);
+		lQuery.setParameter("monthId", monthId);
+		lQuery.setParameter("yearId", yearId);
+		lQuery.setParameter("ddoCode", ddoCode);
+		lQuery.setParameter("voucherNo", voucherNo);
+		lQuery.setParameter("voucherDate", voucherDate);
+		lQuery.setParameter("updatedDate", updatedDate);
+		lQuery.setParameter("updatedUserId", messages.getUserId());
+
+		// lQuery.setParameter("status", '1');
+		// lQuery.setParameter("voucherStatus", new BigInteger("1"));
+		lQuery.executeUpdate();
+	}
+
+	public String createStartDate(int month2, int year2) {
+		String startDate = null;
+		if (month2 < 10) {
+			startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf("0" + month2) + "-01";
+		} else {
+			startDate = 20 + String.valueOf(year2 - 1) + '-' + String.valueOf(month2) + "-01";
+		}
+		return startDate;
+	}
+
+	private String getStartDate(Date existingStartDate, int month, int year, SimpleDateFormat sdf) {
+		return (existingStartDate != null) ? sdf.format(existingStartDate) : createStartDate(month, year);
+	}
+
+	@Override
+	public Integer rejectContribution(Map<String, String> formData, OrgUserMst messages) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Long billGroupId = Long.valueOf(formData.get("billGroupId"));
+		Integer yearId = Integer.valueOf(formData.get("finYearId"));
+		Integer monthId = Integer.valueOf(formData.get("monthId"));
+		String ddoCode = formData.get("ddoCode");
+
+		Timestamp updatedDate = new Timestamp(new Date().getTime());
+
+		StringBuilder lSBQuery = new StringBuilder();
+		lSBQuery.append(
+				" update MST_DCPS_CONTRI_VOUCHER_DTLS SET status='0',voucher_status=-3,UPDATED_USER_ID=:updatedUserId,UPDATED_DATE=:updatedDate  ");
+		lSBQuery.append(
+				"  WHERE BILL_GROUP_ID = :billGroupId and MONTH_ID = :monthId and YEAR_ID = :yearId and DDO_CODE = :ddoCode ");
+
+		System.out.println();
+
+		Query lQuery = currentSession.createSQLQuery(lSBQuery.toString());
+		lQuery.setParameter("billGroupId", billGroupId);
+		lQuery.setParameter("monthId", monthId);
+		lQuery.setParameter("yearId", yearId);
+		lQuery.setParameter("ddoCode", ddoCode);
+		lQuery.setParameter("updatedDate", updatedDate);
+		lQuery.setParameter("updatedUserId", messages.getUserId());
+		 lQuery.executeUpdate();
+
+		StringBuilder lSBQuery1 = new StringBuilder();
+		lSBQuery1.append(
+				" update TRN_DCPS_CONTRIBUTION set reg_status='-3',UPDATED_DATE=:updatedDate,UPDATED_USER_ID=:updatedUserId  where BILL_GROUP_ID = :billGroupId and MONTH_ID = :monthId");
+		lSBQuery1.append(" and FIN_YEAR_ID = :yearId and DDO_CODE = :ddoCode");
+
+		Query  lQuery1 = currentSession.createSQLQuery(lSBQuery1.toString());
+	    lQuery1.setParameter("billGroupId", billGroupId);
+	    lQuery1.setParameter("monthId", monthId);
+	    lQuery1.setParameter("yearId", yearId);
+	    lQuery1.setParameter("ddoCode", ddoCode);
+	    lQuery1.setParameter("updatedDate", updatedDate);
+	    lQuery1.setParameter("updatedUserId", messages.getUserId());
+		return lQuery1.executeUpdate();
 	}
 
 }

@@ -40,7 +40,9 @@ import com.mahait.gov.in.common.CommonConstants.STATUS;
 import com.mahait.gov.in.common.CommonUtils;
 import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstDesignationEntity;
+import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
+import com.mahait.gov.in.entity.MstGpfDetailsHistEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
@@ -639,7 +641,15 @@ public class EmployeeConfigurationController extends BaseController {
 		List<Object[]> lstsixpayscalelevel = new ArrayList<Object[]>();
 		List<Object[]> lstsvnbasicpay = new ArrayList<Object[]>();
 		List<Object[]> lstpfSeries = new ArrayList<Object[]>();
-
+				
+		if (mstEmployeeModel.getPayCommissionCode() != null && !mstEmployeeModel.getPayCommissionCode().equals(2500347))
+			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
+		if(mstEmployeeModel.getPayCommissionCode().equals(2500347)) {
+			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
+		}
+		if(mstEmployeeModel.getPayCommissionCode().equals(2500347)) {
+			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(2500347);
+		}
 		if (mstEmployeeModel.getPayCommissionCode() != null && !mstEmployeeModel.getPayCommissionCode().equals(8))
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
 		if (mstEmployeeModel.getPayCommissionCode().equals(700005)) {
@@ -668,7 +678,7 @@ public class EmployeeConfigurationController extends BaseController {
 		addMenuAndSubMenu(model, messages);
 		return "/views/approve-employee-configuration";
 	}
-
+	
 	@RequestMapping("/approveEmpDtls/{empid}/{sevaarthid}/{dcpsgpfflg}")
 	public @ResponseBody List<String> approveEmployeeConfiguration(@PathVariable String empid,
 			@PathVariable String sevaarthid, @PathVariable String dcpsgpfflg, Model model, Locale locale,
@@ -680,6 +690,8 @@ public class EmployeeConfigurationController extends BaseController {
 		long tempIdCount = curentIdCount + 01;
 		String tempCountVar = String.format("%2s", tempIdCount).replace(' ', '0');
 		MstEmployeeModel mstEmployeeModel = mstEmployeeService.getEmployeeinfo(Long.valueOf(empid));
+		
+
 		if (curentIdCount == 0) {
 			lStrSevarthEmpCode = lStrSevarthEmpCode + "01";
 		}
@@ -687,10 +699,24 @@ public class EmployeeConfigurationController extends BaseController {
 
 		// Integer uid1 = Integer.valueOf(uid);
 		// logger.info("uid1="+uid1);
-
+		if(mstEmployeeModel != null)
+		{
+			MstEmployeeDetailEntity mstEmployeeDetailEntity = mstEmployeeService.updateEmployeeDetails(Long.valueOf(empid));
+		}
 		List<Long> status1 = mstEmployeeService.approveEmployeeConfiguration(empid, sevaarthid, dcpsgpfflg);
 
 		int empcount = mstEmployeeService.getSevaarthid(sevaarthid);
+	
+		if(empcount!=0) {
+		}else {
+			mstEmployeeService.createNewUser(sevaarthid,messages,mstEmployeeModel);
+		}
+		//end new user creation
+		
+	
+		//add entry into gpf mst details table
+	
+		//	mstGpfDetailsEntity
 
 		if (empcount != 0) {
 		} else {
@@ -709,6 +735,7 @@ public class EmployeeConfigurationController extends BaseController {
 			mstGpfDetailsEntity.setIsactive("2");
 			mstGpfDetailsEntity.setEmployeeId(Long.valueOf(empid));
 			mstEmployeeService.saveGpfDetails(mstGpfDetailsEntity);
+			
 		}
 		// end entry into gpf mst details table
 
@@ -758,7 +785,7 @@ public class EmployeeConfigurationController extends BaseController {
 		String message = (String) model.asMap().get("message");
 		mstEmployeeModel = mstEmployeeService.getEmployeeinfo(mstEmployeeModel.getEmployeeId());
 		long locId = mstEmployeeService.getLocationCode(mstEmployeeModel.getDdoCode());
-		mstEmployeeModel.setDdoCode(messages.getUserName());
+		//mstEmployeeModel.setDdoCode(messages.getUserName());
 		// Get Image start
 		String key = "";
 		String rootPath = "";
@@ -1017,6 +1044,11 @@ public class EmployeeConfigurationController extends BaseController {
 
 		dcpsnum = dcpsnum + incrementvalue;
 
+		if(mstEmployeeModel != null)
+		{
+			MstEmployeeDetailEntity mstEmployeeDetailEntity = mstEmployeeService.updateEmployeeDetails(Long.valueOf(empid));
+		}
+
 		List<Long> messages = mstEmployeeService.approveDcpsEmployeeConfiguration(empid, dcpsnum, lStrSevarthEmpCode,
 				dcpsgpfflg);
 		int empcount = mstEmployeeService.getSevaarthid(sevaarthid);
@@ -1212,7 +1244,7 @@ public class EmployeeConfigurationController extends BaseController {
 		List<Object[]> lstsvnbasicpay = new ArrayList<Object[]>();
 		List<Object[]> lstpfSeries = new ArrayList<Object[]>();
 
-		if (mstEmployeeModel.getPayCommissionCode() != null && mstEmployeeModel.getPayCommissionCode()!=700005l)
+		/*if (mstEmployeeModel.getPayCommissionCode() != null && mstEmployeeModel.getPayCommissionCode()!=700005l)
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
 		if (mstEmployeeModel.getPayCommissionCode()==700005l) {
 			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
@@ -1220,7 +1252,16 @@ public class EmployeeConfigurationController extends BaseController {
 		if (mstEmployeeModel.getPayCommissionCode()==700005) {
 			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(8);
 		}
-
+*/
+		
+		if(mstEmployeeModel.getPayCommissionCode().equals(2500347)    || mstEmployeeModel.getPayCommissionCode().equals(700016)) {
+			lstsixpayscalelevel = mstEmployeeService.findEmployeeConfigurationGetSixPayScale(2500341);
+		}
+		if(mstEmployeeModel.getPayCommissionCode().equals(2500347)  || mstEmployeeModel.getPayCommissionCode().equals(700005) ) {
+			payscalelevel = mstEmployeeService.findEmployeeConfigurationGetpayscale(mstEmployeeModel.getPayCommissionCode().intValue());
+		}
+		
+		
 		if (mstEmployeeModel.getPayscalelevelId() != null)
 			if (!mstEmployeeModel.getPayscalelevelId().equals("") && !mstEmployeeModel.getPayscalelevelId().equals("0"))
 				lstsvnbasicpay = mstEmployeeService
@@ -1263,7 +1304,7 @@ public class EmployeeConfigurationController extends BaseController {
 
 	// View Stamp and signd Documents
 	@GetMapping("/viewFileSign/{employeeId}")
-	void viewFileSign(HttpServletResponse response, @PathVariable Integer employeeId) throws IOException {
+	void viewFileSign(HttpServletResponse response, @PathVariable Long employeeId) throws IOException {
 		try {
 			if (employeeId != null) {
 				String fileName = null;
@@ -1303,7 +1344,7 @@ public class EmployeeConfigurationController extends BaseController {
 
 	// View Stamp and signd Documents
 	@GetMapping("/viewFilephoto/{employeeId}")
-	void viewFilephoto(HttpServletResponse response, @PathVariable Integer employeeId) throws IOException {
+	void viewFilephoto(HttpServletResponse response, @PathVariable Long employeeId) throws IOException {
 		try {
 			if (employeeId != null) {
 				String fileName = null;

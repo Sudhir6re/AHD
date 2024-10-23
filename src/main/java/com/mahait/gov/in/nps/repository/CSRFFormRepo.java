@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstEmployeeEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.nps.entity.MstEmployeeNPSEntity;
@@ -22,7 +23,7 @@ public interface CSRFFormRepo {
 	
 	List<MstNomineeDetailsEntity> findNomineeBySevaarthId(int sevaarthId);
 
-	public int  saveCSRF(MstEmployeeNPSEntity mstEmployeeNPSEntity);
+	public Long  saveCSRF(MstEmployeeNPSEntity mstEmployeeNPSEntity);
 
 	MstEmployeeNPSEntity findEmployeeDtlsBySevaarthId(Long empId);
 
@@ -58,7 +59,7 @@ public interface CSRFFormRepo {
 
 	void updatePranNumberByNpsId(MstEmployeeNPSEntity mstEmployeeNPSEntity);
 
-	void updateEmployeeByEmpId(MstEmployeeEntity mstEmployeeEntity);
+	void updateEmployeeByEmpId(MstEmployeeEntity mstEmployeeEntity) ;
 
 	String getStateName(String empState);
 
@@ -79,6 +80,14 @@ public interface CSRFFormRepo {
 	NSDLBHDtlsEntity findBHEntityById(Integer bhId);
 
 	Object saveOrUpdate(@Valid MstEmployeeEntity mstEmployeeEntity);
+
+	List<CmnLookupMst> findCityClass();
+
+	List<MstNomineeDetailsEntity> findNomineeDtls(Long empId);
+
+	String findBankName(Long bankCode);
+
+	String findBankBranchName(Long bankBranchCode);
 
 
 }
