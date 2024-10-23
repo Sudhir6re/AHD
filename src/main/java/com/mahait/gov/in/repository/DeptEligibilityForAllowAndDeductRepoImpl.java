@@ -195,4 +195,18 @@ public class DeptEligibilityForAllowAndDeductRepoImpl implements DeptEligibility
 		return query.list();
 	}
 
+
+	@Override
+	public  List<DeptEligibilityForAllowAndDeductEntity> findAll() {
+		   Session currentSession = entityManager.unwrap(Session.class);
+	        
+	        // Define the HQL query
+	        String hql = "FROM DeptEligibilityForAllowAndDeductEntity";
+	        
+	        // Execute the HQL query and get the result list
+	        List<DeptEligibilityForAllowAndDeductEntity> results = currentSession.createQuery(hql, DeptEligibilityForAllowAndDeductEntity.class)
+	                                                                            .getResultList();
+	        return results;
+	    }
+
 }

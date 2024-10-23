@@ -29,8 +29,7 @@ public interface CommonHomeMethodsRepo {
 
 	public List<Object[]> findAllSubMenu();
 
-	public List<Object[]> findAllMenuRoleMapping();
-																								// Date,int
+	public List<Object[]> findAllMenuRoleMapping();																						
 						
 	public int saveMstRole(MstRoleEntity mstRoleEntity);
 
