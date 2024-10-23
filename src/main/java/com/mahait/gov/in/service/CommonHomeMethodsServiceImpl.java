@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -49,6 +50,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 	@Autowired
 	private UserInfoRepo userInfoDAO;
 
+	@Cacheable(value = "menus", key = "#levelRoleVal + '_' + #lang")
 	@Override
 	public List<TopicModel> findMenuNameByRoleID(int levelRoleVal, String lang) {
 
@@ -69,6 +71,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 		return lstMenuObj;
 	}
 
+	@Cacheable(value = "submenus", key = "#levelRoleVal + '_' + #lang")
 	@Override
 	public List<TopicModel> findSubMenuByRoleID(int levelRoleVal, String lang) {
 

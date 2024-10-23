@@ -107,7 +107,7 @@ public class EmployeeLoanDetailsRepoImpl implements EmployeeLoanDetailsRepo {
 	public List<DeptEligibilityForAllowAndDeductEntity> findLoanNames() {
 		// TODO Auto-generated method stub
 		Session session = entityManager.unwrap(Session.class);
-		String hqlQuery = "From DeptEligibilityForAllowAndDeductEntity as t where t.departmentAllowdeducCode in (54,55,59,67,154)"; // and
+		String hqlQuery = "From DeptEligibilityForAllowAndDeductEntity as t where t.isLoanAdv = 1"; // and
 																																		// t.loan_activate_flag=1";
 		System.out.println(hqlQuery);
 		return (List<DeptEligibilityForAllowAndDeductEntity>) entityManager.createQuery(hqlQuery).getResultList();

@@ -119,18 +119,18 @@
 							<td th:text="${varBillGrp.billNetAmount}"></td>
 							<td>--</td>
 							<!-- 	<td th:text="${varBillGrp.isActive}"></td> -->
-						 <td><span th:if="${varBillGrp.isActive} =='9'"> <span
+						 <td><span th:if="${varBillGrp.isActive} ==9"> <span
 									class="label label-info text-center"
 									th:utext="#{msg.thymeleaf.pagelabel.consolatedPaybill}">Pending</span>
-							</span> <span th:if="${varBillGrp.isActive} =='10'"> <span
+							</span> <span th:if="${varBillGrp.isActive} ==10"> <span
 									class="label label-warning text-center"
 								th:utext="#{msg.thymeleaf.pagelabel.forwardToBeams}">Consolidated
 										Paybill Forward to BEAMS</span>
-							</span> <span th:if="${varBillGrp.isActive} =='11'"> <span
+							</span> <span th:if="${varBillGrp.isActive} ==11"> <span
 									class="label label-success text-center"
-								th:utext="#{msg.thymeleaf.pagelabel.consolatedApprove}"></span>
+								th:utext="#{msg.thymeleaf.pagelabel.consolatedApprove}"></span>Consolidate Paybill Approved
 							</span>
-							 <span th:if="${varBillGrp.isActive} =='12'" >
+							 <span th:if="${varBillGrp.isActive} ==12" >
 							 <span
 									class="label label-danger text-center"
 								th:utext="#{msg.thymeleaf.pagelabel.consolatedReject}">Consolidated
@@ -138,11 +138,11 @@
 										
 							</span>
 							
-							 <span th:if="${varBillGrp.isActive} =='13'"> <span
+							 <span th:if="${varBillGrp.isActive} ==13"> <span
 									class="label label-danger text-center"
 							th:utext="#{msg.thymeleaf.pagelabel.consolatedDelete}"></span>
-							</span></td>
-							<span th:if="${varBillGrp.isActive} =='14'"> <span
+							</span>
+							<span th:if="${varBillGrp.isActive} ==14"> <span
 									class="label label-danger text-center"
 							th:utext="#{msg.thymeleaf.pagelabel.consolatedApproved}"></span> Voucher Entry Done
 							</span></td>

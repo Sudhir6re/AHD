@@ -39,7 +39,7 @@ $(document).ready(function(){
     	  
         var bankBranchId=$(this).attr("data");
         var isActive=$(this).attr("data-val");
-        //alert(deptId+"-"+isActive);
+        // alert(deptId+"-"+isActive);
         ConfirmDeleteRecord(bankBranchId,isActive);
   }); 
 });  
@@ -75,9 +75,9 @@ if($('#language').val()=="en"){
 }
 
 jQuery(document).ready(function($) {
-	//alert("qwe");
+	// alert("qwe");
 	var varMessage = $("#message").val();
-	//alert("varMessage in if----"+varMessage);
+	// alert("varMessage in if----"+varMessage);
 
 	if (varMessage != "" && varMessage != undefined) {
 		swal.fire("Record Updated Successfully..!!");
@@ -87,6 +87,10 @@ jQuery(document).ready(function($) {
 $("form[name='addBranch']").validate({
     // Specify validation rules
     rules: {
+    	bankid:{
+    		required:true,
+    		min:1
+    		},
     	bankCode:
     		{
     		required:true,
@@ -102,12 +106,13 @@ $("form[name='addBranch']").validate({
     },
     // Specify validation error messages
     messages: {
+    	bankid: "Please Select Bank",
     	bankCode: "Please Select Bank",
-    	bankBranchName: "Please Enter Bank Branch Name",
-    	bankBranchShortName: "Please Enter Bank Branch Short Name",
+    	bankBranchName: "Please Enter Branch Name",
+    	bankBranchShortName: "Please Enter Branch Short Name",
     	ifscCode: "Please Enter IFSC Code",
     	micrCode: "Please Enter MICR Code",
-    	bankBranchAddress: "Please Enter Bank Branch Address",
+    	bankBranchAddress: "Please Enter Branch Address",
     },
     // Make sure the form is submitted to the destination defined
     // in the "action" attribute of the form when valid

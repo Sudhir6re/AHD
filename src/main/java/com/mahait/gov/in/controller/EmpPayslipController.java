@@ -243,13 +243,17 @@ public class EmpPayslipController  extends BaseController {
 			allowEdpList.clear();
 			deducAgEdpList.clear();
 			nongovdeducEdpList.clear();
+			
 			PayslipReportModel obj = new PayslipReportModel();
-			obj.setDeptalldetNm(StringHelperUtils.isNullString("Basic_Pay"));
+			obj.setDeptalldetNm("Basic_Pay");
 			obj.setType(1);
 			obj.setDeptallowdeducid(1);
 			obj.setTempvalue("0.00");
 			obj.setTempempty("0.00");
-			allowEdpList.add(obj);
+			allEdpList.add(0, obj);
+			
+			
+			
 
 			// for allowances
 			allowance = new ArrayList();

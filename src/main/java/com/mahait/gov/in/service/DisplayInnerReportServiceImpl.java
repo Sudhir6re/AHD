@@ -120,13 +120,17 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService 
 						deducTyEdpList.add(allEdpList.get(i)); // Adjust by Treasury
 					}
 
-				} /*
-					 * else { if(allEdpList.get(i).getDeptallowdeducid()==53) {
-					 * deducTyEdpList.add(allEdpList.get(i)); }else
-					 * if(allEdpList.get(i).getDeptallowdeducid()==58||allEdpList.get(i).
-					 * getDeptallowdeducid()==59) { deducAgEdpList.add(allEdpList.get(i)); }else {
-					 * deducOthEdpList.add(allEdpList.get(i)); } }
-					 */
+				} else if(allEdpList.get(i).getType() == 4) {
+					if (allEdpList.get(i).getCompoType() == 2) {
+
+						deducAgEdpList.add(allEdpList.get(i)); // Deductions Adj. By CAFO/Supri./Admin.
+					} else if (allEdpList.get(i).getCompoType() == 4) {
+						deducOthEdpList.add(allEdpList.get(i));
+					} else {
+
+						deducTyEdpList.add(allEdpList.get(i)); // Adjust by Treasury
+					}
+				}
 			}
 
 			// Dynamic Process end
@@ -430,7 +434,7 @@ public class DisplayInnerReportServiceImpl implements DisplayInnerReportService 
 								System.out.println("gpf 2-----");
 							}
 
-							if (allname.equals("FA")) {
+							if (allname.equals("festival_advance")) {
 								String lstfaLoan = null;
 								if (map.get(object.getDeptalldetNm().toLowerCase().trim()).toString() != null) {
 									Double amount = Double.parseDouble(

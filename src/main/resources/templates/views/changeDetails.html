@@ -80,7 +80,7 @@ table#test td:nth-child(5) {
 		<h3 Class="PageHeading">
 			<span th:utext="#{msg.thymeleaf.pageheading.changeDetails}"></span>
 		</h3>
-		<form class="form-horizontal" th:action="@{/ddoast/saveEmpRelieve}"
+		<form class="form-horizontal container" th:action="@{/ddoast/saveEmpRelieve}"
 			th:object="${empChangeDetailsModel}" method="POST"
 			enctype="multipart/form-data">
 

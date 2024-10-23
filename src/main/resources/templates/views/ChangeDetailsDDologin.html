@@ -58,13 +58,9 @@ table#test td:nth-child(5) {
 
 
 </head>
-<body class="changeDetails">
+<body class="ChangeDetailsDDologin">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
-
-
-
-
 
 	<div class="container min-height-600">
 		<div class="breadcrumbMain">
@@ -80,7 +76,7 @@ table#test td:nth-child(5) {
 		<h3 Class="PageHeading">
 			<span th:utext="#{msg.thymeleaf.pageheading.changeDetails}"></span>
 		</h3>
-		<form class="form-horizontal" th:action="@{/ddo/changeEmpDtlsLvl2}"
+		<form class="form-horizontal container" th:action="@{/ddo/changeEmpDtlsLvl2}"
 			th:object="${mstEmployeeEntity}" method="POST"
 			enctype="multipart/form-data">
 
@@ -98,7 +94,7 @@ table#test td:nth-child(5) {
 							<th th:utext="#{msg.thymeleaf.pagelabel.employeeName}"></th>
 							<th th:utext="#{msg.thymeleaf.pagelabel.DOJ}"></th>
 							<th th:utext="#{msg.thymeleaf.pagelabel.retirementDate}"></th>
-							<th:utext="#{msg.thymeleaf.pagelabel.reasonForChngDtls}"></th>
+							<th th:utext="#{msg.thymeleaf.pagelabel.reasonForChngDtls}"></th>
 
 						</tr>
 					</thead>

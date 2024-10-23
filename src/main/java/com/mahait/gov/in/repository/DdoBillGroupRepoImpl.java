@@ -260,35 +260,80 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		StringBuilder hql = new StringBuilder();
+	
+
 		hql.append(
-				"SELECT a.post_name, a.post_id,  f.employee_full_name_en, c.designation_name, e.PSR_NO,  i.DESCRIPTION, b.post_type_lookup_id,   d.lookup_name, ")
-				.append("    CASE   WHEN b.post_type_lookup_id = 10001198129 THEN 'P' WHEN b.post_type_lookup_id = 10001198130 THEN 'T' ")
-				.append("        ELSE 'S' END FROM org_post_details_rlt a ")
-				.append(" INNER JOIN   org_post_mst b ON a.post_id = b.post_id ")
-				.append(" INNER JOIN    designation_mst c ON a.dsgn_id = c.designation_id ")
-				.append("  INNER JOIN cmn_lookup_mst d ON d.lookup_id = b.post_type_lookup_id ")
-				.append(" INNER JOIN   HR_PAY_POST_PSR_MPG e ON e.POST_ID = b.post_id ")
-				.append(" LEFT JOIN   employee_mst f ON f.post_detail_id = a.post_id ")
+				"SELECT a.post_name, a.post_id,  f.employee_full_name_en, c.designation_name, e.PSR_NO,  i.DESCRIPTION, b.post_type_lookup_id,   d.lookup_name as ")
+				.append(" lookup_name,CASE   WHEN b.post_type_lookup_id = 10001198129 THEN 'P' WHEN b.post_type_lookup_id = 10001198130 THEN 'T'   ELSE 'S'  END AS post_type ")
+				.append(" FROM  org_post_details_rlt a INNER JOIN org_post_mst b ON a.post_id = b.post_id ")
+				.append(" INNER JOIN designation_mst c ON a.dsgn_id = c.designation_id ")
+				.append(" INNER JOIN cmn_lookup_mst d ON d.lookup_id = b.post_type_lookup_id ")
+				.append(" INNER JOIN  HR_PAY_POST_PSR_MPG e ON e.POST_ID = b.post_id ")
+				.append(" LEFT JOIN employee_mst f ON f.post_detail_id = a.post_id")
 				.append(" INNER JOIN org_ddo_mst g ON a.loc_id = CAST(g.location_code AS bigint) ")
-				.append(" INNER JOIN   cmn_lookup_mst h ON h.lookup_id = b.post_type_lookup_id ")
-				.append(" LEFT JOIN  mst_dcps_bill_group i ON i.BILL_GROUP_ID = e.bill_no ")
-				.append(" WHERE  (b.post_type_lookup_id != 10001198130 OR b.end_date > CURRENT_DATE) AND i.BILL_GROUP_ID = :billgrpId AND ")
-				.append(" a.loc_id IN ( SELECT CAST(location_code AS bigint)  FROM    org_ddo_mst a ")
-				.append(" INNER JOIN   rlt_zp_ddo_map b ON a.ddo_code = b.zp_ddo_code ")
-				.append(" WHERE    zp_ddo_code = :userName    ) ORDER BY    a.CREATED_DATE DESC");
+				.append(" LEFT JOIN mst_dcps_bill_group i ON i.BILL_GROUP_ID = e.bill_no ")
+				.append(" INNER JOIN  rlt_zp_ddo_map zp ON g.ddo_code = zp.zp_ddo_code ")
+				.append(" WHERE  (b.post_type_lookup_id != 10001198130 OR b.end_date > CURRENT_DATE) AND i.BILL_GROUP_ID = :billgrpId ")
+				.append(" AND zp_ddo_code = :userName ")
+				.append(" ORDER BY  a.CREATED_DATE DESC;");
 
 		Query query = currentSession.createSQLQuery(hql.toString());
 		query.setParameter("billgrpId", new BigInteger(billgrpId));
 		query.setParameter("userName", userName);
 
 		return query.list();
+		
+		//old query
+		
+		/*
+		 * hql.append(
+		 * "SELECT a.post_name, a.post_id,  f.employee_full_name_en, c.designation_name, e.PSR_NO,  i.DESCRIPTION, b.post_type_lookup_id,   d.lookup_name, "
+		 * )
+		 * .append("    CASE   WHEN b.post_type_lookup_id = 10001198129 THEN 'P' WHEN b.post_type_lookup_id = 10001198130 THEN 'T' "
+		 * ) .append("        ELSE 'S' END FROM org_post_details_rlt a ")
+		 * .append(" INNER JOIN   org_post_mst b ON a.post_id = b.post_id ")
+		 * .append(" INNER JOIN    designation_mst c ON a.dsgn_id = c.designation_id ")
+		 * .append("  INNER JOIN cmn_lookup_mst d ON d.lookup_id = b.post_type_lookup_id "
+		 * ) .append(" INNER JOIN   HR_PAY_POST_PSR_MPG e ON e.POST_ID = b.post_id ")
+		 * .append(" LEFT JOIN   employee_mst f ON f.post_detail_id = a.post_id ")
+		 * .append(" INNER JOIN org_ddo_mst g ON a.loc_id = CAST(g.location_code AS bigint) "
+		 * )
+		 * .append(" INNER JOIN   cmn_lookup_mst h ON h.lookup_id = b.post_type_lookup_id "
+		 * )
+		 * .append(" LEFT JOIN  mst_dcps_bill_group i ON i.BILL_GROUP_ID = e.bill_no ")
+		 * .append(" WHERE  (b.post_type_lookup_id != 10001198130 OR b.end_date > CURRENT_DATE) AND i.BILL_GROUP_ID = :billgrpId AND "
+		 * )
+		 * .append(" a.loc_id IN ( SELECT CAST(location_code AS bigint)  FROM    org_ddo_mst a "
+		 * ) .append(" INNER JOIN   rlt_zp_ddo_map b ON a.ddo_code = b.zp_ddo_code ")
+		 * .append(" WHERE    zp_ddo_code = :userName    ) ORDER BY    a.CREATED_DATE DESC"
+		 * );
+		 */
+		
 	}
 
 	@Override
 	public List<Object[]> finddetachpostlist(String userName, String billgrpId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-
+		
 		StringBuilder hql = new StringBuilder();
+		hql.append(
+				"SELECT a.post_name, a.post_id,  f.employee_full_name_en, c.designation_name, e.PSR_NO,  i.DESCRIPTION, b.post_type_lookup_id,   d.lookup_name as ")
+				.append(" lookup_name,CASE   WHEN b.post_type_lookup_id = 10001198129 THEN 'P' WHEN b.post_type_lookup_id = 10001198130 THEN 'T'   ELSE 'S'  END AS post_type ")
+				.append(" FROM  org_post_details_rlt a INNER JOIN org_post_mst b ON a.post_id = b.post_id ")
+				.append(" INNER JOIN designation_mst c ON a.dsgn_id = c.designation_id ")
+				.append(" INNER JOIN cmn_lookup_mst d ON d.lookup_id = b.post_type_lookup_id ")
+				.append(" INNER JOIN  HR_PAY_POST_PSR_MPG e ON e.POST_ID = b.post_id ")
+				.append(" LEFT JOIN employee_mst f ON f.post_detail_id = a.post_id")
+				.append(" INNER JOIN org_ddo_mst g ON a.loc_id = CAST(g.location_code AS bigint) ")
+				.append(" LEFT JOIN mst_dcps_bill_group i ON i.BILL_GROUP_ID = e.bill_no ")
+				.append(" INNER JOIN  rlt_zp_ddo_map zp ON g.ddo_code = zp.zp_ddo_code ")
+				.append(" WHERE  (b.post_type_lookup_id != 10001198130 OR b.end_date > CURRENT_DATE)   AND f.employee_full_name_en IS NULL ")
+				.append(" AND i.DESCRIPTION IS NULL AND zp_ddo_code = :userName ")
+				.append(" ORDER BY  a.CREATED_DATE DESC;");
+
+		
+		//old query
+		/*StringBuilder hql = new StringBuilder();
 		hql.append(
 				"SELECT  a.post_name,  a.post_id, f.employee_full_name_en, c.designation_name, e.PSR_NO,  i.DESCRIPTION, b.post_type_lookup_id, d.lookup_name,")
 				.append("    CASE  WHEN b.post_type_lookup_id = 10001198129 THEN 'P' ")
@@ -306,11 +351,12 @@ public class DdoBillGroupRepoImpl implements DdoBillGroupRepo {
 				.append("  AND i.DESCRIPTION IS NULL   ")
 				.append("  AND a.loc_id IN ( SELECT  CAST(location_code AS bigint)   FROM org_ddo_mst a ")
 				.append("  INNER JOIN   rlt_zp_ddo_map b ON a.ddo_code = b.zp_ddo_code      ")
-				.append("  WHERE zp_ddo_code =:zp_ddo_code )").append("ORDER BY   a.CREATED_DATE DESC");
+				.append("  WHERE zp_ddo_code =:zp_ddo_code )").append("ORDER BY   a.CREATED_DATE DESC");*/
 
 		String hqlQuery = hql.toString();
 		Query query = currentSession.createSQLQuery(hql.toString());
-		query.setParameter("zp_ddo_code", userName);
+		//query.setParameter("billgrpId", new BigInteger(billgrpId));
+		query.setParameter("userName", userName);
 		return query.list();
 	}
 

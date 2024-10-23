@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -675,6 +674,21 @@ public class OnlineContributionServiceImpl implements OnlineContributionService 
 		onlineContributionRepo.addMstDcpsContriVoucherDtlEntityVoucherDtl(formData,messages);
 		onlineContributionRepo.addDcpsContributionEntityVoucherDtl(formData,messages);
 		return 1;
+	}
+
+	@Override
+	public MstDcpsContriVoucherDtlEntity findMstDcpsContriVoucherDtlEntity(
+			DcpContributionModel dcpContributionModel) {
+		MstDcpsContriVoucherDtlEntity mstDcpsContriVoucherDtlEntity = onlineContributionRepo
+				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
+		
+		return onlineContributionRepo
+				.findMstDcpsContriVoucherDtlEntity(dcpContributionModel).orElseGet(MstDcpsContriVoucherDtlEntity::new);
+	}
+
+	@Override
+	public Integer rejectContribution(Map<String, String> formData, OrgUserMst messages) {
+		return onlineContributionRepo.rejectContribution(formData,messages);
 	}
 }
 

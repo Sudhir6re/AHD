@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class MstSubMenuServiceImpl implements MstSubMenuService {
 	@Autowired
 	private MstSubMenuRepo mstSubMenuRepo;
 
+	//@CacheEvict(value = "submenus", allEntries = true)
 	@Override
 	public int saveSubMenu(MstSubMenuModel mstSubMenuModel, OrgUserMst messages) {
 		MstSubMenuEntity mstSubMenuEntity = new MstSubMenuEntity();
@@ -67,6 +69,7 @@ public class MstSubMenuServiceImpl implements MstSubMenuService {
 		return objSubMenu;
 	}
 
+	//@CacheEvict(value = "submenus", allEntries = true)
 	@Override
 	public String saveEditSubMenu(MstSubMenuEntity mstSubMenuEntity, int user_id) {
 		MstSubMenuEntity objSubMenu = mstSubMenuRepo.findSubMenuBySubMenuKey(mstSubMenuEntity.getSubMenuId());
@@ -79,6 +82,7 @@ public class MstSubMenuServiceImpl implements MstSubMenuService {
 			objSubMenu.setRoleId(mstSubMenuEntity.getRoleId());
 			objSubMenu.setUpdatedDate(new Date());
 			objSubMenu.setUpdatedUserId(user_id);
+			objSubMenu.setMenuCode(mstSubMenuEntity.getMenuCode());
 			mstSubMenuRepo.updateSubMenu(objSubMenu);
 		}
 		return "UPDATED";

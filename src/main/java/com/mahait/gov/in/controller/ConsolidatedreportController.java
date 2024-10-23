@@ -176,7 +176,7 @@ public class ConsolidatedreportController  extends BaseController{
             obj.setType(StringHelperUtils.isNullInt(object.getType()));
             obj.setDeptallowdeducid(StringHelperUtils.isNullInt(object.getDeptallowdeducid()));
             obj.setTempvalue(StringHelperUtils.isNullString(String.valueOf(allowavalue)));
-            obj.setTempempty(StringHelperUtils.isNullString(object.getHeadAccountCode()));
+            obj.setTempempty(StringHelperUtils.isNullString(head));
 			allowEdpList1.add(obj);
 		}
 		
@@ -565,13 +565,7 @@ public class ConsolidatedreportController  extends BaseController{
             obj.setType(StringHelperUtils.isNullInt(object.getType()));
             obj.setDeptallowdeducid(StringHelperUtils.isNullInt(object.getDeptallowdeducid()));
             obj.setTempvalue(StringHelperUtils.isNullString(String.valueOf(allowavalue)));
-         /*   if(object.getDeptalldetNm().toLowerCase().equals("pf")) {
-            	obj.setTempempty(headname);
-
-            }else {
-            	
-            	obj.setTempempty(StringHelperUtils.isNullString(object.getHeadAccountCode()));
-            }*/
+           	obj.setTempempty(StringHelperUtils.isNullString(object.getHeadAccountCode()));
 			allowEdpList1.add(obj);
 		}
 		

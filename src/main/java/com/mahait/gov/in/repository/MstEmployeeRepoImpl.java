@@ -91,7 +91,7 @@ public class MstEmployeeRepoImpl implements MstEmployeeRepo {
 	public List<Object[]> findEmployeeAllowanceDeduction(String sevaarthId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		String hql = " Select a.sevaarth_id,a.department_code,a.department_allowdeduc_code,b.employee_full_name_en,c.department_allowdeduc_name,c.is_type,c.department_allowdeduc_col_nm,"
-				+ "cc.group_name_en,cc.gis_amount,b.grade_pay,b.pyhical_handicapped,ccc.group_name_en as gisgroup, c.method_name,c.is_allowdeduc_type_sum,c.is_rule_based,c.is_non_computation_component,c.is_non_government from employee_allowdeduc_mpg a inner join  employee_mst b on b.employee_id = a.employee_id "
+				+ "cc.group_name_en,cc.gis_amount,b.grade_pay,b.pyhical_handicapped,ccc.group_name_en as gisgroup, c.method_name,c.is_allowdeduc_type_sum,c.is_rule_based,c.is_non_computation_component,c.is_non_government,c.is_loan_adv from employee_allowdeduc_mpg a inner join  employee_mst b on b.employee_id = a.employee_id "
 				+ " inner join department_allowdeduc_mst c on a.department_allowdeduc_code = c.department_allowdeduc_code  inner join cadre_group_mst  cc    on b.emp_class = cc.id left outer join cadre_group_mst  ccc    on CAST(b.gisgroup AS integer)  = ccc.id  "
 				+ " where UPPER(a.sevaarth_id)= UPPER(:sevaarthId)  and c.is_active='1' ORDER BY c.is_type,c.department_allowdeduc_seq ASC  ";
 		Query query = currentSession.createSQLQuery(hql);

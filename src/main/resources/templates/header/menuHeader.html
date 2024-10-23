@@ -55,7 +55,10 @@
 		
 		 <input type="hidden"
 		name="appRootPath" id="appRootPath"
-		th:value="${#servletContext.contextPath}" />
+			th:value="${#servletContext.contextPath != '' ? #servletContext.contextPath : appRootPath}"
+		/>
+		<!-- th:value="${#servletContext.contextPath}"  -->
+	
 
 	<div class="loaderMainNew" id="loaderMainNew">
 		<div class="loader1">

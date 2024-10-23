@@ -138,23 +138,15 @@ public class EmpPayslipRepoImpl implements EmpPayslipRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-				.append("SELECT a.sevaarth_id, employee_full_name_en, designation_name, doj, dob, mobile_no1, pan_no, ")
-				.append("a.pay_commission_code, uid_no, a.ifsc_code, bank_acnt_no, a.ddo_code, ")
-				.append("b.gross_amt, b.payslip_total_deduction, b.payslip_net, ")
-				.append("CASE WHEN a.dcps_gpf_flag = 'Y' THEN a.dcps_no ELSE a.pfdescription END AS dcps_or_pf, ")
-				.append("f.description, a.super_ann_date, ")
-				.append("b.seven_pc_lvl, b.basic_pay, d.voucher_no, d.voucher_date, d.paybill_generation_trn_id ")
-				.append("FROM employee_mst a ")
-				.append("INNER JOIN paybill_generation_trn_details b ON b.sevaarth_id = a.sevaarth_id ")
-				.append("INNER JOIN designation_mst c ON c.designation_code = b.desg_code ")
-				.append("INNER JOIN paybill_generation_trn d ON d.paybill_generation_trn_id = b.paybill_generation_trn_id ")
-				.append("INNER JOIN mst_dcps_bill_group f ON d.scheme_billgroup_id = f.bill_group_id ")
-				.append("WHERE d.paybill_month = :paybillMonth ").append("AND d.paybill_year = :paybillYear ")
+		stringBuilder.append("SELECT a.* ")
+				.append("FROM paybill_generation_trn_details a ")
+				.append("INNER JOIN paybill_generation_trn b ON a.paybill_generation_trn_id = b.paybill_generation_trn_id ")
+				.append("LEFT JOIN mst_dcps_bill_group c ON b.scheme_billgroup_id = c.bill_group_id ")
+				.append("WHERE b.paybill_month = :paybillMonth AND b.paybill_year = :paybillYear ")
 				.append("AND scheme_billgroup_id IN (SELECT bill_group_id FROM mst_dcps_bill_group a ")
 				.append("LEFT JOIN mst_scheme b ON b.scheme_code = a.scheme_code ")
-				.append("WHERE bill_group_id = :schemeBillgroupId) AND lower(b.sevaarth_id)=lower(:sevaarthId)")
-				.append("AND d.is_active = 14");
+				.append("WHERE bill_group_id = :schemeBillgroupId) AND lower(a.sevaarth_id)=lower(:sevaarthId)")
+				.append("AND b.is_active = 14");
 
 		String hql = stringBuilder.toString();
 
@@ -186,7 +178,6 @@ public class EmpPayslipRepoImpl implements EmpPayslipRepo {
 		Query query = currentSession.createSQLQuery(sql).setParameter("sevaarthId", messages.getUserName());
 
 		List<Object[]> lstprop = query.list();
-		return lstprop; // Return the result
+		return lstprop; 
 	}
-
 }

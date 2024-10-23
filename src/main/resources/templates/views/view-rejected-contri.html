@@ -2,11 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:utext="#{msg.thymeleaf.pageheading.rejectContriview}"></title>
+<title th:utext="#{msg.thymeleaf.pageheading.onlineContriEntry}"></title>
 <style type="text/css">
+div#tblEmpDtlsBody\ table-responsive {
+	overflow: auto;
+}
+
+div#tblEmpDtlsBody\ table-responsive th {
+	min-width: 150px !important;
+}
 </style>
 </head>
-<body class="view-rejected-contri">
+<body class="online-contri-entry">
 	<div th:replace="header/menuHeader :: var-script-header"></div>
 	<div th:replace="header/menuHeader :: varmenuheader"></div>
 	<div class="container min-height-600">
@@ -17,24 +24,23 @@
 					<li class="breadcrumb-item"><a href="#"><span
 							th:utext="#{msg.thymeleaf.pagelabel.masterBD}"></span></a></li>
 					<li class="breadcrumb-item active" aria-current="page"><span
-						th:utext="#{msg.thymeleaf.pageheading.rejectContriview}"></span></li>
+						th:utext="#{msg.thymeleaf.pageheading.onlineContriEntry}"></span></li>
 				</ol>
 			</nav>
 		</div>
 		<h3 Class="PageHeading">
-			<span th:utext="#{msg.thymeleaf.pageheading.rejectContriview}"></span>
+			<span th:utext="#{msg.thymeleaf.pageheading.onlineContriEntry}"></span>
 		</h3>
-
 		<form class="form-horizontal" method="POST" id="onlineEntryForm"
-			th:action="@{/ddoast/onlineContriEntry}" name="onlineEntryForm"
+			th:action="@{/ddoast/viewRejectedContri}" name="onlineEntryForm"
 			th:object="${dcpContributionModel}" enctype="multipart/form-data">
 
 			<input type="hidden" th:field="*{useType}" id="Use" value="ViewAll" />
-			<input type="hidden" th:field="*{action}" id="action" /> 
-			<input type="hidden" th:value="${message}" id="message" />
-			
-			
-			<input type="hidden" th:field="*{locId}" id="locId" />
+			<input type="hidden" th:field="*{action}" id="action" /> <input
+				type="hidden" th:value="${message}" id="message" /> <input
+				type="hidden" th:field="*{locId}" id="locId" /> <input
+				type="hidden" id="deleteDcpContributionId"
+				th:field="*{deleteDcpContributionId}" name="deleteDcpContributionId" />
 
 
 
@@ -63,14 +69,14 @@
 						<tbody>
 							<tr>
 								<td width="15%"><b>Treasury Name</b></td>
-								<td width="35%"><select  readonly th:field="*{treasuryCode}"
+								<td width="35%"><select readonly th:field="*{treasuryCode}"
 									id="cmbTreasuryCode">
-											
-								     <option th:each="cmnLocationMst : ${lstTreasury}" selected="selected" 
-											th:value="${cmnLocationMst.locId}"
+
+										<option th:each="cmnLocationMst : ${lstTreasury}"
+											selected="selected" th:value="${cmnLocationMst.locId}"
 											th:text="${cmnLocationMst.locName}"></option>
-											
-											
+
+
 								</select> <label class="mandatoryindicator">*</label></td>
 							</tr>
 							<tr>
@@ -79,9 +85,9 @@
 								<td width="30%"><select name="ddoCode"
 									th:field="*{ddoCode}" id="ddoCode" readonly
 									class="form-control removeErrorFromDropdown">
-										
+
 										<option th:each="varGetAllddoNameLst : ${ddoNameLst}"
-											selected="selected"  th:value="${varGetAllddoNameLst.ddoCode}"
+											selected="selected" th:value="${varGetAllddoNameLst.ddoCode}"
 											th:text="${language=='mh' ? varGetAllddoNameLst.ddoName : varGetAllddoNameLst.ddoName}"></option>
 								</select></td>
 							</tr>
@@ -100,9 +106,12 @@
 								</select></td>
 								<td width="15%"><b>Scheme</b></td>
 								<td width="35%"><input type="hidden" name="schemeCode"
-									th:field="*{schemeCode}" id="schemeCode"> <input
-									type="text" name="txtSchemeName" id="txtSchemeName"> <label
-									class="mandatoryindicator">*</label></td>
+									th:field="*{schemeCode}" id="schemeCode">
+									
+									 <input
+									type="text" 
+									th:field="*{schemeName}" id="txtSchemeName"> <label
+									class="mandatoryindicator"   >*</label></td>
 							</tr>
 							<!-- 	<tr>
 								<td width="15%"><b>Sub Scheme</b></td>
@@ -112,8 +121,9 @@
 							</tr> -->
 							<tr>
 								<td width="15%"><b>Pay Month</b></td>
-								<td width="30%"><select name="monthId"
-									th:field="*{monthId}" id="monthId"
+								<td width="30%">
+								<select name="monthId"
+									th:field="*{monthId}" id="monthId1"
 									class="form-control removeErrorFromDropdown">
 										<option selected="selected" th:value="0"
 											th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -242,9 +252,12 @@
 					<table class="table bor-0">
 						<tbody>
 							<tr>
-								<td id="go" align="center"><input type="submit"
+								<td id="go" align="center">
+								<input type="button"
 									name="btnGo" id="btnGo" value="GO" class="buttontag btn"
-									onclick="SearchEmployee();"> <input type="button"
+									onclick="searchRejectedContri(this);"> 
+									
+									<input type="button"
 									name="btnCancel" onclick="history.back()" id="btnCancel"
 									value="Cancel" class="buttontag btn"></td>
 							</tr>
@@ -272,8 +285,6 @@
 									<th width="20%"><b>DA</b></th>
 									<th width="20%"><b>Contribution </b></th>
 									<th width="20%"><b>Employer Contribution</b></th>
-									<th width="20%"><b>Add Row</b></th>
-									<th width="20%"><b>Delete Row</b></th>
 									<th width="20%"><b>Status </b></th>
 								</TR>
 							</THEAD>
@@ -281,37 +292,38 @@
 							<tbody id="trnDCPSTable">
 								<tr
 									th:each="dcpContributionModelRow, itemStat : ${dcpContributionModel.lstDcpContributionModel}">
-									<td width="20%" class="employeeName"
+									<td width="20%" class="employeeName" readonly
 										th:text="${dcpContributionModelRow.employeeName}"
 										th:id="${'employeeName' + itemStat.index}"></td>
 
 									<td width="20%"><b
 										th:text="${dcpContributionModelRow.dcpsNO}">DCPS ID</b> <input
 										type="hidden" th:id="${'dcpsNO' + itemStat.index}"
-										class="dcpsNO"
+										class="dcpsNO" readonly
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpsNO}">
 
 									</td>
-									<td width="20%"><input type="date"  th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+									<td width="20%"><input type="date"
 										th:id="${'startDate' + itemStat.index}"
-										class="startDate  removeErrorFromDate"
+										class="startDate  removeErrorFromDate" readonly
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].startDate}">
 									</td>
-									<td width="20%"><input type="date"  th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+									<td width="20%"><input type="date"
 										th:id="'endDate' + ${itemStat.index}"
-										class="endDate removeErrorFromDate"
+										class="endDate removeErrorFromDate" readonly
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].endDate}">
 
 										<input type="hidden"
 										th:id="${'dcpContributionId' + itemStat.index}"
-										class="dcpContributionId endDate"   th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+										class="dcpContributionId endDate" readonly
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpContributionId}">
 
 									</td>
 
-									<td width="20%"><select
+									<td width="20%"><select  readonly
 										class="form-control  payCommission removeErrorFromDropdown"
-										th:id="${'payCommission' + itemStat.index}"  th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'"  
+										th:id="${'payCommission' + itemStat.index}"
+										
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].payCommission}">
 											<option th:value="0"
 												th:utext="#{msg.thymeleaf.dropdown.pleaseselect}"></option>
@@ -320,8 +332,8 @@
 												th:text="${language=='mh' ? varPay.commission_name_mh : varPay.commission_name_en}"></option>
 									</select></td>
 
-									<td><select onchange="addMonthYearComboForDelayed();"
-										th:id="${'typeOfPayment' + itemStat.index}" th:onblur="'changeContriForSelectedPrd(' + ${itemStat.index} + ')'" 
+									<td><select onchange="addMonthYearComboForDelayed();" readonly
+										th:id="${'typeOfPayment' + itemStat.index}"
 										class="form-control removeErrorFromDropdown typeOfPayment"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].typeOfPayment}">
 											<option selected="selected" th:value="0"
@@ -332,7 +344,7 @@
 									</select></td>
 
 
-									<td width="20%"><input type="text"
+									<td width="20%"><input type="text"  readonly
 										th:id="${'basicPay' + itemStat.index}"
 										class="basicPay removeErrorFromInput"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].basicPay}">
@@ -343,61 +355,73 @@
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dp}"></td> -->
 
 
-									<td width="20%"><input type="hidden"
+									<td width="20%"><input type="hidden" readonly
 										th:id="${'sevaarthId' + itemStat.index}" class="sevaarthId"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].sevaarthId}">
 
 
 										<input type="hidden" th:id="${'dcpEmpId' + itemStat.index}"
-										class="dcpEmpId"
+										class="dcpEmpId" readonly
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].dcpEmpId}">
 
 
 
 										<input type="hidden" th:id="${'daRate' + itemStat.index}"
-										class="daRate"
+										class="daRate" readonly
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].daRate}">
 
 
-										<input type="text" th:id="${'da' + itemStat.index}" class="da"
+										<input type="text" th:id="${'da' + itemStat.index}" class="da" readonly
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].da}">
 
 
-										<input type="hidden" th:id="${'hidBasic' + itemStat.index}"	class="hidBasic" th:value="${dcpContributionModelRow.basicPay}" />
-
-
-									</td>
-									<td width="20%"><input type="text"
+										<input type="hidden" th:id="${'hidBasic' + itemStat.index}"
+										class="hidBasic"
+										th:value="${dcpContributionModelRow.basicPay}" /></td>
+									<td width="20%"><input type="text" readonly
 										th:id="${'contribution' + itemStat.index}"
 										class="contribution"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].contribution}"></td>
-									<td width="20%"><input type="text"
+									<td width="20%"><input type="text"  readonly
 										class="emprContribution"
 										th:id="${'emprContribution' + itemStat.index}"
 										th:field="${dcpContributionModel.lstDcpContributionModel[__${itemStat.index}__].emprContribution}"></td>
-									<td width="20%"><b class="addRow btn btn-success"
-										th:data="${itemStat.index}"
-										th:data-dcpsNo="${dcpContributionModelRow.dcpsNO}"
-										th:data-dcpsEmpId="${dcpContributionModelRow.dcpEmpId}"
-										th:data-sevaarthId="${dcpContributionModelRow.sevaarthId}">Add
-											Row</b></td>
-									<td width="20%"><b class="deleteRow btn  btn-danger"
-										th:data="${itemStat.index}"
-										th:data-dcpsNo="${dcpContributionModelRow.dcpsNO}"
-										th:data-dcpsEmpId="${dcpContributionModelRow.dcpEmpId}"
-										th:data-sevaarthId="${dcpContributionModelRow.sevaarthId}">Delete
-											Row</b></td>
+									
 
-									<td width="20%"><span
-										th:switch="${dcpContributionModelRow.status}"> <span
+									<td width="20%">
+									<span
+										th:switch="${dcpContributionModelRow.regStatus}"> 
+									<span
 											th:case='-1'
 											th:class="'label label-danger text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
 
-											<span th:case="*"
+                                             <span th:case="0"
+											th:class="'label label-info text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
+
+                                           <span th:case="null"
 											th:class="'label label-warning text-center regStatus'"
 											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
-									</span></td>
+
+
+                                        	<span th:case="1"
+											th:class="'label label-success text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+
+											<span th:case="-3"
+											th:class="'label label-danger text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+											
+											<span th:case="4"
+											th:class="'label label-warning text-center regStatus'"
+											th:text="#{|msg.thymeleaf.dcpscontribution.onineStatus${dcpContributionModelRow.regStatus}|}"></span>
+											
+									</span>
+									
+									
+									</td>
 								</tr>
 
 
@@ -411,7 +435,7 @@
 										Please press Go button first then set dates.</td>
 								</tr> -->
 
-							<tr>
+							<!-- <tr>
 								<td colspan="5">
 									<fieldset class="tabstyle">
 										<legend>
@@ -444,29 +468,29 @@
 
 									</fieldset>
 								</td>
-							</tr>
+							</tr> -->
 
-							<tr>
-								<td id="go" align="center"><input type="button"
-									name="btnCancel" onclick="history.back()" id="btnCancel"
-									value="Back" class="buttontag btn"> <input
-									type="submit" name="save" id="save" value="Save"
-									class="buttontag btn"></td>
+						
 
-
-							</tr>
 						</table>
-					</div>
+						<br />
 
+					</div>
+					<!-- <br />
+					<div class="text-center">
+						<input type="button" name="btnCancel" onclick="history.back()"
+							id="btnCancel" value="Back" class="buttontag btn"> <input
+							type="submit" name="save" id="save" value="Save"
+							class="buttontag btn">
+					</div>
+					<br /> -->
 
 				</fieldset>
 			</div>
 		</form>
 	</div>
-	
-
+	<script th:src="@{/js/project/online-contri-entry.js}"></script>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-	<script th:src="@{/js/project/view-rejected-contri.js}"></script>
 </body>
 </html>

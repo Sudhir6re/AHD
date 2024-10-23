@@ -50,4 +50,6 @@ public interface OnlineContributionRepo {
 
 	void addMstDcpsContriVoucherDtlEntityVoucherDtl(Map<String, String> formData, OrgUserMst messages);
 
+	Integer rejectContribution(Map<String, String> formData, OrgUserMst messages);
+
 }

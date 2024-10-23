@@ -57,6 +57,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 	@PersistenceContext
 	EntityManager entityManager;
 
+	private EmpChangeDetailsModel employeeinfofordetails;
+
 	@Override
 	public List<EmpChangeDetailsModel> findEmpforChangeDtls(String userName) {
 		// TODO Auto-generated method stub
@@ -719,8 +721,8 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				.orElseGet(MstEmployeeDetailEntity::new);
 
 		Session currentSession = entityManager.unwrap(Session.class);
-		// objEntity.setEmployeeId(mstEmployeeModel.getEmployeeId());
-		// objEntity.setSevaarthId(mstEmployeeModel.getSevaarthId());
+		objEntity.setEmployeeId(empChangeDetailsModel.getEmployeeId());
+		 objEntity.setSevaarthId(empChangeDetailsModel.getSevaarthId());
 		// objEntity.setSevaarthId("0");
 		MstNomineeDetailsHistEntity lObjNomineeDtls = null;
 		MstNomineeDetailsHistEntity[] lArrNomineeDtls = null;
@@ -816,6 +818,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			objEntity.setPfacno(empChangeDetailsModel.getPfacno());
 			System.out.println("pfdescription---------" + empChangeDetailsModel.getPfdescription());
 			objEntity.setPfdescription(empChangeDetailsModel.getPfdescription());
+			objEntity.setFormstatus(5l);
 
 			// Bank/DCPS/NPS/GPF Details End
 
@@ -886,6 +889,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			// objEntity.setDdoCode(mstEmployeeModel.getDdoCode());
 			objEntity.setBillGroupId(empChangeDetailsModel.getBillgroupId());
 			objEntity.setFormstatus(5l);
+			objEntity.setDdoCode(empChangeDetailsModel.getDdoCode());
 			empChangeDetailsModel.setIsActive(5l);
 			objEntity.setSignatureAttachmentId(empChangeDetailsModel.getSignatureAttachmentId());
 			objEntity.setCreatedUserId(empChangeDetailsModel.getCreatedUserId());
@@ -895,36 +899,28 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 		if (empChangeDetailsModel.getGpf_id() != null) {
 			MstGpfDetailsHistEntity objEntity2 = empChangeDetailsRepo.findbyGPFid(empChangeDetailsModel.getGpf_id());
-			if (objEntity2 != null)
+			
+			
+			if (objEntity2 == null)
 			// objEntity2.setGpf_id(mstEmployeeModel.getGpf_id());
 			{
-				objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
-				objEntity2.setCreateddate(new Date());
-				objEntity2.setCreatedid(1l);
-				objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
-				objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
-				objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
-				// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
-				objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
-				objEntity2.setCreateddate(new Date());
-				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
-				objEntity2.setEmployeeId(objEntity.getEmployeeId());
-				currentSession.update(objEntity2);
-			}else {
-				objEntity2=new MstGpfDetailsHistEntity();
-				objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
-				objEntity2.setCreateddate(new Date());
-				objEntity2.setCreatedid(1l);
-				objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
-				objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
-				objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
-				// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
-				objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
-				objEntity2.setCreateddate(new Date());
-				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
-				objEntity2.setEmployeeId(objEntity.getEmployeeId());
-				currentSession.save(objEntity2);
+				 objEntity2 =new MstGpfDetailsHistEntity();
 			}
+				objEntity2.setAccountmaintainby(empChangeDetailsModel.getAccountmaintainby());
+				objEntity2.setCreateddate(new Date());
+				objEntity2.setCreatedid(1l);
+				objEntity2.setIsactive(empChangeDetailsModel.getDcpsgpfflag());
+				objEntity2.setPfacno(empChangeDetailsModel.getPfacno());
+				objEntity2.setPfdescription(empChangeDetailsModel.getPfdescription());
+				// objEntity2.setUpdatedate(mstEmployeeModel.getUpdatedDate());
+				objEntity2.setCreatedid(empChangeDetailsModel.getUpdatedUserId());
+				objEntity2.setCreateddate(new Date());
+				// objEntity2.setUpdateid(mstEmployeeModel.getUpdatedUserId());
+				objEntity2.setEmployeeId(objEntity.getEmployeeId());
+				currentSession.saveOrUpdate(objEntity2);
+			
+			
+			
 		} else if (empChangeDetailsModel.getAccountmaintainby() != null && empChangeDetailsModel.getPfacno() != null
 				&& empChangeDetailsModel.getPfseries() != null)
 			if (!empChangeDetailsModel.getAccountmaintainby().equals("0")
@@ -945,7 +941,13 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 		if (empChangeDetailsModel.getGisid() != null) {
 			MstGisdetailsHistEntity objEntity3 = empChangeDetailsRepo.findbyGisid(empChangeDetailsModel.getGisid());
 			// objEntity3.setGisid(mstEmployeeModel.getGisid());
-			if (objEntity3 != null) {
+			
+			if (objEntity3 == null)
+				// objEntity2.setGpf_id(mstEmployeeModel.getGpf_id());
+				{
+				objEntity3 =new MstGisdetailsHistEntity();
+				}
+			
 				objEntity3.setCreateddate(new Date());
 				objEntity3.setCreatedid(1l);
 				objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
@@ -955,19 +957,7 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 				// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
 				// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
 				objEntity3.setEmployeeId(objEntity.getEmployeeId());
-				currentSession.update(objEntity3);
-			}else {
-				objEntity3.setCreateddate(new Date());
-				objEntity3.setCreatedid(1l);
-				objEntity3.setGisapplicable(empChangeDetailsModel.getGisapplicable());
-				objEntity3.setGisgroup(empChangeDetailsModel.getGisgroup());
-				objEntity3.setIsactive("Y");
-				objEntity3.setMembership_date(empChangeDetailsModel.getMembership_date());
-				// objEntity3.setUpdatedate(mstEmployeeModel.getUpdatedDate());
-				// objEntity3.setUpdateid(mstEmployeeModel.getUpdatedUserId());
-				objEntity3.setEmployeeId(objEntity.getEmployeeId());
-				currentSession.save(objEntity3);
-			}
+				currentSession.saveOrUpdate(objEntity3);
 		} else if (empChangeDetailsModel.getGisapplicable() != null && empChangeDetailsModel.getGisgroup() != null
 				&& empChangeDetailsModel.getMembership_date() != null)
 			if (!empChangeDetailsModel.getGisapplicable().equals("0")
@@ -1550,6 +1540,11 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 			 * private String employeeFullName; private String designationName; private
 			 * String departmentNameEn;
 			 */
+			
+
+			Serializable id = empChangeDetailsRepo.updateChangeDetails(objEntity, empChangeDetailsModel,
+					lArrNomineeDtls);
+
 			if (empChangeDetailsModel.getPhotoAttachmentId() != null) {
 				String[] saveimage = savePhotoSignature(files, empChangeDetailsModel.getDeptNm(),
 						empChangeDetailsModel.getEmployeeId(), empChangeDetailsModel.getPhotoAttachmentId(),
@@ -1559,12 +1554,11 @@ public class EmpChangeDetailsServiceImpl implements EmpChangeDetailsService {
 
 				// Serializable id=(Integer)reuslt.get(0);
 			}
-
-			Serializable id = empChangeDetailsRepo.updateChangeDetails(objEntity, empChangeDetailsModel,
-					lArrNomineeDtls);
+			
+			
+			 empChangeDetailsRepo.updateFormStatus(empChangeDetailsModel.getEmployeeId());
 
 			return (long) id;
-
 		}
 		return 1;
 	}
