@@ -174,7 +174,7 @@ public class OrgUserMst implements Serializable {
     private Set<OrgEmpMst> orgEmpMstsForUpdatedBy;
 */
 	
-
+ 
     @Transient
   	private Long locId;
     

@@ -117,7 +117,7 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 												<i
 													class="fa fa-user-circle animate__animated animate__backInDown"></i>
 											</div>
-											<form th:action="@{/login}" method="POST" autocomplete="off">
+											<form th:action="@{/login}" method="POST" autocomplete="off"  id="loginForm">
 												<input autocomplete="false" name="hidden" type="text"
 													style="display: none;">
 												<div class="alDv">
@@ -130,6 +130,11 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 													<p th:if="${param.unauthorize}" class="text-danger">You
 														are not authorized for the requested data. Please login
 														!!!</p>
+														
+												 <p th:if="${param.locked}" class="text-danger">Your account has been locked due to too many failed attempts. Please try again later.</p>
+														
+														
+														
 												</div>
 												<p class="legend">
 													Login Here<span class="fa fa-hand-o-down"></span>
@@ -358,6 +363,20 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 			});
 		});
 	</script>
+	  <script>
+       /*  $(document).ready(function() {
+            $("#loginForm").on('submit', function(e) {
+
+                var password = $('#password').val();
+                var encryptionKey = "MySuperSecretKey";//;$('#encryptionKey').val();
+
+                var encryptedPassword = CryptoJS.AES.encrypt(password, encryptionKey).toString();
+
+                $('#password').val(encryptedPassword);
+
+            });
+        }); */
+    </script>
 	<script th:src="@{/js/captcha.js}"></script>
 </body>
 

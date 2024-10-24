@@ -4,6 +4,7 @@ package com.mahait.gov.in.customfilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -32,6 +33,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     private CustomAuthenticationToken getAuthRequest(HttpServletRequest request) {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
+        
+        HttpSession session = request.getSession();
+      
+        
         String appCode = obtainDomain(request);
         int appCode1 = Integer.parseInt(obtainDomain(request)) ;
 
