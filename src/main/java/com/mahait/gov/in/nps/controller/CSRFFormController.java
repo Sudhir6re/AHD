@@ -38,6 +38,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.InputStreamResource;
@@ -80,6 +81,7 @@ import com.mahait.gov.in.service.MstEmployeeService;
 
 import cra.standalone.subsreg.RunSubsRegFvu;
 
+@Qualifier("abc")
 @Controller
 @RequestMapping("/ddo")
 @PropertySource(value = { "classpath:application.properties" })

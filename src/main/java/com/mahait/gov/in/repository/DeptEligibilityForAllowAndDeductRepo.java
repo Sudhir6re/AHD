@@ -29,6 +29,7 @@ public interface DeptEligibilityForAllowAndDeductRepo {
 	public void updateComponent(EmployeeAllowDeducComponentAmtEntity empdata);
 	public Serializable saveEmployeeNonGovDuesDeduct(EmployeeAllowDeducComponentAmtEntity empAllDedCompEntity);
 	public List<Object[]> getEmployeeAgainstId(int allowDeducComponentId, String ddoCode, String sevaarthId);
+	public List<DeptEligibilityForAllowAndDeductEntity> findAll();
 
 	
 
