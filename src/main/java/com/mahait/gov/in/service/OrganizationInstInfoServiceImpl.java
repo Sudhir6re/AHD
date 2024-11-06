@@ -44,6 +44,18 @@ public class OrganizationInstInfoServiceImpl implements OrganizationInstInfoServ
     	   orgDdoMstModel.setAccountNo(lstprop.getAccountNo());
     	   orgDdoMstModel.setRemarks(lstprop.getRemarks());
     	   orgDdoMstModel.setInstituteType(lstprop.getInstituteTypeId());
+    	   if(lstprop.getBank_Passbook()!=null)
+    	   orgDdoMstModel.setBankPassbook(lstprop.getBank_Passbook());
+    	   else
+    		   orgDdoMstModel.setBankPassbook("N");
+    	   if(lstprop.getBank_Cheaque()!=null)
+    	   orgDdoMstModel.setBankCheaque(lstprop.getBank_Cheaque());
+    	   else
+    		   orgDdoMstModel.setBankCheaque("N");
+    	   if(lstprop.getDept_letter()!=null)
+    		   orgDdoMstModel.setDeptLetter(lstprop.getDept_letter());
+    	   else
+    		   orgDdoMstModel.setDeptLetter("N");
        }   
             
         

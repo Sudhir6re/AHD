@@ -188,6 +188,14 @@ public class OrgDdoMst {
 	    @Column(name = "status_flag", length = 20)
 	    private String statusFlag;
 	    
+	    @Column(name = "BankPassbook")
+	    private String bank_Passbook;
+	    
+	    @Column(name = "BankCheaque")
+	    private String bank_Cheaque;
+	    
+	    @Column(name = "DeptLetter")
+	    private String dept_letter;
 
 	    
 	    

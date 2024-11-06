@@ -55,20 +55,32 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
        // return obj;
         
         
-        OrgDdoMst OrgInfo = organizationInstInfoRepo.findDDOInfo(ddoCode);
+        OrgDdoMst orgInfo = organizationInstInfoRepo.findDDOInfo(ddoCode);
 		//OrgDdoMstModel orgDdoMstModel = new OrgDdoMstModel();
-       if(OrgInfo!=null) {
-    	   obj.setDdoOffice(OrgInfo.getDdoOffice());
-    	   obj.setDesignationId(OrgInfo.getDsgnCode());
-    	   obj.setStartDate(OrgInfo.getStartDate());
-    	   obj.setTanNo(OrgInfo.getTanNo());
-    	   obj.setItaWardNo(OrgInfo.getItawardcircle());
-    	   obj.setBankName(OrgInfo.getBankName());
-    	   obj.setBranchName(OrgInfo.getBranchName());
-    	   obj.setIfscCode(OrgInfo.getIfsCode());
-    	   obj.setAccountNo(OrgInfo.getAccountNo());
-    	   obj.setRemarks(OrgInfo.getRemarks());
-    	   obj.setInstituteType(OrgInfo.getInstituteTypeId());
+       if(orgInfo!=null) {
+    	   obj.setDdoOffice(orgInfo.getDdoOffice());
+    	   obj.setDesignationId(orgInfo.getDsgnCode());
+    	   obj.setStartDate(orgInfo.getStartDate());
+    	   obj.setTanNo(orgInfo.getTanNo());
+    	   obj.setItaWardNo(orgInfo.getItawardcircle());
+    	   obj.setBankName(orgInfo.getBankName());
+    	   obj.setBranchName(orgInfo.getBranchName());
+    	   obj.setIfscCode(orgInfo.getIfsCode());
+    	   obj.setAccountNo(orgInfo.getAccountNo());
+    	   obj.setRemarks(orgInfo.getRemarks());
+    	   obj.setInstituteType(orgInfo.getInstituteTypeId());
+    	   if(orgInfo.getBank_Passbook()!=null)
+    		   obj.setBankPassbook(orgInfo.getBank_Passbook());
+        	   else
+        		   obj.setBankPassbook("N");
+        	   if(orgInfo.getBank_Cheaque()!=null)
+        		   obj.setBankCheaque(orgInfo.getBank_Cheaque());
+        	   else
+        		   obj.setBankCheaque("N");
+        	   if(orgInfo.getDept_letter()!=null)
+        		   obj.setDeptLetter(orgInfo.getDept_letter());
+        	   else
+        		   obj.setDeptLetter("N");
        }   
             
         
@@ -108,23 +120,23 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
         objForSave.setDbId(99l);
 		
 		
-        OrgDdoMst OrgInfo = new OrgDdoMst();
-		//OrgDdoMst OrgInfo = organizationInstInfoRepo.findDDOInfo(organisationDtlsModel.getDdoCode());
-		OrgInfo.setDdoOffice(organisationDtlsModel.getDdoOffice());
-		OrgInfo.setDsgnCode(organisationDtlsModel.getDesignationId());
-		OrgInfo.setStartDate(organisationDtlsModel.getStartDate());
-		OrgInfo.setTanNo(organisationDtlsModel.getTanNo());
-		OrgInfo.setItawardcircle(organisationDtlsModel.getItaWardNo());
-		OrgInfo.setBankName(organisationDtlsModel.getBankName());
-		OrgInfo.setBranchName(organisationDtlsModel.getBranchName());
-		OrgInfo.setIfsCode(organisationDtlsModel.getIfscCode());
-		OrgInfo.setAccountNo(organisationDtlsModel.getAccountNo());
-		OrgInfo.setRemarks(organisationDtlsModel.getRemarks());
-		OrgInfo.setInstituteTypeId(organisationDtlsModel.getInstituteType());
-		OrgInfo.setDdoCode(organisationDtlsModel.getDdoCode());
+        OrgDdoMst orgInfo = new OrgDdoMst();
+		//OrgDdoMst orgInfo = organizationInstInfoRepo.findDDOInfo(organisationDtlsModel.getDdoCode());
+		orgInfo.setDdoOffice(organisationDtlsModel.getDdoOffice());
+		orgInfo.setDsgnCode(organisationDtlsModel.getDesignationId());
+		orgInfo.setStartDate(organisationDtlsModel.getStartDate());
+		orgInfo.setTanNo(organisationDtlsModel.getTanNo());
+		orgInfo.setItawardcircle(organisationDtlsModel.getItaWardNo());
+		orgInfo.setBankName(organisationDtlsModel.getBankName());
+		orgInfo.setBranchName(organisationDtlsModel.getBranchName());
+		orgInfo.setIfsCode(organisationDtlsModel.getIfscCode());
+		orgInfo.setAccountNo(organisationDtlsModel.getAccountNo());
+		orgInfo.setRemarks(organisationDtlsModel.getRemarks());
+		orgInfo.setInstituteTypeId(organisationDtlsModel.getInstituteType());
+		orgInfo.setDdoCode(organisationDtlsModel.getDdoCode());
 		
 		//Long saveId=null;
-		 organizationInstInfoRepo.updateorgInstituteInfo(OrgInfo);
+		 organizationInstInfoRepo.updateorgInstituteInfo(orgInfo);
 		 
 			// saveId = objForSave.getDdoId();
 		
@@ -210,6 +222,9 @@ public class OrganisationDtlsServiceImpl implements OrganisationDtlsService {
 		findDDOInfo.setAccountNo(organisationDtlsModel.getAccountNo());
 	  	 findDDOInfo.setRemarks(organisationDtlsModel.getRemarks());
 	  	 findDDOInfo.setInstituteTypeId(organisationDtlsModel.getInstituteType());
+	  	 findDDOInfo.setBank_Passbook(organisationDtlsModel.getBankPassbook());
+	  	 findDDOInfo.setBank_Cheaque(organisationDtlsModel.getBankCheaque());
+	  	 findDDOInfo.setDept_letter(organisationDtlsModel.getDeptLetter());
 		organizationInstInfoRepo.updateorgInstituteInfo(findDDOInfo);
 	
 		

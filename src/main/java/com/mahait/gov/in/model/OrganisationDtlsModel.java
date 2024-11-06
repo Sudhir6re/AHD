@@ -50,5 +50,10 @@ public class OrganisationDtlsModel {
 
 	private String ifscCode;
 	private String Remarks;
+	
+	
+	private String bankPassbook;
+	private String bankCheaque;
+	private String deptLetter;
 
 }

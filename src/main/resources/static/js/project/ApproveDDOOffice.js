@@ -120,6 +120,30 @@ $(".officeName").click(function() {
 					$('#txtAccountNo').val(value[25]);
 					$('#txtRemarks').val(value[26]);
 					$('#instituteType').val(value[27]);
+					
+					
+					
+					
+					
+					if(value[28]=='Y'){
+						$("#bankPass").prop("checked",true);
+					}else{
+						$("#bankPass").prop("checked",false);
+					}
+					
+					
+					if(value[29]=='Y'){
+						$('#bankCheque').prop("checked",true);
+					}else{
+						$('#bankCheque').prop("checked",false);
+					}
+					
+					
+					if(value[30]=='Y'){
+						$('#deptLetter').prop("checked",true);
+					}else{
+						$('#deptLetter').prop("checked",false);
+					}
 
 				});
 				$('select').each(function() {

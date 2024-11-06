@@ -28,6 +28,8 @@ $("#edit").click(function(){
 	$("DDOInfo").attr("action",contextPath+"/ddoast/updateddoOfficeDetails");
 });
 
+
+
 $("#cmbBankName").change(function() 
 		 {
 		 	  var bankId = $("#cmbBankName").val();

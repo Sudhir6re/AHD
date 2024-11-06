@@ -121,5 +121,8 @@ public class OrgDdoMstModel {
 	private String ItoWardCircle;
 	private String designationId;
 	private String bankCode;
+	private String bankPassbook;
+	private String bankCheaque;
+	private String deptLetter;
 
 }

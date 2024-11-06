@@ -9,8 +9,7 @@ import lombok.Data;
 
 @Data
 public class NewRegDDOModel {
-	
-	
+
 	public String sevaarthId;
 	private Integer employeeId;
 	private String empName;
@@ -52,10 +51,14 @@ public class NewRegDDOModel {
 	private Long instituteType;
 	private Long designationId;
 	private String bankName;
+	private String bankPassbook;
+	private String bankCheaque;
+	private String deptLetter;
 
 	private String branchName;
+
+	public List<NewRegDDOModel> emplist = new ArrayList<>();
+
 	
-	
-	public List<NewRegDDOModel> emplist=new ArrayList<>();
 
 }
