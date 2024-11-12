@@ -8,16 +8,19 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mahait.gov.in.entity.OrgUserMst;
+import com.mahait.gov.in.model.EmpLoanModel;
 import com.mahait.gov.in.model.UpdateDOBModel;
 import com.mahait.gov.in.model.UpdatePanNoModel;
 import com.mahait.gov.in.service.CommonHomeMethodsService;
@@ -54,7 +57,16 @@ public class UpdateDOBController  extends BaseController {
 		
 		
 		
-		return "/views/updateDob";
+		return "/views/updateDobBySevaarthId";
+	}
+	
+	@PostMapping("/getEmpDobBySevaarthId/{sevaarthId}")
+	public ResponseEntity<List<UpdateDOBModel>> getEmpInfoBySevaarthId(@PathVariable String sevaarthId,Model model, Locale locale, HttpSession session,RedirectAttributes redirectAttributes){
+		//String message = (String) model.asMap().get("message");
+		//UserInfo messages = (UserInfo) session.getAttribute("MY_SESSION_MESSAGES");
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		List<UpdateDOBModel> empModel=updateDOBService.getEmpDobBySevaarthId(sevaarthId);
+		return ResponseEntity.ok(empModel);
 	}
 	
 	@PostMapping("/saveDOB")
@@ -73,7 +85,7 @@ public class UpdateDOBController  extends BaseController {
 					redirectAttributes.addFlashAttribute("messages","Record Updated Successfully");
 				}
 				
-				return "redirect:/ddoast/updateDOB";
+				return "redirect:/mdc/updateDOB";
 	}
 
 }

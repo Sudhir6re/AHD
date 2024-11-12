@@ -13,4 +13,6 @@ public interface UpdateDOBRepo {
 
 	Serializable saveupdatedob(MstEmployeeEntity mstEmployeeEntity);
 
+	List<Object[]> getEmpDobBySevaarthId(String sevaarthId);
+
 }
