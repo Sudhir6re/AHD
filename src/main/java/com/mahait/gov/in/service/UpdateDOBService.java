@@ -13,4 +13,7 @@ public interface UpdateDOBService {
 
 	int saveupdatedob(@Valid UpdateDOBModel updateDOBModel, OrgUserMst messages);
 
+
+	List<UpdateDOBModel> getEmpDobBySevaarthId(String sevaarthId);
+
 }

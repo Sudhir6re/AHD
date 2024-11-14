@@ -46,4 +46,15 @@ System.out.println("----------Inside findEMpdata------------");
 		return (Integer) saveId;
 	}
 
+	@Override
+	public List<Object[]> getEmpDobBySevaarthId(String sevaarthId) {
+		Session session = entityManager.unwrap(Session.class);
+		String queryString = " select a.sevaarth_id,b.designation_name,a.dob,a.employee_full_name_en,a.employee_id from employee_mst a inner join designation_mst b on a.designation_code=b.designation_code "
+				+ " inner join org_ddo_mst c on c.ddo_code=a.ddo_code where a.sevaarth_id || a.employee_full_name_en "
+				+ " ilike '%" + sevaarthId + "%'";
+		Query query = session.createSQLQuery(queryString);
+		System.out.println("-------" + queryString);
+		return query.list();
+	}
+
 }
