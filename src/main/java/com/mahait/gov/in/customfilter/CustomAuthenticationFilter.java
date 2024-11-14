@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.mahait.gov.in.crypto.AESUtil;
+
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public static final String SPRING_SECURITY_FORM_DOMAIN_KEY = "appCode";
@@ -34,8 +36,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String username = obtainUsername(request);
         String password = obtainPassword(request);
         
-        HttpSession session = request.getSession();
-      
+       // HttpSession session = request.getSession();
+        //String token = (String) request.getSession().getAttribute("secretKey");
         
         String appCode = obtainDomain(request);
         int appCode1 = Integer.parseInt(obtainDomain(request)) ;
@@ -49,6 +51,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         if (appCode == null) {
             appCode1 = 0;
         }
+        
+        AESUtil aesUtil = new AESUtil();
+
+		password = aesUtil.decrypt("MESSAGE", password);
 
         return new CustomAuthenticationToken(username, password, appCode1);
     }

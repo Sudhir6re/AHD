@@ -1,8 +1,8 @@
-/*package com.mahait.gov.in.controller;
+package com.mahait.gov.in.controller;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
->>>>>>> 37dd139dd11988863a82f8d88e4284992037cf71
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,15 +12,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
->>>>>>> 37dd139dd11988863a82f8d88e4284992037cf71
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-<<<<<<< HEAD
-=======
 import org.springframework.web.bind.annotation.PathVariable;
->>>>>>> 37dd139dd11988863a82f8d88e4284992037cf71
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,14 +31,11 @@ import com.mahait.gov.in.service.CommonHomeMethodsService;
 import com.mahait.gov.in.service.CreateAdminOfficeService;
 import com.mahait.gov.in.service.DeptEligibilityForAllowAndDeductService;
 import com.mahait.gov.in.service.MstEmployeeService;
-<<<<<<< HEAD
-=======
-import com.sun.el.parser.ParseException;
->>>>>>> 37dd139dd11988863a82f8d88e4284992037cf71
+import com.mahait.gov.in.service.MstSchemeService;
 
 @Controller
 @RequestMapping("/ddoast")
-public class AllowDeduBulkEmpController {
+public class AllowDeduBulkEmpController extends BaseController  {
 	
 	@Autowired
 	DeptEligibilityForAllowAndDeductService deptEligibilityForAllowAndDeductService;
@@ -56,20 +49,14 @@ public class AllowDeduBulkEmpController {
 	@Autowired
 	MstEmployeeService mstEmployeeService;
 	
-	/*@Autowired
-	MpgSchemeBillGroupService mpgSchemeBillGroupService;
-	
 	@Autowired
-	
-	/*@Autowired
-	MpgSchemeBillGroupService mpgSchemeBillGroupService;
+	MstSchemeService mstSchemeService;
 	
 	
 	@Autowired
 	AllowanceDeductionWiseMstService allowanceDeductionWiseMstService;
 	
-	@Autowired
-	MstEmployeeService mstEmployeeService;
+	
 	
 	@Autowired
 	AllowDeduBulkEmpService allowDeduBulkEmpService;
@@ -78,40 +65,31 @@ public class AllowDeduBulkEmpController {
 	@GetMapping("/loadAllowDeduBulkEmpPage")
  	public String loadAllowDeduBulkEmpPage(HttpServletRequest request,Locale locale,HttpSession session,Model model,@ModelAttribute("deptEligibilityForAllowAndDeductModel") DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel){
  		
- 		//model.addAttribute("lstDDOCode", createAdminOfficeService.lstAllDDO());
 		model.addAttribute("lstAllDepartment", createAdminOfficeService.lstAllDepartment());
 		
-		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
-	    List<Object[]> deptEligibilityForAllowAndDeductEntity =  createAdminOfficeService.employeeMappingList(messages.getUserName());
+		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		addMenuAndSubMenu(model, messages);
+	/*	
+	    List<Object[]> deptEligibilityForAllowAndDeductEntity =  createAdminOfficeService.employeeMappingList(messages.getRole_id(),messages.getUserName());
+	    model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);*/
+	    
 		model.addAttribute("language", locale.getLanguage());
-	//	model.addAttribute("lstDDOWiseEmployee", mstEmployeeService.findAllEmployeeByddoCode(messages.getUserName()));
-		
-	//	model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployees());
-		//model.addAttribute("lstDeptDataTable", mstEmployeeService.findAllEmployeesByDDOName(messages.getUserName()));
-		
+		model.addAttribute("lstDeptDataTable", allowDeduBulkEmpService.findAllEmployeesByDDOName(messages.getDdoCode()));
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
 		model.addAttribute("context", request.getContextPath());
 
-		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
-				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));
+		model.addAttribute("lstSchemeBillGroup", mstSchemeService.findAllMpgSchemeBillGroupByDDOCode(messages.getDdoCode(), messages.getMstRoleEntity().getRoleId()));
 		
-		model.addAttribute("lstSchemeBillGroup", mpgSchemeBillGroupService
-				.findAllMpgSchemeBillGroupByDDOCode(messages.getUserName()));
-		
-		
-		model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);
 		LocalDate now = LocalDate.now();
 		model.addAttribute("now", now);
 		return "views/allow-dedu-bulk-emp";
 	}
 	
 	@GetMapping(value = "/getListEmpBySchemBillGroup/{schemeBillGrpId}/{departmentAllowdeducCode}")
-	public ResponseEntity<List<MstEmployeeModel>> getListEmpBySchemBillGroup(@PathVariable Integer schemeBillGrpId,@PathVariable Integer departmentAllowdeducCode
+	public ResponseEntity<List<MstEmployeeModel>> getListEmpBySchemBillGroup(@PathVariable Long schemeBillGrpId,@PathVariable Integer departmentAllowdeducCode
 			,HttpSession session) {
-		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		List<MstEmployeeModel> lstMstEmployeeModel = allowDeduBulkEmpService
-				.getListEmpBySchemBillGroup(messages.getUserName(), schemeBillGrpId,departmentAllowdeducCode);
+		OrgUserMst orgUserMst = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		List<MstEmployeeModel> lstMstEmployeeModel = allowDeduBulkEmpService.getListEmpBySchemBillGroup(orgUserMst.getDdoCode(), schemeBillGrpId,departmentAllowdeducCode);
 		return ResponseEntity.ok(lstMstEmployeeModel);
 	}
 	
@@ -127,19 +105,14 @@ public class AllowDeduBulkEmpController {
 	public ModelAndView saveAllowDeduBulkForEmp(HttpServletRequest request, Model model,
 			HttpServletResponse response, Locale locale, HttpSession session,
 			@ModelAttribute("deptEligibilityForAllowAndDeductModel") DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,RedirectAttributes redirectAttributes) throws ParseException {
-		
-		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		
+		OrgUserMst orgUserMst = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		for(int i=0;i<deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().size();i++) {
-			 allowDeduBulkEmpService.checkComponentAlreadyPresent(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i),messages.getUserName());
+			 allowDeduBulkEmpService.checkComponentAlreadyPresent(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i),orgUserMst.getDdoCode());
 		}
-       
-		
 		int isSave=0;
-		
 		for(int i=0;i<deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().size();i++) {
 			if(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i).isCheckBox()==true) {
-				isSave=allowDeduBulkEmpService.updateAllowDeductBulkEmplComp(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i),messages.getUserName());
+				isSave=allowDeduBulkEmpService.updateAllowDeductBulkEmplComp(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i),orgUserMst.getDdoCode());
 			}
 		}
 		if(isSave>0) {
@@ -147,16 +120,16 @@ public class AllowDeduBulkEmpController {
 		}else {
 			redirectAttributes.addFlashAttribute("message", "Data Saved successfully !!!");
 		}
-		return new ModelAndView("redirect:/level1/loadAllowDeduBulkEmpPage");
+		return new ModelAndView("redirect:/ddoast/loadAllowDeduBulkEmpPage");
 	}
 	
 	@GetMapping(value = "/PaybillInBulkProcess/{billNumber}")
-	public ResponseEntity<String> PaybillInBulkProcess(@PathVariable int billNumber,HttpSession session) {
-		OrgUserMst messages  = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		List<Object[]> paybillgen = allowDeduBulkEmpService.findpaybill(billNumber,messages.getUserName());
+	public ResponseEntity<String> PaybillInBulkProcess(@PathVariable String billNumber,HttpSession session) {
+		OrgUserMst orgUserMst = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		List<Object[]> paybillgen = allowDeduBulkEmpService.findpaybill(billNumber,orgUserMst.getDdoCode());
 		Integer existingData = paybillgen.size();
 		String resJson = existingData.toString();
 		return ResponseEntity.ok(resJson);
 	}
 
-*/
+}

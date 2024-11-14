@@ -17,7 +17,7 @@ $("#isType").change(function(){
 		  
 			$.ajax({
 				type : "GET",
-				url : context+"/level1/allowancDeductionByType/"
+				url : context+"/ddoast/allowancDeductionByType/"
 							+ isType,
 				async : true,
 				contentType : 'application/json',
@@ -63,7 +63,7 @@ $("#isType").change(function(){
 		 var context=$("#context").val();
 		$.ajax({
 			type : "GET",
-			url :  context+"/level1/getListEmpBySchemBillGroup/" + schemeBillGrpId+"/"+departmentAllowdeducCode,
+			url :  context+"/ddoast/getListEmpBySchemBillGroup/" + schemeBillGrpId+"/"+departmentAllowdeducCode,
 			async : false,
 			contentType : 'application/json',
 			error : function(data) {
@@ -150,7 +150,7 @@ $("#isType").change(function(){
 		flag=0;
 		 $.ajax({
 		      type: "GET",
-		      url: "../level1/PaybillInBulkProcess/"+schemeBillGrpId,
+		      url: "../ddoast/PaybillInBulkProcess/"+schemeBillGrpId,
 		      async: false,
 		      dataType : 'json',
 		    // contentType:'application/json',

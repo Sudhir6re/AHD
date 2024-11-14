@@ -135,7 +135,7 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 													Login Here<span class="fa fa-hand-o-down"></span>
 												</p>
 												<div class="input animate__animated animate__backInLeft">
-													<input type="text" placeholder="Enter UserName"
+													<input type="text"  id="username" placeholder="Enter UserName"
 														name="username" autocomplete="off" /> <span
 														class="fa fa-user"></span>
 
@@ -329,6 +329,17 @@ button.tablinks:hover, .activetab, .submit, .btn, loginBtn {
 		})
 	</script>
 	<script th:src="@{/js/captcha.js}"></script>
+	<script th:src="@{/js/AESUtil.js}"></script>
+	<!-- <script>var aesmain;</script>
+	<script>var cp;</script>
+	<script th:inline="javascript">
+	aesmain=[[${secretKey}]];
+	</script>
+	<script th:inline="javascript">
+      cp=[[${captchCode}]];
+	</script> -->
+	 <script th:src="@{/js/login.js}"></script> 
+	<script th:src="@{/js/crypto.js}"></script>
 </body>
 
 </html>

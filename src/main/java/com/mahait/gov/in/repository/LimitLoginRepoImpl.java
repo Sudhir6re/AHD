@@ -23,10 +23,17 @@ public class LimitLoginRepoImpl implements LimitLoginRepo {
 
 	@Override
 	public OrgUserMst findUserbyUsername(String userName) {
-		String sql = "FROM  OrgUserMst e Where e.userName = :userName  ";
+	//	String sql = "FROM  OrgUserMst e Where e.userName = :userName ";
+		String sql = "FROM  OrgUserMst e Where e.userName ='"+userName+"' ";
 		Query query = entityManager.createQuery(sql, OrgUserMst.class);
-		query.setParameter("userName", userName);
-		return (OrgUserMst) query.getSingleResult();
+//		query.setParameter("userName", userName);
+		
+		try {
+			return (OrgUserMst) query.getSingleResult();
+		}catch(Exception e) {
+			return new OrgUserMst();
+		}
+		
 	}
 
 }

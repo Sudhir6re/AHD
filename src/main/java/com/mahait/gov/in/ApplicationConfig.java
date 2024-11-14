@@ -6,8 +6,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -39,6 +40,17 @@ public class ApplicationConfig  extends WebMvcConfigurerAdapter {
     	localeChangeInterceptor.setParamName("lang");
     	registry.addInterceptor(localeChangeInterceptor);
     }
+    
+    @Bean
+   	public CookieSerializer cookieSerializer() {
+   		DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+   		serializer.setCookieName("JSESSIONID");
+   		serializer.setSameSite("Strict");
+   		serializer.setUseSecureCookie(true);
+   		serializer.setCookiePath("/");
+   		return serializer;
+   	}
+       
     
     
     @Profile("dev")

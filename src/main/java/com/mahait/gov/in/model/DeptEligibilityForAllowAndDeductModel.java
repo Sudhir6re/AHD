@@ -13,7 +13,7 @@ public class DeptEligibilityForAllowAndDeductModel implements Serializable{
 	private Integer departmentAllowdeducId;
 	private Integer departmentAllowdeducCode;
 	private String departmentAllowdeducName;
-	private Integer schemeBillGrpId;
+	private Long schemeBillGrpId;
 	private Integer isType;
 	private boolean isChecked;	
 	private boolean checkBox;	

@@ -839,8 +839,8 @@
 				<td width="10%"><label><span
 						th:utext="#{msg.thymeleaf.pagelabl.attachfile}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label></td>
-				<td width="25%"><input type="file" ng-model="attachFile"
-					id="files" onchange="getimage(this);" name="files"
+				<td width="25%"><input type="file" 
+					id="importFilePhoto" onchange="getimage(this);" name="files"
 					accept="image/png, image/jpeg" /></td>
 				<td width="10%">
 				<img id="imagePath"
@@ -857,8 +857,8 @@
 				<td width="10%"><label><span
 						th:utext="#{msg.thymeleaf.pagelabl.attachfile}"></span>&nbsp;&nbsp;<b><font
 							color="red" size="4px;">*</font></b></label></td>
-				<td width="25%"><input type="file" ng-model="attachFile1"
-					id="files" onchange="getimagesign(this);" name="files" /></td>
+				<td width="25%"><input type="file" 
+					id="importFileSign" onchange="getimagesign(this);" name="files" /></td>
 				<td width="10%">
 				<img id="imagePathSign"
 					th:src="@{${'/ddoast/viewFilephoto/' + mstEmployeeModel.employeeId}}"

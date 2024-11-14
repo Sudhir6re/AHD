@@ -1,4 +1,15 @@
 //$("input[type='date']").attr("data-date-format","DD MMMM YYYY");
+$.ajaxSetup({
+  xhrFields: {
+    withCredentials: true  
+  }
+});
+
+
+var contextPath = window.location.pathname.split('/')[1] || ''; 
+var fullUrl = window.origin + '/' + contextPath;
+console.log("Full URL with Context Path: " + fullUrl);
+
 
 var errorSeen = false;
 function setTwoDecimalDigit(number){

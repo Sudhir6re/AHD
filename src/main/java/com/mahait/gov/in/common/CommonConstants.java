@@ -219,4 +219,16 @@ public class CommonConstants {
 		int Temporary = 2;
 	}
 	
+	public interface LookUpQuery{
+	    static final String GET_LOOK_UP_VALUES = "SELECT O1 FROM CmnLookupMst O1, CmnLookupMst O2 WHERE O1.parentLookupId = O2.lookupId AND O2.lookupName = :lookupName AND O1.cmnLanguageMst.langId = :langId  ORDER BY O1.orderNo desc,O1.lookupId";
+	}
+	
+	public interface Languages{
+		Long english=1l;
+		Long marathi=2l;
+	}
+	
+	
+	
+	
 }

@@ -11,9 +11,11 @@ public interface AllowDeduBulkEmpService {
 
 	void checkComponentAlreadyPresent(DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel, String string);
 
-	List<MstEmployeeModel> getListEmpBySchemBillGroup(String userName, Integer schemeBillGrpId,
+	List<MstEmployeeModel> getListEmpBySchemBillGroup(String userName, Long schemeBillGrpId,
 			Integer departmentAllowdeducCode);
 
-	List<Object[]> findpaybill(int billNumber, String userName);
+	List<Object[]> findpaybill(String billNumber, String userName);
+
+	List<MstEmployeeModel> findAllEmployeesByDDOName(String ddoCode);
 
 }

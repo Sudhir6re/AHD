@@ -1024,8 +1024,6 @@ $("#btnReject").click(function(e) {
 								console.log(data);
 								if (data.length !== 0) {
 									 swal("Dcps Contribution rejected Successfully");
-										
-									 
 									 setTimeout(
 												function() {
 													location

@@ -42,12 +42,12 @@ import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstDesignationEntity;
 import com.mahait.gov.in.entity.MstEmployeeDetailEntity;
 import com.mahait.gov.in.entity.MstGpfDetailsEntity;
-import com.mahait.gov.in.entity.MstGpfDetailsHistEntity;
 import com.mahait.gov.in.entity.MstNomineeDetailsEntity;
 import com.mahait.gov.in.entity.MstPayCommissionEntity;
 import com.mahait.gov.in.entity.OrgDdoMst;
 import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.ReligionMstEntity;
+import com.mahait.gov.in.fileupload.FileSecurityHandler;
 import com.mahait.gov.in.model.DDOScreenModel;
 import com.mahait.gov.in.model.MstDistrictModel;
 import com.mahait.gov.in.model.MstEmployeeModel;
@@ -345,6 +345,15 @@ public class EmployeeConfigurationController extends BaseController {
 			HttpSession session, @RequestParam("files") MultipartFile[] files, RedirectAttributes redirectAttributes,
 			Model model, Locale locale) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		
+		boolean isPhotoSignSafe=FileSecurityHandler.isValidFile("IMAGE", files);
+
+		if(!isPhotoSignSafe) {
+			redirectAttributes.addFlashAttribute("message", "Invalid Photo/Signature");
+			return "redirect:/ddoast/employeeConfiguration";
+		}
+		
 
 		String strAction = mstEmployeeModel.getAction();
 		if (strAction.equals("EditBack")) {

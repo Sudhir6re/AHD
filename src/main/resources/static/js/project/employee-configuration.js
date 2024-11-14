@@ -14,7 +14,6 @@ jQuery(document).ready(function() {
            } */   
            
        }
-	
 	contextPath = $("#appRootPath").val();
 	$("#adminDepartmentId").val("51");
 	$("#adminDepartmentId").select2({"disabled":'readonly'});
@@ -1353,6 +1352,91 @@ if(paycomm != '' && paycomm != undefined){
 
 	    
 	 
+	    //const maxSize = 2 * 1024 * 1024; // 5 MB in bytes
+	    const maxSize = 500 * 1024; 
+		//const uploads = []
+		$("#importFilePhoto").change(function(event){
+		 const file = event.target.files[0];
+		 var fileSize = event.target.files[0].size; // in bytes
+		     var fileName = $(this).val().replace('C:\\fakepath\\', '');
+		var ext = fileName.split('.').pop();
+		     const filereader = new FileReader();
+		     filereader.onloadend = function(evt) {
+		         if (evt.target.readyState === FileReader.DONE) {
+		             const uint = new Uint8Array(evt.target.result)
+		             let bytes = []
+		             uint.forEach((byte) => {
+		                 bytes.push(byte.toString(16))
+		             })
+		             const hex = bytes.join('').toUpperCase()
+		              const mimeType = getMimetype(hex);
+                    if (mimeType !== 'image/jpeg' && mimeType !== 'image/png') {
+		              swal("please select valid jpeg file !!!");
+		              $('#PensionClassTypeReportController').val('');
+		             }else if(fileSize > maxSize){
+		             swal('File size exceeds 500 KB limit.');
+		             }
+		         }
+		     }
+		     const blob = file.slice(0, 4);
+		     filereader.readAsArrayBuffer(blob);
+		});
+
+
+
+		const uploads1 = []
+		$("#importFileSign").change(function(event){
+		const file = event.target.files[0];
+		 var fileSize = event.target.files[0].size; // in bytes
+		var fileName = $(this).val().replace('C:\\fakepath\\', '');
+		var ext = fileName.split('.').pop();
+		const filereader = new FileReader();
+		filereader.onloadend = function(evt) {
+		if (evt.target.readyState === FileReader.DONE) {
+		const uint = new Uint8Array(evt.target.result)
+		let bytes = []
+		uint.forEach((byte) => {
+		bytes.push(byte.toString(16))
+		})
+		const hex = bytes.join('').toUpperCase()
+		 const mimeType = getMimetype(hex);
+            if (mimeType !== 'image/jpeg' && mimeType !== 'image/png') {
+		swal("please select valid jpeg file !!!");
+		$('#sign').val('');
+		}else if(fileSize > maxSize){
+		             swal('File size exceeds 500 KB limit.');
+		            $('#imagePathSign').val('');
+		             }
+		}
+		}
+		const blob = file.slice(0, 4);
+		filereader.readAsArrayBuffer(blob);
+		});
+		
+
+		   const getMimetype = (signature) => {
+		       switch (signature) {
+		           case '89504E47':
+		               return 'image/png'
+		           case '47494638':
+		               return 'image/gif'
+		           case '25504446':
+		               return 'application/pdf'
+		           case 'FFD8FFDB':
+		           case 'FFD8FFE0':
+		               return 'image/jpeg'
+		           case '504B0304':
+		               return 'application/zip'
+		           default:
+		               return 'Unknown filetype'
+		       }
+		   }
+
+		
+	 
+		   
+
+	   
 	    
 	    
 });
@@ -4976,6 +5060,10 @@ function fetchPayScale(){
 
 
 }
+
+
+
+
 
 
 

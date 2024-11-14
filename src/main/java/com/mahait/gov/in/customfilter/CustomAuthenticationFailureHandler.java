@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -27,6 +28,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
 	@Autowired
 	LimitLoginService limitLoginService;
+
+	
 
 	public static final int MAX_FAILED_ATTEMPTS = 3;
 
@@ -58,10 +61,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		userLoginHistryEntity.setStatus("Login failure");
 		userLoginHistryService.saveLoginDtls(userLoginHistryEntity);
 
-		userLoginHistryService.saveLoginDtls(userLoginHistryEntity);
 
 		OrgUserMst user = limitLoginService.findUserbyUsername(username);
-		if (user != null) {
+		if (user != null && user.getActivateFlag()!=null) {
 			if (user.getActivateFlag() == 1l) {
 				if (user.getInvalidLoginCnt() < LimitLoginService.MAX_FAILED_ATTEMPTS - 1) {
 					limitLoginService.increaseFailedAttempts(user);
@@ -76,7 +78,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 						redirectStrategy.sendRedirect(request, response, "/user/login?locked=true");
 					}
 				}
-			} else if (user.getActivateFlag() == 0l) {
+			} else if (user.getActivateFlag() == 0l  && user.getActivateFlag()!=null) {
 				if (limitLoginService.unlockWhenTimeExpired(user)) {
 					exception = new LockedException("Your account has been unlocked. Please try to login again.");
 				}

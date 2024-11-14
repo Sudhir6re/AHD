@@ -15,9 +15,10 @@
 #dcpslegacyTb .mandatoryindicator {
 	float: right;
 }
+
 .scrollablediv {
-    box-shadow: 0px 0px 5px #ccc;
-    padding: 15px 15px;
+	box-shadow: 0px 0px 5px #ccc;
+	padding: 15px 15px;
 }
 </style>
 </head>
@@ -40,8 +41,9 @@
 		</h3>
 
 		<div class="entry-dcps-legacy-main container">
-			<form method="post" action="" name="DCPSForwardedFormsList"
-				enctype="multipart/form-data" id="DCPSForwardedFormsList">
+			<form method="post" th:action="@{/ddo/entryDcpsLegacy}"
+				name="dcpsLegacyEntryForm" th:object="${dcpsLegacyModel}"
+				enctype="multipart/form-data" id="dcpsLegacyEntryForm">
 				<fieldset style="width: 100%" class="tabstyle">
 					<legend id="headingMsg">
 						<b>Search employee</b>
@@ -49,17 +51,25 @@
 					<table class="bor-0">
 						<tbody>
 							<tr align="center">
-								<td width="25%" align="left">Sevarth Id</td>
+								<td width="25%" align="left">Sevarth Id/Employee Name/DCPS
+									ID</td>
 								<td width="50%" align="left"><input type="text"
-									id="txtSevaarthId" class="form-control" name="txtSevaarthId"></td>
+									id="txtSevaarthId" class="form-control" name="txtSevaarthId"
+									th:field="*{txtSevaarthId}"></td>
+								<input type="hidden" id="action" class="form-control"
+									name="action" th:field="*{action}">
+								<input type="hidden" id="message" class="form-control"
+									name="message" th:value="${message}">
+
+								</td>
 							</tr>
-							<tr>
+							<!--<tr>
 								<td colspan="2" align="center"><label style="color: red">OR</label></td>
 							</tr>
-							<tr align="center">
+							 <tr align="center">
 								<td width="25%" align="left">Employee Name</td>
 								<td width="50%" align="left"><input type="text"
-									id="txtEmployeeName" size="30" name="txtEmployeeName"
+									id="txtEmployeeName" size="30" name="txtEmployeeName" th:field="*{txtSevaarthId}"
 									class="form-control"></td>
 							</tr>
 							<tr>
@@ -67,10 +77,10 @@
 							</tr>
 							<tr align="center">
 								<td width="25%" align="left">DCPS ID</td>
-								<td width="50%" align="left"><input type="text"
+								<td width="50%" align="left"><input type="text"  th:field="*{txtSevaarthId}"
 									id="txtDcpsId" size="30" name="txtDcpsId" class="form-control">
 								</td>
-							</tr>
+							</tr> -->
 						</tbody>
 					</table>
 					<br>
@@ -80,7 +90,8 @@
 					</div>
 				</fieldset>
 				<br> <br>
-				<div id="displayData">
+				<div id="displayData"
+					th:if="${not #lists.isEmpty(dcpsLegacyModel.lstDcpsLegacyModel)}">
 					<fieldset style="width: 100%" class="tabstyle">
 						<legend id="headingMsg">
 							<b>Details</b>
@@ -109,61 +120,95 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr
+										th:each="att, itemStat : ${dcpsLegacyModel.lstDcpsLegacyModel}">
 										<td style="text-align: center; width: 12%"><label
-											id="txtEmployeeName1">PRAVIN RAMDAS GHURDE</label></td>
-										<td style="text-align: center; width: 15%"><label
-											id="txtDcpsId1">066101002205PRGM8601A</label></td>
+											id="txtEmployeeName1" th:text="${att.employeeFullName}">PRAVIN
+												RAMDAS GHURDE</label></td>
+										<td style="text-align: center; width: 15%"><input
+											type="text" th:id="${'dcpsNo' + itemStat.index}"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].dcpsNo}" /></td>
 										<td style="text-align: center; width: 8%"><label
-											id="txtSevaa">06DHEPRGM8601</label></td>
+											th:id="${'sevaarthId' + itemStat.index}"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].sevaarthId}">06DHEPRGM8601</label></td>
 										<td style="text-align: center; width: 8%"><label
-											id="pranNo">110148855901</label></td>
+											th:id="${'pranNo' + itemStat.index}"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].pranNo}">110148855901</label></td>
 										<td style="text-align: center; width: 8%"><input
-											type="text" id="doj" value="10/01/2020" readonly="readonly"
-											size="9" class="form-control"></td>
-										<td style="text-align: center; width: 8%"><input
-											type="text" id="serend" value="30/06/2046"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].doj}"
+											th:id="${'doj' + itemStat.index}" type="date"
 											readonly="readonly" size="9" class="form-control"></td>
 										<td style="text-align: center; width: 8%"><input
-											type="text" id="servend" value="30/06/2046"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].superAnnDate}"
+											type="date" th:id="${'superAnnDate' + itemStat.index}"
+											readonly="readonly" size="9" class="form-control"></td>
+										<td style="text-align: center; width: 8%"><input
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].empServiceEndDate}"
+											type="text" th:id="${'empServiceEndDate' + itemStat.index}"
 											readonly="readonly" size="9" class="form-control"></td>
 										<td style="text-align: center; width: 8%"><select
-											name="period" id="period" class="form-control">
-												<option value="">-------Selected--------</option>
-												<option value="10001198258">2011-2012 to March 2021</option>
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].period}"
+											name="period" th:id="${'period' + itemStat.index}"
+											class="form-control">
+												<option value="0">-------Selected--------</option>
+												<option
+													th:each="lLstLegValidatePeriod : ${lLstLegValidatePeriod}"
+													th:value="${lLstLegValidatePeriod.lookupId}"
+													th:text="${lLstLegValidatePeriod.lookupDesc}"></option>
+
+											<!-- 	<option value="10001198258">2011-2012 to March 2021</option>
 												<option value="10001198259">2021-2022</option>
 												<option value="10001198260">2022-2023</option>
-												<option value="10001198261">2023-2024</option>
+												<option value="10001198261">2023-2024</option> -->
+
+
 										</select></td>
+
 										<td style="text-align: center; width: 8%"><input
-											type="date" name="contriStartDt" id="contriStartDt" value=""
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].contriStartDt}"
+											type="date" name="contriStartDt"
+											th:id="${'contriStartDt' + itemStat.index}"
 											class="form-control"></td>
 										<td style="text-align: center; width: 8%"><input
-											type="date" name="contriEndDt" id="contriEndDt" value=""
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employeeFullNameEn}"
+											type="date" name="contriEndDt"
+											th:id="${'contriEndDt' + itemStat.index}"
 											class="form-control"></td>
 										<td style="text-align: left; width: 20%"><input
-											type="text" id="empContri" name="empContri"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employeeFullNameEn}"
+											type="text" name="empContri"
+											th:id="${'empContri' + itemStat.index}" class="form-control"><label
+											class="mandatoryindicator">*</label></td>
+										<td style="text-align: left; width: 20%"><input
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employeeFullNameEn}"
+											type="text" name="employerContri"
+											th:id="${'employerContri' + itemStat.index}"
 											class="form-control"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left; width: 20%"><input
-											type="text" id="employerContri" name="employerContri"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].empInterest}"
+											type="text" name="empInterest"
+											th:id="${'empInterest' + itemStat.index}"
 											class="form-control"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left; width: 20%"><input
-											type="text" id="empInterest" name="empInterest"
-											class="form-control"><label
-											class="mandatoryindicator">*</label></td>
-										<td style="text-align: left; width: 20%"><input
-											type="text" id="employerInterest" name="employerInterest"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employerInterest}"
+											type="text" name="employerInterest"
+											th:id="${'employerInterest' + itemStat.index}"
 											class="form-control"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left"><input type="text"
-											id="total" name="total" disabled="disabled"
-											class="form-control"><label
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].total}"
+											th:id="${'total' + itemStat.index}" name="total"
+											disabled="disabled" class="form-control"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left"><input type="text"
-											id="remark" name="remark" class="form-control"><label
-											class="mandatoryindicator">*</label></td>
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].remark}"
+											th:id="${'remark' + itemStat.index}" name="remark"
+											class="form-control"><label
+											class="mandatoryindicator">*</label> <input type="hidden"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].ddoCode}" />
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -187,8 +232,8 @@
 	</div>
 
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
-	<script th:src="@{/js/hte/entry-dcps-legacy.js}"></script>
+	<script th:src="@{/js/nps/entry-dcps-legacy.js}"></script>
 	<script th:src="@{/js/jquery.validate.min.js}"></script>
-	
+
 </body>
 </html>

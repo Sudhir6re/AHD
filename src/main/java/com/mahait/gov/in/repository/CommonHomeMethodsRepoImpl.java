@@ -12,7 +12,9 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mahait.gov.in.common.CommonConstants;
 import com.mahait.gov.in.entity.BillStatusMstEntity;
+import com.mahait.gov.in.entity.CmnLookupMst;
 import com.mahait.gov.in.entity.MstBankBranchEntity;
 import com.mahait.gov.in.entity.MstBankEntity;
 import com.mahait.gov.in.entity.MstCommonEntity;
@@ -61,9 +63,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		String hql = "select sub_menu_id,menu_code,role_id,sub_menu_name_english,sub_menu_name_marathi,	controller_name,link_name  from sub_menu_mst where role_Id='"
 				+ levelRoleVal + "' and is_active='" + 1 + "' order by sub_menu_id ";
 		Query query = currentSession.createSQLQuery(hql);
-		//return (List<Object[]>) query.list();
-		
-		return query.getResultList(); 
+		// return (List<Object[]>) query.list();
+
+		return query.getResultList();
 
 	}
 
@@ -254,7 +256,6 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return (List<MstDesnModel>) query.list();
 	}
 
-
 	@Override
 	public List<MstMonthEntity> lstGetAllMonths() {
 		String HQL = "FROM MstMonthEntity as t ORDER BY t.monthId";
@@ -267,23 +268,27 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return (List<MstYearEntity>) manager.createQuery(HQL).getResultList();
 
 	}
+
 	@Override
 	public Date findbillCreateDate(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
 		Date rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ='"+billNumber+"' limit 1 ");
+		query.append("select created_date from paybill_generation_trn  where    paybill_generation_trn_id  ='"
+				+ billNumber + "' limit 1 ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 		if (list != null && list.size() > 0)
 			rtnStr = (Date) list.get(0);
 		return rtnStr;
 	}
+
 	@Override
 	public List<Object[]> findDetailsBillNumber(Long billNumber) {
 		Session currentSession = manager.unwrap(Session.class);
-		String HQL = "select paybill_month,paybill_year from paybill_generation_trn  where paybill_generation_trn_id = '"+billNumber+"'";
+		String HQL = "select paybill_month,paybill_year from paybill_generation_trn  where paybill_generation_trn_id = '"
+				+ billNumber + "'";
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
@@ -295,7 +300,7 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
-	
+
 	@Override
 	public List<Object[]> findmonthinfo(BigInteger month) {
 		Session currentSession = manager.unwrap(Session.class);
@@ -303,10 +308,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		Query query = currentSession.createSQLQuery(HQL);
 		return query.list();
 	}
-	
+
 	@Override
 	public String getOffice(String userName) {
-
 
 		Session currentSession = manager.unwrap(Session.class);
 		List list = new ArrayList();
@@ -322,29 +326,25 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		return rtnStr;
 
 	}
-	
+
 	@Override
 	public List<Object[]> findLookUpNameDesc(String commoncodeSalutations) {
 		// TODO Auto-generated method stub
-	Session currentSession = manager.unwrap(Session.class);
-		if(commoncodeSalutations == "AccountMaintainedByForDCPSEmp")
-		{
-		String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name,O1.lookup_desc FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
-				+ " AND O2.LOOKUP_NAME = '"+commoncodeSalutations+"' and O1.lookup_id in (700179,700343,10001198172,700344,10001198187) ORDER BY O1.ORDER_NO desc,O1.LOOKUP_ID";
-		Query query = currentSession.createSQLQuery(hql);
-		return (List<Object[]>) query.list();
-		}else
-		{
+		Session currentSession = manager.unwrap(Session.class);
+		if (commoncodeSalutations == "AccountMaintainedByForDCPSEmp") {
 			String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name,O1.lookup_desc FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
-					+ " AND O2.LOOKUP_NAME = '"+commoncodeSalutations+"' ORDER BY O1.ORDER_NO desc,O1.LOOKUP_ID";
+					+ " AND O2.LOOKUP_NAME = '" + commoncodeSalutations
+					+ "' and O1.lookup_id in (700179,700343,10001198172,700344,10001198187) ORDER BY O1.ORDER_NO desc,O1.LOOKUP_ID";
+			Query query = currentSession.createSQLQuery(hql);
+			return (List<Object[]>) query.list();
+		} else {
+			String hql = "SELECT O1.LOOKUP_ID,O1.lookup_name,O1.lookup_desc FROM CMN_LOOKUP_MST O1, CMN_LOOKUP_MST O2 WHERE O1.PARENT_LOOKUP_ID = O2.LOOKUP_ID \r\n"
+					+ " AND O2.LOOKUP_NAME = '" + commoncodeSalutations + "' ORDER BY O1.ORDER_NO desc,O1.LOOKUP_ID";
 			Query query = currentSession.createSQLQuery(hql);
 			return (List<Object[]>) query.list();
 		}
-		
-		
+
 	}
-			
-			
 
 	@Override
 	public List<BillStatusMstEntity> lstGetAllBillStatusForConsolidatePaybill() {
@@ -400,8 +400,9 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		List list = new ArrayList();
 		String rtnStr = null;
 		StringBuffer query = new StringBuffer();
-		query.append("select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn " + 
-				" where paybill_generation_trn_id='"+billNumber+"') ");
+		query.append(
+				"select description from mst_dcps_bill_group where bill_group_id in (select scheme_billgroup_id from paybill_generation_trn "
+						+ " where paybill_generation_trn_id='" + billNumber + "') ");
 		Query hsqlQuery = currentSession.createSQLQuery(query.toString());
 		list = hsqlQuery.list();
 
@@ -415,6 +416,16 @@ public class CommonHomeMethodsRepoImpl implements CommonHomeMethodsRepo {
 		// TODO Auto-generated method stub
 		String HQL = "FROM MstBankBranchEntity as t";
 		return (List<MstBankBranchEntity>) manager.createQuery(HQL).getResultList();
+	}
+
+	@Override
+	public List<CmnLookupMst> getLookupValues(String lookupName, Long english) {
+		Session currentSession = manager.unwrap(Session.class);
+		Query lQuery = currentSession.createQuery(CommonConstants.LookUpQuery.GET_LOOK_UP_VALUES);
+		lQuery.setString("lookupName", lookupName);
+		lQuery.setLong("langId", english);
+		lQuery.setCacheable(true).setCacheRegion("ecache_lookup");
+		return lQuery.list();
 	}
 
 }

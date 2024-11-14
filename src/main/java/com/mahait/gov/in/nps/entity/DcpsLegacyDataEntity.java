@@ -1,6 +1,7 @@
 package com.mahait.gov.in.nps.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -79,10 +80,10 @@ public class DcpsLegacyDataEntity {
     private String period;
 
     @Column(name = "CONTRI_START_DATE")
-    private Timestamp contriStartDate;
+    private Date contriStartDate;
 
     @Column(name = "CONTRI_END_DATE")
-    private Timestamp contriEndDate;
+    private Date contriEndDate;
 
     @Column(name = "BATCH_ID", length = 14)
     private String batchId;

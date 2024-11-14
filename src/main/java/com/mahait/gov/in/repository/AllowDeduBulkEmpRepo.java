@@ -10,9 +10,14 @@ public interface AllowDeduBulkEmpRepo {
 
 	void checkComponentAlreadyPresent(DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel, String ddoCode);
 
-	List<Object[]> getListEmpBySchemBillGroup(String userName, Integer schemeBillGrpId,
+	List<Object[]> getListEmpBySchemBillGroup(String userName, Long schemeBillGrpId,
 			Integer departmentAllowdeducCode);
 
-	List<Object[]> findpaybill(int billNumber, String userName);
+	List<Object[]> findpaybill(String billNumber, String userName);
+
+	List<Object[]> findAllEmployeesByDDOName(String ddoCode);
+	
+	
+	
 
 }
