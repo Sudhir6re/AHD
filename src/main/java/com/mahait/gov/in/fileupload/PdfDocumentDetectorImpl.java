@@ -8,6 +8,8 @@ import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
+
+/* Added by Sudhir */
 public class PdfDocumentDetectorImpl implements DocumentDetector {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PdfDocumentDetectorImpl.class);

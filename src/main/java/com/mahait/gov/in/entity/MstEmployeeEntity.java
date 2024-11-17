@@ -513,6 +513,10 @@ public class MstEmployeeEntity {
 
 	@Column(name = "pran_no")
 	private String pranNo;
+	
+	
+	@Column(name = "pran_remark")
+	private String pran_remark;
 
 	@Column(name = "emp_type")
 	private String empType;

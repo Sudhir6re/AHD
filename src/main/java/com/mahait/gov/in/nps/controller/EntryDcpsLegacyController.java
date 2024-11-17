@@ -45,6 +45,10 @@ public class EntryDcpsLegacyController extends BaseController {
 			List<DcpsLegacyModel> lstDcpsLegacyModel = entryDcpsLegacyService.findDcpsEmployeeDetails(dcpsLegacyModel,
 					messages);
 			dcpsLegacyModel.setLstDcpsLegacyModel(lstDcpsLegacyModel);
+			
+			if(lstDcpsLegacyModel.size()==0) {
+				model.addAttribute("noDataFoundMsg", "Searched  employee is not DCPS employee or PRAN No. is not mapped or not belongs to this DDO");
+			}
 		}
 		addMenuAndSubMenu(model, messages);
 
@@ -60,13 +64,13 @@ public class EntryDcpsLegacyController extends BaseController {
 	public String saveDcpsLegacyData(Model model, Locale locale, HttpSession session,
 			@ModelAttribute("dcpsLegacyModel") DcpsLegacyModel dcpsLegacyModel, RedirectAttributes redirectAttributes) {
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		Long saveid = entryDcpsLegacyService.saveDcpsLegacyData(dcpsLegacyModel, messages);
+		entryDcpsLegacyService.saveDcpsLegacyData(dcpsLegacyModel, messages);
 		redirectAttributes.addFlashAttribute("message", "Legacy Data Saved Successfully !!!");
 		model.addAttribute("dcpsLegacyModel", dcpsLegacyModel);
-		return "/views/nps/entry-dcps-legacy";
+		return "redirect:/ddo/entryDcpsLegacy";
 	}
 
-	@RequestMapping("/checkDataExistsForPeriod/{sevaarthId}/{period}")
+	@RequestMapping("/checkDataExistsForPeriod")
 	public ResponseEntity<Integer> checkDataExistsForPeriod(@RequestBody Map<String, String> formData, Model model,
 			HttpSession session, Locale locale) {
 		String sevaarthId = formData.get("sevaarthId");

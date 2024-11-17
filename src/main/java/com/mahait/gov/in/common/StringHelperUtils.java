@@ -267,6 +267,19 @@ public class StringHelperUtils {
 			return false;
 		}
 	}
+
+	public static Float isNullFloat(Object object) {
+        try {
+            if (object == null) {
+               return  0.0f; 
+            } else {
+                 return (Float)object;
+            }
+        } catch (NullPointerException n) {
+            return  0.0f; 
+        }
+    
+	}
 	
 	
 	

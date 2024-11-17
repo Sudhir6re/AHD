@@ -2,8 +2,10 @@
 	$("#selectAll").change(function(){
 						if($(this).prop("checked")){
 							  $(".allowCheckBox").prop("checked",true);
+							  $(".checkbox").val(true);
 						}else{
 							  $(".allowCheckBox").prop("checked",false);
+							  $(".checkbox").val(false);
 						}
 					});
 
@@ -181,8 +183,6 @@ $("#isType").change(function(){
 	$("table").on("change", ".allowCheckBox", function() {
 		  var row = $(this).closest("tr");
 		  var chk =row.find(".allowCheckBox").prop("checked");
-		
-		  
 		  row.find(".checkbox").val(chk);
 		});
 	

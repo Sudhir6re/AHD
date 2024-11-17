@@ -2,7 +2,6 @@ package com.mahait.gov.in.fileupload;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +12,7 @@ import javax.servlet.http.Part;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/* Added by Sudhir */
 public class FileSecurityHandler {
 
 	public static boolean isValidFile(String fileType, MultipartFile[] files) {

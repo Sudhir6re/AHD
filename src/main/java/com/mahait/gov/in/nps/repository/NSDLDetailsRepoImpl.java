@@ -243,11 +243,9 @@ public class NSDLDetailsRepoImpl implements NSDLDetailsRepo {
 		// TODO Auto-generated method stub
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuffer str = new StringBuffer();
-
 		str.append("update DCPS_LEGACY_DATA set batch_id='"
 				+ batchId
 				+ "', STATUS = '3' where 1=1 and batch_id is null and  NPS_ID in  ( :billIds ) ");
-
 		Query query1 = currentSession.createSQLQuery(str.toString());
 		query1.setParameterList("billIds", dcpsLegacyId);
 		query1.executeUpdate();

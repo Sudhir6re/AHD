@@ -1,15 +1,14 @@
 package com.mahait.gov.in.customfilter;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+/* Added by Sudhir */
 public class SecurityHeadersInterceptor extends HandlerInterceptorAdapter {
 
-	public final static String MY_COOKIE_NAME = "HTEUSER";
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,

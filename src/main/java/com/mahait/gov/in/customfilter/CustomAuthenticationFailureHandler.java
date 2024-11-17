@@ -20,7 +20,7 @@ import com.mahait.gov.in.entity.OrgUserMst;
 import com.mahait.gov.in.entity.UserLoginHistryEntity;
 import com.mahait.gov.in.service.LimitLoginService;
 import com.mahait.gov.in.service.UserLoginHistryService;
-
+/* Added by Sudhir */
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	@Autowired

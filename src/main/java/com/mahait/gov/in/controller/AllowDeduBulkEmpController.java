@@ -69,12 +69,13 @@ public class AllowDeduBulkEmpController extends BaseController  {
 		
 		OrgUserMst messages = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
 		addMenuAndSubMenu(model, messages);
-	/*	
+		
+		/*
 	    List<Object[]> deptEligibilityForAllowAndDeductEntity =  createAdminOfficeService.employeeMappingList(messages.getRole_id(),messages.getUserName());
 	    model.addAttribute("testObj",deptEligibilityForAllowAndDeductEntity);*/
 	    
 		model.addAttribute("language", locale.getLanguage());
-		model.addAttribute("lstDeptDataTable", allowDeduBulkEmpService.findAllEmployeesByDDOName(messages.getDdoCode()));
+	    model.addAttribute("lstDeptDataTable", allowDeduBulkEmpService.findAllEmployeesByDDOName(messages.getDdoCode()));
 		model.addAttribute("lstdeptEligibilityForAllowAndDeduct", deptEligibilityForAllowAndDeductService.findDeptNonGovDeductList());
 		model.addAttribute("context", request.getContextPath());
 
@@ -106,14 +107,12 @@ public class AllowDeduBulkEmpController extends BaseController  {
 			HttpServletResponse response, Locale locale, HttpSession session,
 			@ModelAttribute("deptEligibilityForAllowAndDeductModel") DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel,RedirectAttributes redirectAttributes) throws ParseException {
 		OrgUserMst orgUserMst = (OrgUserMst) session.getAttribute("MY_SESSION_MESSAGES");
-		for(int i=0;i<deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().size();i++) {
-			 allowDeduBulkEmpService.checkComponentAlreadyPresent(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i),orgUserMst.getDdoCode());
-		}
 		int isSave=0;
-		for(int i=0;i<deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().size();i++) {
-			if(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i).isCheckBox()==true) {
-				isSave=allowDeduBulkEmpService.updateAllowDeductBulkEmplComp(deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel().get(i),orgUserMst.getDdoCode());
-			}
+		for(DeptEligibilityForAllowAndDeductModel deptEligibilityForAllowAndDeductModel1:deptEligibilityForAllowAndDeductModel.getLstDeptEligibilityForAllowAndDeductModel()) {
+			 allowDeduBulkEmpService.checkComponentAlreadyPresent(deptEligibilityForAllowAndDeductModel1,orgUserMst.getDdoCode());
+			 if(deptEligibilityForAllowAndDeductModel1.isCheckBox()==true) {
+					isSave=allowDeduBulkEmpService.updateAllowDeductBulkEmplComp(deptEligibilityForAllowAndDeductModel1,orgUserMst.getDdoCode());
+				}
 		}
 		if(isSave>0) {
 			redirectAttributes.addFlashAttribute("message", "Data Saved successfully !!!");

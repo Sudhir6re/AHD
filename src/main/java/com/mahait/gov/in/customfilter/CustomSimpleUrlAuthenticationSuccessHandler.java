@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import com.mahait.gov.in.entity.UserLoginHistryEntity;
 import com.mahait.gov.in.service.UserLoginHistryService;
 
+/* Added by Sudhir */
 public class CustomSimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	@Autowired
 	UserLoginHistryService userLoginHistryService;

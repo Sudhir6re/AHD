@@ -1,11 +1,9 @@
 package com.mahait.gov.in.crypto;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 
-
+/* Added by Sudhir */
 public class CaptchGenearation {
 	
 	 public static String generateRandomCaptchaText() {

@@ -28,7 +28,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Iterator;
 
-
+/* Added by Sudhir */
 public class ImageDocumentSanitizerImpl implements DocumentSanitizer {
 
    

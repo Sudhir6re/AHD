@@ -23,7 +23,7 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+/* Added by Sudhir */
 public class AESUtil {
 
     public enum DataType {

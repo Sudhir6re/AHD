@@ -47,6 +47,7 @@ public class AllowDeduBulkEmpServiceImpl implements AllowDeduBulkEmpService {
 				obj.setEmployeeFullName(StringHelperUtils.isNullString(objLst[1]));
 				obj.setBillDesc(StringHelperUtils.isNullString(objLst[9]));
 				obj.setEmployeeId(StringHelperUtils.isNullBigInteger(objLst[4]).longValue());
+				obj.setEmpMapped(StringHelperUtils.isNullBigInteger(objLst[10]).longValue());
 				lstObj.add(obj);
 			}
 		}

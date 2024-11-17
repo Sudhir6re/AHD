@@ -61,13 +61,14 @@ public class AllowDeduBulkEmpRepoImpl implements AllowDeduBulkEmpRepo {
 		Session currentSession = entityManager.unwrap(Session.class);
 		StringBuilder sb=new StringBuilder();
 		              sb.append("SELECT a.sevaarth_id,a.employee_full_name_en, b.designation_name,f.loc_name,a.employee_id,");
-		              sb.append("a.pay_commission_code,d.commission_name_en,a.dcps_gpf_flag,a.emp_service_end_date,e.description  ");
+		              sb.append("a.pay_commission_code,d.commission_name_en,a.dcps_gpf_flag,a.emp_service_end_date,e.description,COALESCE(allowdeduc.employee_allowdeduc_id, 0) AS allowed_duc_count ");
 		              sb.append("FROM EMPLOYEE_MST a INNER JOIN DESIGNATION_MST b ON a.designation_code = b.designation_code  ");
 		              sb.append("INNER JOIN ORG_DDO_MST c ON a.ddo_code=c.ddo_code  ");
 		              sb.append("INNER JOIN  PAY_COMMISSION_MST d ON a.pay_commission_code=d.pay_commission_code  ");
 		              sb.append("INNER JOIN  MST_DCPS_BILL_GROUP e ON e.bill_group_id = a.billgroup_id  ");
 		              sb.append("INNER JOIN  CMN_LOCATION_MST f ON cast(f.loc_id as varchar) = c.hod_loc_code  ");
-		              sb.append("WHERE a.billgroup_id is not null  and a.is_active='1' and  a.ddo_code = '"+ userName +"'  and a.billgroup_id="+schemeBillGrpId+" order by a.employee_full_name_en");
+		              sb.append("LEFT JOIN employee_allowdeduc_mpg allowdeduc ON allowdeduc.sevaarth_id = a.sevaarth_id  AND allowdeduc.department_allowdeduc_code ="+departmentAllowdeducCode);
+		              sb.append(" WHERE a.billgroup_id is not null  and a.is_active='1' and  a.ddo_code = '"+ userName +"'  and a.billgroup_id="+schemeBillGrpId+" order by a.employee_full_name_en");
 		Query query = currentSession.createSQLQuery(sb.toString());
 		return query.list();
 	}
@@ -93,6 +94,8 @@ public class AllowDeduBulkEmpRepoImpl implements AllowDeduBulkEmpRepo {
 		              sb.append("INNER JOIN  PAY_COMMISSION_MST d ON a.pay_commission_code=d.pay_commission_code ");
 		              sb.append("INNER JOIN  MST_DCPS_BILL_GROUP e ON e.bill_group_id = a.billgroup_id ");
 		              sb.append("INNER JOIN  CMN_LOCATION_MST f ON cast(f.loc_id as varchar) = c.hod_loc_code ");
+		              sb.append("LEFT JOIN EMPLOYEE_ALLOWDEDUC_MPG  g ON g.sevaarth_id=a.sevaarth_id ");
+//		              /insert into employee_allowdeduc_mpg (sevaarth_id,department_code,department_allowdeduc_code,
 		              sb.append("WHERE a.billgroup_id is not null  and a.is_active='1' and  a.ddo_code = '"+ ddoCode +"'  order by a.employee_full_name_en");
 		
 		Query query = currentSession.createSQLQuery(sb.toString());

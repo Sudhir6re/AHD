@@ -3,8 +3,6 @@ package com.mahait.gov.in.nps.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -12,55 +10,62 @@ import lombok.Data;
 @Data
 public class DcpsLegacyModel {
 	
-	String dcpsNo;
-	String employeeFullNameEn;
-	String sevaarthId;
+	private  String dcpsNo;
+	private String employeeFullNameEn;
+	private String sevaarthId;
 	
-	Date dob;
+	private Date dob;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date doj;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date superAnnDate;
+	private Date superAnnDate;
 	
-	Long mulTwoYearBasic;
-	Long mulOneYearBasic;
-	String pranNo;
-	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date empServiceEndDate;
-	
-	String pranStatus;
-	String reptDdoCode;
-	
-	String action;
-	
-	String txtSevaarthId;
-	String txtDcpsNo;
-	String employeeFullName;
-	
-	String remark;
-	
-	Long total;
-	Long employerInterest;
-	Long empInterest;
-	Long employerContri;
-	Long empContri;
+	private Long mulTwoYearBasic;
+	private Long mulOneYearBasic;
+	private String pranNo;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date contriEndDt;
+	private Date empServiceEndDate;
+	
+	private String pranStatus;
+	private String reptDdoCode;
+	
+	private String action;
+	
+	private String txtSevaarthId;
+	private String txtDcpsNo;
+	private String employeeFullName;
+	
+	private String remark;
+	
+	private Long total;
+	private Long employerInterest;
+	private Long empInterest;
+	private Long employerContri;
+	private Long empContri;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date contriStartDt;
+	private Date contriEndDt;
 	
-	String period;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date contriStartDt;
 	
-	String ddoCode;
+	private String period;
+	
+	private String ddoCode;
 	
 	List<DcpsLegacyModel> lstDcpsLegacyModel;
 	
+	private String status;
+	private String locName;
+	private String dtoRegNo;
+	private String ddoRegNo;
+	private Long npsId;
 	
+	private String extn;
+	private String extnFlag;
 	
 
 }

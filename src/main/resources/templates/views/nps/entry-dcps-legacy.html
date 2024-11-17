@@ -58,8 +58,13 @@
 									th:field="*{txtSevaarthId}"></td>
 								<input type="hidden" id="action" class="form-control"
 									name="action" th:field="*{action}">
+								
 								<input type="hidden" id="message" class="form-control"
 									name="message" th:value="${message}">
+									
+									
+								<input type="hidden" id="noDataFoundMsg" class="form-control"
+									name="noDataFoundMsg" th:value="${noDataFoundMsg}">
 
 								</td>
 							</tr>
@@ -101,22 +106,34 @@
 								id="dcpslegacyTb">
 								<thead>
 									<tr>
-										<th>Employee Name</th>
-										<th>DCPS ID</th>
-										<th>Sevarth ID</th>
-										<th>Pran No</th>
-										<th>Date of Joining</th>
-										<th>Super Ann Date</th>
-										<th>Service End Date</th>
-										<th>Period</th>
-										<th>Contribution Start Date</th>
-										<th>Contribution End Date</th>
-										<th>Employee Contribution</th>
-										<th>Employer Contribution</th>
-										<th>Interest on Employee Contribution</th>
-										<th>Interest on Employer Contribution</th>
-										<th>Total</th>
-										<th>Remark</th>
+										<th th:text="#{msg.thymeleaf.legacypage.employeeName}">Employee
+											Name</th>
+										<th th:text="#{msg.thymeleaf.legacypage.dcpsId}">DCPS ID</th>
+										<th th:text="#{msg.thymeleaf.legacypage.sevarthId}">Sevarth
+											ID</th>
+										<th th:text="#{msg.thymeleaf.legacypage.pranNo}">Pran No</th>
+										<th th:text="#{msg.thymeleaf.legacypage.dateOfJoining}">Date
+											of Joining</th>
+										<th th:text="#{msg.thymeleaf.legacypage.superAnnDate}">Super
+											Ann Date</th>
+										<th th:text="#{msg.thymeleaf.legacypage.serviceEndDate}">Service
+											End Date</th>
+										<th th:text="#{msg.thymeleaf.legacypage.period}">Period</th>
+										<th
+											th:text="#{msg.thymeleaf.legacypage.contributionStartDate}">Contribution
+											Start Date</th>
+										<th th:text="#{msg.thymeleaf.legacypage.contributionEndDate}">Contribution
+											End Date</th>
+										<th th:text="#{msg.thymeleaf.legacypage.employeeContribution}">Employee
+											Contribution</th>
+										<th th:text="#{msg.thymeleaf.legacypage.employerContribution}">Employer
+											Contribution</th>
+										<th th:text="#{msg.thymeleaf.legacypage.empInterest}">Interest
+											on Employee Contribution</th>
+										<th th:text="#{msg.thymeleaf.legacypage.employerInterest}">Interest
+											on Employer Contribution</th>
+										<th th:text="#{msg.thymeleaf.legacypage.total}">Total</th>
+										<th th:text="#{msg.thymeleaf.legacypage.remark}">Remark</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -127,85 +144,97 @@
 												RAMDAS GHURDE</label></td>
 										<td style="text-align: center; width: 15%"><input
 											type="text" th:id="${'dcpsNo' + itemStat.index}"
+											readonly="readonly"
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].dcpsNo}" /></td>
-										<td style="text-align: center; width: 8%"><label
-											th:id="${'sevaarthId' + itemStat.index}"
-											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].sevaarthId}">06DHEPRGM8601</label></td>
+										<td style="text-align: center; width: 8%"><input
+											type="text" th:id="${'sevaarthId' + itemStat.index}"
+											readonly="readonly"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].sevaarthId}" /></td>
 										<td style="text-align: center; width: 8%"><label
 											th:id="${'pranNo' + itemStat.index}"
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].pranNo}">110148855901</label></td>
 										<td style="text-align: center; width: 8%"><input
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].doj}"
 											th:id="${'doj' + itemStat.index}" type="date"
-											readonly="readonly" size="9" class="form-control"></td>
+											readonly="readonly" size="9"
+											class="form-control removeErrorFromDate"></td>
 										<td style="text-align: center; width: 8%"><input
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].superAnnDate}"
 											type="date" th:id="${'superAnnDate' + itemStat.index}"
-											readonly="readonly" size="9" class="form-control"></td>
+											readonly="readonly" size="9"
+											class="form-control removeErrorFromDate"></td>
 										<td style="text-align: center; width: 8%"><input
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].empServiceEndDate}"
-											type="text" th:id="${'empServiceEndDate' + itemStat.index}"
-											readonly="readonly" size="9" class="form-control"></td>
+											type="date" th:id="${'empServiceEndDate' + itemStat.index}"
+											readonly="readonly" size="9"
+											class="form-control removeErrorFromDate"></td>
 										<td style="text-align: center; width: 8%"><select
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].period}"
 											name="period" th:id="${'period' + itemStat.index}"
-											class="form-control">
+											class="form-control  removeErrorFromDropdown">
 												<option value="0">-------Selected--------</option>
 												<option
 													th:each="lLstLegValidatePeriod : ${lLstLegValidatePeriod}"
 													th:value="${lLstLegValidatePeriod.lookupId}"
 													th:text="${lLstLegValidatePeriod.lookupDesc}"></option>
 
-											<!-- 	<option value="10001198258">2011-2012 to March 2021</option>
-												<option value="10001198259">2021-2022</option>
-												<option value="10001198260">2022-2023</option>
-												<option value="10001198261">2023-2024</option> -->
-
-
 										</select></td>
 
-										<td style="text-align: center; width: 8%"><input
+										<td style="text-align: center; width: 8%">
+										
+										<input
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].contriStartDt}"
 											type="date" name="contriStartDt"
 											th:id="${'contriStartDt' + itemStat.index}"
-											class="form-control"></td>
-										<td style="text-align: center; width: 8%"><input
-											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employeeFullNameEn}"
+											class="form-control  removeErrorFromDate" >
+											
+											</td>
+										<td style="text-align: center; width: 8%">
+										<input
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].contriEndDt}"
 											type="date" name="contriEndDt"
 											th:id="${'contriEndDt' + itemStat.index}"
-											class="form-control"></td>
+											class="form-control  removeErrorFromDate contriEndDt" />
+										
+										</td>
 										<td style="text-align: left; width: 20%"><input
-											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employeeFullNameEn}"
+											step="0.01"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].empContri}"
 											type="text" name="empContri"
-											th:id="${'empContri' + itemStat.index}" class="form-control"><label
+											th:id="${'empContri' + itemStat.index}"
+											class="form-control float  removeErrorFromInput"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left; width: 20%"><input
-											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employeeFullNameEn}"
+											step="0.01"
+											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employerContri}"
 											type="text" name="employerContri"
 											th:id="${'employerContri' + itemStat.index}"
-											class="form-control"><label
+											class="form-control float removeErrorFromInput"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left; width: 20%"><input
+											step="0.01"
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].empInterest}"
 											type="text" name="empInterest"
 											th:id="${'empInterest' + itemStat.index}"
-											class="form-control"><label
+											class="form-control float removeErrorFromInput"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left; width: 20%"><input
+											step="0.01"
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].employerInterest}"
 											type="text" name="employerInterest"
 											th:id="${'employerInterest' + itemStat.index}"
-											class="form-control"><label
+											class="form-control  float removeErrorFromInput"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left"><input type="text"
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].total}"
 											th:id="${'total' + itemStat.index}" name="total"
-											disabled="disabled" class="form-control"><label
+											readonly="readonly"
+											class="form-control float removeErrorFromInput"><label
 											class="mandatoryindicator">*</label></td>
 										<td style="text-align: left"><input type="text"
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].remark}"
 											th:id="${'remark' + itemStat.index}" name="remark"
-											class="form-control"><label
+											class="form-control removeErrorFromInput"><label
 											class="mandatoryindicator">*</label> <input type="hidden"
 											th:field="${dcpsLegacyModel.lstDcpsLegacyModel[__${itemStat.index}__].ddoCode}" />
 										</td>
@@ -234,6 +263,16 @@
 	<div th:replace="header/menuHeader :: varmenufooter"></div>
 	<script th:src="@{/js/nps/entry-dcps-legacy.js}"></script>
 	<script th:src="@{/js/jquery.validate.min.js}"></script>
+
+	<!-- 	var pranUpdateStatus = '${pranUpdateStatus}';
+
+	if (pranUpdateStatus == "Pran updated by NPS utility") {
+
+		alert("For your information The given htesevaarth id pran created manual or outside the htesevaarth system, so first map the pran with NSDL Against the DDO registration number and dto registration number");
+		url = "ifms.htm?actionFlag=getDcpsLegacyData";
+		self.location.href = url;
+
+	} -->
 
 </body>
 </html>

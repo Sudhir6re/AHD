@@ -53,7 +53,7 @@ public class EntryDcpsLegacyRepoImpl  implements EntryDcpsLegacyRepo{
 		
 		 if(period.equalsIgnoreCase("10001198258")){
 			sb.append("select * from dcps_legacy_data  where sevarth_id='"+sevaarthId+"' and period='"+period+"' and contri_start_date between '2011-04-01' "
-					+ "and '2021-03-31' and CONTRI_END_DATE <= '2021-03-31' and status <> 0 ");
+					+ "and '2021-03-31' and CONTRI_END_DATE <= '2021-03-31'  and status!='0'  ");
 			
 			lQuery = session.createSQLQuery(sb.toString());
 			
@@ -61,7 +61,7 @@ public class EntryDcpsLegacyRepoImpl  implements EntryDcpsLegacyRepo{
 						
 		} else if(period.equalsIgnoreCase("10001198259")){
 			sb.append("select * from dcps_legacy_data  where sevarth_id='"+sevaarthId+"' and period='"+period+"' and contri_start_date between '2021-04-01' "
-					+ "and '2022-03-31' and CONTRI_END_DATE <= '2022-03-31' and status <> 0 ");
+					+ "and '2022-03-31' and CONTRI_END_DATE <= '2022-03-31'  and status!='0'  ");
 			
 			lQuery = session.createSQLQuery(sb.toString());
 			
@@ -69,7 +69,7 @@ public class EntryDcpsLegacyRepoImpl  implements EntryDcpsLegacyRepo{
 						
 		} else if(period.equalsIgnoreCase("10001198260")){
 			sb.append("select * from dcps_legacy_data  where sevarth_id='"+sevaarthId+"' and period='"+period+"' and contri_start_date between '2022-04-01' "
-					+ "and '2023-03-31' and CONTRI_END_DATE <= '2023-03-31' and status <> 0 ");
+					+ "and '2023-03-31' and CONTRI_END_DATE <= '2023-03-31'  and status!='0' ");
 			
 			lQuery = session.createSQLQuery(sb.toString());
 			
@@ -77,7 +77,7 @@ public class EntryDcpsLegacyRepoImpl  implements EntryDcpsLegacyRepo{
 						
 		}else if(period.equalsIgnoreCase("10001198261")){
 			sb.append("select * from dcps_legacy_data  where sevarth_id='"+sevaarthId+"' and period='"+period+"' and contri_start_date between '2006-04-01' "
-					+ "and '2011-03-31' and CONTRI_END_DATE <= '2011-03-31' and status <> 0 ");
+					+ "and '2011-03-31' and CONTRI_END_DATE <= '2011-03-31'  and status!='0'  ");
 			
 			lQuery = session.createSQLQuery(sb.toString());
 			
@@ -93,8 +93,7 @@ public class EntryDcpsLegacyRepoImpl  implements EntryDcpsLegacyRepo{
 		return 0;
 		
 	}
-	
-	
+
 	
 	
 	

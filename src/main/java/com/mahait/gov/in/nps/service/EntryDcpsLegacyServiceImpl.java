@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.mahait.gov.in.common.StringHelperUtils;
 import com.mahait.gov.in.entity.OrgUserMst;
-import com.mahait.gov.in.model.MstSchemeModel;
 import com.mahait.gov.in.nps.entity.DcpsLegacyDataEntity;
 import com.mahait.gov.in.nps.model.DcpsLegacyModel;
 import com.mahait.gov.in.nps.repository.EntryDcpsLegacyRepo;
@@ -40,7 +39,7 @@ public class EntryDcpsLegacyServiceImpl implements EntryDcpsLegacyService {
 				dcpsLegacyModel1.setMulOneYearBasic(StringHelperUtils.isNullBigInteger(object[6]).longValue());
 				dcpsLegacyModel1.setPranNo(StringHelperUtils.isNullString(object[7]));
 				dcpsLegacyModel1.setEmpServiceEndDate(StringHelperUtils.isNullDate(object[8]));
-				dcpsLegacyModel1.setReptDdoCode(StringHelperUtils.isNullString(object[10]));
+				dcpsLegacyModel1.setDdoCode(StringHelperUtils.isNullString(object[10]));
 				dcpsLegacyModel1.setDoj(StringHelperUtils.isNullDate(object[11]));
 				lstDcpsLegacyModel.add(dcpsLegacyModel1);
 			}
@@ -50,7 +49,7 @@ public class EntryDcpsLegacyServiceImpl implements EntryDcpsLegacyService {
 
 	@Override
 	public Long saveDcpsLegacyData(DcpsLegacyModel dcpsLegacyModel, OrgUserMst messages) {
-		Long saveId = 0l;
+		Long saveId=0l;
 		for (DcpsLegacyModel dcpsLegacyModel1 : dcpsLegacyModel.getLstDcpsLegacyModel()) {
 			DcpsLegacyDataEntity dcpsLegacyDataEntity = new DcpsLegacyDataEntity();
 			dcpsLegacyDataEntity.setContriEndDate(dcpsLegacyModel1.getContriEndDt());
@@ -67,6 +66,9 @@ public class EntryDcpsLegacyServiceImpl implements EntryDcpsLegacyService {
 			dcpsLegacyDataEntity.setPeriod(dcpsLegacyModel1.getPeriod());
 			dcpsLegacyDataEntity.setCreatedDate(new Timestamp(new Date().getTime()));
 			dcpsLegacyDataEntity.setCreatedPostId(messages.getUserId());
+			dcpsLegacyDataEntity.setYear((short)0);
+			dcpsLegacyDataEntity.setMonth((short)0);
+			dcpsLegacyDataEntity.setTotal(dcpsLegacyModel1.getTotal().floatValue());
 			saveId = entryDcpsLegacyRepo.saveDcpsLegacyData(dcpsLegacyDataEntity);
 		}
 
@@ -77,4 +79,7 @@ public class EntryDcpsLegacyServiceImpl implements EntryDcpsLegacyService {
 	public Integer checkDataExistsForPeriod(OrgUserMst messages, String period, String sevaarthId) {
 		return entryDcpsLegacyRepo.checkDataExistsForPeriod(messages,period,sevaarthId);
 	}
+
+	
+	
 }
