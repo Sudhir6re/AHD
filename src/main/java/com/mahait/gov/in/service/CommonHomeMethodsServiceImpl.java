@@ -441,6 +441,8 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 		return commonHomeMethodsRepo.retriveUserdetails(userId);
 	}
 
+	
+	@Cacheable(value = "months", key = "'allMonths'")
 	@Override
 	public List<MstMonthEntity> lstGetAllMonths() {
 		return commonHomeMethodsRepo.lstGetAllMonths();
@@ -471,6 +473,7 @@ public class CommonHomeMethodsServiceImpl implements CommonHomeMethodsService {
 		return lstObj;
 	}
 
+	@Cacheable(value = "years", key = "'allYears'")
 	public List<MstYearEntity> lstGetAllYears() {
 		return commonHomeMethodsRepo.lstGetAllYears();
 	}

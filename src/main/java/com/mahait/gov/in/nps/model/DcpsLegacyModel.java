@@ -1,7 +1,10 @@
 package com.mahait.gov.in.nps.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -67,5 +70,28 @@ public class DcpsLegacyModel {
 	private String extn;
 	private String extnFlag;
 	
+	private Integer year;
+	private Integer month;
+	
+	private String fileName;
+	
 
+	private Double bhEmpAmt;
+	
+	private Double bhEmplrAmt;
+	
+	private String transactionId;
+ 
+	private String fileStatus;
+	
+	
+	private String bhBatchFixId;
+	
+	private String bankRefno = "0";
+
+	private String bdsNo = "0";
+
+	private Long voucherNo = 0L;
+	private Timestamp voucherDate;
+	
 }

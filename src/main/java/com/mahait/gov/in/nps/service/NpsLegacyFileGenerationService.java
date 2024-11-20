@@ -25,4 +25,5 @@ public interface NpsLegacyFileGenerationService {
 	List<Object[]> findDtoRegWiseAmnt(String locId, String treasuryyno, String ddoRegNo);
 
 
+
 }

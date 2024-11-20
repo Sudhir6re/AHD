@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -25,6 +26,7 @@ import org.springframework.web.WebApplicationInitializer;
 /*@EnableAutoConfiguration(exclude = HibernateJpaAutoConfiguration.class)
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
 @Configuration*/
+@EnableCaching  //
 @ComponentScan("com.mahait.gov.in")
 @EntityScan(basePackages = { "com.mahait.gov.in.entity","com.mahait.gov.in.nps.entity" })
 public class SpringBootCustomSecurityApplication extends SpringBootServletInitializer implements WebApplicationInitializer { 

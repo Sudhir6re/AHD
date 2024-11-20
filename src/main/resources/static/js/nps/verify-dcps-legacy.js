@@ -16,7 +16,6 @@ jQuery(document).ready(function($) {
 	$("#dcpsVerifyTb").dataTable();
 	
 	
-	
 
 });
 
@@ -66,17 +65,21 @@ function getListOfEmp() {
                   xhrFields: {
 			           responseType: 'blob'
 			       },
-                  success: function(response) {
+                  success: function(response, status, xhr) {
                 	  var a = document.createElement('a');
 			           var url = window.URL.createObjectURL(response);
 			           a.href = url;
-			           a.download = fileId+'.txt';
+			           var disposition = xhr.getResponseHeader('Content-Disposition');
+			           var fileName = disposition && disposition.indexOf('filename=') !== -1
+		                ? disposition.split('filename=')[1].split(';')[0].trim().replace(/"/g, '')
+		                : fileId+".txt";
+			           a.download = fileName;
 			           document.body.append(a);
 			           a.click();
 			           a.remove();
 			           window.URL.revokeObjectURL(url);
 			           
-			           window.location.href=contextPath+"/ddo/legacyFileGeneration";
+			           window.location.href=contextPath+"/ddo/legacyValidation";
                   },
                   error: function(xhr, status, error) {
                       $('#responseMessage').html('Error: ' + error);
