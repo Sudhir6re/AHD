@@ -83,7 +83,7 @@ public class LegacyValidationController extends BaseController {
 		return ResponseEntity.ok(lstDcpsLegacyModel);
 	}
 	
-	@GetMapping("/viewAndSaveLegacyFile/{month}/{year}/{fileId}")
+/*	@GetMapping("/viewAndSaveLegacyFile/{month}/{year}/{fileId}")
 	public ResponseEntity<InputStreamResource> viewAndSaveLegacyFile(@PathVariable Integer month,@PathVariable Integer year,@PathVariable String fileId,
 			Locale locale, HttpSession session, HttpServletRequest request)  {
 		NSDLDetailsModel nsdlDetailsModel=new NSDLDetailsModel();
@@ -242,6 +242,6 @@ public class LegacyValidationController extends BaseController {
 		}
 		
 		return null;
-	}
+	}*/
 
 }
