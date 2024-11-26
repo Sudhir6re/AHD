@@ -25,7 +25,7 @@ public class NpsLegacyFileGenerationRepoImpl implements NpsLegacyFileGenerationR
 		stringBuilder.append(
 				"SELECT a.employee_full_name_en, a.dcps_no,a.pran_no,b.emp_contri,b.employer_contri,b.emp_int,");
 		stringBuilder.append(
-				"b.employer_int,f.loc_name,e.DTO_REG_NO,e.ddo_reg_no ,b.NPS_ID,d.ddo_code,b.total FROM EMPLOYEE_MST a ");
+				"b.employer_int,f.loc_name,e.DTO_REG_NO,e.ddo_reg_no ,b.NPS_ID,a.ddo_code,b.total FROM EMPLOYEE_MST a ");
 		stringBuilder.append("INNER JOIN DCPS_LEGACY_DATA b on a.sevaarth_id=b.SEVARTH_ID  ");
 		stringBuilder.append("INNER JOIN RLT_ZP_DDO_MAP c on c.zp_ddo_code=a.ddo_code ");
 		stringBuilder.append("INNER JOIN ORG_DDO_MST d on d.DDO_CODE = c.REPT_DDO_CODE ");

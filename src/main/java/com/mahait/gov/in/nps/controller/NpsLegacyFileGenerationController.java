@@ -978,12 +978,12 @@ public class NpsLegacyFileGenerationController extends BaseController {
 		nSDLBHDtlsEntity.setBhNo('1');
 		nSDLBHDtlsEntity.setBhPRANCount(String.valueOf(count));
 		nSDLBHDtlsEntity.setFileStatus("1");
-		nSDLBHDtlsEntity.setFileName(batchId);
+		nSDLBHDtlsEntity.setFileName('R'+batchId);
+		nSDLBHDtlsEntity.setDdoCode(ddoCode);
 
 		Double total = Double.parseDouble(Total);
 
 		nSDLBHDtlsEntity.setBhTotalAmt(total);
-		nSDLBHDtlsEntity.setFileName(batchId);
 		nSDLBHDtlsEntity.setStatus("1");
 		nSDLBHDtlsEntity.setFrnNo("0");
 		nSDLBHDtlsEntity.setMonth(Integer.valueOf(month1));

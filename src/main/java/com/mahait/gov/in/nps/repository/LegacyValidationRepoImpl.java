@@ -24,6 +24,11 @@ public class LegacyValidationRepoImpl implements LegacyValidationRepo {
 		List legacyList = null;
 		Query lQuery = null;
 	
+		if(dcpsLegacyModel.getYear().toString().length()==2) {
+			dcpsLegacyModel.setYear(Integer.parseInt(String.valueOf("20"+(dcpsLegacyModel.getYear()-1))));
+		}
+		
+		
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("Select distinct bh.file_name,bh.bh_emp_amount,bh.bh_emplr_amount,bh.transaction_id, ")
 		            .append("Case When bh.file_status = '0' then cast('File not validated' as varchar(20)) ")
